@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Rbin service.
 ///
-/// This is the Recycle Bin API Reference. This documentation provides  descriptions and syntax for each of the actions and data types in Recycle Bin. Recycle Bin is a resource recovery feature that enables you to restore accidentally  deleted snapshots and EBS-backed AMIs. When using Recycle Bin, if your resources are  deleted, they are retained in the Recycle Bin for a time period that you specify. You can restore a resource from the Recycle Bin at any time before its retention period  expires. After you restore a resource from the Recycle Bin, the resource is removed from the  Recycle Bin, and you can then use it in the same way you use any other resource of that type  in your account. If the retention period expires and the resource is not restored, the resource  is permanently deleted from the Recycle Bin and is no longer available for recovery. For more  information about Recycle Bin, see  Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+/// This is the Recycle Bin API Reference. This documentation provides  descriptions and syntax for each of the actions and data types in Recycle Bin. Recycle Bin is a resource recovery feature that enables you to restore accidentally deleted  EBS volumes, EBS snapshots, and EBS-backed AMIs. When using Recycle Bin, if your resources are  deleted, they are retained in the Recycle Bin for a time period that you specify. You can restore a resource from the Recycle Bin at any time before its retention period  expires. After you restore a resource from the Recycle Bin, the resource is removed from the  Recycle Bin, and you can then use it in the same way you use any other resource of that type  in your account. If the retention period expires and the resource is not restored, the resource  is permanently deleted from the Recycle Bin and is no longer available for recovery. For more  information about Recycle Bin, see  Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
 public struct Rbin: AWSService {
     // MARK: Member variables
 
@@ -161,8 +161,8 @@ public struct Rbin: AWSService {
     ///   - excludeResourceTags: [Region-level retention rules only] Specifies the exclusion tags to use to identify resources that are to be excluded,
     ///   - lockConfiguration: Information about the retention rule lock configuration.
     ///   - resourceTags: [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
-    ///   - resourceType: The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
-    ///   - retentionPeriod: Information about the retention period for which the retention rule is to retain resources.
+    ///   - resourceType: The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs  are supported.   To retain EBS volumes, specify EBS_VOLUME.   To retain EBS snapshots, specify EBS_SNAPSHOT    To retain EBS-backed AMIs, specify EC2_IMAGE.
+    ///   - retentionPeriod: Information about the retention period for which the retention rule is to  retain resources.
     ///   - tags: Information about the tags to assign to the retention rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -267,7 +267,7 @@ public struct Rbin: AWSService {
     ///   - maxResults: The maximum number of results to return with a single call.
     ///   - nextToken: The token for the next page of results.
     ///   - resourceTags: [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention  rule.
-    ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
+    ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.   To list retention rules that retain EBS volumes, specify EBS_VOLUME.   To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT.   To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
     ///   - logger: Logger use during operation
     @inlinable
     public func listRules(
@@ -465,7 +465,7 @@ public struct Rbin: AWSService {
     ///   - identifier: The unique ID of the retention rule.
     ///   - resourceTags: [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
     ///   - resourceType:  This parameter is currently not supported. You can't update a retention rule's resource type  after creation.
-    ///   - retentionPeriod: Information about the retention period for which the retention rule is to retain resources.
+    ///   - retentionPeriod: Information about the retention period for which the retention rule is to  retain resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateRule(
@@ -527,7 +527,7 @@ extension Rbin {
     ///   - lockState: The lock state of the retention rules to list. Only retention rules with the specified  lock state are returned.
     ///   - maxResults: The maximum number of results to return with a single call.
     ///   - resourceTags: [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention  rule.
-    ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
+    ///   - resourceType: The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.   To list retention rules that retain EBS volumes, specify EBS_VOLUME.   To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT.   To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
     ///   - logger: Logger used for logging
     @inlinable
     public func listRulesPaginator(

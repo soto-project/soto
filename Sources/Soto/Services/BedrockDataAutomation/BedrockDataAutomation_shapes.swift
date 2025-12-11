@@ -32,6 +32,12 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioGenerativeOutputLanguage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case en = "EN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AudioStandardGenerativeFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioSummary = "AUDIO_SUMMARY"
         case iab = "IAB"
@@ -69,6 +75,12 @@ extension BedrockDataAutomation {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataAutomationProjectType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `async` = "ASYNC"
+        case sync = "SYNC"
         public var description: String { return self.rawValue }
     }
 
@@ -110,9 +122,116 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum Language: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cn = "CN"
+        case de = "DE"
+        case en = "EN"
+        case es = "ES"
+        case fr = "FR"
+        case hk = "HK"
+        case it = "IT"
+        case ja = "JA"
+        case ko = "KO"
+        case pt = "PT"
+        case tw = "TW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PIIEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// A physical address, such as '100 Main Street, Anytown, USA' or 'Suite #12, Building 123'
+        case address = "ADDRESS"
+        /// An individual's age, including the quantity and unit of time
+        case age = "AGE"
+        /// All supported PII entity types
+        case all = "ALL"
+        /// A unique identifier associated with AWS secret access key
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        /// A unique identifier associated with AWS access key for signing programmatic requests
+        case awsSecretKey = "AWS_SECRET_KEY"
+        /// A Canadian Health Service Number - 10-digit unique identifier for healthcare benefits
+        case caHealthNumber = "CA_HEALTH_NUMBER"
+        /// A Canadian Social Insurance Number (SIN) - nine-digit unique identifier
+        case caSocialInsuranceNumber = "CA_SOCIAL_INSURANCE_NUMBER"
+        /// A three-digit card verification code (CVV) for VISA, MasterCard, and Discover cards, or four-digit for American Express
+        case creditDebitCardCvv = "CREDIT_DEBIT_CARD_CVV"
+        /// The expiration date for a credit or debit card
+        case creditDebitCardExpiry = "CREDIT_DEBIT_CARD_EXPIRY"
+        /// The number for a credit or debit card
+        case creditDebitCardNumber = "CREDIT_DEBIT_CARD_NUMBER"
+        /// The number assigned to a driver's license
+        case driverId = "DRIVER_ID"
+        /// An email address, such as marymajor@email.com
+        case email = "EMAIL"
+        /// An International Bank Account Number with specific formats for each country
+        case internationalBankAccountNumber = "INTERNATIONAL_BANK_ACCOUNT_NUMBER"
+        /// An IPv4 address, such as 198.51.100.0
+        case ipAddress = "IP_ADDRESS"
+        /// A license plate for a vehicle issued by the state or country where the vehicle is registered
+        case licensePlate = "LICENSE_PLATE"
+        /// A media access control (MAC) address - unique identifier for network interface controller
+        case macAddress = "MAC_ADDRESS"
+        /// An individual's name. Does not include titles such as Dr., Mr., Mrs., or Miss
+        case name = "NAME"
+        /// An alphanumeric string that is used as a password
+        case password = "PASSWORD"
+        /// A phone number. Also includes fax and pager numbers
+        case phone = "PHONE"
+        /// A four-digit personal identification number (PIN)
+        case pin = "PIN"
+        /// A SWIFT code - standard format of Bank Identifier Code (BIC)
+        case swiftCode = "SWIFT_CODE"
+        /// A UK National Health Service Number - 10-17 digit number
+        case ukNationalHealthServiceNumber = "UK_NATIONAL_HEALTH_SERVICE_NUMBER"
+        /// A UK National Insurance Number (NINO) for accessing National Insurance benefits
+        case ukNationalInsuranceNumber = "UK_NATIONAL_INSURANCE_NUMBER"
+        /// A UK Unique Taxpayer Reference (UTR) - 10-digit number identifying taxpayer or business
+        case ukUniqueTaxpayerReferenceNumber = "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER"
+        /// A web address, such as www.example.com
+        case url = "URL"
+        /// A US bank account number, typically 10 to 12 digits long
+        case usBankAccountNumber = "US_BANK_ACCOUNT_NUMBER"
+        /// A US bank account routing number, typically nine digits long
+        case usBankRoutingNumber = "US_BANK_ROUTING_NUMBER"
+        /// A US Individual Taxpayer Identification Number (ITIN)
+        case usIndividualTaxIdentificationNumber = "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER"
+        /// A US passport number, ranging from six to nine alphanumeric characters
+        case usPassportNumber = "US_PASSPORT_NUMBER"
+        /// A US Social Security Number (SSN) - nine-digit number for US citizens and residents
+        case usSocialSecurityNumber = "US_SOCIAL_SECURITY_NUMBER"
+        /// A user name that identifies an account, such as a login name, screen name, nick name, or handle
+        case username = "USERNAME"
+        /// A Vehicle Identification Number (VIN) that uniquely identifies a vehicle
+        case vehicleIdentificationNumber = "VEHICLE_IDENTIFICATION_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PIIRedactionMaskMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Replace with specific entity type marker, e.g. [NAME]/[SSN] etc.
+        case entityType = "ENTITY_TYPE"
+        /// Replace with generic PII marker [PII]
+        case pii = "PII"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceOwner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SensitiveDataDetectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Only detect sensitive data without redaction
+        case detection = "DETECTION"
+        /// Detect and redact sensitive data
+        case detectionAndRedaction = "DETECTION_AND_REDACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SensitiveDataDetectionScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Custom PII detection
+        case custom = "CUSTOM"
+        /// Standard PII detection
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -179,16 +298,46 @@ extension BedrockDataAutomation {
         }
     }
 
-    public struct AudioOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
-        public let modalityProcessing: ModalityProcessingConfiguration?
+    public struct AudioLanguageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let generativeOutputLanguage: AudioGenerativeOutputLanguage?
+        /// Enable multiple language identification in audio
+        public let identifyMultipleLanguages: Bool?
+        public let inputLanguages: [Language]?
 
         @inlinable
-        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
-            self.modalityProcessing = modalityProcessing
+        public init(generativeOutputLanguage: AudioGenerativeOutputLanguage? = nil, identifyMultipleLanguages: Bool? = nil, inputLanguages: [Language]? = nil) {
+            self.generativeOutputLanguage = generativeOutputLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
+            self.inputLanguages = inputLanguages
         }
 
         private enum CodingKeys: String, CodingKey {
+            case generativeOutputLanguage = "generativeOutputLanguage"
+            case identifyMultipleLanguages = "identifyMultipleLanguages"
+            case inputLanguages = "inputLanguages"
+        }
+    }
+
+    public struct AudioOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let languageConfiguration: AudioLanguageConfiguration?
+        public let modalityProcessing: ModalityProcessingConfiguration?
+        public let sensitiveDataConfiguration: SensitiveDataConfiguration?
+
+        @inlinable
+        public init(languageConfiguration: AudioLanguageConfiguration? = nil, modalityProcessing: ModalityProcessingConfiguration? = nil, sensitiveDataConfiguration: SensitiveDataConfiguration? = nil) {
+            self.languageConfiguration = languageConfiguration
+            self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sensitiveDataConfiguration?.validate(name: "\(name).sensitiveDataConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageConfiguration = "languageConfiguration"
             case modalityProcessing = "modalityProcessing"
+            case sensitiveDataConfiguration = "sensitiveDataConfiguration"
         }
     }
 
@@ -488,11 +637,12 @@ extension BedrockDataAutomation {
         public let projectDescription: String?
         public let projectName: String
         public let projectStage: DataAutomationProjectStage?
+        public let projectType: DataAutomationProjectType?
         public let standardOutputConfiguration: StandardOutputConfiguration
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.customOutputConfiguration = customOutputConfiguration
             self.encryptionConfiguration = encryptionConfiguration
@@ -500,6 +650,7 @@ extension BedrockDataAutomation {
             self.projectDescription = projectDescription
             self.projectName = projectName
             self.projectStage = projectStage
+            self.projectType = projectType
             self.standardOutputConfiguration = standardOutputConfiguration
             self.tags = tags
         }
@@ -510,6 +661,7 @@ extension BedrockDataAutomation {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.overrideConfiguration?.validate(name: "\(name).overrideConfiguration")
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 300)
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
@@ -528,6 +680,7 @@ extension BedrockDataAutomation {
             case projectDescription = "projectDescription"
             case projectName = "projectName"
             case projectStage = "projectStage"
+            case projectType = "projectType"
             case standardOutputConfiguration = "standardOutputConfiguration"
             case tags = "tags"
         }
@@ -584,11 +737,12 @@ extension BedrockDataAutomation {
         public let projectDescription: String?
         public let projectName: String
         public let projectStage: DataAutomationProjectStage?
+        public let projectType: DataAutomationProjectType?
         public let standardOutputConfiguration: StandardOutputConfiguration?
         public let status: DataAutomationProjectStatus
 
         @inlinable
-        public init(creationTime: Date, customOutputConfiguration: CustomOutputConfiguration? = nil, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration? = nil, status: DataAutomationProjectStatus) {
+        public init(creationTime: Date, customOutputConfiguration: CustomOutputConfiguration? = nil, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil, standardOutputConfiguration: StandardOutputConfiguration? = nil, status: DataAutomationProjectStatus) {
             self.creationTime = creationTime
             self.customOutputConfiguration = customOutputConfiguration
             self.kmsEncryptionContext = kmsEncryptionContext
@@ -599,6 +753,7 @@ extension BedrockDataAutomation {
             self.projectDescription = projectDescription
             self.projectName = projectName
             self.projectStage = projectStage
+            self.projectType = projectType
             self.standardOutputConfiguration = standardOutputConfiguration
             self.status = status
         }
@@ -614,6 +769,7 @@ extension BedrockDataAutomation {
             case projectDescription = "projectDescription"
             case projectName = "projectName"
             case projectStage = "projectStage"
+            case projectType = "projectType"
             case standardOutputConfiguration = "standardOutputConfiguration"
             case status = "status"
         }
@@ -646,13 +802,15 @@ extension BedrockDataAutomation {
         public let projectArn: String
         public let projectName: String?
         public let projectStage: DataAutomationProjectStage?
+        public let projectType: DataAutomationProjectType?
 
         @inlinable
-        public init(creationTime: Date, projectArn: String, projectName: String? = nil, projectStage: DataAutomationProjectStage? = nil) {
+        public init(creationTime: Date, projectArn: String, projectName: String? = nil, projectStage: DataAutomationProjectStage? = nil, projectType: DataAutomationProjectType? = nil) {
             self.creationTime = creationTime
             self.projectArn = projectArn
             self.projectName = projectName
             self.projectStage = projectStage
+            self.projectType = projectType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -660,6 +818,7 @@ extension BedrockDataAutomation {
             case projectArn = "projectArn"
             case projectName = "projectName"
             case projectStage = "projectStage"
+            case projectType = "projectType"
         }
     }
 
@@ -806,16 +965,23 @@ extension BedrockDataAutomation {
 
     public struct DocumentOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let modalityProcessing: ModalityProcessingConfiguration?
+        public let sensitiveDataConfiguration: SensitiveDataConfiguration?
         public let splitter: SplitterConfiguration?
 
         @inlinable
-        public init(modalityProcessing: ModalityProcessingConfiguration? = nil, splitter: SplitterConfiguration? = nil) {
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil, sensitiveDataConfiguration: SensitiveDataConfiguration? = nil, splitter: SplitterConfiguration? = nil) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
             self.splitter = splitter
+        }
+
+        public func validate(name: String) throws {
+            try self.sensitiveDataConfiguration?.validate(name: "\(name).sensitiveDataConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case modalityProcessing = "modalityProcessing"
+            case sensitiveDataConfiguration = "sensitiveDataConfiguration"
             case splitter = "splitter"
         }
     }
@@ -1022,14 +1188,21 @@ extension BedrockDataAutomation {
 
     public struct ImageOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let modalityProcessing: ModalityProcessingConfiguration?
+        public let sensitiveDataConfiguration: SensitiveDataConfiguration?
 
         @inlinable
-        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil, sensitiveDataConfiguration: SensitiveDataConfiguration? = nil) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sensitiveDataConfiguration?.validate(name: "\(name).sensitiveDataConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case modalityProcessing = "modalityProcessing"
+            case sensitiveDataConfiguration = "sensitiveDataConfiguration"
         }
     }
 
@@ -1269,12 +1442,70 @@ extension BedrockDataAutomation {
             self.video = video
         }
 
+        public func validate(name: String) throws {
+            try self.audio?.validate(name: "\(name).audio")
+            try self.document?.validate(name: "\(name).document")
+            try self.image?.validate(name: "\(name).image")
+            try self.video?.validate(name: "\(name).video")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case audio = "audio"
             case document = "document"
             case image = "image"
             case modalityRouting = "modalityRouting"
             case video = "video"
+        }
+    }
+
+    public struct PIIEntitiesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Types of PII entities to detect
+        public let piiEntityTypes: [PIIEntityType]?
+        /// Mode for redacting detected PII
+        public let redactionMaskMode: PIIRedactionMaskMode?
+
+        @inlinable
+        public init(piiEntityTypes: [PIIEntityType]? = nil, redactionMaskMode: PIIRedactionMaskMode? = nil) {
+            self.piiEntityTypes = piiEntityTypes
+            self.redactionMaskMode = redactionMaskMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 32)
+            try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntityTypes = "piiEntityTypes"
+            case redactionMaskMode = "redactionMaskMode"
+        }
+    }
+
+    public struct SensitiveDataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Mode for sensitive data detection
+        public let detectionMode: SensitiveDataDetectionMode
+        /// Scope of detection - what types of sensitive data to detect
+        public let detectionScope: [SensitiveDataDetectionScopeType]?
+        /// Configuration for PII entities detection and redaction
+        public let piiEntitiesConfiguration: PIIEntitiesConfiguration?
+
+        @inlinable
+        public init(detectionMode: SensitiveDataDetectionMode, detectionScope: [SensitiveDataDetectionScopeType]? = nil, piiEntitiesConfiguration: PIIEntitiesConfiguration? = nil) {
+            self.detectionMode = detectionMode
+            self.detectionScope = detectionScope
+            self.piiEntitiesConfiguration = piiEntitiesConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectionScope, name: "detectionScope", parent: name, max: 2)
+            try self.validate(self.detectionScope, name: "detectionScope", parent: name, min: 1)
+            try self.piiEntitiesConfiguration?.validate(name: "\(name).piiEntitiesConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectionMode = "detectionMode"
+            case detectionScope = "detectionScope"
+            case piiEntitiesConfiguration = "piiEntitiesConfiguration"
         }
     }
 
@@ -1513,6 +1744,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.overrideConfiguration?.validate(name: "\(name).overrideConfiguration")
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 128)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-]{12,36}$")
             try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 300)
@@ -1610,14 +1842,21 @@ extension BedrockDataAutomation {
 
     public struct VideoOverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let modalityProcessing: ModalityProcessingConfiguration?
+        public let sensitiveDataConfiguration: SensitiveDataConfiguration?
 
         @inlinable
-        public init(modalityProcessing: ModalityProcessingConfiguration? = nil) {
+        public init(modalityProcessing: ModalityProcessingConfiguration? = nil, sensitiveDataConfiguration: SensitiveDataConfiguration? = nil) {
             self.modalityProcessing = modalityProcessing
+            self.sensitiveDataConfiguration = sensitiveDataConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.sensitiveDataConfiguration?.validate(name: "\(name).sensitiveDataConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case modalityProcessing = "modalityProcessing"
+            case sensitiveDataConfiguration = "sensitiveDataConfiguration"
         }
     }
 

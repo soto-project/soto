@@ -102,6 +102,20 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum PermissionCheckResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allowed = "ALLOWED"
+        case denied = "DENIED"
+        case unsure = "UNSURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionCheckStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case policy = "PermissionsBoundaryPolicy"
         public var description: String { return self.rawValue }
@@ -118,6 +132,12 @@ extension IAM {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PolicyParameterTypeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case string = "string"
+        case stringList = "stringList"
         public var description: String { return self.rawValue }
     }
 
@@ -172,6 +192,17 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum StateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accepted = "ACCEPTED"
+        case assigned = "ASSIGNED"
+        case expired = "EXPIRED"
+        case finalized = "FINALIZED"
+        case pendingApproval = "PENDING_APPROVAL"
+        case rejected = "REJECTED"
+        case unassigned = "UNASSIGNED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case expired = "Expired"
@@ -185,6 +216,7 @@ extension IAM {
         case accountMFAEnabled = "AccountMFAEnabled"
         case accountPasswordPresent = "AccountPasswordPresent"
         case accountSigningCertificatesPresent = "AccountSigningCertificatesPresent"
+        case assumeRolePolicySizeQuota = "AssumeRolePolicySizeQuota"
         case attachedPoliciesPerGroupQuota = "AttachedPoliciesPerGroupQuota"
         case attachedPoliciesPerRoleQuota = "AttachedPoliciesPerRoleQuota"
         case attachedPoliciesPerUserQuota = "AttachedPoliciesPerUserQuota"
@@ -193,6 +225,8 @@ extension IAM {
         case groups = "Groups"
         case groupsPerUserQuota = "GroupsPerUserQuota"
         case groupsQuota = "GroupsQuota"
+        case instanceProfiles = "InstanceProfiles"
+        case instanceProfilesQuota = "InstanceProfilesQuota"
         case mfaDevices = "MFADevices"
         case mfaDevicesInUse = "MFADevicesInUse"
         case policies = "Policies"
@@ -200,6 +234,10 @@ extension IAM {
         case policySizeQuota = "PolicySizeQuota"
         case policyVersionsInUse = "PolicyVersionsInUse"
         case policyVersionsInUseQuota = "PolicyVersionsInUseQuota"
+        case providers = "Providers"
+        case rolePolicySizeQuota = "RolePolicySizeQuota"
+        case roles = "Roles"
+        case rolesQuota = "RolesQuota"
         case serverCertificates = "ServerCertificates"
         case serverCertificatesQuota = "ServerCertificatesQuota"
         case signingCertificatesPerUserQuota = "SigningCertificatesPerUserQuota"
@@ -210,7 +248,35 @@ extension IAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum SummaryStateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case failed = "FAILED"
+        case notAvailable = "NOT_AVAILABLE"
+        case notSupported = "NOT_SUPPORTED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct AcceptDelegationRequestRequest: AWSEncodableShape {
+        /// The unique identifier of the delegation request to accept.
+        public let delegationRequestId: String
+
+        @inlinable
+        public init(delegationRequestId: String) {
+            self.delegationRequestId = delegationRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequestId = "DelegationRequestId"
+        }
+    }
 
     public struct AccessDetail: AWSDecodableShape {
         /// The path of the Organizations entity (root, organizational unit, or account) from which an authenticated principal last attempted to access the service. Amazon Web Services does not report unauthenticated requests. This field is null if no principals (IAM users, IAM roles, or root user) in the reported Organizations entity attempted to access the service within the tracking period.
@@ -400,6 +466,26 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case groupName = "GroupName"
             case userName = "UserName"
+        }
+    }
+
+    public struct AssociateDelegationRequestRequest: AWSEncodableShape {
+        /// The unique identifier of the delegation request to associate.
+        public let delegationRequestId: String
+
+        @inlinable
+        public init(delegationRequestId: String) {
+            self.delegationRequestId = delegationRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequestId = "DelegationRequestId"
         }
     }
 
@@ -622,6 +708,90 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case accountAlias = "AccountAlias"
+        }
+    }
+
+    public struct CreateDelegationRequestRequest: AWSEncodableShape {
+        /// A description of the delegation request.
+        public let description: String
+        /// The notification channel for updates about the delegation request. At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a resource policy granting SNS:Publish permission to the IAM service principal (iam.amazonaws.com). See partner onboarding documentation for more details.
+        public let notificationChannel: String
+        /// Specifies whether the delegation token should only be sent by the owner. This flag prevents any party other than the owner from calling SendDelegationToken API for this delegation request. This behavior becomes useful when the delegation request owner needs to be present for subsequent partner interactions, but the delegation request was sent to a more privileged user for approval due to the owner lacking sufficient delegation permissions.
+        public let onlySendByOwner: Bool?
+        /// The Amazon Web Services account ID this delegation request is targeted to. If the account ID is not known, this parameter can be omitted, resulting in a request that can be associated by any account. If the account ID passed, then the created delegation request can only be associated with an identity of that target account.
+        public let ownerAccountId: String?
+        /// The permissions to be delegated in this delegation request.
+        public let permissions: DelegationPermission
+        /// The URL to redirect to after the delegation request is processed. This URL is used by the IAM console to show a link to the customer to re-load the partner workflow.
+        public let redirectUrl: String?
+        /// A message explaining the reason for the delegation request. Requesters can utilize this field to add a custom note to the delegation request. This field is different from the description such that this is to be utilized for a custom messaging on a case-by-case basis. For example, if the current delegation request is in response to a previous request being rejected, this explanation can be added to the request via this field.
+        public let requestMessage: String?
+        /// The workflow ID associated with the requestor. This is the unique identifier on the partner side that  can be used to track the progress of the request. IAM maintains a uniqueness check on this workflow id for each request - if a workflow id for an existing request is passed, this API call will fail.
+        public let requestorWorkflowId: String
+        /// The duration for which the delegated session should remain active, in seconds. The active time window for the session starts when the customer calls the SendDelegationToken API.
+        public let sessionDuration: Int
+
+        @inlinable
+        public init(description: String, notificationChannel: String, onlySendByOwner: Bool? = nil, ownerAccountId: String? = nil, permissions: DelegationPermission, redirectUrl: String? = nil, requestMessage: String? = nil, requestorWorkflowId: String, sessionDuration: Int) {
+            self.description = description
+            self.notificationChannel = notificationChannel
+            self.onlySendByOwner = onlySendByOwner
+            self.ownerAccountId = ownerAccountId
+            self.permissions = permissions
+            self.redirectUrl = redirectUrl
+            self.requestMessage = requestMessage
+            self.requestorWorkflowId = requestorWorkflowId
+            self.sessionDuration = sessionDuration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
+            try self.validate(self.notificationChannel, name: "notificationChannel", parent: name, max: 400)
+            try self.validate(self.notificationChannel, name: "notificationChannel", parent: name, min: 2)
+            try self.validate(self.notificationChannel, name: "notificationChannel", parent: name, pattern: "^[a-zA-Z0-9:_.-]+$")
+            try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^\\d{12}$")
+            try self.permissions.validate(name: "\(name).permissions")
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, max: 255)
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, min: 1)
+            try self.validate(self.redirectUrl, name: "redirectUrl", parent: name, pattern: "^http(s?)://[a-zA-Z0-9._/-]*(\\?[a-zA-Z0-9._=&-]*)?(#[a-zA-Z0-9._/-]*)?$")
+            try self.validate(self.requestMessage, name: "requestMessage", parent: name, max: 200)
+            try self.validate(self.requestMessage, name: "requestMessage", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
+            try self.validate(self.requestorWorkflowId, name: "requestorWorkflowId", parent: name, max: 400)
+            try self.validate(self.requestorWorkflowId, name: "requestorWorkflowId", parent: name, min: 5)
+            try self.validate(self.requestorWorkflowId, name: "requestorWorkflowId", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+$")
+            try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, max: 43200)
+            try self.validate(self.sessionDuration, name: "sessionDuration", parent: name, min: 300)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case notificationChannel = "NotificationChannel"
+            case onlySendByOwner = "OnlySendByOwner"
+            case ownerAccountId = "OwnerAccountId"
+            case permissions = "Permissions"
+            case redirectUrl = "RedirectUrl"
+            case requestMessage = "RequestMessage"
+            case requestorWorkflowId = "RequestorWorkflowId"
+            case sessionDuration = "SessionDuration"
+        }
+    }
+
+    public struct CreateDelegationRequestResponse: AWSDecodableShape {
+        /// A deep link URL to the Amazon Web Services Management Console for managing the delegation request. For a console based workflow, partners should redirect the customer to this URL. If the customer is not logged in to any Amazon Web Services account, the Amazon Web Services workflow will automatically direct the customer to log in and then display the delegation request approval page.
+        public let consoleDeepLink: String?
+        /// The unique identifier for the created delegation request.
+        public let delegationRequestId: String?
+
+        @inlinable
+        public init(consoleDeepLink: String? = nil, delegationRequestId: String? = nil) {
+            self.consoleDeepLink = consoleDeepLink
+            self.delegationRequestId = delegationRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consoleDeepLink = "ConsoleDeepLink"
+            case delegationRequestId = "DelegationRequestId"
         }
     }
 
@@ -1292,6 +1462,123 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case serialNumber = "SerialNumber"
             case userName = "UserName"
+        }
+    }
+
+    public struct DelegationPermission: AWSEncodableShape & AWSDecodableShape {
+        /// A list of policy parameters that define the scope and constraints of the delegated permissions.
+        @OptionalCustomCoding<StandardArrayCoder<PolicyParameter>>
+        public var parameters: [PolicyParameter]?
+        /// This ARN maps to a pre-registered policy content for this partner. See the partner onboarding documentation to understand how to create a delegation template.
+        public let policyTemplateArn: String?
+
+        @inlinable
+        public init(parameters: [PolicyParameter]? = nil, policyTemplateArn: String? = nil) {
+            self.parameters = parameters
+            self.policyTemplateArn = policyTemplateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.validate(self.parameters, name: "parameters", parent: name, max: 50)
+            try self.validate(self.policyTemplateArn, name: "policyTemplateArn", parent: name, max: 2048)
+            try self.validate(self.policyTemplateArn, name: "policyTemplateArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters = "Parameters"
+            case policyTemplateArn = "PolicyTemplateArn"
+        }
+    }
+
+    public struct DelegationRequest: AWSDecodableShape {
+        public let approverId: String?
+        /// Creation date (timestamp) of this delegation request.
+        public let createDate: Date?
+        /// The unique identifier for the delegation request.
+        public let delegationRequestId: String?
+        /// Description of the delegation request. This is a message that is provided by the Amazon Web Services partner that filed the delegation request.
+        public let description: String?
+        /// The expiry time of this delegation request See the Understanding the Request Lifecycle for details on the life time of a delegation request at each state.
+        public let expirationTime: Date?
+        /// Notes added to this delegation request, if this request was updated via the UpdateDelegationRequest API.
+        public let notes: String?
+        /// A flag indicating whether the SendDelegationToken must be called by the owner of this delegation request. This is set by the requesting partner.
+        public let onlySendByOwner: Bool?
+        /// Amazon Web Services account ID of the owner of the delegation request.
+        public let ownerAccountId: String?
+        /// ARN of the owner of this delegation request.
+        public let ownerId: String?
+        /// JSON content of the associated permission policy of this delegation request.
+        public let permissionPolicy: String?
+        public let permissions: DelegationPermission?
+        /// A URL to be redirected to once the delegation request is approved. Partners provide this URL when creating the delegation request.
+        public let redirectUrl: String?
+        /// Reasons for rejecting this delegation request, if this request was rejected. See also RejectDelegationRequest API documentation.
+        public let rejectionReason: String?
+        /// A custom message that is added to the delegation request by the partner. This element is different from the Description element such that this is a request specific message injected by the partner. The Description is typically a generic explanation of what the delegation request is targeted to do.
+        public let requestMessage: String?
+        /// Identity of the requestor of this delegation request. This will be an Amazon Web Services account ID.
+        public let requestorId: String?
+        /// A friendly name of the requestor.
+        public let requestorName: String?
+        /// If the PermissionPolicy includes role creation permissions, this element will include the list of permissions boundary policies associated with the role creation. See Permissions boundaries for IAM entities for more details about IAM permission boundaries.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var rolePermissionRestrictionArns: [String]?
+        /// The life-time of the requested session credential.
+        public let sessionDuration: Int?
+        /// The state of this delegation request. See the Understanding the Request Lifecycle for an explanation of how these states are transitioned.
+        public let state: StateType?
+        /// Last updated timestamp of the request.
+        public let updatedTime: Date?
+
+        @inlinable
+        public init(approverId: String? = nil, createDate: Date? = nil, delegationRequestId: String? = nil, description: String? = nil, expirationTime: Date? = nil, notes: String? = nil, onlySendByOwner: Bool? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, permissionPolicy: String? = nil, permissions: DelegationPermission? = nil, redirectUrl: String? = nil, rejectionReason: String? = nil, requestMessage: String? = nil, requestorId: String? = nil, requestorName: String? = nil, rolePermissionRestrictionArns: [String]? = nil, sessionDuration: Int? = nil, state: StateType? = nil, updatedTime: Date? = nil) {
+            self.approverId = approverId
+            self.createDate = createDate
+            self.delegationRequestId = delegationRequestId
+            self.description = description
+            self.expirationTime = expirationTime
+            self.notes = notes
+            self.onlySendByOwner = onlySendByOwner
+            self.ownerAccountId = ownerAccountId
+            self.ownerId = ownerId
+            self.permissionPolicy = permissionPolicy
+            self.permissions = permissions
+            self.redirectUrl = redirectUrl
+            self.rejectionReason = rejectionReason
+            self.requestMessage = requestMessage
+            self.requestorId = requestorId
+            self.requestorName = requestorName
+            self.rolePermissionRestrictionArns = rolePermissionRestrictionArns
+            self.sessionDuration = sessionDuration
+            self.state = state
+            self.updatedTime = updatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approverId = "ApproverId"
+            case createDate = "CreateDate"
+            case delegationRequestId = "DelegationRequestId"
+            case description = "Description"
+            case expirationTime = "ExpirationTime"
+            case notes = "Notes"
+            case onlySendByOwner = "OnlySendByOwner"
+            case ownerAccountId = "OwnerAccountId"
+            case ownerId = "OwnerId"
+            case permissionPolicy = "PermissionPolicy"
+            case permissions = "Permissions"
+            case redirectUrl = "RedirectUrl"
+            case rejectionReason = "RejectionReason"
+            case requestMessage = "RequestMessage"
+            case requestorId = "RequestorId"
+            case requestorName = "RequestorName"
+            case rolePermissionRestrictionArns = "RolePermissionRestrictionArns"
+            case sessionDuration = "SessionDuration"
+            case state = "State"
+            case updatedTime = "UpdatedTime"
         }
     }
 
@@ -2029,6 +2316,20 @@ extension IAM {
         }
     }
 
+    public struct EnableOutboundWebIdentityFederationResponse: AWSDecodableShape {
+        /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints  at /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary  for token verification.
+        public let issuerIdentifier: String?
+
+        @inlinable
+        public init(issuerIdentifier: String? = nil) {
+            self.issuerIdentifier = issuerIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issuerIdentifier = "IssuerIdentifier"
+        }
+    }
+
     public struct EntityDetails: AWSDecodableShape {
         /// The EntityInfo object that contains details about the entity (user or role).
         public let entityInfo: EntityInfo
@@ -2463,6 +2764,52 @@ extension IAM {
         }
     }
 
+    public struct GetDelegationRequestRequest: AWSEncodableShape {
+        /// Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a permission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckResult response attributes for further details.
+        public let delegationPermissionCheck: Bool?
+        /// The unique identifier of the delegation request to retrieve.
+        public let delegationRequestId: String
+
+        @inlinable
+        public init(delegationPermissionCheck: Bool? = nil, delegationRequestId: String) {
+            self.delegationPermissionCheck = delegationPermissionCheck
+            self.delegationRequestId = delegationRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationPermissionCheck = "DelegationPermissionCheck"
+            case delegationRequestId = "DelegationRequestId"
+        }
+    }
+
+    public struct GetDelegationRequestResponse: AWSDecodableShape {
+        /// The delegation request object containing all details about the request.
+        public let delegationRequest: DelegationRequest?
+        /// The result of the permission check, indicating whether the caller has sufficient permissions to cover the requested permissions. This is an approximate result.    ALLOWED : The caller has sufficient permissions cover all the requested permissions.    DENIED : The caller does not have sufficient permissions to cover all the requested permissions.    UNSURE : It is not possible to determine whether the caller has all the permissions needed. This output is most likely for cases when the caller has permissions with conditions.
+        public let permissionCheckResult: PermissionCheckResultType?
+        /// The status of the permission check for the delegation request. This value indicates the status of the process to check whether the caller has sufficient permissions to cover the requested actions in the delegation request. Since this is an asynchronous process, there are three potential values:    IN_PROGRESS : The permission check process has started.    COMPLETED : The permission check process has completed. The PermissionCheckResult will include the result.    FAILED : The permission check process has failed.
+        public let permissionCheckStatus: PermissionCheckStatusType?
+
+        @inlinable
+        public init(delegationRequest: DelegationRequest? = nil, permissionCheckResult: PermissionCheckResultType? = nil, permissionCheckStatus: PermissionCheckStatusType? = nil) {
+            self.delegationRequest = delegationRequest
+            self.permissionCheckResult = permissionCheckResult
+            self.permissionCheckStatus = permissionCheckStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequest = "DelegationRequest"
+            case permissionCheckResult = "PermissionCheckResult"
+            case permissionCheckStatus = "PermissionCheckStatus"
+        }
+    }
+
     public struct GetGroupPolicyRequest: AWSEncodableShape {
         /// The name of the group the policy is associated with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let groupName: String
@@ -2569,6 +2916,53 @@ extension IAM {
             case isTruncated = "IsTruncated"
             case marker = "Marker"
             case users = "Users"
+        }
+    }
+
+    public struct GetHumanReadableSummaryRequest: AWSEncodableShape {
+        /// Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request
+        public let entityArn: String
+        /// A string representing the locale to use for the summary generation. The supported locale strings are based on the  Supported languages of the Amazon Web Services Management Console .
+        public let locale: String?
+
+        @inlinable
+        public init(entityArn: String, locale: String? = nil) {
+            self.entityArn = entityArn
+            self.locale = locale
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityArn, name: "entityArn", parent: name, max: 2048)
+            try self.validate(self.entityArn, name: "entityArn", parent: name, min: 20)
+            try self.validate(self.locale, name: "locale", parent: name, max: 12)
+            try self.validate(self.locale, name: "locale", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityArn = "EntityArn"
+            case locale = "Locale"
+        }
+    }
+
+    public struct GetHumanReadableSummaryResponse: AWSDecodableShape {
+        /// The locale that this response was generated for. This maps to the input locale.
+        public let locale: String?
+        /// Summary content in the specified locale. Summary content is non-empty only if the SummaryState is AVAILABLE.
+        public let summaryContent: String?
+        /// State of summary generation. This generation process is asynchronous and this attribute indicates the state of the generation process.
+        public let summaryState: SummaryStateType?
+
+        @inlinable
+        public init(locale: String? = nil, summaryContent: String? = nil, summaryState: SummaryStateType? = nil) {
+            self.locale = locale
+            self.summaryContent = summaryContent
+            self.summaryState = summaryState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locale = "Locale"
+            case summaryContent = "SummaryContent"
+            case summaryState = "SummaryState"
         }
     }
 
@@ -2783,15 +3177,15 @@ extension IAM {
     }
 
     public struct GetOrganizationsAccessReportResponse: AWSDecodableShape {
-        /// An object that contains details about the most recent attempt to access the service.
+        /// An object that contains details about the most recent attempt to access the service.
         @OptionalCustomCoding<StandardArrayCoder<AccessDetail>>
         public var accessDetails: [AccessDetail]?
         public let errorDetails: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your  results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the  MaxItems number of results even when there are more results available. We recommend  that you check IsTruncated after every call to ensure that you receive all your  results.
         public let isTruncated: Bool?
-        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: Date?
-        /// The date and time, in ISO 8601 date-time format, when the report job was created.
+        /// The date and time, in ISO 8601 date-time format, when the report job was created.
         public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
@@ -2825,6 +3219,24 @@ extension IAM {
             case marker = "Marker"
             case numberOfServicesAccessible = "NumberOfServicesAccessible"
             case numberOfServicesNotAccessed = "NumberOfServicesNotAccessed"
+        }
+    }
+
+    public struct GetOutboundWebIdentityFederationInfoResponse: AWSDecodableShape {
+        /// A unique issuer URL for your Amazon Web Services account that hosts the OpenID Connect (OIDC) discovery endpoints at  /.well-known/openid-configuration and /.well-known/jwks.json. The OpenID Connect (OIDC) discovery endpoints contain verification keys and metadata necessary for token verification.
+        public let issuerIdentifier: String?
+        /// Indicates whether outbound identity federation is currently enabled for your  Amazon Web Services account. When true, IAM principals in the account can call the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services.
+        public let jwtVendingEnabled: Bool?
+
+        @inlinable
+        public init(issuerIdentifier: String? = nil, jwtVendingEnabled: Bool? = nil) {
+            self.issuerIdentifier = issuerIdentifier
+            self.jwtVendingEnabled = jwtVendingEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issuerIdentifier = "IssuerIdentifier"
+            case jwtVendingEnabled = "JwtVendingEnabled"
         }
     }
 
@@ -3157,9 +3569,9 @@ extension IAM {
         public let error: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your  results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the  MaxItems number of results even when there are more results available. We recommend  that you check IsTruncated after every call to ensure that you receive all your  results.
         public let isTruncated: Bool?
-        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: Date
-        /// The date and time, in ISO 8601 date-time format, when the report job was created.
+        /// The date and time, in ISO 8601 date-time format, when the report job was created.
         public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
@@ -3167,7 +3579,7 @@ extension IAM {
         public let jobType: AccessAdvisorUsageGranularityType?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
-        ///  A ServiceLastAccessed object that contains details about the most recent attempt to access the service.
+        ///  A ServiceLastAccessed object that contains details about the most recent attempt to access the service.
         @CustomCoding<StandardArrayCoder<ServiceLastAccessed>>
         public var servicesLastAccessed: [ServiceLastAccessed]
 
@@ -3202,7 +3614,7 @@ extension IAM {
         public let marker: String?
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
-        /// The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
+        /// The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         public let serviceNamespace: String
 
         @inlinable
@@ -3235,16 +3647,16 @@ extension IAM {
     }
 
     public struct GetServiceLastAccessedDetailsWithEntitiesResponse: AWSDecodableShape {
-        /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified Amazon Web Services service.
+        /// An EntityDetailsList object that contains details about when an IAM entity (user or role) used group or policy permissions in an attempt to access the specified Amazon Web Services service.
         @CustomCoding<StandardArrayCoder<EntityDetails>>
         public var entityDetailsList: [EntityDetails]
         /// An object that contains details about the reason the operation failed.
         public let error: ErrorDetails?
         /// A flag that indicates whether there are more items to return. If your  results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items. Note that IAM might return fewer than the  MaxItems number of results even when there are more results available. We recommend  that you check IsTruncated after every call to ensure that you receive all your  results.
         public let isTruncated: Bool?
-        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
+        /// The date and time, in ISO 8601 date-time format, when the generated report job was completed or failed. This field is null if the job is still in progress, as indicated by a job status value of IN_PROGRESS.
         public let jobCompletionDate: Date
-        /// The date and time, in ISO 8601 date-time format, when the report job was created.
+        /// The date and time, in ISO 8601 date-time format, when the report job was created.
         public let jobCreationDate: Date
         /// The status of the job.
         public let jobStatus: JobStatusType
@@ -3796,6 +4208,62 @@ extension IAM {
         }
     }
 
+    public struct ListDelegationRequestsRequest: AWSEncodableShape {
+        /// Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+        public let marker: String?
+        /// Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true.  If you do not include this parameter, the number of items defaults to 100. Note that IAM may return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+        public let maxItems: Int?
+        /// The owner ID to filter delegation requests by.
+        public let ownerId: String?
+
+        @inlinable
+        public init(marker: String? = nil, maxItems: Int? = nil, ownerId: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.ownerId = ownerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 320)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+            try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, max: 2048)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, min: 20)
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: "^[a-zA-Z0-9:/+=,.@_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case ownerId = "OwnerId"
+        }
+    }
+
+    public struct ListDelegationRequestsResponse: AWSDecodableShape {
+        /// A list of delegation requests that match the specified criteria.
+        @OptionalCustomCoding<StandardArrayCoder<DelegationRequest>>
+        public var delegationRequests: [DelegationRequest]?
+        /// A flag that indicates whether there are more items to return. If your results were truncated, you can make a subsequent pagination request using the Marker request parameter to retrieve more items.
+        public let isTruncated: Bool?
+        /// When isTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent pagination request.
+        public let marker: String?
+
+        @inlinable
+        public init(delegationRequests: [DelegationRequest]? = nil, isTruncated: Bool? = nil, marker: String? = nil) {
+            self.delegationRequests = delegationRequests
+            self.isTruncated = isTruncated
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequests = "DelegationRequests"
+            case isTruncated = "isTruncated"
+            case marker = "Marker"
+        }
+    }
+
     public struct ListEntitiesForPolicyRequest: AWSEncodableShape {
         /// The entity type to use for filtering the results. For example, when EntityFilter is Role, only the roles that are attached to the specified policy are returned. This parameter is optional. If it is not included, all attached entities (users, groups, and roles) are returned. The argument for this parameter must be one of the valid values listed below.
         public let entityFilter: EntityType?
@@ -3807,7 +4275,7 @@ extension IAM {
         public let pathPrefix: String?
         /// The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let policyArn: String
-        /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+        /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
         public let policyUsageFilter: PolicyUsageType?
 
         @inlinable
@@ -4445,7 +4913,7 @@ extension IAM {
         public let arn: String
         /// Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
         public let marker: String?
-        /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
+        /// The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
         @CustomCoding<StandardArrayCoder<String>>
         public var serviceNamespaces: [String]
 
@@ -4483,7 +4951,7 @@ extension IAM {
         public let isTruncated: Bool?
         /// When IsTruncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent  pagination request.
         public let marker: String?
-        /// A ListPoliciesGrantingServiceAccess object that contains details about the permissions policies attached to the specified identity (user, group, or role).
+        /// A ListPoliciesGrantingServiceAccess object that contains details about the permissions policies attached to the specified identity (user, group, or role).
         @CustomCoding<StandardArrayCoder<ListPoliciesGrantingServiceAccessEntry>>
         public var policiesGrantingServiceAccess: [ListPoliciesGrantingServiceAccessEntry]
 
@@ -4510,7 +4978,7 @@ extension IAM {
         public let onlyAttached: Bool?
         /// The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
         public let pathPrefix: String?
-        /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+        /// The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
         public let policyUsageFilter: PolicyUsageType?
         /// The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
         public let scope: PolicyScopeType?
@@ -5746,6 +6214,38 @@ extension IAM {
         }
     }
 
+    public struct PolicyParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the policy parameter.
+        public let name: String?
+        /// The data type of the policy parameter value.
+        public let type: PolicyParameterTypeEnum?
+        /// The allowed values for the policy parameter.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var values: [String]?
+
+        @inlinable
+        public init(name: String? = nil, type: PolicyParameterTypeEnum? = nil, values: [String]? = nil) {
+            self.name = name
+            self.type = type
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 5)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ -~]+$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "^[ -~]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+            case values = "Values"
+        }
+    }
+
     public struct PolicyRole: AWSDecodableShape {
         /// The stable and unique string identifying the role. For more information about IDs, see IAM identifiers in the IAM User Guide.
         public let roleId: String?
@@ -5977,6 +6477,32 @@ extension IAM {
             case policyDocument = "PolicyDocument"
             case policyName = "PolicyName"
             case userName = "UserName"
+        }
+    }
+
+    public struct RejectDelegationRequestRequest: AWSEncodableShape {
+        /// The unique identifier of the delegation request to reject.
+        public let delegationRequestId: String
+        /// Optional notes explaining the reason for rejecting the delegation request.
+        public let notes: String?
+
+        @inlinable
+        public init(delegationRequestId: String, notes: String? = nil) {
+            self.delegationRequestId = delegationRequestId
+            self.notes = notes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+            try self.validate(self.notes, name: "notes", parent: name, max: 500)
+            try self.validate(self.notes, name: "notes", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequestId = "DelegationRequestId"
+            case notes = "Notes"
         }
     }
 
@@ -6428,6 +6954,26 @@ extension IAM {
             case status = "Status"
             case uploadDate = "UploadDate"
             case userName = "UserName"
+        }
+    }
+
+    public struct SendDelegationTokenRequest: AWSEncodableShape {
+        /// The unique identifier of the delegation request for which to send the token.
+        public let delegationRequestId: String
+
+        @inlinable
+        public init(delegationRequestId: String) {
+            self.delegationRequestId = delegationRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequestId = "DelegationRequestId"
         }
     }
 
@@ -7578,6 +8124,32 @@ extension IAM {
         }
     }
 
+    public struct UpdateDelegationRequestRequest: AWSEncodableShape {
+        /// The unique identifier of the delegation request to update.
+        public let delegationRequestId: String
+        /// Additional notes or comments to add to the delegation request.
+        public let notes: String?
+
+        @inlinable
+        public init(delegationRequestId: String, notes: String? = nil) {
+            self.delegationRequestId = delegationRequestId
+            self.notes = notes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, max: 128)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, min: 16)
+            try self.validate(self.delegationRequestId, name: "delegationRequestId", parent: name, pattern: "^[\\w-]+$")
+            try self.validate(self.notes, name: "notes", parent: name, max: 500)
+            try self.validate(self.notes, name: "notes", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delegationRequestId = "DelegationRequestId"
+            case notes = "Notes"
+        }
+    }
+
     public struct UpdateGroupRequest: AWSEncodableShape {
         /// Name of the IAM group to update. If you're changing the name of the group, this is the original name. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let groupName: String
@@ -8271,6 +8843,8 @@ public struct IAMErrorType: AWSErrorType {
         case duplicateSSHPublicKeyException = "DuplicateSSHPublicKey"
         case entityAlreadyExistsException = "EntityAlreadyExists"
         case entityTemporarilyUnmodifiableException = "EntityTemporarilyUnmodifiable"
+        case featureDisabledException = "FeatureDisabled"
+        case featureEnabledException = "FeatureEnabled"
         case invalidAuthenticationCodeException = "InvalidAuthenticationCode"
         case invalidCertificateException = "InvalidCertificate"
         case invalidInputException = "InvalidInput"
@@ -8335,6 +8909,10 @@ public struct IAMErrorType: AWSErrorType {
     public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
     /// The request was rejected because it referenced an entity that is temporarily unmodifiable, such as a user name that was deleted and then recreated. The error indicates that the request is likely to succeed if you try again after waiting several minutes. The error message describes the entity.
     public static var entityTemporarilyUnmodifiableException: Self { .init(.entityTemporarilyUnmodifiableException) }
+    /// The request failed because outbound identity federation is already disabled for your Amazon Web Services account. You cannot disable the feature multiple times
+    public static var featureDisabledException: Self { .init(.featureDisabledException) }
+    /// The request failed because outbound identity federation is already enabled for your Amazon Web Services account. You cannot enable the feature multiple times. To fetch the current configuration (including the unique issuer URL), use the GetOutboundWebIdentityFederationInfo operation.
+    public static var featureEnabledException: Self { .init(.featureEnabledException) }
     /// The request was rejected because the authentication code was not recognized. The error message describes the specific error.
     public static var invalidAuthenticationCodeException: Self { .init(.invalidAuthenticationCodeException) }
     /// The request was rejected because the certificate is invalid.

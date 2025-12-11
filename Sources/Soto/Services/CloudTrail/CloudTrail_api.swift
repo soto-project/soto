@@ -318,7 +318,7 @@ public struct CloudTrail: AWSService {
     ///   - includeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
     ///   - isMultiRegionTrail: Specifies whether the trail is created in the current Region or in all Regions. The default is false, which creates a trail only in the Region where you are signed in. As a best practice, consider creating trails that log events in all Regions.
     ///   - isOrganizationTrail: Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
-    ///   - kmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
+    ///   - kmsKeyId: Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
     ///   - name: Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
     ///   - s3BucketName: Specifies the name of the Amazon S3 bucket designated for publishing log files.  For information about bucket naming rules, see Bucket naming rules  in the Amazon Simple Storage Service User Guide.
     ///   - s3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
@@ -474,7 +474,7 @@ public struct CloudTrail: AWSService {
         return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
-    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
+    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.   While deleting a CloudTrail trail is an irreversible action, CloudTrail does not delete log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail will stop logging of events in all Amazon Web Services Regions enabled in your Amazon Web Services account. Deleting a single-Region trail will stop logging of events in that Region only. It will not stop logging of events in other Regions even if the trails in those other Regions have identical names to the deleted trail.  For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
     @Sendable
     @inlinable
     public func deleteTrail(_ input: DeleteTrailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTrailResponse {
@@ -487,7 +487,7 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.
+    /// Deletes a trail. This operation must be called from the Region in which the trail was created. DeleteTrail cannot be called on the shadow trails (replicated trails in other Regions) of a trail that is enabled in all Regions.   While deleting a CloudTrail trail is an irreversible action, CloudTrail does not delete log files in the Amazon S3 bucket for that trail, the Amazon S3 bucket itself, or the CloudWatchlog group to which the trail delivers events. Deleting a multi-Region trail will stop logging of events in all Amazon Web Services Regions enabled in your Amazon Web Services account. Deleting a single-Region trail will stop logging of events in that Region only. It will not stop logging of events in other Regions even if the trails in those other Regions have identical names to the deleted trail.  For information about account closure and deletion of CloudTrail trails, see https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-account-closure.html.
     ///
     /// Parameters:
     ///   - name: Specifies the name or the CloudTrail ARN of the trail to be deleted. The following is the format of a trail ARN. arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
@@ -753,7 +753,7 @@ public struct CloudTrail: AWSService {
         return try await self.getDashboard(input, logger: logger)
     }
 
-    /// Retrieves the current event configuration settings for the specified event data store, including details  about maximum event size and context key selectors configured for the event data store.
+    /// Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
     @Sendable
     @inlinable
     public func getEventConfiguration(_ input: GetEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEventConfigurationResponse {
@@ -766,18 +766,21 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the current event configuration settings for the specified event data store, including details  about maximum event size and context key selectors configured for the event data store.
+    /// Retrieves the current event configuration settings for the specified event data store or trail. The response includes maximum event size configuration, the context key selectors configured for the event data store, and any aggregation settings configured for the trail.
     ///
     /// Parameters:
     ///   - eventDataStore: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
+    ///   - trailName: The name of the trail for which you want to retrieve event configuration settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func getEventConfiguration(
         eventDataStore: String? = nil,
+        trailName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetEventConfigurationResponse {
         let input = GetEventConfigurationRequest(
-            eventDataStore: eventDataStore
+            eventDataStore: eventDataStore, 
+            trailName: trailName
         )
         return try await self.getEventConfiguration(input, logger: logger)
     }
@@ -869,7 +872,7 @@ public struct CloudTrail: AWSService {
         return try await self.getImport(input, logger: logger)
     }
 
-    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail or event data store, and if it is, which Insights types are enabled. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  Specify either the EventDataStore parameter to get Insights event selectors for an event data store,  or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
+    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights logging is enabled  and which Insights types are configured with corresponding event categories. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  Specify either the EventDataStore parameter to get Insights event selectors for an event data store,  or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
     @Sendable
     @inlinable
     public func getInsightSelectors(_ input: GetInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightSelectorsResponse {
@@ -882,7 +885,7 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail or event data store, and if it is, which Insights types are enabled. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  Specify either the EventDataStore parameter to get Insights event selectors for an event data store,  or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
+    /// Describes the settings for the Insights event selectors that you configured for your trail or event data store. GetInsightSelectors shows if CloudTrail Insights logging is enabled  and which Insights types are configured with corresponding event categories. If you run GetInsightSelectors on a trail or event data store that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException  Specify either the EventDataStore parameter to get Insights event selectors for an event data store,  or the TrailName parameter to the get Insights event selectors for a trail. You cannot specify these parameters together. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
     ///
     /// Parameters:
     ///   - eventDataStore:  Specifies the ARN (or ID suffix of the ARN) of the event data store for which you want to get Insights selectors.  You cannot use this parameter with the TrailName parameter.
@@ -1201,7 +1204,54 @@ public struct CloudTrail: AWSService {
         return try await self.listImports(input, logger: logger)
     }
 
-    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
+    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events:   Event ID   Event name   Event source   All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    @Sendable
+    @inlinable
+    public func listInsightsData(_ input: ListInsightsDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsDataResponse {
+        try await self.client.execute(
+            operation: "ListInsightsData", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns Insights events generated on a trail that logs data events. You can list Insights events that occurred in a Region within the last 90 days. ListInsightsData supports the following Dimensions for Insights events:   Event ID   Event name   Event source   All dimensions are optional. The default number of results returned is 50, with a maximum of 50 possible. The response includes a token that you can use to get the next page of results. The rate of ListInsightsData requests is limited to two per second, per account, per Region. If this limit is exceeded, a throttling error occurs.
+    ///
+    /// Parameters:
+    ///   - dataType: Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType
+    ///   - dimensions: Contains a map of dimensions. Currently the map can contain only one item.
+    ///   - endTime: Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+    ///   - insightSource: The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events.
+    ///   - maxResults: The number of events to return. Possible values are 1 through 50. The default is 50.
+    ///   - nextToken: The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call.  For example, if the original call specified a EventName as a dimension with PutObject as a value, the call with NextToken should include those same parameters.
+    ///   - startTime: Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInsightsData(
+        dataType: ListInsightsDataType,
+        dimensions: [ListInsightsDataDimensionKey: String]? = nil,
+        endTime: Date? = nil,
+        insightSource: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInsightsDataResponse {
+        let input = ListInsightsDataRequest(
+            dataType: dataType, 
+            dimensions: dimensions, 
+            endTime: endTime, 
+            insightSource: insightSource, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime
+        )
+        return try await self.listInsightsData(input, logger: logger)
+    }
+
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   To use ListInsightsMetricData operation, you must have the following permissions:   If ListInsightsMetricData is invoked with TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action and cloudtrail:ListInsightsData. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents and cloudtrail:ListInsightsData action on the specific trail.   If ListInsightsMetricData is invoked without TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action only. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
     @Sendable
     @inlinable
     public func listInsightsMetricData(_ input: ListInsightsMetricDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInsightsMetricDataResponse {
@@ -1214,7 +1264,7 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
+    /// Returns Insights metrics data for trails that have enabled Insights. The request must include the EventSource,  EventName, and InsightType parameters. If the InsightType is set to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The following are the available time periods for ListInsightsMetricData. Each cutoff is inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.   Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data points with a period of 3600 seconds (1 hour) are available for 90 days.   To use ListInsightsMetricData operation, you must have the following permissions:   If ListInsightsMetricData is invoked with TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action and cloudtrail:ListInsightsData. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents and cloudtrail:ListInsightsData action on the specific trail.   If ListInsightsMetricData is invoked without TrailName parameter, access to the ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action only. To use this operation,  you must have permissions to perform the cloudtrail:LookupEvents action.
     ///
     /// Parameters:
     ///   - dataType: Type of data points to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
@@ -1227,6 +1277,7 @@ public struct CloudTrail: AWSService {
     ///   - nextToken: Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
     ///   - period: Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600.  If you specify any other value, you will get an error. The default is 3600 seconds.
     ///   - startTime: Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
+    ///   - trailName: The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data.  This parameter should only be provided to fetch Insights metrics data generated on trails logging data events.  This parameter is not required for Insights metric data generated on trails logging management events.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInsightsMetricData(
@@ -1240,6 +1291,7 @@ public struct CloudTrail: AWSService {
         nextToken: String? = nil,
         period: Int? = nil,
         startTime: Date? = nil,
+        trailName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListInsightsMetricDataResponse {
         let input = ListInsightsMetricDataRequest(
@@ -1252,7 +1304,8 @@ public struct CloudTrail: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             period: period, 
-            startTime: startTime
+            startTime: startTime, 
+            trailName: trailName
         )
         return try await self.listInsightsMetricData(input, logger: logger)
     }
@@ -1441,7 +1494,7 @@ public struct CloudTrail: AWSService {
         return try await self.lookupEvents(input, logger: logger)
     }
 
-    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    /// Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
     @Sendable
     @inlinable
     public func putEventConfiguration(_ input: PutEventConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventConfigurationResponse {
@@ -1454,24 +1507,30 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Updates the event configuration settings for the specified event data store. You can update the maximum event size and context key selectors.
+    /// Updates the event configuration settings for the specified event data store or trail. This operation supports updating the maximum event size, adding or modifying context key selectors for event data store, and configuring aggregation settings for the trail.
     ///
     /// Parameters:
+    ///   - aggregationConfigurations: The list of aggregation configurations that you want to configure for the trail.
     ///   - contextKeySelectors: A list of context key selectors that will be included to provide enriched event data.
-    ///   - eventDataStore: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+    ///   - eventDataStore: The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which event configuration settings are updated.
     ///   - maxEventSize: The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
+    ///   - trailName: The name of the trail for which you want to update event configuration settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func putEventConfiguration(
-        contextKeySelectors: [ContextKeySelector],
+        aggregationConfigurations: [AggregationConfiguration]? = nil,
+        contextKeySelectors: [ContextKeySelector]? = nil,
         eventDataStore: String? = nil,
-        maxEventSize: MaxEventSize,
+        maxEventSize: MaxEventSize? = nil,
+        trailName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutEventConfigurationResponse {
         let input = PutEventConfigurationRequest(
+            aggregationConfigurations: aggregationConfigurations, 
             contextKeySelectors: contextKeySelectors, 
             eventDataStore: eventDataStore, 
-            maxEventSize: maxEventSize
+            maxEventSize: maxEventSize, 
+            trailName: trailName
         )
         return try await self.putEventConfiguration(input, logger: logger)
     }
@@ -1511,7 +1570,7 @@ public struct CloudTrail: AWSService {
         return try await self.putEventSelectors(input, logger: logger)
     }
 
-    /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights.  The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events. You can call GetEventDataStore on an  event data store to check whether the event data store logs management events. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
+    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight, and valid EventCategories are Management and Data.   Insights on data events are not supported on event data stores. For event data stores, you can only enable Insights on management events.   To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights.  The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors.    For Management events Insights: To log CloudTrail Insights on the API call rate, the trail or event data store must log write management events.  To log CloudTrail Insights on the API error rate, the trail or event data store must log read or write management events.     For Data events Insights: To log CloudTrail Insights on the API call rate or API error rate, the trail must log read or write data events. Data events Insights are not supported on event data store.     To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events. You can call GetEventDataStore on an  event data store to check whether the event data store logs management events. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
     @Sendable
     @inlinable
     public func putInsightSelectors(_ input: PutInsightSelectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInsightSelectorsResponse {
@@ -1524,12 +1583,12 @@ public struct CloudTrail: AWSService {
             logger: logger
         )
     }
-    /// Lets you enable Insights event logging by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights.  The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events. You can call GetEventDataStore on an  event data store to check whether the event data store logs management events. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
+    /// Lets you enable Insights event logging on specific event categories by specifying the Insights selectors that you want to enable on an existing trail or event data store. You also use PutInsightSelectors to turn off Insights event logging, by passing an empty list of Insights types. The valid Insights event types are ApiErrorRateInsight and ApiCallRateInsight, and valid EventCategories are Management and Data.   Insights on data events are not supported on event data stores. For event data stores, you can only enable Insights on management events.   To enable Insights on an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source event data store (EventDataStore) and the destination event data store (InsightsDestination). The source event data store logs management events and enables Insights.  The destination event data store logs Insights events based upon the management event activity of the source event data store. The source and destination event data stores must belong to the same Amazon Web Services account. To log Insights events for a trail, you must specify the name (TrailName) of the CloudTrail trail for which you want to change or add Insights selectors.    For Management events Insights: To log CloudTrail Insights on the API call rate, the trail or event data store must log write management events.  To log CloudTrail Insights on the API error rate, the trail or event data store must log read or write management events.     For Data events Insights: To log CloudTrail Insights on the API call rate or API error rate, the trail must log read or write data events. Data events Insights are not supported on event data store.     To log CloudTrail Insights events on API call volume, the trail or event data store must log write management events. To log CloudTrail Insights events on API error rate, the trail or event data store must log read or write management events. You can call GetEventSelectors on a trail  to check whether the trail logs management events. You can call GetEventDataStore on an  event data store to check whether the event data store logs management events. For more information, see Working with CloudTrail Insights in the CloudTrail User Guide.
     ///
     /// Parameters:
     ///   - eventDataStore: The ARN (or ID suffix of the ARN) of the source event data store for which you want to change or add Insights selectors. To enable Insights on an event data store, you must provide both the  EventDataStore and InsightsDestination parameters. You cannot use this parameter with the TrailName parameter.
     ///   - insightsDestination:  The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the  EventDataStore and InsightsDestination parameters.  You cannot use this parameter with the TrailName parameter.
-    ///   - insightSelectors: A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+    ///   - insightSelectors: Contains the Insights types you want to log on a specific category of events on a trail or event data store.  ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management
     ///   - trailName: The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2117,7 +2176,7 @@ public struct CloudTrail: AWSService {
     ///   - includeGlobalServiceEvents: Specifies whether the trail is publishing events from global services such as IAM to the log files.
     ///   - isMultiRegionTrail: Specifies whether the trail applies only to the current Region or to all Regions. The default is false. If the trail exists only in the current Region and this value is set to true, shadow trails (replications of the trail) will be created in the other Regions. If the trail exists in all Regions and this value is set to false, the trail will remain in the Region where it was created, and its shadow trails in other Regions will be deleted. As a best practice, consider using trails that log events in all Regions.
     ///   - isOrganizationTrail: Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.  Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to  an organization trail.
-    ///   - kmsKeyId: Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
+    ///   - kmsKeyId: Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
     ///   - name: Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
     ///   - s3BucketName: Specifies the name of the Amazon S3 bucket designated for publishing log files. See Amazon S3 Bucket naming rules.
     ///   - s3KeyPrefix: Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
@@ -2353,6 +2412,55 @@ extension CloudTrail {
         return self.listImportsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listInsightsData(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInsightsDataPaginator(
+        _ input: ListInsightsDataRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInsightsDataRequest, ListInsightsDataResponse> {
+        return .init(
+            input: input,
+            command: self.listInsightsData,
+            inputKey: \ListInsightsDataRequest.nextToken,
+            outputKey: \ListInsightsDataResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInsightsData(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dataType: Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType
+    ///   - dimensions: Contains a map of dimensions. Currently the map can contain only one item.
+    ///   - endTime: Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+    ///   - insightSource: The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events.
+    ///   - maxResults: The number of events to return. Possible values are 1 through 50. The default is 50.
+    ///   - startTime: Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInsightsDataPaginator(
+        dataType: ListInsightsDataType,
+        dimensions: [ListInsightsDataDimensionKey: String]? = nil,
+        endTime: Date? = nil,
+        insightSource: String,
+        maxResults: Int? = nil,
+        startTime: Date? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInsightsDataRequest, ListInsightsDataResponse> {
+        let input = ListInsightsDataRequest(
+            dataType: dataType, 
+            dimensions: dimensions, 
+            endTime: endTime, 
+            insightSource: insightSource, 
+            maxResults: maxResults, 
+            startTime: startTime
+        )
+        return self.listInsightsDataPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listInsightsMetricData(_:logger:)``.
     ///
     /// - Parameters:
@@ -2383,6 +2491,7 @@ extension CloudTrail {
     ///   - maxResults: The maximum number of data points to return. Valid values are integers from 1 to 21600.  The default value is 21600.
     ///   - period: Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600.  If you specify any other value, you will get an error. The default is 3600 seconds.
     ///   - startTime: Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
+    ///   - trailName: The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data.  This parameter should only be provided to fetch Insights metrics data generated on trails logging data events.  This parameter is not required for Insights metric data generated on trails logging management events.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInsightsMetricDataPaginator(
@@ -2395,6 +2504,7 @@ extension CloudTrail {
         maxResults: Int? = nil,
         period: Int? = nil,
         startTime: Date? = nil,
+        trailName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListInsightsMetricDataRequest, ListInsightsMetricDataResponse> {
         let input = ListInsightsMetricDataRequest(
@@ -2406,7 +2516,8 @@ extension CloudTrail {
             insightType: insightType, 
             maxResults: maxResults, 
             period: period, 
-            startTime: startTime
+            startTime: startTime, 
+            trailName: trailName
         )
         return self.listInsightsMetricDataPaginator(input, logger: logger)
     }
@@ -2661,6 +2772,21 @@ extension CloudTrail.ListImportsRequest: AWSPaginateToken {
     }
 }
 
+extension CloudTrail.ListInsightsDataRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudTrail.ListInsightsDataRequest {
+        return .init(
+            dataType: self.dataType,
+            dimensions: self.dimensions,
+            endTime: self.endTime,
+            insightSource: self.insightSource,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )
+    }
+}
+
 extension CloudTrail.ListInsightsMetricDataRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudTrail.ListInsightsMetricDataRequest {
@@ -2674,7 +2800,8 @@ extension CloudTrail.ListInsightsMetricDataRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             period: self.period,
-            startTime: self.startTime
+            startTime: self.startTime,
+            trailName: self.trailName
         )
     }
 }

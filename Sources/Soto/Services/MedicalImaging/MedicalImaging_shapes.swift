@@ -66,6 +66,12 @@ extension MedicalImaging {
         public var description: String { return self.rawValue }
     }
 
+    public enum LosslessStorageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case htj2k = "HTJ2K"
+        case jpeg2000Lossless = "JPEG_2000_LOSSLESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         case equal = "EQUAL"
@@ -82,6 +88,14 @@ extension MedicalImaging {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "ASC"
         case desc = "DESC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Archive instant access storage tier for image sets that are accessed infrequently
+        case archiveInstantAccess = "ARCHIVE_INSTANT_ACCESS"
+        /// Frequent access storage tier for image sets that are accessed regularly
+        case frequentAccess = "FREQUENT_ACCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -412,15 +426,18 @@ extension MedicalImaging {
         public let kmsKeyArn: String?
         /// The ARN of the authorizer's Lambda function.
         public let lambdaAuthorizerArn: String?
+        /// The lossless storage format for the datastore.
+        public let losslessStorageFormat: LosslessStorageFormat?
         /// The tags provided when creating a data store.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String = CreateDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String = CreateDatastoreRequest.idempotencyToken(), datastoreName: String? = nil, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, losslessStorageFormat: LosslessStorageFormat? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.datastoreName = datastoreName
             self.kmsKeyArn = kmsKeyArn
             self.lambdaAuthorizerArn = lambdaAuthorizerArn
+            self.losslessStorageFormat = losslessStorageFormat
             self.tags = tags
         }
 
@@ -448,6 +465,7 @@ extension MedicalImaging {
             case datastoreName = "datastoreName"
             case kmsKeyArn = "kmsKeyArn"
             case lambdaAuthorizerArn = "lambdaAuthorizerArn"
+            case losslessStorageFormat = "losslessStorageFormat"
             case tags = "tags"
         }
     }
@@ -699,11 +717,13 @@ extension MedicalImaging {
         public let kmsKeyArn: String?
         /// The ARN of the authorizer's Lambda function.
         public let lambdaAuthorizerArn: String?
+        /// The datastore's lossless storage format.
+        public let losslessStorageFormat: LosslessStorageFormat?
         /// The timestamp when the data store was last updated.
         public let updatedAt: Date?
 
         @inlinable
-        public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, updatedAt: Date? = nil) {
+        public init(createdAt: Date? = nil, datastoreArn: String? = nil, datastoreId: String, datastoreName: String, datastoreStatus: DatastoreStatus, kmsKeyArn: String? = nil, lambdaAuthorizerArn: String? = nil, losslessStorageFormat: LosslessStorageFormat? = nil, updatedAt: Date? = nil) {
             self.createdAt = createdAt
             self.datastoreArn = datastoreArn
             self.datastoreId = datastoreId
@@ -711,6 +731,7 @@ extension MedicalImaging {
             self.datastoreStatus = datastoreStatus
             self.kmsKeyArn = kmsKeyArn
             self.lambdaAuthorizerArn = lambdaAuthorizerArn
+            self.losslessStorageFormat = losslessStorageFormat
             self.updatedAt = updatedAt
         }
 
@@ -722,6 +743,7 @@ extension MedicalImaging {
             case datastoreStatus = "datastoreStatus"
             case kmsKeyArn = "kmsKeyArn"
             case lambdaAuthorizerArn = "lambdaAuthorizerArn"
+            case losslessStorageFormat = "losslessStorageFormat"
             case updatedAt = "updatedAt"
         }
     }
@@ -1095,17 +1117,21 @@ extension MedicalImaging {
         public let imageSetWorkflowStatus: ImageSetWorkflowStatus?
         /// The flag to determine whether the image set is primary or not.
         public let isPrimary: Bool?
+        /// When the image set was last accessed.
+        public let lastAccessedAt: Date?
         /// The error message thrown if an image set action fails.
         public let message: String?
         /// This object contains the details of any overrides used while creating a specific image set version. If an image set was copied or updated using the force flag, this object will contain the forced flag.
         public let overrides: Overrides?
+        /// The storage tier of the image set.
+        public let storageTier: StorageTier?
         /// The timestamp when image set properties were updated.
         public let updatedAt: Date?
         /// The image set version identifier.
         public let versionId: String
 
         @inlinable
-        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, isPrimary: Bool? = nil, message: String? = nil, overrides: Overrides? = nil, updatedAt: Date? = nil, versionId: String) {
+        public init(createdAt: Date? = nil, datastoreId: String, deletedAt: Date? = nil, imageSetArn: String? = nil, imageSetId: String, imageSetState: ImageSetState, imageSetWorkflowStatus: ImageSetWorkflowStatus? = nil, isPrimary: Bool? = nil, lastAccessedAt: Date? = nil, message: String? = nil, overrides: Overrides? = nil, storageTier: StorageTier? = nil, updatedAt: Date? = nil, versionId: String) {
             self.createdAt = createdAt
             self.datastoreId = datastoreId
             self.deletedAt = deletedAt
@@ -1114,8 +1140,10 @@ extension MedicalImaging {
             self.imageSetState = imageSetState
             self.imageSetWorkflowStatus = imageSetWorkflowStatus
             self.isPrimary = isPrimary
+            self.lastAccessedAt = lastAccessedAt
             self.message = message
             self.overrides = overrides
+            self.storageTier = storageTier
             self.updatedAt = updatedAt
             self.versionId = versionId
         }
@@ -1129,8 +1157,10 @@ extension MedicalImaging {
             case imageSetState = "imageSetState"
             case imageSetWorkflowStatus = "imageSetWorkflowStatus"
             case isPrimary = "isPrimary"
+            case lastAccessedAt = "lastAccessedAt"
             case message = "message"
             case overrides = "overrides"
+            case storageTier = "storageTier"
             case updatedAt = "updatedAt"
             case versionId = "versionId"
         }
@@ -1213,17 +1243,23 @@ extension MedicalImaging {
         public let imageSetId: String
         /// The flag to determine whether the image set is primary or not.
         public let isPrimary: Bool?
+        /// When the image set was last accessed.
+        public let lastAccessedAt: Date?
+        /// The image set's storage tier.
+        public let storageTier: StorageTier?
         /// The time an image set was last updated.
         public let updatedAt: Date?
         /// The image set version.
         public let version: Int?
 
         @inlinable
-        public init(createdAt: Date? = nil, dicomTags: DICOMTags? = nil, imageSetId: String, isPrimary: Bool? = nil, updatedAt: Date? = nil, version: Int? = nil) {
+        public init(createdAt: Date? = nil, dicomTags: DICOMTags? = nil, imageSetId: String, isPrimary: Bool? = nil, lastAccessedAt: Date? = nil, storageTier: StorageTier? = nil, updatedAt: Date? = nil, version: Int? = nil) {
             self.createdAt = createdAt
             self.dicomTags = dicomTags
             self.imageSetId = imageSetId
             self.isPrimary = isPrimary
+            self.lastAccessedAt = lastAccessedAt
+            self.storageTier = storageTier
             self.updatedAt = updatedAt
             self.version = version
         }
@@ -1233,6 +1269,8 @@ extension MedicalImaging {
             case dicomTags = "DICOMTags"
             case imageSetId = "imageSetId"
             case isPrimary = "isPrimary"
+            case lastAccessedAt = "lastAccessedAt"
+            case storageTier = "storageTier"
             case updatedAt = "updatedAt"
             case version = "version"
         }

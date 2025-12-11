@@ -1849,6 +1849,7 @@ public struct EMR: AWSService {
     ///   - logEncryptionKmsKeyId: The KMS key used for encrypting log files. If a value is not provided, the logs remain encrypted by AES-256. This attribute is only available with Amazon EMR releases 5.30.0 and later, excluding Amazon EMR 6.0.0.
     ///   - logUri: The location in Amazon S3 to write the log files of the job flow. If a value is not provided, logs are not created.
     ///   - managedScalingPolicy:  The specified managed scaling policy for an Amazon EMR cluster.
+    ///   - monitoringConfiguration: Contains CloudWatch log configuration metadata and settings.
     ///   - name: The name of the job flow.
     ///   - newSupportedProducts:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
     ///   - osReleaseLabel: Specifies a particular Amazon Linux release for all nodes in a cluster launch RunJobFlow request. If a release is not specified, Amazon EMR uses the latest validated Amazon Linux release for cluster launch.
@@ -1884,6 +1885,7 @@ public struct EMR: AWSService {
         logEncryptionKmsKeyId: String? = nil,
         logUri: String? = nil,
         managedScalingPolicy: ManagedScalingPolicy? = nil,
+        monitoringConfiguration: MonitoringConfiguration? = nil,
         name: String? = nil,
         newSupportedProducts: [SupportedProductConfig]? = nil,
         osReleaseLabel: String? = nil,
@@ -1919,6 +1921,7 @@ public struct EMR: AWSService {
             logEncryptionKmsKeyId: logEncryptionKmsKeyId, 
             logUri: logUri, 
             managedScalingPolicy: managedScalingPolicy, 
+            monitoringConfiguration: monitoringConfiguration, 
             name: name, 
             newSupportedProducts: newSupportedProducts, 
             osReleaseLabel: osReleaseLabel, 

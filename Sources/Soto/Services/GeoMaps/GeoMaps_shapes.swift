@@ -31,6 +31,11 @@ extension GeoMaps {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContourDensity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case medium = "Medium"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LabelSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "Large"
         case small = "Small"
@@ -65,6 +70,34 @@ extension GeoMaps {
         public var description: String { return self.rawValue }
     }
 
+    public enum Terrain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hillshade = "Hillshade"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TileAdditionalFeature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Map elevation contour lines.
+        case contourLines = "ContourLines"
+        /// Map hillshading details for shading elevation changes.
+        case hillshade = "Hillshade"
+        /// Map logistics details, including advanced pois and road networks.
+        case logistics = "Logistics"
+        /// Map transit details.
+        case transit = "Transit"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Traffic: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "All"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case transit = "Transit"
+        case truck = "Truck"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
         case cannotParse = "CannotParse"
@@ -91,7 +124,7 @@ extension GeoMaps {
     public struct GetGlyphsRequest: AWSEncodableShape {
         /// Name of the FontStack to retrieve.  Example: Amazon Ember Bold,Noto Sans Bold. The supported font stacks are as follows:   Amazon Ember Bold   Amazon Ember Bold Italic   Amazon Ember Bold,Noto Sans Bold   Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold   Amazon Ember Condensed RC BdItalic   Amazon Ember Condensed RC Bold   Amazon Ember Condensed RC Bold Italic   Amazon Ember Condensed RC Bold,Noto Sans Bold   Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold   Amazon Ember Condensed RC Light   Amazon Ember Condensed RC Light Italic   Amazon Ember Condensed RC LtItalic   Amazon Ember Condensed RC Regular   Amazon Ember Condensed RC Regular Italic   Amazon Ember Condensed RC Regular,Noto Sans Regular   Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular   Amazon Ember Condensed RC RgItalic   Amazon Ember Condensed RC ThItalic   Amazon Ember Condensed RC Thin   Amazon Ember Condensed RC Thin Italic   Amazon Ember Heavy   Amazon Ember Heavy Italic   Amazon Ember Light   Amazon Ember Light Italic   Amazon Ember Medium   Amazon Ember Medium Italic   Amazon Ember Medium,Noto Sans Medium   Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium   Amazon Ember Regular   Amazon Ember Regular Italic   Amazon Ember Regular Italic,Noto Sans Italic   Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular   Amazon Ember Regular,Noto Sans Regular   Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular   Amazon Ember Thin   Amazon Ember Thin Italic   AmazonEmberCdRC_Bd   AmazonEmberCdRC_BdIt   AmazonEmberCdRC_Lt   AmazonEmberCdRC_LtIt   AmazonEmberCdRC_Rg   AmazonEmberCdRC_RgIt   AmazonEmberCdRC_Th   AmazonEmberCdRC_ThIt   AmazonEmber_Bd   AmazonEmber_BdIt   AmazonEmber_He   AmazonEmber_HeIt   AmazonEmber_Lt   AmazonEmber_LtIt   AmazonEmber_Md   AmazonEmber_MdIt   AmazonEmber_Rg   AmazonEmber_RgIt   AmazonEmber_Th   AmazonEmber_ThIt   Noto Sans Black   Noto Sans Black Italic   Noto Sans Bold   Noto Sans Bold Italic   Noto Sans Extra Bold   Noto Sans Extra Bold Italic   Noto Sans Extra Light   Noto Sans Extra Light Italic   Noto Sans Italic   Noto Sans Light   Noto Sans Light Italic   Noto Sans Medium   Noto Sans Medium Italic   Noto Sans Regular   Noto Sans Semi Bold   Noto Sans Semi Bold Italic   Noto Sans Thin   Noto Sans Thin Italic   NotoSans-Bold   NotoSans-Italic   NotoSans-Medium   NotoSans-Regular   Open Sans Regular,Arial Unicode MS Regular
         public let fontStack: String
-        /// A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256.  Example: 0-255.pdf
+        /// A Unicode range of characters to download glyphs for. This must be aligned to multiples of 256.  Example: 0-255.pbf
         public let fontUnicodeRange: String
 
         @inlinable
@@ -203,11 +236,11 @@ extension GeoMaps {
     }
 
     public struct GetStaticMapRequest: AWSEncodableShape {
-        /// Takes in two or more pair of coordinates, [Lon, Lat], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates.   Cannot be used with Zoom and or Radius   Example: 97.170451,78.039098,99.045536,27.176178
+        /// Takes in two or more pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], with each coordinate separated by a comma. The API will generate an image to encompass all of the provided coordinates.   Cannot be used with Zoom and or Radius   Example: 97.170451,78.039098,99.045536,27.176178
         public let boundedPositions: String?
-        /// Takes in two pairs of coordinates, [Lon, Lat], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image.  Example: -123.17075,49.26959,-123.08125,49.31429
+        /// Takes in two pairs of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], denoting south-westerly and north-easterly edges of the image. The underlying area becomes the view of the image.  Example: -123.17075,49.26959,-123.08125,49.31429
         public let boundingBox: String?
-        /// Takes in a pair of coordinates, [Lon, Lat], which becomes the center point of the image. This parameter requires that either zoom or radius is set.  Cannot be used with Zoom and or Radius   Example: 49.295,-123.108
+        /// Takes in a pair of coordinates in World Geodetic System (WGS 84) format: [longitude, latitude], which becomes the center point of the image. This parameter requires that either zoom or radius is set.  Cannot be used with Zoom and or Radius   Example: 49.295,-123.108
         public let center: String?
         /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme?
@@ -294,8 +327,10 @@ extension GeoMaps {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, max: 7000)
             try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, min: 7)
             try self.validate(self.boundedPositions, name: "boundedPositions", parent: name, pattern: "^(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?)(,(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?))*$")
+            try self.validate(self.boundingBox, name: "boundingBox", parent: name, max: 7000)
             try self.validate(self.boundingBox, name: "boundingBox", parent: name, min: 7)
             try self.validate(self.boundingBox, name: "boundingBox", parent: name, pattern: "^(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?)(,(-?\\d{1,3}(\\.\\d{1,14})?,-?\\d{1,2}(\\.\\d{1,14})?))*$")
             try self.validate(self.center, name: "center", parent: name, max: 36)
@@ -356,28 +391,44 @@ extension GeoMaps {
     public struct GetStyleDescriptorRequest: AWSEncodableShape {
         /// Sets color tone for map such as dark and light for specific map styles. It applies to only vector map styles such as Standard and Monochrome. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
         public let colorScheme: ColorScheme?
+        /// Displays the shape and steepness of terrain features using elevation lines. The density value controls how densely the available contour line information is rendered on the map. This parameter is valid only for the Standard map style.
+        public let contourDensity: ContourDensity?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
         /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
         /// Style specifies the desired map style.
         public let style: MapStyle
+        /// Adjusts how physical terrain details are rendered on the map. The following terrain styles are currently supported:    Hillshade: Displays the physical terrain details through shading and highlighting of elevation change and geographic features.   This parameter is valid only for the Standard map style.
+        public let terrain: Terrain?
+        /// Displays real-time traffic information overlay on map, such as incident events and flow events. This parameter is valid only for the Standard map style.
+        public let traffic: Traffic?
+        /// Renders additional map information relevant to selected travel modes. Information for multiple travel modes can be displayed simultaneously, although this increases the overall information density rendered on the map. This parameter is valid only for the Standard map style.
+        public let travelModes: [TravelMode]?
 
         @inlinable
-        public init(colorScheme: ColorScheme? = nil, key: String? = nil, politicalView: String? = nil, style: MapStyle) {
+        public init(colorScheme: ColorScheme? = nil, contourDensity: ContourDensity? = nil, key: String? = nil, politicalView: String? = nil, style: MapStyle, terrain: Terrain? = nil, traffic: Traffic? = nil, travelModes: [TravelMode]? = nil) {
             self.colorScheme = colorScheme
+            self.contourDensity = contourDensity
             self.key = key
             self.politicalView = politicalView
             self.style = style
+            self.terrain = terrain
+            self.traffic = traffic
+            self.travelModes = travelModes
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.colorScheme, key: "color-scheme")
+            request.encodeQuery(self.contourDensity, key: "contour-density")
             request.encodeQuery(self.key, key: "key")
             request.encodeQuery(self.politicalView, key: "political-view")
             request.encodePath(self.style, key: "Style")
+            request.encodeQuery(self.terrain, key: "terrain")
+            request.encodeQuery(self.traffic, key: "traffic")
+            request.encodeQuery(self.travelModes, key: "travel-modes")
         }
 
         public func validate(name: String) throws {
@@ -385,6 +436,7 @@ extension GeoMaps {
             try self.validate(self.politicalView, name: "politicalView", parent: name, max: 3)
             try self.validate(self.politicalView, name: "politicalView", parent: name, min: 2)
             try self.validate(self.politicalView, name: "politicalView", parent: name, pattern: "^([A-Z]{2}|[A-Z]{3})$")
+            try self.validate(self.travelModes, name: "travelModes", parent: name, max: 2)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -422,6 +474,8 @@ extension GeoMaps {
     }
 
     public struct GetTileRequest: AWSEncodableShape {
+        /// A list of optional additional parameters such as map styles that can be requested for each result.
+        public let additionalFeatures: [TileAdditionalFeature]?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
         /// Specifies the desired tile set. Valid Values: raster.satellite | vector.basemap
@@ -434,7 +488,8 @@ extension GeoMaps {
         public let z: String
 
         @inlinable
-        public init(key: String? = nil, tileset: String, x: String, y: String, z: String) {
+        public init(additionalFeatures: [TileAdditionalFeature]? = nil, key: String? = nil, tileset: String, x: String, y: String, z: String) {
+            self.additionalFeatures = additionalFeatures
             self.key = key
             self.tileset = tileset
             self.x = x
@@ -445,6 +500,7 @@ extension GeoMaps {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.additionalFeatures, key: "additional-features")
             request.encodeQuery(self.key, key: "key")
             request.encodePath(self.tileset, key: "Tileset")
             request.encodePath(self.x, key: "X")
@@ -453,6 +509,7 @@ extension GeoMaps {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.tileset, name: "tileset", parent: name, max: 100)
             try self.validate(self.tileset, name: "tileset", parent: name, min: 1)

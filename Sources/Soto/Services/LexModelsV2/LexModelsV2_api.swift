@@ -23,6 +23,8 @@ import Foundation
 @_exported import SotoCore
 
 /// Service object for interacting with AWS LexModelsV2 service.
+///
+/// Amazon Lex Model Building Service provides APIs for creating, managing, and deploying conversational bots and their components.
 public struct LexModelsV2: AWSService {
     // MARK: Member variables
 
@@ -354,6 +356,9 @@ public struct LexModelsV2: AWSService {
     ///   - generativeAISettings: 
     ///   - localeId: The identifier of the language and locale that the bot will be used in. The string must match one of the supported locales. All of the intents, slot types, and slots used in the bot must have the same locale. For more information, see Supported languages.
     ///   - nluIntentConfidenceThreshold: Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
+    ///   - speechDetectionSensitivity: The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+    ///   - speechRecognitionSettings: Speech-to-text settings to configure for the new bot locale.
+    ///   - unifiedSpeechSettings: Unified speech settings to configure for the new bot locale.
     ///   - voiceSettings: The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -364,6 +369,9 @@ public struct LexModelsV2: AWSService {
         generativeAISettings: GenerativeAISettings? = nil,
         localeId: String,
         nluIntentConfidenceThreshold: Double,
+        speechDetectionSensitivity: SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: UnifiedSpeechSettings? = nil,
         voiceSettings: VoiceSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBotLocaleResponse {
@@ -374,6 +382,9 @@ public struct LexModelsV2: AWSService {
             generativeAISettings: generativeAISettings, 
             localeId: localeId, 
             nluIntentConfidenceThreshold: nluIntentConfidenceThreshold, 
+            speechDetectionSensitivity: speechDetectionSensitivity, 
+            speechRecognitionSettings: speechRecognitionSettings, 
+            unifiedSpeechSettings: unifiedSpeechSettings, 
             voiceSettings: voiceSettings
         )
         return try await self.createBotLocale(input, logger: logger)
@@ -506,6 +517,7 @@ public struct LexModelsV2: AWSService {
     ///   - inputContexts: A list of contexts that must be active for this intent to be considered by Amazon Lex. When an intent has an input context list, Amazon Lex only considers using the intent in an interaction with the user when the specified contexts are included in the active context list for the session. If the contexts are not active, then Amazon Lex will not use the intent. A context can be automatically activated using the outputContexts property or it can be set at runtime. For example, if there are two intents with different input contexts that respond to the same utterances, only the intent with the active context will respond. An intent may have up to 5 input contexts. If an intent has multiple input contexts, all of the contexts must be active to consider the intent.
     ///   - intentClosingSetting: Sets the response that Amazon Lex sends to the user when the intent is closed.
     ///   - intentConfirmationSetting: Provides prompts that Amazon Lex sends to the user to confirm the completion of an intent. If the user answers "no," the settings contain a statement that is sent to the user to end the intent.
+    ///   - intentDisplayName: A display name for the intent. If configured, This name will be shown to users during Intent Disambiguation instead of the intent name. Display names should be user-friendly, descriptive and match the intent's purpose to improve user experience during disambiguation.
     ///   - intentName: The name of the intent. Intent names must be unique in the locale that contains the intent and cannot match the name of any built-in intent.
     ///   - kendraConfiguration: Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. The AMAZON.KendraSearchIntent intent is called when Amazon Lex can't determine another intent to invoke.
     ///   - localeId: The identifier of the language and locale where this intent is used. All of the bots, slot types, and slots used by the intent must have the same locale. For more information, see Supported languages.
@@ -526,6 +538,7 @@ public struct LexModelsV2: AWSService {
         inputContexts: [InputContext]? = nil,
         intentClosingSetting: IntentClosingSetting? = nil,
         intentConfirmationSetting: IntentConfirmationSetting? = nil,
+        intentDisplayName: String? = nil,
         intentName: String,
         kendraConfiguration: KendraConfiguration? = nil,
         localeId: String,
@@ -546,6 +559,7 @@ public struct LexModelsV2: AWSService {
             inputContexts: inputContexts, 
             intentClosingSetting: intentClosingSetting, 
             intentConfirmationSetting: intentConfirmationSetting, 
+            intentDisplayName: intentDisplayName, 
             intentName: intentName, 
             kendraConfiguration: kendraConfiguration, 
             localeId: localeId, 
@@ -3779,6 +3793,9 @@ public struct LexModelsV2: AWSService {
     ///   - generativeAISettings: Contains settings for generative AI features powered by Amazon Bedrock for your bot locale. Use this object to turn generative AI features on and off. Pricing  may differ if you turn a feature on. For more information, see LINK.
     ///   - localeId: The identifier of the language and locale to update. The string must match one of the supported locales. For more information, see Supported languages.
     ///   - nluIntentConfidenceThreshold: The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
+    ///   - speechDetectionSensitivity: The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+    ///   - speechRecognitionSettings: Updated speech-to-text settings to apply to the bot locale.
+    ///   - unifiedSpeechSettings: Updated unified speech settings to apply to the bot locale.
     ///   - voiceSettings: The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3789,6 +3806,9 @@ public struct LexModelsV2: AWSService {
         generativeAISettings: GenerativeAISettings? = nil,
         localeId: String,
         nluIntentConfidenceThreshold: Double,
+        speechDetectionSensitivity: SpeechDetectionSensitivity? = nil,
+        speechRecognitionSettings: SpeechRecognitionSettings? = nil,
+        unifiedSpeechSettings: UnifiedSpeechSettings? = nil,
         voiceSettings: VoiceSettings? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateBotLocaleResponse {
@@ -3799,6 +3819,9 @@ public struct LexModelsV2: AWSService {
             generativeAISettings: generativeAISettings, 
             localeId: localeId, 
             nluIntentConfidenceThreshold: nluIntentConfidenceThreshold, 
+            speechDetectionSensitivity: speechDetectionSensitivity, 
+            speechRecognitionSettings: speechRecognitionSettings, 
+            unifiedSpeechSettings: unifiedSpeechSettings, 
             voiceSettings: voiceSettings
         )
         return try await self.updateBotLocale(input, logger: logger)
@@ -3902,6 +3925,7 @@ public struct LexModelsV2: AWSService {
     ///   - inputContexts: A new list of contexts that must be active in order for Amazon Lex to consider the intent.
     ///   - intentClosingSetting: The new response that Amazon Lex sends the user when the intent is closed.
     ///   - intentConfirmationSetting: New prompts that Amazon Lex sends to the user to confirm the completion of an intent.
+    ///   - intentDisplayName: The new display name for the intent.
     ///   - intentId: The unique identifier of the intent to update.
     ///   - intentName: The new name for the intent.
     ///   - kendraConfiguration: New configuration settings for connecting to an Amazon Kendra index.
@@ -3924,6 +3948,7 @@ public struct LexModelsV2: AWSService {
         inputContexts: [InputContext]? = nil,
         intentClosingSetting: IntentClosingSetting? = nil,
         intentConfirmationSetting: IntentConfirmationSetting? = nil,
+        intentDisplayName: String? = nil,
         intentId: String,
         intentName: String,
         kendraConfiguration: KendraConfiguration? = nil,
@@ -3946,6 +3971,7 @@ public struct LexModelsV2: AWSService {
             inputContexts: inputContexts, 
             intentClosingSetting: intentClosingSetting, 
             intentConfirmationSetting: intentConfirmationSetting, 
+            intentDisplayName: intentDisplayName, 
             intentId: intentId, 
             intentName: intentName, 
             kendraConfiguration: kendraConfiguration, 

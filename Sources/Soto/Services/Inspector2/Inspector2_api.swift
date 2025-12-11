@@ -1352,7 +1352,7 @@ public struct Inspector2: AWSService {
         return try await self.getSbomExport(input, logger: logger)
     }
 
-    /// Lists the permissions an account has to configure Amazon Inspector.
+    ///  Lists the permissions an account has to configure Amazon Inspector.  If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
     @Sendable
     @inlinable
     public func listAccountPermissions(_ input: ListAccountPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountPermissionsResponse {
@@ -1365,7 +1365,7 @@ public struct Inspector2: AWSService {
             logger: logger
         )
     }
-    /// Lists the permissions an account has to configure Amazon Inspector.
+    ///  Lists the permissions an account has to configure Amazon Inspector.  If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results the response can return. If your request would return more than the maximum the response will return a nextToken value, use this value when you call the action again to get the remaining results.

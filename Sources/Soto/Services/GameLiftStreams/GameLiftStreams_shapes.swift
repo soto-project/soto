@@ -84,6 +84,7 @@ extension GameLiftStreams {
         case activeWithErrors = "ACTIVE_WITH_ERRORS"
         case deleting = "DELETING"
         case error = "ERROR"
+        case expired = "EXPIRED"
         case updatingLocations = "UPDATING_LOCATIONS"
         public var description: String { return self.rawValue }
     }
@@ -107,10 +108,16 @@ extension GameLiftStreams {
     }
 
     public enum StreamSessionStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiTerminated = "apiTerminated"
         case appLogS3DestinationError = "applicationLogS3DestinationError"
+        case applicationExit = "applicationExit"
+        case connectionTimeout = "connectionTimeout"
+        case idleTimeout = "idleTimeout"
         case internalError = "internalError"
         case invalidSignalRequest = "invalidSignalRequest"
+        case maxSessionLengthTimeout = "maxSessionLengthTimeout"
         case placementTimeout = "placementTimeout"
+        case reconnectionTimeout = "reconnectionTimeout"
         public var description: String { return self.rawValue }
     }
 
@@ -187,7 +194,7 @@ extension GameLiftStreams {
         public let lastUpdatedAt: Date?
         ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
-        /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
+        /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. For more information about the error, call GetApplication and refer to StatusReason.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
 
         @inlinable
@@ -278,7 +285,7 @@ extension GameLiftStreams {
         public let clientToken: String?
         /// A human-readable label for the application. You can update this value later.
         public let description: String
-        /// The path and file name of the executable file that launches the content for streaming. Enter a path value that is relative to the location set in ApplicationSourceUri.
+        /// The relative path and file name of the executable file that Amazon GameLift Streams will stream. Specify a path relative to the location set in ApplicationSourceUri. The file must be contained within the application's root folder. For Windows applications, the file must be a valid Windows executable or batch file with a filename ending in .exe, .cmd, or .bat. For Linux applications, the file must be a valid Linux binary executable or a script that contains an initial interpreter line starting with a shebang ('#!').
         public let executablePath: String
         /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 9.0-2 (Type=PROTON, Version=20250516)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment
@@ -351,7 +358,7 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the application. You can edit this value.
         public let description: String?
-        /// The path and file name of the executable file that launches the content for streaming.
+        /// The relative path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
         /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
         public let id: String?
@@ -471,13 +478,15 @@ extension GameLiftStreams {
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public let expiresAt: Date?
         /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// This value is the set of locations, including their name, current status, and capacities.  A location can be in one of the following states:    ACTIVATING: Amazon GameLift Streams is preparing the location. You cannot stream from, scale the capacity of, or remove this location yet.    ACTIVE: The location is provisioned with initial capacity. You can now stream from, scale the capacity of, or remove this location.    ERROR: Amazon GameLift Streams failed to set up this location. The StatusReason field describes the error. You can remove this location and try to add it again.    REMOVING: Amazon GameLift Streams is working to remove this location. This will release all provisioned capacity for this location in this stream group.
         public let locationStates: [LocationState]?
-        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     ERROR: An error occurred when the stream group deployed. See StatusReason for more information.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
+        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.     EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
@@ -485,12 +494,13 @@ extension GameLiftStreams {
         public let streamClass: StreamClass?
 
         @inlinable
-        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
+        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, expiresAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
             self.arn = arn
             self.associatedApplications = associatedApplications
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.locationStates = locationStates
@@ -505,6 +515,7 @@ extension GameLiftStreams {
             case createdAt = "CreatedAt"
             case defaultApplication = "DefaultApplication"
             case description = "Description"
+            case expiresAt = "ExpiresAt"
             case id = "Id"
             case lastUpdatedAt = "LastUpdatedAt"
             case locationStates = "LocationStates"
@@ -799,7 +810,7 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the application. You can edit this value.
         public let description: String?
-        /// The path and file name of the executable file that launches the content for streaming.
+        /// The relative path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
         /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
         public let id: String?
@@ -885,13 +896,15 @@ extension GameLiftStreams {
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public let expiresAt: Date?
         /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// This value is the set of locations, including their name, current status, and capacities.  A location can be in one of the following states:    ACTIVATING: Amazon GameLift Streams is preparing the location. You cannot stream from, scale the capacity of, or remove this location yet.    ACTIVE: The location is provisioned with initial capacity. You can now stream from, scale the capacity of, or remove this location.    ERROR: Amazon GameLift Streams failed to set up this location. The StatusReason field describes the error. You can remove this location and try to add it again.    REMOVING: Amazon GameLift Streams is working to remove this location. This will release all provisioned capacity for this location in this stream group.
         public let locationStates: [LocationState]?
-        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     ERROR: An error occurred when the stream group deployed. See StatusReason for more information.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
+        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.     EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
@@ -899,12 +912,13 @@ extension GameLiftStreams {
         public let streamClass: StreamClass?
 
         @inlinable
-        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
+        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, expiresAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
             self.arn = arn
             self.associatedApplications = associatedApplications
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.locationStates = locationStates
@@ -919,6 +933,7 @@ extension GameLiftStreams {
             case createdAt = "CreatedAt"
             case defaultApplication = "DefaultApplication"
             case description = "Description"
+            case expiresAt = "ExpiresAt"
             case id = "Id"
             case lastUpdatedAt = "LastUpdatedAt"
             case locationStates = "LocationStates"
@@ -990,9 +1005,9 @@ extension GameLiftStreams {
         public let signalRequest: String?
         /// The WebRTC answer string that the stream server generates in response to the SignalRequest.
         public let signalResponse: String?
-        /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
+        /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
-        /// A short description of the reason the stream session is in ERROR status.
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
@@ -1291,7 +1306,7 @@ extension GameLiftStreams {
     }
 
     public struct LocationConfiguration: AWSEncodableShape {
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 (2 for high stream classes) when creating a stream group or adding a location.
         public let alwaysOnCapacity: Int?
         ///  A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
         public let locationName: String
@@ -1321,17 +1336,17 @@ extension GameLiftStreams {
     }
 
     public struct LocationState: AWSDecodableShape {
-        /// This value is the number of compute resources that a stream group has provisioned and is ready to stream. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests.
+        /// This value is the stream capacity that Amazon GameLift Streams has provisioned in a stream group that can respond immediately to stream requests. It includes resources that are currently streaming and resources that are idle and ready to respond to stream requests. You pay for this capacity whether it's in use or not. After making changes to capacity, it can take a few minutes for the allocated capacity count to reflect the change while compute resources are allocated or deallocated. Similarly, when allocated on-demand capacity is no longer needed, it can take a few minutes for Amazon GameLift Streams to spin down the allocated capacity.
         public let allocatedCapacity: Int?
-        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 when creating a stream group or adding a location.
+        /// The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session. Default is 1 (2 for high stream classes) when creating a stream group or adding a location.
         public let alwaysOnCapacity: Int?
-        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's availability to respond to new stream requests, but not including on-demand capacity.
+        /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's ability to respond immediately to new stream requests with near-instant startup time.
         public let idleCapacity: Int?
         ///  A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions, quotas, and limitations in the Amazon GameLift Streams Developer Guide.
         public let locationName: String?
         /// The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes). Default is 0 when creating a stream group or adding a location.
         public let onDemandCapacity: Int?
-        /// This value is the total number of compute resources that you request for a stream group. This includes resources that Amazon GameLift Streams has either already provisioned or is working to provision. You request capacity for each location in a stream group.
+        /// This value is the always-on capacity that you most recently requested for a stream group. You request capacity separately for each location in a stream group. In response to an increase in requested capacity, Amazon GameLift Streams attempts to provision compute resources to make the stream group's allocated capacity meet requested capacity. When always-on capacity is decreased, it can take a few minutes to deprovision allocated capacity to match the requested capacity.
         public let requestedCapacity: Int?
         /// This value is set of locations, including their name, current status, and capacities.  A location can be in one of the following states:    ACTIVATING: Amazon GameLift Streams is preparing the location. You cannot stream from, scale the capacity of, or remove this location yet.    ACTIVE: The location is provisioned with initial capacity. You can now stream from, scale the capacity of, or remove this location.    ERROR: Amazon GameLift Streams failed to set up this location. The StatusReason field describes the error. You can remove this location and try to add it again.    REMOVING: Amazon GameLift Streams is working to remove this location. This will release all provisioned capacity for this location in this stream group.
         public let status: StreamGroupLocationStatus?
@@ -1564,9 +1579,9 @@ extension GameLiftStreams {
         public let signalRequest: String?
         /// The WebRTC answer string that the stream server generates in response to the SignalRequest.
         public let signalResponse: String?
-        /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
+        /// The current status of the stream session. A stream session is ready for a client to connect when in ACTIVE status.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
-        /// A short description of the reason the stream session is in ERROR status.
+        /// A short description of the reason the stream session is in ERROR status or TERMINATED status.  ERROR status reasons:    applicationLogS3DestinationError: Could not write the application log to the Amazon S3 bucket that is configured for the streaming application. Make sure the bucket still exists.    internalError: An internal service error occurred. Start a new stream session to continue streaming.    invalidSignalRequest: The WebRTC signal request that was sent is not valid. When starting or reconnecting to a stream session, use generateSignalRequest in the Amazon GameLift Streams Web SDK to generate a new signal request.    placementTimeout: Amazon GameLift Streams could not find available stream capacity to start a stream session. Increase the stream capacity in the stream group or wait until capacity becomes available.    TERMINATED status reasons:    apiTerminated: The stream session was terminated by an API call to TerminateStreamSession.    applicationExit: The streaming application exited or crashed. The stream session was terminated because the application is no longer running.    connectionTimeout: The stream session was terminated because the client failed to connect within the connection timeout period specified by ConnectionTimeoutSeconds.    idleTimeout: The stream session was terminated because it exceeded the idle timeout period of 60 minutes with no user input activity.    maxSessionLengthTimeout: The stream session was terminated because it exceeded the maximum session length timeout period specified by SessionLengthSeconds.    reconnectionTimeout: The stream session was terminated because the client failed to reconnect within the reconnection timeout period specified by ConnectionTimeoutSeconds after losing connection.
         public let statusReason: StreamSessionStatusReason?
         /// The unique identifier for the Amazon GameLift Streams stream group that is hosting the stream session. Format example: sg-1AB2C3De4.
         public let streamGroupId: String?
@@ -1632,21 +1647,24 @@ extension GameLiftStreams {
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public let expiresAt: Date?
         /// An ID that uniquely identifies the stream group resource. Example ID: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
-        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     ERROR: An error occurred when the stream group deployed. See StatusReason for more information.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
+        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.     EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
         /// The target stream quality for the stream group.  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
-        public init(arn: String, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, status: StreamGroupStatus? = nil, streamClass: StreamClass? = nil) {
+        public init(arn: String, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, expiresAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, status: StreamGroupStatus? = nil, streamClass: StreamClass? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.status = status
@@ -1658,6 +1676,7 @@ extension GameLiftStreams {
             case createdAt = "CreatedAt"
             case defaultApplication = "DefaultApplication"
             case description = "Description"
+            case expiresAt = "ExpiresAt"
             case id = "Id"
             case lastUpdatedAt = "LastUpdatedAt"
             case status = "Status"
@@ -1680,7 +1699,7 @@ extension GameLiftStreams {
         public let location: String?
         /// The data transfer protocol in use with the stream session.
         public let `protocol`: `Protocol`?
-        /// The current status of the stream session resource.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
+        /// The current status of the stream session resource.    ACTIVATING: The stream session is starting and preparing to stream.    ACTIVE: The stream session is ready and waiting for a client connection. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches ACTIVE state to establish a connection. If no client connects within this timeframe, the session automatically terminates.    CONNECTED: The stream session has a connected client. A session will automatically terminate if there is no user input for 60 minutes, or if the maximum length of a session specified by SessionLengthSeconds in StartStreamSession is exceeded.    ERROR: The stream session failed to activate. See StatusReason (returned by GetStreamSession and StartStreamSession) for more information.    PENDING_CLIENT_RECONNECTION: A client has recently disconnected and the stream session is waiting for the client to reconnect. A client has ConnectionTimeoutSeconds (specified in StartStreamSession) from when the session reaches PENDING_CLIENT_RECONNECTION state to re-establish a connection. If no client connects within this timeframe, the session automatically terminates.    RECONNECTING: A client has initiated a reconnect to a session that was in PENDING_CLIENT_RECONNECTION state.    TERMINATING: The stream session is ending.    TERMINATED: The stream session has ended.
         public let status: StreamSessionStatus?
         ///  An opaque, unique identifier for an end-user, defined by the developer.
         public let userId: String?
@@ -1884,7 +1903,7 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the application. You can edit this value.
         public let description: String?
-        /// The path and file name of the executable file that launches the content for streaming.
+        /// The relative path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
         /// A unique ID value that is assigned to the resource when it's created. Format example: a-9ZY8X7Wv6.
         public let id: String?
@@ -1997,13 +2016,15 @@ extension GameLiftStreams {
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
+        /// The time at which this stream group expires. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC). After this time, you will no longer be able to update this stream group or use it to start stream sessions. Only Get and Delete operations will work on an expired stream group.
+        public let expiresAt: Date?
         /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// This value is set of locations, including their name, current status, and capacities.  A location can be in one of the following states:    ACTIVATING: Amazon GameLift Streams is preparing the location. You cannot stream from, scale the capacity of, or remove this location yet.    ACTIVE: The location is provisioned with initial capacity. You can now stream from, scale the capacity of, or remove this location.    ERROR: Amazon GameLift Streams failed to set up this location. The StatusReason field describes the error. You can remove this location and try to add it again.    REMOVING: Amazon GameLift Streams is working to remove this location. This will release all provisioned capacity for this location in this stream group.
         public let locationStates: [LocationState]?
-        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     ERROR: An error occurred when the stream group deployed. See StatusReason for more information.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
+        /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.     ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     ERROR: An error occurred when the stream group deployed. See StatusReason (returned by CreateStreamGroup, GetStreamGroup, and UpdateStreamGroup) for more information.     EXPIRED: The stream group is expired and can no longer host streams. This typically occurs when a stream group is 365 days old, as indicated by the value of ExpiresAt. Create a new stream group to resume streaming capabilities.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now because of an issue with the server. Try again later.    noAvailableInstances: Amazon GameLift Streams does not currently have enough available on-demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
@@ -2011,12 +2032,13 @@ extension GameLiftStreams {
         public let streamClass: StreamClass?
 
         @inlinable
-        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
+        public init(arn: String, associatedApplications: [String]? = nil, createdAt: Date? = nil, defaultApplication: DefaultApplication? = nil, description: String? = nil, expiresAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, locationStates: [LocationState]? = nil, status: StreamGroupStatus? = nil, statusReason: StreamGroupStatusReason? = nil, streamClass: StreamClass? = nil) {
             self.arn = arn
             self.associatedApplications = associatedApplications
             self.createdAt = createdAt
             self.defaultApplication = defaultApplication
             self.description = description
+            self.expiresAt = expiresAt
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.locationStates = locationStates
@@ -2031,6 +2053,7 @@ extension GameLiftStreams {
             case createdAt = "CreatedAt"
             case defaultApplication = "DefaultApplication"
             case description = "Description"
+            case expiresAt = "ExpiresAt"
             case id = "Id"
             case lastUpdatedAt = "LastUpdatedAt"
             case locationStates = "LocationStates"

@@ -37,14 +37,21 @@ extension EC2 {
     public enum AcceleratorName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case a100 = "a100"
         case a10g = "a10g"
+        case gaudiHl205 = "gaudi-hl-205"
         case h100 = "h100"
         case inferentia = "inferentia"
+        case inferentia2 = "inferentia2"
         case k520 = "k520"
         case k80 = "k80"
+        case l4 = "l4"
+        case l40s = "l40s"
         case m60 = "m60"
         case radeonProV520 = "radeon-pro-v520"
         case t4 = "t4"
         case t4g = "t4g"
+        case trainium = "trainium"
+        case trainium2 = "trainium2"
+        case u30 = "u30"
         case v100 = "v100"
         case vu9p = "vu9p"
         public var description: String { return self.rawValue }
@@ -54,6 +61,7 @@ extension EC2 {
         case fpga = "fpga"
         case gpu = "gpu"
         case inference = "inference"
+        case media = "media"
         public var description: String { return self.rawValue }
     }
 
@@ -245,6 +253,24 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoProvisionZonesState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AutoScalingIpsState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AvailabilityMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case regional = "regional"
+        case zonal = "zonal"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case notOptedIn = "not-opted-in"
         case optInNotRequired = "opt-in-not-required"
@@ -335,8 +361,10 @@ extension EC2 {
         case deprovisioned = "deprovisioned"
         case failedDeprovision = "failed-deprovision"
         case failedProvision = "failed-provision"
+        case pendingAdvertising = "pending-advertising"
         case pendingDeprovision = "pending-deprovision"
         case pendingProvision = "pending-provision"
+        case pendingWithdrawal = "pending-withdrawal"
         case provisioned = "provisioned"
         case provisionedNotPubliclyAdvertisable = "provisioned-not-publicly-advertisable"
         public var description: String { return self.rawValue }
@@ -792,6 +820,20 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionStateValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EncryptionSupportOptionValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndDateType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case limited = "limited"
         case unlimited = "unlimited"
@@ -976,6 +1018,7 @@ extension EC2 {
 
     public enum FlowLogsResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case networkInterface = "NetworkInterface"
+        case regionalNatGateway = "RegionalNatGateway"
         case subnet = "Subnet"
         case transitGateway = "TransitGateway"
         case transitGatewayAttachment = "TransitGatewayAttachment"
@@ -1030,6 +1073,14 @@ extension EC2 {
         case reservationUnusedFinancialOwner = "reservation-unused-financial-owner"
         case resourceRegion = "resource-region"
         case tenancy = "tenancy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum HaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case invalid = "invalid"
+        case processing = "processing"
+        case standby = "standby"
         public var description: String { return self.rawValue }
     }
 
@@ -1238,6 +1289,7 @@ extension EC2 {
 
     public enum InstanceLifecycleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityBlock = "capacity-block"
+        case interruptibleCapacityReservation = "interruptible-capacity-reservation"
         case scheduled = "scheduled"
         case spot = "spot"
         public var description: String { return self.rawValue }
@@ -1485,6 +1537,18 @@ extension EC2 {
         public static var c7iMetal24Xl: Self { .init(rawValue: "c7i.metal-24xl") }
         public static var c7iMetal48Xl: Self { .init(rawValue: "c7i.metal-48xl") }
         public static var c7iXlarge: Self { .init(rawValue: "c7i.xlarge") }
+        public static var c8a12Xlarge: Self { .init(rawValue: "c8a.12xlarge") }
+        public static var c8a16Xlarge: Self { .init(rawValue: "c8a.16xlarge") }
+        public static var c8a24Xlarge: Self { .init(rawValue: "c8a.24xlarge") }
+        public static var c8a2Xlarge: Self { .init(rawValue: "c8a.2xlarge") }
+        public static var c8a48Xlarge: Self { .init(rawValue: "c8a.48xlarge") }
+        public static var c8a4Xlarge: Self { .init(rawValue: "c8a.4xlarge") }
+        public static var c8a8Xlarge: Self { .init(rawValue: "c8a.8xlarge") }
+        public static var c8aLarge: Self { .init(rawValue: "c8a.large") }
+        public static var c8aMedium: Self { .init(rawValue: "c8a.medium") }
+        public static var c8aMetal24Xl: Self { .init(rawValue: "c8a.metal-24xl") }
+        public static var c8aMetal48Xl: Self { .init(rawValue: "c8a.metal-48xl") }
+        public static var c8aXlarge: Self { .init(rawValue: "c8a.xlarge") }
         public static var c8g12Xlarge: Self { .init(rawValue: "c8g.12xlarge") }
         public static var c8g16Xlarge: Self { .init(rawValue: "c8g.16xlarge") }
         public static var c8g24Xlarge: Self { .init(rawValue: "c8g.24xlarge") }
@@ -2005,6 +2069,7 @@ extension EC2 {
         public static var p5e48Xlarge: Self { .init(rawValue: "p5e.48xlarge") }
         public static var p5en48Xlarge: Self { .init(rawValue: "p5en.48xlarge") }
         public static var p6B20048Xlarge: Self { .init(rawValue: "p6-b200.48xlarge") }
+        public static var p6B30048Xlarge: Self { .init(rawValue: "p6-b300.48xlarge") }
         public static var p6eGb20036Xlarge: Self { .init(rawValue: "p6e-gb200.36xlarge") }
         public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
         public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
@@ -2198,6 +2263,18 @@ extension EC2 {
         public static var r7izMetal16Xl: Self { .init(rawValue: "r7iz.metal-16xl") }
         public static var r7izMetal32Xl: Self { .init(rawValue: "r7iz.metal-32xl") }
         public static var r7izXlarge: Self { .init(rawValue: "r7iz.xlarge") }
+        public static var r8a12Xlarge: Self { .init(rawValue: "r8a.12xlarge") }
+        public static var r8a16Xlarge: Self { .init(rawValue: "r8a.16xlarge") }
+        public static var r8a24Xlarge: Self { .init(rawValue: "r8a.24xlarge") }
+        public static var r8a2Xlarge: Self { .init(rawValue: "r8a.2xlarge") }
+        public static var r8a48Xlarge: Self { .init(rawValue: "r8a.48xlarge") }
+        public static var r8a4Xlarge: Self { .init(rawValue: "r8a.4xlarge") }
+        public static var r8a8Xlarge: Self { .init(rawValue: "r8a.8xlarge") }
+        public static var r8aLarge: Self { .init(rawValue: "r8a.large") }
+        public static var r8aMedium: Self { .init(rawValue: "r8a.medium") }
+        public static var r8aMetal24Xl: Self { .init(rawValue: "r8a.metal-24xl") }
+        public static var r8aMetal48Xl: Self { .init(rawValue: "r8a.metal-48xl") }
+        public static var r8aXlarge: Self { .init(rawValue: "r8a.xlarge") }
         public static var r8g12Xlarge: Self { .init(rawValue: "r8g.12xlarge") }
         public static var r8g16Xlarge: Self { .init(rawValue: "r8g.16xlarge") }
         public static var r8g24Xlarge: Self { .init(rawValue: "r8g.24xlarge") }
@@ -2296,6 +2373,7 @@ extension EC2 {
         public static var trn12Xlarge: Self { .init(rawValue: "trn1.2xlarge") }
         public static var trn132Xlarge: Self { .init(rawValue: "trn1.32xlarge") }
         public static var trn1n32Xlarge: Self { .init(rawValue: "trn1n.32xlarge") }
+        public static var trn23Xlarge: Self { .init(rawValue: "trn2.3xlarge") }
         public static var trn248Xlarge: Self { .init(rawValue: "trn2.48xlarge") }
         public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
@@ -2407,6 +2485,21 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum InterruptibleCapacityReservationAllocationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case canceled = "canceled"
+        case canceling = "canceling"
+        case failed = "failed"
+        case pending = "pending"
+        case updating = "updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InterruptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case adhoc = "adhoc"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
@@ -2487,7 +2580,38 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpamPolicyManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case account = "account"
+        case delegatedAdministratorForIpam = "delegated-administrator-for-ipam"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPolicyResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alb = "alb"
+        case eip = "eip"
+        case rds = "rds"
+        case rnat = "rnat"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPolicyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "create-complete"
+        case createFailed = "create-failed"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        case isolateComplete = "isolate-complete"
+        case isolateInProgress = "isolate-in-progress"
+        case modifyComplete = "modify-complete"
+        case modifyFailed = "modify-failed"
+        case modifyInProgress = "modify-in-progress"
+        case restoreInProgress = "restore-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamPoolAllocationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anycastIpList = "anycast-ip-list"
         case custom = "custom"
         case ec2PublicIpv4Pool = "ec2-public-ipv4-pool"
         case eip = "eip"
@@ -2499,6 +2623,7 @@ extension EC2 {
 
     public enum IpamPoolAwsService: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ec2 = "ec2"
+        case globalServices = "global-services"
         public var description: String { return self.rawValue }
     }
 
@@ -2547,6 +2672,62 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpamPrefixListResolverRuleConditionOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "equals"
+        case notEquals = "not-equals"
+        case subnetOf = "subnet-of"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPrefixListResolverRuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipamPoolCidr = "ipam-pool-cidr"
+        case ipamResourceCidr = "ipam-resource-cidr"
+        case staticCidr = "static-cidr"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPrefixListResolverState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "create-complete"
+        case createFailed = "create-failed"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        case isolateComplete = "isolate-complete"
+        case isolateInProgress = "isolate-in-progress"
+        case modifyComplete = "modify-complete"
+        case modifyFailed = "modify-failed"
+        case modifyInProgress = "modify-in-progress"
+        case restoreInProgress = "restore-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPrefixListResolverTargetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "create-complete"
+        case createFailed = "create-failed"
+        case createInProgress = "create-in-progress"
+        case deleteComplete = "delete-complete"
+        case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        case isolateComplete = "isolate-complete"
+        case isolateInProgress = "isolate-in-progress"
+        case modifyComplete = "modify-complete"
+        case modifyFailed = "modify-failed"
+        case modifyInProgress = "modify-in-progress"
+        case restoreInProgress = "restore-in-progress"
+        case syncComplete = "sync-complete"
+        case syncFailed = "sync-failed"
+        case syncInProgress = "sync-in-progress"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamPrefixListResolverVersionCreationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failure = "failure"
+        case pending = "pending"
+        case success = "success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamPublicAddressAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case associated = "associated"
         case disassociated = "disassociated"
@@ -2555,6 +2736,7 @@ extension EC2 {
 
     public enum IpamPublicAddressAwsService: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aga = "global-accelerator"
+        case cloudfront = "cloudfront"
         case dms = "database-migration-service"
         case ec2Lb = "load-balancer"
         case ecs = "elastic-container-service"
@@ -2569,6 +2751,7 @@ extension EC2 {
     public enum IpamPublicAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonOwnedContig = "amazon-owned-contig"
         case amazonOwnedEip = "amazon-owned-eip"
+        case anycastIpListIp = "anycast-ip-list-ip"
         case byoip = "byoip"
         case ec2PublicIp = "ec2-public-ip"
         case serviceManagedByoip = "service-managed-byoip"
@@ -2613,12 +2796,18 @@ extension EC2 {
     }
 
     public enum IpamResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anycastIpList = "anycast-ip-list"
         case eip = "eip"
         case eni = "eni"
         case ipv6Pool = "ipv6-pool"
         case publicIpv4Pool = "public-ipv4-pool"
         case subnet = "subnet"
         case vpc = "vpc"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpamScopeExternalAuthorityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case infoblox = "infoblox"
         public var description: String { return self.rawValue }
     }
 
@@ -2860,6 +3049,7 @@ extension EC2 {
 
     public enum MarketType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityBlock = "capacity-block"
+        case interruptibleCapacityReservation = "interruptible-capacity-reservation"
         case spot = "spot"
         public var description: String { return self.rawValue }
     }
@@ -2962,6 +3152,28 @@ extension EC2 {
         case failed = "failed"
         case succeeded = "succeeded"
         case unassigning = "unassigning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayApplianceModifyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "completed"
+        case failed = "failed"
+        case modifying = "modifying"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayApplianceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachFailed = "attach-failed"
+        case attached = "attached"
+        case attaching = "attaching"
+        case detachFailed = "detach-failed"
+        case detached = "detached"
+        case detaching = "detaching"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NatGatewayApplianceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case networkFirewallProxy = "network-firewall-proxy"
         public var description: String { return self.rawValue }
     }
 
@@ -3327,7 +3539,10 @@ extension EC2 {
         case internetGateway = "internet-gateway"
         case ipam = "ipam"
         case ipamExternalResourceVerificationToken = "ipam-external-resource-verification-token"
+        case ipamPolicy = "ipam-policy"
         case ipamPool = "ipam-pool"
+        case ipamPrefixListResolver = "ipam-prefix-list-resolver"
+        case ipamPrefixListResolverTarget = "ipam-prefix-list-resolver-target"
         case ipamResourceDiscovery = "ipam-resource-discovery"
         case ipamResourceDiscoveryAssociation = "ipam-resource-discovery-association"
         case ipamScope = "ipam-scope"
@@ -3373,6 +3588,7 @@ extension EC2 {
         case transitGateway = "transit-gateway"
         case transitGatewayAttachment = "transit-gateway-attachment"
         case transitGatewayConnectPeer = "transit-gateway-connect-peer"
+        case transitGatewayMeteringPolicy = "transit-gateway-metering-policy"
         case transitGatewayMulticastDomain = "transit-gateway-multicast-domain"
         case transitGatewayPolicyTable = "transit-gateway-policy-table"
         case transitGatewayRouteTable = "transit-gateway-route-table"
@@ -3386,6 +3602,7 @@ extension EC2 {
         case volume = "volume"
         case vpc = "vpc"
         case vpcBlockPublicAccessExclusion = "vpc-block-public-access-exclusion"
+        case vpcEncryptionControl = "vpc-encryption-control"
         case vpcEndpoint = "vpc-endpoint"
         case vpcEndpointConnection = "vpc-endpoint-connection"
         case vpcEndpointConnectionDeviceType = "vpc-endpoint-connection-device-type"
@@ -3393,6 +3610,7 @@ extension EC2 {
         case vpcEndpointServicePermission = "vpc-endpoint-service-permission"
         case vpcFlowLog = "vpc-flow-log"
         case vpcPeeringConnection = "vpc-peering-connection"
+        case vpnConcentrator = "vpn-concentrator"
         case vpnConnection = "vpn-connection"
         case vpnConnectionDeviceType = "vpn-connection-device-type"
         case vpnGateway = "vpn-gateway"
@@ -3583,6 +3801,7 @@ extension EC2 {
     public enum ServiceManaged: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alb = "alb"
         case nlb = "nlb"
+        case rds = "rds"
         case rnat = "rnat"
         public var description: String { return self.rawValue }
     }
@@ -3681,6 +3900,12 @@ extension EC2 {
     public enum SpreadLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case host = "host"
         case rack = "rack"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SqlServerLicenseUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "full"
+        case waived = "waived"
         public var description: String { return self.rawValue }
     }
 
@@ -3897,6 +4122,7 @@ extension EC2 {
         case tgwPeering = "tgw-peering"
         case vpc = "vpc"
         case vpn = "vpn"
+        case vpnConcentrator = "vpn-concentrator"
         public var description: String { return self.rawValue }
     }
 
@@ -3921,6 +4147,28 @@ extension EC2 {
         case available = "available"
         case deleted = "deleted"
         case deleting = "deleting"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayMeteringPayerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case destinationAttachmentOwner = "destination-attachment-owner"
+        case sourceAttachmentOwner = "source-attachment-owner"
+        case transitGatewayOwner = "transit-gateway-owner"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayMeteringPolicyEntryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransitGatewayMeteringPolicyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case modifying = "modifying"
         case pending = "pending"
         public var description: String { return self.rawValue }
     }
@@ -4221,6 +4469,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpcEncryptionControlExclusionStateInput: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VpcEncryptionControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enforce = "enforce"
         case monitor = "monitor"
@@ -4273,6 +4527,11 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VpnConcentratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipsec1 = "ipsec.1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disable = "disable"
         case enable = "enable"
@@ -4294,6 +4553,12 @@ extension EC2 {
 
     public enum VpnStaticRouteSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "Static"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpnTunnelBandwidth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large = "large"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -6353,6 +6618,10 @@ extension EC2 {
         /// The allocation IDs of EIPs that you want to associate with your NAT gateway.
         @OptionalCustomCoding<EC2ArrayCoder<_AllocationIdsEncoding, String>>
         public var allocationIds: [String]?
+        /// For regional NAT gateways only: The Availability Zone where you want to associate an Elastic IP address (EIP). The regional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+        public let availabilityZone: String?
+        /// For regional NAT gateways only: The ID of the Availability Zone where you want to associate an Elastic IP address (EIP). The regional NAT gateway uses a separate EIP in each AZ to handle outbound NAT traffic from that AZ. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions.  A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+        public let availabilityZoneId: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The ID of the NAT gateway.
@@ -6362,8 +6631,10 @@ extension EC2 {
         public var privateIpAddresses: [String]?
 
         @inlinable
-        public init(allocationIds: [String]? = nil, dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
+        public init(allocationIds: [String]? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, dryRun: Bool? = nil, natGatewayId: String? = nil, privateIpAddresses: [String]? = nil) {
             self.allocationIds = allocationIds
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.dryRun = dryRun
             self.natGatewayId = natGatewayId
             self.privateIpAddresses = privateIpAddresses
@@ -6371,6 +6642,8 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case allocationIds = "AllocationId"
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
             case dryRun = "DryRun"
             case natGatewayId = "NatGatewayId"
             case privateIpAddresses = "PrivateIpAddress"
@@ -7517,6 +7790,31 @@ extension EC2 {
         }
     }
 
+    public struct AvailabilityZoneAddress: AWSEncodableShape {
+        public struct _AllocationIdsEncoding: ArrayCoderProperties { public static let member = "AllocationId" }
+
+        /// The allocation IDs of the Elastic IP addresses (EIPs) to be used for handling outbound NAT traffic in this specific Availability Zone.
+        @OptionalCustomCoding<EC2ArrayCoder<_AllocationIdsEncoding, String>>
+        public var allocationIds: [String]?
+        /// For regional NAT gateways only: The Availability Zone where this specific NAT gateway configuration will be active. Each AZ in a regional NAT gateway has its own configuration to handle outbound NAT traffic from that AZ.  A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+        public let availabilityZone: String?
+        /// For regional NAT gateways only: The ID of the Availability Zone where this specific NAT gateway configuration will be active. Each AZ in a regional NAT gateway has its own configuration to handle outbound NAT traffic from that AZ. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions.  A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region.
+        public let availabilityZoneId: String?
+
+        @inlinable
+        public init(allocationIds: [String]? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil) {
+            self.allocationIds = allocationIds
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationIds = "AllocationId"
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+        }
+    }
+
     public struct AvailabilityZoneMessage: AWSDecodableShape {
         /// The message about the Availability Zone, Local Zone, or Wavelength Zone.
         public let message: String?
@@ -7822,6 +8120,8 @@ extension EC2 {
     public struct ByoipCidr: AWSDecodableShape {
         public struct _AsnAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// Specifies the advertisement method for the BYOIP CIDR. Valid values are:    unicast: IP is advertised from a single location (regional services like EC2)    anycast: IP is advertised from multiple global locations simultaneously (global services like CloudFront)   For more information, see Bring your own IP to CloudFront using IPAM in the Amazon VPC IPAM User Guide.
+        public let advertisementType: String?
         /// The BYOIP CIDR associations with ASNs.
         @OptionalCustomCoding<EC2ArrayCoder<_AsnAssociationsEncoding, AsnAssociation>>
         public var asnAssociations: [AsnAssociation]?
@@ -7837,7 +8137,8 @@ extension EC2 {
         public let statusMessage: String?
 
         @inlinable
-        public init(asnAssociations: [AsnAssociation]? = nil, cidr: String? = nil, description: String? = nil, networkBorderGroup: String? = nil, state: ByoipCidrState? = nil, statusMessage: String? = nil) {
+        public init(advertisementType: String? = nil, asnAssociations: [AsnAssociation]? = nil, cidr: String? = nil, description: String? = nil, networkBorderGroup: String? = nil, state: ByoipCidrState? = nil, statusMessage: String? = nil) {
+            self.advertisementType = advertisementType
             self.asnAssociations = asnAssociations
             self.cidr = cidr
             self.description = description
@@ -7847,6 +8148,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advertisementType = "advertisementType"
             case asnAssociations = "asnAssociationSet"
             case cidr = "cidr"
             case description = "description"
@@ -8799,7 +9101,7 @@ extension EC2 {
 
         /// The Availability Zone in which the capacity is reserved.
         public let availabilityZone: String?
-        /// The Availability Zone ID of the Capacity Reservation.
+        /// The ID of the Availability Zone in which the capacity is reserved.
         public let availabilityZoneId: String?
         /// The remaining capacity. Indicates the number of instances that can be launched in the
         /// 			Capacity Reservation.
@@ -8819,7 +9121,7 @@ extension EC2 {
         public let capacityReservationId: String?
         /// Information about your commitment for a future-dated Capacity Reservation.
         public let commitmentInfo: CapacityReservationCommitmentInfo?
-        /// The date and time at which the Capacity Reservation was created.
+        /// The date and time the Capacity Reservation was created.
         public let createDate: Date?
         /// The delivery method for a future-dated Capacity Reservation. incremental
         /// 			indicates that the requested capacity is delivered in addition to any running instances
@@ -8832,7 +9134,7 @@ extension EC2 {
         /// 			instance types. Additional usage charges apply when using an EBS- optimized
         /// 			instance.
         public let ebsOptimized: Bool?
-        /// The date and time at which the Capacity Reservation expires. When a Capacity
+        /// The date and time the Capacity Reservation expires. When a Capacity
         /// 			Reservation expires, the reserved capacity is released and you can no longer launch
         /// 			instances into it. The Capacity Reservation's state changes to expired when
         /// 			it reaches its end date and time.
@@ -8858,6 +9160,15 @@ extension EC2 {
         public let instancePlatform: CapacityReservationInstancePlatform?
         /// The type of instance for which the Capacity Reservation reserves capacity.
         public let instanceType: String?
+        /// 			Indicates whether this Capacity Reservation is interruptible, meaning instances may be terminated when the owner reclaims capacity.
+        ///
+        public let interruptible: Bool?
+        /// 			Contains allocation details for interruptible reservations, including current allocated instances and target instance counts within the interruptibleCapacityAllocation object.
+        ///
+        public let interruptibleCapacityAllocation: InterruptibleCapacityAllocation?
+        /// 			Information about the interruption configuration and association with the source reservation for interruptible Capacity Reservations.
+        ///
+        public let interruptionInfo: InterruptionInfo?
         /// The Amazon Resource Name (ARN) of the Outpost on which the Capacity Reservation was
         /// 			created.
         public let outpostArn: String?
@@ -8869,7 +9180,7 @@ extension EC2 {
         public let placementGroupArn: String?
         /// The type of Capacity Reservation.
         public let reservationType: CapacityReservationType?
-        /// The date and time at which the Capacity Reservation was started.
+        /// The date and time the Capacity Reservation was started.
         public let startDate: Date?
         /// The current state of the Capacity Reservation. A Capacity Reservation can be in one of
         /// 			the following states:    active - The capacity is available for use.    expired - The Capacity Reservation expired automatically at the date and time
@@ -8904,7 +9215,7 @@ extension EC2 {
         public let unusedReservationBillingOwnerId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, availableInstanceCount: Int? = nil, capacityAllocations: [CapacityAllocation]? = nil, capacityBlockId: String? = nil, capacityReservationArn: String? = nil, capacityReservationFleetId: String? = nil, capacityReservationId: String? = nil, commitmentInfo: CapacityReservationCommitmentInfo? = nil, createDate: Date? = nil, deliveryPreference: CapacityReservationDeliveryPreference? = nil, ebsOptimized: Bool? = nil, endDate: Date? = nil, endDateType: EndDateType? = nil, ephemeralStorage: Bool? = nil, instanceMatchCriteria: InstanceMatchCriteria? = nil, instancePlatform: CapacityReservationInstancePlatform? = nil, instanceType: String? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, outpostArn: String? = nil, ownerId: String? = nil, placementGroupArn: String? = nil, reservationType: CapacityReservationType? = nil, startDate: Date? = nil, state: CapacityReservationState? = nil, tags: [Tag]? = nil, tenancy: CapacityReservationTenancy? = nil, totalInstanceCount: Int? = nil, unusedReservationBillingOwnerId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.availableInstanceCount = availableInstanceCount
@@ -8923,6 +9234,9 @@ extension EC2 {
             self.instanceMatchCriteria = instanceMatchCriteria
             self.instancePlatform = instancePlatform
             self.instanceType = instanceType
+            self.interruptible = interruptible
+            self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
+            self.interruptionInfo = interruptionInfo
             self.outpostArn = outpostArn
             self.ownerId = ownerId
             self.placementGroupArn = placementGroupArn
@@ -8954,6 +9268,9 @@ extension EC2 {
             case instanceMatchCriteria = "instanceMatchCriteria"
             case instancePlatform = "instancePlatform"
             case instanceType = "instanceType"
+            case interruptible = "interruptible"
+            case interruptibleCapacityAllocation = "interruptibleCapacityAllocation"
+            case interruptionInfo = "interruptionInfo"
             case outpostArn = "outpostArn"
             case ownerId = "ownerId"
             case placementGroupArn = "placementGroupArn"
@@ -9316,6 +9633,51 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case capacityReservationId = "capacityReservationId"
             case capacityReservationResourceGroupArn = "capacityReservationResourceGroupArn"
+        }
+    }
+
+    public struct CapacityReservationTopology: AWSDecodableShape {
+        public struct _NetworkNodesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The name of the Availability Zone or Local Zone that the Capacity Reservation is in.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone or Local Zone that the Capacity Reservation is in.
+        public let availabilityZoneId: String?
+        /// The ID of the Capacity Block. This parameter is only supported for UltraServer instances and identifies instances within the UltraServer domain.
+        public let capacityBlockId: String?
+        /// The ID of the Capacity Reservation.
+        public let capacityReservationId: String?
+        /// The name of the placement group that the Capacity Reservation is in.
+        public let groupName: String?
+        /// The instance type.
+        public let instanceType: String?
+        /// The network nodes. The nodes are hashed based on your account. Capacity Reservations from different accounts running under the same server will return a different hashed list of strings. The value is null or empty if:   The instance type is not supported.   The Capacity Reservation is in a state other than active or pending.
+        @OptionalCustomCoding<EC2ArrayCoder<_NetworkNodesEncoding, String>>
+        public var networkNodes: [String]?
+        /// The current state of the Capacity Reservation. For the list of possible states, see DescribeCapacityReservations.
+        public let state: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, capacityBlockId: String? = nil, capacityReservationId: String? = nil, groupName: String? = nil, instanceType: String? = nil, networkNodes: [String]? = nil, state: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.capacityBlockId = capacityBlockId
+            self.capacityReservationId = capacityReservationId
+            self.groupName = groupName
+            self.instanceType = instanceType
+            self.networkNodes = networkNodes
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case capacityBlockId = "capacityBlockId"
+            case capacityReservationId = "capacityReservationId"
+            case groupName = "groupName"
+            case instanceType = "instanceType"
+            case networkNodes = "networkNodeSet"
+            case state = "state"
         }
     }
 
@@ -10081,6 +10443,12 @@ extension EC2 {
     }
 
     public struct CloudWatchLogOptions: AWSDecodableShape {
+        /// Indicates whether Border Gateway Protocol (BGP) logging is enabled for the VPN connection. Default value is False. Valid values: True | False
+        public let bgpLogEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the CloudWatch log group for BGP logs.
+        public let bgpLogGroupArn: String?
+        /// The output format for BGP logs sent to CloudWatch. Default format is json. Valid values: json | text
+        public let bgpLogOutputFormat: String?
         /// Status of VPN tunnel logging feature. Default value is False. Valid values: True | False
         public let logEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to.
@@ -10089,13 +10457,19 @@ extension EC2 {
         public let logOutputFormat: String?
 
         @inlinable
-        public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+        public init(bgpLogEnabled: Bool? = nil, bgpLogGroupArn: String? = nil, bgpLogOutputFormat: String? = nil, logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+            self.bgpLogEnabled = bgpLogEnabled
+            self.bgpLogGroupArn = bgpLogGroupArn
+            self.bgpLogOutputFormat = bgpLogOutputFormat
             self.logEnabled = logEnabled
             self.logGroupArn = logGroupArn
             self.logOutputFormat = logOutputFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bgpLogEnabled = "bgpLogEnabled"
+            case bgpLogGroupArn = "bgpLogGroupArn"
+            case bgpLogOutputFormat = "bgpLogOutputFormat"
             case logEnabled = "logEnabled"
             case logGroupArn = "logGroupArn"
             case logOutputFormat = "logOutputFormat"
@@ -10103,6 +10477,12 @@ extension EC2 {
     }
 
     public struct CloudWatchLogOptionsSpecification: AWSEncodableShape {
+        /// Specifies whether to enable BGP logging for the VPN connection. Default value is False. Valid values: True | False
+        public let bgpLogEnabled: Bool?
+        /// The Amazon Resource Name (ARN) of the CloudWatch log group where BGP logs will be sent.
+        public let bgpLogGroupArn: String?
+        /// The desired output format for BGP logs to be sent to CloudWatch. Default format is json. Valid values: json | text
+        public let bgpLogOutputFormat: String?
         /// Enable or disable VPN tunnel logging feature. Default value is False. Valid values: True | False
         public let logEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the CloudWatch log group to send logs to.
@@ -10111,13 +10491,19 @@ extension EC2 {
         public let logOutputFormat: String?
 
         @inlinable
-        public init(logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+        public init(bgpLogEnabled: Bool? = nil, bgpLogGroupArn: String? = nil, bgpLogOutputFormat: String? = nil, logEnabled: Bool? = nil, logGroupArn: String? = nil, logOutputFormat: String? = nil) {
+            self.bgpLogEnabled = bgpLogEnabled
+            self.bgpLogGroupArn = bgpLogGroupArn
+            self.bgpLogOutputFormat = bgpLogOutputFormat
             self.logEnabled = logEnabled
             self.logGroupArn = logGroupArn
             self.logOutputFormat = logOutputFormat
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bgpLogEnabled = "BgpLogEnabled"
+            case bgpLogGroupArn = "BgpLogGroupArn"
+            case bgpLogOutputFormat = "BgpLogOutputFormat"
             case logEnabled = "LogEnabled"
             case logGroupArn = "LogGroupArn"
             case logOutputFormat = "LogOutputFormat"
@@ -11161,9 +11547,9 @@ extension EC2 {
         ///  Deprecated.
         public let ephemeralStorage: Bool?
         /// The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count with a
-        /// 				minimum of 64 vCPUs. For example, if you request a future-dated Capacity
-        /// 				Reservation for m5.xlarge instances, you must request at least 25
-        /// 				instances (16 * m5.xlarge = 64 vCPUs).  Valid range: 1 - 1000
+        /// 				minimum of 32 vCPUs. For example, if you request a future-dated Capacity
+        /// 				Reservation for m5.xlarge instances, you must request at least 8
+        /// 				instances (8 * m5.xlarge = 32 vCPUs).  Valid range: 1 - 1000
         public let instanceCount: Int?
         /// Indicates the type of instance launches that the Capacity Reservation accepts. The
         /// 			options include:    open - The Capacity Reservation automatically matches all instances
@@ -12491,6 +12877,74 @@ extension EC2 {
         }
     }
 
+    public struct CreateInterruptibleCapacityReservationAllocationRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// 			The ID of the source Capacity Reservation from which to create the interruptible Capacity Reservation. Your Capacity Reservation must be in active state with no end date set and have available capacity for allocation.
+        ///
+        public let capacityReservationId: String?
+        /// 			Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        ///
+        public let clientToken: String?
+        /// 			Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+        ///
+        public let dryRun: Bool?
+        /// 			The number of instances to allocate from your source reservation. You can only allocate available instances (also called unused capacity).
+        ///
+        public let instanceCount: Int?
+        /// 			The tags to apply to the interruptible Capacity Reservation during creation.
+        ///
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(capacityReservationId: String? = nil, clientToken: String? = CreateInterruptibleCapacityReservationAllocationRequest.idempotencyToken(), dryRun: Bool? = nil, instanceCount: Int? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.capacityReservationId = capacityReservationId
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.instanceCount = instanceCount
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationId = "CapacityReservationId"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case instanceCount = "InstanceCount"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateInterruptibleCapacityReservationAllocationResult: AWSDecodableShape {
+        /// 			The type of interruption applied to the interruptible reservation.
+        ///
+        public let interruptionType: InterruptionType?
+        /// 			The ID of the source Capacity Reservation from which the interruptible Capacity Reservation was created.
+        ///
+        public let sourceCapacityReservationId: String?
+        /// 			The current status of the allocation request (creating, active, updating).
+        ///
+        public let status: InterruptibleCapacityReservationAllocationStatus?
+        /// 			The number of instances allocated to the interruptible reservation.
+        ///
+        public let targetInstanceCount: Int?
+
+        @inlinable
+        public init(interruptionType: InterruptionType? = nil, sourceCapacityReservationId: String? = nil, status: InterruptibleCapacityReservationAllocationStatus? = nil, targetInstanceCount: Int? = nil) {
+            self.interruptionType = interruptionType
+            self.sourceCapacityReservationId = sourceCapacityReservationId
+            self.status = status
+            self.targetInstanceCount = targetInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interruptionType = "interruptionType"
+            case sourceCapacityReservationId = "sourceCapacityReservationId"
+            case status = "status"
+            case targetInstanceCount = "targetInstanceCount"
+        }
+    }
+
     public struct CreateIpamExternalResourceVerificationTokenRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -12531,6 +12985,49 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamExternalResourceVerificationToken = "ipamExternalResourceVerificationToken"
+        }
+    }
+
+    public struct CreateIpamPolicyRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM for which you're creating the policy.
+        public let ipamId: String?
+        /// The tags to assign to the IPAM policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(clientToken: String? = CreateIpamPolicyRequest.idempotencyToken(), dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.ipamId = ipamId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case ipamId = "IpamId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateIpamPolicyResult: AWSDecodableShape {
+        /// Information about the created IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
+        public let ipamPolicy: IpamPolicy?
+
+        @inlinable
+        public init(ipamPolicy: IpamPolicy? = nil) {
+            self.ipamPolicy = ipamPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicy = "ipamPolicy"
         }
     }
 
@@ -12637,6 +13134,122 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamPool = "ipamPool"
+        }
+    }
+
+    public struct CreateIpamPrefixListResolverRequest: AWSEncodableShape {
+        public struct _RulesEncoding: ArrayCoderProperties { public static let member = "Rule" }
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The address family for the IPAM prefix list resolver. Valid values are ipv4 and ipv6. You must create separate resolvers for IPv4 and IPv6 CIDRs as they cannot be mixed in the same resolver.
+        public let addressFamily: AddressFamily?
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// A description for the IPAM prefix list resolver to help you identify its purpose and configuration.
+        public let description: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM that will serve as the source of the IP address database for CIDR selection. The IPAM must be in the Advanced tier to use this feature.
+        public let ipamId: String?
+        /// The CIDR selection rules for the resolver. CIDR selection rules define the business logic for selecting CIDRs from IPAM. If a CIDR matches any of the rules, it will be included. If a rule has multiple conditions, the CIDR has to match every condition of that rule. You can create a prefix list resolver without any CIDR selection rules, but it will generate empty versions (containing no CIDRs) until you add rules.
+        @OptionalCustomCoding<EC2ArrayCoder<_RulesEncoding, IpamPrefixListResolverRuleRequest>>
+        public var rules: [IpamPrefixListResolverRuleRequest]?
+        /// The tags to apply to the IPAM prefix list resolver during creation. Tags help you organize and manage your Amazon Web Services resources.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(addressFamily: AddressFamily? = nil, clientToken: String? = CreateIpamPrefixListResolverRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, rules: [IpamPrefixListResolverRuleRequest]? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.addressFamily = addressFamily
+            self.clientToken = clientToken
+            self.description = description
+            self.dryRun = dryRun
+            self.ipamId = ipamId
+            self.rules = rules
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "AddressFamily"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case dryRun = "DryRun"
+            case ipamId = "IpamId"
+            case rules = "Rule"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateIpamPrefixListResolverResult: AWSDecodableShape {
+        /// Information about the IPAM prefix list resolver that was created.
+        public let ipamPrefixListResolver: IpamPrefixListResolver?
+
+        @inlinable
+        public init(ipamPrefixListResolver: IpamPrefixListResolver? = nil) {
+            self.ipamPrefixListResolver = ipamPrefixListResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolver = "ipamPrefixListResolver"
+        }
+    }
+
+    public struct CreateIpamPrefixListResolverTargetRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The specific version of the prefix list to target. If not specified, the resolver will target the latest version.
+        public let desiredVersion: Int64?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver that will manage the synchronization of CIDRs to the target prefix list.
+        public let ipamPrefixListResolverId: String?
+        /// The ID of the managed prefix list that will be synchronized with CIDRs selected by the IPAM prefix list resolver. This prefix list becomes an IPAM managed prefix list. An IPAM-managed prefix list is a customer-managed prefix list that has been associated with an IPAM prefix list resolver target. When a prefix list becomes IPAM managed, its CIDRs are automatically synchronized based on the IPAM prefix list resolver's CIDR selection rules, and direct CIDR modifications are restricted.
+        public let prefixListId: String?
+        /// The Amazon Web Services Region where the prefix list is located. This is required when referencing a prefix list in a different Region.
+        public let prefixListRegion: String?
+        /// The tags to apply to the IPAM prefix list resolver target during creation. Tags help you organize and manage your Amazon Web Services resources.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will always synchronize with the most current version of the prefix list. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual intervention.
+        public let trackLatestVersion: Bool?
+
+        @inlinable
+        public init(clientToken: String? = CreateIpamPrefixListResolverTargetRequest.idempotencyToken(), desiredVersion: Int64? = nil, dryRun: Bool? = nil, ipamPrefixListResolverId: String? = nil, prefixListId: String? = nil, prefixListRegion: String? = nil, tagSpecifications: [TagSpecification]? = nil, trackLatestVersion: Bool? = nil) {
+            self.clientToken = clientToken
+            self.desiredVersion = desiredVersion
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.prefixListId = prefixListId
+            self.prefixListRegion = prefixListRegion
+            self.tagSpecifications = tagSpecifications
+            self.trackLatestVersion = trackLatestVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case desiredVersion = "DesiredVersion"
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case prefixListId = "PrefixListId"
+            case prefixListRegion = "PrefixListRegion"
+            case tagSpecifications = "TagSpecification"
+            case trackLatestVersion = "TrackLatestVersion"
+        }
+    }
+
+    public struct CreateIpamPrefixListResolverTargetResult: AWSDecodableShape {
+        /// Information about the IPAM prefix list resolver target that was created.
+        public let ipamPrefixListResolverTarget: IpamPrefixListResolverTarget?
+
+        @inlinable
+        public init(ipamPrefixListResolverTarget: IpamPrefixListResolverTarget? = nil) {
+            self.ipamPrefixListResolverTarget = ipamPrefixListResolverTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolverTarget = "ipamPrefixListResolverTarget"
         }
     }
 
@@ -12765,6 +13378,8 @@ extension EC2 {
         public let description: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The configuration that links an Amazon VPC IPAM scope to an external authority system. It specifies the type of external system and the external resource identifier that identifies your account or instance in that system. In IPAM, an external authority is a third-party IP address management system that provides CIDR blocks when you provision address space for top-level IPAM pools. This allows you to use your existing IP management system to control which address ranges are allocated to Amazon Web Services while using Amazon VPC IPAM to manage subnets within those ranges.
+        public let externalAuthorityConfiguration: ExternalAuthorityConfiguration?
         /// The ID of the IPAM for which you're creating this scope.
         public let ipamId: String?
         /// The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
@@ -12772,10 +13387,11 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
 
         @inlinable
-        public init(clientToken: String? = CreateIpamScopeRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateIpamScopeRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, externalAuthorityConfiguration: ExternalAuthorityConfiguration? = nil, ipamId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
+            self.externalAuthorityConfiguration = externalAuthorityConfiguration
             self.ipamId = ipamId
             self.tagSpecifications = tagSpecifications
         }
@@ -12784,6 +13400,7 @@ extension EC2 {
             case clientToken = "ClientToken"
             case description = "Description"
             case dryRun = "DryRun"
+            case externalAuthorityConfiguration = "ExternalAuthorityConfiguration"
             case ipamId = "IpamId"
             case tagSpecifications = "TagSpecification"
         }
@@ -13375,12 +13992,18 @@ extension EC2 {
     }
 
     public struct CreateNatGatewayRequest: AWSEncodableShape {
+        public struct _AvailabilityZoneAddressesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZoneAddress" }
         public struct _SecondaryAllocationIdsEncoding: ArrayCoderProperties { public static let member = "AllocationId" }
         public struct _SecondaryPrivateIpAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// [Public NAT gateways only] The allocation ID of an Elastic IP address to associate  with the NAT gateway. You cannot specify an Elastic IP address with a private NAT gateway. If the Elastic IP address is associated with another resource, you must first disassociate it.
         public let allocationId: String?
+        /// Specifies whether to create a zonal (single-AZ) or regional (multi-AZ) NAT gateway. Defaults to zonal. A zonal NAT gateway is a NAT Gateway that provides redundancy and scalability within a single availability zone. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region. For more information, see Regional NAT gateways for automatic multi-AZ expansion in the Amazon VPC User Guide.
+        public let availabilityMode: AvailabilityMode?
+        /// For regional NAT gateways only: Specifies which Availability Zones you want the NAT gateway to support and the Elastic IP addresses (EIPs) to use in each AZ. The regional NAT gateway uses these EIPs to handle outbound NAT traffic from their respective AZs. If not specified, the NAT gateway will automatically expand to new AZs and associate EIPs upon detection of an elastic network interface. If you specify this parameter, auto-expansion is disabled and you must manually manage AZ coverage. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region. For more information, see Regional NAT gateways for automatic multi-AZ expansion in the Amazon VPC User Guide.
+        @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZoneAddressesEncoding, AvailabilityZoneAddress>>
+        public var availabilityZoneAddresses: [AvailabilityZoneAddress]?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the
         /// 			request. For more information, see Ensuring idempotency. Constraint: Maximum 64 ASCII characters.
         public let clientToken: String?
@@ -13403,10 +14026,14 @@ extension EC2 {
         /// The tags to assign to the NAT gateway.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
+        /// The ID of the VPC where you want to create a regional NAT gateway.
+        public let vpcId: String?
 
         @inlinable
-        public init(allocationId: String? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, secondaryAllocationIds: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil, secondaryPrivateIpAddresses: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(allocationId: String? = nil, availabilityMode: AvailabilityMode? = nil, availabilityZoneAddresses: [AvailabilityZoneAddress]? = nil, clientToken: String? = CreateNatGatewayRequest.idempotencyToken(), connectivityType: ConnectivityType? = nil, dryRun: Bool? = nil, privateIpAddress: String? = nil, secondaryAllocationIds: [String]? = nil, secondaryPrivateIpAddressCount: Int? = nil, secondaryPrivateIpAddresses: [String]? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
             self.allocationId = allocationId
+            self.availabilityMode = availabilityMode
+            self.availabilityZoneAddresses = availabilityZoneAddresses
             self.clientToken = clientToken
             self.connectivityType = connectivityType
             self.dryRun = dryRun
@@ -13416,6 +14043,7 @@ extension EC2 {
             self.secondaryPrivateIpAddresses = secondaryPrivateIpAddresses
             self.subnetId = subnetId
             self.tagSpecifications = tagSpecifications
+            self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
@@ -13425,6 +14053,8 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case allocationId = "AllocationId"
+            case availabilityMode = "AvailabilityMode"
+            case availabilityZoneAddresses = "AvailabilityZoneAddress"
             case clientToken = "ClientToken"
             case connectivityType = "ConnectivityType"
             case dryRun = "DryRun"
@@ -13434,6 +14064,7 @@ extension EC2 {
             case secondaryPrivateIpAddresses = "SecondaryPrivateIpAddress"
             case subnetId = "SubnetId"
             case tagSpecifications = "TagSpecification"
+            case vpcId = "VpcId"
         }
     }
 
@@ -15154,6 +15785,126 @@ extension EC2 {
         }
     }
 
+    public struct CreateTransitGatewayMeteringPolicyEntryRequest: AWSEncodableShape {
+        /// The destination CIDR block for traffic matching.
+        public let destinationCidrBlock: String?
+        /// The destination port range for traffic matching.
+        public let destinationPortRange: String?
+        /// The ID of the destination transit gateway attachment for traffic matching.
+        public let destinationTransitGatewayAttachmentId: String?
+        /// The type of the destination transit gateway attachment for traffic matching. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type.
+        public let destinationTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The Amazon Web Services account ID to which the metered traffic should be attributed.
+        public let meteredAccount: TransitGatewayMeteringPayerType?
+        /// The rule number for the metering policy entry. Rules are processed in order from lowest to highest number.
+        public let policyRuleNumber: Int?
+        /// The protocol for traffic matching (1, 6, 17, etc.).
+        public let `protocol`: String?
+        /// The source CIDR block for traffic matching.
+        public let sourceCidrBlock: String?
+        /// The source port range for traffic matching.
+        public let sourcePortRange: String?
+        /// The ID of the source transit gateway attachment for traffic matching.
+        public let sourceTransitGatewayAttachmentId: String?
+        /// The type of the source transit gateway attachment for traffic matching. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type.
+        public let sourceTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType?
+        /// The ID of the transit gateway metering policy to add the entry to.
+        public let transitGatewayMeteringPolicyId: String?
+
+        @inlinable
+        public init(destinationCidrBlock: String? = nil, destinationPortRange: String? = nil, destinationTransitGatewayAttachmentId: String? = nil, destinationTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType? = nil, dryRun: Bool? = nil, meteredAccount: TransitGatewayMeteringPayerType? = nil, policyRuleNumber: Int? = nil, protocol: String? = nil, sourceCidrBlock: String? = nil, sourcePortRange: String? = nil, sourceTransitGatewayAttachmentId: String? = nil, sourceTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType? = nil, transitGatewayMeteringPolicyId: String? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.destinationTransitGatewayAttachmentId = destinationTransitGatewayAttachmentId
+            self.destinationTransitGatewayAttachmentType = destinationTransitGatewayAttachmentType
+            self.dryRun = dryRun
+            self.meteredAccount = meteredAccount
+            self.policyRuleNumber = policyRuleNumber
+            self.`protocol` = `protocol`
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+            self.sourceTransitGatewayAttachmentId = sourceTransitGatewayAttachmentId
+            self.sourceTransitGatewayAttachmentType = sourceTransitGatewayAttachmentType
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock = "DestinationCidrBlock"
+            case destinationPortRange = "DestinationPortRange"
+            case destinationTransitGatewayAttachmentId = "DestinationTransitGatewayAttachmentId"
+            case destinationTransitGatewayAttachmentType = "DestinationTransitGatewayAttachmentType"
+            case dryRun = "DryRun"
+            case meteredAccount = "MeteredAccount"
+            case policyRuleNumber = "PolicyRuleNumber"
+            case `protocol` = "Protocol"
+            case sourceCidrBlock = "SourceCidrBlock"
+            case sourcePortRange = "SourcePortRange"
+            case sourceTransitGatewayAttachmentId = "SourceTransitGatewayAttachmentId"
+            case sourceTransitGatewayAttachmentType = "SourceTransitGatewayAttachmentType"
+            case transitGatewayMeteringPolicyId = "TransitGatewayMeteringPolicyId"
+        }
+    }
+
+    public struct CreateTransitGatewayMeteringPolicyEntryResult: AWSDecodableShape {
+        /// Information about the created transit gateway metering policy entry.
+        public let transitGatewayMeteringPolicyEntry: TransitGatewayMeteringPolicyEntry?
+
+        @inlinable
+        public init(transitGatewayMeteringPolicyEntry: TransitGatewayMeteringPolicyEntry? = nil) {
+            self.transitGatewayMeteringPolicyEntry = transitGatewayMeteringPolicyEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayMeteringPolicyEntry = "transitGatewayMeteringPolicyEntry"
+        }
+    }
+
+    public struct CreateTransitGatewayMeteringPolicyRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the middlebox attachments to include in the metering policy.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var middleboxAttachmentIds: [String]?
+        /// The tags to assign to the metering policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the transit gateway for which to create the metering policy.
+        public let transitGatewayId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, middleboxAttachmentIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil) {
+            self.dryRun = dryRun
+            self.middleboxAttachmentIds = middleboxAttachmentIds
+            self.tagSpecifications = tagSpecifications
+            self.transitGatewayId = transitGatewayId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case middleboxAttachmentIds = "MiddleboxAttachmentId"
+            case tagSpecifications = "TagSpecifications"
+            case transitGatewayId = "TransitGatewayId"
+        }
+    }
+
+    public struct CreateTransitGatewayMeteringPolicyResult: AWSDecodableShape {
+        /// Information about the created transit gateway metering policy.
+        public let transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy?
+
+        @inlinable
+        public init(transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy? = nil) {
+            self.transitGatewayMeteringPolicy = transitGatewayMeteringPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayMeteringPolicy = "transitGatewayMeteringPolicy"
+        }
+    }
+
     public struct CreateTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -16358,6 +17109,45 @@ extension EC2 {
         }
     }
 
+    public struct CreateVpcEncryptionControlRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The tags to apply to the VPC Encryption Control resource.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the VPC for which to create the encryption control configuration.
+        public let vpcId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, vpcId: String? = nil) {
+            self.dryRun = dryRun
+            self.tagSpecifications = tagSpecifications
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case tagSpecifications = "TagSpecification"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct CreateVpcEncryptionControlResult: AWSDecodableShape {
+        /// Information about the VPC Encryption Control configuration.
+        public let vpcEncryptionControl: VpcEncryptionControl?
+
+        @inlinable
+        public init(vpcEncryptionControl: VpcEncryptionControl? = nil) {
+            self.vpcEncryptionControl = vpcEncryptionControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEncryptionControl = "vpcEncryptionControl"
+        }
+    }
+
     public struct CreateVpcEndpointConnectionNotificationRequest: AWSEncodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -16479,6 +17269,10 @@ extension EC2 {
             self.tagSpecifications = tagSpecifications
             self.vpcEndpointType = vpcEndpointType
             self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsOptions?.validate(name: "\(name).dnsOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16677,9 +17471,11 @@ extension EC2 {
         /// The tags to assign to the VPC.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
+        /// Specifies the encryption control configuration to apply to the VPC during creation. VPC Encryption Control enables you to enforce encryption for all data in transit within and between VPCs to meet compliance requirements. For more information, see Enforce VPC encryption in transit in the Amazon VPC User Guide.
+        public let vpcEncryptionControl: VpcEncryptionControlConfiguration?
 
         @inlinable
-        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, instanceTenancy: Tenancy? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(amazonProvidedIpv6CidrBlock: Bool? = nil, cidrBlock: String? = nil, dryRun: Bool? = nil, instanceTenancy: Tenancy? = nil, ipv4IpamPoolId: String? = nil, ipv4NetmaskLength: Int? = nil, ipv6CidrBlock: String? = nil, ipv6CidrBlockNetworkBorderGroup: String? = nil, ipv6IpamPoolId: String? = nil, ipv6NetmaskLength: Int? = nil, ipv6Pool: String? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEncryptionControl: VpcEncryptionControlConfiguration? = nil) {
             self.amazonProvidedIpv6CidrBlock = amazonProvidedIpv6CidrBlock
             self.cidrBlock = cidrBlock
             self.dryRun = dryRun
@@ -16692,6 +17488,7 @@ extension EC2 {
             self.ipv6NetmaskLength = ipv6NetmaskLength
             self.ipv6Pool = ipv6Pool
             self.tagSpecifications = tagSpecifications
+            self.vpcEncryptionControl = vpcEncryptionControl
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16707,6 +17504,7 @@ extension EC2 {
             case ipv6NetmaskLength = "Ipv6NetmaskLength"
             case ipv6Pool = "Ipv6Pool"
             case tagSpecifications = "TagSpecification"
+            case vpcEncryptionControl = "VpcEncryptionControl"
         }
     }
 
@@ -16721,6 +17519,49 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case vpc = "vpc"
+        }
+    }
+
+    public struct CreateVpnConcentratorRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The tags to apply to the VPN concentrator during creation.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+        /// The ID of the transit gateway to attach the VPN concentrator to.
+        public let transitGatewayId: String?
+        /// The type of VPN concentrator to create.
+        public let type: VpnConcentratorType?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: VpnConcentratorType? = nil) {
+            self.dryRun = dryRun
+            self.tagSpecifications = tagSpecifications
+            self.transitGatewayId = transitGatewayId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case tagSpecifications = "TagSpecification"
+            case transitGatewayId = "TransitGatewayId"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateVpnConcentratorResult: AWSDecodableShape {
+        /// Information about the VPN concentrator.
+        public let vpnConcentrator: VpnConcentrator?
+
+        @inlinable
+        public init(vpnConcentrator: VpnConcentrator? = nil) {
+            self.vpnConcentrator = vpnConcentrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpnConcentrator = "vpnConcentrator"
         }
     }
 
@@ -16742,11 +17583,13 @@ extension EC2 {
         public let transitGatewayId: String?
         /// The type of VPN connection (ipsec.1).
         public let type: String?
+        /// The ID of the VPN concentrator to associate with the VPN connection.
+        public let vpnConcentratorId: String?
         /// The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.
         public let vpnGatewayId: String?
 
         @inlinable
-        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, preSharedKeyStorage: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnGatewayId: String? = nil) {
+        public init(customerGatewayId: String? = nil, dryRun: Bool? = nil, options: VpnConnectionOptionsSpecification? = nil, preSharedKeyStorage: String? = nil, tagSpecifications: [TagSpecification]? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnConcentratorId: String? = nil, vpnGatewayId: String? = nil) {
             self.customerGatewayId = customerGatewayId
             self.dryRun = dryRun
             self.options = options
@@ -16754,6 +17597,7 @@ extension EC2 {
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
             self.type = type
+            self.vpnConcentratorId = vpnConcentratorId
             self.vpnGatewayId = vpnGatewayId
         }
 
@@ -16765,6 +17609,7 @@ extension EC2 {
             case tagSpecifications = "TagSpecification"
             case transitGatewayId = "TransitGatewayId"
             case type = "Type"
+            case vpnConcentratorId = "VpnConcentratorId"
             case vpnGatewayId = "VpnGatewayId"
         }
     }
@@ -17677,6 +18522,38 @@ extension EC2 {
         }
     }
 
+    public struct DeleteIpamPolicyRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM policy to delete.
+        public let ipamPolicyId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPolicyId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPolicyId = ipamPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPolicyId = "IpamPolicyId"
+        }
+    }
+
+    public struct DeleteIpamPolicyResult: AWSDecodableShape {
+        /// Information about the deleted IPAM policy. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
+        public let ipamPolicy: IpamPolicy?
+
+        @inlinable
+        public init(ipamPolicy: IpamPolicy? = nil) {
+            self.ipamPolicy = ipamPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicy = "ipamPolicy"
+        }
+    }
+
     public struct DeleteIpamPoolRequest: AWSEncodableShape {
         /// Enables you to quickly delete an IPAM pool and all resources within that pool, including provisioned CIDRs, allocations, and other pools.  You can only use this option to delete pools in the private scope or pools in the public scope with a source resource. A source resource is a resource used to provision CIDRs to a resource planning pool.
         public let cascade: Bool?
@@ -17710,6 +18587,70 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamPool = "ipamPool"
+        }
+    }
+
+    public struct DeleteIpamPrefixListResolverRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver to delete.
+        public let ipamPrefixListResolverId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPrefixListResolverId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+        }
+    }
+
+    public struct DeleteIpamPrefixListResolverResult: AWSDecodableShape {
+        /// Information about the IPAM prefix list resolver that was deleted.
+        public let ipamPrefixListResolver: IpamPrefixListResolver?
+
+        @inlinable
+        public init(ipamPrefixListResolver: IpamPrefixListResolver? = nil) {
+            self.ipamPrefixListResolver = ipamPrefixListResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolver = "ipamPrefixListResolver"
+        }
+    }
+
+    public struct DeleteIpamPrefixListResolverTargetRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver target to delete.
+        public let ipamPrefixListResolverTargetId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPrefixListResolverTargetId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverTargetId = ipamPrefixListResolverTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverTargetId = "IpamPrefixListResolverTargetId"
+        }
+    }
+
+    public struct DeleteIpamPrefixListResolverTargetResult: AWSDecodableShape {
+        /// Information about the IPAM prefix list resolver target that was deleted.
+        public let ipamPrefixListResolverTarget: IpamPrefixListResolverTarget?
+
+        @inlinable
+        public init(ipamPrefixListResolverTarget: IpamPrefixListResolverTarget? = nil) {
+            self.ipamPrefixListResolverTarget = ipamPrefixListResolverTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolverTarget = "ipamPrefixListResolverTarget"
         }
     }
 
@@ -19114,6 +20055,74 @@ extension EC2 {
         }
     }
 
+    public struct DeleteTransitGatewayMeteringPolicyEntryRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The rule number of the metering policy entry to delete.
+        public let policyRuleNumber: Int?
+        /// The ID of the transit gateway metering policy containing the entry to delete.
+        public let transitGatewayMeteringPolicyId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, policyRuleNumber: Int? = nil, transitGatewayMeteringPolicyId: String? = nil) {
+            self.dryRun = dryRun
+            self.policyRuleNumber = policyRuleNumber
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case policyRuleNumber = "PolicyRuleNumber"
+            case transitGatewayMeteringPolicyId = "TransitGatewayMeteringPolicyId"
+        }
+    }
+
+    public struct DeleteTransitGatewayMeteringPolicyEntryResult: AWSDecodableShape {
+        /// Information about the deleted transit gateway metering policy entry.
+        public let transitGatewayMeteringPolicyEntry: TransitGatewayMeteringPolicyEntry?
+
+        @inlinable
+        public init(transitGatewayMeteringPolicyEntry: TransitGatewayMeteringPolicyEntry? = nil) {
+            self.transitGatewayMeteringPolicyEntry = transitGatewayMeteringPolicyEntry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayMeteringPolicyEntry = "transitGatewayMeteringPolicyEntry"
+        }
+    }
+
+    public struct DeleteTransitGatewayMeteringPolicyRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the transit gateway metering policy to delete.
+        public let transitGatewayMeteringPolicyId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, transitGatewayMeteringPolicyId: String? = nil) {
+            self.dryRun = dryRun
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case transitGatewayMeteringPolicyId = "TransitGatewayMeteringPolicyId"
+        }
+    }
+
+    public struct DeleteTransitGatewayMeteringPolicyResult: AWSDecodableShape {
+        /// Information about the deleted transit gateway metering policy.
+        public let transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy?
+
+        @inlinable
+        public init(transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy? = nil) {
+            self.transitGatewayMeteringPolicy = transitGatewayMeteringPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayMeteringPolicy = "transitGatewayMeteringPolicy"
+        }
+    }
+
     public struct DeleteTransitGatewayMulticastDomainRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -19604,6 +20613,38 @@ extension EC2 {
         }
     }
 
+    public struct DeleteVpcEncryptionControlRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the VPC Encryption Control resource to delete.
+        public let vpcEncryptionControlId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, vpcEncryptionControlId: String? = nil) {
+            self.dryRun = dryRun
+            self.vpcEncryptionControlId = vpcEncryptionControlId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case vpcEncryptionControlId = "VpcEncryptionControlId"
+        }
+    }
+
+    public struct DeleteVpcEncryptionControlResult: AWSDecodableShape {
+        /// Information about the deleted VPC Encryption Control configuration.
+        public let vpcEncryptionControl: VpcEncryptionControl?
+
+        @inlinable
+        public init(vpcEncryptionControl: VpcEncryptionControl? = nil) {
+            self.vpcEncryptionControl = vpcEncryptionControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEncryptionControl = "vpcEncryptionControl"
+        }
+    }
+
     public struct DeleteVpcEndpointConnectionNotificationsRequest: AWSEncodableShape {
         public struct _ConnectionNotificationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -19765,6 +20806,38 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dryRun = "dryRun"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct DeleteVpnConcentratorRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the VPN concentrator to delete.
+        public let vpnConcentratorId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, vpnConcentratorId: String? = nil) {
+            self.dryRun = dryRun
+            self.vpnConcentratorId = vpnConcentratorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case vpnConcentratorId = "VpnConcentratorId"
+        }
+    }
+
+    public struct DeleteVpnConcentratorResult: AWSDecodableShape {
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let `return`: Bool?
+
+        @inlinable
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
         }
     }
 
@@ -21166,6 +22239,68 @@ extension EC2 {
         }
     }
 
+    public struct DescribeCapacityReservationTopologyRequest: AWSEncodableShape {
+        public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// The Capacity Reservation IDs. Default: Describes all your Capacity Reservations. Constraints: Maximum 100 explicitly specified Capacity Reservation IDs.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationIdsEncoding, String>>
+        public var capacityReservationIds: [String]?
+        /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters.    availability-zone - The name of the Availability Zone (for example, us-west-2a) or Local Zone (for example, us-west-2-lax-1b) that the Capacity Reservation is in.    instance-type - The instance type (for example, p4d.24xlarge) or instance family (for example, p4d*). You can use the * wildcard to match zero or more characters, or the ? wildcard to match zero or one character.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
+        /// 	        For more information, see Pagination. You can't specify this parameter and the Capacity Reservation IDs parameter in the same request. Default: 10
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityReservationIds: [String]? = nil, dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.capacityReservationIds = capacityReservationIds
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationIds = "CapacityReservationId"
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeCapacityReservationTopologyResult: AWSDecodableShape {
+        public struct _CapacityReservationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the topology of each Capacity Reservation.
+        @OptionalCustomCoding<EC2ArrayCoder<_CapacityReservationsEncoding, CapacityReservationTopology>>
+        public var capacityReservations: [CapacityReservationTopology]?
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capacityReservations: [CapacityReservationTopology]? = nil, nextToken: String? = nil) {
+            self.capacityReservations = capacityReservations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservations = "capacityReservationSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeCapacityReservationsRequest: AWSEncodableShape {
         public struct _CapacityReservationIdsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
@@ -22295,6 +23430,8 @@ extension EC2 {
     public struct DescribeFastSnapshotRestoreSuccessItem: AWSDecodableShape {
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// The time at which fast snapshot restores entered the disabled state.
         public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
@@ -22317,8 +23454,9 @@ extension EC2 {
         public let stateTransitionReason: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
             self.enabledTime = enabledTime
@@ -22333,6 +23471,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case disabledTime = "disabledTime"
             case disablingTime = "disablingTime"
             case enabledTime = "enabledTime"
@@ -22351,7 +23490,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters. The possible values are:    availability-zone: The Availability Zone of the snapshot.    owner-id: The ID of the Amazon Web Services account that enabled fast snapshot restore on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast snapshot restores for the snapshot  (enabling |  optimizing |  enabled |  disabling |  disabled).
+        /// The filters. The possible values are:    availability-zone: The Availability Zone of the snapshot. For example, us-east-2a.    availability-zone-id: The ID of the Availability Zone of the snapshot. For example, use2-az1.    owner-id: The ID of the Amazon Web Services account that enabled fast snapshot restore on the snapshot.    snapshot-id: The ID of the snapshot.    state: The state of fast snapshot restores for the snapshot  (enabling |  optimizing |  enabled |  disabling |  disabled).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request.
@@ -23264,7 +24403,7 @@ extension EC2 {
         /// 			and provides an error response. If you have the required permissions, the error response is
         /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    creation-time - The time when the report was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2025-11-29T11:04:43.305Z. You can use a wildcard (*), for example, 2025-11-29T*, which matches an entire day.    state - The state of the report (available | pending | error).
+        /// The filters.    creation-time - The time when the report was created, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2025-11-29T11:04:43.305Z. You can use a wildcard (*), for example, 2025-11-29T*, which matches an entire day.    state - The state of the report (available | pending | error).    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the images for filtering the reports. If specified, only reports containing these images are returned.
@@ -23816,6 +24955,136 @@ extension EC2 {
         }
     }
 
+    public struct DescribeInstanceSqlHaHistoryStatesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
+
+        /// Checks whether you have the required permissions for the action,  without actually making the request, and provides an error response. If you have the  required permissions, the error response is DryRunOperation. Otherwise,  it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The end data and time of the period for which to get historical SQL Server High Availability  states. If omitted, the API returns historical states up to the current  date and time. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
+        public let endTime: Date?
+        /// One or more filters to apply to the results. Supported filters  include:    tag: - The tag key and value pair assigned to the  instance. For example, to find all instances tagged with Owner:TeamA, specify  tag:Owner for the filter name and TeamA for the filter value.    tag-key - The tag key assigned to the instance.    haStatus - The SQL Server High Availability status of the SQL Server High Availability instance (processing |  active | standby | invalid).    sqlServerLicenseUsage - The license type for the SQL Server license  (full | waived).
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the SQL Server High Availability instances to describe. If omitted, the API returns  historical states for all SQL Server High Availability instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The maximum number of results to return for the request in a  single page. The remaining results can be seen by sending another request with the  returned nextToken value.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The start data and time of the period for which to get the historical  SQL Server High Availability states. If omitted, the API returns all available historical states. Timezone: UTC Format: YYYY-MM-DDThh:mm:ss.sssZ
+        public let startTime: Date?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, endTime: Date? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+            self.dryRun = dryRun
+            self.endTime = endTime
+            self.filters = filters
+            self.instanceIds = instanceIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case endTime = "EndTime"
+            case filters = "Filter"
+            case instanceIds = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct DescribeInstanceSqlHaHistoryStatesResult: AWSDecodableShape {
+        public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the historical SQL Server High Availability states of the SQL Server High Availability instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, RegisteredInstance>>
+        public var instances: [RegisteredInstance]?
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instances: [RegisteredInstance]? = nil, nextToken: String? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instanceSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeInstanceSqlHaStatesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
+
+        /// Checks whether you have the required permissions for the action,  without actually making the request, and provides an error response. If you have the  required permissions, the error response is DryRunOperation. Otherwise,  it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the results. Supported filters  include:    tag: - The tag key and value pair assigned to the  instance. For example, to find all instances tagged with Owner:TeamA, specify  tag:Owner for the filter name and TeamA for the filter value.    tag-key - The tag key assigned to the instance.    haStatus - The SQL Server High Availability status of the SQL Server High Availability instance (processing |  active | standby | invalid).    sqlServerLicenseUsage - The license type for the SQL Server license  (full | waived).
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the SQL Server High Availability instances to describe. If omitted, the API returns  SQL Server High Availability states for all SQL Server High Availability instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The maximum number of results to return for the request in a  single page. The remaining results can be seen by sending another request with the  returned nextToken value.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, instanceIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.instanceIds = instanceIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case instanceIds = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeInstanceSqlHaStatesResult: AWSDecodableShape {
+        public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the SQL Server High Availability instances.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, RegisteredInstance>>
+        public var instances: [RegisteredInstance]?
+        /// The token to use to retrieve the next page of results.  This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instances: [RegisteredInstance]? = nil, nextToken: String? = nil) {
+            self.instances = instances
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instanceSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeInstanceStatusRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "InstanceId" }
@@ -24071,7 +25340,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
+        /// The filters.    affinity - The affinity setting for an instance running on a Dedicated Host (default | host).    architecture - The instance architecture (i386 | x86_64 | arm64).    availability-zone - The Availability Zone of the instance.    availability-zone-id - The ID of the Availability Zone of the instance.    block-device-mapping.attach-time - The attach time for an EBS volume mapped to the instance, for example, 2022-09-15T17:15:20.000Z.    block-device-mapping.delete-on-termination - A Boolean that indicates whether the EBS volume is deleted on instance termination.    block-device-mapping.device-name - The device name specified in the block device mapping (for example, /dev/sdh or xvdh).    block-device-mapping.status - The status for the EBS volume (attaching | attached | detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.    boot-mode - The boot mode that was specified by the AMI (legacy-bios | uefi | uefi-preferred).    capacity-reservation-id - The ID of the Capacity Reservation into which the instance was launched.    capacity-reservation-specification.capacity-reservation-preference - The instance's Capacity Reservation preference (open | none).    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id - The ID of the targeted Capacity Reservation.    capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn - The ARN of the targeted Capacity Reservation group.    client-token - The idempotency token you provided when you launched the instance.    current-instance-boot-mode - The boot mode that is used to launch the instance at launch or start (legacy-bios | uefi).    dns-name - The public DNS name of the instance.    ebs-optimized - A Boolean that indicates whether the instance is optimized for Amazon EBS I/O.    ena-support - A Boolean that indicates whether the instance is enabled for enhanced networking with ENA.    enclave-options.enabled - A Boolean that indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.    hibernation-options.configured - A Boolean that indicates whether the instance is enabled for hibernation. A value of true means that the instance is enabled for hibernation.    host-id - The ID of the Dedicated Host on which the instance is running, if applicable.    hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile associated with the instance. Specified as an ARN.    iam-instance-profile.id - The instance profile associated with the instance. Specified as an ID.    image-id - The ID of the image used to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance, a Scheduled Instance, or a Capacity Block (spot | scheduled | capacity-block).    instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high byte is used for internal purposes and should be ignored. The low byte is set based on the state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the instance (pending | running | shutting-down | terminated | stopping | stopped).    instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID of the security group for the instance.     instance.group-name - The name of the security group for the instance.     ip-address - The public IPv4 address of the instance.    ipv6-address - The IPv6 address of the instance.    kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance was launched.    launch-index - When launching multiple instances, this is the index for the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*, which matches an entire day.    maintenance-options.auto-recovery - The current automatic recovery behavior of the instance (disabled | default).    metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)    metadata-options.http-protocol-ipv4 - Indicates whether the IPv4 endpoint is enabled (disabled | enabled).    metadata-options.http-protocol-ipv6 - Indicates whether the IPv6 endpoint is enabled (disabled | enabled).    metadata-options.http-put-response-hop-limit - The HTTP metadata request put response hop limit (integer, possible values 1 to 64)    metadata-options.http-tokens - The metadata request authorization state (optional | required)    metadata-options.instance-metadata-tags - The status of access to instance tags from the instance metadata (enabled | disabled)    metadata-options.state - The state of the metadata option changes (pending | applied).    monitoring-state - Indicates whether detailed monitoring is enabled (disabled | enabled).    network-interface.addresses.association.allocation-id - The allocation ID.    network-interface.addresses.association.association-id - The association ID.    network-interface.addresses.association.carrier-ip - The carrier IP address.    network-interface.addresses.association.customer-owned-ip - The customer-owned IP address.    network-interface.addresses.association.ip-owner-id - The owner ID of the private IPv4 address associated with the network interface.    network-interface.addresses.association.public-dns-name - The public DNS name.    network-interface.addresses.association.public-ip - The ID of the association of an Elastic IP address (IPv4) with a network interface.    network-interface.addresses.primary - Specifies whether the IPv4 address of the network interface is the primary private IPv4 address.    network-interface.addresses.private-dns-name - The private DNS name.    network-interface.addresses.private-ip-address - The private IPv4 address associated with the network interface.    network-interface.association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    network-interface.association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    network-interface.association.carrier-ip - The customer-owned IP address.    network-interface.association.customer-owned-ip - The customer-owned IP address.    network-interface.association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    network-interface.association.public-dns-name - The public DNS name.    network-interface.association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    network-interface.attachment.attach-time - The time that the network interface was attached to an instance.    network-interface.attachment.attachment-id - The ID of the interface attachment.    network-interface.attachment.delete-on-termination - Specifies whether the attachment is deleted when an instance is terminated.    network-interface.attachment.device-index - The device index to which the network interface is attached.    network-interface.attachment.instance-id - The ID of the instance to which the network interface is attached.    network-interface.attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    network-interface.attachment.network-card-index - The index of the network card.    network-interface.attachment.status - The status of the attachment (attaching | attached | detaching | detached).    network-interface.availability-zone - The Availability Zone for the network interface.    network-interface.deny-all-igw-traffic - A Boolean that indicates whether  a network interface with an IPv6 address is unreachable from the public internet.    network-interface.description - The description of the network interface.    network-interface.group-id - The ID of a security group associated with the network interface.    network-interface.group-name - The name of a security group associated with the network interface.    network-interface.ipv4-prefixes.ipv4-prefix - The IPv4 prefixes that are assigned to the network interface.    network-interface.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.ipv6-address - The IPv6 address associated with the network interface.    network-interface.ipv6-addresses.is-primary-ipv6 - A Boolean that indicates whether this is the primary IPv6 address.    network-interface.ipv6-native - A Boolean that indicates whether this is an IPv6 only network interface.    network-interface.ipv6-prefixes.ipv6-prefix - The IPv6 prefix assigned to the network interface.    network-interface.mac-address - The MAC address of the network interface.    network-interface.network-interface-id - The ID of the network interface.    network-interface.operator.managed - A Boolean that indicates whether the instance has a managed network interface.    network-interface.operator.principal - The principal that manages the network interface. Only valid for instances with managed network interfaces, where managed is true.    network-interface.outpost-arn - The ARN of the Outpost.    network-interface.owner-id - The ID of the owner of the network interface.    network-interface.private-dns-name - The private DNS name of the network interface.    network-interface.private-ip-address - The private IPv4 address.    network-interface.public-dns-name - The public DNS name.    network-interface.requester-id - The requester ID for the network interface.    network-interface.requester-managed - Indicates whether the network interface is being managed by Amazon Web Services.    network-interface.status - The status of the network interface (available) | in-use).    network-interface.source-dest-check - Whether the network interface performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.    network-interface.subnet-id - The ID of the subnet for the network interface.    network-interface.tag-key - The key of a tag assigned to the network interface.    network-interface.tag-value - The value of a tag assigned to the network interface.    network-interface.vpc-id - The ID of the VPC for the network interface.    network-performance-options.bandwidth-weighting - Where the performance boost  			is applied, if applicable. Valid values: default, vpc-1,  			ebs-1.    operator.managed - A Boolean that indicates whether this is a managed instance.    operator.principal - The principal that manages the instance. Only valid for managed instances, where managed is true.    outpost-arn - The Amazon Resource Name (ARN) of the Outpost.    owner-id - The Amazon Web Services account ID of the instance owner.    placement-group-name - The name of the placement group for the instance.    placement-partition-number - The partition in which the instance is located.    platform - The platform. To list only Windows instances, use windows.    platform-details - The platform (Linux/UNIX | Red Hat BYOL Linux |  Red Hat Enterprise Linux | Red Hat Enterprise Linux with HA | Red Hat Enterprise Linux with High Availability | Red Hat Enterprise Linux with SQL Server Standard and HA | Red Hat Enterprise Linux with SQL Server Enterprise and HA | Red Hat Enterprise Linux with SQL Server Standard | Red Hat Enterprise Linux with SQL Server Web | Red Hat Enterprise Linux with SQL Server Enterprise | SQL Server Enterprise | SQL Server Standard | SQL Server Web | SUSE Linux | Ubuntu Pro | Windows | Windows BYOL | Windows with SQL Server Enterprise | Windows with SQL Server Standard | Windows with SQL Server Web).    private-dns-name - The private IPv4 DNS name of the instance.    private-dns-name-options.enable-resource-name-dns-a-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS A records.    private-dns-name-options.enable-resource-name-dns-aaaa-record - A Boolean that indicates whether to respond to DNS queries for instance hostnames with DNS AAAA records.    private-dns-name-options.hostname-type - The type of hostname (ip-name | resource-name).    private-ip-address - The private IPv4 address of the instance. This can only be used to filter by the primary IP address of the network interface attached to the instance. To filter by additional IP addresses assigned to the network interface, use the filter network-interface.addresses.private-ip-address.    product-code - The product code associated with the AMI used to launch the instance.    product-code.type - The type of product code (devpay | marketplace).    ramdisk-id - The RAM disk ID.    reason - The reason for the current state of the instance (for example, shows "User Initiated [date]" when you stop or terminate the instance). Similar to the state-reason-code filter.    requester-id - The ID of the entity that launched the instance on your behalf (for example, Amazon Web Services Management Console, Amazon EC2 Auto Scaling, and so on).    reservation-id - The ID of the instance's reservation. A reservation ID is created any time you launch an instance. A reservation ID has a one-to-one relationship with an instance launch request, but can be associated with more than one instance if you launch multiple instances using the same launch request. For example, if you launch one instance, you get one reservation ID. If you launch ten instances using the same launch request, you also get one reservation ID.    root-device-name - The device name of the root device volume (for example, /dev/sda1).    root-device-type - The type of the root device volume (ebs | instance-store).    source-dest-check - Indicates whether the instance performs source/destination checking. A value of true means that checking is enabled, and false means that checking is disabled. The value must be false for the instance to perform network address translation (NAT) in your VPC.     spot-instance-request-id - The ID of the Spot Instance request.    state-reason-code - The reason code for the state change.    state-reason-message - A message that describes the state change.    subnet-id - The ID of the subnet for the instance.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources that have a tag with a specific key, regardless of the tag value.    tenancy - The tenancy of an instance (dedicated | default | host).    tpm-support - Indicates if the instance is configured for NitroTPM support (v2.0).     usage-operation - The usage operation value for the instance (RunInstances | RunInstances:00g0 | RunInstances:0010 | RunInstances:1010 | RunInstances:1014 | RunInstances:1110 | RunInstances:0014 | RunInstances:0210 | RunInstances:0110 | RunInstances:0100 | RunInstances:0004 | RunInstances:0200 | RunInstances:000g | RunInstances:0g00 | RunInstances:0002 | RunInstances:0800 | RunInstances:0102 | RunInstances:0006 | RunInstances:0202).    usage-operation-update-time - The time that the usage operation was last updated, for example, 2022-09-15T17:15:20.000Z.    virtualization-type - The virtualization type of the instance (paravirtual | hvm).    vpc-id - The ID of the VPC that the instance is running in.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance IDs. Default: Describes all your instances.
@@ -24295,6 +25564,67 @@ extension EC2 {
         }
     }
 
+    public struct DescribeIpamPoliciesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamPolicyIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters for the IPAM policy description.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the IPAM policies to describe.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPolicyIdsEncoding, String>>
+        public var ipamPolicyIds: [String]?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPolicyIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPolicyIds = ipamPolicyIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPolicyIds = "IpamPolicyId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeIpamPoliciesResult: AWSDecodableShape {
+        public struct _IpamPoliciesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the IPAM policies. An IPAM policy is a set of rules that define how public IPv4 addresses from IPAM pools are allocated to Amazon Web Services resources. Each rule maps an Amazon Web Services service to IPAM pools that the service will use to get IP addresses. A single policy can have multiple rules and be applied to multiple Amazon Web Services Regions. If the IPAM pool run out of addresses then the services fallback to Amazon-provided IP addresses. A policy can be applied to an individual Amazon Web Services account or an entity within Amazon Web Services Organizations.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPoliciesEncoding, IpamPolicy>>
+        public var ipamPolicies: [IpamPolicy]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamPolicies: [IpamPolicy]? = nil, nextToken: String? = nil) {
+            self.ipamPolicies = ipamPolicies
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicies = "ipamPolicySet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeIpamPoolsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _IpamPoolIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -24356,6 +25686,132 @@ extension EC2 {
         }
     }
 
+    public struct DescribeIpamPrefixListResolverTargetsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamPrefixListResolverTargetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to limit the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM prefix list resolver to filter targets by. Only targets associated with this resolver will be returned.
+        public let ipamPrefixListResolverId: String?
+        /// The IDs of the IPAM prefix list resolver Targets to describe. If not specified, all targets in your account are described.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolverTargetIdsEncoding, String>>
+        public var ipamPrefixListResolverTargetIds: [String]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPrefixListResolverId: String? = nil, ipamPrefixListResolverTargetIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.ipamPrefixListResolverTargetIds = ipamPrefixListResolverTargetIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case ipamPrefixListResolverTargetIds = "IpamPrefixListResolverTargetId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeIpamPrefixListResolverTargetsResult: AWSDecodableShape {
+        public struct _IpamPrefixListResolverTargetsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the IPAM prefix list resolver Targets.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolverTargetsEncoding, IpamPrefixListResolverTarget>>
+        public var ipamPrefixListResolverTargets: [IpamPrefixListResolverTarget]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamPrefixListResolverTargets: [IpamPrefixListResolverTarget]? = nil, nextToken: String? = nil) {
+            self.ipamPrefixListResolverTargets = ipamPrefixListResolverTargets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolverTargets = "ipamPrefixListResolverTargetSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeIpamPrefixListResolversRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamPrefixListResolverIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to limit the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The IDs of the IPAM prefix list resolvers to describe. If not specified, all resolvers in your account are described.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolverIdsEncoding, String>>
+        public var ipamPrefixListResolverIds: [String]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPrefixListResolverIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPrefixListResolverIds = ipamPrefixListResolverIds
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPrefixListResolverIds = "IpamPrefixListResolverId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeIpamPrefixListResolversResult: AWSDecodableShape {
+        public struct _IpamPrefixListResolversEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the IPAM prefix list resolvers.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolversEncoding, IpamPrefixListResolver>>
+        public var ipamPrefixListResolvers: [IpamPrefixListResolver]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamPrefixListResolvers: [IpamPrefixListResolver]? = nil, nextToken: String? = nil) {
+            self.ipamPrefixListResolvers = ipamPrefixListResolvers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolvers = "ipamPrefixListResolverSet"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeIpamResourceDiscoveriesRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _IpamResourceDiscoveryIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -24370,7 +25826,7 @@ extension EC2 {
         public var ipamResourceDiscoveryIds: [String]?
         /// The maximum number of resource discoveries to return in one page of results.
         public let maxResults: Int?
-        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        /// The token for the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -24402,7 +25858,7 @@ extension EC2 {
         /// The resource discoveries.
         @OptionalCustomCoding<EC2ArrayCoder<_IpamResourceDiscoveriesEncoding, IpamResourceDiscovery>>
         public var ipamResourceDiscoveries: [IpamResourceDiscovery]?
-        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         @inlinable
@@ -24463,7 +25919,7 @@ extension EC2 {
         /// The resource discovery associations.
         @OptionalCustomCoding<EC2ArrayCoder<_IpamResourceDiscoveryAssociationsEncoding, IpamResourceDiscoveryAssociation>>
         public var ipamResourceDiscoveryAssociations: [IpamResourceDiscoveryAssociation]?
-        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         @inlinable
@@ -26062,7 +27518,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
+        /// One or more filters.    association.allocation-id - The allocation ID returned when you allocated the Elastic IP address (IPv4) for your network interface.    association.association-id - The association ID returned when the network interface was associated with an IPv4 address.    addresses.association.owner-id - The owner ID of the addresses associated with the network interface.    addresses.association.public-ip - The association ID returned when the network interface was associated with the Elastic IP address (IPv4).    addresses.primary - Whether the private IPv4 address is the primary IP address associated with the network interface.     addresses.private-ip-address - The private IPv4 addresses associated with the network interface.    association.ip-owner-id - The owner of the Elastic IP address (IPv4) associated with the network interface.    association.public-ip - The address of the Elastic IP address (IPv4) bound to the network interface.    association.public-dns-name - The public DNS name for the network interface (IPv4).    attachment.attach-time - The time that the network interface was attached to an instance.    attachment.attachment-id - The ID of the interface attachment.    attachment.delete-on-termination - Indicates whether the attachment is deleted when an instance is terminated.    attachment.device-index - The device index to which the network interface is attached.    attachment.instance-id - The ID of the instance to which the network interface is attached.    attachment.instance-owner-id - The owner ID of the instance to which the network interface is attached.    attachment.status - The status of the attachment (attaching | attached | detaching | detached).    availability-zone - The Availability Zone of the network interface.    availability-zone-id - The ID of the Availability Zone of the network interface.    description - The description of the network interface.    group-id - The ID of a security group associated with the network interface.    ipv6-addresses.ipv6-address - An IPv6 address associated with the network interface.    interface-type - The type of network interface (api_gateway_managed | aws_codestar_connections_managed | branch | ec2_instance_connect_endpoint | efa | efa-only | efs | evs | gateway_load_balancer | gateway_load_balancer_endpoint | global_accelerator_managed | interface | iot_rules_managed | lambda | load_balancer | nat_gateway | network_load_balancer | quicksight | transit_gateway | trunk | vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking. A value of true means checking is enabled, and false means checking is disabled. The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available; if a network interface is attached to an instance the status is in-use.    subnet-id - The ID of the subnet for the network interface.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. You cannot specify this parameter and the network interface IDs parameter in the same request. For more information, see Pagination.
@@ -27231,7 +28687,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.    state: The state of the association.    tag:: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key: The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// Security group VPC association filters.    group-id: The security group ID.    group-owner-id: The group owner ID.    state: The state of the association.    vpc-id: The ID of the associated VPC.    vpc-owner-id: The account ID of the VPC owner.
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request.
@@ -28594,6 +30050,68 @@ extension EC2 {
         }
     }
 
+    public struct DescribeTransitGatewayMeteringPoliciesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _TransitGatewayMeteringPolicyIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply when describing transit gateway metering policies.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the transit gateway metering policies to describe.
+        @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayMeteringPolicyIdsEncoding, String>>
+        public var transitGatewayMeteringPolicyIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayMeteringPolicyIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayMeteringPolicyIds = transitGatewayMeteringPolicyIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayMeteringPolicyIds = "TransitGatewayMeteringPolicyIds"
+        }
+    }
+
+    public struct DescribeTransitGatewayMeteringPoliciesResult: AWSDecodableShape {
+        public struct _TransitGatewayMeteringPoliciesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the transit gateway metering policies.
+        @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayMeteringPoliciesEncoding, TransitGatewayMeteringPolicy>>
+        public var transitGatewayMeteringPolicies: [TransitGatewayMeteringPolicy]?
+
+        @inlinable
+        public init(nextToken: String? = nil, transitGatewayMeteringPolicies: [TransitGatewayMeteringPolicy]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayMeteringPolicies = transitGatewayMeteringPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case transitGatewayMeteringPolicies = "transitGatewayMeteringPolicies"
+        }
+    }
+
     public struct DescribeTransitGatewayMulticastDomainsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _TransitGatewayMulticastDomainIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -29872,6 +31390,75 @@ extension EC2 {
         }
     }
 
+    public struct DescribeVpcEncryptionControlsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _VpcEncryptionControlIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _VpcIdsEncoding: ArrayCoderProperties { public static let member = "VpcId" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The filters to apply to the request.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The IDs of the VPC Encryption Control configurations to describe.
+        @OptionalCustomCoding<EC2ArrayCoder<_VpcEncryptionControlIdsEncoding, String>>
+        public var vpcEncryptionControlIds: [String]?
+        /// The IDs of the VPCs to describe encryption control configurations for.
+        @OptionalCustomCoding<EC2ArrayCoder<_VpcIdsEncoding, String>>
+        public var vpcIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcEncryptionControlIds: [String]? = nil, vpcIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.vpcEncryptionControlIds = vpcEncryptionControlIds
+            self.vpcIds = vpcIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case vpcEncryptionControlIds = "VpcEncryptionControlId"
+            case vpcIds = "VpcId"
+        }
+    }
+
+    public struct DescribeVpcEncryptionControlsResult: AWSDecodableShape {
+        public struct _VpcEncryptionControlsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        /// Information about the VPC Encryption Control configurations.
+        @OptionalCustomCoding<EC2ArrayCoder<_VpcEncryptionControlsEncoding, VpcEncryptionControl>>
+        public var vpcEncryptionControls: [VpcEncryptionControl]?
+
+        @inlinable
+        public init(nextToken: String? = nil, vpcEncryptionControls: [VpcEncryptionControl]? = nil) {
+            self.nextToken = nextToken
+            self.vpcEncryptionControls = vpcEncryptionControls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case vpcEncryptionControls = "vpcEncryptionControlSet"
+        }
+    }
+
     public struct DescribeVpcEndpointAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
         public struct _VpcEndpointIdsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -30401,6 +31988,68 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case vpcs = "vpcSet"
+        }
+    }
+
+    public struct DescribeVpnConcentratorsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _VpnConcentratorIdsEncoding: ArrayCoderProperties { public static let member = "VpnConcentratorId" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to limit the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// One or more VPN concentrator IDs.
+        @OptionalCustomCoding<EC2ArrayCoder<_VpnConcentratorIdsEncoding, String>>
+        public var vpnConcentratorIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpnConcentratorIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.vpnConcentratorIds = vpnConcentratorIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case vpnConcentratorIds = "VpnConcentratorId"
+        }
+    }
+
+    public struct DescribeVpnConcentratorsResult: AWSDecodableShape {
+        public struct _VpnConcentratorsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the VPN concentrators.
+        @OptionalCustomCoding<EC2ArrayCoder<_VpnConcentratorsEncoding, VpnConcentrator>>
+        public var vpnConcentrators: [VpnConcentrator]?
+
+        @inlinable
+        public init(nextToken: String? = nil, vpnConcentrators: [VpnConcentrator]? = nil) {
+            self.nextToken = nextToken
+            self.vpnConcentrators = vpnConcentrators
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case vpnConcentrators = "vpnConcentratorSet"
         }
     }
 
@@ -31122,17 +32771,21 @@ extension EC2 {
     public struct DisableFastSnapshotRestoreStateErrorItem: AWSDecodableShape {
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// The error.
         public let error: DisableFastSnapshotRestoreStateError?
 
         @inlinable
-        public init(availabilityZone: String? = nil, error: DisableFastSnapshotRestoreStateError? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, error: DisableFastSnapshotRestoreStateError? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.error = error
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case error = "error"
         }
     }
@@ -31140,6 +32793,8 @@ extension EC2 {
     public struct DisableFastSnapshotRestoreSuccessItem: AWSDecodableShape {
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// The time at which fast snapshot restores entered the disabled state.
         public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
@@ -31162,8 +32817,9 @@ extension EC2 {
         public let stateTransitionReason: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
             self.enabledTime = enabledTime
@@ -31178,6 +32834,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case disabledTime = "disabledTime"
             case disablingTime = "disablingTime"
             case enabledTime = "enabledTime"
@@ -31192,10 +32849,14 @@ extension EC2 {
     }
 
     public struct DisableFastSnapshotRestoresRequest: AWSEncodableShape {
+        public struct _AvailabilityZoneIdsEncoding: ArrayCoderProperties { public static let member = "AvailabilityZoneId" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { public static let member = "SnapshotId" }
 
-        /// One or more Availability Zones. For example, us-east-2a.
+        /// One or more Availability Zone IDs. For example, use2-az1. Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both.
+        @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZoneIdsEncoding, String>>
+        public var availabilityZoneIds: [String]?
+        /// One or more Availability Zones. For example, us-east-2a. Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both.
         @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -31205,13 +32866,15 @@ extension EC2 {
         public var sourceSnapshotIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
+        public init(availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
             self.sourceSnapshotIds = sourceSnapshotIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneIds = "AvailabilityZoneId"
             case availabilityZones = "AvailabilityZone"
             case dryRun = "DryRun"
             case sourceSnapshotIds = "SourceSnapshotId"
@@ -31373,6 +33036,49 @@ extension EC2 {
         }
     }
 
+    public struct DisableInstanceSqlHaStandbyDetectionsRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action,  without actually making the request, and provides an error response. If you have the  required permissions, the error response is DryRunOperation. Otherwise,  it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the instances to disable from SQL Server High Availability standby detection monitoring.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.instanceIds = instanceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 30)
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceIds = "InstanceId"
+        }
+    }
+
+    public struct DisableInstanceSqlHaStandbyDetectionsResult: AWSDecodableShape {
+        public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the instances that were disabled from SQL Server High Availability standby  detection monitoring.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, RegisteredInstance>>
+        public var instances: [RegisteredInstance]?
+
+        @inlinable
+        public init(instances: [RegisteredInstance]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instanceSet"
+        }
+    }
+
     public struct DisableIpamOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Organizations member account ID that you want to disable as IPAM account.
         public let delegatedAdminAccountId: String?
@@ -31402,6 +33108,42 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case success = "success"
+        }
+    }
+
+    public struct DisableIpamPolicyRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM policy to disable.
+        public let ipamPolicyId: String?
+        /// The ID of the Amazon Web Services Organizations target for which to disable the IPAM policy. This parameter is required only when IPAM is integrated with Amazon Web Services Organizations. When IPAM is not integrated with Amazon Web Services Organizations, omit this parameter and the policy will be disabled for the current account. A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
+        public let organizationTargetId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPolicyId: String? = nil, organizationTargetId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPolicyId = ipamPolicyId
+            self.organizationTargetId = organizationTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPolicyId = "IpamPolicyId"
+            case organizationTargetId = "OrganizationTargetId"
+        }
+    }
+
+    public struct DisableIpamPolicyResult: AWSDecodableShape {
+        /// Returns true if the IPAM policy was successfully disabled.
+        public let `return`: Bool?
+
+        @inlinable
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
         }
     }
 
@@ -32390,38 +34132,65 @@ extension EC2 {
     }
 
     public struct DnsOptions: AWSDecodableShape {
+        public struct _PrivateDnsSpecifiedDomainsEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// The DNS records created for the endpoint.
         public let dnsRecordIpType: DnsRecordIpType?
         /// Indicates whether to enable private DNS only for inbound endpoints.
         public let privateDnsOnlyForInboundResolverEndpoint: Bool?
+        /// The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource.
+        ///     ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names.    VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider.    VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter.    SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter.
+        public let privateDnsPreference: String?
+        /// Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY.
+        @OptionalCustomCoding<EC2ArrayCoder<_PrivateDnsSpecifiedDomainsEncoding, String>>
+        public var privateDnsSpecifiedDomains: [String]?
 
         @inlinable
-        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
+        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil, privateDnsPreference: String? = nil, privateDnsSpecifiedDomains: [String]? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
             self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
+            self.privateDnsPreference = privateDnsPreference
+            self.privateDnsSpecifiedDomains = privateDnsSpecifiedDomains
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsRecordIpType = "dnsRecordIpType"
             case privateDnsOnlyForInboundResolverEndpoint = "privateDnsOnlyForInboundResolverEndpoint"
+            case privateDnsPreference = "privateDnsPreference"
+            case privateDnsSpecifiedDomains = "privateDnsSpecifiedDomainSet"
         }
     }
 
     public struct DnsOptionsSpecification: AWSEncodableShape {
+        public struct _PrivateDnsSpecifiedDomainsEncoding: ArrayCoderProperties { public static let member = "item" }
+
         /// The DNS records created for the endpoint.
         public let dnsRecordIpType: DnsRecordIpType?
         /// Indicates whether to enable private DNS only for inbound endpoints. This option is available only for services that support both gateway and interface endpoints. It routes traffic that originates from the VPC to the gateway endpoint and traffic that originates from on-premises to the interface endpoint.
         public let privateDnsOnlyForInboundResolverEndpoint: Bool?
+        ///  The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource.     ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names.    VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider.    VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter.    SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the PrivateDnsSpecifiedDomains parameter.
+        public let privateDnsPreference: String?
+        /// Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is verified-domains-and-specified-domains or specified-domains-only.
+        @OptionalCustomCoding<EC2ArrayCoder<_PrivateDnsSpecifiedDomainsEncoding, String>>
+        public var privateDnsSpecifiedDomains: [String]?
 
         @inlinable
-        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil) {
+        public init(dnsRecordIpType: DnsRecordIpType? = nil, privateDnsOnlyForInboundResolverEndpoint: Bool? = nil, privateDnsPreference: String? = nil, privateDnsSpecifiedDomains: [String]? = nil) {
             self.dnsRecordIpType = dnsRecordIpType
             self.privateDnsOnlyForInboundResolverEndpoint = privateDnsOnlyForInboundResolverEndpoint
+            self.privateDnsPreference = privateDnsPreference
+            self.privateDnsSpecifiedDomains = privateDnsSpecifiedDomains
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.privateDnsSpecifiedDomains, name: "privateDnsSpecifiedDomains", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
             case dnsRecordIpType = "DnsRecordIpType"
             case privateDnsOnlyForInboundResolverEndpoint = "PrivateDnsOnlyForInboundResolverEndpoint"
+            case privateDnsPreference = "PrivateDnsPreference"
+            case privateDnsSpecifiedDomains = "PrivateDnsSpecifiedDomain"
         }
     }
 
@@ -32726,6 +34495,8 @@ extension EC2 {
 
         /// The Availability Zone of the EC2 Instance Connect Endpoint.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone of the EC2 Instance Connect Endpoint.
+        public let availabilityZoneId: String?
         /// The date and time that the EC2 Instance Connect Endpoint was created.
         public let createdAt: Date?
         /// The DNS name of the EC2 Instance Connect Endpoint.
@@ -32763,8 +34534,9 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, createdAt: Date? = nil, dnsName: String? = nil, fipsDnsName: String? = nil, instanceConnectEndpointArn: String? = nil, instanceConnectEndpointId: String? = nil, ipAddressType: IpAddressType? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, preserveClientIp: Bool? = nil, publicDnsNames: InstanceConnectEndpointPublicDnsNames? = nil, securityGroupIds: [String]? = nil, state: Ec2InstanceConnectEndpointState? = nil, stateMessage: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, createdAt: Date? = nil, dnsName: String? = nil, fipsDnsName: String? = nil, instanceConnectEndpointArn: String? = nil, instanceConnectEndpointId: String? = nil, ipAddressType: IpAddressType? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, preserveClientIp: Bool? = nil, publicDnsNames: InstanceConnectEndpointPublicDnsNames? = nil, securityGroupIds: [String]? = nil, state: Ec2InstanceConnectEndpointState? = nil, stateMessage: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.createdAt = createdAt
             self.dnsName = dnsName
             self.fipsDnsName = fipsDnsName
@@ -32785,6 +34557,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case createdAt = "createdAt"
             case dnsName = "dnsName"
             case fipsDnsName = "fipsDnsName"
@@ -33374,17 +35147,21 @@ extension EC2 {
     public struct EnableFastSnapshotRestoreStateErrorItem: AWSDecodableShape {
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// The error.
         public let error: EnableFastSnapshotRestoreStateError?
 
         @inlinable
-        public init(availabilityZone: String? = nil, error: EnableFastSnapshotRestoreStateError? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, error: EnableFastSnapshotRestoreStateError? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.error = error
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case error = "error"
         }
     }
@@ -33392,6 +35169,8 @@ extension EC2 {
     public struct EnableFastSnapshotRestoreSuccessItem: AWSDecodableShape {
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// The time at which fast snapshot restores entered the disabled state.
         public let disabledTime: Date?
         /// The time at which fast snapshot restores entered the disabling state.
@@ -33414,8 +35193,9 @@ extension EC2 {
         public let stateTransitionReason: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, disabledTime: Date? = nil, disablingTime: Date? = nil, enabledTime: Date? = nil, enablingTime: Date? = nil, optimizingTime: Date? = nil, ownerAlias: String? = nil, ownerId: String? = nil, snapshotId: String? = nil, state: FastSnapshotRestoreStateCode? = nil, stateTransitionReason: String? = nil) {
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.disabledTime = disabledTime
             self.disablingTime = disablingTime
             self.enabledTime = enabledTime
@@ -33430,6 +35210,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case disabledTime = "disabledTime"
             case disablingTime = "disablingTime"
             case enabledTime = "enabledTime"
@@ -33444,10 +35225,14 @@ extension EC2 {
     }
 
     public struct EnableFastSnapshotRestoresRequest: AWSEncodableShape {
+        public struct _AvailabilityZoneIdsEncoding: ArrayCoderProperties { public static let member = "AvailabilityZoneId" }
         public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
         public struct _SourceSnapshotIdsEncoding: ArrayCoderProperties { public static let member = "SnapshotId" }
 
-        /// One or more Availability Zones. For example, us-east-2a.
+        /// One or more Availability Zone IDs. For example, use2-az1. Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both.
+        @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZoneIdsEncoding, String>>
+        public var availabilityZoneIds: [String]?
+        /// One or more Availability Zones. For example, us-east-2a. Either AvailabilityZone or AvailabilityZoneId must be specified in the request, but not both.
         @OptionalCustomCoding<EC2ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -33457,13 +35242,15 @@ extension EC2 {
         public var sourceSnapshotIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
+        public init(availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, dryRun: Bool? = nil, sourceSnapshotIds: [String]? = nil) {
+            self.availabilityZoneIds = availabilityZoneIds
             self.availabilityZones = availabilityZones
             self.dryRun = dryRun
             self.sourceSnapshotIds = sourceSnapshotIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZoneIds = "AvailabilityZoneId"
             case availabilityZones = "AvailabilityZone"
             case dryRun = "DryRun"
             case sourceSnapshotIds = "SourceSnapshotId"
@@ -33637,6 +35424,54 @@ extension EC2 {
         }
     }
 
+    public struct EnableInstanceSqlHaStandbyDetectionsRequest: AWSEncodableShape {
+        public struct _InstanceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Checks whether you have the required permissions for the action,  without actually making the request, and provides an error response. If you have the  required permissions, the error response is DryRunOperation. Otherwise,  it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of the instances to enable for SQL Server High Availability standby detection monitoring.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
+        public var instanceIds: [String]?
+        /// The ARN of the Secrets Manager secret containing the SQL Server access credentials. The specified  secret must contain valid SQL Server credentials for the specified instances. If not specified,  deafult local user credentials will be used by the Amazon Web Services Systems Manager agent. To enable  instances with different credentials, you must make separate requests.
+        public let sqlServerCredentials: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, instanceIds: [String]? = nil, sqlServerCredentials: String? = nil) {
+            self.dryRun = dryRun
+            self.instanceIds = instanceIds
+            self.sqlServerCredentials = sqlServerCredentials
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, max: 30)
+            try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
+            try self.validate(self.sqlServerCredentials, name: "sqlServerCredentials", parent: name, pattern: "^(?=.{20,2048}$)arn:aws[a-z-]*:secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=.@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceIds = "InstanceId"
+            case sqlServerCredentials = "SqlServerCredentials"
+        }
+    }
+
+    public struct EnableInstanceSqlHaStandbyDetectionsResult: AWSDecodableShape {
+        public struct _InstancesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the instances that were enabled for SQL Server High Availability standby  detection monitoring.
+        @OptionalCustomCoding<EC2ArrayCoder<_InstancesEncoding, RegisteredInstance>>
+        public var instances: [RegisteredInstance]?
+
+        @inlinable
+        public init(instances: [RegisteredInstance]? = nil) {
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instances = "instanceSet"
+        }
+    }
+
     public struct EnableIpamOrganizationAdminAccountRequest: AWSEncodableShape {
         /// The Organizations member account ID that you want to enable as the IPAM account.
         public let delegatedAdminAccountId: String?
@@ -33666,6 +35501,42 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case success = "success"
+        }
+    }
+
+    public struct EnableIpamPolicyRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM policy to enable.
+        public let ipamPolicyId: String?
+        /// The ID of the Amazon Web Services Organizations target for which to enable the IPAM policy. This parameter is required only when IPAM is integrated with Amazon Web Services Organizations. When IPAM is not integrated with Amazon Web Services Organizations, omit this parameter and the policy will apply to the current account. A target can be an individual Amazon Web Services account or an entity within an Amazon Web Services Organization to which an IPAM policy can be applied.
+        public let organizationTargetId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPolicyId: String? = nil, organizationTargetId: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPolicyId = ipamPolicyId
+            self.organizationTargetId = organizationTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPolicyId = "IpamPolicyId"
+            case organizationTargetId = "OrganizationTargetId"
+        }
+    }
+
+    public struct EnableIpamPolicyResult: AWSDecodableShape {
+        /// The ID of the IPAM policy that was enabled.
+        public let ipamPolicyId: String?
+
+        @inlinable
+        public init(ipamPolicyId: String? = nil) {
+            self.ipamPolicyId = ipamPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicyId = "ipamPolicyId"
         }
     }
 
@@ -33960,6 +35831,24 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct EncryptionSupport: AWSDecodableShape {
+        /// The current encryption state of the resource.
+        public let encryptionState: EncryptionStateValue?
+        /// A message describing the encryption state.
+        public let stateMessage: String?
+
+        @inlinable
+        public init(encryptionState: EncryptionStateValue? = nil, stateMessage: String? = nil) {
+            self.encryptionState = encryptionState
+            self.stateMessage = stateMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionState = "encryptionState"
+            case stateMessage = "stateMessage"
         }
     }
 
@@ -34665,6 +36554,24 @@ extension EC2 {
             case userTrustProvider = "userTrustProvider"
             case verifiedAccessInstanceId = "verifiedAccessInstanceId"
             case version = "version"
+        }
+    }
+
+    public struct ExternalAuthorityConfiguration: AWSEncodableShape {
+        /// The identifier for the external resource managing this scope. For Infoblox integrations, this is the Infoblox resource identifier in the format .identity.account...
+        public let externalResourceIdentifier: String?
+        /// The type of external authority.
+        public let type: IpamScopeExternalAuthorityType?
+
+        @inlinable
+        public init(externalResourceIdentifier: String? = nil, type: IpamScopeExternalAuthorityType? = nil) {
+            self.externalResourceIdentifier = externalResourceIdentifier
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalResourceIdentifier = "ExternalResourceIdentifier"
+            case type = "Type"
         }
     }
 
@@ -36230,6 +38137,15 @@ extension EC2 {
         /// Information about the Capacity Reservation usage.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceUsagesEncoding, InstanceUsage>>
         public var instanceUsages: [InstanceUsage]?
+        /// 			Indicates whether the Capacity Reservation is interruptible, meaning instances may be terminated when the owner reclaims capacity.
+        ///
+        public let interruptible: Bool?
+        /// 			Information about the capacity allocated to the interruptible Capacity Reservation, including instance counts and allocation status.
+        ///
+        public let interruptibleCapacityAllocation: InterruptibleCapacityAllocation?
+        /// 			Details about the interruption configuration and source reservation for interruptible Capacity Reservations.
+        ///
+        public let interruptionInfo: InterruptionInfo?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The current state of the Capacity Reservation. A Capacity Reservation can be in one of
@@ -36253,11 +38169,14 @@ extension EC2 {
         public let totalInstanceCount: Int?
 
         @inlinable
-        public init(availableInstanceCount: Int? = nil, capacityReservationId: String? = nil, instanceType: String? = nil, instanceUsages: [InstanceUsage]? = nil, nextToken: String? = nil, state: CapacityReservationState? = nil, totalInstanceCount: Int? = nil) {
+        public init(availableInstanceCount: Int? = nil, capacityReservationId: String? = nil, instanceType: String? = nil, instanceUsages: [InstanceUsage]? = nil, interruptible: Bool? = nil, interruptibleCapacityAllocation: InterruptibleCapacityAllocation? = nil, interruptionInfo: InterruptionInfo? = nil, nextToken: String? = nil, state: CapacityReservationState? = nil, totalInstanceCount: Int? = nil) {
             self.availableInstanceCount = availableInstanceCount
             self.capacityReservationId = capacityReservationId
             self.instanceType = instanceType
             self.instanceUsages = instanceUsages
+            self.interruptible = interruptible
+            self.interruptibleCapacityAllocation = interruptibleCapacityAllocation
+            self.interruptionInfo = interruptionInfo
             self.nextToken = nextToken
             self.state = state
             self.totalInstanceCount = totalInstanceCount
@@ -36268,6 +38187,9 @@ extension EC2 {
             case capacityReservationId = "capacityReservationId"
             case instanceType = "instanceType"
             case instanceUsages = "instanceUsageSet"
+            case interruptible = "interruptible"
+            case interruptibleCapacityAllocation = "interruptibleCapacityAllocation"
+            case interruptionInfo = "interruptionInfo"
             case nextToken = "nextToken"
             case state = "state"
             case totalInstanceCount = "totalInstanceCount"
@@ -36585,6 +38507,42 @@ extension EC2 {
         }
     }
 
+    public struct GetEnabledIpamPolicyRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+
+        @inlinable
+        public init(dryRun: Bool? = nil) {
+            self.dryRun = dryRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+        }
+    }
+
+    public struct GetEnabledIpamPolicyResult: AWSDecodableShape {
+        /// Indicates whether the IPAM policy is enabled.
+        public let ipamPolicyEnabled: Bool?
+        /// The ID of the enabled IPAM policy.
+        public let ipamPolicyId: String?
+        /// The entity that manages the IPAM policy.
+        public let managedBy: IpamPolicyManagedBy?
+
+        @inlinable
+        public init(ipamPolicyEnabled: Bool? = nil, ipamPolicyId: String? = nil, managedBy: IpamPolicyManagedBy? = nil) {
+            self.ipamPolicyEnabled = ipamPolicyEnabled
+            self.ipamPolicyId = ipamPolicyId
+            self.managedBy = managedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicyEnabled = "ipamPolicyEnabled"
+            case ipamPolicyId = "ipamPolicyId"
+            case managedBy = "managedBy"
+        }
+    }
+
     public struct GetFlowLogsIntegrationTemplateRequest: AWSEncodableShape {
         /// To store the CloudFormation template in Amazon S3, specify the location in Amazon S3.
         public let configDeliveryS3DestinationArn: String?
@@ -36731,6 +38689,43 @@ extension EC2 {
             case purchase = "purchase"
             case totalHourlyPrice = "totalHourlyPrice"
             case totalUpfrontPrice = "totalUpfrontPrice"
+        }
+    }
+
+    public struct GetImageAncestryRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,
+        /// 			and provides an error response. If you have the required permissions, the error response is
+        /// 			DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the AMI whose ancestry you want to trace.
+        public let imageId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, imageId: String? = nil) {
+            self.dryRun = dryRun
+            self.imageId = imageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case imageId = "ImageId"
+        }
+    }
+
+    public struct GetImageAncestryResult: AWSDecodableShape {
+        public struct _ImageAncestryEntriesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A list of entries in the AMI ancestry chain, from the specified AMI to the root AMI.
+        @OptionalCustomCoding<EC2ArrayCoder<_ImageAncestryEntriesEncoding, ImageAncestryEntry>>
+        public var imageAncestryEntries: [ImageAncestryEntry]?
+
+        @inlinable
+        public init(imageAncestryEntries: [ImageAncestryEntry]? = nil) {
+            self.imageAncestryEntries = imageAncestryEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageAncestryEntries = "imageAncestryEntrySet"
         }
     }
 
@@ -37216,6 +39211,132 @@ extension EC2 {
         }
     }
 
+    public struct GetIpamPolicyAllocationRulesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters for the allocation rules.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM policy for which to get allocation rules.
+        public let ipamPolicyId: String?
+        /// The locale for which to get the allocation rules.
+        public let locale: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The resource type for which to get the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:   Elastic IP addresses
+        public let resourceType: IpamPolicyResourceType?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPolicyId: String? = nil, locale: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceType: IpamPolicyResourceType? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPolicyId = ipamPolicyId
+            self.locale = locale
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPolicyId = "IpamPolicyId"
+            case locale = "Locale"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct GetIpamPolicyAllocationRulesResult: AWSDecodableShape {
+        public struct _IpamPolicyDocumentsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IPAM policy documents containing the allocation rules. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPolicyDocumentsEncoding, IpamPolicyDocument>>
+        public var ipamPolicyDocuments: [IpamPolicyDocument]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamPolicyDocuments: [IpamPolicyDocument]? = nil, nextToken: String? = nil) {
+            self.ipamPolicyDocuments = ipamPolicyDocuments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicyDocuments = "ipamPolicyDocumentSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamPolicyOrganizationTargetsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters for the Amazon Web Services Organizations targets.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM policy for which to get Amazon Web Services Organizations targets.
+        public let ipamPolicyId: String?
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPolicyId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPolicyId = ipamPolicyId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPolicyId = "IpamPolicyId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamPolicyOrganizationTargetsResult: AWSDecodableShape {
+        public struct _OrganizationTargetsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The Amazon Web Services Organizations targets for an IPAM policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_OrganizationTargetsEncoding, IpamPolicyOrganizationTarget>>
+        public var organizationTargets: [IpamPolicyOrganizationTarget]?
+
+        @inlinable
+        public init(nextToken: String? = nil, organizationTargets: [IpamPolicyOrganizationTarget]? = nil) {
+            self.nextToken = nextToken
+            self.organizationTargets = organizationTargets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case organizationTargets = "organizationTargetSet"
+        }
+    }
+
     public struct GetIpamPoolAllocationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -37334,6 +39455,186 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamPoolCidrs = "ipamPoolCidrSet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverRulesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to limit the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM prefix list resolver whose rules you want to retrieve.
+        public let ipamPrefixListResolverId: String?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPrefixListResolverId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverRulesResult: AWSDecodableShape {
+        public struct _RulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The CIDR selection rules for the IPAM prefix list resolver.
+        @OptionalCustomCoding<EC2ArrayCoder<_RulesEncoding, IpamPrefixListResolverRule>>
+        public var rules: [IpamPrefixListResolverRule]?
+
+        @inlinable
+        public init(nextToken: String? = nil, rules: [IpamPrefixListResolverRule]? = nil) {
+            self.nextToken = nextToken
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case rules = "ruleSet"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverVersionEntriesRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver whose version entries you want to retrieve.
+        public let ipamPrefixListResolverId: String?
+        /// The version number of the resolver for which to retrieve CIDR entries. If not specified, the latest version is used.
+        public let ipamPrefixListResolverVersion: Int64?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, ipamPrefixListResolverId: String? = nil, ipamPrefixListResolverVersion: Int64? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.ipamPrefixListResolverVersion = ipamPrefixListResolverVersion
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case ipamPrefixListResolverVersion = "IpamPrefixListResolverVersion"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverVersionEntriesResult: AWSDecodableShape {
+        public struct _EntriesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The CIDR entries for the specified resolver version.
+        @OptionalCustomCoding<EC2ArrayCoder<_EntriesEncoding, IpamPrefixListResolverVersionEntry>>
+        public var entries: [IpamPrefixListResolverVersionEntry]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(entries: [IpamPrefixListResolverVersionEntry]? = nil, nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries = "entrySet"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverVersionsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+        public struct _IpamPrefixListResolverVersionsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to limit the results.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The ID of the IPAM prefix list resolver whose versions you want to retrieve.
+        public let ipamPrefixListResolverId: String?
+        /// Specific version numbers to retrieve. If not specified, all versions are returned.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolverVersionsEncoding, Int64>>
+        public var ipamPrefixListResolverVersions: [Int64]?
+        /// The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, ipamPrefixListResolverId: String? = nil, ipamPrefixListResolverVersions: [Int64]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.ipamPrefixListResolverVersions = ipamPrefixListResolverVersions
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case ipamPrefixListResolverVersions = "IpamPrefixListResolverVersion"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetIpamPrefixListResolverVersionsResult: AWSDecodableShape {
+        public struct _IpamPrefixListResolverVersionsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the IPAM prefix list resolver versions.
+        @OptionalCustomCoding<EC2ArrayCoder<_IpamPrefixListResolverVersionsEncoding, IpamPrefixListResolverVersion>>
+        public var ipamPrefixListResolverVersions: [IpamPrefixListResolverVersion]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ipamPrefixListResolverVersions: [IpamPrefixListResolverVersion]? = nil, nextToken: String? = nil) {
+            self.ipamPrefixListResolverVersions = ipamPrefixListResolverVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolverVersions = "ipamPrefixListResolverVersionSet"
             case nextToken = "nextToken"
         }
     }
@@ -38239,6 +40540,66 @@ extension EC2 {
         }
     }
 
+    public struct GetTransitGatewayMeteringPolicyEntriesRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply when retrieving metering policy entries.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the transit gateway metering policy to retrieve entries for.
+        public let transitGatewayMeteringPolicyId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, transitGatewayMeteringPolicyId: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case transitGatewayMeteringPolicyId = "TransitGatewayMeteringPolicyId"
+        }
+    }
+
+    public struct GetTransitGatewayMeteringPolicyEntriesResult: AWSDecodableShape {
+        public struct _TransitGatewayMeteringPolicyEntriesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the transit gateway metering policy entries.
+        @OptionalCustomCoding<EC2ArrayCoder<_TransitGatewayMeteringPolicyEntriesEncoding, TransitGatewayMeteringPolicyEntry>>
+        public var transitGatewayMeteringPolicyEntries: [TransitGatewayMeteringPolicyEntry]?
+
+        @inlinable
+        public init(nextToken: String? = nil, transitGatewayMeteringPolicyEntries: [TransitGatewayMeteringPolicyEntry]? = nil) {
+            self.nextToken = nextToken
+            self.transitGatewayMeteringPolicyEntries = transitGatewayMeteringPolicyEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case transitGatewayMeteringPolicyEntries = "transitGatewayMeteringPolicyEntries"
+        }
+    }
+
     public struct GetTransitGatewayMulticastDomainAssociationsRequest: AWSEncodableShape {
         public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
@@ -38717,6 +41078,60 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "policyDocument"
             case policyEnabled = "policyEnabled"
+        }
+    }
+
+    public struct GetVpcResourcesBlockingEncryptionEnforcementRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination.
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The ID of the VPC to check for resources blocking encryption enforcement.
+        public let vpcId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, vpcId: String? = nil) {
+            self.dryRun = dryRun
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct GetVpcResourcesBlockingEncryptionEnforcementResult: AWSDecodableShape {
+        public struct _NonCompliantResourcesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to include in another request to get the next page of items. This value is null when there are no more items to return.
+        public let nextToken: String?
+        /// Information about resources that are blocking encryption enforcement.
+        @OptionalCustomCoding<EC2ArrayCoder<_NonCompliantResourcesEncoding, VpcEncryptionNonCompliantResource>>
+        public var nonCompliantResources: [VpcEncryptionNonCompliantResource]?
+
+        @inlinable
+        public init(nextToken: String? = nil, nonCompliantResources: [VpcEncryptionNonCompliantResource]? = nil) {
+            self.nextToken = nextToken
+            self.nonCompliantResources = nonCompliantResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case nonCompliantResources = "nonCompliantResourceSet"
         }
     }
 
@@ -39571,6 +41986,36 @@ extension EC2 {
             case tpmSupport = "tpmSupport"
             case usageOperation = "usageOperation"
             case virtualizationType = "virtualizationType"
+        }
+    }
+
+    public struct ImageAncestryEntry: AWSDecodableShape {
+        /// The date and time when this AMI was created.
+        public let creationDate: Date?
+        /// The ID of this AMI.
+        public let imageId: String?
+        /// The owner alias (amazon | aws-backup-vault | aws-marketplace ) of this AMI, if one is assigned. Otherwise, the value is null.
+        public let imageOwnerAlias: String?
+        /// The ID of the parent AMI.
+        public let sourceImageId: String?
+        /// The Amazon Web Services Region of the parent AMI.
+        public let sourceImageRegion: String?
+
+        @inlinable
+        public init(creationDate: Date? = nil, imageId: String? = nil, imageOwnerAlias: String? = nil, sourceImageId: String? = nil, sourceImageRegion: String? = nil) {
+            self.creationDate = creationDate
+            self.imageId = imageId
+            self.imageOwnerAlias = imageOwnerAlias
+            self.sourceImageId = sourceImageId
+            self.sourceImageRegion = sourceImageRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "creationDate"
+            case imageId = "imageId"
+            case imageOwnerAlias = "imageOwnerAlias"
+            case sourceImageId = "sourceImageId"
+            case sourceImageRegion = "sourceImageRegion"
         }
     }
 
@@ -42261,12 +44706,12 @@ extension EC2 {
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with AMD devices, specify amd.   For instance types with Habana devices, specify habana.   For instance types with NVIDIA devices, specify nvidia.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
         public var acceleratorManufacturers: [AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A10G GPUs, specify a10g.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA H100 GPUs, specify h100.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA T4G GPUs, specify t4g.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   For instance types with NVIDIA V100 GPUs, specify v100.   Default: Any accelerator
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A10G GPUs, specify a10g.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA H100 GPUs, specify h100.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.   For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA L4 GPUs, specify l4.   For instance types with NVIDIA L40S GPUs, specify l40s.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Amazon Web Services Trainium chips, specify trainium.   For instance types with Amazon Web Services Trainium2 chips, specify trainium2.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA T4G GPUs, specify t4g.   For instance types with Xilinx U30 cards, specify u30.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   For instance types with NVIDIA V100 GPUs, specify v100.   Default: Any accelerator
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   For instance types with Media accelerators, specify media.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -42306,6 +44751,8 @@ extension EC2 {
         public let networkInterfaceCount: NetworkInterfaceCount?
         /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To turn off price protection, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see Encryption in transit in the Amazon EC2 User Guide. Default: false
+        public let requireEncryptionInTransit: Bool?
         /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
         public let requireHibernateSupport: Bool?
         /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.  Default: 100
@@ -42316,7 +44763,7 @@ extension EC2 {
         public let vCpuCount: VCpuCountRange?
 
         @inlinable
-        public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, baselinePerformanceFactors: BaselinePerformanceFactors? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkBandwidthGbps: NetworkBandwidthGbps? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
+        public init(acceleratorCount: AcceleratorCount? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbps? = nil, baselinePerformanceFactors: BaselinePerformanceFactors? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpu? = nil, memoryMiB: MemoryMiB? = nil, networkBandwidthGbps: NetworkBandwidthGbps? = nil, networkInterfaceCount: NetworkInterfaceCount? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireEncryptionInTransit: Bool? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGB? = nil, vCpuCount: VCpuCountRange? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -42338,6 +44785,7 @@ extension EC2 {
             self.networkBandwidthGbps = networkBandwidthGbps
             self.networkInterfaceCount = networkInterfaceCount
             self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireEncryptionInTransit = requireEncryptionInTransit
             self.requireHibernateSupport = requireHibernateSupport
             self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
             self.totalLocalStorageGB = totalLocalStorageGB
@@ -42381,6 +44829,7 @@ extension EC2 {
             case networkBandwidthGbps = "networkBandwidthGbps"
             case networkInterfaceCount = "networkInterfaceCount"
             case onDemandMaxPricePercentageOverLowestPrice = "onDemandMaxPricePercentageOverLowestPrice"
+            case requireEncryptionInTransit = "requireEncryptionInTransit"
             case requireHibernateSupport = "requireHibernateSupport"
             case spotMaxPricePercentageOverLowestPrice = "spotMaxPricePercentageOverLowestPrice"
             case totalLocalStorageGB = "totalLocalStorageGB"
@@ -42403,12 +44852,12 @@ extension EC2 {
         /// Indicates whether instance types must have accelerators by specific manufacturers.   For instance types with Amazon Web Services devices, specify amazon-web-services.   For instance types with AMD devices, specify amd.   For instance types with Habana devices, specify habana.   For instance types with NVIDIA devices, specify nvidia.   For instance types with Xilinx devices, specify xilinx.   Default: Any manufacturer
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorManufacturersEncoding, AcceleratorManufacturer>>
         public var acceleratorManufacturers: [AcceleratorManufacturer]?
-        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A10G GPUs, specify a10g.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA H100 GPUs, specify h100.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA T4G GPUs, specify t4g.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   For instance types with NVIDIA V100 GPUs, specify v100.   Default: Any accelerator
+        /// The accelerators that must be on the instance type.   For instance types with NVIDIA A10G GPUs, specify a10g.   For instance types with NVIDIA A100 GPUs, specify a100.   For instance types with NVIDIA H100 GPUs, specify h100.   For instance types with Amazon Web Services Inferentia chips, specify inferentia.   For instance types with Amazon Web Services Inferentia2 chips, specify inferentia2.   For instance types with Habana Gaudi HL-205 GPUs, specify gaudi-hl-205.   For instance types with NVIDIA GRID K520 GPUs, specify k520.   For instance types with NVIDIA K80 GPUs, specify k80.   For instance types with NVIDIA L4 GPUs, specify l4.   For instance types with NVIDIA L40S GPUs, specify l40s.   For instance types with NVIDIA M60 GPUs, specify m60.   For instance types with AMD Radeon Pro V520 GPUs, specify radeon-pro-v520.   For instance types with Amazon Web Services Trainium chips, specify trainium.   For instance types with Amazon Web Services Trainium2 chips, specify trainium2.   For instance types with NVIDIA T4 GPUs, specify t4.   For instance types with NVIDIA T4G GPUs, specify t4g.   For instance types with Xilinx U30 cards, specify u30.   For instance types with Xilinx VU9P FPGAs, specify vu9p.   For instance types with NVIDIA V100 GPUs, specify v100.   Default: Any accelerator
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorNamesEncoding, AcceleratorName>>
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   For instance types with Media accelerators, specify media.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -42448,6 +44897,8 @@ extension EC2 {
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
         /// [Price protection] The price protection threshold for On-Demand Instances, as a percentage higher than an identified On-Demand price. The identified On-Demand price is the price of the lowest priced current generation C, M, or R instance type with your specified attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. To indicate no price protection threshold, specify a high value, such as 999999. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
+        /// Specifies whether instance types must support encrypting in-transit traffic between instances. For more information, including the supported instance types, see Encryption in transit in the Amazon EC2 User Guide. Default: false
+        public let requireEncryptionInTransit: Bool?
         /// Indicates whether instance types must support hibernation for On-Demand Instances. This parameter is not supported for GetSpotPlacementScores. Default: false
         public let requireHibernateSupport: Bool?
         /// [Price protection] The price protection threshold for Spot Instances, as a percentage higher than an identified Spot price. The identified Spot price is the Spot price of the lowest priced current generation C, M, or R instance type with your specified attributes. If no current generation C, M, or R instance type matches your attributes, then the identified Spot price is from the lowest priced current generation instance types, and failing that, from the lowest priced previous generation instance types that match your attributes. When Amazon EC2 selects instance types with your attributes, it will exclude instance types whose Spot price exceeds your specified threshold. The parameter accepts an integer, which Amazon EC2 interprets as a percentage. If you set TargetCapacityUnitType to vcpu or memory-mib, the price protection threshold is applied based on the per-vCPU or per-memory price instead of the per-instance price. This parameter is not supported for GetSpotPlacementScores and GetInstanceTypesFromInstanceRequirements.  Only one of SpotMaxPricePercentageOverLowestPrice or MaxSpotPriceAsPercentageOfOptimalOnDemandPrice can be specified. If you don't specify either, Amazon EC2 will automatically apply optimal price protection to consistently select from a wide range of instance types. To indicate no price protection threshold for Spot Instances, meaning you want to consider all instance types that match your attributes, include one of these parameters and specify a high value, such as 999999.  Default: 100
@@ -42458,7 +44909,7 @@ extension EC2 {
         public let vCpuCount: VCpuCountRangeRequest?
 
         @inlinable
-        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, baselinePerformanceFactors: BaselinePerformanceFactorsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
+        public init(acceleratorCount: AcceleratorCountRequest? = nil, acceleratorManufacturers: [AcceleratorManufacturer]? = nil, acceleratorNames: [AcceleratorName]? = nil, acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest? = nil, acceleratorTypes: [AcceleratorType]? = nil, allowedInstanceTypes: [String]? = nil, bareMetal: BareMetal? = nil, baselineEbsBandwidthMbps: BaselineEbsBandwidthMbpsRequest? = nil, baselinePerformanceFactors: BaselinePerformanceFactorsRequest? = nil, burstablePerformance: BurstablePerformance? = nil, cpuManufacturers: [CpuManufacturer]? = nil, excludedInstanceTypes: [String]? = nil, instanceGenerations: [InstanceGeneration]? = nil, localStorage: LocalStorage? = nil, localStorageTypes: [LocalStorageType]? = nil, maxSpotPriceAsPercentageOfOptimalOnDemandPrice: Int? = nil, memoryGiBPerVCpu: MemoryGiBPerVCpuRequest? = nil, memoryMiB: MemoryMiBRequest? = nil, networkBandwidthGbps: NetworkBandwidthGbpsRequest? = nil, networkInterfaceCount: NetworkInterfaceCountRequest? = nil, onDemandMaxPricePercentageOverLowestPrice: Int? = nil, requireEncryptionInTransit: Bool? = nil, requireHibernateSupport: Bool? = nil, spotMaxPricePercentageOverLowestPrice: Int? = nil, totalLocalStorageGB: TotalLocalStorageGBRequest? = nil, vCpuCount: VCpuCountRangeRequest? = nil) {
             self.acceleratorCount = acceleratorCount
             self.acceleratorManufacturers = acceleratorManufacturers
             self.acceleratorNames = acceleratorNames
@@ -42480,6 +44931,7 @@ extension EC2 {
             self.networkBandwidthGbps = networkBandwidthGbps
             self.networkInterfaceCount = networkInterfaceCount
             self.onDemandMaxPricePercentageOverLowestPrice = onDemandMaxPricePercentageOverLowestPrice
+            self.requireEncryptionInTransit = requireEncryptionInTransit
             self.requireHibernateSupport = requireHibernateSupport
             self.spotMaxPricePercentageOverLowestPrice = spotMaxPricePercentageOverLowestPrice
             self.totalLocalStorageGB = totalLocalStorageGB
@@ -42523,6 +44975,7 @@ extension EC2 {
             case networkBandwidthGbps = "NetworkBandwidthGbps"
             case networkInterfaceCount = "NetworkInterfaceCount"
             case onDemandMaxPricePercentageOverLowestPrice = "OnDemandMaxPricePercentageOverLowestPrice"
+            case requireEncryptionInTransit = "RequireEncryptionInTransit"
             case requireHibernateSupport = "RequireHibernateSupport"
             case spotMaxPricePercentageOverLowestPrice = "SpotMaxPricePercentageOverLowestPrice"
             case totalLocalStorageGB = "TotalLocalStorageGB"
@@ -42813,7 +45266,7 @@ extension EC2 {
 
         /// The name of the Availability Zone or Local Zone that the instance is in.
         public let availabilityZone: String?
-        /// The ID of the Capacity Block. This parameter is only supported for Ultraserver instances and identifies instances within the Ultraserver domain.
+        /// The ID of the Capacity Block. This parameter is only supported for UltraServer instances and identifies instances within the UltraServer domain.
         public let capacityBlockId: String?
         /// The name of the placement group that the instance is in.
         public let groupName: String?
@@ -42821,7 +45274,7 @@ extension EC2 {
         public let instanceId: String?
         /// The instance type.
         public let instanceType: String?
-        /// The network nodes. The nodes are hashed based on your account. Instances from different accounts running under the same server will return a different hashed list of strings.
+        /// The network nodes. The nodes are hashed based on your account. Instances from different accounts running under the same server will return a different hashed list of strings. The value is null or empty if:   The instance type is not supported.   The instance is in a state other than running.
         @OptionalCustomCoding<EC2ArrayCoder<_NetworkNodesEncoding, String>>
         public var networkNodes: [String]?
         /// The ID of the Availability Zone or Local Zone that the instance is in.
@@ -43118,6 +45571,61 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct InterruptibleCapacityAllocation: AWSDecodableShape {
+        /// 			The current number of instances allocated to the interruptible reservation.
+        ///
+        public let instanceCount: Int?
+        /// 			The ID of the interruptible Capacity Reservation created from the allocation.
+        ///
+        public let interruptibleCapacityReservationId: String?
+        /// 			The type of interruption policy applied to the interruptible reservation.
+        ///
+        public let interruptionType: InterruptionType?
+        /// 			The current status of the allocation (updating during reclamation, active when complete).
+        ///
+        public let status: InterruptibleCapacityReservationAllocationStatus?
+        /// 			After your modify request, the requested number of instances allocated to interruptible reservation.
+        ///
+        public let targetInstanceCount: Int?
+
+        @inlinable
+        public init(instanceCount: Int? = nil, interruptibleCapacityReservationId: String? = nil, interruptionType: InterruptionType? = nil, status: InterruptibleCapacityReservationAllocationStatus? = nil, targetInstanceCount: Int? = nil) {
+            self.instanceCount = instanceCount
+            self.interruptibleCapacityReservationId = interruptibleCapacityReservationId
+            self.interruptionType = interruptionType
+            self.status = status
+            self.targetInstanceCount = targetInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "instanceCount"
+            case interruptibleCapacityReservationId = "interruptibleCapacityReservationId"
+            case interruptionType = "interruptionType"
+            case status = "status"
+            case targetInstanceCount = "targetInstanceCount"
+        }
+    }
+
+    public struct InterruptionInfo: AWSDecodableShape {
+        /// 			The interruption type that determines how instances are terminated when capacity is reclaimed.
+        ///
+        public let interruptionType: InterruptionType?
+        /// 			The ID of the source Capacity Reservation from which the interruptible reservation was created.
+        ///
+        public let sourceCapacityReservationId: String?
+
+        @inlinable
+        public init(interruptionType: InterruptionType? = nil, sourceCapacityReservationId: String? = nil) {
+            self.interruptionType = interruptionType
+            self.sourceCapacityReservationId = sourceCapacityReservationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interruptionType = "interruptionType"
+            case sourceCapacityReservationId = "sourceCapacityReservationId"
         }
     }
 
@@ -43640,6 +46148,122 @@ extension EC2 {
         }
     }
 
+    public struct IpamPolicy: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The ID of the IPAM this policy belongs to.
+        public let ipamId: String?
+        /// The Amazon Resource Name (ARN) of the IPAM policy.
+        public let ipamPolicyArn: String?
+        /// The ID of the IPAM policy.
+        public let ipamPolicyId: String?
+        /// The Region of the IPAM policy.
+        public let ipamPolicyRegion: String?
+        /// The account ID that owns the IPAM policy.
+        public let ownerId: String?
+        /// The state of the IPAM policy.
+        public let state: IpamPolicyState?
+        /// A message about the state of the IPAM policy.
+        public let stateMessage: String?
+        /// The tags assigned to the IPAM policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(ipamId: String? = nil, ipamPolicyArn: String? = nil, ipamPolicyId: String? = nil, ipamPolicyRegion: String? = nil, ownerId: String? = nil, state: IpamPolicyState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil) {
+            self.ipamId = ipamId
+            self.ipamPolicyArn = ipamPolicyArn
+            self.ipamPolicyId = ipamPolicyId
+            self.ipamPolicyRegion = ipamPolicyRegion
+            self.ownerId = ownerId
+            self.state = state
+            self.stateMessage = stateMessage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamId = "ipamId"
+            case ipamPolicyArn = "ipamPolicyArn"
+            case ipamPolicyId = "ipamPolicyId"
+            case ipamPolicyRegion = "ipamPolicyRegion"
+            case ownerId = "ownerId"
+            case state = "state"
+            case stateMessage = "stateMessage"
+            case tags = "tagSet"
+        }
+    }
+
+    public struct IpamPolicyAllocationRule: AWSDecodableShape {
+        /// The ID of the source IPAM pool for the allocation rule. An IPAM pool is a collection of IP addresses in IPAM that can be allocated to Amazon Web Services resources.
+        public let sourceIpamPoolId: String?
+
+        @inlinable
+        public init(sourceIpamPoolId: String? = nil) {
+            self.sourceIpamPoolId = sourceIpamPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIpamPoolId = "sourceIpamPoolId"
+        }
+    }
+
+    public struct IpamPolicyAllocationRuleRequest: AWSEncodableShape {
+        /// The ID of the source IPAM pool for the requested allocation rule. An IPAM pool is a collection of IP addresses in IPAM that can be allocated to Amazon Web Services resources.
+        public let sourceIpamPoolId: String?
+
+        @inlinable
+        public init(sourceIpamPoolId: String? = nil) {
+            self.sourceIpamPoolId = sourceIpamPoolId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceIpamPoolId = "SourceIpamPoolId"
+        }
+    }
+
+    public struct IpamPolicyDocument: AWSDecodableShape {
+        public struct _AllocationRulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The allocation rules in the IPAM policy document. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_AllocationRulesEncoding, IpamPolicyAllocationRule>>
+        public var allocationRules: [IpamPolicyAllocationRule]?
+        /// The ID of the IPAM policy.
+        public let ipamPolicyId: String?
+        /// The locale of the IPAM policy document.
+        public let locale: String?
+        /// The resource type of the IPAM policy document. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:   Elastic IP addresses
+        public let resourceType: IpamPolicyResourceType?
+
+        @inlinable
+        public init(allocationRules: [IpamPolicyAllocationRule]? = nil, ipamPolicyId: String? = nil, locale: String? = nil, resourceType: IpamPolicyResourceType? = nil) {
+            self.allocationRules = allocationRules
+            self.ipamPolicyId = ipamPolicyId
+            self.locale = locale
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationRules = "allocationRuleSet"
+            case ipamPolicyId = "ipamPolicyId"
+            case locale = "locale"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct IpamPolicyOrganizationTarget: AWSDecodableShape {
+        /// The ID of a Amazon Web Services Organizations target for an IPAM policy.
+        public let organizationTargetId: String?
+
+        @inlinable
+        public init(organizationTargetId: String? = nil) {
+            self.organizationTargetId = organizationTargetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationTargetId = "organizationTargetId"
+        }
+    }
+
     public struct IpamPool: AWSDecodableShape {
         public struct _AllocationResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -43889,6 +46513,297 @@ extension EC2 {
         }
     }
 
+    public struct IpamPrefixListResolver: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The address family (IPv4 or IPv6) for the IPAM prefix list resolver.
+        public let addressFamily: AddressFamily?
+        /// The description of the IPAM prefix list resolver.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of the IPAM associated with this resolver.
+        public let ipamArn: String?
+        /// The Amazon Resource Name (ARN) of the IPAM prefix list resolver.
+        public let ipamPrefixListResolverArn: String?
+        /// The ID of the IPAM prefix list resolver.
+        public let ipamPrefixListResolverId: String?
+        /// The Amazon Web Services Region where the associated IPAM is located.
+        public let ipamRegion: String?
+        /// The status for the last time a version was created. Each version is a snapshot of what CIDRs matched your rules at that moment in time. The version number increments every time the CIDR list
+        /// changes due to infrastructure changes.
+        public let lastVersionCreationStatus: IpamPrefixListResolverVersionCreationStatus?
+        /// The status message for the last time a version was created. Each version is a snapshot of what CIDRs matched your rules at that moment in time. The version number increments every time the CIDR list
+        /// changes due to infrastructure changes.
+        public let lastVersionCreationStatusMessage: String?
+        /// The ID of the Amazon Web Services account that owns the IPAM prefix list resolver.
+        public let ownerId: String?
+        /// The current state of the IPAM prefix list resolver. Valid values include create-in-progress, create-complete, create-failed, modify-in-progress, modify-complete, modify-failed, delete-in-progress, delete-complete, and delete-failed.
+        public let state: IpamPrefixListResolverState?
+        /// The tags assigned to the IPAM prefix list resolver.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(addressFamily: AddressFamily? = nil, description: String? = nil, ipamArn: String? = nil, ipamPrefixListResolverArn: String? = nil, ipamPrefixListResolverId: String? = nil, ipamRegion: String? = nil, lastVersionCreationStatus: IpamPrefixListResolverVersionCreationStatus? = nil, lastVersionCreationStatusMessage: String? = nil, ownerId: String? = nil, state: IpamPrefixListResolverState? = nil, tags: [Tag]? = nil) {
+            self.addressFamily = addressFamily
+            self.description = description
+            self.ipamArn = ipamArn
+            self.ipamPrefixListResolverArn = ipamPrefixListResolverArn
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.ipamRegion = ipamRegion
+            self.lastVersionCreationStatus = lastVersionCreationStatus
+            self.lastVersionCreationStatusMessage = lastVersionCreationStatusMessage
+            self.ownerId = ownerId
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressFamily = "addressFamily"
+            case description = "description"
+            case ipamArn = "ipamArn"
+            case ipamPrefixListResolverArn = "ipamPrefixListResolverArn"
+            case ipamPrefixListResolverId = "ipamPrefixListResolverId"
+            case ipamRegion = "ipamRegion"
+            case lastVersionCreationStatus = "lastVersionCreationStatus"
+            case lastVersionCreationStatusMessage = "lastVersionCreationStatusMessage"
+            case ownerId = "ownerId"
+            case state = "state"
+            case tags = "tagSet"
+        }
+    }
+
+    public struct IpamPrefixListResolverRule: AWSDecodableShape {
+        public struct _ConditionsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The conditions that determine which CIDRs are selected by this rule. Conditions specify criteria such as resource type, tags, account IDs, and Regions.
+        @OptionalCustomCoding<EC2ArrayCoder<_ConditionsEncoding, IpamPrefixListResolverRuleCondition>>
+        public var conditions: [IpamPrefixListResolverRuleCondition]?
+        /// The ID of the IPAM scope from which to select CIDRs. This determines whether to select from public or private IP address space.
+        public let ipamScopeId: String?
+        /// For rules of type ipam-resource-cidr, this is the resource type.
+        public let resourceType: IpamResourceType?
+        /// The type of CIDR selection rule. Valid values include include for selecting CIDRs that match the conditions, and exclude for excluding CIDRs that match the conditions.
+        public let ruleType: IpamPrefixListResolverRuleType?
+        /// A fixed list of CIDRs that do not change (like a manual list replicated across Regions).
+        public let staticCidr: String?
+
+        @inlinable
+        public init(conditions: [IpamPrefixListResolverRuleCondition]? = nil, ipamScopeId: String? = nil, resourceType: IpamResourceType? = nil, ruleType: IpamPrefixListResolverRuleType? = nil, staticCidr: String? = nil) {
+            self.conditions = conditions
+            self.ipamScopeId = ipamScopeId
+            self.resourceType = resourceType
+            self.ruleType = ruleType
+            self.staticCidr = staticCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditionSet"
+            case ipamScopeId = "ipamScopeId"
+            case resourceType = "resourceType"
+            case ruleType = "ruleType"
+            case staticCidr = "staticCidr"
+        }
+    }
+
+    public struct IpamPrefixListResolverRuleCondition: AWSDecodableShape {
+        /// A CIDR block to match against. This condition selects CIDRs that fall within or match the specified CIDR range.
+        public let cidr: String?
+        /// The ID of the IPAM pool to match against. This condition selects CIDRs that belong to the specified IPAM pool.
+        public let ipamPoolId: String?
+        /// The operation to perform when evaluating this condition. Valid values include equals, not-equals, contains, and not-contains.
+        public let operation: IpamPrefixListResolverRuleConditionOperation?
+        /// The ID of the Amazon Web Services resource to match against. This condition selects CIDRs associated with the specified resource.
+        public let resourceId: String?
+        /// The Amazon Web Services account ID that owns the resources to match against. This condition selects CIDRs from resources owned by the specified account.
+        public let resourceOwner: String?
+        /// The Amazon Web Services Region where the resources are located. This condition selects CIDRs from resources in the specified Region.
+        public let resourceRegion: String?
+        /// A tag key-value pair to match against. This condition selects CIDRs from resources that have the specified tag.
+        public let resourceTag: IpamResourceTag?
+
+        @inlinable
+        public init(cidr: String? = nil, ipamPoolId: String? = nil, operation: IpamPrefixListResolverRuleConditionOperation? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceRegion: String? = nil, resourceTag: IpamResourceTag? = nil) {
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.operation = operation
+            self.resourceId = resourceId
+            self.resourceOwner = resourceOwner
+            self.resourceRegion = resourceRegion
+            self.resourceTag = resourceTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+            case ipamPoolId = "ipamPoolId"
+            case operation = "operation"
+            case resourceId = "resourceId"
+            case resourceOwner = "resourceOwner"
+            case resourceRegion = "resourceRegion"
+            case resourceTag = "resourceTag"
+        }
+    }
+
+    public struct IpamPrefixListResolverRuleConditionRequest: AWSEncodableShape {
+        /// A CIDR block to match against. This condition selects CIDRs that fall within or match the specified CIDR range.
+        public let cidr: String?
+        /// The ID of the IPAM pool to match against. This condition selects CIDRs that belong to the specified IPAM pool.
+        public let ipamPoolId: String?
+        /// The operation to perform when evaluating this condition.
+        public let operation: IpamPrefixListResolverRuleConditionOperation?
+        /// The ID of the Amazon Web Services resource to match against. This condition selects CIDRs associated with the specified resource.
+        public let resourceId: String?
+        /// The Amazon Web Services account ID that owns the resources to match against. This condition selects CIDRs from resources owned by the specified account.
+        public let resourceOwner: String?
+        /// The Amazon Web Services Region where the resources are located. This condition selects CIDRs from resources in the specified Region.
+        public let resourceRegion: String?
+        /// A tag key-value pair to match against. This condition selects CIDRs from resources that have the specified tag.
+        public let resourceTag: RequestIpamResourceTag?
+
+        @inlinable
+        public init(cidr: String? = nil, ipamPoolId: String? = nil, operation: IpamPrefixListResolverRuleConditionOperation? = nil, resourceId: String? = nil, resourceOwner: String? = nil, resourceRegion: String? = nil, resourceTag: RequestIpamResourceTag? = nil) {
+            self.cidr = cidr
+            self.ipamPoolId = ipamPoolId
+            self.operation = operation
+            self.resourceId = resourceId
+            self.resourceOwner = resourceOwner
+            self.resourceRegion = resourceRegion
+            self.resourceTag = resourceTag
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "Cidr"
+            case ipamPoolId = "IpamPoolId"
+            case operation = "Operation"
+            case resourceId = "ResourceId"
+            case resourceOwner = "ResourceOwner"
+            case resourceRegion = "ResourceRegion"
+            case resourceTag = "ResourceTag"
+        }
+    }
+
+    public struct IpamPrefixListResolverRuleRequest: AWSEncodableShape {
+        public struct _ConditionsEncoding: ArrayCoderProperties { public static let member = "Condition" }
+
+        /// The conditions that determine which CIDRs are selected by this rule. Conditions specify criteria such as resource type, tags, account IDs, and Regions.
+        @OptionalCustomCoding<EC2ArrayCoder<_ConditionsEncoding, IpamPrefixListResolverRuleConditionRequest>>
+        public var conditions: [IpamPrefixListResolverRuleConditionRequest]?
+        /// The ID of the IPAM scope from which to select CIDRs. This determines whether to select from public or private IP address space.
+        public let ipamScopeId: String?
+        /// For rules of type ipam-resource-cidr, this is the resource type.
+        public let resourceType: IpamResourceType?
+        /// The type of CIDR selection rule. Valid values include include for selecting CIDRs that match the conditions, and exclude for excluding CIDRs that match the conditions.
+        public let ruleType: IpamPrefixListResolverRuleType?
+        /// A fixed list of CIDRs that do not change (like a manual list replicated across Regions).
+        public let staticCidr: String?
+
+        @inlinable
+        public init(conditions: [IpamPrefixListResolverRuleConditionRequest]? = nil, ipamScopeId: String? = nil, resourceType: IpamResourceType? = nil, ruleType: IpamPrefixListResolverRuleType? = nil, staticCidr: String? = nil) {
+            self.conditions = conditions
+            self.ipamScopeId = ipamScopeId
+            self.resourceType = resourceType
+            self.ruleType = ruleType
+            self.staticCidr = staticCidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "Condition"
+            case ipamScopeId = "IpamScopeId"
+            case resourceType = "ResourceType"
+            case ruleType = "RuleType"
+            case staticCidr = "StaticCidr"
+        }
+    }
+
+    public struct IpamPrefixListResolverTarget: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The desired version of the prefix list that this target should synchronize with.
+        public let desiredVersion: Int64?
+        /// The ID of the IPAM prefix list resolver associated with this target.
+        public let ipamPrefixListResolverId: String?
+        /// The Amazon Resource Name (ARN) of the IPAM prefix list resolver target.
+        public let ipamPrefixListResolverTargetArn: String?
+        /// The ID of the IPAM prefix list resolver target.
+        public let ipamPrefixListResolverTargetId: String?
+        /// The version of the prefix list that was last successfully synchronized by this target.
+        public let lastSyncedVersion: Int64?
+        /// The ID of the Amazon Web Services account that owns the IPAM prefix list resolver target.
+        public let ownerId: String?
+        /// The ID of the managed prefix list associated with this target.
+        public let prefixListId: String?
+        /// The Amazon Web Services Region where the prefix list associated with this target is located.
+        public let prefixListRegion: String?
+        /// The current state of the IPAM prefix list resolver target. Valid values include create-in-progress, create-complete, create-failed, modify-in-progress, modify-complete, modify-failed, delete-in-progress, delete-complete, and delete-failed.
+        public let state: IpamPrefixListResolverTargetState?
+        /// A message describing the current state of the IPAM prefix list resolver target, including any error information.
+        public let stateMessage: String?
+        /// The tags assigned to the IPAM prefix list resolver target.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// Indicates whether this target automatically tracks the latest version of the prefix list.
+        public let trackLatestVersion: Bool?
+
+        @inlinable
+        public init(desiredVersion: Int64? = nil, ipamPrefixListResolverId: String? = nil, ipamPrefixListResolverTargetArn: String? = nil, ipamPrefixListResolverTargetId: String? = nil, lastSyncedVersion: Int64? = nil, ownerId: String? = nil, prefixListId: String? = nil, prefixListRegion: String? = nil, state: IpamPrefixListResolverTargetState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, trackLatestVersion: Bool? = nil) {
+            self.desiredVersion = desiredVersion
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.ipamPrefixListResolverTargetArn = ipamPrefixListResolverTargetArn
+            self.ipamPrefixListResolverTargetId = ipamPrefixListResolverTargetId
+            self.lastSyncedVersion = lastSyncedVersion
+            self.ownerId = ownerId
+            self.prefixListId = prefixListId
+            self.prefixListRegion = prefixListRegion
+            self.state = state
+            self.stateMessage = stateMessage
+            self.tags = tags
+            self.trackLatestVersion = trackLatestVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredVersion = "desiredVersion"
+            case ipamPrefixListResolverId = "ipamPrefixListResolverId"
+            case ipamPrefixListResolverTargetArn = "ipamPrefixListResolverTargetArn"
+            case ipamPrefixListResolverTargetId = "ipamPrefixListResolverTargetId"
+            case lastSyncedVersion = "lastSyncedVersion"
+            case ownerId = "ownerId"
+            case prefixListId = "prefixListId"
+            case prefixListRegion = "prefixListRegion"
+            case state = "state"
+            case stateMessage = "stateMessage"
+            case tags = "tagSet"
+            case trackLatestVersion = "trackLatestVersion"
+        }
+    }
+
+    public struct IpamPrefixListResolverVersion: AWSDecodableShape {
+        /// The version number of the IPAM prefix list resolver. Each version is a snapshot of what CIDRs matched your rules at that moment in time. The version number increments every time the CIDR list
+        /// changes due to infrastructure changes.
+        public let version: Int64?
+
+        @inlinable
+        public init(version: Int64? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "version"
+        }
+    }
+
+    public struct IpamPrefixListResolverVersionEntry: AWSDecodableShape {
+        /// The CIDR block that was selected and synchronized in this resolver version.
+        public let cidr: String?
+
+        @inlinable
+        public init(cidr: String? = nil) {
+            self.cidr = cidr
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidr = "cidr"
+        }
+    }
+
     public struct IpamPublicAddressSecurityGroup: AWSDecodableShape {
         /// The security group's ID.
         public let groupId: String?
@@ -44097,7 +47012,7 @@ extension EC2 {
         public let ownerId: String?
         /// The resource discovery status.    active - Connection or permissions required to read the results of the resource discovery are intact.    not-found - Connection or permissions required to read the results of the resource discovery are broken. This may happen if the owner of the resource discovery stopped sharing it or deleted the resource discovery. Verify the resource discovery still exists and the Amazon Web Services RAM resource share is still intact.
         public let resourceDiscoveryStatus: IpamAssociatedResourceDiscoveryStatus?
-        /// The lifecycle state of the association when you associate or disassociate a resource discovery.    associate-in-progress - Resource discovery is being associated.    associate-complete - Resource discovery association is complete.    associate-failed - Resource discovery association has failed.    disassociate-in-progress - Resource discovery is being disassociated.    disassociate-complete - Resource discovery disassociation is complete.    disassociate-failed  - Resource discovery disassociation has failed.    isolate-in-progress - Amazon Web Services account that created the resource discovery association has been removed and the resource discovery associatation is being isolated.    isolate-complete - Resource discovery isolation is complete..    restore-in-progress - Resource discovery is being restored.
+        /// The lifecycle state of the association when you associate or disassociate a resource discovery.    associate-in-progress - Resource discovery is being associated.    associate-complete - Resource discovery association is complete.    associate-failed - Resource discovery association has failed.    disassociate-in-progress - Resource discovery is being disassociated.    disassociate-complete - Resource discovery disassociation is complete.    disassociate-failed  - Resource discovery disassociation has failed.    isolate-in-progress - Amazon Web Services account that created the resource discovery association has been removed and the resource discovery association is being isolated.    isolate-complete - Resource discovery isolation is complete.    restore-in-progress - Resource discovery is being restored.
         public let state: IpamResourceDiscoveryAssociationState?
         /// A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
@@ -44156,6 +47071,8 @@ extension EC2 {
 
         /// The description of the scope.
         public let description: String?
+        /// The external authority configuration for this IPAM scope, if configured. The configuration that links an Amazon VPC IPAM scope to an external authority system. It specifies the type of external system and the external resource identifier that identifies your account or instance in that system. In IPAM, an external authority is a third-party IP address management system that provides CIDR blocks when you provision address space for top-level IPAM pools. This allows you to use your existing IP management system to control which address ranges are allocated to Amazon Web Services while using Amazon VPC IPAM to manage subnets within those ranges.
+        public let externalAuthorityConfiguration: IpamScopeExternalAuthorityConfiguration?
         /// The ARN of the IPAM.
         public let ipamArn: String?
         /// The Amazon Web Services Region of the IPAM scope.
@@ -44179,8 +47096,9 @@ extension EC2 {
         public var tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, ipamArn: String? = nil, ipamRegion: String? = nil, ipamScopeArn: String? = nil, ipamScopeId: String? = nil, ipamScopeType: IpamScopeType? = nil, isDefault: Bool? = nil, ownerId: String? = nil, poolCount: Int? = nil, state: IpamScopeState? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, externalAuthorityConfiguration: IpamScopeExternalAuthorityConfiguration? = nil, ipamArn: String? = nil, ipamRegion: String? = nil, ipamScopeArn: String? = nil, ipamScopeId: String? = nil, ipamScopeType: IpamScopeType? = nil, isDefault: Bool? = nil, ownerId: String? = nil, poolCount: Int? = nil, state: IpamScopeState? = nil, tags: [Tag]? = nil) {
             self.description = description
+            self.externalAuthorityConfiguration = externalAuthorityConfiguration
             self.ipamArn = ipamArn
             self.ipamRegion = ipamRegion
             self.ipamScopeArn = ipamScopeArn
@@ -44195,6 +47113,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
+            case externalAuthorityConfiguration = "externalAuthorityConfiguration"
             case ipamArn = "ipamArn"
             case ipamRegion = "ipamRegion"
             case ipamScopeArn = "ipamScopeArn"
@@ -44205,6 +47124,24 @@ extension EC2 {
             case poolCount = "poolCount"
             case state = "state"
             case tags = "tagSet"
+        }
+    }
+
+    public struct IpamScopeExternalAuthorityConfiguration: AWSDecodableShape {
+        /// The identifier for the external resource managing this scope. For Infoblox integrations, this is the Infoblox resource identifier in the format .identity.account...
+        public let externalResourceIdentifier: String?
+        /// The type of external authority managing this scope. Currently supports Infoblox for integration with Infoblox Universal DDI.
+        public let type: IpamScopeExternalAuthorityType?
+
+        @inlinable
+        public init(externalResourceIdentifier: String? = nil, type: IpamScopeExternalAuthorityType? = nil) {
+            self.externalResourceIdentifier = externalResourceIdentifier
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalResourceIdentifier = "externalResourceIdentifier"
+            case type = "type"
         }
     }
 
@@ -46011,6 +48948,58 @@ extension EC2 {
         }
     }
 
+    public struct ListVolumesInRecycleBinRequest: AWSEncodableShape {
+        public struct _VolumeIdsEncoding: ArrayCoderProperties { public static let member = "VolumeId" }
+
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The maximum number of items to return for this request.
+        /// 	To get the next page of items, make another request with the token returned in the output.
+        /// 	For more information, see Pagination. Valid range: 5 - 500
+        public let maxResults: Int?
+        /// The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
+        public let nextToken: String?
+        /// The IDs of the volumes to list. Omit this parameter to list all of the  volumes that are in the Recycle Bin.
+        @OptionalCustomCoding<EC2ArrayCoder<_VolumeIdsEncoding, String>>
+        public var volumeIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, volumeIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.volumeIds = volumeIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case volumeIds = "VolumeId"
+        }
+    }
+
+    public struct ListVolumesInRecycleBinResult: AWSDecodableShape {
+        public struct _VolumesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to include in another request to get the next page of items.  This value is null when there are no more items to return.
+        public let nextToken: String?
+        /// Information about the volumes.
+        @OptionalCustomCoding<EC2ArrayCoder<_VolumesEncoding, VolumeRecycleBinInfo>>
+        public var volumes: [VolumeRecycleBinInfo]?
+
+        @inlinable
+        public init(nextToken: String? = nil, volumes: [VolumeRecycleBinInfo]? = nil) {
+            self.nextToken = nextToken
+            self.volumes = volumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case volumes = "volumeSet"
+        }
+    }
+
     public struct LoadBalancersConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Classic Load Balancers.
         public let classicLoadBalancersConfig: ClassicLoadBalancersConfig?
@@ -46737,6 +49726,10 @@ extension EC2 {
 
         /// The IP address version.
         public let addressFamily: String?
+        /// Indicates whether synchronization with an IPAM prefix list resolver is enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the resolver's CIDR selection rules.
+        public let ipamPrefixListResolverSyncEnabled: Bool?
+        /// The ID of the IPAM prefix list resolver target associated with this managed prefix list. When set, this prefix list becomes an IPAM managed prefix list. An IPAM-managed prefix list is a customer-managed prefix list that has been associated with an IPAM prefix list resolver target. When a prefix list becomes IPAM managed, its CIDRs are automatically synchronized based on the IPAM prefix list resolver's CIDR selection rules, and direct CIDR modifications are restricted.
+        public let ipamPrefixListResolverTargetId: String?
         /// The maximum number of entries for the prefix list.
         public let maxEntries: Int?
         /// The ID of the owner of the prefix list.
@@ -46758,8 +49751,10 @@ extension EC2 {
         public let version: Int64?
 
         @inlinable
-        public init(addressFamily: String? = nil, maxEntries: Int? = nil, ownerId: String? = nil, prefixListArn: String? = nil, prefixListId: String? = nil, prefixListName: String? = nil, state: PrefixListState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, version: Int64? = nil) {
+        public init(addressFamily: String? = nil, ipamPrefixListResolverSyncEnabled: Bool? = nil, ipamPrefixListResolverTargetId: String? = nil, maxEntries: Int? = nil, ownerId: String? = nil, prefixListArn: String? = nil, prefixListId: String? = nil, prefixListName: String? = nil, state: PrefixListState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, version: Int64? = nil) {
             self.addressFamily = addressFamily
+            self.ipamPrefixListResolverSyncEnabled = ipamPrefixListResolverSyncEnabled
+            self.ipamPrefixListResolverTargetId = ipamPrefixListResolverTargetId
             self.maxEntries = maxEntries
             self.ownerId = ownerId
             self.prefixListArn = prefixListArn
@@ -46773,6 +49768,8 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case addressFamily = "addressFamily"
+            case ipamPrefixListResolverSyncEnabled = "ipamPrefixListResolverSyncEnabled"
+            case ipamPrefixListResolverTargetId = "ipamPrefixListResolverTargetId"
             case maxEntries = "maxEntries"
             case ownerId = "ownerId"
             case prefixListArn = "prefixListArn"
@@ -48278,6 +51275,53 @@ extension EC2 {
         }
     }
 
+    public struct ModifyIpamPolicyAllocationRulesRequest: AWSEncodableShape {
+        public struct _AllocationRulesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The new allocation rules to apply to the IPAM policy. Allocation rules are optional configurations within an IPAM policy that map Amazon Web Services resource types to specific IPAM pools. If no rules are defined, the resource types default to using Amazon-provided IP addresses.
+        @OptionalCustomCoding<EC2ArrayCoder<_AllocationRulesEncoding, IpamPolicyAllocationRuleRequest>>
+        public var allocationRules: [IpamPolicyAllocationRuleRequest]?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM policy whose allocation rules you want to modify.
+        public let ipamPolicyId: String?
+        /// The locale for which to modify the allocation rules.
+        public let locale: String?
+        /// The resource type for which to modify the allocation rules. The Amazon Web Services service or resource type that can use IP addresses through IPAM policies. Supported services and resource types include:   Elastic IP addresses
+        public let resourceType: IpamPolicyResourceType?
+
+        @inlinable
+        public init(allocationRules: [IpamPolicyAllocationRuleRequest]? = nil, dryRun: Bool? = nil, ipamPolicyId: String? = nil, locale: String? = nil, resourceType: IpamPolicyResourceType? = nil) {
+            self.allocationRules = allocationRules
+            self.dryRun = dryRun
+            self.ipamPolicyId = ipamPolicyId
+            self.locale = locale
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocationRules = "AllocationRule"
+            case dryRun = "DryRun"
+            case ipamPolicyId = "IpamPolicyId"
+            case locale = "Locale"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ModifyIpamPolicyAllocationRulesResult: AWSDecodableShape {
+        /// The modified IPAM policy containing the updated allocation rules.
+        public let ipamPolicyDocument: IpamPolicyDocument?
+
+        @inlinable
+        public init(ipamPolicyDocument: IpamPolicyDocument? = nil) {
+            self.ipamPolicyDocument = ipamPolicyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPolicyDocument = "ipamPolicyDocument"
+        }
+    }
+
     public struct ModifyIpamPoolRequest: AWSEncodableShape {
         public struct _AddAllocationResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _RemoveAllocationResourceTagsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -48353,6 +51397,93 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case ipamPool = "ipamPool"
+        }
+    }
+
+    public struct ModifyIpamPrefixListResolverRequest: AWSEncodableShape {
+        public struct _RulesEncoding: ArrayCoderProperties { public static let member = "Rule" }
+
+        /// A new description for the IPAM prefix list resolver.
+        public let description: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver to modify.
+        public let ipamPrefixListResolverId: String?
+        /// The updated CIDR selection rules for the resolver. These rules replace the existing rules entirely.
+        @OptionalCustomCoding<EC2ArrayCoder<_RulesEncoding, IpamPrefixListResolverRuleRequest>>
+        public var rules: [IpamPrefixListResolverRuleRequest]?
+
+        @inlinable
+        public init(description: String? = nil, dryRun: Bool? = nil, ipamPrefixListResolverId: String? = nil, rules: [IpamPrefixListResolverRuleRequest]? = nil) {
+            self.description = description
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverId = ipamPrefixListResolverId
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverId = "IpamPrefixListResolverId"
+            case rules = "Rule"
+        }
+    }
+
+    public struct ModifyIpamPrefixListResolverResult: AWSDecodableShape {
+        /// Information about the modified IPAM prefix list resolver.
+        public let ipamPrefixListResolver: IpamPrefixListResolver?
+
+        @inlinable
+        public init(ipamPrefixListResolver: IpamPrefixListResolver? = nil) {
+            self.ipamPrefixListResolver = ipamPrefixListResolver
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolver = "ipamPrefixListResolver"
+        }
+    }
+
+    public struct ModifyIpamPrefixListResolverTargetRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+        public let clientToken: String?
+        /// The desired version of the prefix list to target. This allows you to pin the target to a specific version.
+        public let desiredVersion: Int64?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the IPAM prefix list resolver target to modify.
+        public let ipamPrefixListResolverTargetId: String?
+        /// Indicates whether the resolver target should automatically track the latest version of the prefix list. When enabled, the target will always synchronize with the most current version. Choose this for automatic updates when you want your prefix lists to stay current with infrastructure changes without manual intervention.
+        public let trackLatestVersion: Bool?
+
+        @inlinable
+        public init(clientToken: String? = ModifyIpamPrefixListResolverTargetRequest.idempotencyToken(), desiredVersion: Int64? = nil, dryRun: Bool? = nil, ipamPrefixListResolverTargetId: String? = nil, trackLatestVersion: Bool? = nil) {
+            self.clientToken = clientToken
+            self.desiredVersion = desiredVersion
+            self.dryRun = dryRun
+            self.ipamPrefixListResolverTargetId = ipamPrefixListResolverTargetId
+            self.trackLatestVersion = trackLatestVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case desiredVersion = "DesiredVersion"
+            case dryRun = "DryRun"
+            case ipamPrefixListResolverTargetId = "IpamPrefixListResolverTargetId"
+            case trackLatestVersion = "TrackLatestVersion"
+        }
+    }
+
+    public struct ModifyIpamPrefixListResolverTargetResult: AWSDecodableShape {
+        /// Information about the modified IPAM prefix list resolver target.
+        public let ipamPrefixListResolverTarget: IpamPrefixListResolverTarget?
+
+        @inlinable
+        public init(ipamPrefixListResolverTarget: IpamPrefixListResolverTarget? = nil) {
+            self.ipamPrefixListResolverTarget = ipamPrefixListResolverTarget
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipamPrefixListResolverTarget = "ipamPrefixListResolverTarget"
         }
     }
 
@@ -48539,20 +51670,28 @@ extension EC2 {
         public let description: String?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The configuration that links an Amazon VPC IPAM scope to an external authority system. It specifies the type of external system and the external resource identifier that identifies your account or instance in that system. In IPAM, an external authority is a third-party IP address management system that provides CIDR blocks when you provision address space for top-level IPAM pools. This allows you to use your existing IP management system to control which address ranges are allocated to Amazon Web Services while using Amazon VPC IPAM to manage subnets within those ranges.
+        public let externalAuthorityConfiguration: ExternalAuthorityConfiguration?
         /// The ID of the scope you want to modify.
         public let ipamScopeId: String?
+        /// Remove the external authority configuration. true to remove.
+        public let removeExternalAuthorityConfiguration: Bool?
 
         @inlinable
-        public init(description: String? = nil, dryRun: Bool? = nil, ipamScopeId: String? = nil) {
+        public init(description: String? = nil, dryRun: Bool? = nil, externalAuthorityConfiguration: ExternalAuthorityConfiguration? = nil, ipamScopeId: String? = nil, removeExternalAuthorityConfiguration: Bool? = nil) {
             self.description = description
             self.dryRun = dryRun
+            self.externalAuthorityConfiguration = externalAuthorityConfiguration
             self.ipamScopeId = ipamScopeId
+            self.removeExternalAuthorityConfiguration = removeExternalAuthorityConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case dryRun = "DryRun"
+            case externalAuthorityConfiguration = "ExternalAuthorityConfiguration"
             case ipamScopeId = "IpamScopeId"
+            case removeExternalAuthorityConfiguration = "RemoveExternalAuthorityConfiguration"
         }
     }
 
@@ -48676,6 +51815,8 @@ extension EC2 {
         public let currentVersion: Int64?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// Indicates whether synchronization with an IPAM prefix list resolver should be enabled for this managed prefix list. When enabled, the prefix list CIDRs are automatically updated based on the associated resolver's CIDR selection rules.
+        public let ipamPrefixListResolverSyncEnabled: Bool?
         /// The maximum number of entries for the prefix list. You cannot modify the entries   of a prefix list and modify the size of a prefix list at the same time. If any of the resources that reference the prefix list cannot support the new maximum size, the modify operation fails. Check the state message for the IDs of  the first ten resources that do not support the new maximum size.
         public let maxEntries: Int?
         /// The ID of the prefix list.
@@ -48687,10 +51828,11 @@ extension EC2 {
         public var removeEntries: [RemovePrefixListEntry]?
 
         @inlinable
-        public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, maxEntries: Int? = nil, prefixListId: String? = nil, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
+        public init(addEntries: [AddPrefixListEntry]? = nil, currentVersion: Int64? = nil, dryRun: Bool? = nil, ipamPrefixListResolverSyncEnabled: Bool? = nil, maxEntries: Int? = nil, prefixListId: String? = nil, prefixListName: String? = nil, removeEntries: [RemovePrefixListEntry]? = nil) {
             self.addEntries = addEntries
             self.currentVersion = currentVersion
             self.dryRun = dryRun
+            self.ipamPrefixListResolverSyncEnabled = ipamPrefixListResolverSyncEnabled
             self.maxEntries = maxEntries
             self.prefixListId = prefixListId
             self.prefixListName = prefixListName
@@ -48706,6 +51848,7 @@ extension EC2 {
             case addEntries = "AddEntry"
             case currentVersion = "CurrentVersion"
             case dryRun = "DryRun"
+            case ipamPrefixListResolverSyncEnabled = "IpamPrefixListResolverSyncEnabled"
             case maxEntries = "MaxEntries"
             case prefixListId = "PrefixListId"
             case prefixListName = "PrefixListName"
@@ -49364,6 +52507,48 @@ extension EC2 {
         }
     }
 
+    public struct ModifyTransitGatewayMeteringPolicyRequest: AWSEncodableShape {
+        /// The IDs of middlebox attachments to add to the metering policy.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var addMiddleboxAttachmentIds: [String]?
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IDs of middlebox attachments to remove from the metering policy.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var removeMiddleboxAttachmentIds: [String]?
+        /// The ID of the transit gateway metering policy to modify.
+        public let transitGatewayMeteringPolicyId: String?
+
+        @inlinable
+        public init(addMiddleboxAttachmentIds: [String]? = nil, dryRun: Bool? = nil, removeMiddleboxAttachmentIds: [String]? = nil, transitGatewayMeteringPolicyId: String? = nil) {
+            self.addMiddleboxAttachmentIds = addMiddleboxAttachmentIds
+            self.dryRun = dryRun
+            self.removeMiddleboxAttachmentIds = removeMiddleboxAttachmentIds
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addMiddleboxAttachmentIds = "AddMiddleboxAttachmentId"
+            case dryRun = "DryRun"
+            case removeMiddleboxAttachmentIds = "RemoveMiddleboxAttachmentId"
+            case transitGatewayMeteringPolicyId = "TransitGatewayMeteringPolicyId"
+        }
+    }
+
+    public struct ModifyTransitGatewayMeteringPolicyResult: AWSDecodableShape {
+        /// Information about the modified transit gateway metering policy.
+        public let transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy?
+
+        @inlinable
+        public init(transitGatewayMeteringPolicy: TransitGatewayMeteringPolicy? = nil) {
+            self.transitGatewayMeteringPolicy = transitGatewayMeteringPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transitGatewayMeteringPolicy = "transitGatewayMeteringPolicy"
+        }
+    }
+
     public struct ModifyTransitGatewayOptions: AWSEncodableShape {
         public struct _AddTransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _RemoveTransitGatewayCidrBlocksEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -49383,6 +52568,8 @@ extension EC2 {
         public let defaultRouteTablePropagation: DefaultRouteTablePropagationValue?
         /// Enable or disable DNS support.
         public let dnsSupport: DnsSupportValue?
+        /// Enable or disable encryption support for VPC Encryption Control.
+        public let encryptionSupport: EncryptionSupportOptionValue?
         /// The ID of the default propagation route table.
         public let propagationDefaultRouteTableId: String?
         /// Removes CIDR blocks for the transit gateway.
@@ -49395,7 +52582,7 @@ extension EC2 {
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
         @inlinable
-        public init(addTransitGatewayCidrBlocks: [String]? = nil, amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(addTransitGatewayCidrBlocks: [String]? = nil, amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, encryptionSupport: EncryptionSupportOptionValue? = nil, propagationDefaultRouteTableId: String? = nil, removeTransitGatewayCidrBlocks: [String]? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.addTransitGatewayCidrBlocks = addTransitGatewayCidrBlocks
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
@@ -49403,6 +52590,7 @@ extension EC2 {
             self.defaultRouteTableAssociation = defaultRouteTableAssociation
             self.defaultRouteTablePropagation = defaultRouteTablePropagation
             self.dnsSupport = dnsSupport
+            self.encryptionSupport = encryptionSupport
             self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
             self.removeTransitGatewayCidrBlocks = removeTransitGatewayCidrBlocks
             self.securityGroupReferencingSupport = securityGroupReferencingSupport
@@ -49417,6 +52605,7 @@ extension EC2 {
             case defaultRouteTableAssociation = "DefaultRouteTableAssociation"
             case defaultRouteTablePropagation = "DefaultRouteTablePropagation"
             case dnsSupport = "DnsSupport"
+            case encryptionSupport = "EncryptionSupport"
             case propagationDefaultRouteTableId = "PropagationDefaultRouteTableId"
             case removeTransitGatewayCidrBlocks = "RemoveTransitGatewayCidrBlocks"
             case securityGroupReferencingSupport = "SecurityGroupReferencingSupport"
@@ -50370,6 +53559,74 @@ extension EC2 {
         }
     }
 
+    public struct ModifyVpcEncryptionControlRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
+        public let egressOnlyInternetGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
+        public let elasticFileSystemExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
+        public let internetGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
+        public let lambdaExclusion: VpcEncryptionControlExclusionStateInput?
+        /// The encryption mode for the VPC Encryption Control configuration.
+        public let mode: VpcEncryptionControlMode?
+        /// Specifies whether to exclude NAT gateway traffic from encryption enforcement.
+        public let natGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude virtual private gateway traffic from encryption enforcement.
+        public let virtualPrivateGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// The ID of the VPC Encryption Control resource to modify.
+        public let vpcEncryptionControlId: String?
+        /// Specifies whether to exclude VPC Lattice traffic from encryption enforcement.
+        public let vpcLatticeExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude VPC peering connection traffic from encryption enforcement.
+        public let vpcPeeringExclusion: VpcEncryptionControlExclusionStateInput?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, egressOnlyInternetGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, elasticFileSystemExclusion: VpcEncryptionControlExclusionStateInput? = nil, internetGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, lambdaExclusion: VpcEncryptionControlExclusionStateInput? = nil, mode: VpcEncryptionControlMode? = nil, natGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, virtualPrivateGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, vpcEncryptionControlId: String? = nil, vpcLatticeExclusion: VpcEncryptionControlExclusionStateInput? = nil, vpcPeeringExclusion: VpcEncryptionControlExclusionStateInput? = nil) {
+            self.dryRun = dryRun
+            self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
+            self.elasticFileSystemExclusion = elasticFileSystemExclusion
+            self.internetGatewayExclusion = internetGatewayExclusion
+            self.lambdaExclusion = lambdaExclusion
+            self.mode = mode
+            self.natGatewayExclusion = natGatewayExclusion
+            self.virtualPrivateGatewayExclusion = virtualPrivateGatewayExclusion
+            self.vpcEncryptionControlId = vpcEncryptionControlId
+            self.vpcLatticeExclusion = vpcLatticeExclusion
+            self.vpcPeeringExclusion = vpcPeeringExclusion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case egressOnlyInternetGatewayExclusion = "EgressOnlyInternetGatewayExclusion"
+            case elasticFileSystemExclusion = "ElasticFileSystemExclusion"
+            case internetGatewayExclusion = "InternetGatewayExclusion"
+            case lambdaExclusion = "LambdaExclusion"
+            case mode = "Mode"
+            case natGatewayExclusion = "NatGatewayExclusion"
+            case virtualPrivateGatewayExclusion = "VirtualPrivateGatewayExclusion"
+            case vpcEncryptionControlId = "VpcEncryptionControlId"
+            case vpcLatticeExclusion = "VpcLatticeExclusion"
+            case vpcPeeringExclusion = "VpcPeeringExclusion"
+        }
+    }
+
+    public struct ModifyVpcEncryptionControlResult: AWSDecodableShape {
+        /// Information about the VPC Encryption Control configuration.
+        public let vpcEncryptionControl: VpcEncryptionControl?
+
+        @inlinable
+        public init(vpcEncryptionControl: VpcEncryptionControl? = nil) {
+            self.vpcEncryptionControl = vpcEncryptionControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEncryptionControl = "vpcEncryptionControl"
+        }
+    }
+
     public struct ModifyVpcEndpointConnectionNotificationRequest: AWSEncodableShape {
         public struct _ConnectionEventsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -50474,6 +53731,10 @@ extension EC2 {
             self.resetPolicy = resetPolicy
             self.subnetConfigurations = subnetConfigurations
             self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.dnsOptions?.validate(name: "\(name).dnsOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -51254,9 +54515,19 @@ extension EC2 {
     }
 
     public struct NatGateway: AWSDecodableShape {
+        public struct _AttachedAppliancesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _NatGatewayAddressesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The proxy appliances attached to the NAT Gateway for filtering and inspecting traffic to prevent data exfiltration.
+        @OptionalCustomCoding<EC2ArrayCoder<_AttachedAppliancesEncoding, NatGatewayAttachedAppliance>>
+        public var attachedAppliances: [NatGatewayAttachedAppliance]?
+        /// For regional NAT gateways only: Indicates whether Amazon Web Services automatically manages AZ coverage. When enabled, the NAT gateway associates EIPs in all AZs where your VPC has subnets to handle outbound NAT traffic, expands to new AZs when you create subnets there, and retracts from AZs where you've removed all subnets. When disabled, you must manually manage which AZs the NAT gateway supports and their corresponding EIPs. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region. For more information, see Regional NAT gateways for automatic multi-AZ expansion in the Amazon VPC User Guide.
+        public let autoProvisionZones: AutoProvisionZonesState?
+        /// For regional NAT gateways only: Indicates whether Amazon Web Services automatically allocates additional Elastic IP addresses (EIPs) in an AZ when the NAT gateway needs more ports due to increased concurrent connections to a single destination from that AZ. For more information, see Regional NAT gateways for automatic multi-AZ expansion in the Amazon VPC User Guide.
+        public let autoScalingIps: AutoScalingIpsState?
+        /// Indicates whether this is a zonal (single-AZ) or regional (multi-AZ) NAT gateway. A zonal NAT gateway is a NAT Gateway that provides redundancy and scalability within a single availability zone. A regional NAT gateway is a single NAT Gateway that works across multiple availability zones (AZs) in your VPC, providing redundancy, scalability and availability across all the AZs in a Region. For more information, see Regional NAT gateways for automatic multi-AZ expansion in the Amazon VPC User Guide.
+        public let availabilityMode: AvailabilityMode?
         /// Indicates whether the NAT gateway supports public or private connectivity.
         public let connectivityType: ConnectivityType?
         /// The date and time the NAT gateway was created.
@@ -51274,6 +54545,8 @@ extension EC2 {
         public let natGatewayId: String?
         /// Reserved. If you need to sustain traffic greater than the documented limits,  contact Amazon Web Services Support.
         public let provisionedBandwidth: ProvisionedBandwidth?
+        /// For regional NAT gateways only, this is the ID of the NAT gateway.
+        public let routeTableId: String?
         /// The state of the NAT gateway.    pending: The NAT gateway is being created and is not ready to process traffic.    failed: The NAT gateway could not be created. Check the failureCode and failureMessage fields for the reason.    available: The NAT gateway is able to process traffic. This status remains until you delete the NAT gateway, and does not indicate the health of the NAT gateway.    deleting: The NAT gateway is in the process of being terminated and may still be processing traffic.    deleted: The NAT gateway has been terminated and is no longer processing traffic.
         public let state: NatGatewayState?
         /// The ID of the subnet in which the NAT gateway is located.
@@ -51285,7 +54558,11 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(connectivityType: ConnectivityType? = nil, createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, state: NatGatewayState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(attachedAppliances: [NatGatewayAttachedAppliance]? = nil, autoProvisionZones: AutoProvisionZonesState? = nil, autoScalingIps: AutoScalingIpsState? = nil, availabilityMode: AvailabilityMode? = nil, connectivityType: ConnectivityType? = nil, createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, natGatewayAddresses: [NatGatewayAddress]? = nil, natGatewayId: String? = nil, provisionedBandwidth: ProvisionedBandwidth? = nil, routeTableId: String? = nil, state: NatGatewayState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+            self.attachedAppliances = attachedAppliances
+            self.autoProvisionZones = autoProvisionZones
+            self.autoScalingIps = autoScalingIps
+            self.availabilityMode = availabilityMode
             self.connectivityType = connectivityType
             self.createTime = createTime
             self.deleteTime = deleteTime
@@ -51294,6 +54571,7 @@ extension EC2 {
             self.natGatewayAddresses = natGatewayAddresses
             self.natGatewayId = natGatewayId
             self.provisionedBandwidth = provisionedBandwidth
+            self.routeTableId = routeTableId
             self.state = state
             self.subnetId = subnetId
             self.tags = tags
@@ -51301,6 +54579,10 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachedAppliances = "attachedApplianceSet"
+            case autoProvisionZones = "autoProvisionZones"
+            case autoScalingIps = "autoScalingIps"
+            case availabilityMode = "availabilityMode"
             case connectivityType = "connectivityType"
             case createTime = "createTime"
             case deleteTime = "deleteTime"
@@ -51309,6 +54591,7 @@ extension EC2 {
             case natGatewayAddresses = "natGatewayAddressSet"
             case natGatewayId = "natGatewayId"
             case provisionedBandwidth = "provisionedBandwidth"
+            case routeTableId = "routeTableId"
             case state = "state"
             case subnetId = "subnetId"
             case tags = "tagSet"
@@ -51321,6 +54604,10 @@ extension EC2 {
         public let allocationId: String?
         /// [Public NAT gateway only] The association ID of the Elastic IP address that's associated with the NAT gateway.
         public let associationId: String?
+        /// The Availability Zone where this Elastic IP address (EIP) is being used to handle outbound NAT traffic.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone where this Elastic IP address (EIP) is being used to handle outbound NAT traffic. Use this instead of AvailabilityZone for consistent identification of AZs across Amazon Web Services Regions.
+        public let availabilityZoneId: String?
         /// The address failure message.
         public let failureMessage: String?
         /// Defines if the IP address is the primary address.
@@ -51335,9 +54622,11 @@ extension EC2 {
         public let status: NatGatewayAddressStatus?
 
         @inlinable
-        public init(allocationId: String? = nil, associationId: String? = nil, failureMessage: String? = nil, isPrimary: Bool? = nil, networkInterfaceId: String? = nil, privateIp: String? = nil, publicIp: String? = nil, status: NatGatewayAddressStatus? = nil) {
+        public init(allocationId: String? = nil, associationId: String? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, failureMessage: String? = nil, isPrimary: Bool? = nil, networkInterfaceId: String? = nil, privateIp: String? = nil, publicIp: String? = nil, status: NatGatewayAddressStatus? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.failureMessage = failureMessage
             self.isPrimary = isPrimary
             self.networkInterfaceId = networkInterfaceId
@@ -51349,12 +54638,52 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case allocationId = "allocationId"
             case associationId = "associationId"
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case failureMessage = "failureMessage"
             case isPrimary = "isPrimary"
             case networkInterfaceId = "networkInterfaceId"
             case privateIp = "privateIp"
             case publicIp = "publicIp"
             case status = "status"
+        }
+    }
+
+    public struct NatGatewayAttachedAppliance: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the attached appliance, identifying the specific proxy or security appliance resource.
+        public let applianceArn: String?
+        /// The current attachment state of the appliance.
+        public let attachmentState: NatGatewayApplianceState?
+        /// The failure code if the appliance attachment or modification operation failed.
+        public let failureCode: String?
+        /// A descriptive message explaining the failure if the appliance attachment or modification operation failed.
+        public let failureMessage: String?
+        /// The current modification state of the appliance.
+        public let modificationState: NatGatewayApplianceModifyState?
+        /// The type of appliance attached to the NAT Gateway. For network firewall proxy functionality, this will be "network-firewall-proxy".
+        public let type: NatGatewayApplianceType?
+        /// The VPC endpoint ID used to route traffic from application VPCs to the proxy for inspection and filtering.
+        public let vpcEndpointId: String?
+
+        @inlinable
+        public init(applianceArn: String? = nil, attachmentState: NatGatewayApplianceState? = nil, failureCode: String? = nil, failureMessage: String? = nil, modificationState: NatGatewayApplianceModifyState? = nil, type: NatGatewayApplianceType? = nil, vpcEndpointId: String? = nil) {
+            self.applianceArn = applianceArn
+            self.attachmentState = attachmentState
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.modificationState = modificationState
+            self.type = type
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applianceArn = "applianceArn"
+            case attachmentState = "attachmentState"
+            case failureCode = "failureCode"
+            case failureMessage = "failureMessage"
+            case modificationState = "modificationState"
+            case type = "type"
+            case vpcEndpointId = "vpcEndpointId"
         }
     }
 
@@ -51959,6 +55288,8 @@ extension EC2 {
         public let attachment: NetworkInterfaceAttachment?
         /// The Availability Zone.
         public let availabilityZone: String?
+        /// The ID of the Availability Zone.
+        public let availabilityZoneId: String?
         /// A security group connection tracking configuration that enables you to set the timeout for connection tracking on an Elastic network interface. For more information, see Connection tracking timeouts in the Amazon EC2 User Guide.
         public let connectionTrackingConfiguration: ConnectionTrackingConfiguration?
         /// Indicates whether a network interface with an IPv6 address is unreachable from the public internet. If the value is true, inbound traffic from the internet is dropped and you cannot assign an elastic IP address to the network interface. The network interface is reachable from peered VPCs and resources connected through a transit gateway, including on-premises networks.
@@ -52021,11 +55352,12 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(associatedSubnets: [String]? = nil, association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, connectionTrackingConfiguration: ConnectionTrackingConfiguration? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Address: String? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Native: Bool? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, publicDnsName: String? = nil, publicIpDnsNameOptions: PublicIpDnsNameOptions? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
+        public init(associatedSubnets: [String]? = nil, association: NetworkInterfaceAssociation? = nil, attachment: NetworkInterfaceAttachment? = nil, availabilityZone: String? = nil, availabilityZoneId: String? = nil, connectionTrackingConfiguration: ConnectionTrackingConfiguration? = nil, denyAllIgwTraffic: Bool? = nil, description: String? = nil, groups: [GroupIdentifier]? = nil, interfaceType: NetworkInterfaceType? = nil, ipv4Prefixes: [Ipv4PrefixSpecification]? = nil, ipv6Address: String? = nil, ipv6Addresses: [NetworkInterfaceIpv6Address]? = nil, ipv6Native: Bool? = nil, ipv6Prefixes: [Ipv6PrefixSpecification]? = nil, macAddress: String? = nil, networkInterfaceId: String? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, ownerId: String? = nil, privateDnsName: String? = nil, privateIpAddress: String? = nil, privateIpAddresses: [NetworkInterfacePrivateIpAddress]? = nil, publicDnsName: String? = nil, publicIpDnsNameOptions: PublicIpDnsNameOptions? = nil, requesterId: String? = nil, requesterManaged: Bool? = nil, sourceDestCheck: Bool? = nil, status: NetworkInterfaceStatus? = nil, subnetId: String? = nil, tagSet: [Tag]? = nil, vpcId: String? = nil) {
             self.associatedSubnets = associatedSubnets
             self.association = association
             self.attachment = attachment
             self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
             self.connectionTrackingConfiguration = connectionTrackingConfiguration
             self.denyAllIgwTraffic = denyAllIgwTraffic
             self.description = description
@@ -52060,6 +55392,7 @@ extension EC2 {
             case association = "association"
             case attachment = "attachment"
             case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
             case connectionTrackingConfiguration = "connectionTrackingConfiguration"
             case denyAllIgwTraffic = "denyAllIgwTraffic"
             case description = "description"
@@ -53589,7 +56922,7 @@ extension EC2 {
     public struct PrivateDnsNameConfiguration: AWSDecodableShape {
         /// The name of the record subdomain the service provider needs to create. The service provider adds the value text to the name.
         public let name: String?
-        /// The verification state of the VPC endpoint service. >Consumers of the endpoint service can use the private name only when the state is verified.
+        /// The verification state of the VPC endpoint service. Consumers of the endpoint service can use the private name only when the state is verified.
         public let state: DnsNameState?
         /// The endpoint service verification type, for example TXT.
         public let type: String?
@@ -54781,6 +58114,47 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case registeredMulticastGroupSources = "registeredMulticastGroupSources"
+        }
+    }
+
+    public struct RegisteredInstance: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The SQL Server High Availability status of the instance. Valid values are:    processing - The SQL Server High Availability status for the SQL Server High Availability instance is being updated.    active - The SQL Server High Availability instance is an active node in an SQL Server High Availability cluster.    standby - The SQL Server High Availability instance is a standby failover node in an SQL Server High Availability  cluster.    invalid - An error occurred due to misconfigured permissions, or unable  to dertemine SQL Server High Availability status for the SQL Server High Availability instance.
+        public let haStatus: HaStatus?
+        /// The ID of the SQL Server High Availability instance.
+        public let instanceId: String?
+        /// The date and time when the instance's SQL Server High Availability status was last updated, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ).
+        public let lastUpdatedTime: Date?
+        /// A brief description of the SQL Server High Availability status. If the instance is in the invalid  High Availability status, this parameter includes the error message.
+        public let processingStatus: String?
+        /// The ARN of the Secrets Manager secret containing the SQL Server access credentials for the SQL Server High Availability instance.  If not specified, deafult local user credentials will be used by the Amazon Web Services Systems Manager agent.
+        public let sqlServerCredentials: String?
+        /// The license type for the SQL Server license. Valid values include:    full - The SQL Server High Availability instance is using a full SQL Server license.    waived - The SQL Server High Availability instance is waived from the SQL Server license.
+        public let sqlServerLicenseUsage: SqlServerLicenseUsage?
+        /// The tags assigned to the SQL Server High Availability instance.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(haStatus: HaStatus? = nil, instanceId: String? = nil, lastUpdatedTime: Date? = nil, processingStatus: String? = nil, sqlServerCredentials: String? = nil, sqlServerLicenseUsage: SqlServerLicenseUsage? = nil, tags: [Tag]? = nil) {
+            self.haStatus = haStatus
+            self.instanceId = instanceId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.processingStatus = processingStatus
+            self.sqlServerCredentials = sqlServerCredentials
+            self.sqlServerLicenseUsage = sqlServerLicenseUsage
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case haStatus = "haStatus"
+            case instanceId = "instanceId"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case processingStatus = "processingStatus"
+            case sqlServerCredentials = "sqlServerCredentials"
+            case sqlServerLicenseUsage = "sqlServerLicenseUsage"
+            case tags = "tagSet"
         }
     }
 
@@ -57249,6 +60623,38 @@ extension EC2 {
             case restoreDuration = "restoreDuration"
             case restoreStartTime = "restoreStartTime"
             case snapshotId = "snapshotId"
+        }
+    }
+
+    public struct RestoreVolumeFromRecycleBinRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the volume to restore.
+        public let volumeId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, volumeId: String? = nil) {
+            self.dryRun = dryRun
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case volumeId = "VolumeId"
+        }
+    }
+
+    public struct RestoreVolumeFromRecycleBinResult: AWSDecodableShape {
+        /// Returns true if the request succeeds; otherwise, it returns an error.
+        public let `return`: Bool?
+
+        @inlinable
+        public init(return: Bool? = nil) {
+            self.`return` = `return`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
         }
     }
 
@@ -62635,6 +66041,125 @@ extension EC2 {
         }
     }
 
+    public struct TransitGatewayMeteringPolicy: AWSDecodableShape {
+        public struct _MiddleboxAttachmentIdsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IDs of the middlebox attachments associated with the metering policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_MiddleboxAttachmentIdsEncoding, String>>
+        public var middleboxAttachmentIds: [String]?
+        /// The state of the transit gateway metering policy.
+        public let state: TransitGatewayMeteringPolicyState?
+        /// The tags assigned to the transit gateway metering policy.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the transit gateway associated with the metering policy.
+        public let transitGatewayId: String?
+        /// The ID of the transit gateway metering policy.
+        public let transitGatewayMeteringPolicyId: String?
+        /// The date and time when the metering policy update becomes effective.
+        public let updateEffectiveAt: Date?
+
+        @inlinable
+        public init(middleboxAttachmentIds: [String]? = nil, state: TransitGatewayMeteringPolicyState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, transitGatewayMeteringPolicyId: String? = nil, updateEffectiveAt: Date? = nil) {
+            self.middleboxAttachmentIds = middleboxAttachmentIds
+            self.state = state
+            self.tags = tags
+            self.transitGatewayId = transitGatewayId
+            self.transitGatewayMeteringPolicyId = transitGatewayMeteringPolicyId
+            self.updateEffectiveAt = updateEffectiveAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case middleboxAttachmentIds = "middleboxAttachmentIdSet"
+            case state = "state"
+            case tags = "tagSet"
+            case transitGatewayId = "transitGatewayId"
+            case transitGatewayMeteringPolicyId = "transitGatewayMeteringPolicyId"
+            case updateEffectiveAt = "updateEffectiveAt"
+        }
+    }
+
+    public struct TransitGatewayMeteringPolicyEntry: AWSDecodableShape {
+        /// The Amazon Web Services account ID to which the metered traffic is attributed.
+        public let meteredAccount: TransitGatewayMeteringPayerType?
+        /// The metering policy rule that defines traffic matching criteria.
+        public let meteringPolicyRule: TransitGatewayMeteringPolicyRule?
+        /// The rule number of the metering policy entry.
+        public let policyRuleNumber: String?
+        /// The state of the metering policy entry.
+        public let state: TransitGatewayMeteringPolicyEntryState?
+        /// The date and time when the metering policy entry was last updated.
+        public let updatedAt: Date?
+        /// The date and time when the metering policy entry update becomes effective.
+        public let updateEffectiveAt: Date?
+
+        @inlinable
+        public init(meteredAccount: TransitGatewayMeteringPayerType? = nil, meteringPolicyRule: TransitGatewayMeteringPolicyRule? = nil, policyRuleNumber: String? = nil, state: TransitGatewayMeteringPolicyEntryState? = nil, updatedAt: Date? = nil, updateEffectiveAt: Date? = nil) {
+            self.meteredAccount = meteredAccount
+            self.meteringPolicyRule = meteringPolicyRule
+            self.policyRuleNumber = policyRuleNumber
+            self.state = state
+            self.updatedAt = updatedAt
+            self.updateEffectiveAt = updateEffectiveAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case meteredAccount = "meteredAccount"
+            case meteringPolicyRule = "meteringPolicyRule"
+            case policyRuleNumber = "policyRuleNumber"
+            case state = "state"
+            case updatedAt = "updatedAt"
+            case updateEffectiveAt = "updateEffectiveAt"
+        }
+    }
+
+    public struct TransitGatewayMeteringPolicyRule: AWSDecodableShape {
+        /// The destination CIDR block for the rule.
+        public let destinationCidrBlock: String?
+        /// The destination port range for the rule.
+        public let destinationPortRange: String?
+        /// The ID of the destination transit gateway attachment.
+        public let destinationTransitGatewayAttachmentId: String?
+        /// The type of the destination transit gateway attachment. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type.
+        public let destinationTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType?
+        /// The protocol for the rule (1, 6, 17, etc.).
+        public let `protocol`: String?
+        /// The source CIDR block for the rule.
+        public let sourceCidrBlock: String?
+        /// The source port range for the rule.
+        public let sourcePortRange: String?
+        /// The ID of the source transit gateway attachment.
+        public let sourceTransitGatewayAttachmentId: String?
+        /// The type of the source transit gateway attachment. Note that the tgw-peering resource type has been deprecated. To configure metering policies for Connect, use the transport attachment type.
+        public let sourceTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType?
+
+        @inlinable
+        public init(destinationCidrBlock: String? = nil, destinationPortRange: String? = nil, destinationTransitGatewayAttachmentId: String? = nil, destinationTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType? = nil, protocol: String? = nil, sourceCidrBlock: String? = nil, sourcePortRange: String? = nil, sourceTransitGatewayAttachmentId: String? = nil, sourceTransitGatewayAttachmentType: TransitGatewayAttachmentResourceType? = nil) {
+            self.destinationCidrBlock = destinationCidrBlock
+            self.destinationPortRange = destinationPortRange
+            self.destinationTransitGatewayAttachmentId = destinationTransitGatewayAttachmentId
+            self.destinationTransitGatewayAttachmentType = destinationTransitGatewayAttachmentType
+            self.`protocol` = `protocol`
+            self.sourceCidrBlock = sourceCidrBlock
+            self.sourcePortRange = sourcePortRange
+            self.sourceTransitGatewayAttachmentId = sourceTransitGatewayAttachmentId
+            self.sourceTransitGatewayAttachmentType = sourceTransitGatewayAttachmentType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationCidrBlock = "destinationCidrBlock"
+            case destinationPortRange = "destinationPortRange"
+            case destinationTransitGatewayAttachmentId = "destinationTransitGatewayAttachmentId"
+            case destinationTransitGatewayAttachmentType = "destinationTransitGatewayAttachmentType"
+            case `protocol` = "protocol"
+            case sourceCidrBlock = "sourceCidrBlock"
+            case sourcePortRange = "sourcePortRange"
+            case sourceTransitGatewayAttachmentId = "sourceTransitGatewayAttachmentId"
+            case sourceTransitGatewayAttachmentType = "sourceTransitGatewayAttachmentType"
+        }
+    }
+
     public struct TransitGatewayMulticastDeregisteredGroupMembers: AWSDecodableShape {
         public struct _DeregisteredNetworkInterfaceIdsEncoding: ArrayCoderProperties { public static let member = "item" }
 
@@ -62938,6 +66463,8 @@ extension EC2 {
         public let defaultRouteTablePropagation: DefaultRouteTablePropagationValue?
         /// Indicates whether DNS support is enabled.
         public let dnsSupport: DnsSupportValue?
+        /// Defines if the Transit Gateway supports VPC Encryption Control.
+        public let encryptionSupport: EncryptionSupport?
         /// Indicates whether multicast is enabled on the transit gateway
         public let multicastSupport: MulticastSupportValue?
         /// The ID of the default propagation route table.
@@ -62952,13 +66479,14 @@ extension EC2 {
         public let vpnEcmpSupport: VpnEcmpSupportValue?
 
         @inlinable
-        public init(amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, multicastSupport: MulticastSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
+        public init(amazonSideAsn: Int64? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue? = nil, defaultRouteTableAssociation: DefaultRouteTableAssociationValue? = nil, defaultRouteTablePropagation: DefaultRouteTablePropagationValue? = nil, dnsSupport: DnsSupportValue? = nil, encryptionSupport: EncryptionSupport? = nil, multicastSupport: MulticastSupportValue? = nil, propagationDefaultRouteTableId: String? = nil, securityGroupReferencingSupport: SecurityGroupReferencingSupportValue? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: VpnEcmpSupportValue? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.associationDefaultRouteTableId = associationDefaultRouteTableId
             self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
             self.defaultRouteTableAssociation = defaultRouteTableAssociation
             self.defaultRouteTablePropagation = defaultRouteTablePropagation
             self.dnsSupport = dnsSupport
+            self.encryptionSupport = encryptionSupport
             self.multicastSupport = multicastSupport
             self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
             self.securityGroupReferencingSupport = securityGroupReferencingSupport
@@ -62973,6 +66501,7 @@ extension EC2 {
             case defaultRouteTableAssociation = "defaultRouteTableAssociation"
             case defaultRouteTablePropagation = "defaultRouteTablePropagation"
             case dnsSupport = "dnsSupport"
+            case encryptionSupport = "encryptionSupport"
             case multicastSupport = "multicastSupport"
             case propagationDefaultRouteTableId = "propagationDefaultRouteTableId"
             case securityGroupReferencingSupport = "securityGroupReferencingSupport"
@@ -64115,6 +67644,71 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case capacityManagerStatus = "capacityManagerStatus"
             case organizationsAccess = "organizationsAccess"
+        }
+    }
+
+    public struct UpdateInterruptibleCapacityReservationAllocationRequest: AWSEncodableShape {
+        /// 			The ID of the source Capacity Reservation containing the interruptible allocation to modify.
+        ///
+        public let capacityReservationId: String?
+        /// 			Checks whether you have the required permissions for the action, without actually making the request, and provides an error response.
+        ///
+        public let dryRun: Bool?
+        /// 			The new number of instances to allocate. Enter a higher number to add more capacity to share, or a lower number to reclaim capacity to your source Capacity Reservation.
+        ///
+        public let targetInstanceCount: Int?
+
+        @inlinable
+        public init(capacityReservationId: String? = nil, dryRun: Bool? = nil, targetInstanceCount: Int? = nil) {
+            self.capacityReservationId = capacityReservationId
+            self.dryRun = dryRun
+            self.targetInstanceCount = targetInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityReservationId = "CapacityReservationId"
+            case dryRun = "DryRun"
+            case targetInstanceCount = "TargetInstanceCount"
+        }
+    }
+
+    public struct UpdateInterruptibleCapacityReservationAllocationResult: AWSDecodableShape {
+        /// 			The current number of instances allocated to the interruptible reservation.
+        ///
+        public let instanceCount: Int?
+        /// 			The ID of the interruptible Capacity Reservation that was modified.
+        ///
+        public let interruptibleCapacityReservationId: String?
+        /// 			The interruption type for the interruptible reservation.
+        ///
+        public let interruptionType: InterruptionType?
+        /// 			The ID of the source Capacity Reservation to which capacity was reclaimed or from which capacity was allocated.
+        ///
+        public let sourceCapacityReservationId: String?
+        /// 			The current status of the allocation (updating during reclamation, active when complete).
+        ///
+        public let status: InterruptibleCapacityReservationAllocationStatus?
+        /// 			The requested number of instances for the interruptible Capacity Reservation.
+        ///
+        public let targetInstanceCount: Int?
+
+        @inlinable
+        public init(instanceCount: Int? = nil, interruptibleCapacityReservationId: String? = nil, interruptionType: InterruptionType? = nil, sourceCapacityReservationId: String? = nil, status: InterruptibleCapacityReservationAllocationStatus? = nil, targetInstanceCount: Int? = nil) {
+            self.instanceCount = instanceCount
+            self.interruptibleCapacityReservationId = interruptibleCapacityReservationId
+            self.interruptionType = interruptionType
+            self.sourceCapacityReservationId = sourceCapacityReservationId
+            self.status = status
+            self.targetInstanceCount = targetInstanceCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceCount = "instanceCount"
+            case interruptibleCapacityReservationId = "interruptibleCapacityReservationId"
+            case interruptionType = "interruptionType"
+            case sourceCapacityReservationId = "sourceCapacityReservationId"
+            case status = "status"
+            case targetInstanceCount = "targetInstanceCount"
         }
     }
 
@@ -65543,6 +69137,76 @@ extension EC2 {
         }
     }
 
+    public struct VolumeRecycleBinInfo: AWSDecodableShape {
+        /// The Availability Zone for the volume.
+        public let availabilityZone: String?
+        /// The ID of the Availability Zone for the volume.
+        public let availabilityZoneId: String?
+        /// The time stamp when volume creation was initiated.
+        public let createTime: Date?
+        /// The number of I/O operations per second (IOPS) for the volume.
+        public let iops: Int?
+        /// The service provider that manages the volume.
+        public let `operator`: OperatorResponse?
+        /// The ARN of the Outpost on which the volume is stored. For more information, see Amazon EBS volumes on Outposts in the  Amazon EBS User Guide.
+        public let outpostArn: String?
+        /// The date and time when the volume entered the Recycle Bin.
+        public let recycleBinEnterTime: Date?
+        /// The date and time when the volume is to be permanently deleted from the Recycle Bin.
+        public let recycleBinExitTime: Date?
+        /// The size of the volume, in GiB.
+        public let size: Int?
+        /// The snapshot from which the volume was created, if applicable.
+        public let snapshotId: String?
+        /// The ID of the source volume.
+        public let sourceVolumeId: String?
+        /// The state of the volume.
+        public let state: VolumeState?
+        /// The throughput that the volume supports, in MiB/s.
+        public let throughput: Int?
+        /// The ID of the volume.
+        public let volumeId: String?
+        /// The volume type.
+        public let volumeType: VolumeType?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, createTime: Date? = nil, iops: Int? = nil, operator: OperatorResponse? = nil, outpostArn: String? = nil, recycleBinEnterTime: Date? = nil, recycleBinExitTime: Date? = nil, size: Int? = nil, snapshotId: String? = nil, sourceVolumeId: String? = nil, state: VolumeState? = nil, throughput: Int? = nil, volumeId: String? = nil, volumeType: VolumeType? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.createTime = createTime
+            self.iops = iops
+            self.`operator` = `operator`
+            self.outpostArn = outpostArn
+            self.recycleBinEnterTime = recycleBinEnterTime
+            self.recycleBinExitTime = recycleBinExitTime
+            self.size = size
+            self.snapshotId = snapshotId
+            self.sourceVolumeId = sourceVolumeId
+            self.state = state
+            self.throughput = throughput
+            self.volumeId = volumeId
+            self.volumeType = volumeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "availabilityZone"
+            case availabilityZoneId = "availabilityZoneId"
+            case createTime = "createTime"
+            case iops = "iops"
+            case `operator` = "operator"
+            case outpostArn = "outpostArn"
+            case recycleBinEnterTime = "recycleBinEnterTime"
+            case recycleBinExitTime = "recycleBinExitTime"
+            case size = "size"
+            case snapshotId = "snapshotId"
+            case sourceVolumeId = "sourceVolumeId"
+            case state = "state"
+            case throughput = "throughput"
+            case volumeId = "volumeId"
+            case volumeType = "volumeType"
+        }
+    }
+
     public struct VolumeStatusAction: AWSDecodableShape {
         /// The code identifying the operation, for example, enable-volume-io.
         public let code: String?
@@ -65954,13 +69618,20 @@ extension EC2 {
     public struct VpcEncryptionControl: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The encryption mode for the VPC Encryption Control configuration.
         public let mode: VpcEncryptionControlMode?
+        /// Information about resource exclusions for the VPC Encryption Control configuration.
         public let resourceExclusions: VpcEncryptionControlExclusions?
+        /// The current state of the VPC Encryption Control configuration.
         public let state: VpcEncryptionControlState?
+        /// A message providing additional information about the encryption control state.
         public let stateMessage: String?
+        /// The tags assigned to the VPC Encryption Control configuration.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// The ID of the VPC Encryption Control configuration.
         public let vpcEncryptionControlId: String?
+        /// The ID of the VPC associated with the encryption control configuration.
         public let vpcId: String?
 
         @inlinable
@@ -65985,8 +69656,56 @@ extension EC2 {
         }
     }
 
+    public struct VpcEncryptionControlConfiguration: AWSEncodableShape {
+        /// Specifies whether to exclude egress-only internet gateway traffic from encryption enforcement.
+        public let egressOnlyInternetGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude Elastic File System traffic from encryption enforcement.
+        public let elasticFileSystemExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude internet gateway traffic from encryption enforcement.
+        public let internetGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude Lambda function traffic from encryption enforcement.
+        public let lambdaExclusion: VpcEncryptionControlExclusionStateInput?
+        /// The encryption mode for the VPC Encryption Control configuration.
+        public let mode: VpcEncryptionControlMode?
+        /// Specifies whether to exclude NAT gateway traffic from encryption enforcement.
+        public let natGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude virtual private gateway traffic from encryption enforcement.
+        public let virtualPrivateGatewayExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude VPC Lattice traffic from encryption enforcement.
+        public let vpcLatticeExclusion: VpcEncryptionControlExclusionStateInput?
+        /// Specifies whether to exclude VPC peering connection traffic from encryption enforcement.
+        public let vpcPeeringExclusion: VpcEncryptionControlExclusionStateInput?
+
+        @inlinable
+        public init(egressOnlyInternetGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, elasticFileSystemExclusion: VpcEncryptionControlExclusionStateInput? = nil, internetGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, lambdaExclusion: VpcEncryptionControlExclusionStateInput? = nil, mode: VpcEncryptionControlMode? = nil, natGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, virtualPrivateGatewayExclusion: VpcEncryptionControlExclusionStateInput? = nil, vpcLatticeExclusion: VpcEncryptionControlExclusionStateInput? = nil, vpcPeeringExclusion: VpcEncryptionControlExclusionStateInput? = nil) {
+            self.egressOnlyInternetGatewayExclusion = egressOnlyInternetGatewayExclusion
+            self.elasticFileSystemExclusion = elasticFileSystemExclusion
+            self.internetGatewayExclusion = internetGatewayExclusion
+            self.lambdaExclusion = lambdaExclusion
+            self.mode = mode
+            self.natGatewayExclusion = natGatewayExclusion
+            self.virtualPrivateGatewayExclusion = virtualPrivateGatewayExclusion
+            self.vpcLatticeExclusion = vpcLatticeExclusion
+            self.vpcPeeringExclusion = vpcPeeringExclusion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressOnlyInternetGatewayExclusion = "EgressOnlyInternetGatewayExclusion"
+            case elasticFileSystemExclusion = "ElasticFileSystemExclusion"
+            case internetGatewayExclusion = "InternetGatewayExclusion"
+            case lambdaExclusion = "LambdaExclusion"
+            case mode = "Mode"
+            case natGatewayExclusion = "NatGatewayExclusion"
+            case virtualPrivateGatewayExclusion = "VirtualPrivateGatewayExclusion"
+            case vpcLatticeExclusion = "VpcLatticeExclusion"
+            case vpcPeeringExclusion = "VpcPeeringExclusion"
+        }
+    }
+
     public struct VpcEncryptionControlExclusion: AWSDecodableShape {
+        /// The current state of the exclusion configuration.
         public let state: VpcEncryptionControlExclusionState?
+        /// A message providing additional information about the exclusion state.
         public let stateMessage: String?
 
         @inlinable
@@ -66002,27 +69721,70 @@ extension EC2 {
     }
 
     public struct VpcEncryptionControlExclusions: AWSDecodableShape {
+        /// The exclusion configuration for egress-only internet gateway traffic.
         public let egressOnlyInternetGateway: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for Elastic File System traffic.
+        public let elasticFileSystem: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for internet gateway traffic.
         public let internetGateway: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for Lambda function traffic.
+        public let lambda: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for NAT gateway traffic.
         public let natGateway: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for virtual private gateway traffic.
         public let virtualPrivateGateway: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for VPC Lattice traffic.
+        public let vpcLattice: VpcEncryptionControlExclusion?
+        /// The exclusion configuration for VPC peering connection traffic.
         public let vpcPeering: VpcEncryptionControlExclusion?
 
         @inlinable
-        public init(egressOnlyInternetGateway: VpcEncryptionControlExclusion? = nil, internetGateway: VpcEncryptionControlExclusion? = nil, natGateway: VpcEncryptionControlExclusion? = nil, virtualPrivateGateway: VpcEncryptionControlExclusion? = nil, vpcPeering: VpcEncryptionControlExclusion? = nil) {
+        public init(egressOnlyInternetGateway: VpcEncryptionControlExclusion? = nil, elasticFileSystem: VpcEncryptionControlExclusion? = nil, internetGateway: VpcEncryptionControlExclusion? = nil, lambda: VpcEncryptionControlExclusion? = nil, natGateway: VpcEncryptionControlExclusion? = nil, virtualPrivateGateway: VpcEncryptionControlExclusion? = nil, vpcLattice: VpcEncryptionControlExclusion? = nil, vpcPeering: VpcEncryptionControlExclusion? = nil) {
             self.egressOnlyInternetGateway = egressOnlyInternetGateway
+            self.elasticFileSystem = elasticFileSystem
             self.internetGateway = internetGateway
+            self.lambda = lambda
             self.natGateway = natGateway
             self.virtualPrivateGateway = virtualPrivateGateway
+            self.vpcLattice = vpcLattice
             self.vpcPeering = vpcPeering
         }
 
         private enum CodingKeys: String, CodingKey {
             case egressOnlyInternetGateway = "egressOnlyInternetGateway"
+            case elasticFileSystem = "elasticFileSystem"
             case internetGateway = "internetGateway"
+            case lambda = "lambda"
             case natGateway = "natGateway"
             case virtualPrivateGateway = "virtualPrivateGateway"
+            case vpcLattice = "vpcLattice"
             case vpcPeering = "vpcPeering"
+        }
+    }
+
+    public struct VpcEncryptionNonCompliantResource: AWSDecodableShape {
+        /// A description of the non-compliant resource.
+        public let description: String?
+        /// The ID of the non-compliant resource.
+        public let id: String?
+        /// Indicates whether the resource can be excluded from encryption enforcement.
+        public let isExcludable: Bool?
+        /// The type of the non-compliant resource.
+        public let type: String?
+
+        @inlinable
+        public init(description: String? = nil, id: String? = nil, isExcludable: Bool? = nil, type: String? = nil) {
+            self.description = description
+            self.id = id
+            self.isExcludable = isExcludable
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case id = "id"
+            case isExcludable = "isExcludable"
+            case type = "type"
         }
     }
 
@@ -66439,6 +70201,43 @@ extension EC2 {
         }
     }
 
+    public struct VpnConcentrator: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The current state of the VPN concentrator.
+        public let state: String?
+        /// Any tags assigned to the VPN concentrator.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the transit gateway attachment for the VPN concentrator.
+        public let transitGatewayAttachmentId: String?
+        /// The ID of the transit gateway associated with the VPN concentrator.
+        public let transitGatewayId: String?
+        /// The type of VPN concentrator.
+        public let type: String?
+        /// The ID of the VPN concentrator.
+        public let vpnConcentratorId: String?
+
+        @inlinable
+        public init(state: String? = nil, tags: [Tag]? = nil, transitGatewayAttachmentId: String? = nil, transitGatewayId: String? = nil, type: String? = nil, vpnConcentratorId: String? = nil) {
+            self.state = state
+            self.tags = tags
+            self.transitGatewayAttachmentId = transitGatewayAttachmentId
+            self.transitGatewayId = transitGatewayId
+            self.type = type
+            self.vpnConcentratorId = vpnConcentratorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case tags = "tagSet"
+            case transitGatewayAttachmentId = "transitGatewayAttachmentId"
+            case transitGatewayId = "transitGatewayId"
+            case type = "type"
+            case vpnConcentratorId = "vpnConcentratorId"
+        }
+    }
+
     public struct VpnConnection: AWSDecodableShape {
         public struct _RoutesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
@@ -66475,13 +70274,15 @@ extension EC2 {
         /// Information about the VPN tunnel.
         @OptionalCustomCoding<EC2ArrayCoder<_VgwTelemetryEncoding, VgwTelemetry>>
         public var vgwTelemetry: [VgwTelemetry]?
+        /// The ID of the VPN concentrator associated with the VPN connection.
+        public let vpnConcentratorId: String?
         /// The ID of the VPN connection.
         public let vpnConnectionId: String?
         /// The ID of the virtual private gateway at the Amazon Web Services side of the VPN connection.
         public let vpnGatewayId: String?
 
         @inlinable
-        public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, preSharedKeyArn: String? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
+        public init(category: String? = nil, coreNetworkArn: String? = nil, coreNetworkAttachmentArn: String? = nil, customerGatewayConfiguration: String? = nil, customerGatewayId: String? = nil, gatewayAssociationState: GatewayAssociationState? = nil, options: VpnConnectionOptions? = nil, preSharedKeyArn: String? = nil, routes: [VpnStaticRoute]? = nil, state: VpnState? = nil, tags: [Tag]? = nil, transitGatewayId: String? = nil, type: GatewayType? = nil, vgwTelemetry: [VgwTelemetry]? = nil, vpnConcentratorId: String? = nil, vpnConnectionId: String? = nil, vpnGatewayId: String? = nil) {
             self.category = category
             self.coreNetworkArn = coreNetworkArn
             self.coreNetworkAttachmentArn = coreNetworkAttachmentArn
@@ -66496,6 +70297,7 @@ extension EC2 {
             self.transitGatewayId = transitGatewayId
             self.type = type
             self.vgwTelemetry = vgwTelemetry
+            self.vpnConcentratorId = vpnConcentratorId
             self.vpnConnectionId = vpnConnectionId
             self.vpnGatewayId = vpnGatewayId
         }
@@ -66515,6 +70317,7 @@ extension EC2 {
             case transitGatewayId = "transitGatewayId"
             case type = "type"
             case vgwTelemetry = "vgwTelemetry"
+            case vpnConcentratorId = "vpnConcentratorId"
             case vpnConnectionId = "vpnConnectionId"
             case vpnGatewayId = "vpnGatewayId"
         }
@@ -66565,6 +70368,10 @@ extension EC2 {
         public let staticRoutesOnly: Bool?
         /// The transit gateway attachment ID in use for the VPN tunnel.
         public let transportTransitGatewayAttachmentId: String?
+        /// 			The configured bandwidth for the VPN tunnel. Represents the current throughput capacity setting for the tunnel connection. standard tunnel bandwidth supports up to 1.25 Gbps per tunnel while large
+        /// 			supports up to 5 Gbps per tunnel. If no tunnel bandwidth was specified for the connection, standard is used as the default value.
+        ///
+        public let tunnelBandwidth: VpnTunnelBandwidth?
         /// Indicates whether the VPN tunnels process IPv4 or IPv6 traffic.
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// Indicates the VPN tunnel options.
@@ -66572,7 +70379,7 @@ extension EC2 {
         public var tunnelOptions: [TunnelOption]?
 
         @inlinable
-        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelBandwidth: VpnTunnelBandwidth? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [TunnelOption]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
             self.localIpv6NetworkCidr = localIpv6NetworkCidr
@@ -66581,6 +70388,7 @@ extension EC2 {
             self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
             self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
+            self.tunnelBandwidth = tunnelBandwidth
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
         }
@@ -66594,6 +70402,7 @@ extension EC2 {
             case remoteIpv6NetworkCidr = "remoteIpv6NetworkCidr"
             case staticRoutesOnly = "staticRoutesOnly"
             case transportTransitGatewayAttachmentId = "transportTransitGatewayAttachmentId"
+            case tunnelBandwidth = "tunnelBandwidth"
             case tunnelInsideIpVersion = "tunnelInsideIpVersion"
             case tunnelOptions = "tunnelOptionSet"
         }
@@ -66616,6 +70425,11 @@ extension EC2 {
         public let staticRoutesOnly: Bool?
         /// The transit gateway attachment ID to use for the VPN tunnel. Required if OutsideIpAddressType is set to PrivateIpv4.
         public let transportTransitGatewayAttachmentId: String?
+        /// 			The desired bandwidth specification for the VPN tunnel, used when creating or modifying VPN connection options to set the tunnel's throughput
+        /// 			capacity. standard supports up to 1.25 Gbps per tunnel, while large supports up to 5 Gbps per tunnel. The default value is standard. Existing
+        /// 			VPN connections without a bandwidth setting will automatically default to standard.
+        ///
+        public let tunnelBandwidth: VpnTunnelBandwidth?
         /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic. Default: ipv4
         public let tunnelInsideIpVersion: TunnelInsideIpVersion?
         /// The tunnel options for the VPN connection.
@@ -66623,7 +70437,7 @@ extension EC2 {
         public var tunnelOptions: [VpnTunnelOptionsSpecification]?
 
         @inlinable
-        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
+        public init(enableAcceleration: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, outsideIpAddressType: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, staticRoutesOnly: Bool? = nil, transportTransitGatewayAttachmentId: String? = nil, tunnelBandwidth: VpnTunnelBandwidth? = nil, tunnelInsideIpVersion: TunnelInsideIpVersion? = nil, tunnelOptions: [VpnTunnelOptionsSpecification]? = nil) {
             self.enableAcceleration = enableAcceleration
             self.localIpv4NetworkCidr = localIpv4NetworkCidr
             self.localIpv6NetworkCidr = localIpv6NetworkCidr
@@ -66632,6 +70446,7 @@ extension EC2 {
             self.remoteIpv6NetworkCidr = remoteIpv6NetworkCidr
             self.staticRoutesOnly = staticRoutesOnly
             self.transportTransitGatewayAttachmentId = transportTransitGatewayAttachmentId
+            self.tunnelBandwidth = tunnelBandwidth
             self.tunnelInsideIpVersion = tunnelInsideIpVersion
             self.tunnelOptions = tunnelOptions
         }
@@ -66645,6 +70460,7 @@ extension EC2 {
             case remoteIpv6NetworkCidr = "RemoteIpv6NetworkCidr"
             case staticRoutesOnly = "staticRoutesOnly"
             case transportTransitGatewayAttachmentId = "TransportTransitGatewayAttachmentId"
+            case tunnelBandwidth = "TunnelBandwidth"
             case tunnelInsideIpVersion = "TunnelInsideIpVersion"
             case tunnelOptions = "TunnelOptions"
         }

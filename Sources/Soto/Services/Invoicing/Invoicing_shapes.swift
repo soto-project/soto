@@ -25,6 +25,32 @@ import Foundation
 extension Invoicing {
     // MARK: Enums
 
+    public enum BuyerDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case networkID = "NetworkID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionTestingMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case prodEnvDollarTest = "PROD_ENV_DOLLAR_TEST"
+        case testEnvReplayTest = "TEST_ENV_REPLAY_TEST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EinvoiceDeliveryAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invoicePdf = "INVOICE_PDF"
+        case rfpPdf = "RFP_PDF"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EinvoiceDeliveryDocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsCloudCreditMemo = "AWS_CLOUD_CREDIT_MEMO"
+        case awsCloudInvoice = "AWS_CLOUD_INVOICE"
+        case awsMarketplaceCreditMemo = "AWS_MARKETPLACE_CREDIT_MEMO"
+        case awsMarketplaceInvoice = "AWS_MARKETPLACE_INVOICE"
+        case awsRequestForPayment = "AWS_REQUEST_FOR_PAYMENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InvoiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creditMemo = "CREDIT_MEMO"
         case invoice = "INVOICE"
@@ -34,6 +60,33 @@ extension Invoicing {
     public enum ListInvoiceSummariesResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountId = "ACCOUNT_ID"
         case invoiceId = "INVOICE_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcurementPortalName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case coupa = "COUPA"
+        case sapBusinessNetwork = "SAP_BUSINESS_NETWORK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProcurementPortalPreferenceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case pendingVerification = "PENDING_VERIFICATION"
+        case suspended = "SUSPENDED"
+        case testFailed = "TEST_FAILED"
+        case testInitializationFailed = "TEST_INITIALIZATION_FAILED"
+        case testInitialized = "TEST_INITIALIZED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PurchaseOrderDataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associatedPurchaseOrderRequired = "ASSOCIATED_PURCHASE_ORDER_REQUIRED"
+        case purchaseOrderNotRequired = "PURCHASE_ORDER_NOT_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SupplierDomain: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case networkID = "NetworkID"
         public var description: String { return self.rawValue }
     }
 
@@ -52,6 +105,11 @@ extension Invoicing {
         case other = "other"
         case taxSettingsError = "taxSettingsError"
         case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cxml = "CXML"
         public var description: String { return self.rawValue }
     }
 
@@ -161,6 +219,53 @@ extension Invoicing {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The identifier of the resource that caused the conflict.
+        public let resourceId: String?
+        /// The type of resource that caused the conflict.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct Contact: AWSEncodableShape & AWSDecodableShape {
+        /// The email address of the contact person or role.
+        public let email: String?
+        /// The name of the contact person or role.
+        public let name: String?
+
+        @inlinable
+        public init(email: String? = nil, name: String? = nil) {
+            self.email = email
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.email, name: "email", parent: name, max: 1024)
+            try self.validate(self.email, name: "email", parent: name, min: 1)
+            try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case email = "Email"
+            case name = "Name"
+        }
+    }
+
     public struct CreateInvoiceUnitRequest: AWSEncodableShape {
         ///  The invoice unit's description. This can be changed at a later time.
         public let description: String?
@@ -220,6 +325,114 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case invoiceUnitArn = "InvoiceUnitArn"
+        }
+    }
+
+    public struct CreateProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// The domain identifier for the buyer in the procurement portal.
+        public let buyerDomain: BuyerDomain
+        /// The unique identifier for the buyer in the procurement portal.
+        public let buyerIdentifier: String
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+        public let clientToken: String?
+        /// List of contact information for portal administrators and technical contacts responsible for the e-invoice integration.
+        public let contacts: [Contact]
+        /// Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.
+        public let einvoiceDeliveryEnabled: Bool
+        /// Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+        public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
+        /// The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+        public let procurementPortalInstanceEndpoint: String?
+        /// The name of the procurement portal.
+        public let procurementPortalName: ProcurementPortalName
+        /// The shared secret or authentication credential used to establish secure communication with the procurement portal. This value must be encrypted at rest.
+        public let procurementPortalSharedSecret: String?
+        /// Indicates whether purchase order retrieval is enabled for this procurement portal preference. Set to true to enable PO retrieval, false to disable.
+        public let purchaseOrderRetrievalEnabled: Bool
+        /// The tags to apply to this procurement portal preference resource. Each tag consists of a key and an optional value.
+        public let resourceTags: [ResourceTag]?
+        public let selector: ProcurementPortalPreferenceSelector?
+        /// The domain identifier for the supplier in the procurement portal.
+        public let supplierDomain: SupplierDomain
+        /// The unique identifier for the supplier in the procurement portal.
+        public let supplierIdentifier: String
+        /// Configuration settings for the test environment of the procurement portal. Includes test credentials and endpoints that are used for validation before production deployment.
+        public let testEnvPreference: TestEnvPreferenceInput?
+
+        @inlinable
+        public init(buyerDomain: BuyerDomain, buyerIdentifier: String, clientToken: String? = CreateProcurementPortalPreferenceRequest.idempotencyToken(), contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, resourceTags: [ResourceTag]? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreferenceInput? = nil) {
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.clientToken = clientToken
+            self.contacts = contacts
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalName = procurementPortalName
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.resourceTags = resourceTags
+            self.selector = selector
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+            self.testEnvPreference = testEnvPreference
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buyerIdentifier, name: "buyerIdentifier", parent: name, max: 1024)
+            try self.validate(self.buyerIdentifier, name: "buyerIdentifier", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
+            try self.contacts.forEach {
+                try $0.validate(name: "\(name).contacts[]")
+            }
+            try self.validate(self.contacts, name: "contacts", parent: name, max: 1)
+            try self.validate(self.contacts, name: "contacts", parent: name, min: 1)
+            try self.einvoiceDeliveryPreference?.validate(name: "\(name).einvoiceDeliveryPreference")
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, max: 1024)
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, max: 1024)
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, pattern: "^\\S+$")
+            try self.resourceTags?.forEach {
+                try $0.validate(name: "\(name).resourceTags[]")
+            }
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 200)
+            try self.selector?.validate(name: "\(name).selector")
+            try self.validate(self.supplierIdentifier, name: "supplierIdentifier", parent: name, max: 1024)
+            try self.validate(self.supplierIdentifier, name: "supplierIdentifier", parent: name, pattern: "^\\S+$")
+            try self.testEnvPreference?.validate(name: "\(name).testEnvPreference")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buyerDomain = "BuyerDomain"
+            case buyerIdentifier = "BuyerIdentifier"
+            case clientToken = "ClientToken"
+            case contacts = "Contacts"
+            case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
+            case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
+            case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
+            case procurementPortalName = "ProcurementPortalName"
+            case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
+            case purchaseOrderRetrievalEnabled = "PurchaseOrderRetrievalEnabled"
+            case resourceTags = "ResourceTags"
+            case selector = "Selector"
+            case supplierDomain = "SupplierDomain"
+            case supplierIdentifier = "SupplierIdentifier"
+            case testEnvPreference = "TestEnvPreference"
+        }
+    }
+
+    public struct CreateProcurementPortalPreferenceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created procurement portal preference.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
         }
     }
 
@@ -297,6 +510,40 @@ extension Invoicing {
         }
     }
 
+    public struct DeleteProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to delete.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
+    public struct DeleteProcurementPortalPreferenceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the deleted procurement portal preference.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
     public struct DiscountsBreakdown: AWSDecodableShape {
         /// The list of discounts information.
         public let breakdown: [DiscountsBreakdownAmount]?
@@ -334,6 +581,44 @@ extension Invoicing {
             case amount = "Amount"
             case description = "Description"
             case rate = "Rate"
+        }
+    }
+
+    public struct EinvoiceDeliveryPreference: AWSEncodableShape & AWSDecodableShape {
+        /// The method to use for testing the connection to the procurement portal.
+        public let connectionTestingMethod: ConnectionTestingMethod
+        /// The date when e-invoice delivery should be activated for this preference.
+        public let einvoiceDeliveryActivationDate: Date
+        /// The types of attachments to include with the e-invoice delivery.
+        public let einvoiceDeliveryAttachmentTypes: [EinvoiceDeliveryAttachmentType]?
+        /// The types of e-invoice documents to be delivered.
+        public let einvoiceDeliveryDocumentTypes: [EinvoiceDeliveryDocumentType]
+        /// The communication protocol to use for e-invoice delivery.
+        public let `protocol`: `Protocol`
+        /// The sources of purchase order data to use for e-invoice generation and delivery.
+        public let purchaseOrderDataSources: [PurchaseOrderDataSource]
+
+        @inlinable
+        public init(connectionTestingMethod: ConnectionTestingMethod, einvoiceDeliveryActivationDate: Date, einvoiceDeliveryAttachmentTypes: [EinvoiceDeliveryAttachmentType]? = nil, einvoiceDeliveryDocumentTypes: [EinvoiceDeliveryDocumentType], protocol: `Protocol`, purchaseOrderDataSources: [PurchaseOrderDataSource]) {
+            self.connectionTestingMethod = connectionTestingMethod
+            self.einvoiceDeliveryActivationDate = einvoiceDeliveryActivationDate
+            self.einvoiceDeliveryAttachmentTypes = einvoiceDeliveryAttachmentTypes
+            self.einvoiceDeliveryDocumentTypes = einvoiceDeliveryDocumentTypes
+            self.`protocol` = `protocol`
+            self.purchaseOrderDataSources = purchaseOrderDataSources
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.einvoiceDeliveryDocumentTypes, name: "einvoiceDeliveryDocumentTypes", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionTestingMethod = "ConnectionTestingMethod"
+            case einvoiceDeliveryActivationDate = "EinvoiceDeliveryActivationDate"
+            case einvoiceDeliveryAttachmentTypes = "EinvoiceDeliveryAttachmentTypes"
+            case einvoiceDeliveryDocumentTypes = "EinvoiceDeliveryDocumentTypes"
+            case `protocol` = "Protocol"
+            case purchaseOrderDataSources = "PurchaseOrderDataSources"
         }
     }
 
@@ -394,14 +679,17 @@ extension Invoicing {
     public struct Filters: AWSEncodableShape {
         ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. The specified account IDs are matched with either the receiver or the linked accounts in the rules.
         public let accounts: [String]?
+        ///  A list of Amazon Web Services account account IDs used to filter invoice units. These are payer accounts from other Organizations that have delegated their billing responsibility to the receiver account through the billing transfer feature.
+        public let billSourceAccounts: [String]?
         ///  You can specify a list of Amazon Web Services account IDs inside filters to return invoice units that match only the specified accounts. If multiple accounts are provided, the result is an OR condition (match any) of the specified accounts. This filter only matches the specified accounts on the invoice receivers of the invoice units.
         public let invoiceReceivers: [String]?
         ///  An optional input to the list API. You can specify a list of invoice unit names inside filters to return invoice units that match only the specified invoice unit names. If multiple names are provided, the result is an OR condition (match any) of the specified invoice unit names.
         public let names: [String]?
 
         @inlinable
-        public init(accounts: [String]? = nil, invoiceReceivers: [String]? = nil, names: [String]? = nil) {
+        public init(accounts: [String]? = nil, billSourceAccounts: [String]? = nil, invoiceReceivers: [String]? = nil, names: [String]? = nil) {
             self.accounts = accounts
+            self.billSourceAccounts = billSourceAccounts
             self.invoiceReceivers = invoiceReceivers
             self.names = names
         }
@@ -412,6 +700,11 @@ extension Invoicing {
             }
             try self.validate(self.accounts, name: "accounts", parent: name, max: 1000)
             try self.validate(self.accounts, name: "accounts", parent: name, min: 1)
+            try self.billSourceAccounts?.forEach {
+                try validate($0, name: "billSourceAccounts[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.billSourceAccounts, name: "billSourceAccounts", parent: name, max: 1000)
+            try self.validate(self.billSourceAccounts, name: "billSourceAccounts", parent: name, min: 1)
             try self.invoiceReceivers?.forEach {
                 try validate($0, name: "invoiceReceivers[]", parent: name, pattern: "^\\d{12}$")
             }
@@ -426,8 +719,42 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case accounts = "Accounts"
+            case billSourceAccounts = "BillSourceAccounts"
             case invoiceReceivers = "InvoiceReceivers"
             case names = "Names"
+        }
+    }
+
+    public struct GetInvoicePDFRequest: AWSEncodableShape {
+        ///  Your unique invoice ID.
+        public let invoiceId: String
+
+        @inlinable
+        public init(invoiceId: String) {
+            self.invoiceId = invoiceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.invoiceId, name: "invoiceId", parent: name, max: 1024)
+            try self.validate(self.invoiceId, name: "invoiceId", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoiceId = "InvoiceId"
+        }
+    }
+
+    public struct GetInvoicePDFResponse: AWSDecodableShape {
+        ///  The invoice document and supplemental documents associated with the invoice.
+        public let invoicePDF: InvoicePDF?
+
+        @inlinable
+        public init(invoicePDF: InvoicePDF? = nil) {
+            self.invoicePDF = invoicePDF
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoicePDF = "InvoicePDF"
         }
     }
 
@@ -492,6 +819,40 @@ extension Invoicing {
         }
     }
 
+    public struct GetProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to retrieve.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
+    public struct GetProcurementPortalPreferenceResponse: AWSDecodableShape {
+        /// The detailed configuration of the requested procurement portal preference.
+        public let procurementPortalPreference: ProcurementPortalPreference
+
+        @inlinable
+        public init(procurementPortalPreference: ProcurementPortalPreference) {
+            self.procurementPortalPreference = procurementPortalPreference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreference = "ProcurementPortalPreference"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         public let message: String?
         /// The processing request failed because of an unknown error, exception, or failure.
@@ -542,6 +903,32 @@ extension Invoicing {
             case currencyExchangeDetails = "CurrencyExchangeDetails"
             case totalAmount = "TotalAmount"
             case totalAmountBeforeTax = "TotalAmountBeforeTax"
+        }
+    }
+
+    public struct InvoicePDF: AWSDecodableShape {
+        /// The pre-signed URL to download the invoice document.
+        public let documentUrl: String?
+        /// The pre-signed URL expiration date of the invoice document.
+        public let documentUrlExpirationDate: Date?
+        ///  Your unique invoice ID.
+        public let invoiceId: String?
+        /// List of supplemental documents associated with the invoice.
+        public let supplementalDocuments: [SupplementalDocument]?
+
+        @inlinable
+        public init(documentUrl: String? = nil, documentUrlExpirationDate: Date? = nil, invoiceId: String? = nil, supplementalDocuments: [SupplementalDocument]? = nil) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+            self.invoiceId = invoiceId
+            self.supplementalDocuments = supplementalDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentUrl = "DocumentUrl"
+            case documentUrlExpirationDate = "DocumentUrlExpirationDate"
+            case invoiceId = "InvoiceId"
+            case supplementalDocuments = "SupplementalDocuments"
         }
     }
 
@@ -727,23 +1114,30 @@ extension Invoicing {
     }
 
     public struct InvoiceUnitRule: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of Amazon Web Services account account IDs that have delegated their billing responsibility to the receiver account through transfer billing. Unlike linked accounts, these bill source accounts can be payer accounts from other organizations that have authorized billing transfer to this account.
+        public let billSourceAccounts: [String]?
         /// The list of LINKED_ACCOUNT IDs where charges are included within the invoice unit.
         public let linkedAccounts: [String]?
 
         @inlinable
-        public init(linkedAccounts: [String]? = nil) {
+        public init(billSourceAccounts: [String]? = nil, linkedAccounts: [String]? = nil) {
+            self.billSourceAccounts = billSourceAccounts
             self.linkedAccounts = linkedAccounts
         }
 
         public func validate(name: String) throws {
+            try self.billSourceAccounts?.forEach {
+                try validate($0, name: "billSourceAccounts[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try self.validate(self.billSourceAccounts, name: "billSourceAccounts", parent: name, max: 1000)
             try self.linkedAccounts?.forEach {
                 try validate($0, name: "linkedAccounts[]", parent: name, pattern: "^\\d{12}$")
             }
             try self.validate(self.linkedAccounts, name: "linkedAccounts", parent: name, max: 1000)
-            try self.validate(self.linkedAccounts, name: "linkedAccounts", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billSourceAccounts = "BillSourceAccounts"
             case linkedAccounts = "LinkedAccounts"
         }
     }
@@ -853,6 +1247,49 @@ extension Invoicing {
         }
     }
 
+    public struct ListProcurementPortalPreferencesRequest: AWSEncodableShape {
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+        public let maxResults: Int?
+        /// The token for the next set of results. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProcurementPortalPreferencesResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The list of procurement portal preferences associated with the Amazon Web Services account.
+        public let procurementPortalPreferences: [ProcurementPortalPreferenceSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, procurementPortalPreferences: [ProcurementPortalPreferenceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.procurementPortalPreferences = procurementPortalPreferences
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case procurementPortalPreferences = "ProcurementPortalPreferences"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of tags to list.
         public let resourceArn: String
@@ -884,6 +1321,311 @@ extension Invoicing {
 
         private enum CodingKeys: String, CodingKey {
             case resourceTags = "ResourceTags"
+        }
+    }
+
+    public struct ProcurementPortalPreference: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with this procurement portal preference.
+        public let awsAccountId: String
+        /// The domain identifier for the buyer in the procurement portal.
+        public let buyerDomain: BuyerDomain
+        /// The unique identifier for the buyer in the procurement portal.
+        public let buyerIdentifier: String
+        /// List of contact information for portal administrators and technical contacts.
+        public let contacts: [Contact]?
+        /// The date and time when the procurement portal preference was created.
+        public let createDate: Date
+        /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
+        public let einvoiceDeliveryEnabled: Bool
+        /// The configuration settings that specify how e-invoices are delivered to the procurement portal.
+        public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
+        /// The current status of the e-invoice delivery preference.
+        public let einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the current e-invoice delivery preference status.
+        public let einvoiceDeliveryPreferenceStatusReason: String?
+        /// The date and time when the procurement portal preference was last updated.
+        public let lastUpdateDate: Date
+        /// The endpoint URL where e-invoices are delivered to the procurement portal.
+        public let procurementPortalInstanceEndpoint: String?
+        /// The name of the procurement portal.
+        public let procurementPortalName: ProcurementPortalName
+        /// The Amazon Resource Name (ARN) of the procurement portal preference.
+        public let procurementPortalPreferenceArn: String
+        /// The shared secret or authentication credential used for secure communication with the procurement portal.
+        public let procurementPortalSharedSecret: String?
+        /// Indicates whether purchase order retrieval is enabled for this procurement portal preference.
+        public let purchaseOrderRetrievalEnabled: Bool
+        /// The endpoint URL used for retrieving purchase orders from the procurement portal.
+        public let purchaseOrderRetrievalEndpoint: String?
+        /// The current status of the purchase order retrieval preference.
+        public let purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the current purchase order retrieval preference status.
+        public let purchaseOrderRetrievalPreferenceStatusReason: String?
+        public let selector: ProcurementPortalPreferenceSelector?
+        /// The domain identifier for the supplier in the procurement portal.
+        public let supplierDomain: SupplierDomain
+        /// The unique identifier for the supplier in the procurement portal.
+        public let supplierIdentifier: String
+        /// Configuration on settings for the test environment of the procurement portal.
+        public let testEnvPreference: TestEnvPreference?
+        /// The version number of the procurement portal preference configuration.
+        public let version: Int64
+
+        @inlinable
+        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, contacts: [Contact]? = nil, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, procurementPortalInstanceEndpoint: String? = nil, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalEndpoint: String? = nil, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, testEnvPreference: TestEnvPreference? = nil, version: Int64) {
+            self.awsAccountId = awsAccountId
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.contacts = contacts
+            self.createDate = createDate
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+            self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+            self.lastUpdateDate = lastUpdateDate
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalName = procurementPortalName
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.purchaseOrderRetrievalEndpoint = purchaseOrderRetrievalEndpoint
+            self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+            self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+            self.selector = selector
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+            self.testEnvPreference = testEnvPreference
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case buyerDomain = "BuyerDomain"
+            case buyerIdentifier = "BuyerIdentifier"
+            case contacts = "Contacts"
+            case createDate = "CreateDate"
+            case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
+            case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
+            case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
+            case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
+            case lastUpdateDate = "LastUpdateDate"
+            case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
+            case procurementPortalName = "ProcurementPortalName"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+            case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
+            case purchaseOrderRetrievalEnabled = "PurchaseOrderRetrievalEnabled"
+            case purchaseOrderRetrievalEndpoint = "PurchaseOrderRetrievalEndpoint"
+            case purchaseOrderRetrievalPreferenceStatus = "PurchaseOrderRetrievalPreferenceStatus"
+            case purchaseOrderRetrievalPreferenceStatusReason = "PurchaseOrderRetrievalPreferenceStatusReason"
+            case selector = "Selector"
+            case supplierDomain = "SupplierDomain"
+            case supplierIdentifier = "SupplierIdentifier"
+            case testEnvPreference = "TestEnvPreference"
+            case version = "Version"
+        }
+    }
+
+    public struct ProcurementPortalPreferenceSelector: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of invoice unit identifiers to which this preference applies.
+        public let invoiceUnitArns: [String]?
+        ///  The list of seller of record IDs to which this preference applies.
+        public let sellerOfRecords: [String]?
+
+        @inlinable
+        public init(invoiceUnitArns: [String]? = nil, sellerOfRecords: [String]? = nil) {
+            self.invoiceUnitArns = invoiceUnitArns
+            self.sellerOfRecords = sellerOfRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.invoiceUnitArns?.forEach {
+                try validate($0, name: "invoiceUnitArns[]", parent: name, max: 256)
+                try validate($0, name: "invoiceUnitArns[]", parent: name, min: 1)
+                try validate($0, name: "invoiceUnitArns[]", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            }
+            try self.validate(self.invoiceUnitArns, name: "invoiceUnitArns", parent: name, max: 500)
+            try self.sellerOfRecords?.forEach {
+                try validate($0, name: "sellerOfRecords[]", parent: name, max: 1024)
+                try validate($0, name: "sellerOfRecords[]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.sellerOfRecords, name: "sellerOfRecords", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invoiceUnitArns = "InvoiceUnitArns"
+            case sellerOfRecords = "SellerOfRecords"
+        }
+    }
+
+    public struct ProcurementPortalPreferenceSummary: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with this procurement portal preference summary.
+        public let awsAccountId: String
+        /// The domain identifier for the buyer in the procurement portal.
+        public let buyerDomain: BuyerDomain
+        /// The unique identifier for the buyer in the procurement portal.
+        public let buyerIdentifier: String
+        /// The date and time when the procurement portal preference was created.
+        public let createDate: Date
+        /// Indicates whether e-invoice delivery is enabled for this procurement portal preference.
+        public let einvoiceDeliveryEnabled: Bool
+        /// The current status of the e-invoice delivery preference in this summary.
+        public let einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the current e-invoice delivery preference status in this summary.
+        public let einvoiceDeliveryPreferenceStatusReason: String?
+        /// The date and time when the procurement portal preference was last updated.
+        public let lastUpdateDate: Date
+        /// The name of the procurement portal.
+        public let procurementPortalName: ProcurementPortalName
+        /// The Amazon Resource Name (ARN) of the procurement portal preference.
+        public let procurementPortalPreferenceArn: String
+        /// Indicates whether purchase order retrieval is enabled for this procurement portal preference.
+        public let purchaseOrderRetrievalEnabled: Bool
+        /// The current status of the purchase order retrieval preference in this summary.
+        public let purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the current purchase order retrieval preference status in this summary.
+        public let purchaseOrderRetrievalPreferenceStatusReason: String?
+        public let selector: ProcurementPortalPreferenceSelector?
+        /// The domain identifier for the supplier in the procurement portal.
+        public let supplierDomain: SupplierDomain
+        /// The unique identifier for the supplier in the procurement portal.
+        public let supplierIdentifier: String
+        /// The version number of the procurement portal preference configuration in this summary.
+        public let version: Int64
+
+        @inlinable
+        public init(awsAccountId: String, buyerDomain: BuyerDomain, buyerIdentifier: String, createDate: Date, einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, lastUpdateDate: Date, procurementPortalName: ProcurementPortalName, procurementPortalPreferenceArn: String, purchaseOrderRetrievalEnabled: Bool, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil, selector: ProcurementPortalPreferenceSelector? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String, version: Int64) {
+            self.awsAccountId = awsAccountId
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.createDate = createDate
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+            self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+            self.lastUpdateDate = lastUpdateDate
+            self.procurementPortalName = procurementPortalName
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+            self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+            self.selector = selector
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId = "AwsAccountId"
+            case buyerDomain = "BuyerDomain"
+            case buyerIdentifier = "BuyerIdentifier"
+            case createDate = "CreateDate"
+            case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
+            case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
+            case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
+            case lastUpdateDate = "LastUpdateDate"
+            case procurementPortalName = "ProcurementPortalName"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+            case purchaseOrderRetrievalEnabled = "PurchaseOrderRetrievalEnabled"
+            case purchaseOrderRetrievalPreferenceStatus = "PurchaseOrderRetrievalPreferenceStatus"
+            case purchaseOrderRetrievalPreferenceStatusReason = "PurchaseOrderRetrievalPreferenceStatusReason"
+            case selector = "Selector"
+            case supplierDomain = "SupplierDomain"
+            case supplierIdentifier = "SupplierIdentifier"
+            case version = "Version"
+        }
+    }
+
+    public struct PurchaseOrderDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The type of e-invoice document that requires purchase order data.
+        public let einvoiceDeliveryDocumentType: EinvoiceDeliveryDocumentType?
+        /// The type of source for purchase order data.
+        public let purchaseOrderDataSourceType: PurchaseOrderDataSourceType?
+
+        @inlinable
+        public init(einvoiceDeliveryDocumentType: EinvoiceDeliveryDocumentType? = nil, purchaseOrderDataSourceType: PurchaseOrderDataSourceType? = nil) {
+            self.einvoiceDeliveryDocumentType = einvoiceDeliveryDocumentType
+            self.purchaseOrderDataSourceType = purchaseOrderDataSourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case einvoiceDeliveryDocumentType = "EinvoiceDeliveryDocumentType"
+            case purchaseOrderDataSourceType = "PurchaseOrderDataSourceType"
+        }
+    }
+
+    public struct PutProcurementPortalPreferenceRequest: AWSEncodableShape {
+        /// Updated list of contact information for portal administrators and technical contacts.
+        public let contacts: [Contact]
+        /// Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
+        public let einvoiceDeliveryEnabled: Bool
+        /// Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+        public let einvoiceDeliveryPreference: EinvoiceDeliveryPreference?
+        /// The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+        public let procurementPortalInstanceEndpoint: String?
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
+        public let procurementPortalPreferenceArn: String
+        /// The updated shared secret or authentication credential for the procurement portal. This value must be encrypted at rest.
+        public let procurementPortalSharedSecret: String?
+        /// Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
+        public let purchaseOrderRetrievalEnabled: Bool
+        public let selector: ProcurementPortalPreferenceSelector?
+        /// Updated configuration settings for the test environment of the procurement portal.
+        public let testEnvPreference: TestEnvPreferenceInput?
+
+        @inlinable
+        public init(contacts: [Contact], einvoiceDeliveryEnabled: Bool, einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil, procurementPortalInstanceEndpoint: String? = nil, procurementPortalPreferenceArn: String, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEnabled: Bool, selector: ProcurementPortalPreferenceSelector? = nil, testEnvPreference: TestEnvPreferenceInput? = nil) {
+            self.contacts = contacts
+            self.einvoiceDeliveryEnabled = einvoiceDeliveryEnabled
+            self.einvoiceDeliveryPreference = einvoiceDeliveryPreference
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEnabled = purchaseOrderRetrievalEnabled
+            self.selector = selector
+            self.testEnvPreference = testEnvPreference
+        }
+
+        public func validate(name: String) throws {
+            try self.contacts.forEach {
+                try $0.validate(name: "\(name).contacts[]")
+            }
+            try self.validate(self.contacts, name: "contacts", parent: name, max: 1)
+            try self.validate(self.contacts, name: "contacts", parent: name, min: 1)
+            try self.einvoiceDeliveryPreference?.validate(name: "\(name).einvoiceDeliveryPreference")
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, max: 1024)
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, max: 1024)
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, pattern: "^\\S+$")
+            try self.selector?.validate(name: "\(name).selector")
+            try self.testEnvPreference?.validate(name: "\(name).testEnvPreference")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contacts = "Contacts"
+            case einvoiceDeliveryEnabled = "EinvoiceDeliveryEnabled"
+            case einvoiceDeliveryPreference = "EinvoiceDeliveryPreference"
+            case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+            case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
+            case purchaseOrderRetrievalEnabled = "PurchaseOrderRetrievalEnabled"
+            case selector = "Selector"
+            case testEnvPreference = "TestEnvPreference"
+        }
+    }
+
+    public struct PutProcurementPortalPreferenceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the updated procurement portal preference.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
         }
     }
 
@@ -974,6 +1716,24 @@ extension Invoicing {
         }
     }
 
+    public struct SupplementalDocument: AWSDecodableShape {
+        /// The pre-signed URL to download invoice supplemental document.
+        public let documentUrl: String?
+        /// The pre-signed URL expiration date of invoice supplemental document.
+        public let documentUrlExpirationDate: Date?
+
+        @inlinable
+        public init(documentUrl: String? = nil, documentUrlExpirationDate: Date? = nil) {
+            self.documentUrl = documentUrl
+            self.documentUrlExpirationDate = documentUrlExpirationDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentUrl = "DocumentUrl"
+            case documentUrlExpirationDate = "DocumentUrlExpirationDate"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the tags.
         public let resourceArn: String
@@ -1043,6 +1803,89 @@ extension Invoicing {
             case amount = "Amount"
             case description = "Description"
             case rate = "Rate"
+        }
+    }
+
+    public struct TestEnvPreference: AWSDecodableShape {
+        /// The domain identifier for the buyer in the test environment of the procurement portal.
+        public let buyerDomain: BuyerDomain
+        /// The unique identifier for the buyer in the test environment of the procurement portal.
+        public let buyerIdentifier: String
+        /// The endpoint URL where e-invoices are delivered in the test environment.
+        public let procurementPortalInstanceEndpoint: String?
+        /// The shared secret or authentication credential used for secure communication with the test environment.
+        public let procurementPortalSharedSecret: String?
+        /// The endpoint URL used for retrieving purchase orders in the test environment.
+        public let purchaseOrderRetrievalEndpoint: String?
+        /// The domain identifier for the supplier in the test environment of the procurement portal.
+        public let supplierDomain: SupplierDomain
+        /// The unique identifier for the supplier in the test environment of the procurement portal.
+        public let supplierIdentifier: String
+
+        @inlinable
+        public init(buyerDomain: BuyerDomain, buyerIdentifier: String, procurementPortalInstanceEndpoint: String? = nil, procurementPortalSharedSecret: String? = nil, purchaseOrderRetrievalEndpoint: String? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String) {
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.purchaseOrderRetrievalEndpoint = purchaseOrderRetrievalEndpoint
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buyerDomain = "BuyerDomain"
+            case buyerIdentifier = "BuyerIdentifier"
+            case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
+            case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
+            case purchaseOrderRetrievalEndpoint = "PurchaseOrderRetrievalEndpoint"
+            case supplierDomain = "SupplierDomain"
+            case supplierIdentifier = "SupplierIdentifier"
+        }
+    }
+
+    public struct TestEnvPreferenceInput: AWSEncodableShape {
+        /// The domain identifier to use for the buyer in the test environment.
+        public let buyerDomain: BuyerDomain
+        /// The unique identifier to use for the buyer in the test environment.
+        public let buyerIdentifier: String
+        /// The endpoint URL where e-invoices will be delivered in the test environment.
+        public let procurementPortalInstanceEndpoint: String?
+        /// The shared secret or authentication credential to use for secure communication in the test environment.
+        public let procurementPortalSharedSecret: String?
+        /// The domain identifier to use for the supplier in the test environment.
+        public let supplierDomain: SupplierDomain
+        /// The unique identifier to use for the supplier in the test environment.
+        public let supplierIdentifier: String
+
+        @inlinable
+        public init(buyerDomain: BuyerDomain, buyerIdentifier: String, procurementPortalInstanceEndpoint: String? = nil, procurementPortalSharedSecret: String? = nil, supplierDomain: SupplierDomain, supplierIdentifier: String) {
+            self.buyerDomain = buyerDomain
+            self.buyerIdentifier = buyerIdentifier
+            self.procurementPortalInstanceEndpoint = procurementPortalInstanceEndpoint
+            self.procurementPortalSharedSecret = procurementPortalSharedSecret
+            self.supplierDomain = supplierDomain
+            self.supplierIdentifier = supplierIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.buyerIdentifier, name: "buyerIdentifier", parent: name, max: 1024)
+            try self.validate(self.buyerIdentifier, name: "buyerIdentifier", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, max: 1024)
+            try self.validate(self.procurementPortalInstanceEndpoint, name: "procurementPortalInstanceEndpoint", parent: name, pattern: "^\\S+$")
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, max: 1024)
+            try self.validate(self.procurementPortalSharedSecret, name: "procurementPortalSharedSecret", parent: name, pattern: "^\\S+$")
+            try self.validate(self.supplierIdentifier, name: "supplierIdentifier", parent: name, max: 1024)
+            try self.validate(self.supplierIdentifier, name: "supplierIdentifier", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case buyerDomain = "BuyerDomain"
+            case buyerIdentifier = "BuyerIdentifier"
+            case procurementPortalInstanceEndpoint = "ProcurementPortalInstanceEndpoint"
+            case procurementPortalSharedSecret = "ProcurementPortalSharedSecret"
+            case supplierDomain = "SupplierDomain"
+            case supplierIdentifier = "SupplierIdentifier"
         }
     }
 
@@ -1128,6 +1971,60 @@ extension Invoicing {
         }
     }
 
+    public struct UpdateProcurementPortalPreferenceStatusRequest: AWSEncodableShape {
+        /// The updated status of the e-invoice delivery preference.
+        public let einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the e-invoice delivery preference status update, providing context for the change.
+        public let einvoiceDeliveryPreferenceStatusReason: String?
+        /// The Amazon Resource Name (ARN) of the procurement portal preference to update.
+        public let procurementPortalPreferenceArn: String
+        /// The updated status of the purchase order retrieval preference.
+        public let purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus?
+        /// The reason for the purchase order retrieval preference status update, providing context for the change.
+        public let purchaseOrderRetrievalPreferenceStatusReason: String?
+
+        @inlinable
+        public init(einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, einvoiceDeliveryPreferenceStatusReason: String? = nil, procurementPortalPreferenceArn: String, purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil, purchaseOrderRetrievalPreferenceStatusReason: String? = nil) {
+            self.einvoiceDeliveryPreferenceStatus = einvoiceDeliveryPreferenceStatus
+            self.einvoiceDeliveryPreferenceStatusReason = einvoiceDeliveryPreferenceStatusReason
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+            self.purchaseOrderRetrievalPreferenceStatus = purchaseOrderRetrievalPreferenceStatus
+            self.purchaseOrderRetrievalPreferenceStatusReason = purchaseOrderRetrievalPreferenceStatusReason
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.einvoiceDeliveryPreferenceStatusReason, name: "einvoiceDeliveryPreferenceStatusReason", parent: name, max: 1024)
+            try self.validate(self.einvoiceDeliveryPreferenceStatusReason, name: "einvoiceDeliveryPreferenceStatusReason", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, max: 256)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, min: 1)
+            try self.validate(self.procurementPortalPreferenceArn, name: "procurementPortalPreferenceArn", parent: name, pattern: "^arn:aws:invoicing::[0-9]{12}:procurement-portal-preference/[-a-zA-Z0-9]+$")
+            try self.validate(self.purchaseOrderRetrievalPreferenceStatusReason, name: "purchaseOrderRetrievalPreferenceStatusReason", parent: name, max: 1024)
+            try self.validate(self.purchaseOrderRetrievalPreferenceStatusReason, name: "purchaseOrderRetrievalPreferenceStatusReason", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case einvoiceDeliveryPreferenceStatus = "EinvoiceDeliveryPreferenceStatus"
+            case einvoiceDeliveryPreferenceStatusReason = "EinvoiceDeliveryPreferenceStatusReason"
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+            case purchaseOrderRetrievalPreferenceStatus = "PurchaseOrderRetrievalPreferenceStatus"
+            case purchaseOrderRetrievalPreferenceStatusReason = "PurchaseOrderRetrievalPreferenceStatusReason"
+        }
+    }
+
+    public struct UpdateProcurementPortalPreferenceStatusResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the procurement portal preference with updated status.
+        public let procurementPortalPreferenceArn: String
+
+        @inlinable
+        public init(procurementPortalPreferenceArn: String) {
+            self.procurementPortalPreferenceArn = procurementPortalPreferenceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case procurementPortalPreferenceArn = "ProcurementPortalPreferenceArn"
+        }
+    }
+
     public struct ValidationException: AWSErrorShape {
         ///  The input fails to satisfy the constraints specified by an Amazon Web Services service.
         public let fieldList: [ValidationExceptionField]?
@@ -1178,6 +2075,7 @@ extension Invoicing {
 public struct InvoicingErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -1205,6 +2103,8 @@ public struct InvoicingErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request could not be completed due to a conflict with the current state of the resource. This exception occurs when a concurrent modification is detected during an update operation, or when attempting to create a resource that already exists.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The processing request failed because of an unknown error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The resource could not be found.
@@ -1220,6 +2120,7 @@ public struct InvoicingErrorType: AWSErrorType {
 extension InvoicingErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": Invoicing.AccessDeniedException.self,
+        "ConflictException": Invoicing.ConflictException.self,
         "InternalServerException": Invoicing.InternalServerException.self,
         "ResourceNotFoundException": Invoicing.ResourceNotFoundException.self,
         "ValidationException": Invoicing.ValidationException.self

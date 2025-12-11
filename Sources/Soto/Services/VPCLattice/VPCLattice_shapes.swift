@@ -71,6 +71,14 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
+    public enum PrivateDnsPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allDomains = "ALL_DOMAINS"
+        case specifiedDomainsOnly = "SPECIFIED_DOMAINS_ONLY"
+        case verifiedDomainsAndSpecifiedDomains = "VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS"
+        case verifiedDomainsOnly = "VERIFIED_DOMAINS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Resource Configuration protocol type TCP
         case tcp = "TCP"
@@ -282,6 +290,13 @@ extension VPCLattice {
         case fieldValidationFailed = "fieldValidationFailed"
         case other = "other"
         case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pending = "PENDING"
+        case verificationTimedOut = "VERIFICATION_TIMED_OUT"
+        case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
@@ -858,6 +873,12 @@ extension VPCLattice {
         public let allowAssociationToShareableServiceNetwork: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
+        ///  A custom domain name for your resource configuration. Additionally, provide a DomainVerificationID to prove your ownership of a domain.
+        public let customDomainName: String?
+        ///  The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings yourself.
+        public let domainVerificationIdentifier: String?
+        ///  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+        public let groupDomain: String?
         /// The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
         public let name: String
         /// (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
@@ -876,9 +897,12 @@ extension VPCLattice {
         public let type: ResourceConfigurationType
 
         @inlinable
-        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, clientToken: String? = CreateResourceConfigurationRequest.idempotencyToken(), name: String, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil, tags: [String: String]? = nil, type: ResourceConfigurationType) {
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, clientToken: String? = CreateResourceConfigurationRequest.idempotencyToken(), customDomainName: String? = nil, domainVerificationIdentifier: String? = nil, groupDomain: String? = nil, name: String, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil, tags: [String: String]? = nil, type: ResourceConfigurationType) {
             self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
             self.clientToken = clientToken
+            self.customDomainName = customDomainName
+            self.domainVerificationIdentifier = domainVerificationIdentifier
+            self.groupDomain = groupDomain
             self.name = name
             self.portRanges = portRanges
             self.`protocol` = `protocol`
@@ -893,6 +917,13 @@ extension VPCLattice {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, max: 255)
+            try self.validate(self.customDomainName, name: "customDomainName", parent: name, min: 3)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, max: 2048)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, min: 20)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, pattern: "^((dv-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:domainverification/dv-[a-fA-F0-9]{17}))$")
+            try self.validate(self.groupDomain, name: "groupDomain", parent: name, max: 255)
+            try self.validate(self.groupDomain, name: "groupDomain", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, max: 40)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!rcfg-)(?![-])(?!.*[-]$)(?!.*[-]{2})[a-z0-9-]+$")
@@ -919,6 +950,9 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
             case clientToken = "clientToken"
+            case customDomainName = "customDomainName"
+            case domainVerificationIdentifier = "domainVerificationIdentifier"
+            case groupDomain = "groupDomain"
             case name = "name"
             case portRanges = "portRanges"
             case `protocol` = "protocol"
@@ -938,8 +972,16 @@ extension VPCLattice {
         /// The date and time that the resource configuration was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        ///  The custom domain name for your resource configuration.
+        public let customDomainName: String?
+        ///  The verification ID ARN
+        public let domainVerificationArn: String?
+        ///  The domain name verification ID.
+        public let domainVerificationId: String?
         /// The reason that the request failed.
         public let failureReason: String?
+        ///  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+        public let groupDomain: String?
         /// The ID of the resource configuration.
         public let id: String?
         /// The name of the resource configuration.
@@ -960,11 +1002,15 @@ extension VPCLattice {
         public let type: ResourceConfigurationType?
 
         @inlinable
-        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, failureReason: String? = nil, id: String? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, domainVerificationArn: String? = nil, domainVerificationId: String? = nil, failureReason: String? = nil, groupDomain: String? = nil, id: String? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
             self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
             self.arn = arn
             self.createdAt = createdAt
+            self.customDomainName = customDomainName
+            self.domainVerificationArn = domainVerificationArn
+            self.domainVerificationId = domainVerificationId
             self.failureReason = failureReason
+            self.groupDomain = groupDomain
             self.id = id
             self.name = name
             self.portRanges = portRanges
@@ -980,7 +1026,11 @@ extension VPCLattice {
             case allowAssociationToShareableServiceNetwork = "allowAssociationToShareableServiceNetwork"
             case arn = "arn"
             case createdAt = "createdAt"
+            case customDomainName = "customDomainName"
+            case domainVerificationArn = "domainVerificationArn"
+            case domainVerificationId = "domainVerificationId"
             case failureReason = "failureReason"
+            case groupDomain = "groupDomain"
             case id = "id"
             case name = "name"
             case portRanges = "portRanges"
@@ -1270,6 +1320,8 @@ extension VPCLattice {
     public struct CreateServiceNetworkResourceAssociationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
+        ///  Indicates if private DNS is enabled for the service network resource association.
+        public let privateDnsEnabled: Bool?
         /// The ID of the resource configuration to associate with the service network.
         public let resourceConfigurationIdentifier: String
         /// The ID of the service network to associate with the resource configuration.
@@ -1278,8 +1330,9 @@ extension VPCLattice {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateServiceNetworkResourceAssociationRequest.idempotencyToken(), resourceConfigurationIdentifier: String, serviceNetworkIdentifier: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateServiceNetworkResourceAssociationRequest.idempotencyToken(), privateDnsEnabled: Bool? = nil, resourceConfigurationIdentifier: String, serviceNetworkIdentifier: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.privateDnsEnabled = privateDnsEnabled
             self.resourceConfigurationIdentifier = resourceConfigurationIdentifier
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
             self.tags = tags
@@ -1304,6 +1357,7 @@ extension VPCLattice {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case privateDnsEnabled = "privateDnsEnabled"
             case resourceConfigurationIdentifier = "resourceConfigurationIdentifier"
             case serviceNetworkIdentifier = "serviceNetworkIdentifier"
             case tags = "tags"
@@ -1317,14 +1371,17 @@ extension VPCLattice {
         public let createdBy: String?
         /// The ID of the association.
         public let id: String?
+        ///  Indicates if private DNS is is enabled for the service network resource association.
+        public let privateDnsEnabled: Bool?
         /// The status of the association.
         public let status: ServiceNetworkResourceAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, privateDnsEnabled: Bool? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
             self.id = id
+            self.privateDnsEnabled = privateDnsEnabled
             self.status = status
         }
 
@@ -1332,6 +1389,7 @@ extension VPCLattice {
             case arn = "arn"
             case createdBy = "createdBy"
             case id = "id"
+            case privateDnsEnabled = "privateDnsEnabled"
             case status = "status"
         }
     }
@@ -1447,6 +1505,10 @@ extension VPCLattice {
     public struct CreateServiceNetworkVpcAssociationRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
         public let clientToken: String?
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide.
         public let securityGroupIds: [String]?
         /// The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
@@ -1457,8 +1519,10 @@ extension VPCLattice {
         public let vpcIdentifier: String
 
         @inlinable
-        public init(clientToken: String? = CreateServiceNetworkVpcAssociationRequest.idempotencyToken(), securityGroupIds: [String]? = nil, serviceNetworkIdentifier: String, tags: [String: String]? = nil, vpcIdentifier: String) {
+        public init(clientToken: String? = CreateServiceNetworkVpcAssociationRequest.idempotencyToken(), dnsOptions: DnsOptions? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, serviceNetworkIdentifier: String, tags: [String: String]? = nil, vpcIdentifier: String) {
             self.clientToken = clientToken
+            self.dnsOptions = dnsOptions
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkIdentifier = serviceNetworkIdentifier
             self.tags = tags
@@ -1469,6 +1533,7 @@ extension VPCLattice {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.dnsOptions?.validate(name: "\(name).dnsOptions")
             try self.securityGroupIds?.forEach {
                 try validate($0, name: "securityGroupIds[]", parent: name, max: 200)
                 try validate($0, name: "securityGroupIds[]", parent: name, min: 5)
@@ -1490,6 +1555,8 @@ extension VPCLattice {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case dnsOptions = "dnsOptions"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
             case serviceNetworkIdentifier = "serviceNetworkIdentifier"
             case tags = "tags"
@@ -1502,18 +1569,23 @@ extension VPCLattice {
         public let arn: String?
         /// The account that created the association.
         public let createdBy: String?
+        public let dnsOptions: DnsOptions?
         /// The ID of the association.
         public let id: String?
+        ///  Indicates if private DNS is enabled for the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
         public let securityGroupIds: [String]?
         /// The association status.
         public let status: ServiceNetworkVpcAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdBy: String? = nil, id: String? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdBy: String? = nil, dnsOptions: DnsOptions? = nil, id: String? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ServiceNetworkVpcAssociationStatus? = nil) {
             self.arn = arn
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.id = id
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.status = status
         }
@@ -1521,7 +1593,9 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdBy = "createdBy"
+            case dnsOptions = "dnsOptions"
             case id = "id"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
         }
@@ -1755,6 +1829,34 @@ extension VPCLattice {
     }
 
     public struct DeleteAuthPolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteDomainVerificationRequest: AWSEncodableShape {
+        ///  The ID of the domain verification to delete.
+        public let domainVerificationIdentifier: String
+
+        @inlinable
+        public init(domainVerificationIdentifier: String) {
+            self.domainVerificationIdentifier = domainVerificationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainVerificationIdentifier, key: "domainVerificationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, max: 2048)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, min: 20)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, pattern: "^((dv-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:domainverification/dv-[a-fA-F0-9]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainVerificationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2326,6 +2428,33 @@ extension VPCLattice {
         }
     }
 
+    public struct DnsOptions: AWSEncodableShape & AWSDecodableShape {
+        ///  The preference for which private domains have a private hosted zone created for and associated with the specified VPC. Only supported when private DNS is enabled and when the VPC endpoint type is ServiceNetwork or Resource.     ALL_DOMAINS - VPC Lattice provisions private hosted zones for all custom domain names.    VERIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone only if custom domain name has been verified by the provider.    VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS - VPC Lattice provisions private hosted zones for all verified custom domain names and other domain names that the resource consumer specifies. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter.    SPECIFIED_DOMAINS_ONLY - VPC Lattice provisions a private hosted zone for domain names specified by the resource consumer. The resource consumer specifies the domain names in the privateDnsSpecifiedDomains parameter.
+        public let privateDnsPreference: PrivateDnsPreference?
+        ///  Indicates which of the private domains to create private hosted zones for and associate with the specified VPC. Only supported when private DNS is enabled and the private DNS preference is VERIFIED_DOMAINS_AND_SPECIFIED_DOMAINS or SPECIFIED_DOMAINS_ONLY.
+        public let privateDnsSpecifiedDomains: [String]?
+
+        @inlinable
+        public init(privateDnsPreference: PrivateDnsPreference? = nil, privateDnsSpecifiedDomains: [String]? = nil) {
+            self.privateDnsPreference = privateDnsPreference
+            self.privateDnsSpecifiedDomains = privateDnsSpecifiedDomains
+        }
+
+        public func validate(name: String) throws {
+            try self.privateDnsSpecifiedDomains?.forEach {
+                try validate($0, name: "privateDnsSpecifiedDomains[]", parent: name, max: 255)
+                try validate($0, name: "privateDnsSpecifiedDomains[]", parent: name, min: 1)
+            }
+            try self.validate(self.privateDnsSpecifiedDomains, name: "privateDnsSpecifiedDomains", parent: name, max: 10)
+            try self.validate(self.privateDnsSpecifiedDomains, name: "privateDnsSpecifiedDomains", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateDnsPreference = "privateDnsPreference"
+            case privateDnsSpecifiedDomains = "privateDnsSpecifiedDomains"
+        }
+    }
+
     public struct DnsResource: AWSEncodableShape & AWSDecodableShape {
         /// The domain name of the resource.
         public let domainName: String?
@@ -2346,6 +2475,50 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case ipAddressType = "ipAddressType"
+        }
+    }
+
+    public struct DomainVerificationSummary: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the domain verification.
+        public let arn: String
+        ///  The date and time that the domain verification was created, in ISO-8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        ///  The domain name being verified.
+        public let domainName: String
+        ///  The ID of the domain verification.
+        public let id: String
+        ///  The date and time that the domain was last successfully verified, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastVerifiedTime: Date?
+        ///  The current status of the domain verification process.
+        public let status: VerificationStatus
+        ///  The tags associated with the domain verification.
+        public let tags: [String: String]?
+        ///  The TXT record configuration used for domain verification.
+        public let txtMethodConfig: TxtMethodConfig?
+
+        @inlinable
+        public init(arn: String, createdAt: Date, domainName: String, id: String, lastVerifiedTime: Date? = nil, status: VerificationStatus, tags: [String: String]? = nil, txtMethodConfig: TxtMethodConfig? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.id = id
+            self.lastVerifiedTime = lastVerifiedTime
+            self.status = status
+            self.tags = tags
+            self.txtMethodConfig = txtMethodConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case id = "id"
+            case lastVerifiedTime = "lastVerifiedTime"
+            case status = "status"
+            case tags = "tags"
+            case txtMethodConfig = "txtMethodConfig"
         }
     }
 
@@ -2510,6 +2683,74 @@ extension VPCLattice {
         }
     }
 
+    public struct GetDomainVerificationRequest: AWSEncodableShape {
+        ///  The ID or ARN of the domain verification to retrieve.
+        public let domainVerificationIdentifier: String
+
+        @inlinable
+        public init(domainVerificationIdentifier: String) {
+            self.domainVerificationIdentifier = domainVerificationIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainVerificationIdentifier, key: "domainVerificationIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, max: 2048)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, min: 20)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, pattern: "^((dv-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:domainverification/dv-[a-fA-F0-9]{17}))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDomainVerificationResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the domain verification.
+        public let arn: String
+        ///  The date and time that the domain verification was created, in ISO-8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        ///  The domain name being verified.
+        public let domainName: String
+        ///  The ID of the domain verification.
+        public let id: String
+        ///  The date and time that the domain was last successfully verified, in ISO-8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastVerifiedTime: Date?
+        ///  The current status of the domain verification process.
+        public let status: VerificationStatus
+        ///  The tags associated with the domain verification.
+        public let tags: [String: String]?
+        ///  The TXT record configuration used for domain verification.
+        public let txtMethodConfig: TxtMethodConfig?
+
+        @inlinable
+        public init(arn: String, createdAt: Date, domainName: String, id: String, lastVerifiedTime: Date? = nil, status: VerificationStatus, tags: [String: String]? = nil, txtMethodConfig: TxtMethodConfig? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.id = id
+            self.lastVerifiedTime = lastVerifiedTime
+            self.status = status
+            self.tags = tags
+            self.txtMethodConfig = txtMethodConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case domainName = "domainName"
+            case id = "id"
+            case lastVerifiedTime = "lastVerifiedTime"
+            case status = "status"
+            case tags = "tags"
+            case txtMethodConfig = "txtMethodConfig"
+        }
+    }
+
     public struct GetListenerRequest: AWSEncodableShape {
         /// The ID or ARN of the listener.
         public let listenerIdentifier: String
@@ -2629,8 +2870,16 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The custom domain name of the resource configuration.
         public let customDomainName: String?
+        ///  The ARN of the domain verification.
+        public let domainVerificationArn: String?
+        ///  The domain verification ID.
+        public let domainVerificationId: String?
+        ///  The domain verification status.
+        public let domainVerificationStatus: VerificationStatus?
         /// The reason the create-resource-configuration request failed.
         public let failureReason: String?
+        ///  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+        public let groupDomain: String?
         /// The ID of the resource configuration.
         public let id: String?
         /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
@@ -2654,13 +2903,17 @@ extension VPCLattice {
         public let type: ResourceConfigurationType?
 
         @inlinable
-        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, failureReason: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+        public init(allowAssociationToShareableServiceNetwork: Bool? = nil, amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, domainVerificationArn: String? = nil, domainVerificationId: String? = nil, domainVerificationStatus: VerificationStatus? = nil, failureReason: String? = nil, groupDomain: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, portRanges: [String]? = nil, protocol: ProtocolType? = nil, resourceConfigurationDefinition: ResourceConfigurationDefinition? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
             self.allowAssociationToShareableServiceNetwork = allowAssociationToShareableServiceNetwork
             self.amazonManaged = amazonManaged
             self.arn = arn
             self.createdAt = createdAt
             self.customDomainName = customDomainName
+            self.domainVerificationArn = domainVerificationArn
+            self.domainVerificationId = domainVerificationId
+            self.domainVerificationStatus = domainVerificationStatus
             self.failureReason = failureReason
+            self.groupDomain = groupDomain
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -2679,7 +2932,11 @@ extension VPCLattice {
             case arn = "arn"
             case createdAt = "createdAt"
             case customDomainName = "customDomainName"
+            case domainVerificationArn = "domainVerificationArn"
+            case domainVerificationId = "domainVerificationId"
+            case domainVerificationStatus = "domainVerificationStatus"
             case failureReason = "failureReason"
+            case groupDomain = "groupDomain"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
@@ -2955,6 +3212,8 @@ extension VPCLattice {
         public let createdBy: String?
         /// The DNS entry for the service.
         public let dnsEntry: DnsEntry?
+        ///  The domain verification status in the service network resource association.
+        public let domainVerificationStatus: VerificationStatus?
         /// The failure code.
         public let failureCode: String?
         /// The reason the association request failed.
@@ -2966,6 +3225,8 @@ extension VPCLattice {
         /// The most recent date and time that the association was updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
+        ///  Indicates if private DNS is enabled in the service network resource association.
+        public let privateDnsEnabled: Bool?
         /// The private DNS entry for the service.
         public let privateDnsEntry: DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
@@ -2984,16 +3245,18 @@ extension VPCLattice {
         public let status: ServiceNetworkResourceAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, failureReason: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, lastUpdatedAt: Date? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, domainVerificationStatus: VerificationStatus? = nil, failureCode: String? = nil, failureReason: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, lastUpdatedAt: Date? = nil, privateDnsEnabled: Bool? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.dnsEntry = dnsEntry
+            self.domainVerificationStatus = domainVerificationStatus
             self.failureCode = failureCode
             self.failureReason = failureReason
             self.id = id
             self.isManagedAssociation = isManagedAssociation
             self.lastUpdatedAt = lastUpdatedAt
+            self.privateDnsEnabled = privateDnsEnabled
             self.privateDnsEntry = privateDnsEntry
             self.resourceConfigurationArn = resourceConfigurationArn
             self.resourceConfigurationId = resourceConfigurationId
@@ -3009,11 +3272,13 @@ extension VPCLattice {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case dnsEntry = "dnsEntry"
+            case domainVerificationStatus = "domainVerificationStatus"
             case failureCode = "failureCode"
             case failureReason = "failureReason"
             case id = "id"
             case isManagedAssociation = "isManagedAssociation"
             case lastUpdatedAt = "lastUpdatedAt"
+            case privateDnsEnabled = "privateDnsEnabled"
             case privateDnsEntry = "privateDnsEntry"
             case resourceConfigurationArn = "resourceConfigurationArn"
             case resourceConfigurationId = "resourceConfigurationId"
@@ -3200,6 +3465,8 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The account that created the association.
         public let createdBy: String?
+        ///  DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
         /// The failure code.
         public let failureCode: String?
         /// The failure message.
@@ -3209,6 +3476,8 @@ extension VPCLattice {
         /// The date and time that the association was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
+        ///  Indicates if private DNS is enabled in the VPC association.
+        public let privateDnsEnabled: Bool?
         /// The IDs of the security groups.
         public let securityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the service network.
@@ -3223,14 +3492,16 @@ extension VPCLattice {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, securityGroupIds: [String]? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsOptions: DnsOptions? = nil, failureCode: String? = nil, failureMessage: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, privateDnsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.failureCode = failureCode
             self.failureMessage = failureMessage
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
+            self.privateDnsEnabled = privateDnsEnabled
             self.securityGroupIds = securityGroupIds
             self.serviceNetworkArn = serviceNetworkArn
             self.serviceNetworkId = serviceNetworkId
@@ -3243,10 +3514,12 @@ extension VPCLattice {
             case arn = "arn"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
+            case dnsOptions = "dnsOptions"
             case failureCode = "failureCode"
             case failureMessage = "failureMessage"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
+            case privateDnsEnabled = "privateDnsEnabled"
             case securityGroupIds = "securityGroupIds"
             case serviceNetworkArn = "serviceNetworkArn"
             case serviceNetworkId = "serviceNetworkId"
@@ -3642,6 +3915,53 @@ extension VPCLattice {
         }
     }
 
+    public struct ListDomainVerificationsRequest: AWSEncodableShape {
+        ///  The maximum number of results to return.
+        public let maxResults: Int?
+        ///  A pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDomainVerificationsResponse: AWSDecodableShape {
+        ///  Information about the domain verifications.
+        public let items: [DomainVerificationSummary]
+        ///  A pagination token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DomainVerificationSummary], nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListListenersRequest: AWSEncodableShape {
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -3697,6 +4017,8 @@ extension VPCLattice {
     }
 
     public struct ListResourceConfigurationsRequest: AWSEncodableShape {
+        ///  The domain verification ID.
+        public let domainVerificationIdentifier: String?
         /// The maximum page size.
         public let maxResults: Int?
         /// A pagination token for the next page of results.
@@ -3707,7 +4029,8 @@ extension VPCLattice {
         public let resourceGatewayIdentifier: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil) {
+        public init(domainVerificationIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceConfigurationGroupIdentifier: String? = nil, resourceGatewayIdentifier: String? = nil) {
+            self.domainVerificationIdentifier = domainVerificationIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.resourceConfigurationGroupIdentifier = resourceConfigurationGroupIdentifier
@@ -3717,6 +4040,7 @@ extension VPCLattice {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domainVerificationIdentifier, key: "domainVerificationIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.resourceConfigurationGroupIdentifier, key: "resourceConfigurationGroupIdentifier")
@@ -3724,6 +4048,9 @@ extension VPCLattice {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, max: 2048)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, min: 20)
+            try self.validate(self.domainVerificationIdentifier, name: "domainVerificationIdentifier", parent: name, pattern: "^((dv-[0-9a-z]{17})|(arn:[a-z0-9\\-]+:vpc-lattice:[a-zA-Z0-9\\-]+:\\d{12}:domainverification/dv-[a-fA-F0-9]{17}))$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -4640,6 +4967,12 @@ extension VPCLattice {
         /// The date and time that the resource configuration was created, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
+        ///  The custom domain name.
+        public let customDomainName: String?
+        ///  The domain verification ID.
+        public let domainVerificationId: String?
+        ///  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
+        public let groupDomain: String?
         /// The ID of the resource configuration.
         public let id: String?
         /// The most recent date and time that the resource configuration was updated, in ISO-8601 format.
@@ -4657,10 +4990,13 @@ extension VPCLattice {
         public let type: ResourceConfigurationType?
 
         @inlinable
-        public init(amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
+        public init(amazonManaged: Bool? = nil, arn: String? = nil, createdAt: Date? = nil, customDomainName: String? = nil, domainVerificationId: String? = nil, groupDomain: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, resourceConfigurationGroupId: String? = nil, resourceGatewayId: String? = nil, status: ResourceConfigurationStatus? = nil, type: ResourceConfigurationType? = nil) {
             self.amazonManaged = amazonManaged
             self.arn = arn
             self.createdAt = createdAt
+            self.customDomainName = customDomainName
+            self.domainVerificationId = domainVerificationId
+            self.groupDomain = groupDomain
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
@@ -4674,6 +5010,9 @@ extension VPCLattice {
             case amazonManaged = "amazonManaged"
             case arn = "arn"
             case createdAt = "createdAt"
+            case customDomainName = "customDomainName"
+            case domainVerificationId = "domainVerificationId"
+            case groupDomain = "groupDomain"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
@@ -4999,6 +5338,8 @@ extension VPCLattice {
         public let id: String?
         /// Specifies whether the association is managed by Amazon.
         public let isManagedAssociation: Bool?
+        ///  Indicates if private DNS is enabled for the service network resource association.
+        public let privateDnsEnabled: Bool?
         /// The private DNS entry for the service.
         public let privateDnsEntry: DnsEntry?
         /// The Amazon Resource Name (ARN) of the association.
@@ -5017,7 +5358,7 @@ extension VPCLattice {
         public let status: ServiceNetworkResourceAssociationStatus?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsEntry: DnsEntry? = nil, failureCode: String? = nil, id: String? = nil, isManagedAssociation: Bool? = nil, privateDnsEnabled: Bool? = nil, privateDnsEntry: DnsEntry? = nil, resourceConfigurationArn: String? = nil, resourceConfigurationId: String? = nil, resourceConfigurationName: String? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkResourceAssociationStatus? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -5025,6 +5366,7 @@ extension VPCLattice {
             self.failureCode = failureCode
             self.id = id
             self.isManagedAssociation = isManagedAssociation
+            self.privateDnsEnabled = privateDnsEnabled
             self.privateDnsEntry = privateDnsEntry
             self.resourceConfigurationArn = resourceConfigurationArn
             self.resourceConfigurationId = resourceConfigurationId
@@ -5043,6 +5385,7 @@ extension VPCLattice {
             case failureCode = "failureCode"
             case id = "id"
             case isManagedAssociation = "isManagedAssociation"
+            case privateDnsEnabled = "privateDnsEnabled"
             case privateDnsEntry = "privateDnsEntry"
             case resourceConfigurationArn = "resourceConfigurationArn"
             case resourceConfigurationId = "resourceConfigurationId"
@@ -5169,11 +5512,15 @@ extension VPCLattice {
         public var createdAt: Date?
         /// The account that created the association.
         public let createdBy: String?
+        ///  The DNS options for the service network VPC association.
+        public let dnsOptions: DnsOptions?
         /// The ID of the association.
         public let id: String?
         /// The date and time that the association was last updated, in ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastUpdatedAt: Date?
+        ///  Indicates if private DNS is enabled for the service network VPC association.
+        public let privateDnsEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the service network.
         public let serviceNetworkArn: String?
         /// The ID of the service network.
@@ -5186,12 +5533,14 @@ extension VPCLattice {
         public let vpcId: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, dnsOptions: DnsOptions? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, privateDnsEnabled: Bool? = nil, serviceNetworkArn: String? = nil, serviceNetworkId: String? = nil, serviceNetworkName: String? = nil, status: ServiceNetworkVpcAssociationStatus? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
+            self.dnsOptions = dnsOptions
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
+            self.privateDnsEnabled = privateDnsEnabled
             self.serviceNetworkArn = serviceNetworkArn
             self.serviceNetworkId = serviceNetworkId
             self.serviceNetworkName = serviceNetworkName
@@ -5203,8 +5552,10 @@ extension VPCLattice {
             case arn = "arn"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
+            case dnsOptions = "dnsOptions"
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
+            case privateDnsEnabled = "privateDnsEnabled"
             case serviceNetworkArn = "serviceNetworkArn"
             case serviceNetworkId = "serviceNetworkId"
             case serviceNetworkName = "serviceNetworkName"
@@ -5297,6 +5648,72 @@ extension VPCLattice {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
+        }
+    }
+
+    public struct StartDomainVerificationRequest: AWSEncodableShape {
+        ///  A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+        public let clientToken: String?
+        ///  The domain name to verify ownership for.
+        public let domainName: String
+        ///  The tags for the domain verification.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String? = StartDomainVerificationRequest.idempotencyToken(), domainName: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.domainName = domainName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[!-~]+")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case domainName = "domainName"
+            case tags = "tags"
+        }
+    }
+
+    public struct StartDomainVerificationResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the domain verification.
+        public let arn: String
+        ///  The domain name being verified.
+        public let domainName: String
+        ///  The ID of the domain verification.
+        public let id: String
+        ///  The current status of the domain verification process.
+        public let status: VerificationStatus
+        ///  The TXT record configuration used for domain verification.
+        public let txtMethodConfig: TxtMethodConfig?
+
+        @inlinable
+        public init(arn: String, domainName: String, id: String, status: VerificationStatus, txtMethodConfig: TxtMethodConfig? = nil) {
+            self.arn = arn
+            self.domainName = domainName
+            self.id = id
+            self.status = status
+            self.txtMethodConfig = txtMethodConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case domainName = "domainName"
+            case id = "id"
+            case status = "status"
+            case txtMethodConfig = "txtMethodConfig"
         }
     }
 
@@ -5555,6 +5972,24 @@ extension VPCLattice {
             case message = "message"
             case quotaCode = "quotaCode"
             case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct TxtMethodConfig: AWSDecodableShape {
+        ///  The name of the TXT record that must be created for domain verification.
+        public let name: String
+        ///  The value that must be added to the TXT record for domain verification.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 

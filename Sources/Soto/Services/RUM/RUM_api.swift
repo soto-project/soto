@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS RUM service.
 ///
-/// With Amazon CloudWatch RUM, you can perform real-user monitoring to collect client-side data about  your web application performance from actual user sessions in real time. The data collected includes page load  times, client-side errors, and user behavior. When you view this data, you can see it all aggregated together and  also see breakdowns by the browsers and devices that your customers use. You can use the collected data to quickly identify and debug client-side performance issues. CloudWatch  RUM helps you visualize anomalies in your application performance and find relevant debugging data such as error  messages, stack traces, and user sessions. You can also use RUM to  understand the range of end-user impact including the number of users, geolocations, and browsers used.
+/// With Amazon CloudWatch RUM, you can perform real-user monitoring to collect client-side data about your web application performance from actual user sessions in real time. The data collected includes page load times, client-side errors, and user behavior. When you view this data, you can see it all aggregated together and also see breakdowns by the browsers and devices that your customers use. You can use the collected data to quickly identify and debug client-side performance issues. CloudWatch RUM helps you visualize anomalies in your application performance and find relevant debugging data such as error messages, stack traces, and user sessions. You can also use RUM to understand the range of end-user impact including the number of users, geolocations, and browsers used.
 public struct RUM: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct RUM: AWSService {
 
     // MARK: API Calls
 
-    /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect  with CloudWatch RUM. In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.   Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see  Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send custom metrics to a  custom namespace that you define. The namespace that you use can't start with AWS/.  CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that you define,  so the final namespace for your metrics in CloudWatch is  RUM/CustomMetrics/your-custom-namespace .   The maximum number of metric definitions that you can specify in one  BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see  Amazon CloudWatch Pricing. You must have already created a destination for the metrics before you send them. For more information, see  PutRumMetricsDestination. If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
+    /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect with CloudWatch RUM. In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.   Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see  Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send custom metrics to a custom namespace that you define. The namespace that you use can't start with AWS/. CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that you define, so the final namespace for your metrics in CloudWatch is RUM/CustomMetrics/your-custom-namespace .   The maximum number of metric definitions that you can specify in one BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see Amazon CloudWatch Pricing. You must have already created a destination for the metrics before you send them. For more information, see PutRumMetricsDestination. If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchCreateRumMetricDefinitions.html
     @Sendable
     @inlinable
@@ -92,13 +92,13 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect  with CloudWatch RUM. In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.   Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see  Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send custom metrics to a  custom namespace that you define. The namespace that you use can't start with AWS/.  CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that you define,  so the final namespace for your metrics in CloudWatch is  RUM/CustomMetrics/your-custom-namespace .   The maximum number of metric definitions that you can specify in one  BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see  Amazon CloudWatch Pricing. You must have already created a destination for the metrics before you send them. For more information, see  PutRumMetricsDestination. If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
+    /// Specifies the extended metrics and custom metrics that you want a CloudWatch RUM app monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed in CloudWatch metrics that you can collect with CloudWatch RUM. In addition to these default metrics, you can choose to send extended metrics, custom metrics, or both.   Extended metrics let you send metrics with additional dimensions that aren't included in the default metrics. You can also send extended metrics to both Evidently and CloudWatch. The valid dimension names for the additional dimensions for extended metrics are BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see  Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch Evidently, or both. With custom metrics, you can use any metric name and namespace. To derive the metrics, you can use any custom events, built-in events, custom attributes, or default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send custom metrics to a custom namespace that you define. The namespace that you use can't start with AWS/. CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that you define, so the final namespace for your metrics in CloudWatch is RUM/CustomMetrics/your-custom-namespace .   The maximum number of metric definitions that you can specify in one BatchCreateRumMetricDefinitions operation is 200. The maximum number of metric definitions that one destination can contain is 2000. Extended metrics sent to CloudWatch and RUM custom metrics are charged as CloudWatch custom metrics. Each combination of additional dimension name and dimension value counts as a custom metric. For more information, see Amazon CloudWatch Pricing. You must have already created a destination for the metrics before you send them. For more information, see PutRumMetricsDestination. If some metric definitions specified in a BatchCreateRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definitions in the same operation still succeed.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchCreateRumMetricDefinitions.html
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that is to send the metrics.
     ///   - destination: The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the Amazon Resource Name (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experiment as a valid destination. For more information, see PutRumMetricsDestination.
     ///   - metricDefinitions: An array of structures which define the metrics that you want to send.
     ///   - logger: Logger use during operation
     @inlinable
@@ -118,7 +118,7 @@ public struct RUM: AWSService {
         return try await self.batchCreateRumMetricDefinitions(input, logger: logger)
     }
 
-    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still  deleted. The maximum number of metric definitions that you can specify in one  BatchDeleteRumMetricDefinitions operation is 200.
+    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchDeleteRumMetricDefinitions.html
     @Sendable
     @inlinable
@@ -132,13 +132,13 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still  deleted. The maximum number of metric definitions that you can specify in one  BatchDeleteRumMetricDefinitions operation is 200.
+    /// Removes the specified metrics from being sent to an extended metrics destination. If some metric definition IDs specified in a BatchDeleteRumMetricDefinitions operations are not valid, those metric definitions fail and return errors, but all valid metric definition IDs in the same operation are still deleted. The maximum number of metric definitions that you can specify in one BatchDeleteRumMetricDefinitions operation is 200.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/BatchDeleteRumMetricDefinitions.html
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that is sending these metrics.
-    ///   - destination: Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter.  This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted.
+    ///   - destination: Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter.  This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted.
     ///   - metricDefinitionIds: An array of structures which define the metrics that you want to stop sending.
     ///   - logger: Logger use during operation
     @inlinable
@@ -177,9 +177,9 @@ public struct RUM: AWSService {
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that is sending the metrics.
-    ///   - destination: The type of destination that you want to view metrics for. Valid values are CloudWatch  and Evidently.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+    ///   - destination: The type of destination that you want to view metrics for. Valid values are CloudWatch and Evidently.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: Use the token returned by the previous operation to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -201,7 +201,7 @@ public struct RUM: AWSService {
         return try await self.batchGetRumMetricDefinitions(input, logger: logger)
     }
 
-    /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors,  and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get  the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
+    /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/CreateAppMonitor.html
     @Sendable
     @inlinable
@@ -215,17 +215,18 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors,  and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get  the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
+    /// Creates a Amazon CloudWatch RUM app monitor, which collects telemetry data from your application and sends that data to RUM. The data includes performance and reliability information such as page load time, client-side errors, and user behavior. You use this operation only to create a new app monitor. To update an existing app monitor, use UpdateAppMonitor instead. After you create an app monitor, sign in to the CloudWatch RUM console to get the JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/CreateAppMonitor.html
     ///
     /// Parameters:
-    ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
-    ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see  Send custom events.
-    ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
+    ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
+    ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see Send custom events.
+    ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
     ///   - deobfuscationConfiguration:  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
     ///   - domain: The top-level internet domain name for which your application has administrative authority.
     ///   - domainList:  List the domain names for which your application has administrative authority. The CreateAppMonitor requires either the domain or the domain list.
     ///   - name: A name for the app monitor.
+    ///   - platform: The platform type for the app monitor. Valid values are Web for web applications, Android for Android applications, and iOS for IOS applications. If you omit this parameter, the default is Web.
     ///   - tags: Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
     ///   - logger: Logger use during operation
     @inlinable
@@ -237,6 +238,7 @@ public struct RUM: AWSService {
         domain: String? = nil,
         domainList: [String]? = nil,
         name: String,
+        platform: AppMonitorPlatform? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAppMonitorResponse {
@@ -248,6 +250,7 @@ public struct RUM: AWSService {
             domain: domain, 
             domainList: domainList, 
             name: name, 
+            platform: platform, 
             tags: tags
         )
         return try await self.createAppMonitor(input, logger: logger)
@@ -299,7 +302,7 @@ public struct RUM: AWSService {
     ///
     /// Parameters:
     ///   - name: The app monitor that you want to remove the resource policy from.
-    ///   - policyRevisionId: Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation.  If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
+    ///   - policyRevisionId: Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteResourcePolicy(
@@ -332,7 +335,7 @@ public struct RUM: AWSService {
     /// Parameters:
     ///   - appMonitorName: The name of the app monitor that is sending metrics to the destination that you want to delete.
     ///   - destination: The type of destination to delete. Valid values are CloudWatch and Evidently.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteRumMetricsDestination(
@@ -464,7 +467,7 @@ public struct RUM: AWSService {
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100.
     ///   - nextToken: Use the token returned by the previous operation to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -480,7 +483,7 @@ public struct RUM: AWSService {
         return try await self.listAppMonitors(input, logger: logger)
     }
 
-    /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
+    /// Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
     @Sendable
     @inlinable
     public func listRumMetricsDestinations(_ input: ListRumMetricsDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRumMetricsDestinationsResponse {
@@ -493,11 +496,11 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of destinations that you have created to receive RUM extended metrics,  for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
+    /// Returns a list of destinations that you have created to receive RUM extended metrics, for the specified app monitor. For more information about extended metrics, see AddRumMetrics.
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the app monitor associated with the destinations that you want to retrieve.
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - nextToken: Use the token returned by the previous operation to request the next page of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -544,7 +547,7 @@ public struct RUM: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can  have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -557,11 +560,11 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can  have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
     ///
     /// Parameters:
     ///   - name: The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation.
-    ///   - policyDocument: The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax  for this policy, see Using resource-based policies with CloudWatch RUM.
+    ///   - policyDocument: The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax for this policy, see Using resource-based policies with CloudWatch RUM.
     ///   - policyRevisionId: A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID.
     ///   - logger: Logger use during operation
     @inlinable
@@ -579,7 +582,7 @@ public struct RUM: AWSService {
         return try await self.putResourcePolicy(input, logger: logger)
     }
 
-    /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
+    /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes PutRumEvents operations to send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     @Sendable
     @inlinable
     public func putRumEvents(_ input: PutRumEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRumEventsResponse {
@@ -593,10 +596,10 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
+    /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code snippet that RUM generates for you to add to your application includes PutRumEvents operations to send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     ///
     /// Parameters:
-    ///   - alias: If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy.  For more information, see Using resource-based policies with CloudWatch RUM.
+    ///   - alias: If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy. For more information, see Using resource-based policies with CloudWatch RUM.
     ///   - appMonitorDetails: A structure that contains information about the app monitor that collected this telemetry information.
     ///   - batchId: A unique identifier for this batch of RUM event data.
     ///   - id: The ID of the app monitor that is sending this data.
@@ -643,9 +646,9 @@ public struct RUM: AWSService {
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that will send the metrics.
-    ///   - destination: Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
+    ///   - destination: Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment.
     ///   - destinationArn: Use this parameter only if Destination is Evidently. This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics.
-    ///   - iamRoleArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently  experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions.
+    ///   - iamRoleArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions.
     ///   - logger: Logger use during operation
     @inlinable
     public func putRumMetricsDestination(
@@ -664,7 +667,7 @@ public struct RUM: AWSService {
         return try await self.putRumMetricsDestination(input, logger: logger)
     }
 
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently,  the only resources that  can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags.  If you specify a new tag key for the resource,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -677,7 +680,7 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently,  the only resources that  can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags.  If you specify a new tag key for the resource,  this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
+    /// Assigns one or more tags (key-value pairs) to the specified CloudWatch RUM resource. Currently, the only resources that can be tagged app monitors. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. For more information, see Tagging Amazon Web Services resources.
     ///
     /// Parameters:
     ///   - resourceArn: The ARN of the CloudWatch RUM resource that you're adding tags to.
@@ -728,7 +731,7 @@ public struct RUM: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get  the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
+    /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     @Sendable
     @inlinable
     public func updateAppMonitor(_ input: UpdateAppMonitorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAppMonitorResponse {
@@ -741,12 +744,12 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get  the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
+    /// Updates the configuration of an existing app monitor. When you use this operation, only the parts of the app monitor configuration that you specify in this operation are changed. For any parameters that you omit, the existing values are kept. You can't use this operation to change the tags of an existing app monitor. To change the tags of an existing app monitor, use TagResource. To create a new app monitor, use CreateAppMonitor. After you update an app monitor, sign in to the CloudWatch RUM console to get the updated JavaScript code snippet to add to your web application. For more information, see How do I find a code snippet that I've already generated?
     ///
     /// Parameters:
-    ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services.
-    ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see  Send custom events.
-    ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
+    ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see Authorize your application to send data to Amazon Web Services.
+    ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see Send custom events.
+    ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
     ///   - deobfuscationConfiguration:  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
     ///   - domain: The top-level internet domain name for which your application has administrative authority.
     ///   - domainList:  List the domain names for which your application has administrative authority. The UpdateAppMonitor allows either the domain or the domain list.
@@ -775,7 +778,7 @@ public struct RUM: AWSService {
         return try await self.updateAppMonitor(input, logger: logger)
     }
 
-    /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For  more information about extended metrics, see BatchCreateRumMetricsDefinitions.
+    /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/UpdateRumMetricDefinitions.html
     @Sendable
     @inlinable
@@ -789,13 +792,13 @@ public struct RUM: AWSService {
             logger: logger
         )
     }
-    /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For  more information about extended metrics, see BatchCreateRumMetricsDefinitions.
+    /// Modifies one existing metric definition for CloudWatch RUM extended metrics. For more information about extended metrics, see BatchCreateRumMetricsDefinitions.
     /// API Reference: https://docs.aws.amazon.com/rum/latest/developerguide/UpdateRumMetricDefinitions.html
     ///
     /// Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that sends these metrics.
-    ///   - destination: The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+    ///   - destination: The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experiment as a valid destination. For more information, see PutRumMetricsDestination.
     ///   - metricDefinition: A structure that contains the new definition that you want to use for this metric.
     ///   - metricDefinitionId: The ID of the metric definition to update.
     ///   - logger: Logger use during operation
@@ -854,9 +857,9 @@ extension RUM {
     ///
     /// - Parameters:
     ///   - appMonitorName: The name of the CloudWatch RUM app monitor that is sending the metrics.
-    ///   - destination: The type of destination that you want to view metrics for. Valid values are CloudWatch  and Evidently.
-    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+    ///   - destination: The type of destination that you want to view metrics for. Valid values are CloudWatch and Evidently.
+    ///   - destinationArn: This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
     public func batchGetRumMetricDefinitionsPaginator(
@@ -939,7 +942,7 @@ extension RUM {
     /// Return PaginatorSequence for operation ``listAppMonitors(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100.
     ///   - logger: Logger used for logging
     @inlinable
     public func listAppMonitorsPaginator(
@@ -974,7 +977,7 @@ extension RUM {
     ///
     /// - Parameters:
     ///   - appMonitorName: The name of the app monitor associated with the destinations that you want to retrieve.
-    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+    ///   - maxResults: The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
     ///   - logger: Logger used for logging
     @inlinable
     public func listRumMetricsDestinationsPaginator(

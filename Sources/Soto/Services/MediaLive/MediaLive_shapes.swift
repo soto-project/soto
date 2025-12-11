@@ -243,6 +243,18 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum Av1SpatialAq: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Av1TemporalAq: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AvailBlankingState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -340,6 +352,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum ChannelAlertState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cleared = "CLEARED"
+        case set = "SET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChannelClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singlePipeline = "SINGLE_PIPELINE"
         case standard = "STANDARD"
@@ -413,6 +431,12 @@ extension MediaLive {
         case ignore = "ignore"
         case missing = "missing"
         case notBreaching = "notBreaching"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterAlertState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cleared = "CLEARED"
+        case set = "SET"
         public var description: String { return self.rawValue }
     }
 
@@ -1568,6 +1592,7 @@ extension MediaLive {
         case awsCdi = "AWS_CDI"
         case inputDevice = "INPUT_DEVICE"
         case mediaconnect = "MEDIACONNECT"
+        case mediaconnectRouter = "MEDIACONNECT_ROUTER"
         case mp4File = "MP4_FILE"
         case multicast = "MULTICAST"
         case rtmpPull = "RTMP_PULL"
@@ -1825,6 +1850,12 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum MultiplexAlertState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cleared = "CLEARED"
+        case set = "SET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MultiplexState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createFailed = "CREATE_FAILED"
         case creating = "CREATING"
@@ -2018,6 +2049,12 @@ extension MediaLive {
         case enhanced = "ENHANCED"
         case premium = "PREMIUM"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouterEncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automatic = "AUTOMATIC"
+        case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
 
@@ -2460,11 +2497,6 @@ extension MediaLive {
             self.metadataControl = metadataControl
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attenuationControl = "attenuationControl"
             case bitrate = "bitrate"
@@ -2536,11 +2568,6 @@ extension MediaLive {
             self.sourceAncillaryChannelNumber = sourceAncillaryChannelNumber
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.sourceAncillaryChannelNumber, name: "sourceAncillaryChannelNumber", parent: name, max: 4)
-            try self.validate(self.sourceAncillaryChannelNumber, name: "sourceAncillaryChannelNumber", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
         }
@@ -2587,10 +2614,6 @@ extension MediaLive {
             self.rawSettings = rawSettings
         }
 
-        public func validate(name: String) throws {
-            try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case m2tsSettings = "m2tsSettings"
             case rawSettings = "rawSettings"
@@ -2610,10 +2633,6 @@ extension MediaLive {
             self.archiveCdnSettings = archiveCdnSettings
             self.destination = destination
             self.rolloverInterval = rolloverInterval
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.rolloverInterval, name: "rolloverInterval", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2636,10 +2655,6 @@ extension MediaLive {
             self.containerSettings = containerSettings
             self.`extension` = `extension`
             self.nameModifier = nameModifier
-        }
-
-        public func validate(name: String) throws {
-            try self.containerSettings?.validate(name: "\(name).containerSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2683,14 +2698,6 @@ extension MediaLive {
             self.outputChannel = outputChannel
         }
 
-        public func validate(name: String) throws {
-            try self.inputChannelLevels?.forEach {
-                try $0.validate(name: "\(name).inputChannelLevels[]")
-            }
-            try self.validate(self.outputChannel, name: "outputChannel", parent: name, max: 7)
-            try self.validate(self.outputChannel, name: "outputChannel", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case inputChannelLevels = "inputChannelLevels"
             case outputChannel = "outputChannel"
@@ -2715,12 +2722,6 @@ extension MediaLive {
             self.mp2Settings = mp2Settings
             self.passThroughSettings = passThroughSettings
             self.wavSettings = wavSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.ac3Settings?.validate(name: "\(name).ac3Settings")
-            try self.eac3AtmosSettings?.validate(name: "\(name).eac3AtmosSettings")
-            try self.eac3Settings?.validate(name: "\(name).eac3Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2780,15 +2781,6 @@ extension MediaLive {
             self.streamName = streamName
         }
 
-        public func validate(name: String) throws {
-            try self.audioWatermarkingSettings?.validate(name: "\(name).audioWatermarkingSettings")
-            try self.codecSettings?.validate(name: "\(name).codecSettings")
-            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 35)
-            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.remixSettings?.validate(name: "\(name).remixSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioDashRoles = "audioDashRoles"
             case audioNormalizationSettings = "audioNormalizationSettings"
@@ -2830,11 +2822,6 @@ extension MediaLive {
         public init(groupId: String? = nil, name: String? = nil) {
             self.groupId = groupId
             self.name = name
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.groupId, name: "groupId", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2910,10 +2897,6 @@ extension MediaLive {
             self.segmentType = segmentType
         }
 
-        public func validate(name: String) throws {
-            try self.audioOnlyImage?.validate(name: "\(name).audioOnlyImage")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioGroupId = "audioGroupId"
             case audioOnlyImage = "audioOnlyImage"
@@ -2931,11 +2914,6 @@ extension MediaLive {
             self.pid = pid
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, max: 8191)
-            try self.validate(self.pid, name: "pid", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case pid = "pid"
         }
@@ -2951,11 +2929,6 @@ extension MediaLive {
         public init(name: String? = nil, selectorSettings: AudioSelectorSettings? = nil) {
             self.name = name
             self.selectorSettings = selectorSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2978,12 +2951,6 @@ extension MediaLive {
             self.audioTrackSelection = audioTrackSelection
         }
 
-        public func validate(name: String) throws {
-            try self.audioHlsRenditionSelection?.validate(name: "\(name).audioHlsRenditionSelection")
-            try self.audioPidSelection?.validate(name: "\(name).audioPidSelection")
-            try self.audioTrackSelection?.validate(name: "\(name).audioTrackSelection")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioHlsRenditionSelection = "audioHlsRenditionSelection"
             case audioLanguageSelection = "audioLanguageSelection"
@@ -3004,10 +2971,6 @@ extension MediaLive {
             self.audioSilenceThresholdMsec = audioSilenceThresholdMsec
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.audioSilenceThresholdMsec, name: "audioSilenceThresholdMsec", parent: name, min: 1000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioSelectorName = "audioSelectorName"
             case audioSilenceThresholdMsec = "audioSilenceThresholdMsec"
@@ -3021,10 +2984,6 @@ extension MediaLive {
         @inlinable
         public init(track: Int? = nil) {
             self.track = track
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.track, name: "track", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3044,12 +3003,6 @@ extension MediaLive {
             self.tracks = tracks
         }
 
-        public func validate(name: String) throws {
-            try self.tracks?.forEach {
-                try $0.validate(name: "\(name).tracks[]")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case dolbyEDecode = "dolbyEDecode"
             case tracks = "tracks"
@@ -3063,10 +3016,6 @@ extension MediaLive {
         @inlinable
         public init(nielsenWatermarksSettings: NielsenWatermarksSettings? = nil) {
             self.nielsenWatermarksSettings = nielsenWatermarksSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.nielsenWatermarksSettings?.validate(name: "\(name).nielsenWatermarksSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3092,13 +3041,6 @@ extension MediaLive {
             self.secondaryInputId = secondaryInputId
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.errorClearTimeMsec, name: "errorClearTimeMsec", parent: name, min: 1)
-            try self.failoverConditions?.forEach {
-                try $0.validate(name: "\(name).failoverConditions[]")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case errorClearTimeMsec = "errorClearTimeMsec"
             case failoverConditions = "failoverConditions"
@@ -3119,10 +3061,6 @@ extension MediaLive {
             self.hdr10Settings = hdr10Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
-        }
-
-        public func validate(name: String) throws {
-            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3194,11 +3132,15 @@ extension MediaLive {
         public let rateControlMode: Av1RateControlMode?
         /// Controls whether MediaLive inserts I-frames when it detects a scene change. ENABLED or DISABLED.
         public let sceneChangeDetect: Av1SceneChangeDetect?
+        /// Spatial AQ makes adjustments within each frame based on spatial variation of content complexity. Enabled: MediaLive will determine the appropriate level of spatial AQ to apply. Disabled: No spatial AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public let spatialAq: Av1SpatialAq?
+        /// Temporal AQ makes adjustments within each frame based on variations in content complexity over time. Enabled: MediaLive will determine the appropriate level of temporal AQ to apply. Disabled: No temporal AQ. For more information, see the topic about video adaptive quantization in the MediaLive user guide.
+        public let temporalAq: Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public let timecodeBurninSettings: TimecodeBurninSettings?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, bitrate: Int? = nil, bufSize: Int? = nil, colorSpaceSettings: Av1ColorSpaceSettings? = nil, fixedAfd: FixedAfd? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopSize: Double? = nil, gopSizeUnits: Av1GopSizeUnits? = nil, level: Av1Level? = nil, lookAheadRateControl: Av1LookAheadRateControl? = nil, maxBitrate: Int? = nil, minBitrate: Int? = nil, minIInterval: Int? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qvbrQualityLevel: Int? = nil, rateControlMode: Av1RateControlMode? = nil, sceneChangeDetect: Av1SceneChangeDetect? = nil, spatialAq: Av1SpatialAq? = nil, temporalAq: Av1TemporalAq? = nil, timecodeBurninSettings: TimecodeBurninSettings? = nil) {
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
             self.bufSize = bufSize
@@ -3218,29 +3160,9 @@ extension MediaLive {
             self.qvbrQualityLevel = qvbrQualityLevel
             self.rateControlMode = rateControlMode
             self.sceneChangeDetect = sceneChangeDetect
+            self.spatialAq = spatialAq
+            self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 12000000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 50000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 24000000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 50000)
-            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 12000000)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 50000)
-            try self.validate(self.minBitrate, name: "minBitrate", parent: name, max: 8000000)
-            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
-            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3263,6 +3185,8 @@ extension MediaLive {
             case qvbrQualityLevel = "qvbrQualityLevel"
             case rateControlMode = "rateControlMode"
             case sceneChangeDetect = "sceneChangeDetect"
+            case spatialAq = "spatialAq"
+            case temporalAq = "temporalAq"
             case timecodeBurninSettings = "timecodeBurninSettings"
         }
     }
@@ -3277,10 +3201,6 @@ extension MediaLive {
         public init(availBlankingImage: InputLocation? = nil, state: AvailBlankingState? = nil) {
             self.availBlankingImage = availBlankingImage
             self.state = state
-        }
-
-        public func validate(name: String) throws {
-            try self.availBlankingImage?.validate(name: "\(name).availBlankingImage")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3303,10 +3223,6 @@ extension MediaLive {
             self.scte35SegmentationScope = scte35SegmentationScope
         }
 
-        public func validate(name: String) throws {
-            try self.availSettings?.validate(name: "\(name).availSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case availSettings = "availSettings"
             case scte35SegmentationScope = "scte35SegmentationScope"
@@ -3323,12 +3239,6 @@ extension MediaLive {
             self.esam = esam
             self.scte35SpliceInsert = scte35SpliceInsert
             self.scte35TimeSignalApos = scte35TimeSignalApos
-        }
-
-        public func validate(name: String) throws {
-            try self.esam?.validate(name: "\(name).esam")
-            try self.scte35SpliceInsert?.validate(name: "\(name).scte35SpliceInsert")
-            try self.scte35TimeSignalApos?.validate(name: "\(name).scte35TimeSignalApos")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3437,12 +3347,6 @@ extension MediaLive {
         @inlinable
         public init(scheduleActions: [ScheduleAction]? = nil) {
             self.scheduleActions = scheduleActions
-        }
-
-        public func validate(name: String) throws {
-            try self.scheduleActions?.forEach {
-                try $0.validate(name: "\(name).scheduleActions[]")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3609,10 +3513,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.deletes, forKey: .deletes)
         }
 
-        public func validate(name: String) throws {
-            try self.creates?.validate(name: "\(name).creates")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case creates = "creates"
             case deletes = "deletes"
@@ -3656,13 +3556,6 @@ extension MediaLive {
             self.networkEndBlackoutImage = networkEndBlackoutImage
             self.networkId = networkId
             self.state = state
-        }
-
-        public func validate(name: String) throws {
-            try self.blackoutSlateImage?.validate(name: "\(name).blackoutSlateImage")
-            try self.networkEndBlackoutImage?.validate(name: "\(name).networkEndBlackoutImage")
-            try self.validate(self.networkId, name: "networkId", parent: name, max: 34)
-            try self.validate(self.networkId, name: "networkId", parent: name, min: 34)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3732,22 +3625,6 @@ extension MediaLive {
             self.teletextGridControl = teletextGridControl
             self.xPosition = xPosition
             self.yPosition = yPosition
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
-            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
-            try self.font?.validate(name: "\(name).font")
-            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
-            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
-            try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
-            try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
-            try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
-            try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
-            try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
-            try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3824,10 +3701,6 @@ extension MediaLive {
             self.name = name
         }
 
-        public func validate(name: String) throws {
-            try self.destinationSettings?.validate(name: "\(name).destinationSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case accessibility = "accessibility"
             case captionDashRoles = "captionDashRoles"
@@ -3872,12 +3745,6 @@ extension MediaLive {
             self.webvttDestinationSettings = webvttDestinationSettings
         }
 
-        public func validate(name: String) throws {
-            try self.burnInDestinationSettings?.validate(name: "\(name).burnInDestinationSettings")
-            try self.dvbSubDestinationSettings?.validate(name: "\(name).dvbSubDestinationSettings")
-            try self.ebuTtDDestinationSettings?.validate(name: "\(name).ebuTtDDestinationSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case aribDestinationSettings = "aribDestinationSettings"
             case burnInDestinationSettings = "burnInDestinationSettings"
@@ -3908,14 +3775,6 @@ extension MediaLive {
             self.captionChannel = captionChannel
             self.languageCode = languageCode
             self.languageDescription = languageDescription
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 4)
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: 1)
-            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 3)
-            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 3)
-            try self.validate(self.languageDescription, name: "languageDescription", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3975,11 +3834,6 @@ extension MediaLive {
             self.selectorSettings = selectorSettings
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case languageCode = "languageCode"
             case name = "name"
@@ -4005,14 +3859,6 @@ extension MediaLive {
             self.scte20SourceSettings = scte20SourceSettings
             self.scte27SourceSettings = scte27SourceSettings
             self.teletextSourceSettings = teletextSourceSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.ancillarySourceSettings?.validate(name: "\(name).ancillarySourceSettings")
-            try self.dvbSubSourceSettings?.validate(name: "\(name).dvbSubSourceSettings")
-            try self.embeddedSourceSettings?.validate(name: "\(name).embeddedSourceSettings")
-            try self.scte20SourceSettings?.validate(name: "\(name).scte20SourceSettings")
-            try self.scte27SourceSettings?.validate(name: "\(name).scte27SourceSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4127,6 +3973,46 @@ extension MediaLive {
             case state = "state"
             case tags = "tags"
             case vpc = "vpc"
+        }
+    }
+
+    public struct ChannelAlert: AWSDecodableShape {
+        /// The type of the alert
+        public let alertType: String?
+        /// The time when the alert was cleared
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var clearedTimestamp: Date?
+        /// The unique ID for this alert instance
+        public let id: String?
+        /// The user facing alert message which can have more context
+        public let message: String?
+        /// The ID of the pipeline this alert is associated with
+        public let pipelineId: String?
+        /// The time when the alert was set
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var setTimestamp: Date?
+        /// The state of the alert
+        public let state: ChannelAlertState?
+
+        @inlinable
+        public init(alertType: String? = nil, clearedTimestamp: Date? = nil, id: String? = nil, message: String? = nil, pipelineId: String? = nil, setTimestamp: Date? = nil, state: ChannelAlertState? = nil) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertType = "alertType"
+            case clearedTimestamp = "clearedTimestamp"
+            case id = "id"
+            case message = "message"
+            case pipelineId = "pipelineId"
+            case setTimestamp = "setTimestamp"
+            case state = "state"
         }
     }
 
@@ -4396,6 +4282,50 @@ extension MediaLive {
         }
     }
 
+    public struct ClusterAlert: AWSDecodableShape {
+        /// The type of the alert
+        public let alertType: String?
+        /// The ID of the channel this alert is associated with
+        public let channelId: String?
+        /// The time when the alert was cleared
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var clearedTimestamp: Date?
+        /// The further subtype of this alert
+        public let id: String?
+        /// The user facing alert message which can have more context
+        public let message: String?
+        /// The ID of the node this alert is associated with
+        public let nodeId: String?
+        /// The time when the alert was set
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var setTimestamp: Date?
+        /// The state of the alert
+        public let state: ClusterAlertState?
+
+        @inlinable
+        public init(alertType: String? = nil, channelId: String? = nil, clearedTimestamp: Date? = nil, id: String? = nil, message: String? = nil, nodeId: String? = nil, setTimestamp: Date? = nil, state: ClusterAlertState? = nil) {
+            self.alertType = alertType
+            self.channelId = channelId
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.nodeId = nodeId
+            self.setTimestamp = setTimestamp
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertType = "alertType"
+            case channelId = "channelId"
+            case clearedTimestamp = "clearedTimestamp"
+            case id = "id"
+            case message = "message"
+            case nodeId = "nodeId"
+            case setTimestamp = "setTimestamp"
+            case state = "state"
+        }
+    }
+
     public struct ClusterNetworkSettings: AWSDecodableShape {
         /// The network interface that is the default route for traffic to and from the node. MediaLive Anywhere uses this default when the destination for the traffic isn't covered by the route table for any of the networks. Specify the value of the appropriate logicalInterfaceName parameter that you create in the interfaceMappings.
         public let defaultRoute: String?
@@ -4462,13 +4392,6 @@ extension MediaLive {
             self.languageCode = languageCode
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 4)
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: 1)
-            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 3)
-            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 3)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case captionChannel = "captionChannel"
             case languageCode = "languageCode"
@@ -4530,21 +4453,6 @@ extension MediaLive {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
-        }
-
-        public func validate(name: String) throws {
-            try self.captionLanguageMappings?.forEach {
-                try $0.validate(name: "\(name).captionLanguageMappings[]")
-            }
-            try self.validate(self.id3NameModifier, name: "id3NameModifier", parent: name, max: 100)
-            try self.validate(self.klvNameModifier, name: "klvNameModifier", parent: name, max: 100)
-            try self.validate(self.nielsenId3NameModifier, name: "nielsenId3NameModifier", parent: name, max: 100)
-            try self.validate(self.scte35NameModifier, name: "scte35NameModifier", parent: name, max: 100)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
-            try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, max: 2000)
-            try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, min: 0)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 10000)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4776,17 +4684,6 @@ extension MediaLive {
             self.vpc = vpc
         }
 
-        public func validate(name: String) throws {
-            try self.destinations?.forEach {
-                try $0.validate(name: "\(name).destinations[]")
-            }
-            try self.encoderSettings?.validate(name: "\(name).encoderSettings")
-            try self.inputAttachments?.forEach {
-                try $0.validate(name: "\(name).inputAttachments[]")
-            }
-            try self.maintenance?.validate(name: "\(name).maintenance")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case anywhereSettings = "anywhereSettings"
             case cdiInputSpecification = "cdiInputSpecification"
@@ -4836,16 +4733,6 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.requestId, name: "requestId", parent: name, max: 256)
-            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4934,22 +4821,6 @@ extension MediaLive {
             self.targetResourceType = targetResourceType
             self.threshold = threshold
             self.treatMissingData = treatMissingData
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.datapointsToAlarm, name: "datapointsToAlarm", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.metricName, name: "metricName", parent: name, max: 64)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.period, name: "period", parent: name, max: 86400)
-            try self.validate(self.period, name: "period", parent: name, min: 10)
-            try self.validate(self.requestId, name: "requestId", parent: name, max: 256)
-            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5135,16 +5006,6 @@ extension MediaLive {
             self.tags = tags
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.requestId, name: "requestId", parent: name, max: 256)
-            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\S]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
@@ -5212,20 +5073,6 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.eventTargets?.forEach {
-                try $0.validate(name: "\(name).eventTargets[]")
-            }
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.requestId, name: "requestId", parent: name, max: 256)
-            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5309,6 +5156,7 @@ extension MediaLive {
         public let requestId: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        public let routerSettings: RouterSettings?
         public let sdiSources: [String]?
         /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
         public let smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings?
@@ -5324,7 +5172,7 @@ extension MediaLive {
         public let vpc: InputVpcRequest?
 
         @inlinable
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsCreateRequest? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsCreateRequest? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, routerSettings: RouterSettings? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputNetworkLocation = inputNetworkLocation
@@ -5334,6 +5182,7 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.roleArn = roleArn
+            self.routerSettings = routerSettings
             self.sdiSources = sdiSources
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
@@ -5353,6 +5202,7 @@ extension MediaLive {
             case name = "name"
             case requestId = "requestId"
             case roleArn = "roleArn"
+            case routerSettings = "routerSettings"
             case sdiSources = "sdiSources"
             case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
@@ -5435,10 +5285,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.requestId, forKey: .requestId)
         }
 
-        public func validate(name: String) throws {
-            try self.multiplexProgramSettings?.validate(name: "\(name).multiplexProgramSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case multiplexProgramSettings = "multiplexProgramSettings"
             case programName = "programName"
@@ -5480,10 +5326,6 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5841,24 +5683,6 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.tags = tags
-        }
-
-        public func validate(name: String) throws {
-            try self.cloudWatchAlarmTemplateGroupIdentifiers?.forEach {
-                try validate($0, name: "cloudWatchAlarmTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
-            }
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, max: 2048)
-            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, min: 1)
-            try self.eventBridgeRuleTemplateGroupIdentifiers?.forEach {
-                try validate($0, name: "eventBridgeRuleTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
-            }
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.requestId, name: "requestId", parent: name, max: 256)
-            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
-            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7299,6 +7123,8 @@ extension MediaLive {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        /// Information about any MediaConnect router association with this input.
+        public let routerSettings: RouterInputSettings?
         public let sdiSources: [String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public let securityGroups: [String]?
@@ -7314,7 +7140,7 @@ extension MediaLive {
         public let type: InputType?
 
         @inlinable
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, routerSettings: RouterInputSettings? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -7328,6 +7154,7 @@ extension MediaLive {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.routerSettings = routerSettings
             self.sdiSources = sdiSources
             self.securityGroups = securityGroups
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -7352,6 +7179,7 @@ extension MediaLive {
             case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
+            case routerSettings = "routerSettings"
             case sdiSources = "sdiSources"
             case securityGroups = "securityGroups"
             case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
@@ -7958,11 +7786,6 @@ extension MediaLive {
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -8074,15 +7897,6 @@ extension MediaLive {
             self.repInterval = repInterval
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.networkId, name: "networkId", parent: name, max: 65536)
-            try self.validate(self.networkId, name: "networkId", parent: name, min: 0)
-            try self.validate(self.networkName, name: "networkName", parent: name, max: 256)
-            try self.validate(self.networkName, name: "networkName", parent: name, min: 1)
-            try self.validate(self.repInterval, name: "repInterval", parent: name, max: 10000)
-            try self.validate(self.repInterval, name: "repInterval", parent: name, min: 25)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case networkId = "networkId"
             case networkName = "networkName"
@@ -8106,15 +7920,6 @@ extension MediaLive {
             self.repInterval = repInterval
             self.serviceName = serviceName
             self.serviceProviderName = serviceProviderName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.repInterval, name: "repInterval", parent: name, max: 2000)
-            try self.validate(self.repInterval, name: "repInterval", parent: name, min: 25)
-            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 256)
-            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
-            try self.validate(self.serviceProviderName, name: "serviceProviderName", parent: name, max: 256)
-            try self.validate(self.serviceProviderName, name: "serviceProviderName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8185,22 +7990,6 @@ extension MediaLive {
             self.yPosition = yPosition
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, max: 255)
-            try self.validate(self.backgroundOpacity, name: "backgroundOpacity", parent: name, min: 0)
-            try self.font?.validate(name: "\(name).font")
-            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, max: 255)
-            try self.validate(self.fontOpacity, name: "fontOpacity", parent: name, min: 0)
-            try self.validate(self.fontResolution, name: "fontResolution", parent: name, max: 600)
-            try self.validate(self.fontResolution, name: "fontResolution", parent: name, min: 96)
-            try self.validate(self.outlineSize, name: "outlineSize", parent: name, max: 10)
-            try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
-            try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
-            try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case alignment = "alignment"
             case backgroundColor = "backgroundColor"
@@ -8236,10 +8025,6 @@ extension MediaLive {
             self.pid = pid
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case ocrLanguage = "ocrLanguage"
             case pid = "pid"
@@ -8253,11 +8038,6 @@ extension MediaLive {
         @inlinable
         public init(repInterval: Int? = nil) {
             self.repInterval = repInterval
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.repInterval, name: "repInterval", parent: name, max: 30000)
-            try self.validate(self.repInterval, name: "repInterval", parent: name, min: 1000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8290,11 +8070,6 @@ extension MediaLive {
             self.drcRf = drcRf
             self.heightTrim = heightTrim
             self.surroundTrim = surroundTrim
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8374,11 +8149,6 @@ extension MediaLive {
             self.surroundMode = surroundMode
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
-            try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case attenuationControl = "attenuationControl"
             case bitrate = "bitrate"
@@ -8427,14 +8197,6 @@ extension MediaLive {
             self.styleControl = styleControl
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.copyrightHolder, name: "copyrightHolder", parent: name, max: 1000)
-            try self.validate(self.defaultFontSize, name: "defaultFontSize", parent: name, max: 800)
-            try self.validate(self.defaultFontSize, name: "defaultFontSize", parent: name, min: 1)
-            try self.validate(self.defaultLineHeight, name: "defaultLineHeight", parent: name, max: 800)
-            try self.validate(self.defaultLineHeight, name: "defaultLineHeight", parent: name, min: 80)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case copyrightHolder = "copyrightHolder"
             case defaultFontSize = "defaultFontSize"
@@ -8469,13 +8231,6 @@ extension MediaLive {
             self.scte20Detection = scte20Detection
             self.source608ChannelNumber = source608ChannelNumber
             self.source608TrackNumber = source608TrackNumber
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, max: 4)
-            try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, min: 1)
-            try self.validate(self.source608TrackNumber, name: "source608TrackNumber", parent: name, max: 5)
-            try self.validate(self.source608TrackNumber, name: "source608TrackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8529,26 +8284,6 @@ extension MediaLive {
             self.thumbnailConfiguration = thumbnailConfiguration
             self.timecodeConfig = timecodeConfig
             self.videoDescriptions = videoDescriptions
-        }
-
-        public func validate(name: String) throws {
-            try self.audioDescriptions?.forEach {
-                try $0.validate(name: "\(name).audioDescriptions[]")
-            }
-            try self.availBlanking?.validate(name: "\(name).availBlanking")
-            try self.availConfiguration?.validate(name: "\(name).availConfiguration")
-            try self.blackoutSlate?.validate(name: "\(name).blackoutSlate")
-            try self.captionDescriptions?.forEach {
-                try $0.validate(name: "\(name).captionDescriptions[]")
-            }
-            try self.globalConfiguration?.validate(name: "\(name).globalConfiguration")
-            try self.outputGroups?.forEach {
-                try $0.validate(name: "\(name).outputGroups[]")
-            }
-            try self.timecodeConfig?.validate(name: "\(name).timecodeConfig")
-            try self.videoDescriptions?.forEach {
-                try $0.validate(name: "\(name).videoDescriptions[]")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8609,14 +8344,6 @@ extension MediaLive {
             self.poisEndpoint = poisEndpoint
             self.username = username
             self.zoneIdentity = zoneIdentity
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.acquisitionPointId, name: "acquisitionPointId", parent: name, max: 256)
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
-            try self.validate(self.poisEndpoint, name: "poisEndpoint", parent: name, max: 2048)
-            try self.validate(self.zoneIdentity, name: "zoneIdentity", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8727,12 +8454,6 @@ extension MediaLive {
             self.arn = arn
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, max: 2048)
-            try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn.+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
         }
@@ -8745,10 +8466,6 @@ extension MediaLive {
         @inlinable
         public init(failoverConditionSettings: FailoverConditionSettings? = nil) {
             self.failoverConditionSettings = failoverConditionSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.failoverConditionSettings?.validate(name: "\(name).failoverConditionSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8769,12 +8486,6 @@ extension MediaLive {
             self.audioSilenceSettings = audioSilenceSettings
             self.inputLossSettings = inputLossSettings
             self.videoBlackSettings = videoBlackSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.audioSilenceSettings?.validate(name: "\(name).audioSilenceSettings")
-            try self.inputLossSettings?.validate(name: "\(name).inputLossSettings")
-            try self.videoBlackSettings?.validate(name: "\(name).videoBlackSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8817,13 +8528,6 @@ extension MediaLive {
             self.columnDepth = columnDepth
             self.includeFec = includeFec
             self.rowLength = rowLength
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.columnDepth, name: "columnDepth", parent: name, max: 20)
-            try self.validate(self.columnDepth, name: "columnDepth", parent: name, min: 4)
-            try self.validate(self.rowLength, name: "rowLength", parent: name, max: 20)
-            try self.validate(self.rowLength, name: "rowLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8963,12 +8667,6 @@ extension MediaLive {
             self.captureInterval = captureInterval
             self.captureIntervalUnits = captureIntervalUnits
             self.timecodeBurninSettings = timecodeBurninSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.captureInterval, name: "captureInterval", parent: name, max: 3600000)
-            try self.validate(self.captureInterval, name: "captureInterval", parent: name, min: 1)
-            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9366,12 +9064,6 @@ extension MediaLive {
             self.supportLowFramerateInputs = supportLowFramerateInputs
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.initialAudioGain, name: "initialAudioGain", parent: name, max: 60)
-            try self.validate(self.initialAudioGain, name: "initialAudioGain", parent: name, min: -60)
-            try self.inputLossBehavior?.validate(name: "\(name).inputLossBehavior")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case initialAudioGain = "initialAudioGain"
             case inputEndAction = "inputEndAction"
@@ -9589,35 +9281,6 @@ extension MediaLive {
             self.timecodeInsertion = timecodeInsertion
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.bufFillPct, name: "bufFillPct", parent: name, max: 100)
-            try self.validate(self.bufFillPct, name: "bufFillPct", parent: name, min: 0)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 0)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
-            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
-            try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
-            try self.validate(self.minQp, name: "minQp", parent: name, min: 1)
-            try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, max: 6)
-            try self.validate(self.numRefFrames, name: "numRefFrames", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
-            try self.validate(self.slices, name: "slices", parent: name, max: 32)
-            try self.validate(self.slices, name: "slices", parent: name, min: 1)
-            try self.validate(self.softness, name: "softness", parent: name, max: 128)
-            try self.validate(self.softness, name: "softness", parent: name, min: 0)
-            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case afdSignaling = "afdSignaling"
@@ -9670,26 +9333,25 @@ extension MediaLive {
         public let colorSpacePassthroughSettings: ColorSpacePassthroughSettings?
         public let dolbyVision81Settings: DolbyVision81Settings?
         public let hdr10Settings: Hdr10Settings?
+        public let hlg2020Settings: Hlg2020Settings?
         public let rec601Settings: Rec601Settings?
         public let rec709Settings: Rec709Settings?
 
         @inlinable
-        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, dolbyVision81Settings: DolbyVision81Settings? = nil, hdr10Settings: Hdr10Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
+        public init(colorSpacePassthroughSettings: ColorSpacePassthroughSettings? = nil, dolbyVision81Settings: DolbyVision81Settings? = nil, hdr10Settings: Hdr10Settings? = nil, hlg2020Settings: Hlg2020Settings? = nil, rec601Settings: Rec601Settings? = nil, rec709Settings: Rec709Settings? = nil) {
             self.colorSpacePassthroughSettings = colorSpacePassthroughSettings
             self.dolbyVision81Settings = dolbyVision81Settings
             self.hdr10Settings = hdr10Settings
+            self.hlg2020Settings = hlg2020Settings
             self.rec601Settings = rec601Settings
             self.rec709Settings = rec709Settings
-        }
-
-        public func validate(name: String) throws {
-            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case colorSpacePassthroughSettings = "colorSpacePassthroughSettings"
             case dolbyVision81Settings = "dolbyVision81Settings"
             case hdr10Settings = "hdr10Settings"
+            case hlg2020Settings = "hlg2020Settings"
             case rec601Settings = "rec601Settings"
             case rec709Settings = "rec709Settings"
         }
@@ -9882,39 +9544,6 @@ extension MediaLive {
             self.treeblockSize = treeblockSize
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 40000000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 100000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, max: 80000000)
-            try self.validate(self.bufSize, name: "bufSize", parent: name, min: 100000)
-            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 3003)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 3)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 40000000)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 100000)
-            try self.validate(self.minBitrate, name: "minBitrate", parent: name, max: 40000000)
-            try self.validate(self.minBitrate, name: "minBitrate", parent: name, min: 0)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
-            try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
-            try self.validate(self.minQp, name: "minQp", parent: name, max: 51)
-            try self.validate(self.minQp, name: "minQp", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
-            try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
-            try self.validate(self.slices, name: "slices", parent: name, max: 16)
-            try self.validate(self.slices, name: "slices", parent: name, min: 1)
-            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2160)
-            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 64)
-            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 3840)
-            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 256)
-            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case afdSignaling = "afdSignaling"
@@ -9977,17 +9606,14 @@ extension MediaLive {
             self.maxFall = maxFall
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxCll, name: "maxCll", parent: name, max: 32768)
-            try self.validate(self.maxCll, name: "maxCll", parent: name, min: 0)
-            try self.validate(self.maxFall, name: "maxFall", parent: name, max: 32768)
-            try self.validate(self.maxFall, name: "maxFall", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maxCll = "maxCll"
             case maxFall = "maxFall"
         }
+    }
+
+    public struct Hlg2020Settings: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct HlsAkamaiSettings: AWSEncodableShape & AWSDecodableShape {
@@ -10015,15 +9641,6 @@ extension MediaLive {
             self.restartDelay = restartDelay
             self.salt = salt
             self.token = token
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10055,15 +9672,6 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionRetryInterval = "connectionRetryInterval"
             case filecacheDuration = "filecacheDuration"
@@ -10086,13 +9694,6 @@ extension MediaLive {
             self.hlsMediaStoreSettings = hlsMediaStoreSettings
             self.hlsS3Settings = hlsS3Settings
             self.hlsWebdavSettings = hlsWebdavSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.hlsAkamaiSettings?.validate(name: "\(name).hlsAkamaiSettings")
-            try self.hlsBasicPutSettings?.validate(name: "\(name).hlsBasicPutSettings")
-            try self.hlsMediaStoreSettings?.validate(name: "\(name).hlsMediaStoreSettings")
-            try self.hlsWebdavSettings?.validate(name: "\(name).hlsWebdavSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10260,25 +9861,6 @@ extension MediaLive {
             self.tsFileMode = tsFileMode
         }
 
-        public func validate(name: String) throws {
-            try self.captionLanguageMappings?.forEach {
-                try $0.validate(name: "\(name).captionLanguageMappings[]")
-            }
-            try self.validate(self.constantIv, name: "constantIv", parent: name, max: 32)
-            try self.validate(self.constantIv, name: "constantIv", parent: name, min: 32)
-            try self.hlsCdnSettings?.validate(name: "\(name).hlsCdnSettings")
-            try self.validate(self.indexNSegments, name: "indexNSegments", parent: name, min: 3)
-            try self.validate(self.keepSegments, name: "keepSegments", parent: name, min: 1)
-            try self.keyProviderSettings?.validate(name: "\(name).keyProviderSettings")
-            try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, min: 0)
-            try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, max: 3600)
-            try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
-            try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, min: 1)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
-            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
             case baseUrlContent = "baseUrlContent"
@@ -10365,13 +9947,6 @@ extension MediaLive {
             self.scte35Source = scte35Source
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.bandwidth, name: "bandwidth", parent: name, min: 0)
-            try self.validate(self.bufferSegments, name: "bufferSegments", parent: name, min: 0)
-            try self.validate(self.retries, name: "retries", parent: name, min: 0)
-            try self.validate(self.retryInterval, name: "retryInterval", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "bandwidth"
             case bufferSegments = "bufferSegments"
@@ -10402,15 +9977,6 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case connectionRetryInterval = "connectionRetryInterval"
             case filecacheDuration = "filecacheDuration"
@@ -10437,11 +10003,6 @@ extension MediaLive {
             self.hlsSettings = hlsSettings
             self.nameModifier = nameModifier
             self.segmentModifier = segmentModifier
-        }
-
-        public func validate(name: String) throws {
-            try self.hlsSettings?.validate(name: "\(name).hlsSettings")
-            try self.validate(self.nameModifier, name: "nameModifier", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10478,11 +10039,6 @@ extension MediaLive {
             self.fmp4HlsSettings = fmp4HlsSettings
             self.frameCaptureHlsSettings = frameCaptureHlsSettings
             self.standardHlsSettings = standardHlsSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.audioOnlyHlsSettings?.validate(name: "\(name).audioOnlyHlsSettings")
-            try self.standardHlsSettings?.validate(name: "\(name).standardHlsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10526,15 +10082,6 @@ extension MediaLive {
             self.httpTransferMode = httpTransferMode
             self.numRetries = numRetries
             self.restartDelay = restartDelay
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, max: 600)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, max: 15)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10602,6 +10149,8 @@ extension MediaLive {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        /// Information about any MediaConnect router association with this input.
+        public let routerSettings: RouterInputSettings?
         public let sdiSources: [String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public let securityGroups: [String]?
@@ -10617,7 +10166,7 @@ extension MediaLive {
         public let type: InputType?
 
         @inlinable
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, routerSettings: RouterInputSettings? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -10631,6 +10180,7 @@ extension MediaLive {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.routerSettings = routerSettings
             self.sdiSources = sdiSources
             self.securityGroups = securityGroups
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
@@ -10655,6 +10205,7 @@ extension MediaLive {
             case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
+            case routerSettings = "routerSettings"
             case sdiSources = "sdiSources"
             case securityGroups = "securityGroups"
             case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
@@ -10687,11 +10238,6 @@ extension MediaLive {
             self.logicalInterfaceNames = logicalInterfaceNames
         }
 
-        public func validate(name: String) throws {
-            try self.automaticInputFailoverSettings?.validate(name: "\(name).automaticInputFailoverSettings")
-            try self.inputSettings?.validate(name: "\(name).inputSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automaticInputFailoverSettings = "automaticInputFailoverSettings"
             case inputAttachmentName = "inputAttachmentName"
@@ -10711,13 +10257,6 @@ extension MediaLive {
         public init(gain: Int? = nil, inputChannel: Int? = nil) {
             self.gain = gain
             self.inputChannel = inputChannel
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.gain, name: "gain", parent: name, max: 6)
-            try self.validate(self.gain, name: "gain", parent: name, min: -60)
-            try self.validate(self.inputChannel, name: "inputChannel", parent: name, max: 15)
-            try self.validate(self.inputChannel, name: "inputChannel", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11230,10 +10769,6 @@ extension MediaLive {
             self.username = username
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.uri, name: "uri", parent: name, max: 2048)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case passwordParam = "passwordParam"
             case uri = "uri"
@@ -11262,16 +10797,6 @@ extension MediaLive {
             self.repeatFrameMsec = repeatFrameMsec
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, max: 1000000)
-            try self.validate(self.blackFrameMsec, name: "blackFrameMsec", parent: name, min: 0)
-            try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, max: 6)
-            try self.validate(self.inputLossImageColor, name: "inputLossImageColor", parent: name, min: 6)
-            try self.inputLossImageSlate?.validate(name: "\(name).inputLossImageSlate")
-            try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, max: 1000000)
-            try self.validate(self.repeatFrameMsec, name: "repeatFrameMsec", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blackFrameMsec = "blackFrameMsec"
             case inputLossImageColor = "inputLossImageColor"
@@ -11288,10 +10813,6 @@ extension MediaLive {
         @inlinable
         public init(inputLossThresholdMsec: Int? = nil) {
             self.inputLossThresholdMsec = inputLossThresholdMsec
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.inputLossThresholdMsec, name: "inputLossThresholdMsec", parent: name, min: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11433,21 +10954,6 @@ extension MediaLive {
             self.smpte2038DataPreference = smpte2038DataPreference
             self.sourceEndBehavior = sourceEndBehavior
             self.videoSelector = videoSelector
-        }
-
-        public func validate(name: String) throws {
-            try self.audioSelectors?.forEach {
-                try $0.validate(name: "\(name).audioSelectors[]")
-            }
-            try self.captionSelectors?.forEach {
-                try $0.validate(name: "\(name).captionSelectors[]")
-            }
-            try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
-            try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: 1)
-            try self.networkInputSettings?.validate(name: "\(name).networkInputSettings")
-            try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, max: 8191)
-            try self.validate(self.scte35Pid, name: "scte35Pid", parent: name, min: 32)
-            try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11707,12 +11213,56 @@ extension MediaLive {
             self.staticKeySettings = staticKeySettings
         }
 
-        public func validate(name: String) throws {
-            try self.staticKeySettings?.validate(name: "\(name).staticKeySettings")
+        private enum CodingKeys: String, CodingKey {
+            case staticKeySettings = "staticKeySettings"
+        }
+    }
+
+    public struct ListAlertsRequest: AWSEncodableShape {
+        /// The unique ID of the channel
+        public let channelId: String
+        /// The maximum number of items to return
+        public let maxResults: Int?
+        /// The next pagination token
+        public let nextToken: String?
+        /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+        public let stateFilter: String?
+
+        @inlinable
+        public init(channelId: String, maxResults: Int? = nil, nextToken: String? = nil, stateFilter: String? = nil) {
+            self.channelId = channelId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stateFilter = stateFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelId, key: "ChannelId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.stateFilter, key: "stateFilter")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAlertsResponse: AWSDecodableShape {
+        /// The alerts found for this channel
+        public let alerts: [ChannelAlert]?
+        /// The token to use to retrieve the next page of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(alerts: [ChannelAlert]? = nil, nextToken: String? = nil) {
+            self.alerts = alerts
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case staticKeySettings = "staticKeySettings"
+            case alerts = "alerts"
+            case nextToken = "nextToken"
         }
     }
 
@@ -11737,11 +11287,6 @@ extension MediaLive {
             request.encodePath(self.clusterId, key: "ClusterId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -11780,11 +11325,6 @@ extension MediaLive {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -11830,11 +11370,6 @@ extension MediaLive {
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.scope, key: "scope")
             request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -11887,11 +11422,6 @@ extension MediaLive {
             request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -11908,6 +11438,54 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchAlarmTemplates = "cloudWatchAlarmTemplates"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListClusterAlertsRequest: AWSEncodableShape {
+        /// The unique ID of the cluster
+        public let clusterId: String
+        /// The maximum number of items to return
+        public let maxResults: Int?
+        /// The next pagination token
+        public let nextToken: String?
+        /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+        public let stateFilter: String?
+
+        @inlinable
+        public init(clusterId: String, maxResults: Int? = nil, nextToken: String? = nil, stateFilter: String? = nil) {
+            self.clusterId = clusterId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stateFilter = stateFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterId, key: "ClusterId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.stateFilter, key: "stateFilter")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListClusterAlertsResponse: AWSDecodableShape {
+        /// The alerts found for this cluster
+        public let alerts: [ClusterAlert]?
+        /// The token to use to retrieve the next page of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(alerts: [ClusterAlert]? = nil, nextToken: String? = nil) {
+            self.alerts = alerts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alerts = "alerts"
             case nextToken = "nextToken"
         }
     }
@@ -11929,11 +11507,6 @@ extension MediaLive {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -11977,11 +11550,6 @@ extension MediaLive {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12030,11 +11598,6 @@ extension MediaLive {
             request.encodeQuery(self.signalMapIdentifier, key: "signalMapIdentifier")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12075,11 +11638,6 @@ extension MediaLive {
             request.encodeQuery(self.transferType, key: "transferType")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12116,11 +11674,6 @@ extension MediaLive {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12161,11 +11714,6 @@ extension MediaLive {
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12203,11 +11751,6 @@ extension MediaLive {
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12223,6 +11766,54 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case inputs = "inputs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMultiplexAlertsRequest: AWSEncodableShape {
+        /// The maximum number of items to return
+        public let maxResults: Int?
+        /// The unique ID of the multiplex
+        public let multiplexId: String
+        /// The next pagination token
+        public let nextToken: String?
+        /// Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+        public let stateFilter: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, multiplexId: String, nextToken: String? = nil, stateFilter: String? = nil) {
+            self.maxResults = maxResults
+            self.multiplexId = multiplexId
+            self.nextToken = nextToken
+            self.stateFilter = stateFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.multiplexId, key: "MultiplexId")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.stateFilter, key: "stateFilter")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMultiplexAlertsResponse: AWSDecodableShape {
+        /// The alerts found for this multiplex
+        public let alerts: [MultiplexAlert]?
+        /// The token to use to retrieve the next page of results
+        public let nextToken: String?
+
+        @inlinable
+        public init(alerts: [MultiplexAlert]? = nil, nextToken: String? = nil) {
+            self.alerts = alerts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alerts = "alerts"
             case nextToken = "nextToken"
         }
     }
@@ -12248,11 +11839,6 @@ extension MediaLive {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodePath(self.multiplexId, key: "MultiplexId")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12295,11 +11881,6 @@ extension MediaLive {
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12338,11 +11919,6 @@ extension MediaLive {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12387,11 +11963,6 @@ extension MediaLive {
             request.encodePath(self.clusterId, key: "ClusterId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12472,11 +12043,6 @@ extension MediaLive {
             request.encodeQuery(self.videoQuality, key: "videoQuality")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12547,11 +12113,6 @@ extension MediaLive {
             request.encodeQuery(self.videoQuality, key: "videoQuality")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-        }
-
         private enum CodingKeys: CodingKey {}
     }
 
@@ -12590,11 +12151,6 @@ extension MediaLive {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12640,11 +12196,6 @@ extension MediaLive {
             request.encodeQuery(self.eventBridgeRuleTemplateGroupIdentifier, key: "eventBridgeRuleTemplateGroupIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -12867,26 +12418,6 @@ extension MediaLive {
             self.videoPid = videoPid
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 0)
-            try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
-            try self.dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
-            try self.dvbTdtSettings?.validate(name: "\(name).dvbTdtSettings")
-            try self.validate(self.ebpLookaheadMs, name: "ebpLookaheadMs", parent: name, max: 10000)
-            try self.validate(self.ebpLookaheadMs, name: "ebpLookaheadMs", parent: name, min: 0)
-            try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
-            try self.validate(self.patInterval, name: "patInterval", parent: name, min: 0)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
-            try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, max: 1000)
-            try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, min: 0)
-            try self.validate(self.programNum, name: "programNum", parent: name, max: 65535)
-            try self.validate(self.programNum, name: "programNum", parent: name, min: 0)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case absentInputAudioBehavior = "absentInputAudioBehavior"
             case arib = "arib"
@@ -13002,20 +12533,6 @@ extension MediaLive {
             self.videoPid = videoPid
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
-            try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
-            try self.validate(self.patInterval, name: "patInterval", parent: name, min: 0)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
-            try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, max: 1000)
-            try self.validate(self.pmtInterval, name: "pmtInterval", parent: name, min: 0)
-            try self.validate(self.programNum, name: "programNum", parent: name, max: 65535)
-            try self.validate(self.programNum, name: "programNum", parent: name, min: 0)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
@@ -13049,10 +12566,6 @@ extension MediaLive {
         public init(maintenanceDay: MaintenanceDay? = nil, maintenanceStartTime: String? = nil) {
             self.maintenanceDay = maintenanceDay
             self.maintenanceStartTime = maintenanceStartTime
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maintenanceStartTime, name: "maintenanceStartTime", parent: name, pattern: "^([0,1]?[0-9]|2[0-3]):00$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13102,10 +12615,6 @@ extension MediaLive {
             self.maintenanceStartTime = maintenanceStartTime
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maintenanceStartTime, name: "maintenanceStartTime", parent: name, pattern: "^([0,1]?[0-9]|2[0-3]):00$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maintenanceDay = "maintenanceDay"
             case maintenanceScheduledDate = "maintenanceScheduledDate"
@@ -13153,10 +12662,6 @@ extension MediaLive {
             self.mediapackageV2GroupSettings = mediapackageV2GroupSettings
         }
 
-        public func validate(name: String) throws {
-            try self.mediapackageV2GroupSettings?.validate(name: "\(name).mediapackageV2GroupSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
             case mediapackageV2GroupSettings = "mediapackageV2GroupSettings"
@@ -13176,12 +12681,6 @@ extension MediaLive {
             self.channelGroup = channelGroup
             self.channelId = channelId
             self.channelName = channelName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.channelGroup, name: "channelGroup", parent: name, min: 1)
-            try self.validate(self.channelId, name: "channelId", parent: name, min: 1)
-            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13267,15 +12766,6 @@ extension MediaLive {
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
             self.timedMetadataPassthrough = timedMetadataPassthrough
-        }
-
-        public func validate(name: String) throws {
-            try self.captionLanguageMappings?.forEach {
-                try $0.validate(name: "\(name).captionLanguageMappings[]")
-            }
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 10000)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13367,11 +12857,6 @@ extension MediaLive {
             self.passwordParam = passwordParam
             self.url = url
             self.username = username
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 86400000)
-            try self.validate(self.duration, name: "duration", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13521,15 +13006,6 @@ extension MediaLive {
             self.timecodeInsertion = timecodeInsertion
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, max: 7)
-            try self.validate(self.gopNumBFrames, name: "gopNumBFrames", parent: name, min: 0)
-            try self.timecodeBurninSettings?.validate(name: "\(name).timecodeBurninSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adaptiveQuantization = "adaptiveQuantization"
             case afdSignaling = "afdSignaling"
@@ -13622,16 +13098,6 @@ extension MediaLive {
             self.streamManifestBehavior = streamManifestBehavior
             self.timestampOffset = timestampOffset
             self.timestampOffsetMode = timestampOffsetMode
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 0)
-            try self.validate(self.filecacheDuration, name: "filecacheDuration", parent: name, min: 0)
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
-            try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, max: 10000)
-            try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13833,16 +13299,52 @@ extension MediaLive {
         }
     }
 
+    public struct MultiplexAlert: AWSDecodableShape {
+        /// The type of the alert
+        public let alertType: String?
+        /// The time when the alert was cleared
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var clearedTimestamp: Date?
+        /// The unique ID for this alert instance
+        public let id: String?
+        /// The user facing alert message which can have more context
+        public let message: String?
+        /// The ID of the pipeline this alert is associated with
+        public let pipelineId: String?
+        /// The time when the alert was set
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var setTimestamp: Date?
+        /// The state of the alert
+        public let state: MultiplexAlertState?
+
+        @inlinable
+        public init(alertType: String? = nil, clearedTimestamp: Date? = nil, id: String? = nil, message: String? = nil, pipelineId: String? = nil, setTimestamp: Date? = nil, state: MultiplexAlertState? = nil) {
+            self.alertType = alertType
+            self.clearedTimestamp = clearedTimestamp
+            self.id = id
+            self.message = message
+            self.pipelineId = pipelineId
+            self.setTimestamp = setTimestamp
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertType = "alertType"
+            case clearedTimestamp = "clearedTimestamp"
+            case id = "id"
+            case message = "message"
+            case pipelineId = "pipelineId"
+            case setTimestamp = "setTimestamp"
+            case state = "state"
+        }
+    }
+
     public struct MultiplexContainerSettings: AWSEncodableShape & AWSDecodableShape {
         public let multiplexM2tsSettings: MultiplexM2tsSettings?
 
         @inlinable
         public init(multiplexM2tsSettings: MultiplexM2tsSettings? = nil) {
             self.multiplexM2tsSettings = multiplexM2tsSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.multiplexM2tsSettings?.validate(name: "\(name).multiplexM2tsSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13902,12 +13404,6 @@ extension MediaLive {
             self.scte35PrerollPullupMilliseconds = scte35PrerollPullupMilliseconds
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, max: 500)
-            try self.validate(self.pcrPeriod, name: "pcrPeriod", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case absentInputAudioBehavior = "absentInputAudioBehavior"
             case arib = "arib"
@@ -13965,10 +13461,6 @@ extension MediaLive {
             self.destination = destination
         }
 
-        public func validate(name: String) throws {
-            try self.containerSettings?.validate(name: "\(name).containerSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case containerSettings = "containerSettings"
             case destination = "destination"
@@ -14016,11 +13508,6 @@ extension MediaLive {
         public init(multiplexId: String? = nil, programName: String? = nil) {
             self.multiplexId = multiplexId
             self.programName = programName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.multiplexId, name: "multiplexId", parent: name, min: 1)
-            try self.validate(self.programName, name: "programName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14120,11 +13607,6 @@ extension MediaLive {
             self.serviceName = serviceName
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.providerName, name: "providerName", parent: name, max: 256)
-            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 256)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case providerName = "providerName"
             case serviceName = "serviceName"
@@ -14147,13 +13629,6 @@ extension MediaLive {
             self.programNumber = programNumber
             self.serviceDescriptor = serviceDescriptor
             self.videoSettings = videoSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 65535)
-            try self.validate(self.programNumber, name: "programNumber", parent: name, min: 0)
-            try self.serviceDescriptor?.validate(name: "\(name).serviceDescriptor")
-            try self.videoSettings?.validate(name: "\(name).videoSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14200,17 +13675,6 @@ extension MediaLive {
             self.transportStreamReservedBitrate = transportStreamReservedBitrate
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, max: 3000)
-            try self.validate(self.maximumVideoBufferDelayMilliseconds, name: "maximumVideoBufferDelayMilliseconds", parent: name, min: 800)
-            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, max: 100000000)
-            try self.validate(self.transportStreamBitrate, name: "transportStreamBitrate", parent: name, min: 1000000)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, max: 65535)
-            try self.validate(self.transportStreamId, name: "transportStreamId", parent: name, min: 0)
-            try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, max: 100000000)
-            try self.validate(self.transportStreamReservedBitrate, name: "transportStreamReservedBitrate", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maximumVideoBufferDelayMilliseconds = "maximumVideoBufferDelayMilliseconds"
             case transportStreamBitrate = "transportStreamBitrate"
@@ -14246,15 +13710,6 @@ extension MediaLive {
             self.maximumBitrate = maximumBitrate
             self.minimumBitrate = minimumBitrate
             self.priority = priority
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, max: 100000000)
-            try self.validate(self.maximumBitrate, name: "maximumBitrate", parent: name, min: 100000)
-            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, max: 100000000)
-            try self.validate(self.minimumBitrate, name: "minimumBitrate", parent: name, min: 100000)
-            try self.validate(self.priority, name: "priority", parent: name, max: 5)
-            try self.validate(self.priority, name: "priority", parent: name, min: -5)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14324,12 +13779,6 @@ extension MediaLive {
             self.statmuxSettings = statmuxSettings
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, max: 100000000)
-            try self.validate(self.constantBitrate, name: "constantBitrate", parent: name, min: 100000)
-            try self.statmuxSettings?.validate(name: "\(name).statmuxSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case constantBitrate = "constantBitrate"
             case statmuxSettings = "statmuxSettings"
@@ -14349,10 +13798,6 @@ extension MediaLive {
             self.hlsInputSettings = hlsInputSettings
             self.multicastInputSettings = multicastInputSettings
             self.serverValidation = serverValidation
-        }
-
-        public func validate(name: String) throws {
-            try self.hlsInputSettings?.validate(name: "\(name).hlsInputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14375,13 +13820,6 @@ extension MediaLive {
             self.cbetCheckDigitString = cbetCheckDigitString
             self.cbetStepaside = cbetStepaside
             self.csid = csid
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.cbetCheckDigitString, name: "cbetCheckDigitString", parent: name, max: 2)
-            try self.validate(self.cbetCheckDigitString, name: "cbetCheckDigitString", parent: name, min: 2)
-            try self.validate(self.csid, name: "csid", parent: name, max: 7)
-            try self.validate(self.csid, name: "csid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14425,11 +13863,6 @@ extension MediaLive {
             self.timezone = timezone
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.checkDigitString, name: "checkDigitString", parent: name, max: 2)
-            try self.validate(self.checkDigitString, name: "checkDigitString", parent: name, min: 2)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case checkDigitString = "checkDigitString"
             case sid = "sid"
@@ -14452,11 +13885,6 @@ extension MediaLive {
             self.nielsenCbetSettings = nielsenCbetSettings
             self.nielsenDistributionType = nielsenDistributionType
             self.nielsenNaesIiNwSettings = nielsenNaesIiNwSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.nielsenCbetSettings?.validate(name: "\(name).nielsenCbetSettings")
-            try self.nielsenNaesIiNwSettings?.validate(name: "\(name).nielsenNaesIiNwSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14584,12 +14012,6 @@ extension MediaLive {
             self.videoDescriptionName = videoDescriptionName
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.outputName, name: "outputName", parent: name, max: 255)
-            try self.validate(self.outputName, name: "outputName", parent: name, min: 1)
-            try self.outputSettings?.validate(name: "\(name).outputSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case audioDescriptionNames = "audioDescriptionNames"
             case captionDescriptionNames = "captionDescriptionNames"
@@ -14621,13 +14043,6 @@ extension MediaLive {
             self.multiplexSettings = multiplexSettings
             self.settings = settings
             self.srtSettings = srtSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.mediaPackageSettings?.forEach {
-                try $0.validate(name: "\(name).mediaPackageSettings[]")
-            }
-            try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14680,14 +14095,6 @@ extension MediaLive {
             self.outputs = outputs
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 32)
-            try self.outputGroupSettings?.validate(name: "\(name).outputGroupSettings")
-            try self.outputs?.forEach {
-                try $0.validate(name: "\(name).outputs[]")
-            }
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case outputGroupSettings = "outputGroupSettings"
@@ -14719,16 +14126,6 @@ extension MediaLive {
             self.rtmpGroupSettings = rtmpGroupSettings
             self.srtGroupSettings = srtGroupSettings
             self.udpGroupSettings = udpGroupSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.archiveGroupSettings?.validate(name: "\(name).archiveGroupSettings")
-            try self.cmafIngestGroupSettings?.validate(name: "\(name).cmafIngestGroupSettings")
-            try self.hlsGroupSettings?.validate(name: "\(name).hlsGroupSettings")
-            try self.mediaPackageGroupSettings?.validate(name: "\(name).mediaPackageGroupSettings")
-            try self.msSmoothGroupSettings?.validate(name: "\(name).msSmoothGroupSettings")
-            try self.rtmpGroupSettings?.validate(name: "\(name).rtmpGroupSettings")
-            try self.udpGroupSettings?.validate(name: "\(name).udpGroupSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14798,15 +14195,6 @@ extension MediaLive {
             self.rtmpOutputSettings = rtmpOutputSettings
             self.srtOutputSettings = srtOutputSettings
             self.udpOutputSettings = udpOutputSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.archiveOutputSettings?.validate(name: "\(name).archiveOutputSettings")
-            try self.hlsOutputSettings?.validate(name: "\(name).hlsOutputSettings")
-            try self.multiplexOutputSettings?.validate(name: "\(name).multiplexOutputSettings")
-            try self.rtmpOutputSettings?.validate(name: "\(name).rtmpOutputSettings")
-            try self.srtOutputSettings?.validate(name: "\(name).srtOutputSettings")
-            try self.udpOutputSettings?.validate(name: "\(name).udpOutputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14931,11 +14319,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.count, name: "count", parent: name, min: 1)
-            try self.renewalSettings?.validate(name: "\(name).renewalSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case name = "name"
@@ -15037,16 +14420,6 @@ extension MediaLive {
             self.channelsOut = channelsOut
         }
 
-        public func validate(name: String) throws {
-            try self.channelMappings?.forEach {
-                try $0.validate(name: "\(name).channelMappings[]")
-            }
-            try self.validate(self.channelsIn, name: "channelsIn", parent: name, max: 16)
-            try self.validate(self.channelsIn, name: "channelsIn", parent: name, min: 1)
-            try self.validate(self.channelsOut, name: "channelsOut", parent: name, max: 8)
-            try self.validate(self.channelsOut, name: "channelsOut", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case channelMappings = "channelMappings"
             case channelsIn = "channelsIn"
@@ -15064,10 +14437,6 @@ extension MediaLive {
         public init(automaticRenewal: ReservationAutomaticRenewal? = nil, renewalCount: Int? = nil) {
             self.automaticRenewal = automaticRenewal
             self.renewalCount = renewalCount
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.renewalCount, name: "renewalCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15376,6 +14745,80 @@ extension MediaLive {
         }
     }
 
+    public struct RouterDestination: AWSDecodableShape {
+        /// The Availability Zone (AZ) names of the AZs this destination is created in.
+        public let availabilityZoneName: String?
+        /// ARN of the output from MediaConnect Router currently connected to this input.
+        public let routerOutputArn: String?
+
+        @inlinable
+        public init(availabilityZoneName: String? = nil, routerOutputArn: String? = nil) {
+            self.availabilityZoneName = availabilityZoneName
+            self.routerOutputArn = routerOutputArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneName = "availabilityZoneName"
+            case routerOutputArn = "routerOutputArn"
+        }
+    }
+
+    public struct RouterDestinationSettings: AWSEncodableShape {
+        /// Availability Zone for this MediaConnect Router destination.
+        public let availabilityZoneName: String?
+
+        @inlinable
+        public init(availabilityZoneName: String? = nil) {
+            self.availabilityZoneName = availabilityZoneName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneName = "availabilityZoneName"
+        }
+    }
+
+    public struct RouterInputSettings: AWSDecodableShape {
+        /// MediaConnect Router destinations associated with the MediaLive Input.
+        public let destinations: [RouterDestination]?
+        public let encryptionType: RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public let secretArn: String?
+
+        @inlinable
+        public init(destinations: [RouterDestination]? = nil, encryptionType: RouterEncryptionType? = nil, secretArn: String? = nil) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case encryptionType = "encryptionType"
+            case secretArn = "secretArn"
+        }
+    }
+
+    public struct RouterSettings: AWSEncodableShape {
+        /// Destinations for the input from MediaConnect Router. Provide one for a single-pipeline input and two for a standard input.
+        public let destinations: [RouterDestinationSettings]?
+        public let encryptionType: RouterEncryptionType?
+        /// ARN of the secret used to encrypt this input.
+        public let secretArn: String?
+
+        @inlinable
+        public init(destinations: [RouterDestinationSettings]? = nil, encryptionType: RouterEncryptionType? = nil, secretArn: String? = nil) {
+            self.destinations = destinations
+            self.encryptionType = encryptionType
+            self.secretArn = secretArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case encryptionType = "encryptionType"
+            case secretArn = "secretArn"
+        }
+    }
+
     public struct RtmpCaptionInfoDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -15412,11 +14855,6 @@ extension MediaLive {
             self.restartDelay = restartDelay
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.cacheLength, name: "cacheLength", parent: name, min: 30)
-            try self.validate(self.restartDelay, name: "restartDelay", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adMarkers = "adMarkers"
             case authenticationScheme = "authenticationScheme"
@@ -15447,11 +14885,6 @@ extension MediaLive {
             self.numRetries = numRetries
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.connectionRetryInterval, name: "connectionRetryInterval", parent: name, min: 1)
-            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case certificateMode = "certificateMode"
             case connectionRetryInterval = "connectionRetryInterval"
@@ -15473,10 +14906,6 @@ extension MediaLive {
             self.actionName = actionName
             self.scheduleActionSettings = scheduleActionSettings
             self.scheduleActionStartSettings = scheduleActionStartSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.scheduleActionSettings?.validate(name: "\(name).scheduleActionSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15543,17 +14972,6 @@ extension MediaLive {
             self.timedMetadataSettings = timedMetadataSettings
         }
 
-        public func validate(name: String) throws {
-            try self.motionGraphicsImageActivateSettings?.validate(name: "\(name).motionGraphicsImageActivateSettings")
-            try self.scte35ReturnToNetworkSettings?.validate(name: "\(name).scte35ReturnToNetworkSettings")
-            try self.scte35SpliceInsertSettings?.validate(name: "\(name).scte35SpliceInsertSettings")
-            try self.scte35TimeSignalSettings?.validate(name: "\(name).scte35TimeSignalSettings")
-            try self.staticImageActivateSettings?.validate(name: "\(name).staticImageActivateSettings")
-            try self.staticImageDeactivateSettings?.validate(name: "\(name).staticImageDeactivateSettings")
-            try self.staticImageOutputActivateSettings?.validate(name: "\(name).staticImageOutputActivateSettings")
-            try self.staticImageOutputDeactivateSettings?.validate(name: "\(name).staticImageOutputDeactivateSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hlsId3SegmentTaggingSettings = "hlsId3SegmentTaggingSettings"
             case hlsTimedMetadataSettings = "hlsTimedMetadataSettings"
@@ -15613,11 +15031,6 @@ extension MediaLive {
             self.source608ChannelNumber = source608ChannelNumber
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, max: 4)
-            try self.validate(self.source608ChannelNumber, name: "source608ChannelNumber", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case convert608To708 = "convert608To708"
             case source608ChannelNumber = "source608ChannelNumber"
@@ -15639,10 +15052,6 @@ extension MediaLive {
         public init(ocrLanguage: Scte27OcrLanguage? = nil, pid: Int? = nil) {
             self.ocrLanguage = ocrLanguage
             self.pid = pid
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15686,10 +15095,6 @@ extension MediaLive {
             self.scte35DescriptorSettings = scte35DescriptorSettings
         }
 
-        public func validate(name: String) throws {
-            try self.scte35DescriptorSettings?.validate(name: "\(name).scte35DescriptorSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case scte35DescriptorSettings = "scte35DescriptorSettings"
         }
@@ -15702,10 +15107,6 @@ extension MediaLive {
         @inlinable
         public init(segmentationDescriptorScte35DescriptorSettings: Scte35SegmentationDescriptor? = nil) {
             self.segmentationDescriptorScte35DescriptorSettings = segmentationDescriptorScte35DescriptorSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.segmentationDescriptorScte35DescriptorSettings?.validate(name: "\(name).segmentationDescriptorScte35DescriptorSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15738,11 +15139,6 @@ extension MediaLive {
         @inlinable
         public init(spliceEventId: Int64? = nil) {
             self.spliceEventId = spliceEventId
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4294967295)
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15789,25 +15185,6 @@ extension MediaLive {
             self.subSegmentsExpected = subSegmentsExpected
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, max: 1099511627775)
-            try self.validate(self.segmentationDuration, name: "segmentationDuration", parent: name, min: 0)
-            try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, max: 4294967295)
-            try self.validate(self.segmentationEventId, name: "segmentationEventId", parent: name, min: 0)
-            try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, max: 255)
-            try self.validate(self.segmentationTypeId, name: "segmentationTypeId", parent: name, min: 0)
-            try self.validate(self.segmentationUpidType, name: "segmentationUpidType", parent: name, max: 255)
-            try self.validate(self.segmentationUpidType, name: "segmentationUpidType", parent: name, min: 0)
-            try self.validate(self.segmentNum, name: "segmentNum", parent: name, max: 255)
-            try self.validate(self.segmentNum, name: "segmentNum", parent: name, min: 0)
-            try self.validate(self.segmentsExpected, name: "segmentsExpected", parent: name, max: 255)
-            try self.validate(self.segmentsExpected, name: "segmentsExpected", parent: name, min: 0)
-            try self.validate(self.subSegmentNum, name: "subSegmentNum", parent: name, max: 255)
-            try self.validate(self.subSegmentNum, name: "subSegmentNum", parent: name, min: 0)
-            try self.validate(self.subSegmentsExpected, name: "subSegmentsExpected", parent: name, max: 255)
-            try self.validate(self.subSegmentsExpected, name: "subSegmentsExpected", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case deliveryRestrictions = "deliveryRestrictions"
             case segmentationCancelIndicator = "segmentationCancelIndicator"
@@ -15838,11 +15215,6 @@ extension MediaLive {
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adAvailOffset = "adAvailOffset"
             case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
@@ -15860,13 +15232,6 @@ extension MediaLive {
         public init(duration: Int64? = nil, spliceEventId: Int64? = nil) {
             self.duration = duration
             self.spliceEventId = spliceEventId
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 8589934591)
-            try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, max: 4294967295)
-            try self.validate(self.spliceEventId, name: "spliceEventId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15890,11 +15255,6 @@ extension MediaLive {
             self.webDeliveryAllowedFlag = webDeliveryAllowedFlag
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, max: 1000)
-            try self.validate(self.adAvailOffset, name: "adAvailOffset", parent: name, min: -1000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case adAvailOffset = "adAvailOffset"
             case noRegionalBlackoutFlag = "noRegionalBlackoutFlag"
@@ -15909,12 +15269,6 @@ extension MediaLive {
         @inlinable
         public init(scte35Descriptors: [Scte35Descriptor]? = nil) {
             self.scte35Descriptors = scte35Descriptors
-        }
-
-        public func validate(name: String) throws {
-            try self.scte35Descriptors?.forEach {
-                try $0.validate(name: "\(name).scte35Descriptors[]")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16137,6 +15491,20 @@ extension MediaLive {
         public init() {}
     }
 
+    public struct SpecialRouterSettings: AWSEncodableShape {
+        /// This is the arn of the MediaConnect Router resource being associated with the MediaLive Input.
+        public let routerArn: String?
+
+        @inlinable
+        public init(routerArn: String? = nil) {
+            self.routerArn = routerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routerArn = "routerArn"
+        }
+    }
+
     public struct SrtCallerDecryption: AWSDecodableShape {
         /// The algorithm used to encrypt content.
         public let algorithm: Algorithm?
@@ -16286,14 +15654,6 @@ extension MediaLive {
             self.latency = latency
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, max: 10000)
-            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, min: 0)
-            try self.containerSettings?.validate(name: "\(name).containerSettings")
-            try self.validate(self.latency, name: "latency", parent: name, max: 16000)
-            try self.validate(self.latency, name: "latency", parent: name, min: 40)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case bufferMsec = "bufferMsec"
             case containerSettings = "containerSettings"
@@ -16338,10 +15698,6 @@ extension MediaLive {
         public init(audioRenditionSets: String? = nil, m3u8Settings: M3u8Settings? = nil) {
             self.audioRenditionSets = audioRenditionSets
             self.m3u8Settings = m3u8Settings
-        }
-
-        public func validate(name: String) throws {
-            try self.m3u8Settings?.validate(name: "\(name).m3u8Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16810,21 +16166,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.name, forKey: .name)
         }
 
-        public func validate(name: String) throws {
-            try self.cloudWatchAlarmTemplateGroupIdentifiers?.forEach {
-                try validate($0, name: "cloudWatchAlarmTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
-            }
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, max: 2048)
-            try self.validate(self.discoveryEntryPointArn, name: "discoveryEntryPointArn", parent: name, min: 1)
-            try self.eventBridgeRuleTemplateGroupIdentifiers?.forEach {
-                try validate($0, name: "eventBridgeRuleTemplateGroupIdentifiers[]", parent: name, pattern: "^[^\\s]+$")
-            }
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
             case description = "description"
@@ -16945,21 +16286,6 @@ extension MediaLive {
             self.width = width
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.height, name: "height", parent: name, min: 1)
-            try self.image?.validate(name: "\(name).image")
-            try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
-            try self.validate(self.layer, name: "layer", parent: name, max: 7)
-            try self.validate(self.layer, name: "layer", parent: name, min: 0)
-            try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
-            try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
-            try self.validate(self.width, name: "width", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case duration = "duration"
             case fadeIn = "fadeIn"
@@ -16984,12 +16310,6 @@ extension MediaLive {
         public init(fadeOut: Int? = nil, layer: Int? = nil) {
             self.fadeOut = fadeOut
             self.layer = layer
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.layer, name: "layer", parent: name, max: 7)
-            try self.validate(self.layer, name: "layer", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17037,21 +16357,6 @@ extension MediaLive {
             self.width = width
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.height, name: "height", parent: name, min: 1)
-            try self.image?.validate(name: "\(name).image")
-            try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
-            try self.validate(self.layer, name: "layer", parent: name, max: 7)
-            try self.validate(self.layer, name: "layer", parent: name, min: 0)
-            try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
-            try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
-            try self.validate(self.width, name: "width", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case duration = "duration"
             case fadeIn = "fadeIn"
@@ -17082,12 +16387,6 @@ extension MediaLive {
             self.outputNames = outputNames
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.layer, name: "layer", parent: name, max: 7)
-            try self.validate(self.layer, name: "layer", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fadeOut = "fadeOut"
             case layer = "layer"
@@ -17105,12 +16404,6 @@ extension MediaLive {
         public init(keyProviderServer: InputLocation? = nil, staticKeyValue: String? = nil) {
             self.keyProviderServer = keyProviderServer
             self.staticKeyValue = staticKeyValue
-        }
-
-        public func validate(name: String) throws {
-            try self.keyProviderServer?.validate(name: "\(name).keyProviderServer")
-            try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, max: 32)
-            try self.validate(self.staticKeyValue, name: "staticKeyValue", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17468,10 +16761,6 @@ extension MediaLive {
             self.prefix = prefix
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.prefix, name: "prefix", parent: name, max: 255)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case fontSize = "fontSize"
             case position = "position"
@@ -17492,11 +16781,6 @@ extension MediaLive {
         public init(source: TimecodeConfigSource? = nil, syncThreshold: Int? = nil) {
             self.source = source
             self.syncThreshold = syncThreshold
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, max: 1000000)
-            try self.validate(self.syncThreshold, name: "syncThreshold", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17605,10 +16889,6 @@ extension MediaLive {
             self.m2tsSettings = m2tsSettings
         }
 
-        public func validate(name: String) throws {
-            try self.m2tsSettings?.validate(name: "\(name).m2tsSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case m2tsSettings = "m2tsSettings"
         }
@@ -17627,10 +16907,6 @@ extension MediaLive {
             self.inputLossAction = inputLossAction
             self.timedMetadataId3Frame = timedMetadataId3Frame
             self.timedMetadataId3Period = timedMetadataId3Period
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17655,13 +16931,6 @@ extension MediaLive {
             self.containerSettings = containerSettings
             self.destination = destination
             self.fecOutputSettings = fecOutputSettings
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, max: 10000)
-            try self.validate(self.bufferMsec, name: "bufferMsec", parent: name, min: 0)
-            try self.containerSettings?.validate(name: "\(name).containerSettings")
-            try self.fecOutputSettings?.validate(name: "\(name).fecOutputSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17737,12 +17006,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.channelClass, forKey: .channelClass)
             request.encodePath(self.channelId, key: "ChannelId")
             try container.encodeIfPresent(self.destinations, forKey: .destinations)
-        }
-
-        public func validate(name: String) throws {
-            try self.destinations?.forEach {
-                try $0.validate(name: "\(name).destinations[]")
-            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17896,17 +17159,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
         }
 
-        public func validate(name: String) throws {
-            try self.destinations?.forEach {
-                try $0.validate(name: "\(name).destinations[]")
-            }
-            try self.encoderSettings?.validate(name: "\(name).encoderSettings")
-            try self.inputAttachments?.forEach {
-                try $0.validate(name: "\(name).inputAttachments[]")
-            }
-            try self.maintenance?.validate(name: "\(name).maintenance")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case anywhereSettings = "anywhereSettings"
             case cdiInputSpecification = "cdiInputSpecification"
@@ -17953,10 +17205,6 @@ extension MediaLive {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.identifier, key: "Identifier")
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18058,19 +17306,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.targetResourceType, forKey: .targetResourceType)
             try container.encodeIfPresent(self.threshold, forKey: .threshold)
             try container.encodeIfPresent(self.treatMissingData, forKey: .treatMissingData)
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.datapointsToAlarm, name: "datapointsToAlarm", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.evaluationPeriods, name: "evaluationPeriods", parent: name, min: 1)
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.metricName, name: "metricName", parent: name, max: 64)
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.period, name: "period", parent: name, max: 86400)
-            try self.validate(self.period, name: "period", parent: name, min: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18248,10 +17483,6 @@ extension MediaLive {
             request.encodePath(self.identifier, key: "Identifier")
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case description = "description"
         }
@@ -18325,17 +17556,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.groupIdentifier, forKey: .groupIdentifier)
             request.encodePath(self.identifier, key: "Identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.eventTargets?.forEach {
-                try $0.validate(name: "\(name).eventTargets[]")
-            }
-            try self.validate(self.groupIdentifier, name: "groupIdentifier", parent: name, pattern: "^[^\\s]+$")
-            try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\s]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18533,11 +17753,15 @@ extension MediaLive {
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
         public let sources: [InputSourceRequest]?
+        /// When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output
+        /// is created. This group of settings is set on your behalf by the MediaConnect Router service using this set of settings. This
+        /// setting object can only by used by that service.
+        public let specialRouterSettings: SpecialRouterSettings?
         /// The settings associated with an SRT input.
         public let srtSettings: SrtSettingsRequest?
 
         @inlinable
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsUpdateRequest? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsUpdateRequest? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, specialRouterSettings: SpecialRouterSettings? = nil, srtSettings: SrtSettingsRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputId = inputId
@@ -18549,6 +17773,7 @@ extension MediaLive {
             self.sdiSources = sdiSources
             self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
+            self.specialRouterSettings = specialRouterSettings
             self.srtSettings = srtSettings
         }
 
@@ -18566,6 +17791,7 @@ extension MediaLive {
             try container.encodeIfPresent(self.sdiSources, forKey: .sdiSources)
             try container.encodeIfPresent(self.smpte2110ReceiverGroupSettings, forKey: .smpte2110ReceiverGroupSettings)
             try container.encodeIfPresent(self.sources, forKey: .sources)
+            try container.encodeIfPresent(self.specialRouterSettings, forKey: .specialRouterSettings)
             try container.encodeIfPresent(self.srtSettings, forKey: .srtSettings)
         }
 
@@ -18580,6 +17806,7 @@ extension MediaLive {
             case sdiSources = "sdiSources"
             case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
+            case specialRouterSettings = "specialRouterSettings"
             case srtSettings = "srtSettings"
         }
     }
@@ -18670,10 +17897,6 @@ extension MediaLive {
             request.encodePath(self.programName, key: "ProgramName")
         }
 
-        public func validate(name: String) throws {
-            try self.multiplexProgramSettings?.validate(name: "\(name).multiplexProgramSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case multiplexProgramSettings = "multiplexProgramSettings"
         }
@@ -18717,10 +17940,6 @@ extension MediaLive {
             try container.encodeIfPresent(self.multiplexSettings, forKey: .multiplexSettings)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.packetIdentifiersMapping, forKey: .packetIdentifiersMapping)
-        }
-
-        public func validate(name: String) throws {
-            try self.multiplexSettings?.validate(name: "\(name).multiplexSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19012,10 +18231,6 @@ extension MediaLive {
             request.encodePath(self.reservationId, key: "ReservationId")
         }
 
-        public func validate(name: String) throws {
-            try self.renewalSettings?.validate(name: "\(name).renewalSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case renewalSettings = "renewalSettings"
@@ -19113,10 +18328,6 @@ extension MediaLive {
             self.videoBlackThresholdMsec = videoBlackThresholdMsec
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.videoBlackThresholdMsec, name: "videoBlackThresholdMsec", parent: name, min: 1000)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case blackDetectThreshold = "blackDetectThreshold"
             case videoBlackThresholdMsec = "videoBlackThresholdMsec"
@@ -19137,14 +18348,6 @@ extension MediaLive {
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
-        }
-
-        public func validate(name: String) throws {
-            try self.av1Settings?.validate(name: "\(name).av1Settings")
-            try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
-            try self.h264Settings?.validate(name: "\(name).h264Settings")
-            try self.h265Settings?.validate(name: "\(name).h265Settings")
-            try self.mpeg2Settings?.validate(name: "\(name).mpeg2Settings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19186,12 +18389,6 @@ extension MediaLive {
             self.width = width
         }
 
-        public func validate(name: String) throws {
-            try self.codecSettings?.validate(name: "\(name).codecSettings")
-            try self.validate(self.sharpness, name: "sharpness", parent: name, max: 100)
-            try self.validate(self.sharpness, name: "sharpness", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case codecSettings = "codecSettings"
             case height = "height"
@@ -19221,11 +18418,6 @@ extension MediaLive {
             self.selectorSettings = selectorSettings
         }
 
-        public func validate(name: String) throws {
-            try self.colorSpaceSettings?.validate(name: "\(name).colorSpaceSettings")
-            try self.selectorSettings?.validate(name: "\(name).selectorSettings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case colorSpace = "colorSpace"
             case colorSpaceSettings = "colorSpaceSettings"
@@ -19242,10 +18434,6 @@ extension MediaLive {
             self.hdr10Settings = hdr10Settings
         }
 
-        public func validate(name: String) throws {
-            try self.hdr10Settings?.validate(name: "\(name).hdr10Settings")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case hdr10Settings = "hdr10Settings"
         }
@@ -19258,11 +18446,6 @@ extension MediaLive {
         @inlinable
         public init(pid: Int? = nil) {
             self.pid = pid
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, max: 8191)
-            try self.validate(self.pid, name: "pid", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19279,11 +18462,6 @@ extension MediaLive {
             self.programId = programId
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.programId, name: "programId", parent: name, max: 65536)
-            try self.validate(self.programId, name: "programId", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case programId = "programId"
         }
@@ -19297,11 +18475,6 @@ extension MediaLive {
         public init(videoSelectorPid: VideoSelectorPid? = nil, videoSelectorProgramId: VideoSelectorProgramId? = nil) {
             self.videoSelectorPid = videoSelectorPid
             self.videoSelectorProgramId = videoSelectorProgramId
-        }
-
-        public func validate(name: String) throws {
-            try self.videoSelectorPid?.validate(name: "\(name).videoSelectorPid")
-            try self.videoSelectorProgramId?.validate(name: "\(name).videoSelectorProgramId")
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -596,7 +596,7 @@ public struct PCS: AWSService {
     /// Adds or edits tags on an PCS resource. Each tag consists of a tag key and a tag value. The tag key and tag value are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
     @Sendable
     @inlinable
-    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
         try await self.client.execute(
             operation: "TagResource", 
             path: "/", 
@@ -617,7 +617,7 @@ public struct PCS: AWSService {
         resourceArn: String,
         tags: [String: String],
         logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
+    ) async throws -> TagResourceResponse {
         let input = TagResourceRequest(
             resourceArn: resourceArn, 
             tags: tags
@@ -628,7 +628,7 @@ public struct PCS: AWSService {
     /// Deletes tags from an PCS resource. To delete a tag, specify the tag key and the Amazon Resource Name (ARN) of the PCS resource.
     @Sendable
     @inlinable
-    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
         try await self.client.execute(
             operation: "UntagResource", 
             path: "/", 
@@ -649,7 +649,7 @@ public struct PCS: AWSService {
         resourceArn: String,
         tagKeys: [String],
         logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
+    ) async throws -> UntagResourceResponse {
         let input = UntagResourceRequest(
             resourceArn: resourceArn, 
             tagKeys: tagKeys

@@ -473,13 +473,13 @@ extension IoTManagedIntegrations {
             try self.actions.forEach {
                 try validate($0, name: "actions[]", parent: name, max: 128)
                 try validate($0, name: "actions[]", parent: name, min: 1)
-                try validate($0, name: "actions[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+                try validate($0, name: "actions[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             }
             try self.validate(self.actions, name: "actions", parent: name, max: 100)
             try self.events.forEach {
                 try validate($0, name: "events[]", parent: name, max: 128)
                 try validate($0, name: "events[]", parent: name, min: 1)
-                try validate($0, name: "events[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+                try validate($0, name: "events[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             }
             try self.validate(self.events, name: "events", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, max: 128)
@@ -487,11 +487,11 @@ extension IoTManagedIntegrations {
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             try self.properties.forEach {
                 try validate($0, name: "properties[]", parent: name, max: 128)
                 try validate($0, name: "properties[]", parent: name, min: 1)
-                try validate($0, name: "properties[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+                try validate($0, name: "properties[]", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             }
             try self.validate(self.properties, name: "properties", parent: name, max: 100)
             try self.validate(self.version, name: "version", parent: name, max: 64)
@@ -616,7 +616,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             try self.validate(self.version, name: "version", parent: name, max: 64)
             try self.validate(self.version, name: "version", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, pattern: "^(0|[1-9][0-9]*)$")
@@ -2712,6 +2712,48 @@ extension IoTManagedIntegrations {
         }
     }
 
+    public struct GetManagedThingCertificateRequest: AWSEncodableShape {
+        /// The identifier of the managed thing.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9:_-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetManagedThingCertificateResponse: AWSDecodableShape {
+        /// The PEM-encoded certificate for the managed thing.
+        public let certificatePem: String?
+        /// The identifier of the managed thing.
+        public let managedThingId: String?
+
+        @inlinable
+        public init(certificatePem: String? = nil, managedThingId: String? = nil) {
+            self.certificatePem = certificatePem
+            self.managedThingId = managedThingId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificatePem = "CertificatePem"
+            case managedThingId = "ManagedThingId"
+        }
+    }
+
     public struct GetManagedThingConnectivityDataRequest: AWSEncodableShape {
         /// The identifier of a managed thing.
         public let identifier: String
@@ -3252,7 +3294,7 @@ extension IoTManagedIntegrations {
         public let arn: String?
         /// The id of the claim certificate.
         public let claimCertificate: String?
-        /// The provisioning profile id..
+        /// The provisioning profile id.
         public let id: String?
         /// The name of the provisioning template.
         public let name: String?
@@ -4653,7 +4695,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.id, name: "id", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4734,7 +4776,7 @@ extension IoTManagedIntegrations {
             try self.validate(self.id, name: "id", parent: name, pattern: "^0[xX][0-9a-fA-F]+$|^[0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ ]+$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[/a-zA-Z0-9\\._ -]+$")
             try self.validate(self.publicId, name: "publicId", parent: name, max: 128)
             try self.validate(self.publicId, name: "publicId", parent: name, min: 7)
             try self.validate(self.publicId, name: "publicId", parent: name, pattern: "^[a-zA-Z0-9.]+@(\\d+\\.\\d+(\\.\\d+)?|\\$latest)$")
@@ -5695,7 +5737,7 @@ extension IoTManagedIntegrations {
         public let operationVersion: String?
         /// The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing.
         public let statusCode: Int?
-        /// The trace request identifier used to correlate a command request and response. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+        /// The trace request identifier. This is generated by IoT managed integrations and can be used to trace this command and its related operations in CloudWatch.
         public let traceId: String?
         /// The id of the third-party cloud provider.
         public let userId: String?
@@ -5850,7 +5892,7 @@ extension IoTManagedIntegrations {
     }
 
     public struct SendManagedThingCommandResponse: AWSDecodableShape {
-        /// The trace request identifier. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+        /// The trace request identifier. This is generated by IoT managed integrations and can be used to trace this command and its related operations in CloudWatch.
         public let traceId: String?
 
         @inlinable

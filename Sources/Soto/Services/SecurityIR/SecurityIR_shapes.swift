@@ -25,6 +25,13 @@ import Foundation
 extension SecurityIR {
     // MARK: Enums
 
+    public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case evidenceCollection = "Evidence"
+        case investigationAnalysis = "Investigation"
+        case summarization = "Summarization"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AwsRegion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
@@ -39,6 +46,7 @@ extension SecurityIR {
         case apSoutheast3 = "ap-southeast-3"
         case apSoutheast4 = "ap-southeast-4"
         case apSoutheast5 = "ap-southeast-5"
+        case apSoutheast6 = "ap-southeast-6"
         case apSoutheast7 = "ap-southeast-7"
         case caCentral1 = "ca-central-1"
         case caWest1 = "ca-west-1"
@@ -90,6 +98,26 @@ extension SecurityIR {
         public var description: String { return self.rawValue }
     }
 
+    public enum CommunicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case caseAcknowledged = "Case Acknowledged"
+        case caseAttachmentUrlUploaded = "Case Attachment Url Uploaded"
+        case caseClosed = "Case Closed"
+        case caseCommentAdded = "Case Comment Added"
+        case caseCommentUpdated = "Case Comment Updated"
+        case caseCreated = "Case Created"
+        case casePendingCustomerActionReminder = "Case Pending Customer Action Reminder"
+        case caseUpdateCaseStatus = "Case Status Updated"
+        case caseUpdated = "Case Updated"
+        case caseUpdatedToServiceManaged = "Case Updated To Service Managed"
+        case deregisterDelegatedAdministrator = "Deregister Delegated Administrator"
+        case disableAwsServiceAccess = "Disable AWS Service Access"
+        case membershipCancelled = "Membership Cancelled"
+        case membershipCreated = "Membership Created"
+        case membershipUpdated = "Membership Updated"
+        case registerDelegatedAdministrator = "Register Delegated Administrator"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case organization = "Organization"
         case standalone = "Standalone"
@@ -99,6 +127,16 @@ extension SecurityIR {
     public enum EngagementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case investigation = "Investigation"
         case securityIncident = "Security Incident"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "Cancelled"
+        case completed = "Completed"
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case waiting = "Waiting"
         public var description: String { return self.rawValue }
     }
 
@@ -144,6 +182,12 @@ extension SecurityIR {
         case detectionAndAnalysis = "Detection and Analysis"
         case postIncidentActivities = "Post-incident Activities"
         case submitted = "Submitted"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UsefulnessRating: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notUseful = "NOT_USEFUL"
+        case useful = "USEFUL"
         public var description: String { return self.rawValue }
     }
 
@@ -294,6 +338,24 @@ extension SecurityIR {
             case eventTimestamp = "eventTimestamp"
             case message = "message"
             case principal = "principal"
+        }
+    }
+
+    public struct CaseMetadataEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier for the metadata field. This key uniquely identifies the type of metadata being stored, such as "severity", "category", or "assignee".
+        public let key: String
+        /// The value associated with the metadata key. This contains the actual data for the metadata field identified by the key.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
         }
     }
 
@@ -695,6 +757,8 @@ extension SecurityIR {
         public let caseArn: String?
         /// Response element for GetCase that provides a list of current case attachments.
         public let caseAttachments: [CaseAttachmentAttributes]?
+        /// Case response metadata
+        public let caseMetadata: [CaseMetadataEntry]?
         /// Response element for GetCase that provides the case status. Options for statuses include Submitted | Detection and Analysis | Eradication, Containment and Recovery | Post-Incident Activities | Closed
         public let caseStatus: CaseStatus?
         /// Response element for GetCase that provides the date a specified case was closed.
@@ -729,10 +793,11 @@ extension SecurityIR {
         public let watchers: [Watcher]?
 
         @inlinable
-        public init(actualIncidentStartDate: Date? = nil, caseArn: String? = nil, caseAttachments: [CaseAttachmentAttributes]? = nil, caseStatus: CaseStatus? = nil, closedDate: Date? = nil, closureCode: ClosureCode? = nil, createdDate: Date? = nil, description: String? = nil, engagementType: EngagementType? = nil, impactedAccounts: [String]? = nil, impactedAwsRegions: [ImpactedAwsRegion]? = nil, impactedServices: [String]? = nil, lastUpdatedDate: Date? = nil, pendingAction: PendingAction? = nil, reportedIncidentStartDate: Date? = nil, resolverType: ResolverType? = nil, threatActorIpAddresses: [ThreatActorIp]? = nil, title: String? = nil, watchers: [Watcher]? = nil) {
+        public init(actualIncidentStartDate: Date? = nil, caseArn: String? = nil, caseAttachments: [CaseAttachmentAttributes]? = nil, caseMetadata: [CaseMetadataEntry]? = nil, caseStatus: CaseStatus? = nil, closedDate: Date? = nil, closureCode: ClosureCode? = nil, createdDate: Date? = nil, description: String? = nil, engagementType: EngagementType? = nil, impactedAccounts: [String]? = nil, impactedAwsRegions: [ImpactedAwsRegion]? = nil, impactedServices: [String]? = nil, lastUpdatedDate: Date? = nil, pendingAction: PendingAction? = nil, reportedIncidentStartDate: Date? = nil, resolverType: ResolverType? = nil, threatActorIpAddresses: [ThreatActorIp]? = nil, title: String? = nil, watchers: [Watcher]? = nil) {
             self.actualIncidentStartDate = actualIncidentStartDate
             self.caseArn = caseArn
             self.caseAttachments = caseAttachments
+            self.caseMetadata = caseMetadata
             self.caseStatus = caseStatus
             self.closedDate = closedDate
             self.closureCode = closureCode
@@ -755,6 +820,7 @@ extension SecurityIR {
             case actualIncidentStartDate = "actualIncidentStartDate"
             case caseArn = "caseArn"
             case caseAttachments = "caseAttachments"
+            case caseMetadata = "caseMetadata"
             case caseStatus = "caseStatus"
             case closedDate = "closedDate"
             case closureCode = "closureCode"
@@ -912,12 +978,14 @@ extension SecurityIR {
     }
 
     public struct IncidentResponder: AWSEncodableShape & AWSDecodableShape {
+        public let communicationPreferences: [CommunicationType]?
         public let email: String
         public let jobTitle: String
         public let name: String
 
         @inlinable
-        public init(email: String, jobTitle: String, name: String) {
+        public init(communicationPreferences: [CommunicationType]? = nil, email: String, jobTitle: String, name: String) {
+            self.communicationPreferences = communicationPreferences
             self.email = email
             self.jobTitle = jobTitle
             self.name = name
@@ -934,9 +1002,70 @@ extension SecurityIR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case communicationPreferences = "communicationPreferences"
             case email = "email"
             case jobTitle = "jobTitle"
             case name = "name"
+        }
+    }
+
+    public struct InvestigationAction: AWSDecodableShape {
+        /// The type of investigation action being performed. This categorizes the investigation method or approach used in the case.
+        public let actionType: ActionType
+        /// Detailed investigation results in rich markdown format. This field contains the comprehensive findings, analysis, and conclusions from the investigation.
+        public let content: String
+        /// User feedback for this investigation result. This contains the user's assessment and comments about the quality and usefulness of the investigation findings.
+        public let feedback: InvestigationFeedback?
+        /// The unique identifier for this investigation action. This ID is used to track and reference the specific investigation throughout its lifecycle.
+        public let investigationId: String
+        /// ISO 8601 timestamp of the most recent status update. This indicates when the investigation was last modified or when its status last changed.
+        public let lastUpdated: Date
+        /// The current execution status of the investigation. This indicates whether the investigation is pending, in progress, completed, or failed.
+        public let status: ExecutionStatus
+        /// Human-readable summary of the investigation focus. This provides a brief description of what the investigation is examining or analyzing.
+        public let title: String
+
+        @inlinable
+        public init(actionType: ActionType, content: String, feedback: InvestigationFeedback? = nil, investigationId: String, lastUpdated: Date, status: ExecutionStatus, title: String) {
+            self.actionType = actionType
+            self.content = content
+            self.feedback = feedback
+            self.investigationId = investigationId
+            self.lastUpdated = lastUpdated
+            self.status = status
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "actionType"
+            case content = "content"
+            case feedback = "feedback"
+            case investigationId = "investigationId"
+            case lastUpdated = "lastUpdated"
+            case status = "status"
+            case title = "title"
+        }
+    }
+
+    public struct InvestigationFeedback: AWSDecodableShape {
+        /// Optional user comments providing additional context about the investigation feedback. This allows users to explain their rating or provide suggestions for improvement.
+        public let comment: String?
+        /// ISO 8601 timestamp when the feedback was submitted. This records when the user provided their assessment of the investigation results.
+        public let submittedAt: Date?
+        /// User assessment of the investigation result's quality and helpfulness. This rating indicates how valuable the investigation findings were in addressing the case.
+        public let usefulness: UsefulnessRating?
+
+        @inlinable
+        public init(comment: String? = nil, submittedAt: Date? = nil, usefulness: UsefulnessRating? = nil) {
+            self.comment = comment
+            self.submittedAt = submittedAt
+            self.usefulness = usefulness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+            case submittedAt = "submittedAt"
+            case usefulness = "usefulness"
         }
     }
 
@@ -1162,6 +1291,56 @@ extension SecurityIR {
         }
     }
 
+    public struct ListInvestigationsRequest: AWSEncodableShape {
+        /// Investigation performed by an agent for a security incident per caseID
+        public let caseId: String
+        /// Investigation performed by an agent for a security incident request, returning max results
+        public let maxResults: Int?
+        /// Investigation performed by an agent for a security incident request
+        public let nextToken: String?
+
+        @inlinable
+        public init(caseId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.caseId = caseId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 32)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 10)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^\\d{10,32}")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInvestigationsResponse: AWSDecodableShape {
+        /// Investigation performed by an agent for a security incid…Unique identifier for the specific investigation&gt;
+        public let investigationActions: [InvestigationAction]
+        /// Investigation performed by an agent for a security incident for next Token
+        public let nextToken: String?
+
+        @inlinable
+        public init(investigationActions: [InvestigationAction], nextToken: String? = nil) {
+            self.investigationActions = investigationActions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case investigationActions = "investigationActions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListMembershipItem: AWSDecodableShape {
         public let accountId: String?
         public let membershipArn: String?
@@ -1326,6 +1505,52 @@ extension SecurityIR {
         }
     }
 
+    public struct SendFeedbackRequest: AWSEncodableShape {
+        /// Send feedback based on request caseID
+        public let caseId: String
+        /// Send feedback based on request comments
+        public let comment: String?
+        /// Send feedback based on request result ID
+        public let resultId: String
+        /// Required enum value indicating user assessment of result q.....
+        public let usefulness: UsefulnessRating
+
+        @inlinable
+        public init(caseId: String, comment: String? = nil, resultId: String, usefulness: UsefulnessRating) {
+            self.caseId = caseId
+            self.comment = comment
+            self.resultId = resultId
+            self.usefulness = usefulness
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseId, key: "caseId")
+            try container.encodeIfPresent(self.comment, forKey: .comment)
+            request.encodePath(self.resultId, key: "resultId")
+            try container.encode(self.usefulness, forKey: .usefulness)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseId, name: "caseId", parent: name, max: 32)
+            try self.validate(self.caseId, name: "caseId", parent: name, min: 10)
+            try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^\\d{10,32}")
+            try self.validate(self.comment, name: "comment", parent: name, max: 1000)
+            try self.validate(self.comment, name: "comment", parent: name, min: 1)
+            try self.validate(self.resultId, name: "resultId", parent: name, pattern: "^inv-[a-z0-9]{10,32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "comment"
+            case usefulness = "usefulness"
+        }
+    }
+
+    public struct SendFeedbackResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
         /// Required element for TagResource to identify the ARN for the resource to add a tag to.
         public let resourceArn: String
@@ -1486,6 +1711,8 @@ extension SecurityIR {
         public let actualIncidentStartDate: Date?
         /// Required element for UpdateCase to identify the case ID for updates.
         public let caseId: String
+        /// Update the case request with case metadata
+        public let caseMetadata: [CaseMetadataEntry]?
         /// Optional element for UpdateCase to provide content for the description field.
         public let description: String?
         /// Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
@@ -1516,9 +1743,10 @@ extension SecurityIR {
         public let watchersToDelete: [Watcher]?
 
         @inlinable
-        public init(actualIncidentStartDate: Date? = nil, caseId: String, description: String? = nil, engagementType: EngagementType? = nil, impactedAccountsToAdd: [String]? = nil, impactedAccountsToDelete: [String]? = nil, impactedAwsRegionsToAdd: [ImpactedAwsRegion]? = nil, impactedAwsRegionsToDelete: [ImpactedAwsRegion]? = nil, impactedServicesToAdd: [String]? = nil, impactedServicesToDelete: [String]? = nil, reportedIncidentStartDate: Date? = nil, threatActorIpAddressesToAdd: [ThreatActorIp]? = nil, threatActorIpAddressesToDelete: [ThreatActorIp]? = nil, title: String? = nil, watchersToAdd: [Watcher]? = nil, watchersToDelete: [Watcher]? = nil) {
+        public init(actualIncidentStartDate: Date? = nil, caseId: String, caseMetadata: [CaseMetadataEntry]? = nil, description: String? = nil, engagementType: EngagementType? = nil, impactedAccountsToAdd: [String]? = nil, impactedAccountsToDelete: [String]? = nil, impactedAwsRegionsToAdd: [ImpactedAwsRegion]? = nil, impactedAwsRegionsToDelete: [ImpactedAwsRegion]? = nil, impactedServicesToAdd: [String]? = nil, impactedServicesToDelete: [String]? = nil, reportedIncidentStartDate: Date? = nil, threatActorIpAddressesToAdd: [ThreatActorIp]? = nil, threatActorIpAddressesToDelete: [ThreatActorIp]? = nil, title: String? = nil, watchersToAdd: [Watcher]? = nil, watchersToDelete: [Watcher]? = nil) {
             self.actualIncidentStartDate = actualIncidentStartDate
             self.caseId = caseId
+            self.caseMetadata = caseMetadata
             self.description = description
             self.engagementType = engagementType
             self.impactedAccountsToAdd = impactedAccountsToAdd
@@ -1540,6 +1768,7 @@ extension SecurityIR {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actualIncidentStartDate, forKey: .actualIncidentStartDate)
             request.encodePath(self.caseId, key: "caseId")
+            try container.encodeIfPresent(self.caseMetadata, forKey: .caseMetadata)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.engagementType, forKey: .engagementType)
             try container.encodeIfPresent(self.impactedAccountsToAdd, forKey: .impactedAccountsToAdd)
@@ -1560,6 +1789,8 @@ extension SecurityIR {
             try self.validate(self.caseId, name: "caseId", parent: name, max: 32)
             try self.validate(self.caseId, name: "caseId", parent: name, min: 10)
             try self.validate(self.caseId, name: "caseId", parent: name, pattern: "^\\d{10,32}")
+            try self.validate(self.caseMetadata, name: "caseMetadata", parent: name, max: 30)
+            try self.validate(self.caseMetadata, name: "caseMetadata", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 8000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.impactedAccountsToAdd?.forEach {
@@ -1610,6 +1841,7 @@ extension SecurityIR {
 
         private enum CodingKeys: String, CodingKey {
             case actualIncidentStartDate = "actualIncidentStartDate"
+            case caseMetadata = "caseMetadata"
             case description = "description"
             case engagementType = "engagementType"
             case impactedAccountsToAdd = "impactedAccountsToAdd"

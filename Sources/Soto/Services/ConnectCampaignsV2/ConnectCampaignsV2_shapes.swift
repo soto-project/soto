@@ -25,6 +25,11 @@ import Foundation
 extension ConnectCampaignsV2 {
     // MARK: Enums
 
+    public enum AgentAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case discard = "DISCARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CampaignDeletionPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleteAll = "DELETE_ALL"
         case retainAll = "RETAIN_ALL"
@@ -51,6 +56,7 @@ extension ConnectCampaignsV2 {
         case email = "EMAIL"
         case sms = "SMS"
         case telephony = "TELEPHONY"
+        case whatsapp = "WHATSAPP"
         public var description: String { return self.rawValue }
     }
 
@@ -68,6 +74,7 @@ extension ConnectCampaignsV2 {
         case email = "EMAIL"
         case sms = "SMS"
         case telephony = "TELEPHONY"
+        case whatsapp = "WHATSAPP"
         public var description: String { return self.rawValue }
     }
 
@@ -92,6 +99,12 @@ extension ConnectCampaignsV2 {
         case campaignOrchestration = "Campaign-Orchestration"
         case campaignSMS = "Campaign-SMS"
         case campaignTelephony = "Campaign-Telephony"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExternalCampaignType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case journey = "JOURNEY"
+        case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -168,6 +181,7 @@ extension ConnectCampaignsV2 {
         case email(EmailChannelSubtypeParameters)
         case sms(SmsChannelSubtypeParameters)
         case telephony(TelephonyChannelSubtypeParameters)
+        case whatsApp(WhatsAppChannelSubtypeParameters)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -178,6 +192,8 @@ extension ConnectCampaignsV2 {
                 try container.encode(value, forKey: .sms)
             case .telephony(let value):
                 try container.encode(value, forKey: .telephony)
+            case .whatsApp(let value):
+                try container.encode(value, forKey: .whatsApp)
             }
         }
 
@@ -189,6 +205,8 @@ extension ConnectCampaignsV2 {
                 try value.validate(name: "\(name).sms")
             case .telephony(let value):
                 try value.validate(name: "\(name).telephony")
+            case .whatsApp(let value):
+                try value.validate(name: "\(name).whatsApp")
             }
         }
 
@@ -196,11 +214,13 @@ extension ConnectCampaignsV2 {
             case email = "email"
             case sms = "sms"
             case telephony = "telephony"
+            case whatsApp = "whatsApp"
         }
     }
 
     public enum IntegrationConfig: AWSEncodableShape, Sendable {
         case customerProfiles(CustomerProfilesIntegrationConfig)
+        case lambda(LambdaIntegrationConfig)
         case qConnect(QConnectIntegrationConfig)
 
         public func encode(to encoder: Encoder) throws {
@@ -208,6 +228,8 @@ extension ConnectCampaignsV2 {
             switch self {
             case .customerProfiles(let value):
                 try container.encode(value, forKey: .customerProfiles)
+            case .lambda(let value):
+                try container.encode(value, forKey: .lambda)
             case .qConnect(let value):
                 try container.encode(value, forKey: .qConnect)
             }
@@ -217,6 +239,8 @@ extension ConnectCampaignsV2 {
             switch self {
             case .customerProfiles(let value):
                 try value.validate(name: "\(name).customerProfiles")
+            case .lambda(let value):
+                try value.validate(name: "\(name).lambda")
             case .qConnect(let value):
                 try value.validate(name: "\(name).qConnect")
             }
@@ -224,12 +248,14 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case customerProfiles = "customerProfiles"
+            case lambda = "lambda"
             case qConnect = "qConnect"
         }
     }
 
     public enum IntegrationIdentifier: AWSEncodableShape, Sendable {
         case customerProfiles(CustomerProfilesIntegrationIdentifier)
+        case lambda(LambdaIntegrationIdentifier)
         case qConnect(QConnectIntegrationIdentifier)
 
         public func encode(to encoder: Encoder) throws {
@@ -237,6 +263,8 @@ extension ConnectCampaignsV2 {
             switch self {
             case .customerProfiles(let value):
                 try container.encode(value, forKey: .customerProfiles)
+            case .lambda(let value):
+                try container.encode(value, forKey: .lambda)
             case .qConnect(let value):
                 try container.encode(value, forKey: .qConnect)
             }
@@ -246,6 +274,8 @@ extension ConnectCampaignsV2 {
             switch self {
             case .customerProfiles(let value):
                 try value.validate(name: "\(name).customerProfiles")
+            case .lambda(let value):
+                try value.validate(name: "\(name).lambda")
             case .qConnect(let value):
                 try value.validate(name: "\(name).qConnect")
             }
@@ -253,12 +283,14 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case customerProfiles = "customerProfiles"
+            case lambda = "lambda"
             case qConnect = "qConnect"
         }
     }
 
     public enum IntegrationSummary: AWSDecodableShape, Sendable {
         case customerProfiles(CustomerProfilesIntegrationSummary)
+        case lambda(LambdaIntegrationSummary)
         case qConnect(QConnectIntegrationSummary)
 
         public init(from decoder: Decoder) throws {
@@ -274,6 +306,9 @@ extension ConnectCampaignsV2 {
             case .customerProfiles:
                 let value = try container.decode(CustomerProfilesIntegrationSummary.self, forKey: .customerProfiles)
                 self = .customerProfiles(value)
+            case .lambda:
+                let value = try container.decode(LambdaIntegrationSummary.self, forKey: .lambda)
+                self = .lambda(value)
             case .qConnect:
                 let value = try container.decode(QConnectIntegrationSummary.self, forKey: .qConnect)
                 self = .qConnect(value)
@@ -282,6 +317,7 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case customerProfiles = "customerProfiles"
+            case lambda = "lambda"
             case qConnect = "qConnect"
         }
     }
@@ -339,6 +375,7 @@ extension ConnectCampaignsV2 {
     public enum TelephonyOutboundMode: AWSEncodableShape & AWSDecodableShape, Sendable {
         case agentless(AgentlessConfig)
         case predictive(PredictiveConfig)
+        case preview(PreviewConfig)
         case progressive(ProgressiveConfig)
 
         public init(from decoder: Decoder) throws {
@@ -357,6 +394,9 @@ extension ConnectCampaignsV2 {
             case .predictive:
                 let value = try container.decode(PredictiveConfig.self, forKey: .predictive)
                 self = .predictive(value)
+            case .preview:
+                let value = try container.decode(PreviewConfig.self, forKey: .preview)
+                self = .preview(value)
             case .progressive:
                 let value = try container.decode(ProgressiveConfig.self, forKey: .progressive)
                 self = .progressive(value)
@@ -370,6 +410,8 @@ extension ConnectCampaignsV2 {
                 try container.encode(value, forKey: .agentless)
             case .predictive(let value):
                 try container.encode(value, forKey: .predictive)
+            case .preview(let value):
+                try container.encode(value, forKey: .preview)
             case .progressive(let value):
                 try container.encode(value, forKey: .progressive)
             }
@@ -379,6 +421,8 @@ extension ConnectCampaignsV2 {
             switch self {
             case .predictive(let value):
                 try value.validate(name: "\(name).predictive")
+            case .preview(let value):
+                try value.validate(name: "\(name).preview")
             case .progressive(let value):
                 try value.validate(name: "\(name).progressive")
             default:
@@ -389,6 +433,7 @@ extension ConnectCampaignsV2 {
         private enum CodingKeys: String, CodingKey {
             case agentless = "agentless"
             case predictive = "predictive"
+            case preview = "preview"
             case progressive = "progressive"
         }
     }
@@ -441,7 +486,7 @@ extension ConnectCampaignsV2 {
 
     public struct Campaign: AWSDecodableShape {
         public let arn: String
-        public let channelSubtypeConfig: ChannelSubtypeConfig
+        public let channelSubtypeConfig: ChannelSubtypeConfig?
         public let communicationLimitsOverride: CommunicationLimitsConfig?
         public let communicationTimeConfig: CommunicationTimeConfig?
         public let connectCampaignFlowArn: String?
@@ -451,9 +496,10 @@ extension ConnectCampaignsV2 {
         public let schedule: Schedule?
         public let source: Source?
         public let tags: [String: String]?
+        public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
@@ -465,6 +511,7 @@ extension ConnectCampaignsV2 {
             self.schedule = schedule
             self.source = source
             self.tags = tags
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -479,6 +526,7 @@ extension ConnectCampaignsV2 {
             case schedule = "schedule"
             case source = "source"
             case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -507,9 +555,10 @@ extension ConnectCampaignsV2 {
         public let id: String
         public let name: String
         public let schedule: Schedule?
+        public let type: ExternalCampaignType?
 
         @inlinable
-        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil) {
+        public init(arn: String, channelSubtypes: [ChannelSubtype], connectCampaignFlowArn: String? = nil, connectInstanceId: String, id: String, name: String, schedule: Schedule? = nil, type: ExternalCampaignType? = nil) {
             self.arn = arn
             self.channelSubtypes = channelSubtypes
             self.connectCampaignFlowArn = connectCampaignFlowArn
@@ -517,6 +566,7 @@ extension ConnectCampaignsV2 {
             self.id = id
             self.name = name
             self.schedule = schedule
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -527,6 +577,7 @@ extension ConnectCampaignsV2 {
             case id = "id"
             case name = "name"
             case schedule = "schedule"
+            case type = "type"
         }
     }
 
@@ -534,24 +585,28 @@ extension ConnectCampaignsV2 {
         public let email: EmailChannelSubtypeConfig?
         public let sms: SmsChannelSubtypeConfig?
         public let telephony: TelephonyChannelSubtypeConfig?
+        public let whatsApp: WhatsAppChannelSubtypeConfig?
 
         @inlinable
-        public init(email: EmailChannelSubtypeConfig? = nil, sms: SmsChannelSubtypeConfig? = nil, telephony: TelephonyChannelSubtypeConfig? = nil) {
+        public init(email: EmailChannelSubtypeConfig? = nil, sms: SmsChannelSubtypeConfig? = nil, telephony: TelephonyChannelSubtypeConfig? = nil, whatsApp: WhatsAppChannelSubtypeConfig? = nil) {
             self.email = email
             self.sms = sms
             self.telephony = telephony
+            self.whatsApp = whatsApp
         }
 
         public func validate(name: String) throws {
             try self.email?.validate(name: "\(name).email")
             try self.sms?.validate(name: "\(name).sms")
             try self.telephony?.validate(name: "\(name).telephony")
+            try self.whatsApp?.validate(name: "\(name).whatsApp")
         }
 
         private enum CodingKeys: String, CodingKey {
             case email = "email"
             case sms = "sms"
             case telephony = "telephony"
+            case whatsApp = "whatsApp"
         }
     }
 
@@ -601,13 +656,15 @@ extension ConnectCampaignsV2 {
         public let localTimeZoneConfig: LocalTimeZoneConfig
         public let sms: TimeWindow?
         public let telephony: TimeWindow?
+        public let whatsApp: TimeWindow?
 
         @inlinable
-        public init(email: TimeWindow? = nil, localTimeZoneConfig: LocalTimeZoneConfig, sms: TimeWindow? = nil, telephony: TimeWindow? = nil) {
+        public init(email: TimeWindow? = nil, localTimeZoneConfig: LocalTimeZoneConfig, sms: TimeWindow? = nil, telephony: TimeWindow? = nil, whatsApp: TimeWindow? = nil) {
             self.email = email
             self.localTimeZoneConfig = localTimeZoneConfig
             self.sms = sms
             self.telephony = telephony
+            self.whatsApp = whatsApp
         }
 
         public func validate(name: String) throws {
@@ -615,6 +672,7 @@ extension ConnectCampaignsV2 {
             try self.localTimeZoneConfig.validate(name: "\(name).localTimeZoneConfig")
             try self.sms?.validate(name: "\(name).sms")
             try self.telephony?.validate(name: "\(name).telephony")
+            try self.whatsApp?.validate(name: "\(name).whatsApp")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -622,6 +680,7 @@ extension ConnectCampaignsV2 {
             case localTimeZoneConfig = "localTimeZoneConfig"
             case sms = "sms"
             case telephony = "telephony"
+            case whatsApp = "whatsApp"
         }
     }
 
@@ -648,7 +707,7 @@ extension ConnectCampaignsV2 {
     }
 
     public struct CreateCampaignRequest: AWSEncodableShape {
-        public let channelSubtypeConfig: ChannelSubtypeConfig
+        public let channelSubtypeConfig: ChannelSubtypeConfig?
         public let communicationLimitsOverride: CommunicationLimitsConfig?
         public let communicationTimeConfig: CommunicationTimeConfig?
         public let connectCampaignFlowArn: String?
@@ -657,9 +716,10 @@ extension ConnectCampaignsV2 {
         public let schedule: Schedule?
         public let source: Source?
         public let tags: [String: String]?
+        public let type: ExternalCampaignType?
 
         @inlinable
-        public init(channelSubtypeConfig: ChannelSubtypeConfig, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil) {
+        public init(channelSubtypeConfig: ChannelSubtypeConfig? = nil, communicationLimitsOverride: CommunicationLimitsConfig? = nil, communicationTimeConfig: CommunicationTimeConfig? = nil, connectCampaignFlowArn: String? = nil, connectInstanceId: String, name: String, schedule: Schedule? = nil, source: Source? = nil, tags: [String: String]? = nil, type: ExternalCampaignType? = nil) {
             self.channelSubtypeConfig = channelSubtypeConfig
             self.communicationLimitsOverride = communicationLimitsOverride
             self.communicationTimeConfig = communicationTimeConfig
@@ -669,17 +729,19 @@ extension ConnectCampaignsV2 {
             self.schedule = schedule
             self.source = source
             self.tags = tags
+            self.type = type
         }
 
         public func validate(name: String) throws {
-            try self.channelSubtypeConfig.validate(name: "\(name).channelSubtypeConfig")
+            try self.channelSubtypeConfig?.validate(name: "\(name).channelSubtypeConfig")
             try self.communicationLimitsOverride?.validate(name: "\(name).communicationLimitsOverride")
             try self.communicationTimeConfig?.validate(name: "\(name).communicationTimeConfig")
             try self.validate(self.connectCampaignFlowArn, name: "connectCampaignFlowArn", parent: name, max: 500)
             try self.validate(self.connectCampaignFlowArn, name: "connectCampaignFlowArn", parent: name, min: 20)
             try self.validate(self.connectCampaignFlowArn, name: "connectCampaignFlowArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.schedule?.validate(name: "\(name).schedule")
@@ -702,6 +764,7 @@ extension ConnectCampaignsV2 {
             case schedule = "schedule"
             case source = "source"
             case tags = "tags"
+            case type = "type"
         }
     }
 
@@ -804,7 +867,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -829,7 +893,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -854,7 +919,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -876,7 +942,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -901,7 +968,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -926,7 +994,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
             try self.integrationIdentifier.validate(name: "\(name).integrationIdentifier")
         }
 
@@ -951,7 +1020,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -973,7 +1043,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1193,7 +1264,8 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.campaignIds.forEach {
                 try validate($0, name: "campaignIds[]", parent: name, max: 256)
-                try validate($0, name: "campaignIds[]", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+                try validate($0, name: "campaignIds[]", parent: name, min: 1)
+                try validate($0, name: "campaignIds[]", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             }
         }
 
@@ -1234,7 +1306,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1269,7 +1342,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1304,7 +1378,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1339,7 +1414,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1406,7 +1482,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1504,6 +1581,57 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct LambdaIntegrationConfig: AWSEncodableShape {
+        public let functionArn: String
+
+        @inlinable
+        public init(functionArn: String) {
+            self.functionArn = functionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "functionArn"
+        }
+    }
+
+    public struct LambdaIntegrationIdentifier: AWSEncodableShape {
+        public let functionArn: String
+
+        @inlinable
+        public init(functionArn: String) {
+            self.functionArn = functionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:[a-z]{2}(-gov)?-[a-z]+-\\d:\\d{12}:function:([a-zA-Z0-9-_]+)(:([a-zA-Z0-9-_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "functionArn"
+        }
+    }
+
+    public struct LambdaIntegrationSummary: AWSDecodableShape {
+        public let functionArn: String
+
+        @inlinable
+        public init(functionArn: String) {
+            self.functionArn = functionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionArn = "functionArn"
+        }
+    }
+
     public struct ListCampaignsRequest: AWSEncodableShape {
         public let filters: CampaignFilters?
         public let maxResults: Int?
@@ -1568,7 +1696,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
@@ -1692,7 +1821,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1713,6 +1843,31 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case bandwidthAllocation = "bandwidthAllocation"
+        }
+    }
+
+    public struct PreviewConfig: AWSEncodableShape & AWSDecodableShape {
+        public let agentActions: [AgentAction]?
+        public let bandwidthAllocation: Double
+        public let timeoutConfig: TimeoutConfig
+
+        @inlinable
+        public init(agentActions: [AgentAction]? = nil, bandwidthAllocation: Double, timeoutConfig: TimeoutConfig) {
+            self.agentActions = agentActions
+            self.bandwidthAllocation = bandwidthAllocation
+            self.timeoutConfig = timeoutConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, max: 1.0)
+            try self.validate(self.bandwidthAllocation, name: "bandwidthAllocation", parent: name, min: 0.0)
+            try self.timeoutConfig.validate(name: "\(name).timeoutConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentActions = "agentActions"
+            case bandwidthAllocation = "bandwidthAllocation"
+            case timeoutConfig = "timeoutConfig"
         }
     }
 
@@ -1779,7 +1934,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
             try self.integrationConfig.validate(name: "\(name).integrationConfig")
         }
 
@@ -1808,7 +1964,8 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.communicationLimitsConfig.validate(name: "\(name).communicationLimitsConfig")
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1835,7 +1992,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             try self.outboundRequests.forEach {
                 try $0.validate(name: "\(name).outboundRequests[]")
             }
@@ -1883,7 +2041,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             try self.profileOutboundRequests.forEach {
                 try $0.validate(name: "\(name).profileOutboundRequests[]")
             }
@@ -2027,7 +2186,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2186,7 +2346,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2211,7 +2372,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, max: 256)
-            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[a-zA-Z0-9_\\-.]*$")
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, min: 1)
+            try self.validate(self.connectInstanceId, name: "connectInstanceId", parent: name, pattern: "^[-_.a-zA-Z0-9]+$")
             try self.encryptionConfig.validate(name: "\(name).encryptionConfig")
         }
 
@@ -2249,7 +2411,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2372,13 +2535,15 @@ extension ConnectCampaignsV2 {
         public let attributes: [String: String]
         public let connectSourcePhoneNumber: String?
         public let destinationPhoneNumber: String
+        public let ringTimeout: Int?
 
         @inlinable
-        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String], connectSourcePhoneNumber: String? = nil, destinationPhoneNumber: String) {
+        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String], connectSourcePhoneNumber: String? = nil, destinationPhoneNumber: String, ringTimeout: Int? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
             self.destinationPhoneNumber = destinationPhoneNumber
+            self.ringTimeout = ringTimeout
         }
 
         public func validate(name: String) throws {
@@ -2391,6 +2556,8 @@ extension ConnectCampaignsV2 {
             try self.validate(self.connectSourcePhoneNumber, name: "connectSourcePhoneNumber", parent: name, max: 100)
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
             try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^[\\d\\-+]*$")
+            try self.validate(self.ringTimeout, name: "ringTimeout", parent: name, max: 60)
+            try self.validate(self.ringTimeout, name: "ringTimeout", parent: name, min: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,6 +2565,7 @@ extension ConnectCampaignsV2 {
             case attributes = "attributes"
             case connectSourcePhoneNumber = "connectSourcePhoneNumber"
             case destinationPhoneNumber = "destinationPhoneNumber"
+            case ringTimeout = "ringTimeout"
         }
     }
 
@@ -2405,23 +2573,28 @@ extension ConnectCampaignsV2 {
         public let answerMachineDetectionConfig: AnswerMachineDetectionConfig?
         public let connectContactFlowId: String
         public let connectSourcePhoneNumber: String?
+        public let ringTimeout: Int?
 
         @inlinable
-        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String, connectSourcePhoneNumber: String? = nil) {
+        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, connectContactFlowId: String, connectSourcePhoneNumber: String? = nil, ringTimeout: Int? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.connectContactFlowId = connectContactFlowId
             self.connectSourcePhoneNumber = connectSourcePhoneNumber
+            self.ringTimeout = ringTimeout
         }
 
         public func validate(name: String) throws {
             try self.validate(self.connectContactFlowId, name: "connectContactFlowId", parent: name, max: 500)
             try self.validate(self.connectSourcePhoneNumber, name: "connectSourcePhoneNumber", parent: name, max: 100)
+            try self.validate(self.ringTimeout, name: "ringTimeout", parent: name, max: 60)
+            try self.validate(self.ringTimeout, name: "ringTimeout", parent: name, min: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
             case answerMachineDetectionConfig = "answerMachineDetectionConfig"
             case connectContactFlowId = "connectContactFlowId"
             case connectSourcePhoneNumber = "connectSourcePhoneNumber"
+            case ringTimeout = "ringTimeout"
         }
     }
 
@@ -2488,6 +2661,24 @@ extension ConnectCampaignsV2 {
         }
     }
 
+    public struct TimeoutConfig: AWSEncodableShape & AWSDecodableShape {
+        public let durationInSeconds: Int
+
+        @inlinable
+        public init(durationInSeconds: Int) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, max: 300)
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "durationInSeconds"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public let arn: String
         public let tagKeys: [String]
@@ -2540,7 +2731,8 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.channelSubtypeConfig.validate(name: "\(name).channelSubtypeConfig")
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2568,7 +2760,8 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.communicationLimitsOverride.validate(name: "\(name).communicationLimitsOverride")
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2596,7 +2789,8 @@ extension ConnectCampaignsV2 {
         public func validate(name: String) throws {
             try self.communicationTimeConfig.validate(name: "\(name).communicationTimeConfig")
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2626,7 +2820,8 @@ extension ConnectCampaignsV2 {
             try self.validate(self.connectCampaignFlowArn, name: "connectCampaignFlowArn", parent: name, min: 20)
             try self.validate(self.connectCampaignFlowArn, name: "connectCampaignFlowArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2653,7 +2848,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
@@ -2682,7 +2878,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             try self.schedule.validate(name: "\(name).schedule")
         }
 
@@ -2710,7 +2907,8 @@ extension ConnectCampaignsV2 {
 
         public func validate(name: String) throws {
             try self.validate(self.id, name: "id", parent: name, max: 256)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-:/]*$")
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[-:/a-zA-Z0-9]+$")
             try self.source.validate(name: "\(name).source")
         }
 
@@ -2738,6 +2936,95 @@ extension ConnectCampaignsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct WhatsAppChannelSubtypeConfig: AWSEncodableShape & AWSDecodableShape {
+        public let capacity: Double?
+        public let defaultOutboundConfig: WhatsAppOutboundConfig
+        public let outboundMode: WhatsAppOutboundMode
+
+        @inlinable
+        public init(capacity: Double? = nil, defaultOutboundConfig: WhatsAppOutboundConfig, outboundMode: WhatsAppOutboundMode) {
+            self.capacity = capacity
+            self.defaultOutboundConfig = defaultOutboundConfig
+            self.outboundMode = outboundMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.capacity, name: "capacity", parent: name, max: 1.0)
+            try self.validate(self.capacity, name: "capacity", parent: name, min: 0.01)
+            try self.defaultOutboundConfig.validate(name: "\(name).defaultOutboundConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "capacity"
+            case defaultOutboundConfig = "defaultOutboundConfig"
+            case outboundMode = "outboundMode"
+        }
+    }
+
+    public struct WhatsAppChannelSubtypeParameters: AWSEncodableShape {
+        public let connectSourcePhoneNumberArn: String?
+        public let destinationPhoneNumber: String
+        public let templateArn: String?
+        public let templateParameters: [String: String]
+
+        @inlinable
+        public init(connectSourcePhoneNumberArn: String? = nil, destinationPhoneNumber: String, templateArn: String? = nil, templateParameters: [String: String]) {
+            self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.templateArn = templateArn
+            self.templateParameters = templateParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, max: 500)
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, min: 20)
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, max: 20)
+            try self.validate(self.destinationPhoneNumber, name: "destinationPhoneNumber", parent: name, pattern: "^[\\d\\-+]*$")
+            try self.validate(self.templateArn, name: "templateArn", parent: name, max: 500)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, min: 20)
+            try self.validate(self.templateArn, name: "templateArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+            try self.templateParameters.forEach {
+                try validate($0.key, name: "templateParameters.key", parent: name, max: 32767)
+                try validate($0.key, name: "templateParameters.key", parent: name, pattern: "^[a-zA-Z0-9\\-_]+$")
+                try validate($0.value, name: "templateParameters[\"\($0.key)\"]", parent: name, max: 32767)
+                try validate($0.value, name: "templateParameters[\"\($0.key)\"]", parent: name, pattern: "^.*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectSourcePhoneNumberArn = "connectSourcePhoneNumberArn"
+            case destinationPhoneNumber = "destinationPhoneNumber"
+            case templateArn = "templateArn"
+            case templateParameters = "templateParameters"
+        }
+    }
+
+    public struct WhatsAppOutboundConfig: AWSEncodableShape & AWSDecodableShape {
+        public let connectSourcePhoneNumberArn: String
+        public let wisdomTemplateArn: String
+
+        @inlinable
+        public init(connectSourcePhoneNumberArn: String, wisdomTemplateArn: String) {
+            self.connectSourcePhoneNumberArn = connectSourcePhoneNumberArn
+            self.wisdomTemplateArn = wisdomTemplateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, max: 500)
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, min: 20)
+            try self.validate(self.connectSourcePhoneNumberArn, name: "connectSourcePhoneNumberArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+            try self.validate(self.wisdomTemplateArn, name: "wisdomTemplateArn", parent: name, max: 500)
+            try self.validate(self.wisdomTemplateArn, name: "wisdomTemplateArn", parent: name, min: 20)
+            try self.validate(self.wisdomTemplateArn, name: "wisdomTemplateArn", parent: name, pattern: "^arn:[a-zA-Z0-9-]+:[a-zA-Z0-9-]+:[a-z]{2}-[a-z]+-\\d{1,2}:[a-zA-Z0-9-]+:[^:]+(?:/[^:]+)*(?:/[^:]+)?(?:\\:[^:]+)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectSourcePhoneNumberArn = "connectSourcePhoneNumberArn"
+            case wisdomTemplateArn = "wisdomTemplateArn"
         }
     }
 
@@ -2804,6 +3091,19 @@ extension ConnectCampaignsV2 {
     }
 
     public struct SmsOutboundMode: AWSEncodableShape & AWSDecodableShape {
+        public let agentless: AgentlessConfig?
+
+        @inlinable
+        public init(agentless: AgentlessConfig? = nil) {
+            self.agentless = agentless
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentless = "agentless"
+        }
+    }
+
+    public struct WhatsAppOutboundMode: AWSEncodableShape & AWSDecodableShape {
         public let agentless: AgentlessConfig?
 
         @inlinable

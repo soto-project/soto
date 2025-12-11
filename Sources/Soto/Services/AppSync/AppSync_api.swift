@@ -246,7 +246,7 @@ public struct AppSync: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createApi(
-        eventConfig: EventConfig? = nil,
+        eventConfig: EventConfig,
         name: String,
         ownerContact: String? = nil,
         tags: [String: String]? = nil,
@@ -2377,7 +2377,7 @@ public struct AppSync: AWSService {
     @inlinable
     public func updateApi(
         apiId: String,
-        eventConfig: EventConfig? = nil,
+        eventConfig: EventConfig,
         name: String,
         ownerContact: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        

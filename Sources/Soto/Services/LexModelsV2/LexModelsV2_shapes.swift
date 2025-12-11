@@ -229,6 +229,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssistedNluMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fallback = "Fallback"
+        case primary = "Primary"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case intentId = "IntentId"
         case slotTypeId = "SlotTypeId"
@@ -635,6 +641,20 @@ extension LexModelsV2 {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "Ascending"
         case descending = "Descending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpeechDetectionSensitivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "Default"
+        case highNoiseTolerance = "HighNoiseTolerance"
+        case maximumNoiseTolerance = "MaximumNoiseTolerance"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SpeechModelPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deepgram = "Deepgram"
+        case neural = "Neural"
+        case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
@@ -2371,14 +2391,23 @@ extension LexModelsV2 {
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot.  For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the PostText operation would be:    AMAZON.FallbackIntent     IntentA     IntentB     IntentC
         public let nluIntentConfidenceThreshold: Double?
+        /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// Speech-to-text settings to apply when importing the bot locale configuration.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// Unified speech settings to apply when importing the bot locale configuration.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String, botVersion: String, localeId: String, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -2391,6 +2420,8 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
+            try self.speechRecognitionSettings?.validate(name: "\(name).speechRecognitionSettings")
+            try self.unifiedSpeechSettings?.validate(name: "\(name).unifiedSpeechSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2398,6 +2429,9 @@ extension LexModelsV2 {
             case botVersion = "botVersion"
             case localeId = "localeId"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -3440,17 +3474,26 @@ extension LexModelsV2 {
         public let localeId: String
         /// Determines the threshold where Amazon Lex will insert the AMAZON.FallbackIntent, AMAZON.KendraSearchIntent, or both when returning alternative intents. AMAZON.FallbackIntent and AMAZON.KendraSearchIntent are only inserted if they are configured for the bot. For example, suppose a bot is configured with the confidence threshold of 0.80 and the AMAZON.FallbackIntent. Amazon Lex returns three alternative intents with the following confidence scores: IntentA (0.70), IntentB (0.60), IntentC (0.50). The response from the RecognizeText operation would be:   AMAZON.FallbackIntent   IntentA   IntentB   IntentC
         public let nluIntentConfidenceThreshold: Double
+        /// The sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// Speech-to-text settings to configure for the new bot locale.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// Unified speech settings to configure for the new bot locale.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -3463,6 +3506,9 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             try container.encode(self.localeId, forKey: .localeId)
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.speechDetectionSensitivity, forKey: .speechDetectionSensitivity)
+            try container.encodeIfPresent(self.speechRecognitionSettings, forKey: .speechRecognitionSettings)
+            try container.encodeIfPresent(self.unifiedSpeechSettings, forKey: .unifiedSpeechSettings)
             try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
         }
 
@@ -3477,6 +3523,8 @@ extension LexModelsV2 {
             try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
+            try self.speechRecognitionSettings?.validate(name: "\(name).speechRecognitionSettings")
+            try self.unifiedSpeechSettings?.validate(name: "\(name).unifiedSpeechSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3484,6 +3532,9 @@ extension LexModelsV2 {
             case generativeAISettings = "generativeAISettings"
             case localeId = "localeId"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -3506,11 +3557,17 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The specified confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents.
         public let nluIntentConfidenceThreshold: Double?
+        /// The sensitivity level for voice activity detection (VAD) that was specified for the bot locale.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// The speech-to-text settings configured for the created bot locale.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// The unified speech settings configured for the created bot locale.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         /// The Amazon Polly voice ID that Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -3520,6 +3577,9 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -3533,6 +3593,9 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case localeName = "localeName"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -3890,6 +3953,8 @@ extension LexModelsV2 {
         public let intentClosingSetting: IntentClosingSetting?
         /// Provides prompts that Amazon Lex sends to the user to confirm the completion of an intent. If the user answers "no," the settings contain a statement that is sent to the user to end the intent.
         public let intentConfirmationSetting: IntentConfirmationSetting?
+        /// A display name for the intent. If configured, This name will be shown to users during Intent Disambiguation instead of the intent name. Display names should be user-friendly, descriptive and match the intent's purpose to improve user experience during disambiguation.
+        public let intentDisplayName: String?
         /// The name of the intent. Intent names must be unique in the locale that contains the intent and cannot match the name of any built-in intent.
         public let intentName: String
         /// Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. The AMAZON.KendraSearchIntent intent is called when Amazon Lex can't determine another intent to invoke.
@@ -3908,7 +3973,7 @@ extension LexModelsV2 {
         public let sampleUtterances: [SampleUtterance]?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentDisplayName: String? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -3918,6 +3983,7 @@ extension LexModelsV2 {
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
+            self.intentDisplayName = intentDisplayName
             self.intentName = intentName
             self.kendraConfiguration = kendraConfiguration
             self.localeId = localeId
@@ -3940,6 +4006,7 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.inputContexts, forKey: .inputContexts)
             try container.encodeIfPresent(self.intentClosingSetting, forKey: .intentClosingSetting)
             try container.encodeIfPresent(self.intentConfirmationSetting, forKey: .intentConfirmationSetting)
+            try container.encodeIfPresent(self.intentDisplayName, forKey: .intentDisplayName)
             try container.encode(self.intentName, forKey: .intentName)
             try container.encodeIfPresent(self.kendraConfiguration, forKey: .kendraConfiguration)
             request.encodePath(self.localeId, key: "localeId")
@@ -3966,6 +4033,8 @@ extension LexModelsV2 {
             try self.validate(self.inputContexts, name: "inputContexts", parent: name, max: 5)
             try self.intentClosingSetting?.validate(name: "\(name).intentClosingSetting")
             try self.intentConfirmationSetting?.validate(name: "\(name).intentConfirmationSetting")
+            try self.validate(self.intentDisplayName, name: "intentDisplayName", parent: name, max: 100)
+            try self.validate(self.intentDisplayName, name: "intentDisplayName", parent: name, min: 1)
             try self.validate(self.intentName, name: "intentName", parent: name, max: 100)
             try self.validate(self.intentName, name: "intentName", parent: name, min: 1)
             try self.validate(self.intentName, name: "intentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
@@ -3986,6 +4055,7 @@ extension LexModelsV2 {
             case inputContexts = "inputContexts"
             case intentClosingSetting = "intentClosingSetting"
             case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentDisplayName = "intentDisplayName"
             case intentName = "intentName"
             case kendraConfiguration = "kendraConfiguration"
             case outputContexts = "outputContexts"
@@ -4017,6 +4087,8 @@ extension LexModelsV2 {
         public let intentClosingSetting: IntentClosingSetting?
         /// The confirmation setting specified for the intent.
         public let intentConfirmationSetting: IntentConfirmationSetting?
+        /// The display name specified for the intent.
+        public let intentDisplayName: String?
         /// A unique identifier for the intent.
         public let intentId: String?
         /// The name specified for the intent.
@@ -4037,7 +4109,7 @@ extension LexModelsV2 {
         public let sampleUtterances: [SampleUtterance]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentDisplayName: String? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -4048,6 +4120,7 @@ extension LexModelsV2 {
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.kendraConfiguration = kendraConfiguration
@@ -4070,6 +4143,7 @@ extension LexModelsV2 {
             case inputContexts = "inputContexts"
             case intentClosingSetting = "intentClosingSetting"
             case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentDisplayName = "intentDisplayName"
             case intentId = "intentId"
             case intentName = "intentName"
             case kendraConfiguration = "kendraConfiguration"
@@ -4817,6 +4891,33 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case endDateTime = "endDateTime"
             case startDateTime = "startDateTime"
+        }
+    }
+
+    public struct DeepgramSpeechModelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret that contains the Deepgram API token.
+        public let apiTokenSecretArn: String
+        /// The identifier of the Deepgram speech-to-text model to use for processing speech input.
+        public let modelId: String?
+
+        @inlinable
+        public init(apiTokenSecretArn: String, modelId: String? = nil) {
+            self.apiTokenSecretArn = apiTokenSecretArn
+            self.modelId = modelId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiTokenSecretArn, name: "apiTokenSecretArn", parent: name, max: 2048)
+            try self.validate(self.apiTokenSecretArn, name: "apiTokenSecretArn", parent: name, min: 20)
+            try self.validate(self.apiTokenSecretArn, name: "apiTokenSecretArn", parent: name, pattern: "^arn:aws[A-Za-z-]*:secretsmanager:[a-z0-9-]{1,20}:[0-9]{12}:secret:[A-Za-z0-9/_+=.@-]{1,512}-[A-Za-z0-9]{6}$")
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 32)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^[A-Za-z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiTokenSecretArn = "apiTokenSecretArn"
+            case modelId = "modelId"
         }
     }
 
@@ -5723,11 +5824,17 @@ extension LexModelsV2 {
         public let recommendedActions: [String]?
         /// The number of slot types defined for the locale.
         public let slotTypesCount: Int?
+        /// The sensitivity level for voice activity detection (VAD) configured for the bot locale.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// The speech-to-text settings configured for the bot locale.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// The unified speech settings configured for the bot locale.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
             self.botLocaleStatus = botLocaleStatus
@@ -5744,6 +5851,9 @@ extension LexModelsV2 {
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.recommendedActions = recommendedActions
             self.slotTypesCount = slotTypesCount
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -5764,6 +5874,9 @@ extension LexModelsV2 {
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case recommendedActions = "recommendedActions"
             case slotTypesCount = "slotTypesCount"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -6471,6 +6584,8 @@ extension LexModelsV2 {
         public let intentClosingSetting: IntentClosingSetting?
         /// Prompts that Amazon Lex sends to the user to confirm completion of an intent.
         public let intentConfirmationSetting: IntentConfirmationSetting?
+        /// The display name specified for the intent.
+        public let intentDisplayName: String?
         /// The unique identifier assigned to the intent when it was created.
         public let intentId: String?
         /// The name specified for the intent.
@@ -6495,7 +6610,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentDisplayName: String? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -6506,6 +6621,7 @@ extension LexModelsV2 {
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.kendraConfiguration = kendraConfiguration
@@ -6530,6 +6646,7 @@ extension LexModelsV2 {
             case inputContexts = "inputContexts"
             case intentClosingSetting = "intentClosingSetting"
             case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentDisplayName = "intentDisplayName"
             case intentId = "intentId"
             case intentName = "intentName"
             case kendraConfiguration = "kendraConfiguration"
@@ -8249,6 +8366,35 @@ extension LexModelsV2 {
         }
     }
 
+    public struct IntentDisambiguationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Provides a custom message that will be displayed before presenting the disambiguation options to users. This message helps set the context for users and can be customized to match your bot's tone and brand. If not specified, a default message will be used.
+        public let customDisambiguationMessage: String?
+        /// Determines whether the Intent Disambiguation feature is enabled. When set to true, Amazon Lex will present disambiguation options to users when multiple intents could match their input, with the default being false.
+        public let enabled: Bool
+        /// Specifies the maximum number of intent options (2-5) to present to users when disambiguation is needed. This setting determines how many intent options will be shown to users when the system detects ambiguous input. The default value is 3.
+        public let maxDisambiguationIntents: Int?
+
+        @inlinable
+        public init(customDisambiguationMessage: String? = nil, enabled: Bool, maxDisambiguationIntents: Int? = nil) {
+            self.customDisambiguationMessage = customDisambiguationMessage
+            self.enabled = enabled
+            self.maxDisambiguationIntents = maxDisambiguationIntents
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customDisambiguationMessage, name: "customDisambiguationMessage", parent: name, max: 1000)
+            try self.validate(self.customDisambiguationMessage, name: "customDisambiguationMessage", parent: name, min: 1)
+            try self.validate(self.maxDisambiguationIntents, name: "maxDisambiguationIntents", parent: name, max: 5)
+            try self.validate(self.maxDisambiguationIntents, name: "maxDisambiguationIntents", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customDisambiguationMessage = "customDisambiguationMessage"
+            case enabled = "enabled"
+            case maxDisambiguationIntents = "maxDisambiguationIntents"
+        }
+    }
+
     public struct IntentFilter: AWSEncodableShape {
         /// The name of the field to use for the filter.
         public let name: IntentFilterName
@@ -8384,6 +8530,8 @@ extension LexModelsV2 {
         public let description: String?
         /// The input contexts that must be active for this intent to be considered for recognition.
         public let inputContexts: [InputContext]?
+        /// The display name of the intent.
+        public let intentDisplayName: String?
         /// The unique identifier assigned to the intent. Use this ID to get detailed information about the intent with the DescribeIntent operation.
         public let intentId: String?
         /// The name of the intent.
@@ -8396,9 +8544,10 @@ extension LexModelsV2 {
         public let parentIntentSignature: String?
 
         @inlinable
-        public init(description: String? = nil, inputContexts: [InputContext]? = nil, intentId: String? = nil, intentName: String? = nil, lastUpdatedDateTime: Date? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil) {
+        public init(description: String? = nil, inputContexts: [InputContext]? = nil, intentDisplayName: String? = nil, intentId: String? = nil, intentName: String? = nil, lastUpdatedDateTime: Date? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil) {
             self.description = description
             self.inputContexts = inputContexts
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -8409,6 +8558,7 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case inputContexts = "inputContexts"
+            case intentDisplayName = "intentDisplayName"
             case intentId = "intentId"
             case intentName = "intentName"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -10985,16 +11135,28 @@ extension LexModelsV2 {
     }
 
     public struct NluImprovementSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether the assisted nlu feature is enabled.
+        /// Specifies the mode for Assisted NLU operation. Use Primary to make Assisted NLU the primary intent recognition method, or Fallback to use it only when standard NLU confidence is low.
+        public let assistedNluMode: AssistedNluMode?
+        /// Determines whether the Assisted NLU feature is enabled for the bot. When set to true, Amazon Lex uses advanced models to improve intent recognition and slot resolution, with the default being false.
         public let enabled: Bool
+        /// An object containing specifications for the Intent Disambiguation feature within the Assisted NLU settings. These settings determine how the bot handles ambiguous user inputs that could match multiple intents.
+        public let intentDisambiguationSettings: IntentDisambiguationSettings?
 
         @inlinable
-        public init(enabled: Bool) {
+        public init(assistedNluMode: AssistedNluMode? = nil, enabled: Bool, intentDisambiguationSettings: IntentDisambiguationSettings? = nil) {
+            self.assistedNluMode = assistedNluMode
             self.enabled = enabled
+            self.intentDisambiguationSettings = intentDisambiguationSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.intentDisambiguationSettings?.validate(name: "\(name).intentDisambiguationSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assistedNluMode = "assistedNluMode"
             case enabled = "enabled"
+            case intentDisambiguationSettings = "intentDisambiguationSettings"
         }
     }
 
@@ -11604,7 +11766,7 @@ extension LexModelsV2 {
     }
 
     public struct RuntimeSettings: AWSEncodableShape & AWSDecodableShape {
-        /// An object containing specifications for the assisted nlu feature.
+        /// An object containing specifications for the Assisted NLU feature within the bot's runtime settings. These settings determine how the bot processes and interprets user utterances during conversations.
         public let nluImprovement: NluImprovementSpecification?
         /// An object containing specifications for the assisted slot resolution feature.
         public let slotResolutionImprovement: SlotResolutionImprovementSpecification?
@@ -11616,6 +11778,7 @@ extension LexModelsV2 {
         }
 
         public func validate(name: String) throws {
+            try self.nluImprovement?.validate(name: "\(name).nluImprovement")
             try self.slotResolutionImprovement?.validate(name: "\(name).slotResolutionImprovement")
         }
 
@@ -12538,6 +12701,68 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case slotTypeId = "slotTypeId"
             case valueElicitationSetting = "valueElicitationSetting"
+        }
+    }
+
+    public struct SpeechFoundationModel: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the foundation model used for speech processing.
+        public let modelArn: String
+        /// The identifier of the voice to use for speech synthesis with the foundation model.
+        public let voiceId: String?
+
+        @inlinable
+        public init(modelArn: String, voiceId: String? = nil) {
+            self.modelArn = modelArn
+            self.voiceId = voiceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model\\/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "modelArn"
+            case voiceId = "voiceId"
+        }
+    }
+
+    public struct SpeechModelConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for using Deepgram as the speech-to-text provider.
+        public let deepgramConfig: DeepgramSpeechModelConfig?
+
+        @inlinable
+        public init(deepgramConfig: DeepgramSpeechModelConfig? = nil) {
+            self.deepgramConfig = deepgramConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.deepgramConfig?.validate(name: "\(name).deepgramConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deepgramConfig = "deepgramConfig"
+        }
+    }
+
+    public struct SpeechRecognitionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for the selected speech-to-text model.
+        public let speechModelConfig: SpeechModelConfig?
+        /// The speech-to-text model to use.
+        public let speechModelPreference: SpeechModelPreference?
+
+        @inlinable
+        public init(speechModelConfig: SpeechModelConfig? = nil, speechModelPreference: SpeechModelPreference? = nil) {
+            self.speechModelConfig = speechModelConfig
+            self.speechModelPreference = speechModelPreference
+        }
+
+        public func validate(name: String) throws {
+            try self.speechModelConfig?.validate(name: "\(name).speechModelConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speechModelConfig = "speechModelConfig"
+            case speechModelPreference = "speechModelPreference"
         }
     }
 
@@ -13823,6 +14048,24 @@ extension LexModelsV2 {
         }
     }
 
+    public struct UnifiedSpeechSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The foundation model configuration to use for unified speech processing capabilities.
+        public let speechFoundationModel: SpeechFoundationModel
+
+        @inlinable
+        public init(speechFoundationModel: SpeechFoundationModel) {
+            self.speechFoundationModel = speechFoundationModel
+        }
+
+        public func validate(name: String) throws {
+            try self.speechFoundationModel.validate(name: "\(name).speechFoundationModel")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case speechFoundationModel = "speechFoundationModel"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
         public let resourceARN: String
@@ -13998,17 +14241,26 @@ extension LexModelsV2 {
         public let localeId: String
         /// The new confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double
+        /// The new sensitivity level for voice activity detection (VAD) in the bot locale. This setting helps optimize speech recognition accuracy by adjusting how the system responds to background noise during voice interactions.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// Updated speech-to-text settings to apply to the bot locale.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// Updated unified speech settings to apply to the bot locale.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         /// The new Amazon Polly voice Amazon Lex should use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, generativeAISettings: GenerativeAISettings? = nil, localeId: String, nluIntentConfidenceThreshold: Double, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
             self.generativeAISettings = generativeAISettings
             self.localeId = localeId
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -14021,6 +14273,9 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.generativeAISettings, forKey: .generativeAISettings)
             request.encodePath(self.localeId, key: "localeId")
             try container.encode(self.nluIntentConfidenceThreshold, forKey: .nluIntentConfidenceThreshold)
+            try container.encodeIfPresent(self.speechDetectionSensitivity, forKey: .speechDetectionSensitivity)
+            try container.encodeIfPresent(self.speechRecognitionSettings, forKey: .speechRecognitionSettings)
+            try container.encodeIfPresent(self.unifiedSpeechSettings, forKey: .unifiedSpeechSettings)
             try container.encodeIfPresent(self.voiceSettings, forKey: .voiceSettings)
         }
 
@@ -14035,12 +14290,17 @@ extension LexModelsV2 {
             try self.generativeAISettings?.validate(name: "\(name).generativeAISettings")
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, max: 1.0)
             try self.validate(self.nluIntentConfidenceThreshold, name: "nluIntentConfidenceThreshold", parent: name, min: 0.0)
+            try self.speechRecognitionSettings?.validate(name: "\(name).speechRecognitionSettings")
+            try self.unifiedSpeechSettings?.validate(name: "\(name).unifiedSpeechSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case generativeAISettings = "generativeAISettings"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -14070,11 +14330,17 @@ extension LexModelsV2 {
         public let nluIntentConfidenceThreshold: Double?
         /// Recommended actions to take to resolve an error in the failureReasons field.
         public let recommendedActions: [String]?
+        /// The updated sensitivity level for voice activity detection (VAD) in the bot locale.
+        public let speechDetectionSensitivity: SpeechDetectionSensitivity?
+        /// The updated speech-to-text settings for the bot locale.
+        public let speechRecognitionSettings: SpeechRecognitionSettings?
+        /// The updated unified speech settings for the bot locale.
+        public let unifiedSpeechSettings: UnifiedSpeechSettings?
         /// The updated Amazon Polly voice to use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
         @inlinable
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, generativeAISettings: GenerativeAISettings? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, speechDetectionSensitivity: SpeechDetectionSensitivity? = nil, speechRecognitionSettings: SpeechRecognitionSettings? = nil, unifiedSpeechSettings: UnifiedSpeechSettings? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -14087,6 +14353,9 @@ extension LexModelsV2 {
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
             self.recommendedActions = recommendedActions
+            self.speechDetectionSensitivity = speechDetectionSensitivity
+            self.speechRecognitionSettings = speechRecognitionSettings
+            self.unifiedSpeechSettings = unifiedSpeechSettings
             self.voiceSettings = voiceSettings
         }
 
@@ -14103,6 +14372,9 @@ extension LexModelsV2 {
             case localeName = "localeName"
             case nluIntentConfidenceThreshold = "nluIntentConfidenceThreshold"
             case recommendedActions = "recommendedActions"
+            case speechDetectionSensitivity = "speechDetectionSensitivity"
+            case speechRecognitionSettings = "speechRecognitionSettings"
+            case unifiedSpeechSettings = "unifiedSpeechSettings"
             case voiceSettings = "voiceSettings"
         }
     }
@@ -14423,6 +14695,8 @@ extension LexModelsV2 {
         public let intentClosingSetting: IntentClosingSetting?
         /// New prompts that Amazon Lex sends to the user to confirm the completion of an intent.
         public let intentConfirmationSetting: IntentConfirmationSetting?
+        /// The new display name for the intent.
+        public let intentDisplayName: String?
         /// The unique identifier of the intent to update.
         public let intentId: String
         /// The new name for the intent.
@@ -14445,7 +14719,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentDisplayName: String? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -14455,6 +14729,7 @@ extension LexModelsV2 {
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.kendraConfiguration = kendraConfiguration
@@ -14479,6 +14754,7 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.inputContexts, forKey: .inputContexts)
             try container.encodeIfPresent(self.intentClosingSetting, forKey: .intentClosingSetting)
             try container.encodeIfPresent(self.intentConfirmationSetting, forKey: .intentConfirmationSetting)
+            try container.encodeIfPresent(self.intentDisplayName, forKey: .intentDisplayName)
             request.encodePath(self.intentId, key: "intentId")
             try container.encode(self.intentName, forKey: .intentName)
             try container.encodeIfPresent(self.kendraConfiguration, forKey: .kendraConfiguration)
@@ -14507,6 +14783,8 @@ extension LexModelsV2 {
             try self.validate(self.inputContexts, name: "inputContexts", parent: name, max: 5)
             try self.intentClosingSetting?.validate(name: "\(name).intentClosingSetting")
             try self.intentConfirmationSetting?.validate(name: "\(name).intentConfirmationSetting")
+            try self.validate(self.intentDisplayName, name: "intentDisplayName", parent: name, max: 100)
+            try self.validate(self.intentDisplayName, name: "intentDisplayName", parent: name, min: 1)
             try self.validate(self.intentId, name: "intentId", parent: name, max: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, min: 10)
             try self.validate(self.intentId, name: "intentId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -14533,6 +14811,7 @@ extension LexModelsV2 {
             case inputContexts = "inputContexts"
             case intentClosingSetting = "intentClosingSetting"
             case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentDisplayName = "intentDisplayName"
             case intentName = "intentName"
             case kendraConfiguration = "kendraConfiguration"
             case outputContexts = "outputContexts"
@@ -14565,6 +14844,8 @@ extension LexModelsV2 {
         public let intentClosingSetting: IntentClosingSetting?
         /// The updated prompts that Amazon Lex sends to the user to confirm the completion of an intent.
         public let intentConfirmationSetting: IntentConfirmationSetting?
+        /// The updated display name of the intent.
+        public let intentDisplayName: String?
         /// The identifier of the intent that was updated.
         public let intentId: String?
         /// The updated name of the intent.
@@ -14589,7 +14870,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentDisplayName: String? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -14600,6 +14881,7 @@ extension LexModelsV2 {
             self.inputContexts = inputContexts
             self.intentClosingSetting = intentClosingSetting
             self.intentConfirmationSetting = intentConfirmationSetting
+            self.intentDisplayName = intentDisplayName
             self.intentId = intentId
             self.intentName = intentName
             self.kendraConfiguration = kendraConfiguration
@@ -14624,6 +14906,7 @@ extension LexModelsV2 {
             case inputContexts = "inputContexts"
             case intentClosingSetting = "intentClosingSetting"
             case intentConfirmationSetting = "intentConfirmationSetting"
+            case intentDisplayName = "intentDisplayName"
             case intentId = "intentId"
             case intentName = "intentName"
             case kendraConfiguration = "kendraConfiguration"

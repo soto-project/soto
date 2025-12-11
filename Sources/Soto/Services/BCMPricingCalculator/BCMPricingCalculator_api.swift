@@ -431,18 +431,24 @@ public struct BCMPricingCalculator: AWSService {
     ///
     /// Parameters:
     ///   - clientToken:  A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - costCategoryGroupSharingPreferenceArn: The arn of the cost category used in the reserved and prioritized group sharing.
+    ///   - groupSharingPreference: The setting for the reserved instance and savings plan group sharing used in this estimate.
     ///   - name:  A descriptive name for the bill scenario.
     ///   - tags:  The tags to apply to the bill scenario.
     ///   - logger: Logger use during operation
     @inlinable
     public func createBillScenario(
         clientToken: String? = CreateBillScenarioRequest.idempotencyToken(),
+        costCategoryGroupSharingPreferenceArn: String? = nil,
+        groupSharingPreference: GroupSharingPreferenceEnum? = nil,
         name: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBillScenarioResponse {
         let input = CreateBillScenarioRequest(
             clientToken: clientToken, 
+            costCategoryGroupSharingPreferenceArn: costCategoryGroupSharingPreferenceArn, 
+            groupSharingPreference: groupSharingPreference, 
             name: name, 
             tags: tags
         )
@@ -1211,19 +1217,25 @@ public struct BCMPricingCalculator: AWSService {
     ///  Updates an existing bill scenario.
     ///
     /// Parameters:
+    ///   - costCategoryGroupSharingPreferenceArn: The arn of the cost category used in the reserved and prioritized group sharing.
     ///   - expiresAt:  The new expiration date for the bill scenario.
+    ///   - groupSharingPreference: The setting for the reserved instance and savings plan group sharing used in this estimate.
     ///   - identifier:  The unique identifier of the bill scenario to update.
     ///   - name:  The new name for the bill scenario.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBillScenario(
+        costCategoryGroupSharingPreferenceArn: String? = nil,
         expiresAt: Date? = nil,
+        groupSharingPreference: GroupSharingPreferenceEnum? = nil,
         identifier: String,
         name: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateBillScenarioResponse {
         let input = UpdateBillScenarioRequest(
+            costCategoryGroupSharingPreferenceArn: costCategoryGroupSharingPreferenceArn, 
             expiresAt: expiresAt, 
+            groupSharingPreference: groupSharingPreference, 
             identifier: identifier, 
             name: name
         )

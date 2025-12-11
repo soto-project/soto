@@ -101,6 +101,16 @@ extension OpenSearchServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServerlessVectorAccelerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Serverless vector acceleration is allowed but not enabled by default
+        case allowed = "ALLOWED"
+        /// Serverless vector acceleration is disabled
+        case disabled = "DISABLED"
+        /// Serverless vector acceleration is enabled by default
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StandbyReplicas: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Standby replicas disabled
         case disabled = "DISABLED"
@@ -451,9 +461,11 @@ extension OpenSearchServerless {
         public let status: CollectionStatus?
         /// The type of collection.
         public let type: CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, collectionEndpoint: String? = nil, createdDate: Int64? = nil, dashboardEndpoint: String? = nil, description: String? = nil, failureCode: String? = nil, failureMessage: String? = nil, fipsEndpoints: FipsEndpoints? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
             self.createdDate = createdDate
@@ -469,6 +481,7 @@ extension OpenSearchServerless {
             self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -487,6 +500,7 @@ extension OpenSearchServerless {
             case standbyReplicas = "standbyReplicas"
             case status = "status"
             case type = "type"
+            case vectorOptions = "vectorOptions"
         }
     }
 
@@ -643,9 +657,11 @@ extension OpenSearchServerless {
         public let status: CollectionStatus?
         /// The type of collection.
         public let type: CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil) {
+        public init(arn: String? = nil, createdDate: Int64? = nil, description: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, standbyReplicas: StandbyReplicas? = nil, status: CollectionStatus? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.arn = arn
             self.createdDate = createdDate
             self.description = description
@@ -656,6 +672,7 @@ extension OpenSearchServerless {
             self.standbyReplicas = standbyReplicas
             self.status = status
             self.type = type
+            self.vectorOptions = vectorOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -669,6 +686,7 @@ extension OpenSearchServerless {
             case standbyReplicas = "standbyReplicas"
             case status = "status"
             case type = "type"
+            case vectorOptions = "vectorOptions"
         }
     }
 
@@ -685,15 +703,18 @@ extension OpenSearchServerless {
         public let tags: [Tag]?
         /// The type of collection.
         public let type: CollectionType?
+        /// Configuration options for vector search capabilities in the collection.
+        public let vectorOptions: VectorOptions?
 
         @inlinable
-        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil) {
+        public init(clientToken: String? = CreateCollectionRequest.idempotencyToken(), description: String? = nil, name: String, standbyReplicas: StandbyReplicas? = nil, tags: [Tag]? = nil, type: CollectionType? = nil, vectorOptions: VectorOptions? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.name = name
             self.standbyReplicas = standbyReplicas
             self.tags = tags
             self.type = type
+            self.vectorOptions = vectorOptions
         }
 
         public func validate(name: String) throws {
@@ -715,6 +736,7 @@ extension OpenSearchServerless {
             case standbyReplicas = "standbyReplicas"
             case tags = "tags"
             case type = "type"
+            case vectorOptions = "vectorOptions"
         }
     }
 
@@ -3008,6 +3030,20 @@ extension OpenSearchServerless {
 
         private enum CodingKeys: String, CodingKey {
             case updateVpcEndpointDetail = "UpdateVpcEndpointDetail"
+        }
+    }
+
+    public struct VectorOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether serverless vector acceleration is enabled for the collection.
+        public let serverlessVectorAcceleration: ServerlessVectorAccelerationStatus
+
+        @inlinable
+        public init(serverlessVectorAcceleration: ServerlessVectorAccelerationStatus) {
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serverlessVectorAcceleration = "ServerlessVectorAcceleration"
         }
     }
 

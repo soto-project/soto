@@ -42,6 +42,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum AgentSoftwareVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alwaysLatest = "ALWAYS_LATEST"
+        case currentLatest = "CURRENT_LATEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppBlockBuilderAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessEndpoints = "ACCESS_ENDPOINTS"
         case iamRoleArn = "IAM_ROLE_ARN"
@@ -106,12 +112,20 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportImageTaskState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case exporting = "EXPORTING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FleetAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
         case maxSessionsPerInstance = "MAX_SESSIONS_PER_INSTANCE"
         case sessionScriptS3Location = "SESSION_SCRIPT_S3_LOCATION"
         case usbDeviceFilterStrings = "USB_DEVICE_FILTER_STRINGS"
+        case volumeConfiguration = "VOLUME_CONFIGURATION"
         case vpcConfiguration = "VPC_CONFIGURATION"
         case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
         public var description: String { return self.rawValue }
@@ -148,6 +162,7 @@ extension AppStream {
         case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
         case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
         case subnetNotFound = "SUBNET_NOT_FOUND"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -170,6 +185,7 @@ extension AppStream {
         case deleting = "DELETING"
         case failed = "FAILED"
         case pending = "PENDING"
+        case pendingImageImport = "PENDING_IMAGE_IMPORT"
         case pendingQualification = "PENDING_QUALIFICATION"
         case pendingSyncingApps = "PENDING_SYNCING_APPS"
         case rebooting = "REBOOTING"
@@ -203,13 +219,22 @@ extension AppStream {
         case failed = "FAILED"
         case importing = "IMPORTING"
         case pending = "PENDING"
+        case validating = "VALIDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
+        case imageImportFailure = "IMAGE_IMPORT_FAILURE"
+        case imageUpdateFailure = "IMAGE_UPDATE_FAILURE"
         case internalError = "INTERNAL_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case custom = "CUSTOM"
+        case native = "NATIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -442,7 +467,7 @@ extension AppStream {
         public let setupScriptDetails: ScriptDetails?
         /// The source S3 location of the app block.
         public let sourceS3Location: S3Location?
-        /// The state of the app block. An app block with AppStream 2.0 packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE.  Custom app blocks are always in the ACTIVE state and no action is required to use them.
+        /// The state of the app block. An app block with WorkSpaces Applications packaging will be in the INACTIVE state if no application package (VHD) is assigned to it. After an application package (VHD) is created by an app block builder for an app block, it becomes ACTIVE.  Custom app blocks are always in the ACTIVE state and no action is required to use them.
         public let state: AppBlockState?
 
         @inlinable
@@ -643,6 +668,57 @@ extension AppStream {
             case metadata = "Metadata"
             case name = "Name"
             case platforms = "Platforms"
+            case workingDirectory = "WorkingDirectory"
+        }
+    }
+
+    public struct ApplicationConfig: AWSEncodableShape {
+        /// The absolute path to the executable file that launches the application. This is a required field that can be 1-32767 characters to support Windows extended file paths. Use escaped file path strings like "C:\\\\Windows\\\\System32\\\\notepad.exe".
+        public let absoluteAppPath: String?
+        /// The absolute path to the icon file for the application. This field is optional and can be 1-32767 characters. If not provided, the icon is derived from the executable. Use PNG images with proper transparency for the best user experience.
+        public let absoluteIconPath: String?
+        /// The absolute path to the prewarm manifest file for this application. This field is optional and only applicable when using application-specific manifests. The path can be 1-32767 characters and should point to a text file containing file paths to prewarm.
+        public let absoluteManifestPath: String?
+        /// The display name shown to users for this application. This field is optional and can be 0-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,99}$.
+        public let displayName: String?
+        /// The launch parameters to pass to the application executable. This field is optional and can be 0-1024 characters. Use escaped strings with the full list of required parameters, such as PowerShell script paths or command-line arguments.
+        public let launchParameters: String?
+        /// The name of the application. This is a required field that must be unique within the application catalog and between 1-100 characters, matching the pattern ^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$.
+        public let name: String?
+        /// The working directory to use when launching the application. This field is optional and can be 0-32767 characters. Use escaped file path strings like "C:\\\\Path\\\\To\\\\Working\\\\Directory".
+        public let workingDirectory: String?
+
+        @inlinable
+        public init(absoluteAppPath: String? = nil, absoluteIconPath: String? = nil, absoluteManifestPath: String? = nil, displayName: String? = nil, launchParameters: String? = nil, name: String? = nil, workingDirectory: String? = nil) {
+            self.absoluteAppPath = absoluteAppPath
+            self.absoluteIconPath = absoluteIconPath
+            self.absoluteManifestPath = absoluteManifestPath
+            self.displayName = displayName
+            self.launchParameters = launchParameters
+            self.name = name
+            self.workingDirectory = workingDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.absoluteAppPath, name: "absoluteAppPath", parent: name, max: 32767)
+            try self.validate(self.absoluteIconPath, name: "absoluteIconPath", parent: name, max: 32767)
+            try self.validate(self.absoluteManifestPath, name: "absoluteManifestPath", parent: name, max: 32767)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_. -]{0,99}$")
+            try self.validate(self.launchParameters, name: "launchParameters", parent: name, max: 1024)
+            try self.validate(self.launchParameters, name: "launchParameters", parent: name, pattern: "^[^\\x00]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,99}$")
+            try self.validate(self.workingDirectory, name: "workingDirectory", parent: name, max: 32767)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case absoluteAppPath = "AbsoluteAppPath"
+            case absoluteIconPath = "AbsoluteIconPath"
+            case absoluteManifestPath = "AbsoluteManifestPath"
+            case displayName = "DisplayName"
+            case launchParameters = "LaunchParameters"
+            case name = "Name"
             case workingDirectory = "WorkingDirectory"
         }
     }
@@ -1082,7 +1158,7 @@ extension AppStream {
         public let displayName: String?
         /// Enables or disables default internet access for the app block builder.
         public let enableDefaultInternetAccess: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
@@ -1090,7 +1166,7 @@ extension AppStream {
         public let name: String?
         /// The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
         public let platform: AppBlockBuilderPlatformType?
-        /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        /// The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
         public let tags: [String: String]?
         /// The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
@@ -1466,6 +1542,66 @@ extension AppStream {
         }
     }
 
+    public struct CreateExportImageTaskRequest: AWSEncodableShape {
+        /// An optional description for the exported AMI. This description will be applied to the resulting EC2 AMI.
+        public let amiDescription: String?
+        /// The name for the exported EC2 AMI. This is a required field that must be unique within your account and region.
+        public let amiName: String?
+        /// The ARN of the IAM role that allows WorkSpaces Applications to create the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+        public let iamRoleArn: String?
+        /// The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account.
+        public let imageName: String?
+        /// The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs.
+        public let tagSpecifications: [String: String]?
+
+        @inlinable
+        public init(amiDescription: String? = nil, amiName: String? = nil, iamRoleArn: String? = nil, imageName: String? = nil, tagSpecifications: [String: String]? = nil) {
+            self.amiDescription = amiDescription
+            self.amiName = amiName
+            self.iamRoleArn = iamRoleArn
+            self.imageName = imageName
+            self.tagSpecifications = tagSpecifications
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.amiDescription, name: "amiDescription", parent: name, max: 256)
+            try self.validate(self.amiName, name: "amiName", parent: name, pattern: "^[a-zA-Z0-9().\\-/_]{3,128}$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.imageName, name: "imageName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.tagSpecifications?.forEach {
+                try validate($0.key, name: "tagSpecifications.key", parent: name, max: 128)
+                try validate($0.key, name: "tagSpecifications.key", parent: name, min: 1)
+                try validate($0.key, name: "tagSpecifications.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tagSpecifications[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tagSpecifications[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagSpecifications, name: "tagSpecifications", parent: name, max: 50)
+            try self.validate(self.tagSpecifications, name: "tagSpecifications", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiDescription = "AmiDescription"
+            case amiName = "AmiName"
+            case iamRoleArn = "IamRoleArn"
+            case imageName = "ImageName"
+            case tagSpecifications = "TagSpecifications"
+        }
+    }
+
+    public struct CreateExportImageTaskResult: AWSDecodableShape {
+        /// Information about the export image task that was created, including the task ID and initial state.
+        public let exportImageTask: ExportImageTask?
+
+        @inlinable
+        public init(exportImageTask: ExportImageTask? = nil) {
+            self.exportImageTask = exportImageTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportImageTask = "ExportImageTask"
+        }
+    }
+
     public struct CreateFleetRequest: AWSEncodableShape {
         /// The desired capacity for the fleet. This is not allowed for Elastic fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
         public let computeCapacity: ComputeCapacity?
@@ -1481,7 +1617,7 @@ extension AppStream {
         public let enableDefaultInternetAccess: Bool?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.
         public let fleetType: FleetType?
-        /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
@@ -1489,7 +1625,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
@@ -1501,11 +1637,13 @@ extension AppStream {
         public let name: String?
         /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
+        public let rootVolumeConfig: VolumeConfig?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
         public let sessionScriptS3Location: S3Location?
-        /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+        /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
-        /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
         public let tags: [String: String]?
         /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
         public let usbDeviceFilterStrings: [String]?
@@ -1513,7 +1651,7 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -1531,6 +1669,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.tags = tags
@@ -1582,6 +1721,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case rootVolumeConfig = "RootVolumeConfig"
             case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case tags = "Tags"
@@ -1607,7 +1747,7 @@ extension AppStream {
     public struct CreateImageBuilderRequest: AWSEncodableShape {
         /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
-        /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+        /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
         public let appstreamAgentVersion: String?
         /// The description to display.
         public let description: String?
@@ -1617,27 +1757,29 @@ extension AppStream {
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the image builder.
         public let enableDefaultInternetAccess: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The ARN of the public, private, or shared image to use.
         public let imageArn: String?
         /// The name of the image used to create the image builder.
         public let imageName: String?
-        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// A unique name for the image builder.
         public let name: String?
+        /// The configuration for the root volume of the image builder. Use this to customize storage capacity from 200 GB up to 500 GB based on your application installation requirements.
+        public let rootVolumeConfig: VolumeConfig?
         /// The list of license included applications to install on the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
         public let softwaresToInstall: [String]?
         /// The list of license included applications to uninstall from the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
         public let softwaresToUninstall: [String]?
-        /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        /// The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
         public let tags: [String: String]?
         /// The VPC configuration for the image builder. You can specify only one subnet.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, rootVolumeConfig: VolumeConfig? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
@@ -1649,6 +1791,7 @@ extension AppStream {
             self.imageName = imageName
             self.instanceType = instanceType
             self.name = name
+            self.rootVolumeConfig = rootVolumeConfig
             self.softwaresToInstall = softwaresToInstall
             self.softwaresToUninstall = softwaresToUninstall
             self.tags = tags
@@ -1701,6 +1844,7 @@ extension AppStream {
             case imageName = "ImageName"
             case instanceType = "InstanceType"
             case name = "Name"
+            case rootVolumeConfig = "RootVolumeConfig"
             case softwaresToInstall = "SoftwaresToInstall"
             case softwaresToUninstall = "SoftwaresToUninstall"
             case tags = "Tags"
@@ -1747,7 +1891,7 @@ extension AppStream {
     public struct CreateImageBuilderStreamingURLResult: AWSDecodableShape {
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: Date?
-        /// The URL to start the AppStream 2.0 streaming session.
+        /// The URL to start the WorkSpaces Applications streaming session.
         public let streamingURL: String?
 
         @inlinable
@@ -1762,8 +1906,95 @@ extension AppStream {
         }
     }
 
+    public struct CreateImportedImageRequest: AWSEncodableShape {
+        /// The version of the WorkSpaces Applications agent to use for the imported image. Choose CURRENT_LATEST to use the agent version available at the time of import, or ALWAYS_LATEST to automatically update to the latest agent version when new versions are released.
+        public let agentSoftwareVersion: AgentSoftwareVersion?
+        /// Configuration for the application catalog of the imported image. This allows you to specify applications available for streaming, including their paths, icons, and launch parameters. This field contains sensitive data.
+        public let appCatalogConfig: [ApplicationConfig]?
+        /// An optional description for the imported image. The description must match approved regex patterns and can be up to 256 characters.
+        public let description: String?
+        /// An optional display name for the imported image. The display name must match approved regex patterns and can be up to 100 characters.
+        public let displayName: String?
+        /// When set to true, performs validation checks without actually creating the imported image. Use this to verify your configuration before executing the actual import operation.
+        public let dryRun: Bool?
+        /// The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+        public let iamRoleArn: String?
+        /// A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens.
+        public let name: String?
+        /// Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
+        public let runtimeValidationConfig: RuntimeValidationConfig?
+        /// The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
+        public let sourceAmiId: String?
+        /// The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(agentSoftwareVersion: AgentSoftwareVersion? = nil, appCatalogConfig: [ApplicationConfig]? = nil, description: String? = nil, displayName: String? = nil, dryRun: Bool? = nil, iamRoleArn: String? = nil, name: String? = nil, runtimeValidationConfig: RuntimeValidationConfig? = nil, sourceAmiId: String? = nil, tags: [String: String]? = nil) {
+            self.agentSoftwareVersion = agentSoftwareVersion
+            self.appCatalogConfig = appCatalogConfig
+            self.description = description
+            self.displayName = displayName
+            self.dryRun = dryRun
+            self.iamRoleArn = iamRoleArn
+            self.name = name
+            self.runtimeValidationConfig = runtimeValidationConfig
+            self.sourceAmiId = sourceAmiId
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.appCatalogConfig?.forEach {
+                try $0.validate(name: "\(name).appCatalogConfig[]")
+            }
+            try self.validate(self.appCatalogConfig, name: "appCatalogConfig", parent: name, max: 50)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[a-zA-Z0-9_.() -]+$")
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9_.() -]+$")
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:aws(?:\\-cn|\\-iso\\-b|\\-iso|\\-us\\-gov)?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.\\\\-]{0,1023}$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.runtimeValidationConfig?.validate(name: "\(name).runtimeValidationConfig")
+            try self.validate(self.sourceAmiId, name: "sourceAmiId", parent: name, pattern: "^ami-[a-z0-9]{8,17}$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(^(?!aws:).[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentSoftwareVersion = "AgentSoftwareVersion"
+            case appCatalogConfig = "AppCatalogConfig"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case dryRun = "DryRun"
+            case iamRoleArn = "IamRoleArn"
+            case name = "Name"
+            case runtimeValidationConfig = "RuntimeValidationConfig"
+            case sourceAmiId = "SourceAmiId"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateImportedImageResult: AWSDecodableShape {
+        public let image: Image?
+
+        @inlinable
+        public init(image: Image? = nil) {
+            self.image = image
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+        }
+    }
+
     public struct CreateStackRequest: AWSEncodableShape {
-        /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+        /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
         /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
         public let applicationSettings: ApplicationSettings?
@@ -1771,7 +2002,7 @@ extension AppStream {
         public let description: String?
         /// The stack name to display.
         public let displayName: String?
-        /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+        /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
         public let embedHostDomains: [String]?
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
@@ -1783,7 +2014,7 @@ extension AppStream {
         public let storageConnectors: [StorageConnector]?
         /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
         public let streamingExperienceSettings: StreamingExperienceSettings?
-        /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        /// The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
         public let tags: [String: String]?
         /// The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
         public let userSettings: [UserSetting]?
@@ -1872,7 +2103,7 @@ extension AppStream {
         public let applicationId: String?
         /// The name of the fleet.
         public let fleetName: String?
-        /// The session context. For more information, see Session Context in the Amazon AppStream 2.0 Administration Guide.
+        /// The session context. For more information, see Session Context in the Amazon WorkSpaces Applications Administration Guide.
         public let sessionContext: String?
         /// The name of the stack.
         public let stackName: String?
@@ -1914,7 +2145,7 @@ extension AppStream {
     public struct CreateStreamingURLResult: AWSDecodableShape {
         /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
         public let expires: Date?
-        /// The URL to start the AppStream 2.0 streaming session.
+        /// The URL to start the WorkSpaces Applications streaming session.
         public let streamingURL: String?
 
         @inlinable
@@ -1990,7 +2221,7 @@ extension AppStream {
     }
 
     public struct CreateUpdatedImageRequest: AWSEncodableShape {
-        /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
+        /// Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true, WorkSpaces Applications displays whether image updates are available. If this value is set to false, WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image updates are available.
         public let dryRun: Bool?
         /// The name of the image to update.
         public let existingImageName: String?
@@ -2000,7 +2231,7 @@ extension AppStream {
         public let newImageDisplayName: String?
         /// The name of the new image. The name must be unique within the AWS account and Region.
         public let newImageName: String?
-        /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+        /// The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
         public let newImageTags: [String: String]?
 
         @inlinable
@@ -2061,7 +2292,7 @@ extension AppStream {
     }
 
     public struct CreateUsageReportSubscriptionResult: AWSDecodableShape {
-        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts,  when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
+        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, WorkSpaces Applications created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, WorkSpaces Applications uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts,  when you enable usage reports, WorkSpaces Applications creates a new S3 bucket.
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
@@ -3650,9 +3881,9 @@ extension AppStream {
     }
 
     public struct EntitlementAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into an Amazon AppStream 2.0 SAML application. The following are valid values:   roles   department    organization    groups    title    costCenter    userType
+        /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into a WorkSpaces Applications SAML application. The following are valid values:   roles   department    organization    groups    title    costCenter    userType
         public let name: String?
-        /// A value that is matched to a supported SAML attribute name when a user identity federates into an Amazon AppStream 2.0 SAML application.
+        /// A value that is matched to a supported SAML attribute name when a user identity federates into a WorkSpaces Applications SAML application.
         public let value: String?
 
         @inlinable
@@ -3712,6 +3943,77 @@ extension AppStream {
         public init() {}
     }
 
+    public struct ExportImageTask: AWSDecodableShape {
+        /// The description that will be applied to the exported EC2 AMI.
+        public let amiDescription: String?
+        /// The ID of the EC2 AMI that was created by this export task. This field is only populated when the task completes successfully.
+        public let amiId: String?
+        /// The name of the EC2 AMI that will be created by this export task.
+        public let amiName: String?
+        /// The date and time when the export image task was created.
+        public let createdDate: Date?
+        /// Details about any errors that occurred during the export process. This field is only populated when the task fails.
+        public let errorDetails: [ErrorDetails]?
+        /// The ARN of the WorkSpaces Applications image being exported.
+        public let imageArn: String?
+        /// The current state of the export image task, such as PENDING, RUNNING, COMPLETED, or FAILED.
+        public let state: ExportImageTaskState?
+        /// The tags that will be applied to the exported EC2 AMI.
+        public let tagSpecifications: [String: String]?
+        /// The unique identifier for the export image task. Use this ID to track the task's progress and retrieve its details.
+        public let taskId: String?
+
+        @inlinable
+        public init(amiDescription: String? = nil, amiId: String? = nil, amiName: String? = nil, createdDate: Date? = nil, errorDetails: [ErrorDetails]? = nil, imageArn: String? = nil, state: ExportImageTaskState? = nil, tagSpecifications: [String: String]? = nil, taskId: String? = nil) {
+            self.amiDescription = amiDescription
+            self.amiId = amiId
+            self.amiName = amiName
+            self.createdDate = createdDate
+            self.errorDetails = errorDetails
+            self.imageArn = imageArn
+            self.state = state
+            self.tagSpecifications = tagSpecifications
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amiDescription = "AmiDescription"
+            case amiId = "AmiId"
+            case amiName = "AmiName"
+            case createdDate = "CreatedDate"
+            case errorDetails = "ErrorDetails"
+            case imageArn = "ImageArn"
+            case state = "State"
+            case tagSpecifications = "TagSpecifications"
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape {
+        /// The name of the filter. Valid filter names depend on the operation being performed.
+        public let name: String?
+        /// The values for the filter. Multiple values can be specified for a single filter name.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_:/.-]{0,200}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
     public struct Fleet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) for the fleet.
         public let arn: String?
@@ -3733,7 +4035,7 @@ extension AppStream {
         public let fleetErrors: [FleetError]?
         /// The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.
         public let fleetType: FleetType?
-        /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The ARN of the IAM role that is applied to the fleet. To assume a role, the fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
@@ -3741,7 +4043,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for the fleet.
         public let maxConcurrentSessions: Int?
@@ -3753,11 +4055,13 @@ extension AppStream {
         public let name: String?
         /// The platform of the fleet.
         public let platform: PlatformType?
+        /// The current configuration of the root volume for fleet instances, including the storage size in GB.
+        public let rootVolumeConfig: VolumeConfig?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
         public let sessionScriptS3Location: S3Location?
         /// The current state for the fleet.
         public let state: FleetState?
-        /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+        /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The USB device filter strings associated with the fleet.
         public let usbDeviceFilterStrings: [String]?
@@ -3765,7 +4069,7 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -3786,6 +4090,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.sessionScriptS3Location = sessionScriptS3Location
             self.state = state
             self.streamView = streamView
@@ -3814,6 +4119,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case rootVolumeConfig = "RootVolumeConfig"
             case sessionScriptS3Location = "SessionScriptS3Location"
             case state = "State"
             case streamView = "StreamView"
@@ -3840,10 +4146,42 @@ extension AppStream {
         }
     }
 
+    public struct GetExportImageTaskRequest: AWSEncodableShape {
+        /// The unique identifier of the export image task to retrieve information about.
+        public let taskId: String?
+
+        @inlinable
+        public init(taskId: String? = nil) {
+            self.taskId = taskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "TaskId"
+        }
+    }
+
+    public struct GetExportImageTaskResult: AWSDecodableShape {
+        /// Information about the export image task, including its current state, created date, and any error details.
+        public let exportImageTask: ExportImageTask?
+
+        @inlinable
+        public init(exportImageTask: ExportImageTask? = nil) {
+            self.exportImageTask = exportImageTask
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportImageTask = "ExportImageTask"
+        }
+    }
+
     public struct Image: AWSDecodableShape {
         /// The applications associated with the image.
         public let applications: [Application]?
-        /// The version of the AppStream 2.0 agent to use for instances that are launched from this image.
+        /// The version of the WorkSpaces Applications agent to use for instances that are launched from this image.
         public let appstreamAgentVersion: String?
         /// The ARN of the image.
         public let arn: String?
@@ -3855,7 +4193,7 @@ extension AppStream {
         public let description: String?
         /// The image name to display.
         public let displayName: String?
-        /// Indicates whether dynamic app providers are enabled within an AppStream 2.0 image or not.
+        /// Indicates whether dynamic app providers are enabled within an WorkSpaces Applications image or not.
         public let dynamicAppProvidersEnabled: DynamicAppProvidersEnabled?
         /// The name of the image builder that was used to create the private image. If the image is shared, copied, or updated by using Managed Image Updates, this value is null.
         public let imageBuilderName: String?
@@ -3867,7 +4205,9 @@ extension AppStream {
         public let imagePermissions: ImagePermissions?
         /// Indicates whether the image is shared with another account ID.
         public let imageSharedWithOthers: ImageSharedWithOthers?
-        /// Indicates whether the image is using the latest AppStream 2.0 agent version or not.
+        /// The type of the image. Images created through AMI import have type "custom", while WorkSpaces Applications provided images have type "native". Custom images support additional instance types including GeneralPurpose, MemoryOptimized, ComputeOptimized, and Accelerated instance families.
+        public let imageType: ImageType?
+        /// Indicates whether the image is using the latest WorkSpaces Applications agent version or not.
         public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
         /// Indicates whether the image includes license-included applications.
         public let managedSoftwareIncluded: Bool?
@@ -3887,7 +4227,7 @@ extension AppStream {
         public let visibility: VisibilityType?
 
         @inlinable
-        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
+        public init(applications: [Application]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, baseImageArn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, dynamicAppProvidersEnabled: DynamicAppProvidersEnabled? = nil, imageBuilderName: String? = nil, imageBuilderSupported: Bool? = nil, imageErrors: [ResourceError]? = nil, imagePermissions: ImagePermissions? = nil, imageSharedWithOthers: ImageSharedWithOthers? = nil, imageType: ImageType? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, managedSoftwareIncluded: Bool? = nil, name: String? = nil, platform: PlatformType? = nil, publicBaseImageReleasedDate: Date? = nil, state: ImageState? = nil, stateChangeReason: ImageStateChangeReason? = nil, supportedInstanceFamilies: [String]? = nil, visibility: VisibilityType? = nil) {
             self.applications = applications
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3901,6 +4241,7 @@ extension AppStream {
             self.imageErrors = imageErrors
             self.imagePermissions = imagePermissions
             self.imageSharedWithOthers = imageSharedWithOthers
+            self.imageType = imageType
             self.latestAppstreamAgentVersion = latestAppstreamAgentVersion
             self.managedSoftwareIncluded = managedSoftwareIncluded
             self.name = name
@@ -3926,6 +4267,7 @@ extension AppStream {
             case imageErrors = "ImageErrors"
             case imagePermissions = "ImagePermissions"
             case imageSharedWithOthers = "ImageSharedWithOthers"
+            case imageType = "ImageType"
             case latestAppstreamAgentVersion = "LatestAppstreamAgentVersion"
             case managedSoftwareIncluded = "ManagedSoftwareIncluded"
             case name = "Name"
@@ -3941,7 +4283,7 @@ extension AppStream {
     public struct ImageBuilder: AWSDecodableShape {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
-        /// The version of the AppStream 2.0 agent that is currently being used by the image builder.
+        /// The version of the WorkSpaces Applications agent that is currently being used by the image builder.
         public let appstreamAgentVersion: String?
         /// The ARN for the image builder.
         public let arn: String?
@@ -3955,21 +4297,23 @@ extension AppStream {
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the image builder.
         public let enableDefaultInternetAccess: Bool?
-        /// The ARN of the IAM role that is applied to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The ARN of the IAM role that is applied to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The ARN of the image from which this builder was created.
         public let imageArn: String?
         /// The image builder errors.
         public let imageBuilderErrors: [ResourceError]?
-        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
-        /// Indicates whether the image builder is using the latest AppStream 2.0 agent version or not.
+        /// Indicates whether the image builder is using the latest WorkSpaces Applications agent version or not.
         public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
         /// The name of the image builder.
         public let name: String?
         public let networkAccessConfiguration: NetworkAccessConfiguration?
         /// The operating system platform of the image builder.
         public let platform: PlatformType?
+        /// The current configuration of the root volume for the image builder, including the storage size in GB.
+        public let rootVolumeConfig: VolumeConfig?
         /// The state of the image builder.
         public let state: ImageBuilderState?
         /// The reason why the last state change occurred.
@@ -3978,7 +4322,7 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
@@ -3995,6 +4339,7 @@ extension AppStream {
             self.name = name
             self.networkAccessConfiguration = networkAccessConfiguration
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.state = state
             self.stateChangeReason = stateChangeReason
             self.vpcConfig = vpcConfig
@@ -4017,6 +4362,7 @@ extension AppStream {
             case name = "Name"
             case networkAccessConfiguration = "NetworkAccessConfiguration"
             case platform = "Platform"
+            case rootVolumeConfig = "RootVolumeConfig"
             case state = "State"
             case stateChangeReason = "StateChangeReason"
             case vpcConfig = "VpcConfig"
@@ -4227,6 +4573,55 @@ extension AppStream {
         }
     }
 
+    public struct ListExportImageTasksRequest: AWSEncodableShape {
+        /// Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria.
+        public let filters: [Filter]?
+        /// The maximum number of export image tasks to return in a single request. The valid range is 1-500, with a default of 50.
+        public let maxResults: Int?
+        /// The pagination token from a previous request. Use this to retrieve the next page of results when there are more tasks than the MaxResults limit.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExportImageTasksResult: AWSDecodableShape {
+        /// The list of export image tasks that match the specified criteria.
+        public let exportImageTasks: [ExportImageTask]?
+        /// The pagination token to use for retrieving the next page of results. This field is only present when there are more results available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(exportImageTasks: [ExportImageTask]? = nil, nextToken: String? = nil) {
+            self.exportImageTasks = exportImageTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exportImageTasks = "ExportImageTasks"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
@@ -4262,17 +4657,21 @@ extension AppStream {
     public struct NetworkAccessConfiguration: AWSDecodableShape {
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public let eniId: String?
+        /// The IPv6 addresses assigned to the elastic network interface. This field supports IPv6 connectivity for WorkSpaces Applications instances.
+        public let eniIpv6Addresses: [String]?
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
         public let eniPrivateIpAddress: String?
 
         @inlinable
-        public init(eniId: String? = nil, eniPrivateIpAddress: String? = nil) {
+        public init(eniId: String? = nil, eniIpv6Addresses: [String]? = nil, eniPrivateIpAddress: String? = nil) {
             self.eniId = eniId
+            self.eniIpv6Addresses = eniIpv6Addresses
             self.eniPrivateIpAddress = eniPrivateIpAddress
         }
 
         private enum CodingKeys: String, CodingKey {
             case eniId = "EniId"
+            case eniIpv6Addresses = "EniIpv6Addresses"
             case eniPrivateIpAddress = "EniPrivateIpAddress"
         }
     }
@@ -4296,6 +4695,24 @@ extension AppStream {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case errorTimestamp = "ErrorTimestamp"
+        }
+    }
+
+    public struct RuntimeValidationConfig: AWSEncodableShape {
+        /// The instance type to use for runtime validation testing. It's recommended to use the same instance type you plan to use for your fleet to ensure accurate validation results.
+        public let intendedInstanceType: String?
+
+        @inlinable
+        public init(intendedInstanceType: String? = nil) {
+            self.intendedInstanceType = intendedInstanceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.intendedInstanceType, name: "intendedInstanceType", parent: name, pattern: "^[a-zA-Z0-9-]+(\\.[a-z0-9-]+)+\\.(small|medium|large|xlarge|\\d+xlarge|metal)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intendedInstanceType = "IntendedInstanceType"
         }
     }
 
@@ -4476,7 +4893,7 @@ extension AppStream {
     }
 
     public struct Stack: AWSDecodableShape {
-        /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+        /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
         /// The persistent application settings for users of the stack.
         public let applicationSettings: ApplicationSettingsResponse?
@@ -4488,7 +4905,7 @@ extension AppStream {
         public let description: String?
         /// The stack name to display.
         public let displayName: String?
-        /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+        /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
         public let embedHostDomains: [String]?
         /// The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
@@ -4613,7 +5030,7 @@ extension AppStream {
     }
 
     public struct StartImageBuilderRequest: AWSEncodableShape {
-        /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+        /// The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
         public let appstreamAgentVersion: String?
         /// The name of the image builder.
         public let name: String?
@@ -4766,7 +5183,7 @@ extension AppStream {
         public let connectorType: StorageConnectorType?
         /// The names of the domains for the account.
         public let domains: [String]?
-        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to AppStream 2.0. The attribute can only be specified when ConnectorType=ONE_DRIVE.
+        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to WorkSpaces Applications. The attribute can only be specified when ConnectorType=ONE_DRIVE.
         public let domainsRequireAdminConsent: [String]?
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
@@ -4963,7 +5380,7 @@ extension AppStream {
         public let displayName: String?
         /// Enables or disables default internet access for the app block builder.
         public let enableDefaultInternetAccess: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
@@ -5219,7 +5636,7 @@ extension AppStream {
         public let domainJoinInfo: DomainJoinInfo?
         /// Enables or disables default internet access for the fleet.
         public let enableDefaultInternetAccess: Bool?
-        /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
         public let iamRoleArn: String?
         /// The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
         public let idleDisconnectTimeoutInSeconds: Int?
@@ -5227,7 +5644,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?
@@ -5239,9 +5656,11 @@ extension AppStream {
         public let name: String?
         /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
+        public let rootVolumeConfig: VolumeConfig?
         /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
         public let sessionScriptS3Location: S3Location?
-        /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+        /// The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
         public let usbDeviceFilterStrings: [String]?
@@ -5249,7 +5668,7 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = nil
@@ -5268,6 +5687,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -5276,7 +5696,7 @@ extension AppStream {
 
         @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
         @inlinable
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = deleteVpcConfig
@@ -5295,6 +5715,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.rootVolumeConfig = rootVolumeConfig
             self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -5337,6 +5758,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case rootVolumeConfig = "RootVolumeConfig"
             case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
@@ -5390,7 +5812,7 @@ extension AppStream {
     }
 
     public struct UpdateStackRequest: AWSEncodableShape {
-        /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+        /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
         public let accessEndpoints: [AccessEndpoint]?
         /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
         public let applicationSettings: ApplicationSettings?
@@ -5402,7 +5824,7 @@ extension AppStream {
         public let description: String?
         /// The stack name to display.
         public let displayName: String?
-        /// The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+        /// The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
         public let embedHostDomains: [String]?
         /// The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
         public let feedbackURL: String?
@@ -5578,7 +6000,7 @@ extension AppStream {
     public struct UsageReportSubscription: AWSDecodableShape {
         /// The time when the last usage report was generated.
         public let lastGeneratedReportDate: Date?
-        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts,  when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
+        /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, WorkSpaces Applications created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, WorkSpaces Applications uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts,  when you enable usage reports, WorkSpaces Applications creates a new S3 bucket.
         public let s3BucketName: String?
         /// The schedule for generating usage reports.
         public let schedule: UsageReportSchedule?
@@ -5720,6 +6142,20 @@ extension AppStream {
         }
     }
 
+    public struct VolumeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the root volume in GB. Valid range is 200-500 GB. The default is 200 GB, which is included in the hourly instance rate. Additional storage beyond 200 GB incurs extra charges and applies to instances regardless of their running state.
+        public let volumeSizeInGb: Int?
+
+        @inlinable
+        public init(volumeSizeInGb: Int? = nil) {
+            self.volumeSizeInGb = volumeSizeInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case volumeSizeInGb = "VolumeSizeInGb"
+        }
+    }
+
     public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
         /// The identifiers of the security groups for the fleet or image builder.
         public let securityGroupIds: [String]?
@@ -5755,6 +6191,7 @@ extension AppStream {
 public struct AppStreamErrorType: AWSErrorType {
     enum Code: String {
         case concurrentModificationException = "ConcurrentModificationException"
+        case dryRunOperationException = "DryRunOperationException"
         case entitlementAlreadyExistsException = "EntitlementAlreadyExistsException"
         case entitlementNotFoundException = "EntitlementNotFoundException"
         case incompatibleImageException = "IncompatibleImageException"
@@ -5790,6 +6227,8 @@ public struct AppStreamErrorType: AWSErrorType {
 
     /// An API error occurred. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The exception that is thrown when a dry run operation is requested. This indicates that the validation checks have been performed successfully, but no actual resources were created or modified.
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
     /// The entitlement already exists.
     public static var entitlementAlreadyExistsException: Self { .init(.entitlementAlreadyExistsException) }
     /// The entitlement can't be found.
@@ -5806,7 +6245,7 @@ public struct AppStreamErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The attempted operation is not permitted.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
-    /// AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
+    /// WorkSpaces Applications can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     public static var requestLimitExceededException: Self { .init(.requestLimitExceededException) }
     /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }

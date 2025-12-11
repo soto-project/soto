@@ -487,7 +487,7 @@ extension Imagebuilder {
     public struct CancelImageCreationResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
-        /// The ARN of the image whose creation this request canceled.
+        /// The Amazon Resource Name (ARN) of the image whose creation this request canceled.
         public let imageBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -1085,6 +1085,8 @@ extension Imagebuilder {
         public let data: String?
         /// Describes the contents of the component.
         public let description: String?
+        /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+        public let dryRun: Bool?
         /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
         /// 			in the Key Management Service Developer Guide.
         public let kmsKeyId: String?
@@ -1114,11 +1116,12 @@ extension Imagebuilder {
         public let uri: String?
 
         @inlinable
-        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, dryRun: Bool? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
             self.data = data
             self.description = description
+            self.dryRun = dryRun
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.platform = platform
@@ -1162,6 +1165,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case data = "data"
             case description = "description"
+            case dryRun = "dryRun"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
             case platform = "platform"
@@ -1177,19 +1181,23 @@ extension Imagebuilder {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the component that the request created.
         public let componentBuildVersionArn: String?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, requestId: String? = nil) {
+        public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.componentBuildVersionArn = componentBuildVersionArn
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case componentBuildVersionArn = "componentBuildVersionArn"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -1197,10 +1205,8 @@ extension Imagebuilder {
     public struct CreateContainerRecipeRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
-        /// Components for build and test that are included in the container recipe.
-        /// 			Recipes require a minimum of one build component, and can
-        /// 			have a maximum of 20 build and test components in any combination.
-        public let components: [ComponentConfiguration]
+        /// The components included in the container recipe.
+        public let components: [ComponentConfiguration]?
         /// The type of container to create.
         public let containerType: ContainerType
         /// The description of the container recipe.
@@ -1241,7 +1247,7 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
+        public init(clientToken: String = CreateContainerRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, containerType: ContainerType, description: String? = nil, dockerfileTemplateData: String? = nil, dockerfileTemplateUri: String? = nil, imageOsVersionOverride: String? = nil, instanceConfiguration: InstanceConfiguration? = nil, kmsKeyId: String? = nil, name: String, parentImage: String, platformOverride: Platform? = nil, semanticVersion: String, tags: [String: String]? = nil, targetRepository: TargetContainerRepository, workingDirectory: String? = nil) {
             self.clientToken = clientToken
             self.components = components
             self.containerType = containerType
@@ -1263,7 +1269,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.components.forEach {
+            try self.components?.forEach {
                 try $0.validate(name: "\(name).components[]")
             }
             try self.validate(self.components, name: "components", parent: name, min: 1)
@@ -1280,7 +1286,7 @@ extension Imagebuilder {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.validate(self.parentImage, name: "parentImage", parent: name, max: 1024)
             try self.validate(self.parentImage, name: "parentImage", parent: name, min: 1)
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1320,19 +1326,23 @@ extension Imagebuilder {
         /// Returns the Amazon Resource Name (ARN) of the container recipe that the request
         /// 			created.
         public let containerRecipeArn: String?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(clientToken: String? = nil, containerRecipeArn: String? = nil, requestId: String? = nil) {
+        public init(clientToken: String? = nil, containerRecipeArn: String? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.containerRecipeArn = containerRecipeArn
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case containerRecipeArn = "containerRecipeArn"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -1473,14 +1483,14 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
@@ -1554,7 +1564,7 @@ extension Imagebuilder {
         /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The components included in the image recipe.
-        public let components: [ComponentConfiguration]
+        public let components: [ComponentConfiguration]?
         /// The description of the image recipe.
         public let description: String?
         /// The name of the image recipe.
@@ -1578,7 +1588,7 @@ extension Imagebuilder {
         public let workingDirectory: String?
 
         @inlinable
-        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration], description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
+        public init(additionalInstanceConfiguration: AdditionalInstanceConfiguration? = nil, amiTags: [String: String]? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, clientToken: String = CreateImageRecipeRequest.idempotencyToken(), components: [ComponentConfiguration]? = nil, description: String? = nil, name: String, parentImage: String, semanticVersion: String, tags: [String: String]? = nil, workingDirectory: String? = nil) {
             self.additionalInstanceConfiguration = additionalInstanceConfiguration
             self.amiTags = amiTags
             self.blockDeviceMappings = blockDeviceMappings
@@ -1607,7 +1617,7 @@ extension Imagebuilder {
             }
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.components.forEach {
+            try self.components?.forEach {
                 try $0.validate(name: "\(name).components[]")
             }
             try self.validate(self.components, name: "components", parent: name, min: 1)
@@ -1616,7 +1626,7 @@ extension Imagebuilder {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$")
             try self.validate(self.parentImage, name: "parentImage", parent: name, max: 1024)
             try self.validate(self.parentImage, name: "parentImage", parent: name, min: 1)
-            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1650,19 +1660,23 @@ extension Imagebuilder {
         /// The Amazon Resource Name (ARN) of the image recipe that was created by this
         /// 			request.
         public let imageRecipeArn: String?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(clientToken: String? = nil, imageRecipeArn: String? = nil, requestId: String? = nil) {
+        public init(clientToken: String? = nil, imageRecipeArn: String? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageRecipeArn = imageRecipeArn
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case imageRecipeArn = "imageRecipeArn"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -1719,12 +1733,12 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
@@ -1763,19 +1777,23 @@ extension Imagebuilder {
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image that the request created.
         public let imageBuildVersionArn: String?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
+        public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.clientToken = clientToken
             self.imageBuildVersionArn = imageBuildVersionArn
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case imageBuildVersionArn = "imageBuildVersionArn"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -2028,6 +2046,8 @@ extension Imagebuilder {
         public let data: String?
         /// Describes the workflow.
         public let description: String?
+        /// Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
+        public let dryRun: Bool?
         /// The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
         /// 			This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
         /// 			in the Key Management Service Developer Guide.
@@ -2055,11 +2075,12 @@ extension Imagebuilder {
         public let uri: String?
 
         @inlinable
-        public init(changeDescription: String? = nil, clientToken: String = CreateWorkflowRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, semanticVersion: String, tags: [String: String]? = nil, type: WorkflowType, uri: String? = nil) {
+        public init(changeDescription: String? = nil, clientToken: String = CreateWorkflowRequest.idempotencyToken(), data: String? = nil, description: String? = nil, dryRun: Bool? = nil, kmsKeyId: String? = nil, name: String, semanticVersion: String, tags: [String: String]? = nil, type: WorkflowType, uri: String? = nil) {
             self.changeDescription = changeDescription
             self.clientToken = clientToken
             self.data = data
             self.description = description
+            self.dryRun = dryRun
             self.kmsKeyId = kmsKeyId
             self.name = name
             self.semanticVersion = semanticVersion
@@ -2097,6 +2118,7 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case data = "data"
             case description = "description"
+            case dryRun = "dryRun"
             case kmsKeyId = "kmsKeyId"
             case name = "name"
             case semanticVersion = "semanticVersion"
@@ -2109,17 +2131,21 @@ extension Imagebuilder {
     public struct CreateWorkflowResponse: AWSDecodableShape {
         /// The client token that uniquely identifies the request.
         public let clientToken: String?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The Amazon Resource Name (ARN) of the workflow resource that the request created.
         public let workflowBuildVersionArn: String?
 
         @inlinable
-        public init(clientToken: String? = nil, workflowBuildVersionArn: String? = nil) {
+        public init(clientToken: String? = nil, latestVersionReferences: LatestVersionReferences? = nil, workflowBuildVersionArn: String? = nil) {
             self.clientToken = clientToken
+            self.latestVersionReferences = latestVersionReferences
             self.workflowBuildVersionArn = workflowBuildVersionArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case latestVersionReferences = "latestVersionReferences"
             case workflowBuildVersionArn = "workflowBuildVersionArn"
         }
     }
@@ -2226,7 +2252,7 @@ extension Imagebuilder {
     }
 
     public struct DeleteComponentResponse: AWSDecodableShape {
-        /// The ARN of the component build version that this request deleted.
+        /// The Amazon Resource Name (ARN) of the component build version that this request deleted.
         public let componentBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -2259,7 +2285,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2380,7 +2406,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2427,7 +2453,7 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageResponse: AWSDecodableShape {
-        /// The ARN of the Image Builder image resource that this request deleted.
+        /// The Amazon Resource Name (ARN) of the Image Builder image resource that this request deleted.
         public let imageBuildVersionArn: String?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
@@ -2509,7 +2535,7 @@ extension Imagebuilder {
     }
 
     public struct DeleteLifecyclePolicyResponse: AWSDecodableShape {
-        /// The ARN of the lifecycle policy that was deleted.
+        /// The Amazon Resource Name (ARN) of the lifecycle policy that was deleted.
         public let lifecyclePolicyArn: String?
 
         @inlinable
@@ -2546,7 +2572,7 @@ extension Imagebuilder {
     }
 
     public struct DeleteWorkflowResponse: AWSDecodableShape {
-        /// The ARN of the workflow resource that this request deleted.
+        /// The Amazon Resource Name (ARN) of the workflow resource that this request deleted.
         public let workflowBuildVersionArn: String?
 
         @inlinable
@@ -2556,6 +2582,78 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case workflowBuildVersionArn = "workflowBuildVersionArn"
+        }
+    }
+
+    public struct DistributeImageRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// The Amazon Resource Name (ARN) of the distribution configuration to use.
+        public let distributionConfigurationArn: String
+        /// The IAM role to use for the distribution.
+        public let executionRole: String
+        /// The logging configuration for the distribution.
+        public let loggingConfiguration: ImageLoggingConfiguration?
+        /// The source image Amazon Resource Name (ARN) to distribute.
+        public let sourceImage: String
+        /// The tags to apply to the distributed image.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(clientToken: String = DistributeImageRequest.idempotencyToken(), distributionConfigurationArn: String, executionRole: String, loggingConfiguration: ImageLoggingConfiguration? = nil, sourceImage: String, tags: [String: String]? = nil) {
+            self.clientToken = clientToken
+            self.distributionConfigurationArn = distributionConfigurationArn
+            self.executionRole = executionRole
+            self.loggingConfiguration = loggingConfiguration
+            self.sourceImage = sourceImage
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.loggingConfiguration?.validate(name: "\(name).loggingConfiguration")
+            try self.validate(self.sourceImage, name: "sourceImage", parent: name, max: 1024)
+            try self.validate(self.sourceImage, name: "sourceImage", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case distributionConfigurationArn = "distributionConfigurationArn"
+            case executionRole = "executionRole"
+            case loggingConfiguration = "loggingConfiguration"
+            case sourceImage = "sourceImage"
+            case tags = "tags"
+        }
+    }
+
+    public struct DistributeImageResponse: AWSDecodableShape {
+        /// The client token that uniquely identifies the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the image to be distributed.
+        public let imageBuildVersionArn: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil) {
+            self.clientToken = clientToken
+            self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
         }
     }
 
@@ -2990,17 +3088,21 @@ extension Imagebuilder {
     public struct GetComponentResponse: AWSDecodableShape {
         /// The component object specified in the request.
         public let component: Component?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(component: Component? = nil, requestId: String? = nil) {
+        public init(component: Component? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.component = component
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case component = "component"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -3022,7 +3124,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3062,7 +3164,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3071,17 +3173,21 @@ extension Imagebuilder {
     public struct GetContainerRecipeResponse: AWSDecodableShape {
         /// The container recipe object that is returned.
         public let containerRecipe: ContainerRecipe?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(containerRecipe: ContainerRecipe? = nil, requestId: String? = nil) {
+        public init(containerRecipe: ContainerRecipe? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.containerRecipe = containerRecipe
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerRecipe = "containerRecipe"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -3224,7 +3330,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3264,7 +3370,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3273,17 +3379,21 @@ extension Imagebuilder {
     public struct GetImageRecipeResponse: AWSDecodableShape {
         /// The image recipe object.
         public let imageRecipe: ImageRecipe?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(imageRecipe: ImageRecipe? = nil, requestId: String? = nil) {
+        public init(imageRecipe: ImageRecipe? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.imageRecipe = imageRecipe
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case imageRecipe = "imageRecipe"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -3313,17 +3423,21 @@ extension Imagebuilder {
     public struct GetImageResponse: AWSDecodableShape {
         /// The image object.
         public let image: Image?
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         @inlinable
-        public init(image: Image? = nil, requestId: String? = nil) {
+        public init(image: Image? = nil, latestVersionReferences: LatestVersionReferences? = nil, requestId: String? = nil) {
             self.image = image
+            self.latestVersionReferences = latestVersionReferences
             self.requestId = requestId
         }
 
         private enum CodingKeys: String, CodingKey {
             case image = "image"
+            case latestVersionReferences = "latestVersionReferences"
             case requestId = "requestId"
         }
     }
@@ -3429,7 +3543,7 @@ extension Imagebuilder {
     }
 
     public struct GetLifecyclePolicyResponse: AWSDecodableShape {
-        /// The ARN of the image lifecycle policy resource that was returned.
+        /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was returned.
         public let lifecyclePolicy: LifecyclePolicy?
 
         @inlinable
@@ -3613,15 +3727,19 @@ extension Imagebuilder {
     }
 
     public struct GetWorkflowResponse: AWSDecodableShape {
+        /// The resource ARNs with different wildcard variations of semantic versioning.
+        public let latestVersionReferences: LatestVersionReferences?
         /// The workflow resource specified in the request.
         public let workflow: Workflow?
 
         @inlinable
-        public init(workflow: Workflow? = nil) {
+        public init(latestVersionReferences: LatestVersionReferences? = nil, workflow: Workflow? = nil) {
+            self.latestVersionReferences = latestVersionReferences
             self.workflow = workflow
         }
 
         private enum CodingKeys: String, CodingKey {
+            case latestVersionReferences = "latestVersionReferences"
             case workflow = "workflow"
         }
     }
@@ -4259,8 +4377,7 @@ extension Imagebuilder {
     public struct ImageScanFindingAggregation: AWSDecodableShape {
         /// Returns an object that contains severity counts based on an account ID.
         public let accountAggregation: AccountAggregation?
-        /// Returns an object that contains severity counts based on the Amazon Resource Name
-        /// 			(ARN) for a specific image.
+        /// Returns an object that contains severity counts based on the Amazon Resource Name (ARN) for a specific image.
         public let imageAggregation: ImageAggregation?
         /// Returns an object that contains severity counts based on an image pipeline ARN.
         public let imagePipelineAggregation: ImagePipelineAggregation?
@@ -5101,6 +5218,32 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case httpPutResponseHopLimit = "httpPutResponseHopLimit"
             case httpTokens = "httpTokens"
+        }
+    }
+
+    public struct LatestVersionReferences: AWSDecodableShape {
+        /// The latest version Amazon Resource Name (ARN) with the same major version of the Image Builder resource.
+        public let latestMajorVersionArn: String?
+        /// The latest version Amazon Resource Name (ARN) with the same minor version of the Image Builder resource.
+        public let latestMinorVersionArn: String?
+        /// The latest version Amazon Resource Name (ARN) with the same patch version of the Image Builder resource.
+        public let latestPatchVersionArn: String?
+        /// The latest version Amazon Resource Name (ARN) of the Image Builder resource.
+        public let latestVersionArn: String?
+
+        @inlinable
+        public init(latestMajorVersionArn: String? = nil, latestMinorVersionArn: String? = nil, latestPatchVersionArn: String? = nil, latestVersionArn: String? = nil) {
+            self.latestMajorVersionArn = latestMajorVersionArn
+            self.latestMinorVersionArn = latestMinorVersionArn
+            self.latestPatchVersionArn = latestPatchVersionArn
+            self.latestVersionArn = latestVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestMajorVersionArn = "latestMajorVersionArn"
+            case latestMinorVersionArn = "latestMinorVersionArn"
+            case latestPatchVersionArn = "latestPatchVersionArn"
+            case latestVersionArn = "latestVersionArn"
         }
     }
 
@@ -6901,7 +7044,7 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowExecutionsResponse: AWSDecodableShape {
-        /// The resource ARN of the image build version for which you requested a list of
+        /// The resource Amazon Resource Name (ARN) of the image build version for which you requested a list of
         /// 			workflow runtime details.
         public let imageBuildVersionArn: String?
         /// The output message from the list action, if applicable.
@@ -6967,7 +7110,7 @@ extension Imagebuilder {
     }
 
     public struct ListWorkflowStepExecutionsResponse: AWSDecodableShape {
-        /// The image build version resource ARN that's associated with the specified runtime
+        /// The image build version resource Amazon Resource Name (ARN) that's associated with the specified runtime
         /// 			instance of the workflow.
         public let imageBuildVersionArn: String?
         /// The output message from the list action, if applicable.
@@ -6981,7 +7124,7 @@ extension Imagebuilder {
         /// Contains an array of runtime details that represents each step in this runtime
         /// 			instance of the workflow.
         public let steps: [WorkflowStepMetadata]?
-        /// The build version ARN for the Image Builder workflow resource that defines the steps for
+        /// The build version Amazon Resource Name (ARN) for the Image Builder workflow resource that defines the steps for
         /// 			this runtime instance of the workflow.
         public let workflowBuildVersionArn: String?
         /// The unique identifier that Image Builder assigned to keep track of runtime details
@@ -7317,7 +7460,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -7404,7 +7547,7 @@ extension Imagebuilder {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.policy, name: "policy", parent: name, max: 30000)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
         }
@@ -7518,6 +7661,48 @@ extension Imagebuilder {
             case amis = "amis"
             case containers = "containers"
             case snapshots = "snapshots"
+        }
+    }
+
+    public struct RetryImageRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// The source image Amazon Resource Name (ARN) to retry.
+        public let imageBuildVersionArn: String
+
+        @inlinable
+        public init(clientToken: String = RetryImageRequest.idempotencyToken(), imageBuildVersionArn: String) {
+            self.clientToken = clientToken
+            self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.imageBuildVersionArn, name: "imageBuildVersionArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):image/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
+        }
+    }
+
+    public struct RetryImageResponse: AWSDecodableShape {
+        /// The client token that uniquely identifies the request.
+        public let clientToken: String?
+        /// The ARN of the image to be retried.
+        public let imageBuildVersionArn: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil) {
+            self.clientToken = clientToken
+            self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
         }
     }
 
@@ -7824,7 +8009,7 @@ extension Imagebuilder {
         public let executionRole: String?
         /// A list of image resources to update state for.
         public let includeResources: ResourceStateUpdateIncludeResources?
-        /// The ARN of the Image Builder resource that is updated. The state update might also
+        /// The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also
         /// 			impact associated resources.
         public let resourceArn: String
         /// Indicates the lifecycle action to take for this request.
@@ -7868,7 +8053,7 @@ extension Imagebuilder {
         /// Identifies the lifecycle runtime instance that started the resource
         /// 			state update.
         public let lifecycleExecutionId: String?
-        /// The requested ARN of the Image Builder resource for the asynchronous update.
+        /// The requested Amazon Resource Name (ARN) of the Image Builder resource for the asynchronous update.
         public let resourceArn: String?
 
         @inlinable
@@ -8124,7 +8309,7 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.containerRecipeArn, name: "containerRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):container-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.distributionConfigurationArn, name: "distributionConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):distribution-configuration/[a-z0-9-_]+$")
@@ -8132,7 +8317,7 @@ extension Imagebuilder {
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.validate(self.imagePipelineArn, name: "imagePipelineArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-pipeline/[a-z0-9-_]+$")
-            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.validate(self.imageRecipeArn, name: "imageRecipeArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):image-recipe/[a-z0-9-_]+/(?:[0-9]+|x)\\.(?:[0-9]+|x)\\.(?:[0-9]+|x)$")
             try self.imageScanningConfiguration?.validate(name: "\(name).imageScanningConfiguration")
             try self.imageTestsConfiguration?.validate(name: "\(name).imageTestsConfiguration")
             try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
@@ -8383,7 +8568,7 @@ extension Imagebuilder {
     }
 
     public struct UpdateLifecyclePolicyResponse: AWSDecodableShape {
-        /// The ARN of the image lifecycle policy resource that was updated.
+        /// The Amazon Resource Name (ARN) of the image lifecycle policy resource that was updated.
         public let lifecyclePolicyArn: String?
 
         @inlinable
@@ -8583,6 +8768,8 @@ extension Imagebuilder {
         public let message: String?
         /// The name of the test group that included the test workflow resource at runtime.
         public let parallelGroup: String?
+        /// Indicates retry status for this runtime instance of the workflow.
+        public let retried: Bool?
         /// The timestamp when the runtime instance of this workflow started.
         public let startTime: String?
         /// The current runtime status for this workflow.
@@ -8605,10 +8792,11 @@ extension Imagebuilder {
         public let workflowExecutionId: String?
 
         @inlinable
-        public init(endTime: String? = nil, message: String? = nil, parallelGroup: String? = nil, startTime: String? = nil, status: WorkflowExecutionStatus? = nil, totalStepCount: Int? = nil, totalStepsFailed: Int? = nil, totalStepsSkipped: Int? = nil, totalStepsSucceeded: Int? = nil, type: WorkflowType? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
+        public init(endTime: String? = nil, message: String? = nil, parallelGroup: String? = nil, retried: Bool? = nil, startTime: String? = nil, status: WorkflowExecutionStatus? = nil, totalStepCount: Int? = nil, totalStepsFailed: Int? = nil, totalStepsSkipped: Int? = nil, totalStepsSucceeded: Int? = nil, type: WorkflowType? = nil, workflowBuildVersionArn: String? = nil, workflowExecutionId: String? = nil) {
             self.endTime = endTime
             self.message = message
             self.parallelGroup = parallelGroup
+            self.retried = retried
             self.startTime = startTime
             self.status = status
             self.totalStepCount = totalStepCount
@@ -8624,6 +8812,7 @@ extension Imagebuilder {
             case endTime = "endTime"
             case message = "message"
             case parallelGroup = "parallelGroup"
+            case retried = "retried"
             case startTime = "startTime"
             case status = "status"
             case totalStepCount = "totalStepCount"
@@ -8720,7 +8909,7 @@ extension Imagebuilder {
         /// Uniquely identifies the workflow step that ran for the associated
         /// 			image build version.
         public let stepExecutionId: String?
-        /// The ARN of the workflow resource that ran.
+        /// The Amazon Resource Name (ARN) of the workflow resource that ran.
         public let workflowBuildVersionArn: String?
         /// Uniquely identifies the runtime instance of the workflow that contains
         /// 			the workflow step that ran for the associated image build version.
@@ -8898,8 +9087,10 @@ extension Imagebuilder {
 /// Error enum for Imagebuilder
 public struct ImagebuilderErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case callRateLimitExceededException = "CallRateLimitExceededException"
         case clientException = "ClientException"
+        case dryRunOperationException = "DryRunOperationException"
         case forbiddenException = "ForbiddenException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case invalidPaginationTokenException = "InvalidPaginationTokenException"
@@ -8915,6 +9106,7 @@ public struct ImagebuilderErrorType: AWSErrorType {
         case serviceException = "ServiceException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyRequestsException = "TooManyRequestsException"
     }
 
     private let error: Code
@@ -8935,12 +9127,16 @@ public struct ImagebuilderErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have permissions to perform the requested operation.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// You have exceeded the permitted request rate for the specific operation.
     public static var callRateLimitExceededException: Self { .init(.callRateLimitExceededException) }
     /// These errors are usually caused by a client action, such as using an action or
     /// 			resource on behalf of a user that doesn't have permissions to use the action or
     /// 			resource, or specifying an invalid resource identifier.
     public static var clientException: Self { .init(.clientException) }
+    /// The dry run operation of the resource was successful, and no resources or mutations were actually performed due to the dry run flag in the request.
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
     /// You are not authorized to perform the requested operation.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// You have specified a client token for an operation using parameter values that differ
@@ -8979,6 +9175,8 @@ public struct ImagebuilderErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service is unable to process your request at this time.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// You have attempted too many requests for the specific operation.
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 
 extension ImagebuilderErrorType: Equatable {

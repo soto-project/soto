@@ -219,7 +219,20 @@ extension AutoScaling {
     }
 
     public enum RefreshStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case replaceRootVolume = "ReplaceRootVolume"
         case rolling = "Rolling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetentionAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case retain = "retain"
+        case terminate = "terminate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetryStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "none"
+        case retryWithGroupConfiguration = "retry-with-group-configuration"
         public var description: String { return self.rawValue }
     }
 
@@ -233,6 +246,7 @@ extension AutoScaling {
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "Cancelled"
         case failed = "Failed"
+        case inPlaceUpdateInProgress = "InPlaceUpdateInProgress"
         case inProgress = "InProgress"
         case midLifecycleAction = "MidLifecycleAction"
         case pendingSpotBidPlacement = "PendingSpotBidPlacement"
@@ -240,6 +254,8 @@ extension AutoScaling {
         case successful = "Successful"
         case waitingForConnectionDraining = "WaitingForConnectionDraining"
         case waitingForELBConnectionDraining = "WaitingForELBConnectionDraining"
+        case waitingForInPlaceUpdateToFinalize = "WaitingForInPlaceUpdateToFinalize"
+        case waitingForInPlaceUpdateToStart = "WaitingForInPlaceUpdateToStart"
         case waitingForInstanceId = "WaitingForInstanceId"
         case waitingForInstanceWarmup = "WaitingForInstanceWarmup"
         case waitingForSpotInstanceId = "WaitingForSpotInstanceId"
@@ -629,6 +645,8 @@ extension AutoScaling {
         public let healthCheckGracePeriod: Int?
         /// A comma-separated value string of one or more health check types.
         public let healthCheckType: String?
+        ///  The instance lifecycle policy applied to this Auto Scaling group. This policy determines  instance behavior when an instance transitions through its lifecycle states. It provides additional  control over graceful instance management processes.
+        public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
         /// The EC2 instances associated with the group.
@@ -682,7 +700,7 @@ extension AutoScaling {
         public let warmPoolSize: Int?
 
         @inlinable
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, createdTime: Date? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
@@ -699,6 +717,7 @@ extension AutoScaling {
             self.enabledMetrics = enabledMetrics
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
+            self.instanceLifecyclePolicy = instanceLifecyclePolicy
             self.instanceMaintenancePolicy = instanceMaintenancePolicy
             self.instances = instances
             self.launchConfigurationName = launchConfigurationName
@@ -740,6 +759,7 @@ extension AutoScaling {
             case enabledMetrics = "EnabledMetrics"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case healthCheckType = "HealthCheckType"
+            case instanceLifecyclePolicy = "InstanceLifecyclePolicy"
             case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
             case instances = "Instances"
             case launchConfigurationName = "LaunchConfigurationName"
@@ -835,6 +855,8 @@ extension AutoScaling {
         public let availabilityZone: String?
         /// The last reported health status of this instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String?
+        ///  The ID of the Amazon Machine Image (AMI) associated with the instance. This field shows the  current AMI ID of the instance's root volume. It may differ from the original AMI used when  the instance was first launched.   This field appears for:    Instances with root volume replacements through Instance Refresh   Instances launched with AMI overrides    This field won't appear for:   Existing instances launched from Launch Templates without overrides   Existing instances that didn’t have their root volume replaced through Instance Refresh
+        public let imageId: String?
         /// The ID of the instance.
         public let instanceId: String?
         /// The instance type of the EC2 instance.
@@ -851,10 +873,11 @@ extension AutoScaling {
         public let weightedCapacity: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZone: String? = nil, healthStatus: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZone: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: String? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
+            self.imageId = imageId
             self.instanceId = instanceId
             self.instanceType = instanceType
             self.launchConfigurationName = launchConfigurationName
@@ -868,6 +891,7 @@ extension AutoScaling {
             case autoScalingGroupName = "AutoScalingGroupName"
             case availabilityZone = "AvailabilityZone"
             case healthStatus = "HealthStatus"
+            case imageId = "ImageId"
             case instanceId = "InstanceId"
             case instanceType = "InstanceType"
             case launchConfigurationName = "LaunchConfigurationName"
@@ -1298,6 +1322,8 @@ extension AutoScaling {
         public let healthCheckType: String?
         /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
         public let instanceId: String?
+        ///  The instance lifecycle policy for the Auto Scaling group. This policy controls instance  behavior when an instance transitions through its lifecycle states. Configure retention  triggers to specify when instances should move to a Retained  state for manual intervention instead of automatic termination.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+        public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
         /// The name of the launch configuration to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
@@ -1342,7 +1368,7 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, trafficSources: [TrafficSourceIdentifier]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
@@ -1357,6 +1383,7 @@ extension AutoScaling {
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
             self.instanceId = instanceId
+            self.instanceLifecyclePolicy = instanceLifecyclePolicy
             self.instanceMaintenancePolicy = instanceMaintenancePolicy
             self.launchConfigurationName = launchConfigurationName
             self.launchTemplate = launchTemplate
@@ -1452,6 +1479,7 @@ extension AutoScaling {
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case healthCheckType = "HealthCheckType"
             case instanceId = "InstanceId"
+            case instanceLifecyclePolicy = "InstanceLifecyclePolicy"
             case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
             case launchConfigurationName = "LaunchConfigurationName"
             case launchTemplate = "LaunchTemplate"
@@ -3080,6 +3108,8 @@ extension AutoScaling {
         public let availabilityZone: String?
         /// The last reported health status of the instance. Healthy means that the instance is healthy and should remain in service. Unhealthy means that the instance is unhealthy and that Amazon EC2 Auto Scaling should terminate and replace it.
         public let healthStatus: String?
+        ///  The ID of the Amazon Machine Image (AMI) used for the instance's current root volume.  This value reflects the most recent AMI applied to the instance, including updates made  through root volume replacement operations.   This field appears for:    Instances with root volume replacements through Instance Refresh   Instances launched with AMI overrides    This field won't appear for:   Existing instances launched from Launch Templates without overrides   Existing instances that didn’t have their root volume replaced through Instance Refresh
+        public let imageId: String?
         /// The ID of the instance.
         public let instanceId: String?
         /// The instance type of the EC2 instance.
@@ -3096,9 +3126,10 @@ extension AutoScaling {
         public let weightedCapacity: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, healthStatus: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
+        public init(availabilityZone: String? = nil, healthStatus: String? = nil, imageId: String? = nil, instanceId: String? = nil, instanceType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleState: LifecycleState? = nil, protectedFromScaleIn: Bool? = nil, weightedCapacity: String? = nil) {
             self.availabilityZone = availabilityZone
             self.healthStatus = healthStatus
+            self.imageId = imageId
             self.instanceId = instanceId
             self.instanceType = instanceType
             self.launchConfigurationName = launchConfigurationName
@@ -3111,6 +3142,7 @@ extension AutoScaling {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case healthStatus = "HealthStatus"
+            case imageId = "ImageId"
             case instanceId = "InstanceId"
             case instanceType = "InstanceType"
             case launchConfigurationName = "LaunchConfigurationName"
@@ -3118,6 +3150,55 @@ extension AutoScaling {
             case lifecycleState = "LifecycleState"
             case protectedFromScaleIn = "ProtectedFromScaleIn"
             case weightedCapacity = "WeightedCapacity"
+        }
+    }
+
+    public struct InstanceCollection: AWSDecodableShape {
+        ///  The Availability Zone where the instances were launched.
+        public let availabilityZone: String?
+        ///  The Availability Zone ID where the instances in this collection were launched.
+        public let availabilityZoneId: String?
+        ///  A list of instance IDs for the successfully launched instances.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var instanceIds: [String]?
+        ///  The instance type of the launched instances.
+        public let instanceType: String?
+        ///  The market type for the instances (On-Demand or Spot).
+        public let marketType: String?
+        ///  The ID of the subnet where the instances were launched.
+        public let subnetId: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, instanceIds: [String]? = nil, instanceType: String? = nil, marketType: String? = nil, subnetId: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.instanceIds = instanceIds
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case instanceIds = "InstanceIds"
+            case instanceType = "InstanceType"
+            case marketType = "MarketType"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct InstanceLifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies the conditions that trigger instance retention behavior. These triggers determine when instances  should move to a Retained state instead of being terminated. This allows you to maintain control over  instance management when lifecycle operations fail.
+        public let retentionTriggers: RetentionTriggers?
+
+        @inlinable
+        public init(retentionTriggers: RetentionTriggers? = nil) {
+            self.retentionTriggers = retentionTriggers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retentionTriggers = "RetentionTriggers"
         }
     }
 
@@ -3212,9 +3293,11 @@ extension AutoScaling {
         public let status: InstanceRefreshStatus?
         /// The explanation for the specific status assigned to this operation.
         public let statusReason: String?
+        ///  The strategy to use for the instance refresh. This determines how instances in the Auto Scaling group are  updated. Default is Rolling.     Rolling – Terminates instances and launches replacements in batches    ReplaceRootVolume – Updates instances by replacing only the root volume without terminating the instance
+        public let strategy: RefreshStrategy?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, desiredConfiguration: DesiredConfiguration? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, preferences: RefreshPreferences? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, rollbackDetails: RollbackDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, desiredConfiguration: DesiredConfiguration? = nil, endTime: Date? = nil, instanceRefreshId: String? = nil, instancesToUpdate: Int? = nil, percentageComplete: Int? = nil, preferences: RefreshPreferences? = nil, progressDetails: InstanceRefreshProgressDetails? = nil, rollbackDetails: RollbackDetails? = nil, startTime: Date? = nil, status: InstanceRefreshStatus? = nil, statusReason: String? = nil, strategy: RefreshStrategy? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.desiredConfiguration = desiredConfiguration
             self.endTime = endTime
@@ -3227,6 +3310,7 @@ extension AutoScaling {
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
+            self.strategy = strategy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3242,6 +3326,7 @@ extension AutoScaling {
             case startTime = "StartTime"
             case status = "Status"
             case statusReason = "StatusReason"
+            case strategy = "Strategy"
         }
     }
 
@@ -3662,6 +3747,141 @@ extension AutoScaling {
         }
     }
 
+    public struct LaunchInstancesError: AWSDecodableShape {
+        ///  The Availability Zone where the instance launch was attempted.
+        public let availabilityZone: String?
+        ///  The Availability Zone ID where the launch error occurred.
+        public let availabilityZoneId: String?
+        ///  The error code representing the type of error encountered (e.g., InsufficientInstanceCapacity).
+        public let errorCode: String?
+        ///  A descriptive message providing details about the error encountered during the launch attempt.
+        public let errorMessage: String?
+        ///  The instance type that failed to launch.
+        public let instanceType: String?
+        ///  The market type (On-Demand or Spot) that encountered the launch error.
+        public let marketType: String?
+        ///  The subnet ID where the instance launch was attempted.
+        public let subnetId: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, instanceType: String? = nil, marketType: String? = nil, subnetId: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.availabilityZoneId = availabilityZoneId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.instanceType = instanceType
+            self.marketType = marketType
+            self.subnetId = subnetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case availabilityZoneId = "AvailabilityZoneId"
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case instanceType = "InstanceType"
+            case marketType = "MarketType"
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct LaunchInstancesRequest: AWSEncodableShape {
+        ///  The name of the Auto Scaling group to launch instances into.
+        public let autoScalingGroupName: String?
+        ///  A list of Availability Zone IDs where instances should be launched. Must match or be included in the group's AZ configuration. You cannot specify both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ groups, optional for single-AZ groups.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var availabilityZoneIds: [String]?
+        ///  The Availability Zones for the instance launch. Must match or be included in the Auto Scaling group's Availability Zone configuration. Either AvailabilityZones or SubnetIds must be specified for groups with multiple Availability Zone configurations.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var availabilityZones: [String]?
+        ///  A unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        ///  The number of instances to launch. Although this value can exceed 100 for instance weights, the actual instance count is limited to 100 instances per launch.
+        public let requestedCapacity: Int?
+        ///  Specifies whether to retry asynchronously if the synchronous launch fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with group configuration).
+        public let retryStrategy: RetryStrategy?
+        ///  The subnet IDs for the instance launch. Either AvailabilityZones or SubnetIds must be specified. If both are specified, the subnets must reside in the specified Availability Zones.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var subnetIds: [String]?
+
+        @inlinable
+        public init(autoScalingGroupName: String? = nil, availabilityZoneIds: [String]? = nil, availabilityZones: [String]? = nil, clientToken: String? = nil, requestedCapacity: Int? = nil, retryStrategy: RetryStrategy? = nil, subnetIds: [String]? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.availabilityZoneIds = availabilityZoneIds
+            self.availabilityZones = availabilityZones
+            self.clientToken = clientToken
+            self.requestedCapacity = requestedCapacity
+            self.retryStrategy = retryStrategy
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, max: 255)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, min: 1)
+            try self.validate(self.autoScalingGroupName, name: "autoScalingGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.availabilityZoneIds?.forEach {
+                try validate($0, name: "availabilityZoneIds[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZoneIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.availabilityZoneIds, name: "availabilityZoneIds", parent: name, max: 1)
+            try self.availabilityZones?.forEach {
+                try validate($0, name: "availabilityZones[]", parent: name, max: 255)
+                try validate($0, name: "availabilityZones[]", parent: name, min: 1)
+                try validate($0, name: "availabilityZones[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.availabilityZones, name: "availabilityZones", parent: name, max: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9\\-_\\/]+$")
+            try self.validate(self.requestedCapacity, name: "requestedCapacity", parent: name, min: 1)
+            try self.subnetIds?.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 255)
+                try validate($0, name: "subnetIds[]", parent: name, min: 1)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case availabilityZoneIds = "AvailabilityZoneIds"
+            case availabilityZones = "AvailabilityZones"
+            case clientToken = "ClientToken"
+            case requestedCapacity = "RequestedCapacity"
+            case retryStrategy = "RetryStrategy"
+            case subnetIds = "SubnetIds"
+        }
+    }
+
+    public struct LaunchInstancesResult: AWSDecodableShape {
+        ///  The name of the Auto Scaling group where the instances were launched.
+        public let autoScalingGroupName: String?
+        ///  The idempotency token used for the request, either customer-specified or auto-generated.
+        public let clientToken: String?
+        ///  A list of errors encountered during the launch attempt including details about failed instance launches with their corresponding error codes and messages.
+        @OptionalCustomCoding<StandardArrayCoder<LaunchInstancesError>>
+        public var errors: [LaunchInstancesError]?
+        ///  A list of successfully launched instances including details such as instance type, Availability Zone, subnet, lifecycle state, and instance IDs.
+        @OptionalCustomCoding<StandardArrayCoder<InstanceCollection>>
+        public var instances: [InstanceCollection]?
+
+        @inlinable
+        public init(autoScalingGroupName: String? = nil, clientToken: String? = nil, errors: [LaunchInstancesError]? = nil, instances: [InstanceCollection]? = nil) {
+            self.autoScalingGroupName = autoScalingGroupName
+            self.clientToken = clientToken
+            self.errors = errors
+            self.instances = instances
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoScalingGroupName = "AutoScalingGroupName"
+            case clientToken = "ClientToken"
+            case errors = "Errors"
+            case instances = "Instances"
+        }
+    }
+
     public struct LaunchTemplate: AWSEncodableShape & AWSDecodableShape {
         /// The launch template.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
@@ -3689,6 +3909,8 @@ extension AutoScaling {
     }
 
     public struct LaunchTemplateOverrides: AWSEncodableShape & AWSDecodableShape {
+        ///  The ID of the Amazon Machine Image (AMI) to use for instances launched with this override. When  using Instance Refresh with ReplaceRootVolume strategy, this specifies the AMI for root volume  replacement operations.   For ReplaceRootVolume operations:    All overrides in the MixedInstancesPolicy must specify an ImageId   The AMI must contain only a single root volume   Root volume replacement doesn't support multi-volume AMIs
+        public let imageId: String?
         /// The instance requirements. Amazon EC2 Auto Scaling uses your specified requirements to identify instance types. Then, it uses your On-Demand and Spot allocation strategies to launch instances from these instance types. You can specify up to four separate sets of instance requirements per Auto Scaling group. This is useful for provisioning instances from different Amazon Machine Images (AMIs) in the same Auto Scaling group. To do this, create the AMIs and create a new launch template for each AMI. Then, create a compatible set of instance requirements for each launch template.   If you specify InstanceRequirements, you can't specify InstanceType.
         public let instanceRequirements: InstanceRequirements?
         /// The instance type, such as m3.xlarge. You must specify an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon EC2 User Guide. You can specify up to 40 instance types per Auto Scaling group.
@@ -3699,7 +3921,8 @@ extension AutoScaling {
         public let weightedCapacity: String?
 
         @inlinable
-        public init(instanceRequirements: InstanceRequirements? = nil, instanceType: String? = nil, launchTemplateSpecification: LaunchTemplateSpecification? = nil, weightedCapacity: String? = nil) {
+        public init(imageId: String? = nil, instanceRequirements: InstanceRequirements? = nil, instanceType: String? = nil, launchTemplateSpecification: LaunchTemplateSpecification? = nil, weightedCapacity: String? = nil) {
+            self.imageId = imageId
             self.instanceRequirements = instanceRequirements
             self.instanceType = instanceType
             self.launchTemplateSpecification = launchTemplateSpecification
@@ -3707,6 +3930,9 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.imageId, name: "imageId", parent: name, max: 21)
+            try self.validate(self.imageId, name: "imageId", parent: name, min: 5)
+            try self.validate(self.imageId, name: "imageId", parent: name, pattern: "^ami-[a-z0-9]{1,17}$")
             try self.instanceRequirements?.validate(name: "\(name).instanceRequirements")
             try self.validate(self.instanceType, name: "instanceType", parent: name, max: 255)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
@@ -3718,6 +3944,7 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageId = "ImageId"
             case instanceRequirements = "InstanceRequirements"
             case instanceType = "InstanceType"
             case launchTemplateSpecification = "LaunchTemplateSpecification"
@@ -4930,6 +5157,20 @@ extension AutoScaling {
         }
     }
 
+    public struct RetentionTriggers: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction).   Set to Retain to move instances to a Retained state. Set to Terminate for default termination behavior.   Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
+        public let terminateHookAbandon: RetentionAction?
+
+        @inlinable
+        public init(terminateHookAbandon: RetentionAction? = nil) {
+            self.terminateHookAbandon = terminateHookAbandon
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case terminateHookAbandon = "TerminateHookAbandon"
+        }
+    }
+
     public struct RollbackDetails: AWSDecodableShape {
         /// Indicates the value of InstancesToUpdate at the time the rollback started.
         public let instancesToUpdateOnRollback: Int?
@@ -5749,6 +5990,8 @@ extension AutoScaling {
         public let healthCheckGracePeriod: Int?
         /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
         public let healthCheckType: String?
+        ///  The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle  policies that control instance behavior when an instance transitions through its lifecycle states. Configure  retention triggers to specify when to preserve instances for manual intervention.
+        public let instanceLifecyclePolicy: InstanceLifecyclePolicy?
         /// An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
         public let instanceMaintenancePolicy: InstanceMaintenancePolicy?
         /// The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
@@ -5778,7 +6021,7 @@ extension AutoScaling {
         public let vpcZoneIdentifier: String?
 
         @inlinable
-        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String? = nil, availabilityZoneDistribution: AvailabilityZoneDistribution? = nil, availabilityZoneImpairmentPolicy: AvailabilityZoneImpairmentPolicy? = nil, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, capacityReservationSpecification: CapacityReservationSpecification? = nil, context: String? = nil, defaultCooldown: Int? = nil, defaultInstanceWarmup: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil, instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, skipZonalShiftValidation: Bool? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZoneDistribution = availabilityZoneDistribution
             self.availabilityZoneImpairmentPolicy = availabilityZoneImpairmentPolicy
@@ -5792,6 +6035,7 @@ extension AutoScaling {
             self.desiredCapacityType = desiredCapacityType
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
+            self.instanceLifecyclePolicy = instanceLifecyclePolicy
             self.instanceMaintenancePolicy = instanceMaintenancePolicy
             self.launchConfigurationName = launchConfigurationName
             self.launchTemplate = launchTemplate
@@ -5858,6 +6102,7 @@ extension AutoScaling {
             case desiredCapacityType = "DesiredCapacityType"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case healthCheckType = "HealthCheckType"
+            case instanceLifecyclePolicy = "InstanceLifecyclePolicy"
             case instanceMaintenancePolicy = "InstanceMaintenancePolicy"
             case launchConfigurationName = "LaunchConfigurationName"
             case launchTemplate = "LaunchTemplate"
@@ -5935,6 +6180,7 @@ public struct AutoScalingErrorType: AWSErrorType {
     enum Code: String {
         case activeInstanceRefreshNotFoundFault = "ActiveInstanceRefreshNotFound"
         case alreadyExistsFault = "AlreadyExists"
+        case idempotentParameterMismatchError = "IdempotentParameterMismatch"
         case instanceRefreshInProgressFault = "InstanceRefreshInProgress"
         case invalidNextToken = "InvalidNextToken"
         case irreversibleInstanceRefreshFault = "IrreversibleInstanceRefresh"
@@ -5967,6 +6213,8 @@ public struct AutoScalingErrorType: AWSErrorType {
     public static var activeInstanceRefreshNotFoundFault: Self { .init(.activeInstanceRefreshNotFoundFault) }
     /// You already have an Auto Scaling group or launch configuration with this name.
     public static var alreadyExistsFault: Self { .init(.alreadyExistsFault) }
+    ///  Indicates that the parameters in the current request do not match the parameters from a previous request with the same client token within the idempotency window.
+    public static var idempotentParameterMismatchError: Self { .init(.idempotentParameterMismatchError) }
     /// The request failed because an active instance refresh already exists for the specified Auto Scaling group.
     public static var instanceRefreshInProgressFault: Self { .init(.instanceRefreshInProgressFault) }
     /// The NextToken value is not valid.

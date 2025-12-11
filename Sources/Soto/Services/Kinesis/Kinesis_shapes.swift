@@ -50,6 +50,19 @@ extension Kinesis {
         public var description: String { return self.rawValue }
     }
 
+    public enum MinimumThroughputBillingCommitmentInputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MinimumThroughputBillingCommitmentOutputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        case enabledUntilEarliestAllowedEnd = "ENABLED_UNTIL_EARLIEST_ALLOWED_END"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScalingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case uniformScaling = "UNIFORM_SCALING"
         public var description: String { return self.rawValue }
@@ -275,6 +288,8 @@ extension Kinesis {
     }
 
     public struct CreateStreamInput: AWSEncodableShape {
+        /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+        public let maxRecordSizeInKiB: Int?
         /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
         public let shardCount: Int?
         ///  Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
@@ -283,16 +298,22 @@ extension Kinesis {
         public let streamName: String
         /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value.
         public let tags: [String: String]?
+        /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
+        public let warmThroughputMiBps: Int?
 
         @inlinable
-        public init(shardCount: Int? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, tags: [String: String]? = nil) {
+        public init(maxRecordSizeInKiB: Int? = nil, shardCount: Int? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, tags: [String: String]? = nil, warmThroughputMiBps: Int? = nil) {
+            self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.shardCount = shardCount
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
             self.tags = tags
+            self.warmThroughputMiBps = warmThroughputMiBps
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxRecordSizeInKiB, name: "maxRecordSizeInKiB", parent: name, max: 10240)
+            try self.validate(self.maxRecordSizeInKiB, name: "maxRecordSizeInKiB", parent: name, min: 1024)
             try self.validate(self.shardCount, name: "shardCount", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
@@ -304,13 +325,16 @@ extension Kinesis {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.warmThroughputMiBps, name: "warmThroughputMiBps", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxRecordSizeInKiB = "MaxRecordSizeInKiB"
             case shardCount = "ShardCount"
             case streamModeDetails = "StreamModeDetails"
             case streamName = "StreamName"
             case tags = "Tags"
+            case warmThroughputMiBps = "WarmThroughputMiBps"
         }
     }
 
@@ -427,6 +451,24 @@ extension Kinesis {
             case consumerARN = "ConsumerARN"
             case consumerName = "ConsumerName"
             case streamARN = "StreamARN"
+        }
+    }
+
+    public struct DescribeAccountSettingsInput: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeAccountSettingsOutput: AWSDecodableShape {
+        /// The current configuration of the minimum throughput billing commitment for your Amazon Web Services account.
+        public let minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentOutput?
+
+        @inlinable
+        public init(minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentOutput? = nil) {
+            self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumThroughputBillingCommitment = "MinimumThroughputBillingCommitment"
         }
     }
 
@@ -1322,6 +1364,46 @@ extension Kinesis {
         }
     }
 
+    public struct MinimumThroughputBillingCommitmentInput: AWSEncodableShape {
+        /// The desired status of the minimum throughput billing commitment.
+        public let status: MinimumThroughputBillingCommitmentInputStatus
+
+        @inlinable
+        public init(status: MinimumThroughputBillingCommitmentInputStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct MinimumThroughputBillingCommitmentOutput: AWSDecodableShape {
+        /// The earliest timestamp when the commitment can be ended.
+        public let earliestAllowedEndAt: Date?
+        /// The timestamp when the commitment was ended.
+        public let endedAt: Date?
+        /// The timestamp when the commitment was started.
+        public let startedAt: Date?
+        /// The current status of the minimum throughput billing commitment.
+        public let status: MinimumThroughputBillingCommitmentOutputStatus
+
+        @inlinable
+        public init(earliestAllowedEndAt: Date? = nil, endedAt: Date? = nil, startedAt: Date? = nil, status: MinimumThroughputBillingCommitmentOutputStatus) {
+            self.earliestAllowedEndAt = earliestAllowedEndAt
+            self.endedAt = endedAt
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case earliestAllowedEndAt = "EarliestAllowedEndAt"
+            case endedAt = "EndedAt"
+            case startedAt = "StartedAt"
+            case status = "Status"
+        }
+    }
+
     public struct PutRecordInput: AWSEncodableShape {
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         public let data: AWSBase64Data
@@ -1347,7 +1429,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1048576)
+            try self.validate(self.data, name: "data", parent: name, max: 10485760)
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
@@ -1466,7 +1548,7 @@ extension Kinesis {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1048576)
+            try self.validate(self.data, name: "data", parent: name, max: 10485760)
             try self.validate(self.explicitHashKey, name: "explicitHashKey", parent: name, pattern: "^0|([1-9]\\d{0,38})$")
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, max: 256)
             try self.validate(self.partitionKey, name: "partitionKey", parent: name, min: 1)
@@ -1954,6 +2036,8 @@ extension Kinesis {
         public let enhancedMonitoring: [EnhancedMetrics]
         /// The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified ARN to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example:  arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Data Streams: alias/aws/kinesis
         public let keyId: String?
+        /// The maximum record size of a single record in kibibyte (KiB) that you can write to, and read from a stream.
+        public let maxRecordSizeInKiB: Int?
         /// The number of open shards in the stream.
         public let openShardCount: Int
         /// The current retention period, in hours.
@@ -1968,13 +2052,16 @@ extension Kinesis {
         public let streamName: String
         /// The current status of the stream being described. The stream status is one of the following states:    CREATING - The stream is being created. Kinesis Data Streams immediately returns and sets StreamStatus to CREATING.    DELETING - The stream is being deleted. The specified stream is in the DELETING state until Kinesis Data Streams completes the deletion.    ACTIVE - The stream exists and is ready for read and write operations or deletion. You should perform read and write operations only on an ACTIVE stream.    UPDATING - Shards in the stream are being merged or split. Read and write operations continue to work while the stream is in the UPDATING state.
         public let streamStatus: StreamStatus
+        /// The warm throughput in MB/s for the stream. This represents the throughput capacity that will be immediately available for write operations.
+        public let warmThroughput: WarmThroughputObject?
 
         @inlinable
-        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus) {
+        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, maxRecordSizeInKiB: Int? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus, warmThroughput: WarmThroughputObject? = nil) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
             self.keyId = keyId
+            self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.openShardCount = openShardCount
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
@@ -1982,6 +2069,7 @@ extension Kinesis {
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
             self.streamStatus = streamStatus
+            self.warmThroughput = warmThroughput
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1989,6 +2077,7 @@ extension Kinesis {
             case encryptionType = "EncryptionType"
             case enhancedMonitoring = "EnhancedMonitoring"
             case keyId = "KeyId"
+            case maxRecordSizeInKiB = "MaxRecordSizeInKiB"
             case openShardCount = "OpenShardCount"
             case retentionPeriodHours = "RetentionPeriodHours"
             case streamARN = "StreamARN"
@@ -1996,6 +2085,7 @@ extension Kinesis {
             case streamModeDetails = "StreamModeDetails"
             case streamName = "StreamName"
             case streamStatus = "StreamStatus"
+            case warmThroughput = "WarmThroughput"
         }
     }
 
@@ -2195,6 +2285,60 @@ extension Kinesis {
         }
     }
 
+    public struct UpdateAccountSettingsInput: AWSEncodableShape {
+        /// Specifies the minimum throughput billing commitment configuration for your account.
+        public let minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput
+
+        @inlinable
+        public init(minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentInput) {
+            self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumThroughputBillingCommitment = "MinimumThroughputBillingCommitment"
+        }
+    }
+
+    public struct UpdateAccountSettingsOutput: AWSDecodableShape {
+        /// The updated configuration of the minimum throughput billing commitment for your account.
+        public let minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentOutput?
+
+        @inlinable
+        public init(minimumThroughputBillingCommitment: MinimumThroughputBillingCommitmentOutput? = nil) {
+            self.minimumThroughputBillingCommitment = minimumThroughputBillingCommitment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumThroughputBillingCommitment = "MinimumThroughputBillingCommitment"
+        }
+    }
+
+    public struct UpdateMaxRecordSizeInput: AWSEncodableShape {
+        /// The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
+        public let maxRecordSizeInKiB: Int
+        /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
+        public let streamARN: String?
+
+        @inlinable
+        public init(maxRecordSizeInKiB: Int, streamARN: String? = nil) {
+            self.maxRecordSizeInKiB = maxRecordSizeInKiB
+            self.streamARN = streamARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRecordSizeInKiB, name: "maxRecordSizeInKiB", parent: name, max: 10240)
+            try self.validate(self.maxRecordSizeInKiB, name: "maxRecordSizeInKiB", parent: name, min: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecordSizeInKiB = "MaxRecordSizeInKiB"
+            case streamARN = "StreamARN"
+        }
+    }
+
     public struct UpdateShardCountInput: AWSEncodableShape {
         /// The scaling type. Uniform scaling creates shards of equal size.
         public let scalingType: ScalingType
@@ -2262,22 +2406,99 @@ extension Kinesis {
         public let streamARN: String
         ///  Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         public let streamModeDetails: StreamModeDetails
+        /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. This field is only valid when the stream mode is being updated to on-demand.
+        public let warmThroughputMiBps: Int?
 
         @inlinable
-        public init(streamARN: String, streamModeDetails: StreamModeDetails) {
+        public init(streamARN: String, streamModeDetails: StreamModeDetails, warmThroughputMiBps: Int? = nil) {
             self.streamARN = streamARN
             self.streamModeDetails = streamModeDetails
+            self.warmThroughputMiBps = warmThroughputMiBps
         }
 
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.warmThroughputMiBps, name: "warmThroughputMiBps", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
             case streamModeDetails = "StreamModeDetails"
+            case warmThroughputMiBps = "WarmThroughputMiBps"
+        }
+    }
+
+    public struct UpdateStreamWarmThroughputInput: AWSEncodableShape {
+        /// The ARN of the stream to be updated.
+        public let streamARN: String?
+        /// The name of the stream to be updated.
+        public let streamName: String?
+        /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
+        public let warmThroughputMiBps: Int
+
+        @inlinable
+        public init(streamARN: String? = nil, streamName: String? = nil, warmThroughputMiBps: Int) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.warmThroughputMiBps = warmThroughputMiBps
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.warmThroughputMiBps, name: "warmThroughputMiBps", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case warmThroughputMiBps = "WarmThroughputMiBps"
+        }
+    }
+
+    public struct UpdateStreamWarmThroughputOutput: AWSDecodableShape {
+        /// The ARN of the stream that was updated.
+        public let streamARN: String?
+        /// The name of the stream that was updated.
+        public let streamName: String?
+        /// Specifies the updated warm throughput configuration for your data stream.
+        public let warmThroughput: WarmThroughputObject?
+
+        @inlinable
+        public init(streamARN: String? = nil, streamName: String? = nil, warmThroughput: WarmThroughputObject? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.warmThroughput = warmThroughput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case warmThroughput = "WarmThroughput"
+        }
+    }
+
+    public struct WarmThroughputObject: AWSDecodableShape {
+        /// The current warm throughput value on the stream. This is the write throughput in MiBps that the stream is currently scaled to handle.
+        public let currentMiBps: Int?
+        /// The target warm throughput value on the stream. This indicates that the stream is currently scaling towards this target value.
+        public let targetMiBps: Int?
+
+        @inlinable
+        public init(currentMiBps: Int? = nil, targetMiBps: Int? = nil) {
+            self.currentMiBps = currentMiBps
+            self.targetMiBps = targetMiBps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentMiBps = "CurrentMiBps"
+            case targetMiBps = "TargetMiBps"
         }
     }
 }

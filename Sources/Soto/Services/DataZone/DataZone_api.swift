@@ -216,6 +216,7 @@ public struct DataZone: AWSService {
     /// Accepts a subscription request to a specific asset.
     ///
     /// Parameters:
+    ///   - assetPermissions: The asset permissions of the accept subscription request.
     ///   - assetScopes: The asset scopes of the accept subscription request.
     ///   - decisionComment: A description that specifies the reason for accepting the specified subscription request.
     ///   - domainIdentifier: The Amazon DataZone domain where the specified subscription request is being accepted.
@@ -223,6 +224,7 @@ public struct DataZone: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func acceptSubscriptionRequest(
+        assetPermissions: [AssetPermission]? = nil,
         assetScopes: [AcceptedAssetScope]? = nil,
         decisionComment: String? = nil,
         domainIdentifier: String,
@@ -230,6 +232,7 @@ public struct DataZone: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> AcceptSubscriptionRequestOutput {
         let input = AcceptSubscriptionRequestInput(
+            assetPermissions: assetPermissions, 
             assetScopes: assetScopes, 
             decisionComment: decisionComment, 
             domainIdentifier: domainIdentifier, 
@@ -397,6 +400,88 @@ public struct DataZone: AWSService {
             governedGlossaryTerms: governedGlossaryTerms
         )
         return try await self.associateGovernedTerms(input, logger: logger)
+    }
+
+    /// Gets the attribute metadata.
+    @Sendable
+    @inlinable
+    public func batchGetAttributesMetadata(_ input: BatchGetAttributesMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetAttributesMetadataOutput {
+        try await self.client.execute(
+            operation: "BatchGetAttributesMetadata", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the attribute metadata.
+    ///
+    /// Parameters:
+    ///   - attributeIdentifiers: The attribute identifier.
+    ///   - domainIdentifier: The domain ID where you want to get the attribute metadata.
+    ///   - entityIdentifier: The entity ID for which you want to get attribute metadata.
+    ///   - entityRevision: The entity revision for which you want to get attribute metadata.
+    ///   - entityType: The entity type for which you want to get attribute metadata.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetAttributesMetadata(
+        attributeIdentifiers: [String],
+        domainIdentifier: String,
+        entityIdentifier: String,
+        entityRevision: String? = nil,
+        entityType: AttributeEntityType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetAttributesMetadataOutput {
+        let input = BatchGetAttributesMetadataInput(
+            attributeIdentifiers: attributeIdentifiers, 
+            domainIdentifier: domainIdentifier, 
+            entityIdentifier: entityIdentifier, 
+            entityRevision: entityRevision, 
+            entityType: entityType
+        )
+        return try await self.batchGetAttributesMetadata(input, logger: logger)
+    }
+
+    /// Writes the attribute metadata.
+    @Sendable
+    @inlinable
+    public func batchPutAttributesMetadata(_ input: BatchPutAttributesMetadataInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchPutAttributesMetadataOutput {
+        try await self.client.execute(
+            operation: "BatchPutAttributesMetadata", 
+            path: "/v2/domains/{domainIdentifier}/entities/{entityType}/{entityIdentifier}/attributes-metadata", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Writes the attribute metadata.
+    ///
+    /// Parameters:
+    ///   - attributes: The attributes of the metadata.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - domainIdentifier: The domain ID where you want to write the attribute metadata.
+    ///   - entityIdentifier: The entity ID for which you want to write the attribute metadata.
+    ///   - entityType: The entity type for which you want to write the attribute metadata.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchPutAttributesMetadata(
+        attributes: [AttributeInput],
+        clientToken: String? = BatchPutAttributesMetadataInput.idempotencyToken(),
+        domainIdentifier: String,
+        entityIdentifier: String,
+        entityType: AttributeEntityType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchPutAttributesMetadataOutput {
+        let input = BatchPutAttributesMetadataInput(
+            attributes: attributes, 
+            clientToken: clientToken, 
+            domainIdentifier: domainIdentifier, 
+            entityIdentifier: entityIdentifier, 
+            entityType: entityType
+        )
+        return try await self.batchPutAttributesMetadata(input, logger: logger)
     }
 
     /// Cancels the metadata generation run. Prerequisites:   The run must exist and be in a cancelable status (e.g., SUBMITTED, IN_PROGRESS).    Runs in SUCCEEDED status cannot be cancelled.   User must have access to the run and cancel permissions.
@@ -1452,6 +1537,7 @@ public struct DataZone: AWSService {
     ///   - glossaryTerms: The glossary terms that can be used in this Amazon DataZone project.
     ///   - name: The name of the Amazon DataZone project.
     ///   - projectProfileId: The ID of the project profile.
+    ///   - resourceTags: The resource tags of the project.
     ///   - userParameters: The user parameters of the project.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1462,6 +1548,7 @@ public struct DataZone: AWSService {
         glossaryTerms: [String]? = nil,
         name: String,
         projectProfileId: String? = nil,
+        resourceTags: [String: String]? = nil,
         userParameters: [EnvironmentConfigurationUserParameter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectOutput {
@@ -1472,6 +1559,7 @@ public struct DataZone: AWSService {
             glossaryTerms: glossaryTerms, 
             name: name, 
             projectProfileId: projectProfileId, 
+            resourceTags: resourceTags, 
             userParameters: userParameters
         )
         return try await self.createProject(input, logger: logger)
@@ -1531,29 +1619,38 @@ public struct DataZone: AWSService {
     /// Creates a project profile.
     ///
     /// Parameters:
+    ///   - allowCustomProjectResourceTags: Specifies whether custom project resource tags are supported.
     ///   - description: A description of a project profile.
     ///   - domainIdentifier: A domain ID of the project profile.
     ///   - domainUnitIdentifier: A domain unit ID of the project profile.
     ///   - environmentConfigurations: Environment configurations of the project profile.
     ///   - name: Project profile name.
+    ///   - projectResourceTags: The resource tags of the project profile.
+    ///   - projectResourceTagsDescription: Field viewable through the UI that provides a project user with the allowed resource tag specifications.
     ///   - status: Project profile status.
     ///   - logger: Logger use during operation
     @inlinable
     public func createProjectProfile(
+        allowCustomProjectResourceTags: Bool? = nil,
         description: String? = nil,
         domainIdentifier: String,
         domainUnitIdentifier: String? = nil,
         environmentConfigurations: [EnvironmentConfiguration]? = nil,
         name: String,
+        projectResourceTags: [ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: String? = nil,
         status: Status? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectProfileOutput {
         let input = CreateProjectProfileInput(
+            allowCustomProjectResourceTags: allowCustomProjectResourceTags, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             domainUnitIdentifier: domainUnitIdentifier, 
             environmentConfigurations: environmentConfigurations, 
             name: name, 
+            projectResourceTags: projectResourceTags, 
+            projectResourceTagsDescription: projectResourceTagsDescription, 
             status: status
         )
         return try await self.createProjectProfile(input, logger: logger)
@@ -1669,6 +1766,8 @@ public struct DataZone: AWSService {
     /// Creates a subscription request in Amazon DataZone.
     ///
     /// Parameters:
+    ///   - assetPermissions: The asset permissions of the subscription request.
+    ///   - assetScopes: The asset scopes of the subscription request.
     ///   - clientToken: A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain in which the subscription request is created.
     ///   - metadataForms: The metadata form included in the subscription request.
@@ -1678,6 +1777,8 @@ public struct DataZone: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createSubscriptionRequest(
+        assetPermissions: [AssetPermission]? = nil,
+        assetScopes: [AcceptedAssetScope]? = nil,
         clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(),
         domainIdentifier: String,
         metadataForms: [FormInput]? = nil,
@@ -1687,6 +1788,8 @@ public struct DataZone: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSubscriptionRequestOutput {
         let input = CreateSubscriptionRequestInput(
+            assetPermissions: assetPermissions, 
+            assetScopes: assetScopes, 
             clientToken: clientToken, 
             domainIdentifier: domainIdentifier, 
             metadataForms: metadataForms, 
@@ -2898,6 +3001,35 @@ public struct DataZone: AWSService {
         return try await self.getConnection(input, logger: logger)
     }
 
+    /// Gets data export configuration details.
+    @Sendable
+    @inlinable
+    public func getDataExportConfiguration(_ input: GetDataExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataExportConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetDataExportConfiguration", 
+            path: "/v2/domains/{domainIdentifier}/data-export-configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets data export configuration details.
+    ///
+    /// Parameters:
+    ///   - domainIdentifier: The ID of the domain where you want to get the data export configuration details.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataExportConfiguration(
+        domainIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataExportConfigurationOutput {
+        let input = GetDataExportConfigurationInput(
+            domainIdentifier: domainIdentifier
+        )
+        return try await self.getDataExportConfiguration(input, logger: logger)
+    }
+
     /// Gets the data product. Prerequisites:   The data product ID must exist.    The domain must be valid and accessible.   User must have read or discovery permissions for the data product.
     @Sendable
     @inlinable
@@ -3565,16 +3697,19 @@ public struct DataZone: AWSService {
     /// Parameters:
     ///   - domainIdentifier: The ID of the Amazon DataZone domain the metadata generation run of which you want to get.
     ///   - identifier: The identifier of the metadata generation run.
+    ///   - type: The type of the metadata generation run.
     ///   - logger: Logger use during operation
     @inlinable
     public func getMetadataGenerationRun(
         domainIdentifier: String,
         identifier: String,
+        type: MetadataGenerationRunType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetMetadataGenerationRunOutput {
         let input = GetMetadataGenerationRunInput(
             domainIdentifier: domainIdentifier, 
-            identifier: identifier
+            identifier: identifier, 
+            type: type
         )
         return try await self.getMetadataGenerationRun(input, logger: logger)
     }
@@ -4773,6 +4908,7 @@ public struct DataZone: AWSService {
     ///   - maxResults: The maximum number of metadata generation runs to return in a single call to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
     ///   - nextToken: When the number of metadata generation runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of metadata generation runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
     ///   - status: The status of the metadata generation runs.
+    ///   - targetIdentifier: The target ID for which you want to list metadata generation runs.
     ///   - type: The type of the metadata generation runs.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4781,6 +4917,7 @@ public struct DataZone: AWSService {
         maxResults: Int? = nil,
         nextToken: String? = nil,
         status: MetadataGenerationRunStatus? = nil,
+        targetIdentifier: String? = nil,
         type: MetadataGenerationRunType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListMetadataGenerationRunsOutput {
@@ -4789,6 +4926,7 @@ public struct DataZone: AWSService {
             maxResults: maxResults, 
             nextToken: nextToken, 
             status: status, 
+            targetIdentifier: targetIdentifier, 
             type: type
         )
         return try await self.listMetadataGenerationRuns(input, logger: logger)
@@ -5099,8 +5237,9 @@ public struct DataZone: AWSService {
     ///   - environmentId: The identifier of the Amazon DataZone environment.
     ///   - maxResults: The maximum number of subscription grants to return in a single call to ListSubscriptionGrants. When the number of subscription grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
     ///   - nextToken: When the number of subscription grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The ID of the owning project of the subscription grants.
-    ///   - sortBy: Specifies the way of sorting the results of this action.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order of this action.
     ///   - subscribedListingId: The identifier of the subscribed listing.
     ///   - subscriptionId: The identifier of the subscription.
@@ -5112,8 +5251,9 @@ public struct DataZone: AWSService {
         environmentId: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         subscribedListingId: String? = nil,
         subscriptionId: String? = nil,
@@ -5125,8 +5265,9 @@ public struct DataZone: AWSService {
             environmentId: environmentId, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             subscribedListingId: subscribedListingId, 
             subscriptionId: subscriptionId, 
@@ -5155,8 +5296,9 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscription requests to return in a single call to ListSubscriptionRequests. When the number of subscription requests to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
     ///   - nextToken: When the number of subscription requests is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription requests, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The identifier of the project for the subscription requests.
-    ///   - sortBy: Specifies the way to sort the results of this action.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
     ///   - status: Specifies the status of the subscription requests.  This is not a required parameter, but if not specified, by default, Amazon DataZone returns only PENDING subscription requests.
     ///   - subscribedListingId: The identifier of the subscribed listing.
@@ -5167,8 +5309,9 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         status: SubscriptionRequestStatus? = nil,
         subscribedListingId: String? = nil,
@@ -5179,8 +5322,9 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             status: status, 
             subscribedListingId: subscribedListingId
@@ -5252,8 +5396,9 @@ public struct DataZone: AWSService {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscriptions to return in a single call to ListSubscriptions. When the number of subscriptions to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptions to list the next set of Subscriptions.
     ///   - nextToken: When the number of subscriptions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscriptions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptions to list the next set of subscriptions.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The identifier of the owning project.
-    ///   - sortBy: Specifies the way in which the results of this action are to be sorted.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
     ///   - status: The status of the subscriptions that you want to list.  This is not a required parameter, but if not provided, by default, Amazon DataZone returns only APPROVED subscriptions.
     ///   - subscribedListingId: The identifier of the subscribed listing for the subscriptions that you want to list.
@@ -5265,8 +5410,9 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         status: SubscriptionStatus? = nil,
         subscribedListingId: String? = nil,
@@ -5278,8 +5424,9 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             status: status, 
             subscribedListingId: subscribedListingId, 
@@ -5441,6 +5588,44 @@ public struct DataZone: AWSService {
             forms: forms
         )
         return try await self.postTimeSeriesDataPoints(input, logger: logger)
+    }
+
+    /// Creates data export configuration details. In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+    @Sendable
+    @inlinable
+    public func putDataExportConfiguration(_ input: PutDataExportConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDataExportConfigurationOutput {
+        try await self.client.execute(
+            operation: "PutDataExportConfiguration", 
+            path: "/v2/domains/{domainIdentifier}/data-export-configuration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates data export configuration details. In the current release, you can enable exporting asset metadata only for one domain per Amazon Web Services account per region. If you disable exporting asset metadata feature for a domain where it's already enabled, you cannot enable this feature for another domain in the same Amazon Web Services account and region.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - domainIdentifier: The domain ID where you want to create data export configuration details.
+    ///   - enableExport: Specifies that the export is to be enabled as part of creating data export configuration details.
+    ///   - encryptionConfiguration: The encryption configuration as part of creating data export configuration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putDataExportConfiguration(
+        clientToken: String? = PutDataExportConfigurationInput.idempotencyToken(),
+        domainIdentifier: String,
+        enableExport: Bool,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutDataExportConfigurationOutput {
+        let input = PutDataExportConfigurationInput(
+            clientToken: clientToken, 
+            domainIdentifier: domainIdentifier, 
+            enableExport: enableExport, 
+            encryptionConfiguration: encryptionConfiguration
+        )
+        return try await self.putDataExportConfiguration(input, logger: logger)
     }
 
     /// Writes the configuration for the specified environment blueprint in Amazon DataZone.
@@ -5977,7 +6162,7 @@ public struct DataZone: AWSService {
         return try await self.startDataSourceRun(input, logger: logger)
     }
 
-    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES.   The user must have permission to run metadata generation in the domain/project.
+    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS.   The user must have permission to run metadata generation in the domain/project.
     @Sendable
     @inlinable
     public func startMetadataGenerationRun(_ input: StartMetadataGenerationRunInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataGenerationRunOutput {
@@ -5990,14 +6175,14 @@ public struct DataZone: AWSService {
             logger: logger
         )
     }
-    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES.   The user must have permission to run metadata generation in the domain/project.
+    /// Starts the metadata generation run. Prerequisites:   Asset must be created and belong to the specified domain and project.    Asset type must be supported for metadata generation (e.g., Amazon Web Services Glue table).   Asset must have a structured schema with valid rows and columns.   Valid values for --type: BUSINESS_DESCRIPTIONS, BUSINESS_NAMES, BUSINESS_GLOSSARY_ASSOCIATIONS.   The user must have permission to run metadata generation in the domain/project.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where you want to start a metadata generation run.
     ///   - owningProjectIdentifier: The ID of the project that owns the asset for which you want to start a metadata generation run.
     ///   - target: The asset for which you want to start a metadata generation run.
-    ///   - type: The type of the metadata generation run.
+    ///   - types: The types of the metadata generation run.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMetadataGenerationRun(
@@ -6005,7 +6190,7 @@ public struct DataZone: AWSService {
         domainIdentifier: String,
         owningProjectIdentifier: String,
         target: MetadataGenerationRunTarget,
-        type: MetadataGenerationRunType,
+        types: [MetadataGenerationRunType]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartMetadataGenerationRunOutput {
         let input = StartMetadataGenerationRunInput(
@@ -6013,7 +6198,7 @@ public struct DataZone: AWSService {
             domainIdentifier: domainIdentifier, 
             owningProjectIdentifier: owningProjectIdentifier, 
             target: target, 
-            type: type
+            types: types
         )
         return try await self.startMetadataGenerationRun(input, logger: logger)
     }
@@ -6687,6 +6872,7 @@ public struct DataZone: AWSService {
     ///   - identifier: The identifier of the project that is to be updated.
     ///   - name: The name to be updated as part of the UpdateProject action.
     ///   - projectProfileVersion: The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
+    ///   - resourceTags: The resource tags of the project.
     ///   - userParameters: The user parameters of the project.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6699,6 +6885,7 @@ public struct DataZone: AWSService {
         identifier: String,
         name: String? = nil,
         projectProfileVersion: String? = nil,
+        resourceTags: [String: String]? = nil,
         userParameters: [EnvironmentConfigurationUserParameter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProjectOutput {
@@ -6711,6 +6898,7 @@ public struct DataZone: AWSService {
             identifier: identifier, 
             name: name, 
             projectProfileVersion: projectProfileVersion, 
+            resourceTags: resourceTags, 
             userParameters: userParameters
         )
         return try await self.updateProject(input, logger: logger)
@@ -6732,35 +6920,82 @@ public struct DataZone: AWSService {
     /// Updates a project profile.
     ///
     /// Parameters:
+    ///   - allowCustomProjectResourceTags: Specifies whether custom project resource tags are supported.
     ///   - description: The description of a project profile.
     ///   - domainIdentifier: The ID of the domain where a project profile is to be updated.
     ///   - domainUnitIdentifier: The ID of the domain unit where a project profile is to be updated.
     ///   - environmentConfigurations: The environment configurations of a project profile.
     ///   - identifier: The ID of a project profile that is to be updated.
     ///   - name: The name of a project profile.
+    ///   - projectResourceTags: The resource tags of the project profile.
+    ///   - projectResourceTagsDescription: Field viewable through the UI that provides a project user with the allowed resource tag specifications.
     ///   - status: The status of a project profile.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProjectProfile(
+        allowCustomProjectResourceTags: Bool? = nil,
         description: String? = nil,
         domainIdentifier: String,
         domainUnitIdentifier: String? = nil,
         environmentConfigurations: [EnvironmentConfiguration]? = nil,
         identifier: String,
         name: String? = nil,
+        projectResourceTags: [ResourceTagParameter]? = nil,
+        projectResourceTagsDescription: String? = nil,
         status: Status? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProjectProfileOutput {
         let input = UpdateProjectProfileInput(
+            allowCustomProjectResourceTags: allowCustomProjectResourceTags, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             domainUnitIdentifier: domainUnitIdentifier, 
             environmentConfigurations: environmentConfigurations, 
             identifier: identifier, 
             name: name, 
+            projectResourceTags: projectResourceTags, 
+            projectResourceTagsDescription: projectResourceTagsDescription, 
             status: status
         )
         return try await self.updateProjectProfile(input, logger: logger)
+    }
+
+    /// Updates the owner of the root domain unit.
+    @Sendable
+    @inlinable
+    public func updateRootDomainUnitOwner(_ input: UpdateRootDomainUnitOwnerInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRootDomainUnitOwnerOutput {
+        try await self.client.execute(
+            operation: "UpdateRootDomainUnitOwner", 
+            path: "/v2/domains/{domainIdentifier}/root-domain-unit-owner", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the owner of the root domain unit.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    ///   - currentOwner: The current owner of the root domain unit.
+    ///   - domainIdentifier: The ID of the domain where the root domain unit owner is to be updated.
+    ///   - newOwner: The new owner of the root domain unit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRootDomainUnitOwner(
+        clientToken: String? = UpdateRootDomainUnitOwnerInput.idempotencyToken(),
+        currentOwner: String,
+        domainIdentifier: String,
+        newOwner: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRootDomainUnitOwnerOutput {
+        let input = UpdateRootDomainUnitOwnerInput(
+            clientToken: clientToken, 
+            currentOwner: currentOwner, 
+            domainIdentifier: domainIdentifier, 
+            newOwner: newOwner
+        )
+        return try await self.updateRootDomainUnitOwner(input, logger: logger)
     }
 
     /// Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
@@ -7886,6 +8121,7 @@ extension DataZone {
     ///   - domainIdentifier: The ID of the Amazon DataZone domain where you want to list metadata generation runs.
     ///   - maxResults: The maximum number of metadata generation runs to return in a single call to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
     ///   - status: The status of the metadata generation runs.
+    ///   - targetIdentifier: The target ID for which you want to list metadata generation runs.
     ///   - type: The type of the metadata generation runs.
     ///   - logger: Logger used for logging
     @inlinable
@@ -7893,6 +8129,7 @@ extension DataZone {
         domainIdentifier: String,
         maxResults: Int? = nil,
         status: MetadataGenerationRunStatus? = nil,
+        targetIdentifier: String? = nil,
         type: MetadataGenerationRunType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListMetadataGenerationRunsInput, ListMetadataGenerationRunsOutput> {
@@ -7900,6 +8137,7 @@ extension DataZone {
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
             status: status, 
+            targetIdentifier: targetIdentifier, 
             type: type
         )
         return self.listMetadataGenerationRunsPaginator(input, logger: logger)
@@ -8226,8 +8464,9 @@ extension DataZone {
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - environmentId: The identifier of the Amazon DataZone environment.
     ///   - maxResults: The maximum number of subscription grants to return in a single call to ListSubscriptionGrants. When the number of subscription grants to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The ID of the owning project of the subscription grants.
-    ///   - sortBy: Specifies the way of sorting the results of this action.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order of this action.
     ///   - subscribedListingId: The identifier of the subscribed listing.
     ///   - subscriptionId: The identifier of the subscription.
@@ -8238,8 +8477,9 @@ extension DataZone {
         domainIdentifier: String,
         environmentId: String? = nil,
         maxResults: Int? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         subscribedListingId: String? = nil,
         subscriptionId: String? = nil,
@@ -8250,8 +8490,9 @@ extension DataZone {
             domainIdentifier: domainIdentifier, 
             environmentId: environmentId, 
             maxResults: maxResults, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             subscribedListingId: subscribedListingId, 
             subscriptionId: subscriptionId, 
@@ -8284,8 +8525,9 @@ extension DataZone {
     ///   - approverProjectId: The identifier of the subscription request approver's project.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscription requests to return in a single call to ListSubscriptionRequests. When the number of subscription requests to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The identifier of the project for the subscription requests.
-    ///   - sortBy: Specifies the way to sort the results of this action.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
     ///   - status: Specifies the status of the subscription requests.  This is not a required parameter, but if not specified, by default, Amazon DataZone returns only PENDING subscription requests.
     ///   - subscribedListingId: The identifier of the subscribed listing.
@@ -8295,8 +8537,9 @@ extension DataZone {
         approverProjectId: String? = nil,
         domainIdentifier: String,
         maxResults: Int? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         status: SubscriptionRequestStatus? = nil,
         subscribedListingId: String? = nil,
@@ -8306,8 +8549,9 @@ extension DataZone {
             approverProjectId: approverProjectId, 
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             status: status, 
             subscribedListingId: subscribedListingId
@@ -8385,8 +8629,9 @@ extension DataZone {
     ///   - approverProjectId: The identifier of the project for the subscription's approver.
     ///   - domainIdentifier: The identifier of the Amazon DataZone domain.
     ///   - maxResults: The maximum number of subscriptions to return in a single call to ListSubscriptions. When the number of subscriptions to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListSubscriptions to list the next set of Subscriptions.
+    ///   - owningGroupId: The ID of the owning group.
     ///   - owningProjectId: The identifier of the owning project.
-    ///   - sortBy: Specifies the way in which the results of this action are to be sorted.
+    ///   - owningUserId: The ID of the owning user.
     ///   - sortOrder: Specifies the sort order for the results of this action.
     ///   - status: The status of the subscriptions that you want to list.  This is not a required parameter, but if not provided, by default, Amazon DataZone returns only APPROVED subscriptions.
     ///   - subscribedListingId: The identifier of the subscribed listing for the subscriptions that you want to list.
@@ -8397,8 +8642,9 @@ extension DataZone {
         approverProjectId: String? = nil,
         domainIdentifier: String,
         maxResults: Int? = nil,
+        owningGroupId: String? = nil,
         owningProjectId: String? = nil,
-        sortBy: SortKey? = nil,
+        owningUserId: String? = nil,
         sortOrder: SortOrder? = nil,
         status: SubscriptionStatus? = nil,
         subscribedListingId: String? = nil,
@@ -8409,8 +8655,9 @@ extension DataZone {
             approverProjectId: approverProjectId, 
             domainIdentifier: domainIdentifier, 
             maxResults: maxResults, 
+            owningGroupId: owningGroupId, 
             owningProjectId: owningProjectId, 
-            sortBy: sortBy, 
+            owningUserId: owningUserId, 
             sortOrder: sortOrder, 
             status: status, 
             subscribedListingId: subscribedListingId, 
@@ -8998,6 +9245,7 @@ extension DataZone.ListMetadataGenerationRunsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status,
+            targetIdentifier: self.targetIdentifier,
             type: self.type
         )
     }
@@ -9102,8 +9350,9 @@ extension DataZone.ListSubscriptionGrantsInput: AWSPaginateToken {
             environmentId: self.environmentId,
             maxResults: self.maxResults,
             nextToken: token,
+            owningGroupId: self.owningGroupId,
             owningProjectId: self.owningProjectId,
-            sortBy: self.sortBy,
+            owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,
             subscribedListingId: self.subscribedListingId,
             subscriptionId: self.subscriptionId,
@@ -9120,8 +9369,9 @@ extension DataZone.ListSubscriptionRequestsInput: AWSPaginateToken {
             domainIdentifier: self.domainIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
+            owningGroupId: self.owningGroupId,
             owningProjectId: self.owningProjectId,
-            sortBy: self.sortBy,
+            owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,
             status: self.status,
             subscribedListingId: self.subscribedListingId
@@ -9151,8 +9401,9 @@ extension DataZone.ListSubscriptionsInput: AWSPaginateToken {
             domainIdentifier: self.domainIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
+            owningGroupId: self.owningGroupId,
             owningProjectId: self.owningProjectId,
-            sortBy: self.sortBy,
+            owningUserId: self.owningUserId,
             sortOrder: self.sortOrder,
             status: self.status,
             subscribedListingId: self.subscribedListingId,

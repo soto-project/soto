@@ -196,7 +196,7 @@ public struct OpenSearch: AWSService {
         return try await self.addDataSource(input, logger: logger)
     }
 
-    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
+    ///  Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
     @Sendable
     @inlinable
     public func addDirectQueryDataSource(_ input: AddDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddDirectQueryDataSourceResponse {
@@ -209,13 +209,13 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Adds a new data source in Amazon OpenSearch Service  so that you can perform direct queries on external data.
+    ///  Adds a new data source in Amazon OpenSearch Service so that you can perform direct queries on external data.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
     ///   - description:  An optional text field for providing additional context and details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
     ///   - tagList: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -307,7 +307,7 @@ public struct OpenSearch: AWSService {
         return try await self.associatePackage(input, logger: logger)
     }
 
-    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
+    /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
     @Sendable
     @inlinable
     public func associatePackages(_ input: AssociatePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePackagesResponse {
@@ -320,7 +320,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Operation in the Amazon OpenSearch Service API for associating  multiple packages with a domain simultaneously.
+    /// Operation in the Amazon OpenSearch Service API for associating multiple packages with a domain simultaneously.
     ///
     /// Parameters:
     ///   - domainName: 
@@ -455,6 +455,7 @@ public struct OpenSearch: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
     ///   - dataSources: The data sources to link to the OpenSearch application.
     ///   - iamIdentityCenterOptions: Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
+    ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application.
     ///   - name: The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
     ///   - tagList: 
     ///   - logger: Logger use during operation
@@ -464,6 +465,7 @@ public struct OpenSearch: AWSService {
         clientToken: String? = CreateApplicationRequest.idempotencyToken(),
         dataSources: [DataSource]? = nil,
         iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil,
+        kmsKeyArn: String? = nil,
         name: String,
         tagList: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -473,6 +475,7 @@ public struct OpenSearch: AWSService {
             clientToken: clientToken, 
             dataSources: dataSources, 
             iamIdentityCenterOptions: iamIdentityCenterOptions, 
+            kmsKeyArn: kmsKeyArn, 
             name: name, 
             tagList: tagList
         )
@@ -508,7 +511,7 @@ public struct OpenSearch: AWSService {
     ///   - encryptionAtRestOptions: Key-value pairs to enable encryption at rest.
     ///   - engineVersion: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
     ///   - identityCenterOptions: Configuration options for enabling and managing IAM Identity Center integration within a domain.
-    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
+    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
     ///   - logPublishingOptions: Key-value pairs to configure log publishing.
     ///   - nodeToNodeEncryptionOptions: Enables node-to-node encryption.
     ///   - offPeakWindowOptions: Specifies a daily 10-hour time block during which OpenSearch Service can perform configuration changes on the domain, including service software updates and Auto-Tune enhancements that require a blue/green deployment. If no options are specified, the default start time of 10:00 P.M. local time (for the Region that the domain is created in) is used.
@@ -566,6 +569,41 @@ public struct OpenSearch: AWSService {
             vpcOptions: vpcOptions
         )
         return try await self.createDomain(input, logger: logger)
+    }
+
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
+    @Sendable
+    @inlinable
+    public func createIndex(_ input: CreateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexResponse {
+        try await self.client.execute(
+            operation: "CreateIndex", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/index", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - indexName: The name of the index to create. Must be between 1 and 255 characters and follow OpenSearch naming conventions.
+    ///   - indexSchema: The JSON schema defining index mappings, settings, and semantic enrichment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createIndex(
+        domainName: String,
+        indexName: String,
+        indexSchema: AWSDocument,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateIndexResponse {
+        let input = CreateIndexRequest(
+            domainName: domainName, 
+            indexName: indexName, 
+            indexSchema: indexSchema
+        )
+        return try await self.createIndex(input, logger: logger)
     }
 
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -755,7 +793,7 @@ public struct OpenSearch: AWSService {
         return try await self.deleteDataSource(input, logger: logger)
     }
 
-    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
+    ///  Deletes a previously configured direct query data source from Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func deleteDirectQueryDataSource(_ input: DeleteDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -768,10 +806,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a previously configured direct query data  source from Amazon OpenSearch Service.
+    ///  Deletes a previously configured direct query data source from Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDirectQueryDataSource(
@@ -840,6 +878,38 @@ public struct OpenSearch: AWSService {
             connectionId: connectionId
         )
         return try await self.deleteInboundConnection(input, logger: logger)
+    }
+
+    /// Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
+    @Sendable
+    @inlinable
+    public func deleteIndex(_ input: DeleteIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIndexResponse {
+        try await self.client.execute(
+            operation: "DeleteIndex", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - indexName: The name of the index to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIndex(
+        domainName: String,
+        indexName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIndexResponse {
+        let input = DeleteIndexRequest(
+            domainName: domainName, 
+            indexName: indexName
+        )
+        return try await self.deleteIndex(input, logger: logger)
     }
 
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
@@ -1447,7 +1517,7 @@ public struct OpenSearch: AWSService {
         return try await self.dissociatePackage(input, logger: logger)
     }
 
-    /// Dissociates multiple packages from a domain simulatneously.
+    /// Dissociates multiple packages from a domain simultaneously.
     @Sendable
     @inlinable
     public func dissociatePackages(_ input: DissociatePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DissociatePackagesResponse {
@@ -1460,7 +1530,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Dissociates multiple packages from a domain simulatneously.
+    /// Dissociates multiple packages from a domain simultaneously.
     ///
     /// Parameters:
     ///   - domainName: 
@@ -1569,7 +1639,33 @@ public struct OpenSearch: AWSService {
         return try await self.getDataSource(input, logger: logger)
     }
 
-    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
+    /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error.
+    @Sendable
+    @inlinable
+    public func getDefaultApplicationSetting(_ input: GetDefaultApplicationSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultApplicationSettingResponse {
+        try await self.client.execute(
+            operation: "GetDefaultApplicationSetting", 
+            path: "/2021-01-01/opensearch/defaultApplicationSetting", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the ARN of the current default application. If the default application isn't set, the operation returns a resource not found error.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDefaultApplicationSetting(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDefaultApplicationSettingResponse {
+        let input = GetDefaultApplicationSettingRequest(
+        )
+        return try await self.getDefaultApplicationSetting(input, logger: logger)
+    }
+
+    ///  Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func getDirectQueryDataSource(_ input: GetDirectQueryDataSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDirectQueryDataSourceResponse {
@@ -1582,10 +1678,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    ///  Returns detailed configuration information for  a specific direct query data source in Amazon OpenSearch Service.
+    ///  Returns detailed configuration information for a specific direct query data source in Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
+    ///   - dataSourceName:  A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDirectQueryDataSource(
@@ -1630,7 +1726,39 @@ public struct OpenSearch: AWSService {
         return try await self.getDomainMaintenanceStatus(input, logger: logger)
     }
 
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
+    @Sendable
+    @inlinable
+    public func getIndex(_ input: GetIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexResponse {
+        try await self.client.execute(
+            operation: "GetIndex", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - indexName: The name of the index to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIndex(
+        domainName: String,
+        indexName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIndexResponse {
+        let input = GetIndexRequest(
+            domainName: domainName, 
+            indexName: indexName
+        )
+        return try await self.getIndex(input, logger: logger)
+    }
+
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func getPackageVersionHistory(_ input: GetPackageVersionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPackageVersionHistoryResponse {
@@ -1643,7 +1771,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the  package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
+    /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see Custom packages for Amazon OpenSearch Service.
     ///
     /// Parameters:
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to get the next page of results.
@@ -1764,7 +1892,7 @@ public struct OpenSearch: AWSService {
         return try await self.listApplications(input, logger: logger)
     }
 
-    /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
+    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
     @Sendable
     @inlinable
     public func listDataSources(_ input: ListDataSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSourcesResponse {
@@ -1777,7 +1905,7 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Lists direct-query data sources for a specific domain. For more information, see  For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
+    /// Lists direct-query data sources for a specific domain. For more information, see For more information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
     ///
     /// Parameters:
     ///   - domainName: The name of the domain.
@@ -2230,6 +2358,38 @@ public struct OpenSearch: AWSService {
         return try await self.purchaseReservedInstanceOffering(input, logger: logger)
     }
 
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultApplicationSetting with the current applications ARN and the setAsDefault parameter set to false.
+    @Sendable
+    @inlinable
+    public func putDefaultApplicationSetting(_ input: PutDefaultApplicationSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDefaultApplicationSettingResponse {
+        try await self.client.execute(
+            operation: "PutDefaultApplicationSetting", 
+            path: "/2021-01-01/opensearch/defaultApplicationSetting", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the default application to the application with the specified ARN. To remove the default application, use the GetDefaultApplicationSetting operation to get the current default and then call the PutDefaultApplicationSetting with the current applications ARN and the setAsDefault parameter set to false.
+    ///
+    /// Parameters:
+    ///   - applicationArn: 
+    ///   - setAsDefault: Set to true to set the specified ARN as the default application. Set to false to clear the default application.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putDefaultApplicationSetting(
+        applicationArn: String,
+        setAsDefault: Bool,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutDefaultApplicationSettingResponse {
+        let input = PutDefaultApplicationSettingRequest(
+            applicationArn: applicationArn, 
+            setAsDefault: setAsDefault
+        )
+        return try await self.putDefaultApplicationSetting(input, logger: logger)
+    }
+
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
     @Sendable
     @inlinable
@@ -2488,10 +2648,10 @@ public struct OpenSearch: AWSService {
     ///  Updates the configuration or properties of an existing direct query data source in Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - dataSourceName:  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
-    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
-    ///   - description:  An optional text field for providing additional context and  details about the data source.
-    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+    ///   - dataSourceName:  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
+    ///   - dataSourceType:  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
+    ///   - description:  An optional text field for providing additional context and details about the data source.
+    ///   - openSearchArns:  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDirectQueryDataSource(
@@ -2540,7 +2700,7 @@ public struct OpenSearch: AWSService {
     ///   - ebsOptions: The type and size of the EBS volume to attach to instances in the domain.
     ///   - encryptionAtRestOptions: Encryption at rest options for the domain.
     ///   - identityCenterOptions: 
-    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
+    ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
     ///   - logPublishingOptions: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     ///   - nodeToNodeEncryptionOptions: Node-to-node encryption options for the domain.
     ///   - offPeakWindowOptions: Off-peak window options for the domain.
@@ -2597,6 +2757,41 @@ public struct OpenSearch: AWSService {
             vpcOptions: vpcOptions
         )
         return try await self.updateDomainConfig(input, logger: logger)
+    }
+
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+    @Sendable
+    @inlinable
+    public func updateIndex(_ input: UpdateIndexRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateIndexResponse {
+        try await self.client.execute(
+            operation: "UpdateIndex", 
+            path: "/2021-01-01/opensearch/domain/{DomainName}/index/{IndexName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
+    ///
+    /// Parameters:
+    ///   - domainName: 
+    ///   - indexName: The name of the index to update.
+    ///   - indexSchema: The updated JSON schema for the index including any changes to mappings, settings, and semantic enrichment configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateIndex(
+        domainName: String,
+        indexName: String,
+        indexSchema: AWSDocument,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateIndexResponse {
+        let input = UpdateIndexRequest(
+            domainName: domainName, 
+            indexName: indexName, 
+            indexSchema: indexSchema
+        )
+        return try await self.updateIndex(input, logger: logger)
     }
 
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see Custom packages for Amazon OpenSearch Service.

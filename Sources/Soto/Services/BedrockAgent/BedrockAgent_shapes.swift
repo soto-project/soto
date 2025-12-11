@@ -2319,6 +2319,34 @@ extension BedrockAgent {
         }
     }
 
+    public struct AudioConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for segmenting audio content during processing.
+        public let segmentationConfiguration: AudioSegmentationConfiguration
+
+        @inlinable
+        public init(segmentationConfiguration: AudioSegmentationConfiguration) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentationConfiguration = "segmentationConfiguration"
+        }
+    }
+
+    public struct AudioSegmentationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The duration in seconds for each audio segment. Audio files will be divided into chunks of this length for processing.
+        public let fixedLengthDuration: Int
+
+        @inlinable
+        public init(fixedLengthDuration: Int) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedLengthDuration = "fixedLengthDuration"
+        }
+    }
+
     public struct AutoToolChoice: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -2338,25 +2366,37 @@ extension BedrockAgent {
     }
 
     public struct BedrockEmbeddingModelConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for processing audio content in multimodal knowledge bases.
+        public let audio: [AudioConfiguration]?
         /// The dimensions details for the vector configuration used on the Bedrock embeddings model.
         public let dimensions: Int?
         /// The data type for the vectors when using a model to convert text into vector embeddings. The model must support the specified data type for vector embeddings. Floating-point (float32) is the default data type, and is supported by most models for vector embeddings. See Supported embeddings models for information on the available models and their vector data types.
         public let embeddingDataType: EmbeddingDataType?
+        /// Configuration settings for processing video content in multimodal knowledge bases.
+        public let video: [VideoConfiguration]?
 
         @inlinable
-        public init(dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil) {
+        public init(audio: [AudioConfiguration]? = nil, dimensions: Int? = nil, embeddingDataType: EmbeddingDataType? = nil, video: [VideoConfiguration]? = nil) {
+            self.audio = audio
             self.dimensions = dimensions
             self.embeddingDataType = embeddingDataType
+            self.video = video
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.audio, name: "audio", parent: name, max: 1)
+            try self.validate(self.audio, name: "audio", parent: name, min: 1)
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 4096)
             try self.validate(self.dimensions, name: "dimensions", parent: name, min: 0)
+            try self.validate(self.video, name: "video", parent: name, max: 1)
+            try self.validate(self.video, name: "video", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audio = "audio"
             case dimensions = "dimensions"
             case embeddingDataType = "embeddingDataType"
+            case video = "video"
         }
     }
 
@@ -6507,7 +6547,7 @@ extension BedrockAgent {
         public let identifier: DocumentIdentifier
         /// The identifier of the knowledge base that the document was ingested into or deleted from.
         public let knowledgeBaseId: String
-        /// The ingestion status of the document. The following statuses are possible:   STARTED – You submitted the ingestion job containing the document.   PENDING – The document is waiting to be ingested.   IN_PROGRESS – The document is being ingested.   INDEXED – The document was successfully indexed.   PARTIALLY_INDEXED – The document was partially indexed.   METADATA_PARTIALLY_INDEXED – You submitted metadata for an existing document and it was partially indexed.   METADATA_UPDATE_FAILED – You submitted a metadata update for an existing document but it failed.   FAILED – The document failed to be ingested.   NOT_FOUND – The document wasn't found.   IGNORED – The document was ignored during ingestion.   DELETING – You submitted the delete job containing the document.   DELETE_IN_PROGRESS – The document is being deleted.
+        /// The ingestion status of the document. The following statuses are possible:   STARTING – You submitted the ingestion job containing the document.   PENDING – The document is waiting to be ingested.   IN_PROGRESS – The document is being ingested.   INDEXED – The document was successfully indexed.   PARTIALLY_INDEXED – The document was partially indexed.   METADATA_PARTIALLY_INDEXED – You submitted metadata for an existing document and it was partially indexed.   METADATA_UPDATE_FAILED – You submitted a metadata update for an existing document but it failed.   FAILED – The document failed to be ingested.   NOT_FOUND – The document wasn't found.   IGNORED – The document was ignored during ingestion.   DELETING – You submitted the delete job containing the document.   DELETE_IN_PROGRESS – The document is being deleted.
         public let status: DocumentStatus
         /// The reason for the status. Appears alongside the status IGNORED.
         public let statusReason: String?
@@ -11605,6 +11645,34 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
             case type = "type"
+        }
+    }
+
+    public struct VideoConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for segmenting video content during processing.
+        public let segmentationConfiguration: VideoSegmentationConfiguration
+
+        @inlinable
+        public init(segmentationConfiguration: VideoSegmentationConfiguration) {
+            self.segmentationConfiguration = segmentationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case segmentationConfiguration = "segmentationConfiguration"
+        }
+    }
+
+    public struct VideoSegmentationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The duration in seconds for each video segment. Video files will be divided into chunks of this length for processing.
+        public let fixedLengthDuration: Int
+
+        @inlinable
+        public init(fixedLengthDuration: Int) {
+            self.fixedLengthDuration = fixedLengthDuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fixedLengthDuration = "fixedLengthDuration"
         }
     }
 

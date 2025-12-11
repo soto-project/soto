@@ -96,6 +96,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListenerPropertyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case http = "HTTP"
+        case https = "HTTPS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogDestinationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatchLogs = "CloudWatchLogs"
         case kinesisDataFirehose = "KinesisDataFirehose"
@@ -117,8 +123,34 @@ extension NetworkFirewall {
 
     public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case capacityConstrained = "CAPACITY_CONSTRAINED"
+        case deprecated = "DEPRECATED"
         case inSync = "IN_SYNC"
+        case notSubscribed = "NOT_SUBSCRIBED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxyModifyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case modifying = "MODIFYING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxyRulePhaseAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alert = "ALERT"
+        case allow = "ALLOW"
+        case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProxyState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachFailed = "ATTACH_FAILED"
+        case attached = "ATTACHED"
+        case attaching = "ATTACHING"
+        case detachFailed = "DETACH_FAILED"
+        case detached = "DETACHED"
+        case detaching = "DETACHING"
         public var description: String { return self.rawValue }
     }
 
@@ -132,6 +164,7 @@ extension NetworkFirewall {
         case activeThreatDefense = "ACTIVE_THREAT_DEFENSE"
         case awsManagedDomainLists = "AWS_MANAGED_DOMAIN_LISTS"
         case awsManagedThreatSignatures = "AWS_MANAGED_THREAT_SIGNATURES"
+        case partnerManaged = "PARTNER_MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -146,6 +179,13 @@ extension NetworkFirewall {
         case drop = "DROP"
         case pass = "PASS"
         case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleGroupRequestPhase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case postRes = "POST_RES"
+        case preDns = "PRE_DNS"
+        case preReq = "PRE_REQ"
         public var description: String { return self.rawValue }
     }
 
@@ -207,6 +247,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notSubscribed = "NOT_SUBSCRIBED"
+        case subscribed = "SUBSCRIBED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SummaryRuleOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case metadata = "METADATA"
         case msg = "MSG"
@@ -229,6 +275,12 @@ extension NetworkFirewall {
     public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case httpHost = "HTTP_HOST"
         case tlsSni = "TLS_SNI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TlsInterceptMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -616,6 +668,65 @@ extension NetworkFirewall {
         }
     }
 
+    public struct AttachRuleGroupsToProxyConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+        /// The proxy rule group(s) to attach to the proxy configuration
+        public let ruleGroups: [ProxyRuleGroupAttachment]
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyRuleGroupAttachment], updateToken: String) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroups = ruleGroups
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.ruleGroups.forEach {
+                try $0.validate(name: "\(name).ruleGroups[]")
+            }
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case ruleGroups = "RuleGroups"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct AttachRuleGroupsToProxyConfigurationResponse: AWSDecodableShape {
+        /// The updated proxy configuration resource that reflects the updates from the request.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
+            self.proxyConfiguration = proxyConfiguration
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfiguration = "ProxyConfiguration"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct Attachment: AWSDecodableShape {
         /// The identifier of the firewall endpoint that Network Firewall has instantiated in the subnet. You use this to identify the firewall endpoint in the VPC route tables, when you redirect the VPC traffic through the endpoint.
         public let endpointId: String?
@@ -904,6 +1015,343 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case firewall = "Firewall"
             case firewallStatus = "FirewallStatus"
+        }
+    }
+
+    public struct CreateProxyConfigurationRequest: AWSEncodableShape {
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest
+        /// A description of the proxy configuration.
+        public let description: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let proxyConfigurationName: String
+        /// The proxy rule group arn(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
+        public let ruleGroupArns: [String]?
+        /// The proxy rule group name(s) to attach to the proxy configuration. You must specify the ARNs or the names, and you can specify both.
+        public let ruleGroupNames: [String]?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest, description: String? = nil, proxyConfigurationName: String, ruleGroupArns: [String]? = nil, ruleGroupNames: [String]? = nil, tags: [Tag]? = nil) {
+            self.defaultRulePhaseActions = defaultRulePhaseActions
+            self.description = description
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroupArns = ruleGroupArns
+            self.ruleGroupNames = ruleGroupNames
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.ruleGroupArns?.forEach {
+                try validate($0, name: "ruleGroupArns[]", parent: name, max: 256)
+                try validate($0, name: "ruleGroupArns[]", parent: name, min: 1)
+                try validate($0, name: "ruleGroupArns[]", parent: name, pattern: "^arn:aws")
+            }
+            try self.ruleGroupNames?.forEach {
+                try validate($0, name: "ruleGroupNames[]", parent: name, max: 128)
+                try validate($0, name: "ruleGroupNames[]", parent: name, min: 1)
+                try validate($0, name: "ruleGroupNames[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRulePhaseActions = "DefaultRulePhaseActions"
+            case description = "Description"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case ruleGroupArns = "RuleGroupArns"
+            case ruleGroupNames = "RuleGroupNames"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProxyConfigurationResponse: AWSDecodableShape {
+        /// The properties that define the proxy configuration.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
+            self.proxyConfiguration = proxyConfiguration
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfiguration = "ProxyConfiguration"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct CreateProxyRequest: AWSEncodableShape {
+        /// Listener properties for HTTP and HTTPS traffic.
+        public let listenerProperties: [ListenerPropertyRequest]?
+        /// A unique identifier for the NAT gateway to use with proxy resources.
+        public let natGatewayId: String
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public let proxyName: String
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public let tlsInterceptProperties: TlsInterceptPropertiesRequest
+
+        @inlinable
+        public init(listenerProperties: [ListenerPropertyRequest]? = nil, natGatewayId: String, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, proxyName: String, tags: [Tag]? = nil, tlsInterceptProperties: TlsInterceptPropertiesRequest) {
+            self.listenerProperties = listenerProperties
+            self.natGatewayId = natGatewayId
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.proxyName = proxyName
+            self.tags = tags
+            self.tlsInterceptProperties = tlsInterceptProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerProperties, name: "listenerProperties", parent: name, max: 2)
+            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.tlsInterceptProperties.validate(name: "\(name).tlsInterceptProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerProperties = "ListenerProperties"
+            case natGatewayId = "NatGatewayId"
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case proxyName = "ProxyName"
+            case tags = "Tags"
+            case tlsInterceptProperties = "TlsInterceptProperties"
+        }
+    }
+
+    public struct CreateProxyResponse: AWSDecodableShape {
+        /// Proxy attached to a NAT gateway.
+        public let proxy: Proxy?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxy: Proxy? = nil, updateToken: String? = nil) {
+            self.proxy = proxy
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxy = "Proxy"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct CreateProxyRule: AWSEncodableShape {
+        /// Action to take.
+        public let action: ProxyRulePhaseAction?
+        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public let conditions: [ProxyRuleCondition]?
+        /// A description of the proxy rule.
+        public let description: String?
+        /// Where to insert a proxy rule in a proxy rule group.
+        public let insertPosition: Int?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public let proxyRuleName: String?
+
+        @inlinable
+        public init(action: ProxyRulePhaseAction? = nil, conditions: [ProxyRuleCondition]? = nil, description: String? = nil, insertPosition: Int? = nil, proxyRuleName: String? = nil) {
+            self.action = action
+            self.conditions = conditions
+            self.description = description
+            self.insertPosition = insertPosition
+            self.proxyRuleName = proxyRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case conditions = "Conditions"
+            case description = "Description"
+            case insertPosition = "InsertPosition"
+            case proxyRuleName = "ProxyRuleName"
+        }
+    }
+
+    public struct CreateProxyRuleGroupRequest: AWSEncodableShape {
+        /// A description of the proxy rule group.
+        public let description: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String
+        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+        public let rules: ProxyRulesByRequestPhase?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(description: String? = nil, proxyRuleGroupName: String, rules: ProxyRulesByRequestPhase? = nil, tags: [Tag]? = nil) {
+            self.description = description
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.rules = rules
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.rules?.validate(name: "\(name).rules")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case rules = "Rules"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateProxyRuleGroupResponse: AWSDecodableShape {
+        /// The properties that define the proxy rule group.
+        public let proxyRuleGroup: ProxyRuleGroup?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
+            self.proxyRuleGroup = proxyRuleGroup
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroup = "ProxyRuleGroup"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct CreateProxyRulesByRequestPhase: AWSEncodableShape {
+        /// After receiving response.
+        public let postRESPONSE: [CreateProxyRule]?
+        /// Before domain resolution.
+        public let preDNS: [CreateProxyRule]?
+        /// After DNS, before request.
+        public let preREQUEST: [CreateProxyRule]?
+
+        @inlinable
+        public init(postRESPONSE: [CreateProxyRule]? = nil, preDNS: [CreateProxyRule]? = nil, preREQUEST: [CreateProxyRule]? = nil) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+
+        public func validate(name: String) throws {
+            try self.postRESPONSE?.forEach {
+                try $0.validate(name: "\(name).postRESPONSE[]")
+            }
+            try self.validate(self.postRESPONSE, name: "postRESPONSE", parent: name, max: 50)
+            try self.validate(self.postRESPONSE, name: "postRESPONSE", parent: name, min: 1)
+            try self.preDNS?.forEach {
+                try $0.validate(name: "\(name).preDNS[]")
+            }
+            try self.validate(self.preDNS, name: "preDNS", parent: name, max: 50)
+            try self.validate(self.preDNS, name: "preDNS", parent: name, min: 1)
+            try self.preREQUEST?.forEach {
+                try $0.validate(name: "\(name).preREQUEST[]")
+            }
+            try self.validate(self.preREQUEST, name: "preREQUEST", parent: name, max: 50)
+            try self.validate(self.preREQUEST, name: "preREQUEST", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postRESPONSE = "PostRESPONSE"
+            case preDNS = "PreDNS"
+            case preREQUEST = "PreREQUEST"
+        }
+    }
+
+    public struct CreateProxyRulesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+        public let rules: CreateProxyRulesByRequestPhase
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: CreateProxyRulesByRequestPhase) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.rules.validate(name: "\(name).rules")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case rules = "Rules"
+        }
+    }
+
+    public struct CreateProxyRulesResponse: AWSDecodableShape {
+        /// The properties that define the proxy rule group with the newly created proxy rule(s).
+        public let proxyRuleGroup: ProxyRuleGroup?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
+            self.proxyRuleGroup = proxyRuleGroup
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroup = "ProxyRuleGroup"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -1274,6 +1722,200 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
             case transitGatewayAttachmentStatus = "TransitGatewayAttachmentStatus"
+        }
+    }
+
+    public struct DeleteProxyConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+        }
+    }
+
+    public struct DeleteProxyConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let proxyConfigurationName: String?
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+        }
+    }
+
+    public struct DeleteProxyRequest: AWSEncodableShape {
+        /// The NAT Gateway the proxy is attached to.
+        public let natGatewayId: String
+        /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+        public let proxyArn: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyName: String?
+
+        @inlinable
+        public init(natGatewayId: String, proxyArn: String? = nil, proxyName: String? = nil) {
+            self.natGatewayId = natGatewayId
+            self.proxyArn = proxyArn
+            self.proxyName = proxyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, max: 256)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, min: 1)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayId = "NatGatewayId"
+            case proxyArn = "ProxyArn"
+            case proxyName = "ProxyName"
+        }
+    }
+
+    public struct DeleteProxyResponse: AWSDecodableShape {
+        /// The NAT Gateway the Proxy was attached to.
+        public let natGatewayId: String?
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public let proxyArn: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public let proxyName: String?
+
+        @inlinable
+        public init(natGatewayId: String? = nil, proxyArn: String? = nil, proxyName: String? = nil) {
+            self.natGatewayId = natGatewayId
+            self.proxyArn = proxyArn
+            self.proxyName = proxyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case natGatewayId = "NatGatewayId"
+            case proxyArn = "ProxyArn"
+            case proxyName = "ProxyName"
+        }
+    }
+
+    public struct DeleteProxyRuleGroupRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct DeleteProxyRuleGroupResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct DeleteProxyRulesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+        /// The proxy rule(s) to remove from the existing proxy rule group.
+        public let rules: [String]
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: [String]) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.rules.forEach {
+                try validate($0, name: "rules[]", parent: name, max: 128)
+                try validate($0, name: "rules[]", parent: name, min: 1)
+                try validate($0, name: "rules[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case rules = "Rules"
+        }
+    }
+
+    public struct DeleteProxyRulesResponse: AWSDecodableShape {
+        /// The properties that define the proxy rule group with the newly created proxy rule(s).
+        public let proxyRuleGroup: ProxyRuleGroup?
+
+        @inlinable
+        public init(proxyRuleGroup: ProxyRuleGroup? = nil) {
+            self.proxyRuleGroup = proxyRuleGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroup = "ProxyRuleGroup"
         }
     }
 
@@ -1723,6 +2365,271 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeProxyConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+        }
+    }
+
+    public struct DescribeProxyConfigurationResponse: AWSDecodableShape {
+        /// The configuration for the specified proxy configuration.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
+            self.proxyConfiguration = proxyConfiguration
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfiguration = "ProxyConfiguration"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct DescribeProxyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+        public let proxyArn: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyName: String?
+
+        @inlinable
+        public init(proxyArn: String? = nil, proxyName: String? = nil) {
+            self.proxyArn = proxyArn
+            self.proxyName = proxyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, max: 256)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, min: 1)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyArn = "ProxyArn"
+            case proxyName = "ProxyName"
+        }
+    }
+
+    public struct DescribeProxyResource: AWSDecodableShape {
+        /// Time the Proxy was created.
+        public let createTime: Date?
+        /// Time the Proxy was deleted.
+        public let deleteTime: Date?
+        /// Failure code for cases when the Proxy fails to attach or update.
+        public let failureCode: String?
+        /// Failure message for cases when the Proxy fails to attach or update.
+        public let failureMessage: String?
+        /// Listener properties for HTTP and HTTPS traffic.
+        public let listenerProperties: [ListenerProperty]?
+        /// The NAT Gateway for the proxy.
+        public let natGatewayId: String?
+        /// The private DNS name of the Proxy.
+        public let privateDNSName: String?
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public let proxyArn: String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let proxyConfigurationName: String?
+        /// Current modification status of the Proxy.
+        public let proxyModifyState: ProxyModifyState?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public let proxyName: String?
+        /// Current attachment/detachment status of the Proxy.
+        public let proxyState: ProxyState?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public let tlsInterceptProperties: TlsInterceptProperties?
+        /// Time the Proxy was updated.
+        public let updateTime: Date?
+        /// The service endpoint created in the VPC.
+        public let vpcEndpointServiceName: String?
+
+        @inlinable
+        public init(createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, listenerProperties: [ListenerProperty]? = nil, natGatewayId: String? = nil, privateDNSName: String? = nil, proxyArn: String? = nil, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, proxyModifyState: ProxyModifyState? = nil, proxyName: String? = nil, proxyState: ProxyState? = nil, tags: [Tag]? = nil, tlsInterceptProperties: TlsInterceptProperties? = nil, updateTime: Date? = nil, vpcEndpointServiceName: String? = nil) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.listenerProperties = listenerProperties
+            self.natGatewayId = natGatewayId
+            self.privateDNSName = privateDNSName
+            self.proxyArn = proxyArn
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.proxyModifyState = proxyModifyState
+            self.proxyName = proxyName
+            self.proxyState = proxyState
+            self.tags = tags
+            self.tlsInterceptProperties = tlsInterceptProperties
+            self.updateTime = updateTime
+            self.vpcEndpointServiceName = vpcEndpointServiceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case deleteTime = "DeleteTime"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case listenerProperties = "ListenerProperties"
+            case natGatewayId = "NatGatewayId"
+            case privateDNSName = "PrivateDNSName"
+            case proxyArn = "ProxyArn"
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case proxyModifyState = "ProxyModifyState"
+            case proxyName = "ProxyName"
+            case proxyState = "ProxyState"
+            case tags = "Tags"
+            case tlsInterceptProperties = "TlsInterceptProperties"
+            case updateTime = "UpdateTime"
+            case vpcEndpointServiceName = "VpcEndpointServiceName"
+        }
+    }
+
+    public struct DescribeProxyResponse: AWSDecodableShape {
+        /// Proxy attached to a NAT gateway.
+        public let proxy: DescribeProxyResource?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxy: DescribeProxyResource? = nil, updateToken: String? = nil) {
+            self.proxy = proxy
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxy = "Proxy"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct DescribeProxyRuleGroupRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct DescribeProxyRuleGroupResponse: AWSDecodableShape {
+        /// The configuration for the specified proxy rule group.
+        public let proxyRuleGroup: ProxyRuleGroup?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRuleGroup: ProxyRuleGroup? = nil, updateToken: String? = nil) {
+            self.proxyRuleGroup = proxyRuleGroup
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroup = "ProxyRuleGroup"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct DescribeProxyRuleRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public let proxyRuleName: String
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, proxyRuleName: String) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.proxyRuleName = proxyRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case proxyRuleName = "ProxyRuleName"
+        }
+    }
+
+    public struct DescribeProxyRuleResponse: AWSDecodableShape {
+        /// The configuration for the specified proxy rule.
+        public let proxyRule: ProxyRule?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRule: ProxyRule? = nil, updateToken: String? = nil) {
+            self.proxyRule = proxyRule
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRule = "ProxyRule"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct DescribeResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the rule group or firewall policy whose resource policy you want to retrieve.
         public let resourceArn: String
@@ -1796,6 +2703,10 @@ extension NetworkFirewall {
         public let description: String?
         /// A timestamp indicating when the rule group was last modified.
         public let lastModifiedTime: Date?
+        /// The display name of the product listing for this rule group.
+        public let listingName: String?
+        /// The unique identifier for the product listing associated with this rule group.
+        public let productId: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -1804,26 +2715,34 @@ extension NetworkFirewall {
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
         /// stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
+        /// The name of the Amazon Web Services Marketplace vendor that provides this rule group.
+        public let vendorName: String?
 
         @inlinable
-        public init(capacity: Int? = nil, description: String? = nil, lastModifiedTime: Date? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
+        public init(capacity: Int? = nil, description: String? = nil, lastModifiedTime: Date? = nil, listingName: String? = nil, productId: String? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil, vendorName: String? = nil) {
             self.capacity = capacity
             self.description = description
             self.lastModifiedTime = lastModifiedTime
+            self.listingName = listingName
+            self.productId = productId
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
             self.statefulRuleOptions = statefulRuleOptions
             self.type = type
+            self.vendorName = vendorName
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
             case description = "Description"
             case lastModifiedTime = "LastModifiedTime"
+            case listingName = "ListingName"
+            case productId = "ProductId"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
             case statefulRuleOptions = "StatefulRuleOptions"
             case type = "Type"
+            case vendorName = "VendorName"
         }
     }
 
@@ -2024,6 +2943,76 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case vpcEndpointAssociation = "VpcEndpointAssociation"
             case vpcEndpointAssociationStatus = "VpcEndpointAssociationStatus"
+        }
+    }
+
+    public struct DetachRuleGroupsFromProxyConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+        /// The proxy rule group arns to detach from the proxy configuration
+        public let ruleGroupArns: [String]?
+        /// The proxy rule group names to detach from the proxy configuration
+        public let ruleGroupNames: [String]?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroupArns: [String]? = nil, ruleGroupNames: [String]? = nil, updateToken: String) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroupArns = ruleGroupArns
+            self.ruleGroupNames = ruleGroupNames
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.ruleGroupArns?.forEach {
+                try validate($0, name: "ruleGroupArns[]", parent: name, max: 256)
+                try validate($0, name: "ruleGroupArns[]", parent: name, min: 1)
+                try validate($0, name: "ruleGroupArns[]", parent: name, pattern: "^arn:aws")
+            }
+            try self.ruleGroupNames?.forEach {
+                try validate($0, name: "ruleGroupNames[]", parent: name, max: 128)
+                try validate($0, name: "ruleGroupNames[]", parent: name, min: 1)
+                try validate($0, name: "ruleGroupNames[]", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            }
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case ruleGroupArns = "RuleGroupArns"
+            case ruleGroupNames = "RuleGroupNames"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct DetachRuleGroupsFromProxyConfigurationResponse: AWSDecodableShape {
+        /// The updated proxy configuration resource that reflects the updates from the request.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
+            self.proxyConfiguration = proxyConfiguration
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfiguration = "ProxyConfiguration"
+            case updateToken = "UpdateToken"
         }
     }
 
@@ -3161,6 +4150,138 @@ extension NetworkFirewall {
         }
     }
 
+    public struct ListProxiesRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProxiesResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The metadata for the proxies. Depending on your setting for max results and the number of proxies that you have, this might not be the full list.
+        public let proxies: [ProxyMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, proxies: [ProxyMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.proxies = proxies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proxies = "Proxies"
+        }
+    }
+
+    public struct ListProxyConfigurationsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProxyConfigurationsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The metadata for the proxy configurations. Depending on your setting for max results and the number of proxy configurations that you have, this might not be the full list.
+        public let proxyConfigurations: [ProxyConfigurationMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, proxyConfigurations: [ProxyConfigurationMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.proxyConfigurations = proxyConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proxyConfigurations = "ProxyConfigurations"
+        }
+    }
+
+    public struct ListProxyRuleGroupsRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListProxyRuleGroupsResponse: AWSDecodableShape {
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The metadata for the proxy rule groups. Depending on your setting for max results and the number of proxy rule groups that you have, this might not be the full list.
+        public let proxyRuleGroups: [ProxyRuleGroupMetadata]?
+
+        @inlinable
+        public init(nextToken: String? = nil, proxyRuleGroups: [ProxyRuleGroupMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.proxyRuleGroups = proxyRuleGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case proxyRuleGroups = "ProxyRuleGroups"
+        }
+    }
+
     public struct ListRuleGroupsRequest: AWSEncodableShape {
         /// Indicates the general category of the Amazon Web Services managed rule group.
         public let managedType: ResourceManagedType?
@@ -3170,15 +4291,18 @@ extension NetworkFirewall {
         public let nextToken: String?
         /// The scope of the request. The default setting of ACCOUNT or a setting of NULL returns all of the rule groups in your account. A setting of MANAGED returns all available managed rule groups.
         public let scope: ResourceManagedStatus?
+        /// Filters the results to show only rule groups with the specified subscription status. Use this to find subscribed or unsubscribed rule groups.
+        public let subscriptionStatus: SubscriptionStatus?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
         @inlinable
-        public init(managedType: ResourceManagedType? = nil, maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil, type: RuleGroupType? = nil) {
+        public init(managedType: ResourceManagedType? = nil, maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil, subscriptionStatus: SubscriptionStatus? = nil, type: RuleGroupType? = nil) {
             self.managedType = managedType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.scope = scope
+            self.subscriptionStatus = subscriptionStatus
             self.type = type
         }
 
@@ -3195,6 +4319,7 @@ extension NetworkFirewall {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case scope = "Scope"
+            case subscriptionStatus = "SubscriptionStatus"
             case type = "Type"
         }
     }
@@ -3360,6 +4485,42 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case vpcEndpointAssociations = "VpcEndpointAssociations"
+        }
+    }
+
+    public struct ListenerProperty: AWSDecodableShape {
+        /// Port for processing traffic.
+        public let port: Int?
+        /// Selection of HTTP or HTTPS traffic.
+        public let type: ListenerPropertyType?
+
+        @inlinable
+        public init(port: Int? = nil, type: ListenerPropertyType? = nil) {
+            self.port = port
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case type = "Type"
+        }
+    }
+
+    public struct ListenerPropertyRequest: AWSEncodableShape {
+        /// Port for processing traffic.
+        public let port: Int
+        /// Selection of HTTP or HTTPS traffic.
+        public let type: ListenerPropertyType
+
+        @inlinable
+        public init(port: Int, type: ListenerPropertyType) {
+            self.port = port
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case port = "Port"
+            case type = "Type"
         }
     }
 
@@ -3556,6 +4717,438 @@ extension NetworkFirewall {
         }
     }
 
+    public struct Proxy: AWSDecodableShape {
+        /// Time the Proxy was created.
+        public let createTime: Date?
+        /// Time the Proxy was deleted.
+        public let deleteTime: Date?
+        /// Failure code for cases when the Proxy fails to attach or update.
+        public let failureCode: String?
+        /// Failure message for cases when the Proxy fails to attach or update.
+        public let failureMessage: String?
+        /// Listener properties for HTTP and HTTPS traffic.
+        public let listenerProperties: [ListenerProperty]?
+        /// The NAT Gateway for the proxy.
+        public let natGatewayId: String?
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public let proxyArn: String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let proxyConfigurationName: String?
+        /// Current modification status of the Proxy.
+        public let proxyModifyState: ProxyModifyState?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public let proxyName: String?
+        /// Current attachment/detachment status of the Proxy.
+        public let proxyState: ProxyState?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public let tlsInterceptProperties: TlsInterceptProperties?
+        /// Time the Proxy was updated.
+        public let updateTime: Date?
+
+        @inlinable
+        public init(createTime: Date? = nil, deleteTime: Date? = nil, failureCode: String? = nil, failureMessage: String? = nil, listenerProperties: [ListenerProperty]? = nil, natGatewayId: String? = nil, proxyArn: String? = nil, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, proxyModifyState: ProxyModifyState? = nil, proxyName: String? = nil, proxyState: ProxyState? = nil, tags: [Tag]? = nil, tlsInterceptProperties: TlsInterceptProperties? = nil, updateTime: Date? = nil) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.failureCode = failureCode
+            self.failureMessage = failureMessage
+            self.listenerProperties = listenerProperties
+            self.natGatewayId = natGatewayId
+            self.proxyArn = proxyArn
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.proxyModifyState = proxyModifyState
+            self.proxyName = proxyName
+            self.proxyState = proxyState
+            self.tags = tags
+            self.tlsInterceptProperties = tlsInterceptProperties
+            self.updateTime = updateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case deleteTime = "DeleteTime"
+            case failureCode = "FailureCode"
+            case failureMessage = "FailureMessage"
+            case listenerProperties = "ListenerProperties"
+            case natGatewayId = "NatGatewayId"
+            case proxyArn = "ProxyArn"
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case proxyModifyState = "ProxyModifyState"
+            case proxyName = "ProxyName"
+            case proxyState = "ProxyState"
+            case tags = "Tags"
+            case tlsInterceptProperties = "TlsInterceptProperties"
+            case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct ProxyConfigDefaultRulePhaseActionsRequest: AWSEncodableShape & AWSDecodableShape {
+        /// After receiving response.
+        public let postRESPONSE: ProxyRulePhaseAction?
+        /// Before domain resolution.
+        public let preDNS: ProxyRulePhaseAction?
+        /// After DNS, before request.
+        public let preREQUEST: ProxyRulePhaseAction?
+
+        @inlinable
+        public init(postRESPONSE: ProxyRulePhaseAction? = nil, preDNS: ProxyRulePhaseAction? = nil, preREQUEST: ProxyRulePhaseAction? = nil) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postRESPONSE = "PostRESPONSE"
+            case preDNS = "PreDNS"
+            case preREQUEST = "PreREQUEST"
+        }
+    }
+
+    public struct ProxyConfigRuleGroup: AWSDecodableShape {
+        /// Priority of the proxy rule group in the proxy configuration.
+        public let priority: Int?
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+        /// Proxy rule group type.
+        public let type: String?
+
+        @inlinable
+        public init(priority: Int? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, type: String? = nil) {
+            self.priority = priority
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case type = "Type"
+        }
+    }
+
+    public struct ProxyConfiguration: AWSDecodableShape {
+        /// Time the Proxy Configuration was created.
+        public let createTime: Date?
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.  Pre-DNS - before domain resolution. Pre-Request - after DNS, before request. Post-Response - after receiving response.
+        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest?
+        /// Time the Proxy Configuration was deleted.
+        public let deleteTime: Date?
+        /// A description of the proxy configuration.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let proxyConfigurationName: String?
+        /// Proxy rule groups within the proxy configuration.
+        public let ruleGroups: [ProxyConfigRuleGroup]?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(createTime: Date? = nil, defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest? = nil, deleteTime: Date? = nil, description: String? = nil, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyConfigRuleGroup]? = nil, tags: [Tag]? = nil) {
+            self.createTime = createTime
+            self.defaultRulePhaseActions = defaultRulePhaseActions
+            self.deleteTime = deleteTime
+            self.description = description
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroups = ruleGroups
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case defaultRulePhaseActions = "DefaultRulePhaseActions"
+            case deleteTime = "DeleteTime"
+            case description = "Description"
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case ruleGroups = "RuleGroups"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ProxyConfigurationMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration.
+        public let arn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct ProxyMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy.
+        public let arn: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct ProxyRule: AWSEncodableShape & AWSDecodableShape {
+        /// Action to take.
+        public let action: ProxyRulePhaseAction?
+        /// Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public let conditions: [ProxyRuleCondition]?
+        /// A description of the proxy rule.
+        public let description: String?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public let proxyRuleName: String?
+
+        @inlinable
+        public init(action: ProxyRulePhaseAction? = nil, conditions: [ProxyRuleCondition]? = nil, description: String? = nil, proxyRuleName: String? = nil) {
+            self.action = action
+            self.conditions = conditions
+            self.description = description
+            self.proxyRuleName = proxyRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case conditions = "Conditions"
+            case description = "Description"
+            case proxyRuleName = "ProxyRuleName"
+        }
+    }
+
+    public struct ProxyRuleCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Defines what is to be matched.
+        public let conditionKey: String?
+        /// Defines how to perform a match.
+        public let conditionOperator: String?
+        /// Specifes the exact value that needs to be matched against.
+        public let conditionValues: [String]?
+
+        @inlinable
+        public init(conditionKey: String? = nil, conditionOperator: String? = nil, conditionValues: [String]? = nil) {
+            self.conditionKey = conditionKey
+            self.conditionOperator = conditionOperator
+            self.conditionValues = conditionValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionKey = "ConditionKey"
+            case conditionOperator = "ConditionOperator"
+            case conditionValues = "ConditionValues"
+        }
+    }
+
+    public struct ProxyRuleGroup: AWSDecodableShape {
+        /// Time the Proxy Rule Group was created.
+        public let createTime: Date?
+        /// Time the Proxy Rule Group was deleted.
+        public let deleteTime: Date?
+        /// A description of the proxy rule group.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+        /// Individual rules that define match conditions and actions for application-layer traffic. Rules specify what to inspect (domains, headers, methods) and what action to take (allow, deny, alert).
+        public let rules: ProxyRulesByRequestPhase?
+        /// The key:value pairs to associate with the resource.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(createTime: Date? = nil, deleteTime: Date? = nil, description: String? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, rules: ProxyRulesByRequestPhase? = nil, tags: [Tag]? = nil) {
+            self.createTime = createTime
+            self.deleteTime = deleteTime
+            self.description = description
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.rules = rules
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "CreateTime"
+            case deleteTime = "DeleteTime"
+            case description = "Description"
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case rules = "Rules"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ProxyRuleGroupAttachment: AWSEncodableShape {
+        /// Where to insert a proxy rule group in a proxy configuration.
+        public let insertPosition: Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(insertPosition: Int? = nil, proxyRuleGroupName: String? = nil) {
+            self.insertPosition = insertPosition
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case insertPosition = "InsertPosition"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct ProxyRuleGroupMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public let arn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
+    public struct ProxyRuleGroupPriority: AWSEncodableShape {
+        /// Where to move a proxy rule group in a proxy configuration.
+        public let newPosition: Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(newPosition: Int? = nil, proxyRuleGroupName: String? = nil) {
+            self.newPosition = newPosition
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newPosition = "NewPosition"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct ProxyRuleGroupPriorityResult: AWSDecodableShape {
+        /// Priority of the proxy rule group in the proxy configuration.
+        public let priority: Int?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+
+        @inlinable
+        public init(priority: Int? = nil, proxyRuleGroupName: String? = nil) {
+            self.priority = priority
+            self.proxyRuleGroupName = proxyRuleGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+        }
+    }
+
+    public struct ProxyRulePriority: AWSEncodableShape & AWSDecodableShape {
+        /// Where to move a proxy rule in a proxy rule group.
+        public let newPosition: Int?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public let proxyRuleName: String?
+
+        @inlinable
+        public init(newPosition: Int? = nil, proxyRuleName: String? = nil) {
+            self.newPosition = newPosition
+            self.proxyRuleName = proxyRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case newPosition = "NewPosition"
+            case proxyRuleName = "ProxyRuleName"
+        }
+    }
+
+    public struct ProxyRulesByRequestPhase: AWSEncodableShape & AWSDecodableShape {
+        /// After receiving response.
+        public let postRESPONSE: [ProxyRule]?
+        /// Before domain resolution.
+        public let preDNS: [ProxyRule]?
+        /// After DNS, before request.
+        public let preREQUEST: [ProxyRule]?
+
+        @inlinable
+        public init(postRESPONSE: [ProxyRule]? = nil, preDNS: [ProxyRule]? = nil, preREQUEST: [ProxyRule]? = nil) {
+            self.postRESPONSE = postRESPONSE
+            self.preDNS = preDNS
+            self.preREQUEST = preREQUEST
+        }
+
+        public func validate(name: String) throws {
+            try self.postRESPONSE?.forEach {
+                try $0.validate(name: "\(name).postRESPONSE[]")
+            }
+            try self.preDNS?.forEach {
+                try $0.validate(name: "\(name).preDNS[]")
+            }
+            try self.preREQUEST?.forEach {
+                try $0.validate(name: "\(name).preREQUEST[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case postRESPONSE = "PostRESPONSE"
+            case preDNS = "PreDNS"
+            case preREQUEST = "PreREQUEST"
+        }
+    }
+
     public struct PublishMetricAction: AWSEncodableShape & AWSDecodableShape {
         public let dimensions: [Dimension]
 
@@ -3728,16 +5321,20 @@ extension NetworkFirewall {
         public let arn: String?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public let name: String?
+        /// The name of the Amazon Web Services Marketplace seller that provides this rule group.
+        public let vendorName: String?
 
         @inlinable
-        public init(arn: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, name: String? = nil, vendorName: String? = nil) {
             self.arn = arn
             self.name = name
+            self.vendorName = vendorName
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case name = "Name"
+            case vendorName = "VendorName"
         }
     }
 
@@ -4733,6 +6330,48 @@ extension NetworkFirewall {
         }
     }
 
+    public struct TlsInterceptProperties: AWSDecodableShape {
+        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
+        public let pcaArn: String?
+        /// Specifies whether to enable or disable TLS Intercept Mode.
+        public let tlsInterceptMode: TlsInterceptMode?
+
+        @inlinable
+        public init(pcaArn: String? = nil, tlsInterceptMode: TlsInterceptMode? = nil) {
+            self.pcaArn = pcaArn
+            self.tlsInterceptMode = tlsInterceptMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pcaArn = "PcaArn"
+            case tlsInterceptMode = "TlsInterceptMode"
+        }
+    }
+
+    public struct TlsInterceptPropertiesRequest: AWSEncodableShape {
+        /// Private Certificate Authority (PCA) used to issue private TLS certificates so that the proxy can present PCA-signed certificates which applications trust through the same root, establishing a secure and consistent trust model for encrypted communication.
+        public let pcaArn: String?
+        /// Specifies whether to enable or disable TLS Intercept Mode.
+        public let tlsInterceptMode: TlsInterceptMode?
+
+        @inlinable
+        public init(pcaArn: String? = nil, tlsInterceptMode: TlsInterceptMode? = nil) {
+            self.pcaArn = pcaArn
+            self.tlsInterceptMode = tlsInterceptMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pcaArn, name: "pcaArn", parent: name, max: 256)
+            try self.validate(self.pcaArn, name: "pcaArn", parent: name, min: 1)
+            try self.validate(self.pcaArn, name: "pcaArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pcaArn = "PcaArn"
+            case tlsInterceptMode = "TlsInterceptMode"
+        }
+    }
+
     public struct TransitGatewayAttachmentSyncState: AWSDecodableShape {
         /// The unique identifier of the transit gateway attachment.
         public let attachmentId: String?
@@ -5318,6 +6957,349 @@ extension NetworkFirewall {
             case firewallArn = "FirewallArn"
             case firewallName = "FirewallName"
             case loggingConfiguration = "LoggingConfiguration"
+        }
+    }
+
+    public struct UpdateProxyConfigurationRequest: AWSEncodableShape {
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+        public let defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(defaultRulePhaseActions: ProxyConfigDefaultRulePhaseActionsRequest, proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, updateToken: String) {
+            self.defaultRulePhaseActions = defaultRulePhaseActions
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultRulePhaseActions = "DefaultRulePhaseActions"
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyConfigurationResponse: AWSDecodableShape {
+        /// The updated proxy configuration resource that reflects the updates from the request.
+        public let proxyConfiguration: ProxyConfiguration?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyConfiguration: ProxyConfiguration? = nil, updateToken: String? = nil) {
+            self.proxyConfiguration = proxyConfiguration
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfiguration = "ProxyConfiguration"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRequest: AWSEncodableShape {
+        /// Listener properties for HTTP and HTTPS traffic to add.
+        public let listenerPropertiesToAdd: [ListenerPropertyRequest]?
+        /// Listener properties for HTTP and HTTPS traffic to remove.
+        public let listenerPropertiesToRemove: [ListenerPropertyRequest]?
+        /// The NAT Gateway the proxy is attached to.
+        public let natGatewayId: String
+        /// The Amazon Resource Name (ARN) of a proxy. You must specify the ARN or the name, and you can specify both.
+        public let proxyArn: String?
+        /// The descriptive name of the proxy. You can't change the name of a proxy after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyName: String?
+        /// TLS decryption on traffic to filter on attributes in the HTTP header.
+        public let tlsInterceptProperties: TlsInterceptPropertiesRequest?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(listenerPropertiesToAdd: [ListenerPropertyRequest]? = nil, listenerPropertiesToRemove: [ListenerPropertyRequest]? = nil, natGatewayId: String, proxyArn: String? = nil, proxyName: String? = nil, tlsInterceptProperties: TlsInterceptPropertiesRequest? = nil, updateToken: String) {
+            self.listenerPropertiesToAdd = listenerPropertiesToAdd
+            self.listenerPropertiesToRemove = listenerPropertiesToRemove
+            self.natGatewayId = natGatewayId
+            self.proxyArn = proxyArn
+            self.proxyName = proxyName
+            self.tlsInterceptProperties = tlsInterceptProperties
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.listenerPropertiesToAdd, name: "listenerPropertiesToAdd", parent: name, max: 2)
+            try self.validate(self.listenerPropertiesToRemove, name: "listenerPropertiesToRemove", parent: name, max: 2)
+            try self.validate(self.natGatewayId, name: "natGatewayId", parent: name, min: 1)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, max: 256)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, min: 1)
+            try self.validate(self.proxyArn, name: "proxyArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyName, name: "proxyName", parent: name, max: 128)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, min: 1)
+            try self.validate(self.proxyName, name: "proxyName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.tlsInterceptProperties?.validate(name: "\(name).tlsInterceptProperties")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listenerPropertiesToAdd = "ListenerPropertiesToAdd"
+            case listenerPropertiesToRemove = "ListenerPropertiesToRemove"
+            case natGatewayId = "NatGatewayId"
+            case proxyArn = "ProxyArn"
+            case proxyName = "ProxyName"
+            case tlsInterceptProperties = "TlsInterceptProperties"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyResponse: AWSDecodableShape {
+        /// The updated proxy resource that reflects the updates from the request.
+        public let proxy: Proxy?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy. The token marks the state of the proxy resource at the time of the request.  To make changes to the proxy, you provide the token in your request. Network Firewall uses the token to ensure that the proxy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxy: Proxy? = nil, updateToken: String? = nil) {
+            self.proxy = proxy
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxy = "Proxy"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRuleGroupPrioritiesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy configuration. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationArn: String?
+        /// The descriptive name of the proxy configuration. You can't change the name of a proxy configuration after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyConfigurationName: String?
+        /// proxy rule group resources to update to new positions.
+        public let ruleGroups: [ProxyRuleGroupPriority]
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(proxyConfigurationArn: String? = nil, proxyConfigurationName: String? = nil, ruleGroups: [ProxyRuleGroupPriority], updateToken: String) {
+            self.proxyConfigurationArn = proxyConfigurationArn
+            self.proxyConfigurationName = proxyConfigurationName
+            self.ruleGroups = ruleGroups
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, max: 256)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationArn, name: "proxyConfigurationArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, max: 128)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, min: 1)
+            try self.validate(self.proxyConfigurationName, name: "proxyConfigurationName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.ruleGroups.forEach {
+                try $0.validate(name: "\(name).ruleGroups[]")
+            }
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyConfigurationArn = "ProxyConfigurationArn"
+            case proxyConfigurationName = "ProxyConfigurationName"
+            case ruleGroups = "RuleGroups"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRuleGroupPrioritiesResponse: AWSDecodableShape {
+        /// The updated proxy rule group hierarchy that reflects the updates from the request.
+        public let proxyRuleGroups: [ProxyRuleGroupPriorityResult]?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy configuration. The token marks the state of the proxy configuration resource at the time of the request.  To make changes to the proxy configuration, you provide the token in your request. Network Firewall uses the token to ensure that the proxy configuration hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy configuration again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRuleGroups: [ProxyRuleGroupPriorityResult]? = nil, updateToken: String? = nil) {
+            self.proxyRuleGroups = proxyRuleGroups
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroups = "ProxyRuleGroups"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRulePrioritiesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+        public let ruleGroupRequestPhase: RuleGroupRequestPhase
+        /// proxy rule resources to update to new positions.
+        public let rules: [ProxyRulePriority]
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, ruleGroupRequestPhase: RuleGroupRequestPhase, rules: [ProxyRulePriority], updateToken: String) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.ruleGroupRequestPhase = ruleGroupRequestPhase
+            self.rules = rules
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case ruleGroupRequestPhase = "RuleGroupRequestPhase"
+            case rules = "Rules"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRulePrioritiesResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a proxy rule group.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it.
+        public let proxyRuleGroupName: String?
+        /// Evaluation points in the traffic flow where rules are applied. There are three phases in a traffic where the rule match is applied.
+        public let ruleGroupRequestPhase: RuleGroupRequestPhase?
+        /// The updated proxy rule hierarchy that reflects the updates from the request.
+        public let rules: [ProxyRulePriority]?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule group. The token marks the state of the proxy rule group resource at the time of the request.  To make changes to the proxy rule group, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, ruleGroupRequestPhase: RuleGroupRequestPhase? = nil, rules: [ProxyRulePriority]? = nil, updateToken: String? = nil) {
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.ruleGroupRequestPhase = ruleGroupRequestPhase
+            self.rules = rules
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case ruleGroupRequestPhase = "RuleGroupRequestPhase"
+            case rules = "Rules"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRuleRequest: AWSEncodableShape {
+        /// Depending on the match action, the proxy either stops the evaluation (if the action is terminal - allow or deny), or continues it (if the action is alert) until it matches a rule with a terminal action.
+        public let action: ProxyRulePhaseAction?
+        /// Proxy rule conditions to add. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public let addConditions: [ProxyRuleCondition]?
+        /// A description of the proxy rule.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) of a proxy rule group. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupArn: String?
+        /// The descriptive name of the proxy rule group. You can't change the name of a proxy rule group after you create it. You must specify the ARN or the name, and you can specify both.
+        public let proxyRuleGroupName: String?
+        /// The descriptive name of the proxy rule. You can't change the name of a proxy rule after you create it.
+        public let proxyRuleName: String
+        /// Proxy rule conditions to remove. Match criteria that specify what traffic attributes to examine. Conditions include operators (StringEquals, StringLike) and values to match against.
+        public let removeConditions: [ProxyRuleCondition]?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String
+
+        @inlinable
+        public init(action: ProxyRulePhaseAction? = nil, addConditions: [ProxyRuleCondition]? = nil, description: String? = nil, proxyRuleGroupArn: String? = nil, proxyRuleGroupName: String? = nil, proxyRuleName: String, removeConditions: [ProxyRuleCondition]? = nil, updateToken: String) {
+            self.action = action
+            self.addConditions = addConditions
+            self.description = description
+            self.proxyRuleGroupArn = proxyRuleGroupArn
+            self.proxyRuleGroupName = proxyRuleGroupName
+            self.proxyRuleName = proxyRuleName
+            self.removeConditions = removeConditions
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, max: 256)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupArn, name: "proxyRuleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, max: 128)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, min: 1)
+            try self.validate(self.proxyRuleGroupName, name: "proxyRuleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, max: 128)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, min: 1)
+            try self.validate(self.proxyRuleName, name: "proxyRuleName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case addConditions = "AddConditions"
+            case description = "Description"
+            case proxyRuleGroupArn = "ProxyRuleGroupArn"
+            case proxyRuleGroupName = "ProxyRuleGroupName"
+            case proxyRuleName = "ProxyRuleName"
+            case removeConditions = "RemoveConditions"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateProxyRuleResponse: AWSDecodableShape {
+        /// The updated proxy rule resource that reflects the updates from the request.
+        public let proxyRule: ProxyRule?
+        /// Proxy rule conditions removed from the rule.
+        public let removedConditions: [ProxyRuleCondition]?
+        /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the proxy rule. The token marks the state of the proxy rule resource at the time of the request.  To make changes to the proxy rule, you provide the token in your request. Network Firewall uses the token to ensure that the proxy rule hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the proxy rule again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(proxyRule: ProxyRule? = nil, removedConditions: [ProxyRuleCondition]? = nil, updateToken: String? = nil) {
+            self.proxyRule = proxyRule
+            self.removedConditions = removedConditions
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case proxyRule = "ProxyRule"
+            case removedConditions = "RemovedConditions"
+            case updateToken = "UpdateToken"
         }
     }
 

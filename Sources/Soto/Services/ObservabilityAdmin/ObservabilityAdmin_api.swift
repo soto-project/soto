@@ -113,6 +113,76 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.createCentralizationRuleForOrganization(input, logger: logger)
     }
 
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
+    @Sendable
+    @inlinable
+    public func createS3TableIntegration(_ input: CreateS3TableIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateS3TableIntegrationOutput {
+        try await self.client.execute(
+            operation: "CreateS3TableIntegration", 
+            path: "/CreateS3TableIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
+    ///
+    /// Parameters:
+    ///   - encryption: The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that grants permissions for the S3 Table integration to access necessary resources.
+    ///   - tags: The key-value pairs to associate with the S3 Table integration resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createS3TableIntegration(
+        encryption: Encryption,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateS3TableIntegrationOutput {
+        let input = CreateS3TableIntegrationInput(
+            encryption: encryption, 
+            roleArn: roleArn, 
+            tags: tags
+        )
+        return try await self.createS3TableIntegration(input, logger: logger)
+    }
+
+    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
+    @Sendable
+    @inlinable
+    public func createTelemetryPipeline(_ input: CreateTelemetryPipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTelemetryPipelineOutput {
+        try await self.client.execute(
+            operation: "CreateTelemetryPipeline", 
+            path: "/CreateTelemetryPipeline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
+    ///
+    /// Parameters:
+    ///   - configuration: The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more information about pipeline components, see the Amazon CloudWatch User Guide
+    ///   - name: The name of the telemetry pipeline to create. The name must be unique within your account.
+    ///   - tags: The key-value pairs to associate with the telemetry pipeline resource for categorization and management purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTelemetryPipeline(
+        configuration: TelemetryPipelineConfiguration,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTelemetryPipelineOutput {
+        let input = CreateTelemetryPipelineInput(
+            configuration: configuration, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createTelemetryPipeline(input, logger: logger)
+    }
+
     ///  Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
     @Sendable
     @inlinable
@@ -212,6 +282,64 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.deleteCentralizationRuleForOrganization(input, logger: logger)
     }
 
+    /// Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
+    @Sendable
+    @inlinable
+    public func deleteS3TableIntegration(_ input: DeleteS3TableIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteS3TableIntegration", 
+            path: "/DeleteS3TableIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the S3 Table integration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteS3TableIntegration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteS3TableIntegrationInput(
+            arn: arn
+        )
+        return try await self.deleteS3TableIntegration(input, logger: logger)
+    }
+
+    /// Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
+    @Sendable
+    @inlinable
+    public func deleteTelemetryPipeline(_ input: DeleteTelemetryPipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTelemetryPipelineOutput {
+        try await self.client.execute(
+            operation: "DeleteTelemetryPipeline", 
+            path: "/DeleteTelemetryPipeline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
+    ///
+    /// Parameters:
+    ///   - pipelineIdentifier: The ARN of the telemetry pipeline to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTelemetryPipeline(
+        pipelineIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTelemetryPipelineOutput {
+        let input = DeleteTelemetryPipelineInput(
+            pipelineIdentifier: pipelineIdentifier
+        )
+        return try await self.deleteTelemetryPipeline(input, logger: logger)
+    }
+
     ///  Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
     @Sendable
     @inlinable
@@ -299,7 +427,36 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.getCentralizationRuleForOrganization(input, logger: logger)
     }
 
-    ///  Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Amazon Web Services Resource Explorer.
+    /// Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
+    @Sendable
+    @inlinable
+    public func getS3TableIntegration(_ input: GetS3TableIntegrationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetS3TableIntegrationOutput {
+        try await self.client.execute(
+            operation: "GetS3TableIntegration", 
+            path: "/GetS3TableIntegration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the S3 Table integration to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getS3TableIntegration(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetS3TableIntegrationOutput {
+        let input = GetS3TableIntegrationInput(
+            arn: arn
+        )
+        return try await self.getS3TableIntegration(input, logger: logger)
+    }
+
+    ///  Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
     @Sendable
     @inlinable
     public func getTelemetryEnrichmentStatus(logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryEnrichmentStatusOutput {
@@ -336,6 +493,35 @@ public struct ObservabilityAdmin: AWSService {
             serviceConfig: self.config, 
             logger: logger
         )
+    }
+
+    /// Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
+    @Sendable
+    @inlinable
+    public func getTelemetryPipeline(_ input: GetTelemetryPipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTelemetryPipelineOutput {
+        try await self.client.execute(
+            operation: "GetTelemetryPipeline", 
+            path: "/GetTelemetryPipeline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
+    ///
+    /// Parameters:
+    ///   - pipelineIdentifier: The identifier (name or ARN) of the telemetry pipeline to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTelemetryPipeline(
+        pipelineIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTelemetryPipelineOutput {
+        let input = GetTelemetryPipelineInput(
+            pipelineIdentifier: pipelineIdentifier
+        )
+        return try await self.getTelemetryPipeline(input, logger: logger)
     }
 
     ///  Retrieves the details of a specific telemetry rule in your account.
@@ -525,7 +711,39 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.listResourceTelemetryForOrganization(input, logger: logger)
     }
 
-    ///  Lists all tags attached to the specified telemetry rule resource.
+    /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func listS3TableIntegrations(_ input: ListS3TableIntegrationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListS3TableIntegrationsOutput {
+        try await self.client.execute(
+            operation: "ListS3TableIntegrations", 
+            path: "/ListS3TableIntegrations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of S3 Table integrations to return in a single call.
+    ///   - nextToken: The token for the next set of results. A previous call generates this token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listS3TableIntegrations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListS3TableIntegrationsOutput {
+        let input = ListS3TableIntegrationsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listS3TableIntegrations(input, logger: logger)
+    }
+
+    ///  Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
@@ -538,7 +756,7 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Lists all tags attached to the specified telemetry rule resource.
+    ///  Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
     /// Parameters:
     ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list.
@@ -552,6 +770,38 @@ public struct ObservabilityAdmin: AWSService {
             resourceARN: resourceARN
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the NextToken value from the response to retrieve the next set of results.
+    @Sendable
+    @inlinable
+    public func listTelemetryPipelines(_ input: ListTelemetryPipelinesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTelemetryPipelinesOutput {
+        try await self.client.execute(
+            operation: "ListTelemetryPipelines", 
+            path: "/ListTelemetryPipelines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the NextToken value from the response to retrieve the next set of results.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of telemetry pipelines to return in a single call.
+    ///   - nextToken: The token for the next set of results. A previous call generates this token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTelemetryPipelines(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTelemetryPipelinesOutput {
+        let input = ListTelemetryPipelinesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTelemetryPipelines(input, logger: logger)
     }
 
     ///  Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
@@ -630,7 +880,7 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.listTelemetryRulesForOrganization(input, logger: logger)
     }
 
-    ///  Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Amazon Web Services Resource Explorer to provide richer context for monitoring and observability.
+    ///  Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
     @Sendable
     @inlinable
     public func startTelemetryEnrichment(logger: Logger = AWSClient.loggingDisabled) async throws -> StartTelemetryEnrichmentOutput {
@@ -708,7 +958,7 @@ public struct ObservabilityAdmin: AWSService {
         )
     }
 
-    ///  Adds or updates tags for a telemetry rule resource.
+    ///  Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -721,7 +971,7 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Adds or updates tags for a telemetry rule resource.
+    ///  Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
     /// Parameters:
     ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource to tag.
@@ -740,7 +990,39 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    ///  Removes tags from a telemetry rule resource.
+    /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
+    @Sendable
+    @inlinable
+    public func testTelemetryPipeline(_ input: TestTelemetryPipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TestTelemetryPipelineOutput {
+        try await self.client.execute(
+            operation: "TestTelemetryPipeline", 
+            path: "/TestTelemetryPipeline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
+    ///
+    /// Parameters:
+    ///   - configuration: The pipeline configuration to test with the provided sample records.
+    ///   - records: The sample records to process through the pipeline configuration for testing purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func testTelemetryPipeline(
+        configuration: TelemetryPipelineConfiguration,
+        records: [Record],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TestTelemetryPipelineOutput {
+        let input = TestTelemetryPipelineInput(
+            configuration: configuration, 
+            records: records
+        )
+        return try await self.testTelemetryPipeline(input, logger: logger)
+    }
+
+    ///  Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -753,7 +1035,7 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Removes tags from a telemetry rule resource.
+    ///  Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
     ///
     /// Parameters:
     ///   - resourceARN:  The Amazon Resource Name (ARN) of the telemetry rule resource to remove tags from.
@@ -804,7 +1086,39 @@ public struct ObservabilityAdmin: AWSService {
         return try await self.updateCentralizationRuleForOrganization(input, logger: logger)
     }
 
-    ///  Updates an existing telemetry rule in your account.
+    /// Updates the configuration of an existing telemetry pipeline.  The following attributes cannot be updated after pipeline creation:    Pipeline name - The pipeline name is immutable    Pipeline ARN - The ARN is automatically generated and cannot be changed    Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type   Processors can be added, removed, or modified. However, some processors are not supported for third-party pipelines and cannot be added through updates.   Source-Specific Update Rules   CloudWatch Logs Sources (Vended and Custom)   Updatable: sts_role_arn   Fixed: data_source_name, data_source_type, sink (must remain @original)  S3 Sources (Crowdstrike, Zscaler, SentinelOne, Custom)   Updatable: All SQS configuration parameters, sts_role_arn, codec settings, compression type, bucket ownership settings, sink log group  Fixed: notification_type, aws.region   GitHub Audit Logs   Updatable: All Amazon Web Services Secrets Manager attributes, scope (can switch between ORGANIZATION/ENTERPRISE), organization or enterprise name, range, authentication credentials (PAT or GitHub App)  Microsoft Sources (Entra ID, Office365, Windows)   Updatable: All Amazon Web Services Secrets Manager attributes, tenant_id, workspace_id (Windows only), OAuth2 credentials (client_id, client_secret)  Okta Sources (SSO, Auth0)   Updatable: All Amazon Web Services Secrets Manager attributes, domain, range (SSO only), OAuth2 credentials (client_id, client_secret)  Palo Alto Networks   Updatable: All Amazon Web Services Secrets Manager attributes, hostname, basic authentication credentials (username, password)  ServiceNow CMDB   Updatable: All Amazon Web Services Secrets Manager attributes, instance_url, range, OAuth2 credentials (client_id, client_secret)  Wiz CNAPP   Updatable: All Amazon Web Services Secrets Manager attributes, region, range, OAuth2 credentials (client_id, client_secret)
+    @Sendable
+    @inlinable
+    public func updateTelemetryPipeline(_ input: UpdateTelemetryPipelineInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTelemetryPipelineOutput {
+        try await self.client.execute(
+            operation: "UpdateTelemetryPipeline", 
+            path: "/UpdateTelemetryPipeline", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing telemetry pipeline.  The following attributes cannot be updated after pipeline creation:    Pipeline name - The pipeline name is immutable    Pipeline ARN - The ARN is automatically generated and cannot be changed    Source type - Once a pipeline is created with a specific source type (such as S3, CloudWatch Logs, GitHub, or third-party sources), it cannot be changed to a different source type   Processors can be added, removed, or modified. However, some processors are not supported for third-party pipelines and cannot be added through updates.   Source-Specific Update Rules   CloudWatch Logs Sources (Vended and Custom)   Updatable: sts_role_arn   Fixed: data_source_name, data_source_type, sink (must remain @original)  S3 Sources (Crowdstrike, Zscaler, SentinelOne, Custom)   Updatable: All SQS configuration parameters, sts_role_arn, codec settings, compression type, bucket ownership settings, sink log group  Fixed: notification_type, aws.region   GitHub Audit Logs   Updatable: All Amazon Web Services Secrets Manager attributes, scope (can switch between ORGANIZATION/ENTERPRISE), organization or enterprise name, range, authentication credentials (PAT or GitHub App)  Microsoft Sources (Entra ID, Office365, Windows)   Updatable: All Amazon Web Services Secrets Manager attributes, tenant_id, workspace_id (Windows only), OAuth2 credentials (client_id, client_secret)  Okta Sources (SSO, Auth0)   Updatable: All Amazon Web Services Secrets Manager attributes, domain, range (SSO only), OAuth2 credentials (client_id, client_secret)  Palo Alto Networks   Updatable: All Amazon Web Services Secrets Manager attributes, hostname, basic authentication credentials (username, password)  ServiceNow CMDB   Updatable: All Amazon Web Services Secrets Manager attributes, instance_url, range, OAuth2 credentials (client_id, client_secret)  Wiz CNAPP   Updatable: All Amazon Web Services Secrets Manager attributes, region, range, OAuth2 credentials (client_id, client_secret)
+    ///
+    /// Parameters:
+    ///   - configuration: The new configuration for the telemetry pipeline, including updated sources, processors, and destinations.
+    ///   - pipelineIdentifier: The ARN of the telemetry pipeline to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTelemetryPipeline(
+        configuration: TelemetryPipelineConfiguration,
+        pipelineIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTelemetryPipelineOutput {
+        let input = UpdateTelemetryPipelineInput(
+            configuration: configuration, 
+            pipelineIdentifier: pipelineIdentifier
+        )
+        return try await self.updateTelemetryPipeline(input, logger: logger)
+    }
+
+    ///  Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
     @Sendable
     @inlinable
     public func updateTelemetryRule(_ input: UpdateTelemetryRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTelemetryRuleOutput {
@@ -817,7 +1131,7 @@ public struct ObservabilityAdmin: AWSService {
             logger: logger
         )
     }
-    ///  Updates an existing telemetry rule in your account.
+    ///  Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
     ///
     /// Parameters:
     ///   - rule:  The new configuration details for the telemetry rule.
@@ -866,6 +1180,35 @@ public struct ObservabilityAdmin: AWSService {
             ruleIdentifier: ruleIdentifier
         )
         return try await self.updateTelemetryRuleForOrganization(input, logger: logger)
+    }
+
+    /// Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
+    @Sendable
+    @inlinable
+    public func validateTelemetryPipelineConfiguration(_ input: ValidateTelemetryPipelineConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ValidateTelemetryPipelineConfigurationOutput {
+        try await self.client.execute(
+            operation: "ValidateTelemetryPipelineConfiguration", 
+            path: "/ValidateTelemetryPipelineConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
+    ///
+    /// Parameters:
+    ///   - configuration: The pipeline configuration to validate for syntax and compatibility.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func validateTelemetryPipelineConfiguration(
+        configuration: TelemetryPipelineConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ValidateTelemetryPipelineConfigurationOutput {
+        let input = ValidateTelemetryPipelineConfigurationInput(
+            configuration: configuration
+        )
+        return try await self.validateTelemetryPipelineConfiguration(input, logger: logger)
     }
 }
 
@@ -1017,6 +1360,74 @@ extension ObservabilityAdmin {
         return self.listResourceTelemetryForOrganizationPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listS3TableIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listS3TableIntegrationsPaginator(
+        _ input: ListS3TableIntegrationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput> {
+        return .init(
+            input: input,
+            command: self.listS3TableIntegrations,
+            inputKey: \ListS3TableIntegrationsInput.nextToken,
+            outputKey: \ListS3TableIntegrationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listS3TableIntegrations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of S3 Table integrations to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listS3TableIntegrationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListS3TableIntegrationsInput, ListS3TableIntegrationsOutput> {
+        let input = ListS3TableIntegrationsInput(
+            maxResults: maxResults
+        )
+        return self.listS3TableIntegrationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTelemetryPipelines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryPipelinesPaginator(
+        _ input: ListTelemetryPipelinesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput> {
+        return .init(
+            input: input,
+            command: self.listTelemetryPipelines,
+            inputKey: \ListTelemetryPipelinesInput.nextToken,
+            outputKey: \ListTelemetryPipelinesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTelemetryPipelines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of telemetry pipelines to return in a single call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTelemetryPipelinesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTelemetryPipelinesInput, ListTelemetryPipelinesOutput> {
+        let input = ListTelemetryPipelinesInput(
+            maxResults: maxResults
+        )
+        return self.listTelemetryPipelinesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTelemetryRules(_:logger:)``.
     ///
     /// - Parameters:
@@ -1135,6 +1546,26 @@ extension ObservabilityAdmin.ListResourceTelemetryInput: AWSPaginateToken {
             resourceTags: self.resourceTags,
             resourceTypes: self.resourceTypes,
             telemetryConfigurationState: self.telemetryConfigurationState
+        )
+    }
+}
+
+extension ObservabilityAdmin.ListS3TableIntegrationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListS3TableIntegrationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension ObservabilityAdmin.ListTelemetryPipelinesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ObservabilityAdmin.ListTelemetryPipelinesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

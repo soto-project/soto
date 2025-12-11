@@ -25,6 +25,18 @@ import Foundation
 extension RedshiftServerless {
     // MARK: Enums
 
+    public enum LakehouseIdcRegistration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associate = "Associate"
+        case disassociate = "Disassociate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LakehouseRegistration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregister = "Deregister"
+        case register = "Register"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogExport: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case connectionlog = "connectionlog"
         case useractivitylog = "useractivitylog"
@@ -107,7 +119,7 @@ extension RedshiftServerless {
     public enum Schedule: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
         case at(Date)
-        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         case cron(String)
 
         public init(from decoder: Decoder) throws {
@@ -190,7 +202,7 @@ extension RedshiftServerless {
     }
 
     public struct ConfigParameter: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let  you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// The key of the parameter. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see Query monitoring metrics for Amazon Redshift Serverless.
         public let parameterKey: String?
         /// The value of the parameter to set.
         public let parameterValue: String?
@@ -214,7 +226,7 @@ extension RedshiftServerless {
         public let retentionPeriod: Int?
         /// The name of the snapshot.
         public let snapshotName: String
-        /// An array of Tag objects  to associate with the created snapshot.
+        /// An array of Tag objects to associate with the created snapshot.
         public let tags: [Tag]?
 
         @inlinable
@@ -315,13 +327,13 @@ extension RedshiftServerless {
     }
 
     public struct CreateEndpointAccessRequest: AWSEncodableShape {
-        /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters.  Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter.  The name can't contain two consecutive hyphens or end with a hyphen.
+        /// The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
         public let endpointName: String
         /// The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
         public let ownerAccount: String?
-        /// The unique identifers of subnets from which  Amazon Redshift Serverless chooses one to deploy a VPC endpoint.
+        /// The unique identifers of subnets from which Amazon Redshift Serverless chooses one to deploy a VPC endpoint.
         public let subnetIds: [String]
-        /// The unique identifiers of the security group that defines the ports,  protocols, and sources for inbound traffic that you are authorizing into your endpoint.
+        /// The unique identifiers of the security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint.
         public let vpcSecurityGroupIds: [String]?
         /// The name of the workgroup to associate with the VPC endpoint.
         public let workgroupName: String
@@ -365,7 +377,7 @@ extension RedshiftServerless {
     }
 
     public struct CreateNamespaceRequest: AWSEncodableShape {
-        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
         public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace.
         public let adminUsername: String?
@@ -379,9 +391,9 @@ extension RedshiftServerless {
         public let iamRoles: [String]?
         /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
         public let kmsKeyId: String?
-        /// The types of logs the namespace can export.  Available export types are userlog, connectionlog, and useractivitylog.
+        /// The types of logs the namespace can export. Available export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
-        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
         public let manageAdminPassword: Bool?
         /// The name of the namespace.
         public let namespaceName: String
@@ -452,7 +464,7 @@ extension RedshiftServerless {
     public struct CreateReservationRequest: AWSEncodableShape {
         /// The number of Redshift Processing Units (RPUs) to reserve.
         public let capacity: Int
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services  SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
         public let clientToken: String?
         /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation.
         public let offeringId: String
@@ -491,15 +503,15 @@ extension RedshiftServerless {
     }
 
     public struct CreateScheduledActionRequest: AWSEncodableShape {
-        /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state  of the scheduled action, see ScheduledAction.
+        /// Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction.
         public let enabled: Bool?
         /// The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
         public let endTime: Date?
         /// The name of the namespace for which to create a scheduled action.
         public let namespaceName: String
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String
-        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule
         /// The description of the scheduled action.
         public let scheduledActionDescription: String?
@@ -657,7 +669,7 @@ extension RedshiftServerless {
         public let namespaceName: String
         /// The retention period of the snapshot created by the scheduled action.
         public let retentionPeriod: Int?
-        /// A string prefix that is attached to the name of the snapshot created by the scheduled action. The final  name of the snapshot is the string prefix appended by the date and time of when the snapshot was created.
+        /// A string prefix that is attached to the name of the snapshot created by the scheduled action. The final name of the snapshot is the string prefix appended by the date and time of when the snapshot was created.
         public let snapshotNamePrefix: String
         /// An array of Tag objects to associate with the snapshot.
         public let tags: [Tag]?
@@ -737,9 +749,9 @@ extension RedshiftServerless {
     public struct CreateWorkgroupRequest: AWSEncodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
-        /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
+        /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
         public let enhancedVpcRouting: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
@@ -759,7 +771,7 @@ extension RedshiftServerless {
         public let subnetIds: [String]?
         /// A array of tag instances.
         public let tags: [Tag]?
-        /// An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+        /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
         public let trackName: String?
         /// The name of the created workgroup.
         public let workgroupName: String
@@ -1137,7 +1149,7 @@ extension RedshiftServerless {
         public let endpointStatus: String?
         /// The port number on which Amazon Redshift Serverless accepts incoming connections.
         public let port: Int?
-        /// The unique identifier of subnets  where Amazon Redshift Serverless choose to deploy the VPC endpoint.
+        /// The unique identifier of subnets where Amazon Redshift Serverless choose to deploy the VPC endpoint.
         public let subnetIds: [String]?
         /// The connection endpoint for connecting to Amazon Redshift Serverless.
         public let vpcEndpoint: VpcEndpoint?
@@ -1177,7 +1189,7 @@ extension RedshiftServerless {
     public struct GetCredentialsRequest: AWSEncodableShape {
         /// The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
         public let customDomainName: String?
-        /// The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found  in Reserved Words   in the Amazon Redshift Database Developer Guide
+        /// The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words  in the Amazon Redshift Database Developer Guide
         public let dbName: String?
         /// The number of seconds until the returned temporary password expires. The minimum is 900 seconds, and the maximum is 3600 seconds.
         public let durationSeconds: Int?
@@ -1210,13 +1222,13 @@ extension RedshiftServerless {
     }
 
     public struct GetCredentialsResponse: AWSDecodableShape {
-        /// A temporary password that authorizes the user name returned by  DbUser to log on to the database DbName.
+        /// A temporary password that authorizes the user name returned by DbUser to log on to the database DbName.
         public let dbPassword: String?
-        /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database,  the new user name has the same database privileges as the the user named in  DbUser. By default, the user is added to PUBLIC.
+        /// A database user name that is authorized to log on to the database DbName using the password DbPassword. If the specified DbUser exists in the database, the new user name has the same database privileges as the the user named in DbUser. By default, the user is added to PUBLIC.
         public let dbUser: String?
         /// The date and time the password in DbPassword expires.
         public let expiration: Date?
-        /// The date and time of when the DbUser and DbPassword  authorization refreshes.
+        /// The date and time of when the DbUser and DbPassword authorization refreshes.
         public let nextRefreshTime: Date?
 
         @inlinable
@@ -1313,6 +1325,48 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case endpoint = "endpoint"
+        }
+    }
+
+    public struct GetIdentityCenterAuthTokenRequest: AWSEncodableShape {
+        /// A list of workgroup names for which to generate the Identity Center authentication token. Constraints:   Must contain between 1 and 20 workgroup names.   Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier.   All specified workgroups must have Identity Center integration enabled.
+        public let workgroupNames: [String]
+
+        @inlinable
+        public init(workgroupNames: [String]) {
+            self.workgroupNames = workgroupNames
+        }
+
+        public func validate(name: String) throws {
+            try self.workgroupNames.forEach {
+                try validate($0, name: "workgroupNames[]", parent: name, max: 64)
+                try validate($0, name: "workgroupNames[]", parent: name, min: 3)
+                try validate($0, name: "workgroupNames[]", parent: name, pattern: "^[a-z0-9-]+$")
+            }
+            try self.validate(self.workgroupNames, name: "workgroupNames", parent: name, max: 20)
+            try self.validate(self.workgroupNames, name: "workgroupNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workgroupNames = "workgroupNames"
+        }
+    }
+
+    public struct GetIdentityCenterAuthTokenResponse: AWSDecodableShape {
+        /// The date and time when the Identity Center authentication token expires. After this time, a new token must be requested for continued access.
+        public let expirationTime: Date?
+        /// The Identity Center authentication token that can be used to access data in the specified workgroups. This token contains the Identity Center identity information and is encrypted for secure transmission.
+        public let token: String?
+
+        @inlinable
+        public init(expirationTime: Date? = nil, token: String? = nil) {
+            self.expirationTime = expirationTime
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationTime = "ExpirationTime"
+            case token = "Token"
         }
     }
 
@@ -1673,7 +1727,7 @@ extension RedshiftServerless {
         public let customDomainName: String?
         /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -1713,7 +1767,7 @@ extension RedshiftServerless {
     public struct ListCustomDomainAssociationsResponse: AWSDecodableShape {
         /// A list of Association objects.
         public let associations: [Association]?
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -1775,7 +1829,7 @@ extension RedshiftServerless {
     public struct ListEndpointAccessResponse: AWSDecodableShape {
         /// The returned VPC endpoints.
         public let endpoints: [EndpointAccess]
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -1791,11 +1845,11 @@ extension RedshiftServerless {
     }
 
     public struct ListManagedWorkgroupsRequest: AWSEncodableShape {
-        /// An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
-        /// If your initial ListManagedWorkgroups operation returns a nextToken,  you can include the returned nextToken in following ListManagedWorkgroups  operations, which returns results in the next page.
+        /// If your initial ListManagedWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListManagedWorkgroups operations, which returns results in the next page.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+        /// The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
         public let sourceArn: String?
 
         @inlinable
@@ -1827,7 +1881,7 @@ extension RedshiftServerless {
     public struct ListManagedWorkgroupsResponse: AWSDecodableShape {
         /// The returned array of managed workgroups.
         public let managedWorkgroups: [ManagedWorkgroupListItem]?
-        /// If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
         public let nextToken: String?
 
         @inlinable
@@ -1867,7 +1921,7 @@ extension RedshiftServerless {
     public struct ListNamespacesResponse: AWSDecodableShape {
         /// The list of returned namespaces.
         public let namespaces: [Namespace]
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -1932,7 +1986,7 @@ extension RedshiftServerless {
     }
 
     public struct ListRecoveryPointsResponse: AWSDecodableShape {
-        /// If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// The returned recovery point objects.
         public let recoveryPoints: [RecoveryPoint]?
@@ -2044,7 +2098,7 @@ extension RedshiftServerless {
         public let maxResults: Int?
         /// The name of namespace associated with the scheduled action to retrieve.
         public let namespaceName: String?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -2098,7 +2152,7 @@ extension RedshiftServerless {
         public let maxResults: Int?
         /// The namespace from which to list all snapshot copy configurations.
         public let namespaceName: String?
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
 
         @inlinable
@@ -2130,7 +2184,7 @@ extension RedshiftServerless {
     }
 
     public struct ListSnapshotCopyConfigurationsResponse: AWSDecodableShape {
-        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// All of the returned snapshot copy configurations.
         public let snapshotCopyConfigurations: [SnapshotCopyConfiguration]
@@ -2156,7 +2210,7 @@ extension RedshiftServerless {
         public let namespaceArn: String?
         /// The namespace from which to list all snapshots.
         public let namespaceName: String?
-        /// If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// The owner Amazon Web Services account of the snapshot.
         public let ownerAccount: String?
@@ -2196,7 +2250,7 @@ extension RedshiftServerless {
     }
 
     public struct ListSnapshotsResponse: AWSDecodableShape {
-        /// If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// All of the returned snapshot objects.
         public let snapshots: [Snapshot]?
@@ -2214,11 +2268,11 @@ extension RedshiftServerless {
     }
 
     public struct ListTableRestoreStatusRequest: AWSEncodableShape {
-        /// An optional parameter that specifies the maximum number of results to  return. You can use nextToken to display the next page of results.
+        /// An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
         public let maxResults: Int?
         /// The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
         public let namespaceName: String?
-        /// If your initial ListTableRestoreStatus operation returns a nextToken,  you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
+        /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
         public let nextToken: String?
         /// The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
         public let workgroupName: String?
@@ -2252,7 +2306,7 @@ extension RedshiftServerless {
     }
 
     public struct ListTableRestoreStatusResponse: AWSDecodableShape {
-        /// If your initial ListTableRestoreStatus operation returns a nextToken,  you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
+        /// If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will returns results on the next page.
         public let nextToken: String?
         /// The array of returned TableRestoreStatus objects.
         public let tableRestoreStatuses: [TableRestoreStatus]?
@@ -2303,9 +2357,9 @@ extension RedshiftServerless {
     }
 
     public struct ListTracksRequest: AWSEncodableShape {
-        /// The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
         public let maxResults: Int?
-        /// If your initial ListTracksRequest operation returns a  nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
+        /// If your initial ListTracksRequest operation returns a nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
         public let nextToken: String?
 
         @inlinable
@@ -2386,7 +2440,7 @@ extension RedshiftServerless {
     }
 
     public struct ListUsageLimitsResponse: AWSDecodableShape {
-        /// When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
         public let nextToken: String?
         /// An array of returned usage limit objects.
         public let usageLimits: [UsageLimit]?
@@ -2438,7 +2492,7 @@ extension RedshiftServerless {
     }
 
     public struct ListWorkgroupsResponse: AWSDecodableShape {
-        ///  If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  To retrieve the next page, make the call again using the returned token.
+        ///  If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token.
         public let nextToken: String?
         /// The returned array of workgroups.
         public let workgroups: [Workgroup]
@@ -2462,7 +2516,7 @@ extension RedshiftServerless {
         public let managedWorkgroupId: String?
         /// The name of the managed workgroup.
         public let managedWorkgroupName: String?
-        /// The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+        /// The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
         public let sourceArn: String?
         /// The status of the managed workgroup.
         public let status: ManagedWorkgroupStatus?
@@ -2492,6 +2546,8 @@ extension RedshiftServerless {
         public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace.
         public let adminUsername: String?
+        /// The Amazon Resource Name (ARN) of the Glue Data Catalog associated with the namespace enabled with Amazon Redshift federated permissions.
+        public let catalogArn: String?
         /// The date of when the namespace was created.
         public let creationDate: Date?
         /// The name of the first database created in the namespace.
@@ -2502,27 +2558,31 @@ extension RedshiftServerless {
         public let iamRoles: [String]?
         /// The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
         public let kmsKeyId: String?
+        /// The status of the lakehouse registration for the namespace. Indicates whether the namespace is successfully registered with Amazon Redshift federated permissions.
+        public let lakehouseRegistrationStatus: String?
         /// The types of logs the namespace can export. Available export types are User log, Connection log, and User activity log.
         public let logExports: [LogExport]?
         /// The Amazon Resource Name (ARN) associated with a namespace.
         public let namespaceArn: String?
         /// The unique identifier of a namespace.
         public let namespaceId: String?
-        /// The name of the namespace.  Must be between 3-64 alphanumeric characters in lowercase,  and it cannot be a reserved word. A list of reserved words can be found  in Reserved Words in the Amazon Redshift Database Developer Guide.
+        /// The name of the namespace. Must be between 3-64 alphanumeric characters in lowercase, and it cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let namespaceName: String?
         /// The status of the namespace.
         public let status: NamespaceStatus?
 
         @inlinable
-        public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
+        public init(adminPasswordSecretArn: String? = nil, adminPasswordSecretKmsKeyId: String? = nil, adminUsername: String? = nil, catalogArn: String? = nil, creationDate: Date? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, logExports: [LogExport]? = nil, namespaceArn: String? = nil, namespaceId: String? = nil, namespaceName: String? = nil, status: NamespaceStatus? = nil) {
             self.adminPasswordSecretArn = adminPasswordSecretArn
             self.adminPasswordSecretKmsKeyId = adminPasswordSecretKmsKeyId
             self.adminUsername = adminUsername
+            self.catalogArn = catalogArn
             self.creationDate = creationDate
             self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
             self.iamRoles = iamRoles
             self.kmsKeyId = kmsKeyId
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
             self.logExports = logExports
             self.namespaceArn = namespaceArn
             self.namespaceId = namespaceId
@@ -2534,11 +2594,13 @@ extension RedshiftServerless {
             case adminPasswordSecretArn = "adminPasswordSecretArn"
             case adminPasswordSecretKmsKeyId = "adminPasswordSecretKmsKeyId"
             case adminUsername = "adminUsername"
+            case catalogArn = "catalogArn"
             case creationDate = "creationDate"
             case dbName = "dbName"
             case defaultIamRoleArn = "defaultIamRoleArn"
             case iamRoles = "iamRoles"
             case kmsKeyId = "kmsKeyId"
+            case lakehouseRegistrationStatus = "lakehouseRegistrationStatus"
             case logExports = "logExports"
             case namespaceArn = "namespaceArn"
             case namespaceId = "namespaceId"
@@ -2596,7 +2658,7 @@ extension RedshiftServerless {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot.  "{\"Version\": \"2012-10-17\", \"Statement\" :  [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\":  [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
+        /// The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot.  "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
         public let policy: String
         /// The Amazon Resource Name (ARN) of the account to create or update a resource policy for.
         public let resourceArn: String
@@ -2672,7 +2734,7 @@ extension RedshiftServerless {
         public let reservationArn: String?
         /// The identifier that uniquely identifies the serverless reservation.
         public let reservationId: String?
-        /// The start date for the serverless reservation. This is the date you specified for the reservation to start when you created the reservation.
+        /// The start date for the serverless reservation. This is the date you created the reservation.
         public let startDate: Date?
         /// The status of the reservation. Possible values include the following:    payment-pending     active     payment-failed     retired
         public let status: String?
@@ -2820,7 +2882,7 @@ extension RedshiftServerless {
     public struct RestoreFromSnapshotRequest: AWSEncodableShape {
         /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
         public let adminPasswordSecretKmsKeyId: String?
-        /// If true, Amazon Redshift uses Secrets Manager to manage the restored  snapshot's admin credentials. If MmanageAdminPassword is false or not set,  Amazon Redshift uses the admin credentials that the namespace or cluster  had at the time the snapshot was taken.
+        /// If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
         public let manageAdminPassword: Bool?
         /// The name of the namespace to restore the snapshot to.
         public let namespaceName: String
@@ -2949,7 +3011,7 @@ extension RedshiftServerless {
     }
 
     public struct RestoreTableFromSnapshotRequest: AWSEncodableShape {
-        /// Indicates whether name identifiers for database, schema, and table  are case sensitive. If true, the names are case sensitive. If  false, the names are not case sensitive. The default is false.
+        /// Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
         public let activateCaseSensitiveIdentifier: Bool?
         /// The namespace of the snapshot to restore from.
         public let namespaceName: String
@@ -3037,9 +3099,9 @@ extension RedshiftServerless {
         public let namespaceName: String?
         /// An array of timestamps of when the next scheduled actions will trigger.
         public let nextInvocations: [Date]?
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String?
-        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
         /// The description of the scheduled action.
         public let scheduledActionDescription: String?
@@ -3108,7 +3170,7 @@ extension RedshiftServerless {
     public struct Snapshot: AWSDecodableShape {
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a provisioned cluster.
         public let accountsWithProvisionedRestoreAccess: [String]?
-        /// All of the Amazon Web Services accounts that have access to  restore a snapshot to a namespace.
+        /// All of the Amazon Web Services accounts that have access to restore a snapshot to a namespace.
         public let accountsWithRestoreAccess: [String]?
         /// The size of the incremental backup in megabytes.
         public let actualIncrementalBackupSizeInMegaBytes: Double?
@@ -3248,7 +3310,7 @@ extension RedshiftServerless {
         public let progressInMegaBytes: Int64?
         /// The ID of the recovery point being restored from.
         public let recoveryPointId: String?
-        /// The time that the table restore request was made,  in Universal Coordinated Time (UTC).
+        /// The time that the table restore request was made, in Universal Coordinated Time (UTC).
         public let requestTime: Date?
         /// The name of the snapshot being restored from.
         public let snapshotName: String?
@@ -3258,7 +3320,7 @@ extension RedshiftServerless {
         public let sourceSchemaName: String?
         /// The name of the source table being restored from.
         public let sourceTableName: String?
-        /// A value that describes the current state of the table restore request.  Possible values are SUCCEEDED, FAILED, CANCELED, PENDING, and IN_PROGRESS.
+        /// A value that describes the current state of the table restore request. Possible values are SUCCEEDED, FAILED, CANCELED, PENDING, and IN_PROGRESS.
         public let status: String?
         /// The ID of the RestoreTableFromSnapshot request.
         public let tableRestoreRequestId: String?
@@ -3523,8 +3585,77 @@ extension RedshiftServerless {
         }
     }
 
+    public struct UpdateLakehouseConfigurationRequest: AWSEncodableShape {
+        /// The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+        public let catalogName: String?
+        /// A boolean value that, if true, validates the request without actually updating the lakehouse configuration. Use this to check for errors before making changes.
+        public let dryRun: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions.
+        public let lakehouseIdcApplicationArn: String?
+        /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+        public let lakehouseIdcRegistration: LakehouseIdcRegistration?
+        /// Specifies whether to register or deregister the namespace with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+        public let lakehouseRegistration: LakehouseRegistration?
+        /// The name of the namespace whose lakehouse configuration you want to modify.
+        public let namespaceName: String
+
+        @inlinable
+        public init(catalogName: String? = nil, dryRun: Bool? = nil, lakehouseIdcApplicationArn: String? = nil, lakehouseIdcRegistration: LakehouseIdcRegistration? = nil, lakehouseRegistration: LakehouseRegistration? = nil, namespaceName: String) {
+            self.catalogName = catalogName
+            self.dryRun = dryRun
+            self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+            self.lakehouseIdcRegistration = lakehouseIdcRegistration
+            self.lakehouseRegistration = lakehouseRegistration
+            self.namespaceName = namespaceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogName, name: "catalogName", parent: name, max: 64)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$")
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, max: 64)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, min: 3)
+            try self.validate(self.namespaceName, name: "namespaceName", parent: name, pattern: "^[a-z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "catalogName"
+            case dryRun = "dryRun"
+            case lakehouseIdcApplicationArn = "lakehouseIdcApplicationArn"
+            case lakehouseIdcRegistration = "lakehouseIdcRegistration"
+            case lakehouseRegistration = "lakehouseRegistration"
+            case namespaceName = "namespaceName"
+        }
+    }
+
+    public struct UpdateLakehouseConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Glue Data Catalog associated with the lakehouse configuration.
+        public let catalogArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation.
+        public let lakehouseIdcApplicationArn: String?
+        /// The current status of the lakehouse registration. Indicates whether the namespace is successfully registered with Amazon Redshift federated permissions.
+        public let lakehouseRegistrationStatus: String?
+        /// The name of the namespace.
+        public let namespaceName: String?
+
+        @inlinable
+        public init(catalogArn: String? = nil, lakehouseIdcApplicationArn: String? = nil, lakehouseRegistrationStatus: String? = nil, namespaceName: String? = nil) {
+            self.catalogArn = catalogArn
+            self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+            self.namespaceName = namespaceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogArn = "catalogArn"
+            case lakehouseIdcApplicationArn = "lakehouseIdcApplicationArn"
+            case lakehouseRegistrationStatus = "lakehouseRegistrationStatus"
+            case namespaceName = "namespaceName"
+        }
+    }
+
     public struct UpdateNamespaceRequest: AWSEncodableShape {
-        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+        /// The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
         public let adminPasswordSecretKmsKeyId: String?
         /// The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
         public let adminUsername: String?
@@ -3538,7 +3669,7 @@ extension RedshiftServerless {
         public let kmsKeyId: String?
         /// The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
         public let logExports: [LogExport]?
-        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+        /// If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
         public let manageAdminPassword: Bool?
         /// The name of the namespace to update. You can't update the name of a namespace once it is created.
         public let namespaceName: String
@@ -3595,9 +3726,9 @@ extension RedshiftServerless {
         public let enabled: Bool?
         /// The end time in UTC of the scheduled action to update.
         public let endTime: Date?
-        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
+        /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
         public let roleArn: String?
-        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
         public let schedule: Schedule?
         /// The descripion of the scheduled action to update to.
         public let scheduledActionDescription: String?
@@ -3735,7 +3866,7 @@ extension RedshiftServerless {
     }
 
     public struct UpdateUsageLimitRequest: AWSEncodableShape {
-        /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour.  If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing.  The value must be a positive number.
+        /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
         public let amount: Int64?
         /// The new action that Amazon Redshift Serverless takes when the limit is reached.
         public let breachAction: UsageLimitBreachAction?
@@ -3773,9 +3904,9 @@ extension RedshiftServerless {
     public struct UpdateWorkgroupRequest: AWSEncodableShape {
         /// The new base data warehouse capacity in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
-        /// The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
+        /// The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
@@ -3791,7 +3922,7 @@ extension RedshiftServerless {
         public let securityGroupIds: [String]?
         /// An array of VPC subnet IDs to associate with the workgroup.
         public let subnetIds: [String]?
-        /// An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+        /// An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
         public let trackName: String?
         /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
@@ -3933,7 +4064,7 @@ extension RedshiftServerless {
     public struct Workgroup: AWSDecodableShape {
         /// The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
         public let baseCapacity: Int?
-        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries.  For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+        /// An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
         public let configParameters: [ConfigParameter]?
         /// The creation date of the workgroup.
         public let creationDate: Date?
@@ -3947,7 +4078,7 @@ extension RedshiftServerless {
         public let customDomainName: String?
         /// The endpoint that is created from the workgroup.
         public let endpoint: Endpoint?
-        /// The value that specifies whether to enable enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
+        /// The value that specifies whether to enable enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
         public let enhancedVpcRouting: Bool?
         /// The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
         public let ipAddressType: String?
@@ -3957,7 +4088,7 @@ extension RedshiftServerless {
         public let namespaceName: String?
         /// The patch version of your Amazon Redshift Serverless workgroup. For more information about patch versions, see Cluster versions for Amazon Redshift.
         public let patchVersion: String?
-        /// The name for the track that you want to assign to the workgroup. When the track changes, the  workgroup is switched to the latest workgroup release available for the track. At this point, the  track name is applied.
+        /// The name for the track that you want to assign to the workgroup. When the track changes, the workgroup is switched to the latest workgroup release available for the track. At this point, the track name is applied.
         public let pendingTrackName: String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
@@ -4065,6 +4196,7 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case dryRunException = "DryRunException"
         case insufficientCapacityException = "InsufficientCapacityException"
         case internalServerException = "InternalServerException"
         case invalidPaginationException = "InvalidPaginationException"
@@ -4098,6 +4230,8 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The submitted action has conflicts.
     public static var conflictException: Self { .init(.conflictException) }
+    /// This exception is thrown when the request was successful, but dry run was enabled so no action was taken.
+    public static var dryRunException: Self { .init(.dryRunException) }
     /// There is an insufficient capacity to perform the action.
     public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
     /// The request processing has failed because of an unknown error, exception or failure.
@@ -4114,7 +4248,7 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request exceeded the number of tags allowed for a resource.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The input failed to satisfy the constraints specified by an AWS service.
+    /// The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
 }
 

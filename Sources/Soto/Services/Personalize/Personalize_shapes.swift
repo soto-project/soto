@@ -58,6 +58,12 @@ extension Personalize {
         public var description: String { return self.rawValue }
     }
 
+    public enum RankingInfluenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case freshness = "FRESHNESS"
+        case popularity = "POPULARITY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecipeProvider: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case service = "SERVICE"
         public var description: String { return self.rawValue }
@@ -280,10 +286,13 @@ extension Personalize {
     public struct BatchInferenceJobConfig: AWSEncodableShape & AWSDecodableShape {
         /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items.  See User-Personalization.
         public let itemExplorationConfig: [String: String]?
+        /// A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence.
+        public let rankingInfluence: [RankingInfluenceType: Double]?
 
         @inlinable
-        public init(itemExplorationConfig: [String: String]? = nil) {
+        public init(itemExplorationConfig: [String: String]? = nil, rankingInfluence: [RankingInfluenceType: Double]? = nil) {
             self.itemExplorationConfig = itemExplorationConfig
+            self.rankingInfluence = rankingInfluence
         }
 
         public func validate(name: String) throws {
@@ -292,10 +301,15 @@ extension Personalize {
                 try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.validate(self.itemExplorationConfig, name: "itemExplorationConfig", parent: name, max: 100)
+            try self.rankingInfluence?.forEach {
+                try validate($0.value, name: "rankingInfluence[\"\($0.key)\"]", parent: name, max: 1.0)
+                try validate($0.value, name: "rankingInfluence[\"\($0.key)\"]", parent: name, min: 0.0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemExplorationConfig = "itemExplorationConfig"
+            case rankingInfluence = "rankingInfluence"
         }
     }
 
@@ -518,6 +532,7 @@ extension Personalize {
         public let failureReason: String?
         /// The date and time (in Unix format) that the campaign was last updated.
         public let lastUpdatedDateTime: Date?
+        /// Provides a summary of the properties of a campaign update. For a complete listing, call the DescribeCampaign API.  The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call.
         public let latestCampaignUpdate: CampaignUpdateSummary?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.
         public let minProvisionedTPS: Int?
@@ -561,13 +576,16 @@ extension Personalize {
         public let enableMetadataWithRecommendations: Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the User-Personalization recipe.
         public let itemExplorationConfig: [String: String]?
+        /// A map of ranking influence values for POPULARITY and FRESHNESS. For each key, specify a numerical value between 0.0 and 1.0 that determines how much influence that ranking factor has on the final recommendations. A value closer to 1.0 gives more weight to the factor, while a value closer to 0.0 reduces its influence.
+        public let rankingInfluence: [RankingInfluenceType: Double]?
         /// Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True,  you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version.    For more information about automatic campaign updates, see  Enabling automatic campaign updates.
         public let syncWithLatestSolutionVersion: Bool?
 
         @inlinable
-        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, syncWithLatestSolutionVersion: Bool? = nil) {
+        public init(enableMetadataWithRecommendations: Bool? = nil, itemExplorationConfig: [String: String]? = nil, rankingInfluence: [RankingInfluenceType: Double]? = nil, syncWithLatestSolutionVersion: Bool? = nil) {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
+            self.rankingInfluence = rankingInfluence
             self.syncWithLatestSolutionVersion = syncWithLatestSolutionVersion
         }
 
@@ -577,11 +595,16 @@ extension Personalize {
                 try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.validate(self.itemExplorationConfig, name: "itemExplorationConfig", parent: name, max: 100)
+            try self.rankingInfluence?.forEach {
+                try validate($0.value, name: "rankingInfluence[\"\($0.key)\"]", parent: name, max: 1.0)
+                try validate($0.value, name: "rankingInfluence[\"\($0.key)\"]", parent: name, min: 0.0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case enableMetadataWithRecommendations = "enableMetadataWithRecommendations"
             case itemExplorationConfig = "itemExplorationConfig"
+            case rankingInfluence = "rankingInfluence"
             case syncWithLatestSolutionVersion = "syncWithLatestSolutionVersion"
         }
     }
@@ -1127,12 +1150,12 @@ extension Personalize {
         /// If you created a metric attribution, specify whether to publish metrics for this import job to Amazon S3
         public let publishAttributionMetricsToS3: Bool?
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
-        public let roleArn: String
+        public let roleArn: String?
         /// A list of tags to apply to the dataset import job.
         public let tags: [Tag]?
 
         @inlinable
-        public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, publishAttributionMetricsToS3: Bool? = nil, roleArn: String, tags: [Tag]? = nil) {
+        public init(datasetArn: String, dataSource: DataSource, importMode: ImportMode? = nil, jobName: String, publishAttributionMetricsToS3: Bool? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
             self.importMode = importMode
@@ -1207,6 +1230,7 @@ extension Personalize {
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, max: 256)
             try self.validate(self.datasetGroupArn, name: "datasetGroupArn", parent: name, pattern: "^arn:([a-z\\d-]+):personalize:.*:.*:.+$")
             try self.validate(self.datasetType, name: "datasetType", parent: name, max: 256)
+            try self.validate(self.datasetType, name: "datasetType", parent: name, pattern: "^[A-Za-z_]+$")
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
@@ -1515,6 +1539,8 @@ extension Personalize {
         public let performAutoTraining: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
         public let performHPO: Bool?
+        /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+        public let performIncrementalUpdate: Bool?
         /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs,  see Choosing a recipe.
         public let recipeArn: String?
         /// The configuration properties for the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
@@ -1523,13 +1549,14 @@ extension Personalize {
         public let tags: [Tag]?
 
         @inlinable
-        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
+        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, performIncrementalUpdate: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.name = name
             self.performAutoML = performAutoML
             self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.recipeArn = recipeArn
             self.solutionConfig = solutionConfig
             self.tags = tags
@@ -1558,6 +1585,7 @@ extension Personalize {
             case performAutoML = "performAutoML"
             case performAutoTraining = "performAutoTraining"
             case performHPO = "performHPO"
+            case performIncrementalUpdate = "performIncrementalUpdate"
             case recipeArn = "recipeArn"
             case solutionConfig = "solutionConfig"
             case tags = "tags"
@@ -2577,7 +2605,7 @@ extension Personalize {
     }
 
     public struct DescribeCampaignResponse: AWSDecodableShape {
-        /// The properties of the campaign.
+        ///  The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call.   The properties of the campaign.  The latestCampaignUpdate field is only returned when the campaign has had at least one UpdateCampaign call.
         public let campaign: Campaign?
 
         @inlinable
@@ -4783,6 +4811,8 @@ extension Personalize {
         public let performAutoTraining: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
+        /// A Boolean value that indicates whether incremental training updates are performed on the model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe
+        public let performIncrementalUpdate: Bool?
         /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
         public let recipeArn: String?
         /// The ARN of the solution.
@@ -4793,7 +4823,7 @@ extension Personalize {
         public let status: String?
 
         @inlinable
-        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionUpdate: SolutionUpdateSummary? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
+        public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionUpdate: SolutionUpdateSummary? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performAutoTraining: Bool? = nil, performHPO: Bool? = nil, performIncrementalUpdate: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
             self.autoMLResult = autoMLResult
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
@@ -4805,6 +4835,7 @@ extension Personalize {
             self.performAutoML = performAutoML
             self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.solutionConfig = solutionConfig
@@ -4823,6 +4854,7 @@ extension Personalize {
             case performAutoML = "performAutoML"
             case performAutoTraining = "performAutoTraining"
             case performHPO = "performHPO"
+            case performIncrementalUpdate = "performIncrementalUpdate"
             case recipeArn = "recipeArn"
             case solutionArn = "solutionArn"
             case solutionConfig = "solutionConfig"
@@ -4961,17 +4993,20 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// Whether the solution automatically creates solution versions.
         public let performAutoTraining: Bool?
+        /// A Boolean value that indicates whether incremental training updates are performed on the model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+        public let performIncrementalUpdate: Bool?
         /// The configuration details of the solution.
         public let solutionUpdateConfig: SolutionUpdateConfig?
         /// The status of the solution update. A solution update can be in one of the following states: CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public let status: String?
 
         @inlinable
-        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, performAutoTraining: Bool? = nil, solutionUpdateConfig: SolutionUpdateConfig? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, performAutoTraining: Bool? = nil, performIncrementalUpdate: Bool? = nil, solutionUpdateConfig: SolutionUpdateConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.performAutoTraining = performAutoTraining
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.solutionUpdateConfig = solutionUpdateConfig
             self.status = status
         }
@@ -4981,6 +5016,7 @@ extension Personalize {
             case failureReason = "failureReason"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case performAutoTraining = "performAutoTraining"
+            case performIncrementalUpdate = "performIncrementalUpdate"
             case solutionUpdateConfig = "solutionUpdateConfig"
             case status = "status"
         }
@@ -5003,6 +5039,8 @@ extension Personalize {
         public let performAutoML: Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public let performHPO: Bool?
+        /// Whether the solution version should perform an incremental update. When set to true,  the training will process only the data that has changed since the latest training, similar  to when trainingMode is set to UPDATE. This can only be used with solution versions that  use the User-Personalization recipe.
+        public let performIncrementalUpdate: Bool?
         /// The ARN of the recipe used in the solution.
         public let recipeArn: String?
         /// The ARN of the solution.
@@ -5023,7 +5061,7 @@ extension Personalize {
         public let tunedHPOParams: TunedHPOParams?
 
         @inlinable
-        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil, tunedHPOParams: TunedHPOParams? = nil) {
+        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, performIncrementalUpdate: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, solutionVersionArn: String? = nil, status: String? = nil, trainingHours: Double? = nil, trainingMode: TrainingMode? = nil, trainingType: TrainingType? = nil, tunedHPOParams: TunedHPOParams? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
@@ -5032,6 +5070,7 @@ extension Personalize {
             self.name = name
             self.performAutoML = performAutoML
             self.performHPO = performHPO
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
             self.solutionConfig = solutionConfig
@@ -5052,6 +5091,7 @@ extension Personalize {
             case name = "name"
             case performAutoML = "performAutoML"
             case performHPO = "performHPO"
+            case performIncrementalUpdate = "performIncrementalUpdate"
             case recipeArn = "recipeArn"
             case solutionArn = "solutionArn"
             case solutionConfig = "solutionConfig"
@@ -5265,22 +5305,33 @@ extension Personalize {
     public struct TrainingDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations.  For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public let excludedDatasetColumns: [String: [String]]?
+        /// A map that specifies which columns to include from each dataset during training. The map can contain up to 3 entries, where each key is a dataset name (maximum length of 256 characters, must contain only letters and underscores) and each value is an array of up to 50 column names. Column names can be up to 150 characters long, must start with a letter or underscore, and can contain only letters, numbers, and underscores.
+        public let includedDatasetColumns: [String: [String]]?
 
         @inlinable
-        public init(excludedDatasetColumns: [String: [String]]? = nil) {
+        public init(excludedDatasetColumns: [String: [String]]? = nil, includedDatasetColumns: [String: [String]]? = nil) {
             self.excludedDatasetColumns = excludedDatasetColumns
+            self.includedDatasetColumns = includedDatasetColumns
         }
 
         public func validate(name: String) throws {
             try self.excludedDatasetColumns?.forEach {
                 try validate($0.key, name: "excludedDatasetColumns.key", parent: name, max: 256)
+                try validate($0.key, name: "excludedDatasetColumns.key", parent: name, pattern: "^[A-Za-z_]+$")
                 try validate($0.value, name: "excludedDatasetColumns[\"\($0.key)\"]", parent: name, max: 50)
             }
             try self.validate(self.excludedDatasetColumns, name: "excludedDatasetColumns", parent: name, max: 3)
+            try self.includedDatasetColumns?.forEach {
+                try validate($0.key, name: "includedDatasetColumns.key", parent: name, max: 256)
+                try validate($0.key, name: "includedDatasetColumns.key", parent: name, pattern: "^[A-Za-z_]+$")
+                try validate($0.value, name: "includedDatasetColumns[\"\($0.key)\"]", parent: name, max: 50)
+            }
+            try self.validate(self.includedDatasetColumns, name: "includedDatasetColumns", parent: name, max: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
             case excludedDatasetColumns = "excludedDatasetColumns"
+            case includedDatasetColumns = "includedDatasetColumns"
         }
     }
 
@@ -5514,14 +5565,17 @@ extension Personalize {
     public struct UpdateSolutionRequest: AWSEncodableShape {
         /// Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration.   If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training.  For more information about automatic training, see Configuring automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
         public let performAutoTraining: Bool?
+        /// Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
+        public let performIncrementalUpdate: Bool?
         /// The Amazon Resource Name (ARN) of the solution to update.
         public let solutionArn: String
         /// The new configuration details of the solution.
         public let solutionUpdateConfig: SolutionUpdateConfig?
 
         @inlinable
-        public init(performAutoTraining: Bool? = nil, solutionArn: String, solutionUpdateConfig: SolutionUpdateConfig? = nil) {
+        public init(performAutoTraining: Bool? = nil, performIncrementalUpdate: Bool? = nil, solutionArn: String, solutionUpdateConfig: SolutionUpdateConfig? = nil) {
             self.performAutoTraining = performAutoTraining
+            self.performIncrementalUpdate = performIncrementalUpdate
             self.solutionArn = solutionArn
             self.solutionUpdateConfig = solutionUpdateConfig
         }
@@ -5534,6 +5588,7 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case performAutoTraining = "performAutoTraining"
+            case performIncrementalUpdate = "performIncrementalUpdate"
             case solutionArn = "solutionArn"
             case solutionUpdateConfig = "solutionUpdateConfig"
         }

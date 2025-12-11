@@ -55,6 +55,12 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExperimentalCapabilitiesEnablementType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HybridJobAdditionalAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case queueInfo = "QueueInfo"
         public var description: String { return self.rawValue }
@@ -177,6 +183,11 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchSpendingLimitsFilterOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equal = "EQUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case programSetValidationFailed = "ProgramSetValidationFailed"
         public var description: String { return self.rawValue }
@@ -187,9 +198,9 @@ extension Braket {
     public struct ActionMetadata: AWSDecodableShape {
         /// The type of action associated with the quantum task.
         public let actionType: String
-        /// The number of executables in a program set. This is only available for a Program Set.
+        /// The number of executables in a program set. This is only available for a program set.
         public let executableCount: Int64?
-        /// The number of programs in a program set. This is only available for a Program Set.
+        /// The number of programs in a program set. This is only available for a program set.
         public let programCount: Int64?
 
         @inlinable
@@ -467,6 +478,8 @@ extension Braket {
         public let deviceArn: String
         /// The parameters for the device to run the quantum task on.
         public let deviceParameters: String?
+        /// Enable experimental capabilities for the quantum task.
+        public let experimentalCapabilities: ExperimentalCapabilities?
         /// The token for an Amazon Braket hybrid job that associates it with the quantum task.
         public let jobToken: String?
         /// The S3 bucket to store quantum task result files in.
@@ -479,12 +492,13 @@ extension Braket {
         public let tags: [String: String]?
 
         @inlinable
-        public init(action: String, associations: [Association]? = nil, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, jobToken: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
+        public init(action: String, associations: [Association]? = nil, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, experimentalCapabilities: ExperimentalCapabilities? = nil, jobToken: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
             self.action = action
             self.associations = associations
             self.clientToken = clientToken
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
+            self.experimentalCapabilities = experimentalCapabilities
             self.jobToken = jobToken
             self.outputS3Bucket = outputS3Bucket
             self.outputS3KeyPrefix = outputS3KeyPrefix
@@ -510,6 +524,7 @@ extension Braket {
             case clientToken = "clientToken"
             case deviceArn = "deviceArn"
             case deviceParameters = "deviceParameters"
+            case experimentalCapabilities = "experimentalCapabilities"
             case jobToken = "jobToken"
             case outputS3Bucket = "outputS3Bucket"
             case outputS3KeyPrefix = "outputS3KeyPrefix"
@@ -532,6 +547,57 @@ extension Braket {
         }
     }
 
+    public struct CreateSpendingLimitRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+        public let clientToken: String
+        /// The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to.
+        public let deviceArn: String
+        /// The maximum amount that can be spent on the specified device, in USD.
+        public let spendingLimit: String
+        /// The tags to apply to the spending limit. Each tag consists of a key and an optional value.
+        public let tags: [String: String]?
+        /// The time period during which the spending limit is active, including start and end dates.
+        public let timePeriod: TimePeriod?
+
+        @inlinable
+        public init(clientToken: String = CreateSpendingLimitRequest.idempotencyToken(), deviceArn: String, spendingLimit: String, tags: [String: String]? = nil, timePeriod: TimePeriod? = nil) {
+            self.clientToken = clientToken
+            self.deviceArn = deviceArn
+            self.spendingLimit = spendingLimit
+            self.tags = tags
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 256)
+            try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case deviceArn = "deviceArn"
+            case spendingLimit = "spendingLimit"
+            case tags = "tags"
+            case timePeriod = "timePeriod"
+        }
+    }
+
+    public struct CreateSpendingLimitResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created spending limit.
+        public let spendingLimitArn: String
+
+        @inlinable
+        public init(spendingLimitArn: String) {
+            self.spendingLimitArn = spendingLimitArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spendingLimitArn = "spendingLimitArn"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
         /// Amazon S3 path of the input data used by the hybrid job.
         public let s3DataSource: S3DataSource
@@ -548,6 +614,33 @@ extension Braket {
         private enum CodingKeys: String, CodingKey {
             case s3DataSource = "s3DataSource"
         }
+    }
+
+    public struct DeleteSpendingLimitRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the spending limit to delete.
+        public let spendingLimitArn: String
+
+        @inlinable
+        public init(spendingLimitArn: String) {
+            self.spendingLimitArn = spendingLimitArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.spendingLimitArn, key: "spendingLimitArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.spendingLimitArn, name: "spendingLimitArn", parent: name, max: 256)
+            try self.validate(self.spendingLimitArn, name: "spendingLimitArn", parent: name, pattern: "^arn:aws[a-z\\-]*:braket:[a-z0-9\\-]+:[0-9]{12}:spending-limit/.*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSpendingLimitResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeviceConfig: AWSEncodableShape & AWSDecodableShape {
@@ -841,6 +934,8 @@ extension Braket {
         public let deviceParameters: String
         /// The time at which the quantum task ended.
         public let endedAt: Date?
+        /// Enabled experimental capabilities for the quantum task, if any.
+        public let experimentalCapabilities: ExperimentalCapabilities?
         /// The reason that a quantum task failed.
         public let failureReason: String?
         /// The ARN of the Amazon Braket job associated with the quantum task.
@@ -863,13 +958,14 @@ extension Braket {
         public let tags: [String: String]?
 
         @inlinable
-        public init(actionMetadata: ActionMetadata? = nil, associations: [Association]? = nil, createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, numSuccessfulShots: Int64? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
+        public init(actionMetadata: ActionMetadata? = nil, associations: [Association]? = nil, createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, experimentalCapabilities: ExperimentalCapabilities? = nil, failureReason: String? = nil, jobArn: String? = nil, numSuccessfulShots: Int64? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, queueInfo: QuantumTaskQueueInfo? = nil, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.actionMetadata = actionMetadata
             self.associations = associations
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
             self.endedAt = endedAt
+            self.experimentalCapabilities = experimentalCapabilities
             self.failureReason = failureReason
             self.jobArn = jobArn
             self.numSuccessfulShots = numSuccessfulShots
@@ -889,6 +985,7 @@ extension Braket {
             case deviceArn = "deviceArn"
             case deviceParameters = "deviceParameters"
             case endedAt = "endedAt"
+            case experimentalCapabilities = "experimentalCapabilities"
             case failureReason = "failureReason"
             case jobArn = "jobArn"
             case numSuccessfulShots = "numSuccessfulShots"
@@ -1501,6 +1598,129 @@ extension Braket {
         }
     }
 
+    public struct SearchSpendingLimitsFilter: AWSEncodableShape {
+        /// The name of the field to filter on. Currently only supports deviceArn.
+        public let name: String
+        /// The comparison operator to use when filtering.
+        public let `operator`: SearchSpendingLimitsFilterOperator
+        /// An array of values to match against the specified field.
+        public let values: [String]
+
+        @inlinable
+        public init(name: String, operator: SearchSpendingLimitsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
+    public struct SearchSpendingLimitsRequest: AWSEncodableShape {
+        /// The filters to apply when searching for spending limits. Use filters to narrow down the results based on specific criteria.
+        public let filters: [SearchSpendingLimitsFilter]?
+        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results. This value is returned from a previous call to SearchSpendingLimits when there are more results available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [SearchSpendingLimitsFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct SearchSpendingLimitsResponse: AWSDecodableShape {
+        /// The token to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// An array of spending limit summaries that match the specified filters.
+        public let spendingLimits: [SpendingLimitSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, spendingLimits: [SpendingLimitSummary]) {
+            self.nextToken = nextToken
+            self.spendingLimits = spendingLimits
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case spendingLimits = "spendingLimits"
+        }
+    }
+
+    public struct SpendingLimitSummary: AWSDecodableShape {
+        /// The date and time when the spending limit was created, in epoch seconds.
+        public let createdAt: Date
+        /// The Amazon Resource Name (ARN) of the quantum device associated with this spending limit.
+        public let deviceArn: String
+        /// The amount currently queued for spending on the device, in USD.
+        public let queuedSpend: String
+        /// The maximum spending amount allowed for the device during the specified time period, in USD.
+        public let spendingLimit: String
+        /// The Amazon Resource Name (ARN) that uniquely identifies the spending limit.
+        public let spendingLimitArn: String
+        /// The tags associated with the spending limit. Each tag consists of a key and an optional value.
+        public let tags: [String: String]?
+        /// The time period during which the spending limit is active.
+        public let timePeriod: TimePeriod
+        /// The total amount spent on the device so far during the current time period, in USD.
+        public let totalSpend: String
+        /// The date and time when the spending limit was last modified, in epoch seconds.
+        public let updatedAt: Date
+
+        @inlinable
+        public init(createdAt: Date, deviceArn: String, queuedSpend: String, spendingLimit: String, spendingLimitArn: String, tags: [String: String]? = nil, timePeriod: TimePeriod, totalSpend: String, updatedAt: Date) {
+            self.createdAt = createdAt
+            self.deviceArn = deviceArn
+            self.queuedSpend = queuedSpend
+            self.spendingLimit = spendingLimit
+            self.spendingLimitArn = spendingLimitArn
+            self.tags = tags
+            self.timePeriod = timePeriod
+            self.totalSpend = totalSpend
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case deviceArn = "deviceArn"
+            case queuedSpend = "queuedSpend"
+            case spendingLimit = "spendingLimit"
+            case spendingLimitArn = "spendingLimitArn"
+            case tags = "tags"
+            case timePeriod = "timePeriod"
+            case totalSpend = "totalSpend"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// Specify the resourceArn of the resource to which a tag will be added.
         public let resourceArn: String
@@ -1529,6 +1749,24 @@ extension Braket {
         public init() {}
     }
 
+    public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {
+        /// The end date and time for the spending limit period, in epoch seconds.
+        public let endAt: Date
+        /// The start date and time for the spending limit period, in epoch seconds.
+        public let startAt: Date
+
+        @inlinable
+        public init(endAt: Date, startAt: Date) {
+            self.endAt = endAt
+            self.startAt = startAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endAt = "endAt"
+            case startAt = "startAt"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// Specify the resourceArn for the resource from which to remove the tags.
         public let resourceArn: String
@@ -1555,6 +1793,51 @@ extension Braket {
         public init() {}
     }
 
+    public struct UpdateSpendingLimitRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+        public let clientToken: String
+        /// The new maximum amount that can be spent on the specified device, in USD.
+        public let spendingLimit: String?
+        /// The Amazon Resource Name (ARN) of the spending limit to update.
+        public let spendingLimitArn: String
+        /// The new time period during which the spending limit is active, including start and end dates.
+        public let timePeriod: TimePeriod?
+
+        @inlinable
+        public init(clientToken: String = UpdateSpendingLimitRequest.idempotencyToken(), spendingLimit: String? = nil, spendingLimitArn: String, timePeriod: TimePeriod? = nil) {
+            self.clientToken = clientToken
+            self.spendingLimit = spendingLimit
+            self.spendingLimitArn = spendingLimitArn
+            self.timePeriod = timePeriod
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.spendingLimit, forKey: .spendingLimit)
+            request.encodePath(self.spendingLimitArn, key: "spendingLimitArn")
+            try container.encodeIfPresent(self.timePeriod, forKey: .timePeriod)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.spendingLimitArn, name: "spendingLimitArn", parent: name, max: 256)
+            try self.validate(self.spendingLimitArn, name: "spendingLimitArn", parent: name, pattern: "^arn:aws[a-z\\-]*:braket:[a-z0-9\\-]+:[0-9]{12}:spending-limit/.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case spendingLimit = "spendingLimit"
+            case timePeriod = "timePeriod"
+        }
+    }
+
+    public struct UpdateSpendingLimitResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ValidationException: AWSErrorShape {
         public let message: String?
         /// The validation failures in the program set submitted in the request.
@@ -1573,6 +1856,20 @@ extension Braket {
             case message = "message"
             case programSetValidationFailures = "programSetValidationFailures"
             case reason = "reason"
+        }
+    }
+
+    public struct ExperimentalCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// Enabled experimental capabilities.
+        public let enabled: ExperimentalCapabilitiesEnablementType?
+
+        @inlinable
+        public init(enabled: ExperimentalCapabilitiesEnablementType? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 }

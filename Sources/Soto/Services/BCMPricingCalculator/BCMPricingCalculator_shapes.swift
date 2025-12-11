@@ -98,6 +98,13 @@ extension BCMPricingCalculator {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupSharingPreferenceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case open = "OPEN"
+        case prioritized = "PRIORITIZED"
+        case restricted = "RESTRICTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListBillEstimateLineItemsFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lineItemType = "LINE_ITEM_TYPE"
         case location = "LOCATION"
@@ -115,6 +122,8 @@ extension BCMPricingCalculator {
     }
 
     public enum ListBillScenariosFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costCategoryArn = "COST_CATEGORY_ARN"
+        case groupSharingPreference = "GROUP_SHARING_PREFERENCE"
         case name = "NAME"
         case status = "STATUS"
         public var description: String { return self.rawValue }
@@ -1655,12 +1664,16 @@ extension BCMPricingCalculator {
     public struct BillScenarioSummary: AWSDecodableShape {
         ///  The time period covered by the bill scenario.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
         ///  The timestamp when the bill scenario was created.
         public let createdAt: Date?
         ///  The timestamp when the bill scenario will expire.
         public let expiresAt: Date?
         ///  An error message if the bill scenario creation or processing failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the bill scenario.
         public let id: String
         ///  The name of the bill scenario.
@@ -1669,11 +1682,13 @@ extension BCMPricingCalculator {
         public let status: BillScenarioStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -1681,9 +1696,11 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -1853,6 +1870,10 @@ extension BCMPricingCalculator {
     public struct CreateBillEstimateResponse: AWSDecodableShape {
         ///  The bill month start and end timestamp that was used to create the Bill estimate. This is set to the last complete anniversary bill month start and end timestamp.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
+        /// Timestamp of the effective date of the cost category used in the group sharing settings.
+        public let costCategoryGroupSharingPreferenceEffectiveDate: Date?
         ///  Returns summary-level cost information once a Bill estimate is successfully generated. This summary includes: 1) the total cost difference, showing the pre-tax cost change for the consolidated billing family between the completed anniversary bill and the estimated bill, and 2) total cost differences per service, detailing the pre-tax cost of each service, comparing the completed anniversary bill to the estimated bill on a per-service basis.
         public let costSummary: BillEstimateCostSummary?
         ///  The timestamp of when the Bill estimate create process was started (not when it successfully completed or failed).
@@ -1861,6 +1882,8 @@ extension BCMPricingCalculator {
         public let expiresAt: Date?
         ///  This attribute provides the reason if a Bill estimate result generation fails.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of your newly created Bill estimate.
         public let id: String
         ///  The name of your newly created Bill estimate.
@@ -1869,12 +1892,15 @@ extension BCMPricingCalculator {
         public let status: BillEstimateStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, costCategoryGroupSharingPreferenceEffectiveDate: Date? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+            self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
             self.costSummary = costSummary
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -1882,10 +1908,13 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
+            case costCategoryGroupSharingPreferenceEffectiveDate = "costCategoryGroupSharingPreferenceEffectiveDate"
             case costSummary = "costSummary"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -1895,14 +1924,20 @@ extension BCMPricingCalculator {
     public struct CreateBillScenarioRequest: AWSEncodableShape {
         ///  A unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  A descriptive name for the bill scenario.
         public let name: String
         ///  The tags to apply to the bill scenario.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateBillScenarioRequest.idempotencyToken(), name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateBillScenarioRequest.idempotencyToken(), costCategoryGroupSharingPreferenceArn: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, name: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+            self.groupSharingPreference = groupSharingPreference
             self.name = name
             self.tags = tags
         }
@@ -1911,6 +1946,8 @@ extension BCMPricingCalculator {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.costCategoryGroupSharingPreferenceArn, forKey: .costCategoryGroupSharingPreferenceArn)
+            try container.encodeIfPresent(self.groupSharingPreference, forKey: .groupSharingPreference)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -1919,6 +1956,9 @@ extension BCMPricingCalculator {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\u0021-\\u007E]+$")
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, max: 2048)
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, min: 20)
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcategory/[a-f0-9-]{36}$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.tags?.forEach {
@@ -1932,6 +1972,8 @@ extension BCMPricingCalculator {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
+            case groupSharingPreference = "groupSharingPreference"
             case name = "name"
             case tags = "tags"
         }
@@ -1940,12 +1982,16 @@ extension BCMPricingCalculator {
     public struct CreateBillScenarioResponse: AWSDecodableShape {
         ///  The time period covered by the bill scenario.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
         ///  The timestamp when the bill scenario was created.
         public let createdAt: Date?
         ///  The timestamp when the bill scenario will expire.
         public let expiresAt: Date?
         ///  An error message if the bill scenario creation failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier for the created bill scenario.
         public let id: String
         ///  The name of the created bill scenario.
@@ -1954,11 +2000,13 @@ extension BCMPricingCalculator {
         public let status: BillScenarioStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -1966,9 +2014,11 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -2244,6 +2294,10 @@ extension BCMPricingCalculator {
     public struct GetBillEstimateResponse: AWSDecodableShape {
         ///  The time period covered by the bill estimate.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
+        /// Timestamp of the effective date of the cost category used in the group sharing settings.
+        public let costCategoryGroupSharingPreferenceEffectiveDate: Date?
         ///  A summary of the estimated costs.
         public let costSummary: BillEstimateCostSummary?
         ///  The timestamp when the bill estimate was created.
@@ -2252,6 +2306,8 @@ extension BCMPricingCalculator {
         public let expiresAt: Date?
         ///  An error message if the bill estimate retrieval failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the retrieved bill estimate.
         public let id: String
         ///  The name of the retrieved bill estimate.
@@ -2260,12 +2316,15 @@ extension BCMPricingCalculator {
         public let status: BillEstimateStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, costCategoryGroupSharingPreferenceEffectiveDate: Date? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+            self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
             self.costSummary = costSummary
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -2273,10 +2332,13 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
+            case costCategoryGroupSharingPreferenceEffectiveDate = "costCategoryGroupSharingPreferenceEffectiveDate"
             case costSummary = "costSummary"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -2306,12 +2368,16 @@ extension BCMPricingCalculator {
     public struct GetBillScenarioResponse: AWSDecodableShape {
         ///  The time period covered by the bill scenario.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
         ///  The timestamp when the bill scenario was created.
         public let createdAt: Date?
         ///  The timestamp when the bill scenario will expire.
         public let expiresAt: Date?
         ///  An error message if the bill scenario retrieval failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the retrieved bill scenario.
         public let id: String
         ///  The name of the retrieved bill scenario.
@@ -2320,11 +2386,13 @@ extension BCMPricingCalculator {
         public let status: BillScenarioStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -2332,9 +2400,11 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -3355,6 +3425,10 @@ extension BCMPricingCalculator {
     public struct UpdateBillEstimateResponse: AWSDecodableShape {
         ///  The time period covered by the updated bill estimate.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
+        /// Timestamp of the effective date of the cost category used in the group sharing settings.
+        public let costCategoryGroupSharingPreferenceEffectiveDate: Date?
         ///  A summary of the updated estimated costs.
         public let costSummary: BillEstimateCostSummary?
         ///  The timestamp when the bill estimate was originally created.
@@ -3363,6 +3437,8 @@ extension BCMPricingCalculator {
         public let expiresAt: Date?
         ///  An error message if the bill estimate update failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the updated bill estimate.
         public let id: String
         ///  The updated name of the bill estimate.
@@ -3371,12 +3447,15 @@ extension BCMPricingCalculator {
         public let status: BillEstimateStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, costCategoryGroupSharingPreferenceEffectiveDate: Date? = nil, costSummary: BillEstimateCostSummary? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillEstimateStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
+            self.costCategoryGroupSharingPreferenceEffectiveDate = costCategoryGroupSharingPreferenceEffectiveDate
             self.costSummary = costSummary
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -3384,10 +3463,13 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
+            case costCategoryGroupSharingPreferenceEffectiveDate = "costCategoryGroupSharingPreferenceEffectiveDate"
             case costSummary = "costSummary"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"
@@ -3395,21 +3477,30 @@ extension BCMPricingCalculator {
     }
 
     public struct UpdateBillScenarioRequest: AWSEncodableShape {
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
         ///  The new expiration date for the bill scenario.
         public let expiresAt: Date?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the bill scenario to update.
         public let identifier: String
         ///  The new name for the bill scenario.
         public let name: String?
 
         @inlinable
-        public init(expiresAt: Date? = nil, identifier: String, name: String? = nil) {
+        public init(costCategoryGroupSharingPreferenceArn: String? = nil, expiresAt: Date? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, identifier: String, name: String? = nil) {
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.expiresAt = expiresAt
+            self.groupSharingPreference = groupSharingPreference
             self.identifier = identifier
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, max: 2048)
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, min: 20)
+            try self.validate(self.costCategoryGroupSharingPreferenceArn, name: "costCategoryGroupSharingPreferenceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:ce::[0-9]{12}:costcategory/[a-f0-9-]{36}$")
             try self.validate(self.identifier, name: "identifier", parent: name, max: 36)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 36)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
@@ -3418,7 +3509,9 @@ extension BCMPricingCalculator {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
             case expiresAt = "expiresAt"
+            case groupSharingPreference = "groupSharingPreference"
             case identifier = "identifier"
             case name = "name"
         }
@@ -3427,12 +3520,16 @@ extension BCMPricingCalculator {
     public struct UpdateBillScenarioResponse: AWSDecodableShape {
         ///  The time period covered by the updated bill scenario.
         public let billInterval: BillInterval?
+        /// The arn of the cost category used in the reserved and prioritized group sharing.
+        public let costCategoryGroupSharingPreferenceArn: String?
         ///  The timestamp when the bill scenario was originally created.
         public let createdAt: Date?
         ///  The updated expiration timestamp for the bill scenario.
         public let expiresAt: Date?
         ///  An error message if the bill scenario update failed.
         public let failureMessage: String?
+        /// The setting for the reserved instance and savings plan group sharing used in this estimate.
+        public let groupSharingPreference: GroupSharingPreferenceEnum?
         ///  The unique identifier of the updated bill scenario.
         public let id: String
         ///  The updated name of the bill scenario.
@@ -3441,11 +3538,13 @@ extension BCMPricingCalculator {
         public let status: BillScenarioStatus?
 
         @inlinable
-        public init(billInterval: BillInterval? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
+        public init(billInterval: BillInterval? = nil, costCategoryGroupSharingPreferenceArn: String? = nil, createdAt: Date? = nil, expiresAt: Date? = nil, failureMessage: String? = nil, groupSharingPreference: GroupSharingPreferenceEnum? = nil, id: String, name: String? = nil, status: BillScenarioStatus? = nil) {
             self.billInterval = billInterval
+            self.costCategoryGroupSharingPreferenceArn = costCategoryGroupSharingPreferenceArn
             self.createdAt = createdAt
             self.expiresAt = expiresAt
             self.failureMessage = failureMessage
+            self.groupSharingPreference = groupSharingPreference
             self.id = id
             self.name = name
             self.status = status
@@ -3453,9 +3552,11 @@ extension BCMPricingCalculator {
 
         private enum CodingKeys: String, CodingKey {
             case billInterval = "billInterval"
+            case costCategoryGroupSharingPreferenceArn = "costCategoryGroupSharingPreferenceArn"
             case createdAt = "createdAt"
             case expiresAt = "expiresAt"
             case failureMessage = "failureMessage"
+            case groupSharingPreference = "groupSharingPreference"
             case id = "id"
             case name = "name"
             case status = "status"

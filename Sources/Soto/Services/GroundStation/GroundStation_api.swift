@@ -170,7 +170,7 @@ public struct GroundStation: AWSService {
         return try await self.createConfig(input, logger: logger)
     }
 
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig  to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config  must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     @Sendable
     @inlinable
     public func createDataflowEndpointGroup(_ input: CreateDataflowEndpointGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DataflowEndpointGroupIdResponse {
@@ -183,12 +183,12 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig  to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config  must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
     ///
     /// Parameters:
     ///   - contactPostPassDurationSeconds: Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     ///   - contactPrePassDurationSeconds: Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
-    ///   - endpointDetails: Endpoint details of each endpoint in the dataflow endpoint group.
+    ///   - endpointDetails: Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
     ///   - tags: Tags of a dataflow endpoint group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -208,7 +208,45 @@ public struct GroundStation: AWSService {
         return try await self.createDataflowEndpointGroup(input, logger: logger)
     }
 
-    /// Creates an Ephemeris with the specified EphemerisData.
+    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    @Sendable
+    @inlinable
+    public func createDataflowEndpointGroupV2(_ input: CreateDataflowEndpointGroupV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataflowEndpointGroupV2Response {
+        try await self.client.execute(
+            operation: "CreateDataflowEndpointGroupV2", 
+            path: "/dataflowEndpointGroupV2", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    ///
+    /// Parameters:
+    ///   - contactPostPassDurationSeconds: Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    ///   - contactPrePassDurationSeconds: Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    ///   - endpoints: Dataflow endpoint group's endpoint definitions
+    ///   - tags: Tags of a V2 dataflow endpoint group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataflowEndpointGroupV2(
+        contactPostPassDurationSeconds: Int? = nil,
+        contactPrePassDurationSeconds: Int? = nil,
+        endpoints: [CreateEndpointDetails],
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataflowEndpointGroupV2Response {
+        let input = CreateDataflowEndpointGroupV2Request(
+            contactPostPassDurationSeconds: contactPostPassDurationSeconds, 
+            contactPrePassDurationSeconds: contactPrePassDurationSeconds, 
+            endpoints: endpoints, 
+            tags: tags
+        )
+        return try await self.createDataflowEndpointGroupV2(input, logger: logger)
+    }
+
+    /// Create an ephemeris with your specified EphemerisData.
     @Sendable
     @inlinable
     public func createEphemeris(_ input: CreateEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
@@ -221,16 +259,16 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Creates an Ephemeris with the specified EphemerisData.
+    /// Create an ephemeris with your specified EphemerisData.
     ///
     /// Parameters:
-    ///   - enabled: Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
+    ///   - enabled: Set to true to enable the ephemeris after validation. Set to false to keep it disabled.
     ///   - ephemeris: Ephemeris data.
     ///   - expirationTime: An overall expiration time for the ephemeris in UTC, after which it will become EXPIRED.
-    ///   - kmsKeyArn: The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
-    ///   - name: A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
-    ///   - priority: Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
-    ///   - satelliteId: AWS Ground Station satellite ID for this ephemeris.
+    ///   - kmsKeyArn: The ARN of the KMS key to use for encrypting the ephemeris.
+    ///   - name: A name that you can use to identify the ephemeris.
+    ///   - priority: A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
+    ///   - satelliteId: The satellite ID that associates this ephemeris with a satellite in AWS Ground Station.
     ///   - tags: Tags assigned to an ephemeris.
     ///   - logger: Logger use during operation
     @inlinable
@@ -241,7 +279,7 @@ public struct GroundStation: AWSService {
         kmsKeyArn: String? = nil,
         name: String,
         priority: Int? = nil,
-        satelliteId: String,
+        satelliteId: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> EphemerisIdResponse {
@@ -372,7 +410,7 @@ public struct GroundStation: AWSService {
         return try await self.deleteDataflowEndpointGroup(input, logger: logger)
     }
 
-    /// Deletes an ephemeris
+    /// Delete an ephemeris.
     @Sendable
     @inlinable
     public func deleteEphemeris(_ input: DeleteEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
@@ -385,7 +423,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Deletes an ephemeris
+    /// Delete an ephemeris.
     ///
     /// Parameters:
     ///   - ephemerisId: The AWS Ground Station ephemeris ID.
@@ -459,7 +497,7 @@ public struct GroundStation: AWSService {
         return try await self.describeContact(input, logger: logger)
     }
 
-    /// Describes an existing ephemeris.
+    /// Retrieve information about an existing ephemeris.
     @Sendable
     @inlinable
     public func describeEphemeris(_ input: DescribeEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEphemerisResponse {
@@ -472,7 +510,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Describes an existing ephemeris.
+    /// Retrieve information about an existing ephemeris.
     ///
     /// Parameters:
     ///   - ephemerisId: The AWS Ground Station ephemeris ID.
@@ -488,7 +526,7 @@ public struct GroundStation: AWSService {
         return try await self.describeEphemeris(input, logger: logger)
     }
 
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
     @Sendable
     @inlinable
     public func getAgentConfiguration(_ input: GetAgentConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentConfigurationResponse {
@@ -501,7 +539,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest configuration information for a registered agent.
     ///
     /// Parameters:
     ///   - agentId: UUID of agent to get configuration information for.
@@ -515,6 +553,38 @@ public struct GroundStation: AWSService {
             agentId: agentId
         )
         return try await self.getAgentConfiguration(input, logger: logger)
+    }
+
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Gets a presigned URL for uploading agent task response logs.
+    @Sendable
+    @inlinable
+    public func getAgentTaskResponseUrl(_ input: GetAgentTaskResponseUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAgentTaskResponseUrlResponse {
+        try await self.client.execute(
+            operation: "GetAgentTaskResponseUrl", 
+            path: "/agentResponseUrl/{agentId}/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Gets a presigned URL for uploading agent task response logs.
+    ///
+    /// Parameters:
+    ///   - agentId: UUID of agent requesting the response URL.
+    ///   - taskId: GUID of the agent task for which the response URL is being requested.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAgentTaskResponseUrl(
+        agentId: String,
+        taskId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAgentTaskResponseUrlResponse {
+        let input = GetAgentTaskResponseUrlRequest(
+            agentId: agentId, 
+            taskId: taskId
+        )
+        return try await self.getAgentTaskResponseUrl(input, logger: logger)
     }
 
     /// Returns Config information. Only one Config response can be returned.
@@ -717,6 +787,7 @@ public struct GroundStation: AWSService {
     ///
     /// Parameters:
     ///   - endTime: End time of a contact in UTC.
+    ///   - ephemeris: Filter for selecting contacts that use a specific ephemeris".
     ///   - groundStation: Name of a ground station.
     ///   - maxResults: Maximum number of contacts returned.
     ///   - missionProfileArn: ARN of a mission profile.
@@ -728,6 +799,7 @@ public struct GroundStation: AWSService {
     @inlinable
     public func listContacts(
         endTime: Date,
+        ephemeris: EphemerisFilter? = nil,
         groundStation: String? = nil,
         maxResults: Int? = nil,
         missionProfileArn: String? = nil,
@@ -739,6 +811,7 @@ public struct GroundStation: AWSService {
     ) async throws -> ListContactsResponse {
         let input = ListContactsRequest(
             endTime: endTime, 
+            ephemeris: ephemeris, 
             groundStation: groundStation, 
             maxResults: maxResults, 
             missionProfileArn: missionProfileArn, 
@@ -782,7 +855,7 @@ public struct GroundStation: AWSService {
         return try await self.listDataflowEndpointGroups(input, logger: logger)
     }
 
-    /// List existing ephemerides.
+    /// List your existing ephemerides.
     @Sendable
     @inlinable
     public func listEphemerides(_ input: ListEphemeridesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEphemeridesResponse {
@@ -795,28 +868,31 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// List existing ephemerides.
+    /// List your existing ephemerides.
     ///
     /// Parameters:
-    ///   - endTime: The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    ///   - endTime: The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
+    ///   - ephemerisType: Filter ephemerides by type. If not specified, all ephemeris types will be returned.
     ///   - maxResults: Maximum number of ephemerides to return.
     ///   - nextToken: Pagination token.
     ///   - satelliteId: The AWS Ground Station satellite ID to list ephemeris for.
-    ///   - startTime: The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    ///   - startTime: The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
     ///   - statusList: The list of ephemeris status to return.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEphemerides(
         endTime: Date,
+        ephemerisType: EphemerisType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
-        satelliteId: String,
+        satelliteId: String? = nil,
         startTime: Date,
         statusList: [EphemerisStatus]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListEphemeridesResponse {
         let input = ListEphemeridesRequest(
             endTime: endTime, 
+            ephemerisType: ephemerisType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             satelliteId: satelliteId, 
@@ -954,7 +1030,7 @@ public struct GroundStation: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Registers a new agent with AWS Ground Station.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.   Registers a new agent with AWS Ground Station.
     @Sendable
     @inlinable
     public func registerAgent(_ input: RegisterAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterAgentResponse {
@@ -967,7 +1043,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Registers a new agent with AWS Ground Station.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.   Registers a new agent with AWS Ground Station.
     ///
     /// Parameters:
     ///   - agentDetails: Detailed information about the agent being registered.
@@ -1011,15 +1087,17 @@ public struct GroundStation: AWSService {
     ///   - satelliteArn: ARN of a satellite
     ///   - startTime: Start time of a contact in UTC.
     ///   - tags: Tags assigned to a contact.
+    ///   - trackingOverrides: Tracking configuration overrides for the contact.
     ///   - logger: Logger use during operation
     @inlinable
     public func reserveContact(
         endTime: Date,
         groundStation: String,
         missionProfileArn: String,
-        satelliteArn: String,
+        satelliteArn: String? = nil,
         startTime: Date,
         tags: [String: String]? = nil,
+        trackingOverrides: TrackingOverrides? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ContactIdResponse {
         let input = ReserveContactRequest(
@@ -1028,7 +1106,8 @@ public struct GroundStation: AWSService {
             missionProfileArn: missionProfileArn, 
             satelliteArn: satelliteArn, 
             startTime: startTime, 
-            tags: tags
+            tags: tags, 
+            trackingOverrides: trackingOverrides
         )
         return try await self.reserveContact(input, logger: logger)
     }
@@ -1097,7 +1176,7 @@ public struct GroundStation: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
     @Sendable
     @inlinable
     public func updateAgentStatus(_ input: UpdateAgentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgentStatusResponse {
@@ -1110,7 +1189,7 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    ///  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
+    ///   For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status of the agent.
     ///
     /// Parameters:
     ///   - agentId: UUID of agent to update.
@@ -1173,7 +1252,7 @@ public struct GroundStation: AWSService {
         return try await self.updateConfig(input, logger: logger)
     }
 
-    /// Updates an existing ephemeris
+    /// Update an existing ephemeris.
     @Sendable
     @inlinable
     public func updateEphemeris(_ input: UpdateEphemerisRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EphemerisIdResponse {
@@ -1186,13 +1265,13 @@ public struct GroundStation: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing ephemeris
+    /// Update an existing ephemeris.
     ///
     /// Parameters:
-    ///   - enabled: Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
+    ///   - enabled: Enable or disable the ephemeris. Changing this value doesn't require re-validation.
     ///   - ephemerisId: The AWS Ground Station ephemeris ID.
-    ///   - name: A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
-    ///   - priority: Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+    ///   - name: A name that you can use to identify the ephemeris.
+    ///   - priority: A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateEphemeris(
@@ -1334,6 +1413,7 @@ extension GroundStation {
     ///
     /// - Parameters:
     ///   - endTime: End time of a contact in UTC.
+    ///   - ephemeris: Filter for selecting contacts that use a specific ephemeris".
     ///   - groundStation: Name of a ground station.
     ///   - maxResults: Maximum number of contacts returned.
     ///   - missionProfileArn: ARN of a mission profile.
@@ -1344,6 +1424,7 @@ extension GroundStation {
     @inlinable
     public func listContactsPaginator(
         endTime: Date,
+        ephemeris: EphemerisFilter? = nil,
         groundStation: String? = nil,
         maxResults: Int? = nil,
         missionProfileArn: String? = nil,
@@ -1354,6 +1435,7 @@ extension GroundStation {
     ) -> AWSClient.PaginatorSequence<ListContactsRequest, ListContactsResponse> {
         let input = ListContactsRequest(
             endTime: endTime, 
+            ephemeris: ephemeris, 
             groundStation: groundStation, 
             maxResults: maxResults, 
             missionProfileArn: missionProfileArn, 
@@ -1419,23 +1501,26 @@ extension GroundStation {
     /// Return PaginatorSequence for operation ``listEphemerides(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - endTime: The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    ///   - endTime: The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
+    ///   - ephemerisType: Filter ephemerides by type. If not specified, all ephemeris types will be returned.
     ///   - maxResults: Maximum number of ephemerides to return.
     ///   - satelliteId: The AWS Ground Station satellite ID to list ephemeris for.
-    ///   - startTime: The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+    ///   - startTime: The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
     ///   - statusList: The list of ephemeris status to return.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEphemeridesPaginator(
         endTime: Date,
+        ephemerisType: EphemerisType? = nil,
         maxResults: Int? = nil,
-        satelliteId: String,
+        satelliteId: String? = nil,
         startTime: Date,
         statusList: [EphemerisStatus]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEphemeridesRequest, ListEphemeridesResponse> {
         let input = ListEphemeridesRequest(
             endTime: endTime, 
+            ephemerisType: ephemerisType, 
             maxResults: maxResults, 
             satelliteId: satelliteId, 
             startTime: startTime, 
@@ -1565,6 +1650,7 @@ extension GroundStation.ListContactsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListContactsRequest {
         return .init(
             endTime: self.endTime,
+            ephemeris: self.ephemeris,
             groundStation: self.groundStation,
             maxResults: self.maxResults,
             missionProfileArn: self.missionProfileArn,
@@ -1591,6 +1677,7 @@ extension GroundStation.ListEphemeridesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> GroundStation.ListEphemeridesRequest {
         return .init(
             endTime: self.endTime,
+            ephemerisType: self.ephemerisType,
             maxResults: self.maxResults,
             nextToken: token,
             satelliteId: self.satelliteId,

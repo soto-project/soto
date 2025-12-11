@@ -267,6 +267,7 @@ public struct CustomerProfiles: AWSService {
     /// Creates a domain, which is a container for all customer data, such as customer profile attributes, object types, profile keys, and encryption keys. You can create multiple domains, and each domain can have multiple third-party integrations. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain. Use this API or UpdateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.   It is not possible to associate a Customer Profiles domain with an Amazon Connect Instance directly from the API. If you would like to create a domain and associate a Customer Profiles domain, use the Amazon Connect admin website. For more information, see Enable Customer Profiles. Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances can be associated with one domain.
     ///
     /// Parameters:
+    ///   - dataStore: Set to true to enabled data store for this domain.
     ///   - deadLetterQueueUrl: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
     ///   - defaultEncryptionKey: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
     ///   - defaultExpirationDays: The default number of days until the data within the domain expires.
@@ -277,6 +278,7 @@ public struct CustomerProfiles: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createDomain(
+        dataStore: DataStoreRequest? = nil,
         deadLetterQueueUrl: String? = nil,
         defaultEncryptionKey: String? = nil,
         defaultExpirationDays: Int,
@@ -287,6 +289,7 @@ public struct CustomerProfiles: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDomainResponse {
         let input = CreateDomainRequest(
+            dataStore: dataStore, 
             deadLetterQueueUrl: deadLetterQueueUrl, 
             defaultEncryptionKey: defaultEncryptionKey, 
             defaultExpirationDays: defaultExpirationDays, 
@@ -584,6 +587,50 @@ public struct CustomerProfiles: AWSService {
         return try await self.createProfile(input, logger: logger)
     }
 
+    /// Creates a recommender
+    @Sendable
+    @inlinable
+    public func createRecommender(_ input: CreateRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRecommenderResponse {
+        try await self.client.execute(
+            operation: "CreateRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a recommender
+    ///
+    /// Parameters:
+    ///   - description: The description of the domain object type.
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderConfig: The recommender configuration.
+    ///   - recommenderName: The name of the recommender.
+    ///   - recommenderRecipeName: The name of the recommeder recipe.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRecommender(
+        description: String? = nil,
+        domainName: String,
+        recommenderConfig: RecommenderConfig? = nil,
+        recommenderName: String,
+        recommenderRecipeName: RecommenderRecipeName,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRecommenderResponse {
+        let input = CreateRecommenderRequest(
+            description: description, 
+            domainName: domainName, 
+            recommenderConfig: recommenderConfig, 
+            recommenderName: recommenderName, 
+            recommenderRecipeName: recommenderRecipeName, 
+            tags: tags
+        )
+        return try await self.createRecommender(input, logger: logger)
+    }
+
     /// Creates a segment definition associated to the given domain.
     @Sendable
     @inlinable
@@ -605,6 +652,7 @@ public struct CustomerProfiles: AWSService {
     ///   - domainName: The unique name of the domain.
     ///   - segmentDefinitionName: The unique name of the segment definition.
     ///   - segmentGroups: Specifies the base segments and dimensions for a segment definition along with their respective relationship.
+    ///   - segmentSqlQuery: The segment SQL query.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -613,7 +661,8 @@ public struct CustomerProfiles: AWSService {
         displayName: String,
         domainName: String,
         segmentDefinitionName: String,
-        segmentGroups: SegmentGroup,
+        segmentGroups: SegmentGroup? = nil,
+        segmentSqlQuery: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSegmentDefinitionResponse {
@@ -623,6 +672,7 @@ public struct CustomerProfiles: AWSService {
             domainName: domainName, 
             segmentDefinitionName: segmentDefinitionName, 
             segmentGroups: segmentGroups, 
+            segmentSqlQuery: segmentSqlQuery, 
             tags: tags
         )
         return try await self.createSegmentDefinition(input, logger: logger)
@@ -646,16 +696,19 @@ public struct CustomerProfiles: AWSService {
     /// Parameters:
     ///   - domainName: The unique name of the domain.
     ///   - segmentQuery: The segment query for calculating a segment estimate.
+    ///   - segmentSqlQuery: The segment SQL query.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSegmentEstimate(
         domainName: String,
-        segmentQuery: SegmentGroupStructure,
+        segmentQuery: SegmentGroupStructure? = nil,
+        segmentSqlQuery: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSegmentEstimateResponse {
         let input = CreateSegmentEstimateRequest(
             domainName: domainName, 
-            segmentQuery: segmentQuery
+            segmentQuery: segmentQuery, 
+            segmentSqlQuery: segmentSqlQuery
         )
         return try await self.createSegmentEstimate(input, logger: logger)
     }
@@ -836,6 +889,38 @@ public struct CustomerProfiles: AWSService {
             layoutDefinitionName: layoutDefinitionName
         )
         return try await self.deleteDomainLayout(input, logger: logger)
+    }
+
+    /// Delete a DomainObjectType for the given Domain and ObjectType name.
+    @Sendable
+    @inlinable
+    public func deleteDomainObjectType(_ input: DeleteDomainObjectTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainObjectTypeResponse {
+        try await self.client.execute(
+            operation: "DeleteDomainObjectType", 
+            path: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete a DomainObjectType for the given Domain and ObjectType name.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - objectTypeName: The unique name of the domain object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDomainObjectType(
+        domainName: String,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDomainObjectTypeResponse {
+        let input = DeleteDomainObjectTypeRequest(
+            domainName: domainName, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.deleteDomainObjectType(input, logger: logger)
     }
 
     /// Disables and deletes the specified event stream.
@@ -1072,6 +1157,38 @@ public struct CustomerProfiles: AWSService {
             objectTypeName: objectTypeName
         )
         return try await self.deleteProfileObjectType(input, logger: logger)
+    }
+
+    /// Deletes a recommender.
+    @Sendable
+    @inlinable
+    public func deleteRecommender(_ input: DeleteRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRecommenderResponse {
+        try await self.client.execute(
+            operation: "DeleteRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a recommender.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderName: The recommender name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRecommender(
+        domainName: String,
+        recommenderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRecommenderResponse {
+        let input = DeleteRecommenderRequest(
+            domainName: domainName, 
+            recommenderName: recommenderName
+        )
+        return try await self.deleteRecommender(input, logger: logger)
     }
 
     /// Deletes a segment definition from the domain.
@@ -1336,6 +1453,38 @@ public struct CustomerProfiles: AWSService {
         return try await self.getDomainLayout(input, logger: logger)
     }
 
+    /// Return a DomainObjectType for the input Domain and ObjectType names.
+    @Sendable
+    @inlinable
+    public func getDomainObjectType(_ input: GetDomainObjectTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainObjectTypeResponse {
+        try await self.client.execute(
+            operation: "GetDomainObjectType", 
+            path: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Return a DomainObjectType for the input Domain and ObjectType names.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - objectTypeName: The unique name of the domain object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDomainObjectType(
+        domainName: String,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDomainObjectTypeResponse {
+        let input = GetDomainObjectTypeRequest(
+            domainName: domainName, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.getDomainObjectType(input, logger: logger)
+    }
+
     /// Returns information about the specified event stream in a specific domain.
     @Sendable
     @inlinable
@@ -1509,6 +1658,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.getMatches(input, logger: logger)
     }
 
+    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics.  You'll receive null values in two scenarios:  During the first period after enabling data vault (unless a calculation cycle occurs, which happens once daily). For attributes that don't contain numeric values.
+    @Sendable
+    @inlinable
+    public func getObjectTypeAttributeStatistics(_ input: GetObjectTypeAttributeStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetObjectTypeAttributeStatisticsResponse {
+        try await self.client.execute(
+            operation: "GetObjectTypeAttributeStatistics", 
+            path: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The GetObjectTypeAttributeValues API delivers statistical insights about attributes within a specific object type, but is exclusively available for domains with data store enabled. This API performs daily calculations to provide statistical information about your attribute values, helping you understand patterns and trends in your data. The statistical calculations are performed once per day, providing a consistent snapshot of your attribute data characteristics.  You'll receive null values in two scenarios:  During the first period after enabling data vault (unless a calculation cycle occurs, which happens once daily). For attributes that don't contain numeric values.
+    ///
+    /// Parameters:
+    ///   - attributeName: The attribute name.
+    ///   - domainName: The unique name of the domain.
+    ///   - objectTypeName: The unique name of the domain object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getObjectTypeAttributeStatistics(
+        attributeName: String,
+        domainName: String,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetObjectTypeAttributeStatisticsResponse {
+        let input = GetObjectTypeAttributeStatisticsRequest(
+            attributeName: attributeName, 
+            domainName: domainName, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.getObjectTypeAttributeStatistics(input, logger: logger)
+    }
+
     /// Returns a history record for a specific profile, for a specific domain.
     @Sendable
     @inlinable
@@ -1603,6 +1787,82 @@ public struct CustomerProfiles: AWSService {
             templateId: templateId
         )
         return try await self.getProfileObjectTypeTemplate(input, logger: logger)
+    }
+
+    /// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
+    @Sendable
+    @inlinable
+    public func getProfileRecommendations(_ input: GetProfileRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProfileRecommendationsResponse {
+        try await self.client.execute(
+            operation: "GetProfileRecommendations", 
+            path: "/domains/{DomainName}/profiles/{ProfileId}/recommendations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
+    ///
+    /// Parameters:
+    ///   - context: The contextual metadata used to provide dynamic runtime information to tailor recommendations.
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommendations to return. The default value is 10.
+    ///   - profileId: The unique identifier of the profile for which to retrieve recommendations.
+    ///   - recommenderName: The unique name of the recommender.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProfileRecommendations(
+        context: [String: String]? = nil,
+        domainName: String,
+        maxResults: Int? = nil,
+        profileId: String,
+        recommenderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProfileRecommendationsResponse {
+        let input = GetProfileRecommendationsRequest(
+            context: context, 
+            domainName: domainName, 
+            maxResults: maxResults, 
+            profileId: profileId, 
+            recommenderName: recommenderName
+        )
+        return try await self.getProfileRecommendations(input, logger: logger)
+    }
+
+    /// Retrieves a recommender.
+    @Sendable
+    @inlinable
+    public func getRecommender(_ input: GetRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommenderResponse {
+        try await self.client.execute(
+            operation: "GetRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a recommender.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderName: The name of the recommender.
+    ///   - trainingMetricsCount: The number of training metrics to retrieve for the recommender.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRecommender(
+        domainName: String,
+        recommenderName: String,
+        trainingMetricsCount: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRecommenderResponse {
+        let input = GetRecommenderRequest(
+            domainName: domainName, 
+            recommenderName: recommenderName, 
+            trainingMetricsCount: trainingMetricsCount
+        )
+        return try await self.getRecommender(input, logger: logger)
     }
 
     /// Gets a segment definition from the domain.
@@ -2063,6 +2323,41 @@ public struct CustomerProfiles: AWSService {
         return try await self.listDomainLayouts(input, logger: logger)
     }
 
+    /// List all DomainObjectType(s) in a Customer Profiles domain.
+    @Sendable
+    @inlinable
+    public func listDomainObjectTypes(_ input: ListDomainObjectTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainObjectTypesResponse {
+        try await self.client.execute(
+            operation: "ListDomainObjectTypes", 
+            path: "/domains/{DomainName}/domain-object-types", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all DomainObjectType(s) in a Customer Profiles domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of domain object types returned per page.
+    ///   - nextToken: The pagination token from the previous call to ListDomainObjectTypes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDomainObjectTypes(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDomainObjectTypesResponse {
+        let input = ListDomainObjectTypesRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDomainObjectTypes(input, logger: logger)
+    }
+
     /// Returns a list of all the domains for an AWS account that have been created.
     @Sendable
     @inlinable
@@ -2236,6 +2531,47 @@ public struct CustomerProfiles: AWSService {
             nextToken: nextToken
         )
         return try await self.listIntegrations(input, logger: logger)
+    }
+
+    /// The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
+    @Sendable
+    @inlinable
+    public func listObjectTypeAttributeValues(_ input: ListObjectTypeAttributeValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListObjectTypeAttributeValuesResponse {
+        try await self.client.execute(
+            operation: "ListObjectTypeAttributeValues", 
+            path: "/domains/{DomainName}/object-types/{ObjectTypeName}/attributes/{AttributeName}/values", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
+    ///
+    /// Parameters:
+    ///   - attributeName: The attribute name.
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of objects returned per page. Valid Range: Minimum value of 1. Maximum value of 100. If not provided default as 100.
+    ///   - nextToken: The pagination token from the previous call.
+    ///   - objectTypeName: The unique name of the domain object type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listObjectTypeAttributeValues(
+        attributeName: String,
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        objectTypeName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListObjectTypeAttributeValuesResponse {
+        let input = ListObjectTypeAttributeValuesRequest(
+            attributeName: attributeName, 
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            objectTypeName: objectTypeName
+        )
+        return try await self.listObjectTypeAttributeValues(input, logger: logger)
     }
 
     /// Fetch the possible attribute values given the attribute name.
@@ -2466,6 +2802,73 @@ public struct CustomerProfiles: AWSService {
         return try await self.listProfileObjects(input, logger: logger)
     }
 
+    /// Returns a list of available recommender recipes that can be used to create recommenders.
+    @Sendable
+    @inlinable
+    public func listRecommenderRecipes(_ input: ListRecommenderRecipesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommenderRecipesResponse {
+        try await self.client.execute(
+            operation: "ListRecommenderRecipes", 
+            path: "/recommender-recipes", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of available recommender recipes that can be used to create recommenders.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of recommender recipes to return in the response. The default value is 100.
+    ///   - nextToken: A token received from a previous ListRecommenderRecipes call to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommenderRecipes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommenderRecipesResponse {
+        let input = ListRecommenderRecipesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecommenderRecipes(input, logger: logger)
+    }
+
+    /// Returns a list of recommenders in the specified domain.
+    @Sendable
+    @inlinable
+    public func listRecommenders(_ input: ListRecommendersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRecommendersResponse {
+        try await self.client.execute(
+            operation: "ListRecommenders", 
+            path: "/domains/{DomainName}/recommenders", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of recommenders in the specified domain.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommenders to return in the response. The default value is 100.
+    ///   - nextToken: A token received from a previous ListRecommenders call to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRecommenders(
+        domainName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRecommendersResponse {
+        let input = ListRecommendersRequest(
+            domainName: domainName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRecommenders(input, logger: logger)
+    }
+
     /// Returns a set of MatchIds that belong to the given domain.
     @Sendable
     @inlinable
@@ -2685,6 +3088,50 @@ public struct CustomerProfiles: AWSService {
         return try await self.mergeProfiles(input, logger: logger)
     }
 
+    /// Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
+    @Sendable
+    @inlinable
+    public func putDomainObjectType(_ input: PutDomainObjectTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutDomainObjectTypeResponse {
+        try await self.client.execute(
+            operation: "PutDomainObjectType", 
+            path: "/domains/{DomainName}/domain-object-types/{ObjectTypeName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
+    ///
+    /// Parameters:
+    ///   - description: The description of the domain object type.
+    ///   - domainName: The unique name of the domain.
+    ///   - encryptionKey: The customer provided KMS key used to encrypt this type of domain object.
+    ///   - fields: A map of field names to their corresponding domain object type field definitions.
+    ///   - objectTypeName: The unique name of the domain object type.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putDomainObjectType(
+        description: String? = nil,
+        domainName: String,
+        encryptionKey: String? = nil,
+        fields: [String: DomainObjectTypeField],
+        objectTypeName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutDomainObjectTypeResponse {
+        let input = PutDomainObjectTypeRequest(
+            description: description, 
+            domainName: domainName, 
+            encryptionKey: encryptionKey, 
+            fields: fields, 
+            objectTypeName: objectTypeName, 
+            tags: tags
+        )
+        return try await self.putDomainObjectType(input, logger: logger)
+    }
+
     /// Adds an integration between the service and a third-party service, which includes Amazon AppFlow and Amazon Connect. An integration can belong to only one domain. To add or remove tags on an existing Integration, see  TagResource / UntagResource.
     @Sendable
     @inlinable
@@ -2707,6 +3154,7 @@ public struct CustomerProfiles: AWSService {
     ///   - objectTypeName: The name of the profile object type.
     ///   - objectTypeNames: A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
+    ///   - scope: Specifies whether the integration applies to profile level data (associated with profiles) or domain level data (not associated with any specific profile). The default value is PROFILE.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - uri: The URI of the S3 bucket or any other type of data source.
     ///   - logger: Logger use during operation
@@ -2718,6 +3166,7 @@ public struct CustomerProfiles: AWSService {
         objectTypeName: String? = nil,
         objectTypeNames: [String: String]? = nil,
         roleArn: String? = nil,
+        scope: Scope? = nil,
         tags: [String: String]? = nil,
         uri: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2729,6 +3178,7 @@ public struct CustomerProfiles: AWSService {
             objectTypeName: objectTypeName, 
             objectTypeNames: objectTypeNames, 
             roleArn: roleArn, 
+            scope: scope, 
             tags: tags, 
             uri: uri
         )
@@ -2879,6 +3329,38 @@ public struct CustomerProfiles: AWSService {
         return try await self.searchProfiles(input, logger: logger)
     }
 
+    /// Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
+    @Sendable
+    @inlinable
+    public func startRecommender(_ input: StartRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRecommenderResponse {
+        try await self.client.execute(
+            operation: "StartRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}/start", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderName: The name of the recommender to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRecommender(
+        domainName: String,
+        recommenderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRecommenderResponse {
+        let input = StartRecommenderRequest(
+            domainName: domainName, 
+            recommenderName: recommenderName
+        )
+        return try await self.startRecommender(input, logger: logger)
+    }
+
     /// This API starts the processing of an upload job to ingest profile data.
     @Sendable
     @inlinable
@@ -2909,6 +3391,38 @@ public struct CustomerProfiles: AWSService {
             jobId: jobId
         )
         return try await self.startUploadJob(input, logger: logger)
+    }
+
+    /// Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
+    @Sendable
+    @inlinable
+    public func stopRecommender(_ input: StopRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRecommenderResponse {
+        try await self.client.execute(
+            operation: "StopRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}/stop", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
+    ///
+    /// Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderName: The name of the recommender to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopRecommender(
+        domainName: String,
+        recommenderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopRecommenderResponse {
+        let input = StopRecommenderRequest(
+            domainName: domainName, 
+            recommenderName: recommenderName
+        )
+        return try await self.stopRecommender(input, logger: logger)
     }
 
     /// This API stops the processing of an upload job.
@@ -3064,6 +3578,7 @@ public struct CustomerProfiles: AWSService {
     /// Updates the properties of a domain, including creating or selecting a dead letter queue or an encryption key. After a domain is created, the name can’t be changed. Use this API or CreateDomain to enable identity resolution: set Matching to true. To prevent cross-service impersonation when you call this API, see Cross-service confused deputy prevention for sample policies that you should apply.  To add or remove tags on an existing Domain, see TagResource/UntagResource.
     ///
     /// Parameters:
+    ///   - dataStore: Set to true to enabled data store for this domain.
     ///   - deadLetterQueueUrl: The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. If specified as an empty string, it will clear any existing value. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
     ///   - defaultEncryptionKey: The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage. If specified as an empty string, it will clear any existing value.
     ///   - defaultExpirationDays: The default number of days until the data within the domain expires.
@@ -3074,6 +3589,7 @@ public struct CustomerProfiles: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomain(
+        dataStore: DataStoreRequest? = nil,
         deadLetterQueueUrl: String? = nil,
         defaultEncryptionKey: String? = nil,
         defaultExpirationDays: Int? = nil,
@@ -3084,6 +3600,7 @@ public struct CustomerProfiles: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainResponse {
         let input = UpdateDomainRequest(
+            dataStore: dataStore, 
             deadLetterQueueUrl: deadLetterQueueUrl, 
             defaultEncryptionKey: defaultEncryptionKey, 
             defaultExpirationDays: defaultExpirationDays, 
@@ -3295,6 +3812,44 @@ public struct CustomerProfiles: AWSService {
         )
         return try await self.updateProfile(input, logger: logger)
     }
+
+    /// Updates the properties of an existing recommender, allowing you to modify its configuration and description.
+    @Sendable
+    @inlinable
+    public func updateRecommender(_ input: UpdateRecommenderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRecommenderResponse {
+        try await self.client.execute(
+            operation: "UpdateRecommender", 
+            path: "/domains/{DomainName}/recommenders/{RecommenderName}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the properties of an existing recommender, allowing you to modify its configuration and description.
+    ///
+    /// Parameters:
+    ///   - description: The new description to assign to the recommender.
+    ///   - domainName: The unique name of the domain.
+    ///   - recommenderConfig: The new configuration settings to apply to the recommender, including updated parameters and settings that define its behavior.
+    ///   - recommenderName: The name of the recommender to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRecommender(
+        description: String? = nil,
+        domainName: String,
+        recommenderConfig: RecommenderConfig? = nil,
+        recommenderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRecommenderResponse {
+        let input = UpdateRecommenderRequest(
+            description: description, 
+            domainName: domainName, 
+            recommenderConfig: recommenderConfig, 
+            recommenderName: recommenderName
+        )
+        return try await self.updateRecommender(input, logger: logger)
+    }
 }
 
 extension CustomerProfiles {
@@ -3391,6 +3946,43 @@ extension CustomerProfiles {
             maxResults: maxResults
         )
         return self.listDomainLayoutsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDomainObjectTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainObjectTypesPaginator(
+        _ input: ListDomainObjectTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainObjectTypesRequest, ListDomainObjectTypesResponse> {
+        return .init(
+            input: input,
+            command: self.listDomainObjectTypes,
+            inputKey: \ListDomainObjectTypesRequest.nextToken,
+            outputKey: \ListDomainObjectTypesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDomainObjectTypes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of domain object types returned per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainObjectTypesPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDomainObjectTypesRequest, ListDomainObjectTypesResponse> {
+        let input = ListDomainObjectTypesRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listDomainObjectTypesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listEventStreams(_:logger:)``.
@@ -3505,6 +4097,77 @@ extension CustomerProfiles {
             objectTypeName: objectTypeName
         )
         return self.listObjectTypeAttributesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecommenderRecipes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderRecipesPaginator(
+        _ input: ListRecommenderRecipesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommenderRecipesRequest, ListRecommenderRecipesResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommenderRecipes,
+            inputKey: \ListRecommenderRecipesRequest.nextToken,
+            outputKey: \ListRecommenderRecipesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommenderRecipes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of recommender recipes to return in the response. The default value is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommenderRecipesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommenderRecipesRequest, ListRecommenderRecipesResponse> {
+        let input = ListRecommenderRecipesRequest(
+            maxResults: maxResults
+        )
+        return self.listRecommenderRecipesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRecommenders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendersPaginator(
+        _ input: ListRecommendersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRecommendersRequest, ListRecommendersResponse> {
+        return .init(
+            input: input,
+            command: self.listRecommenders,
+            inputKey: \ListRecommendersRequest.nextToken,
+            outputKey: \ListRecommendersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRecommenders(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domainName: The unique name of the domain.
+    ///   - maxResults: The maximum number of recommenders to return in the response. The default value is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRecommendersPaginator(
+        domainName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRecommendersRequest, ListRecommendersResponse> {
+        let input = ListRecommendersRequest(
+            domainName: domainName, 
+            maxResults: maxResults
+        )
+        return self.listRecommendersPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listRuleBasedMatches(_:logger:)``.
@@ -3644,6 +4307,17 @@ extension CustomerProfiles.ListDomainLayoutsRequest: AWSPaginateToken {
     }
 }
 
+extension CustomerProfiles.ListDomainObjectTypesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListDomainObjectTypesRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension CustomerProfiles.ListEventStreamsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListEventStreamsRequest {
@@ -3674,6 +4348,27 @@ extension CustomerProfiles.ListObjectTypeAttributesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             objectTypeName: self.objectTypeName
+        )
+    }
+}
+
+extension CustomerProfiles.ListRecommenderRecipesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRecommenderRecipesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension CustomerProfiles.ListRecommendersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CustomerProfiles.ListRecommendersRequest {
+        return .init(
+            domainName: self.domainName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

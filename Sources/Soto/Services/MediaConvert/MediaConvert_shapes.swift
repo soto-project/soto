@@ -303,6 +303,7 @@ extension MediaConvert {
         case hlsRenditionGroup = "HLS_RENDITION_GROUP"
         case languageCode = "LANGUAGE_CODE"
         case pid = "PID"
+        case stream = "STREAM"
         case track = "TRACK"
         public var description: String { return self.rawValue }
     }
@@ -710,6 +711,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmfcC2paManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmfcDescriptiveVideoServiceFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dontFlag = "DONT_FLAG"
         case flag = "FLAG"
@@ -772,12 +779,15 @@ extension MediaConvert {
         case mjpeg = "MJPEG"
         case mp3 = "MP3"
         case mp4v = "MP4V"
+        case mpeg1 = "MPEG1"
         case mpeg2 = "MPEG2"
         case opus = "OPUS"
         case pcm = "PCM"
         case prores = "PRORES"
+        case qtrle = "QTRLE"
         case theora = "THEORA"
         case unknown = "UNKNOWN"
+        case vfw = "VFW"
         case vorbis = "VORBIS"
         case vp8 = "VP8"
         case vp9 = "VP9"
@@ -949,6 +959,7 @@ extension MediaConvert {
         case basic = "BASIC"
         case compact = "COMPACT"
         case distinct = "DISTINCT"
+        case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
@@ -1333,11 +1344,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum FrameControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case nearestIdrframe = "NEAREST_IDRFRAME"
+        case nearestIframe = "NEAREST_IFRAME"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FrameMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case msSsim = "MS_SSIM"
         case psnr = "PSNR"
         case psnrHvs = "PSNR_HVS"
         case qvbr = "QVBR"
+        case shotChange = "SHOT_CHANGE"
         case ssim = "SSIM"
         case vmaf = "VMAF"
         public var description: String { return self.rawValue }
@@ -2019,6 +2037,25 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum JobsQueryFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audioCodec = "audioCodec"
+        case fileInput = "fileInput"
+        case jobEngineVersionRequested = "jobEngineVersionRequested"
+        case jobEngineVersionUsed = "jobEngineVersionUsed"
+        case queue = "queue"
+        case status = "status"
+        case videoCodec = "videoCodec"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobsQueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case error = "ERROR"
+        case progressing = "PROGRESSING"
+        case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aar = "AAR"
         case abk = "ABK"
@@ -2454,6 +2491,12 @@ extension MediaConvert {
     public enum MpdAudioDuration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultCodecDuration = "DEFAULT_CODEC_DURATION"
         case matchVideoDuration = "MATCH_VIDEO_DURATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdC2paManifest: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case exclude = "EXCLUDE"
+        case include = "INCLUDE"
         public var description: String { return self.rawValue }
     }
 
@@ -2953,6 +2996,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum SlowPalPitchCorrection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SrtStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -3192,6 +3241,12 @@ extension MediaConvert {
     public enum VideoOverlayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case percentage = "PERCENTAGE"
         case pixels = "PIXELS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoSelectorMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case remuxAll = "REMUX_ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -3808,6 +3863,8 @@ extension MediaConvert {
         public let audioChannelTaggingSettings: AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
         public let audioNormalizationSettings: AudioNormalizationSettings?
+        /// Settings for audio pitch correction during framerate conversion.
+        public let audioPitchCorrectionSettings: AudioPitchCorrectionSettings?
         /// Specifies which audio data to use from each input. In the simplest case, specify an "Audio Selector":#inputs-audio_selector by name based on its order within each input. For example if you specify "Audio Selector 3", then the third audio selector will be used from each input. If an input does not have an "Audio Selector 3", then the audio selector marked as "default" in that input will be used. If there is no audio selector marked as "default", silence will be inserted for the duration of that input. Alternatively, an "Audio Selector Group":#inputs-audio_selector_group name may be specified, with similar default/silence behavior. If no audio_source_name is specified, then "Audio Selector 1" will be chosen automatically.
         public let audioSourceName: String?
         /// Applies only if Follow Input Audio Type is unchecked (false). A number between 0 and 255. The following are defined in ISO-IEC 13818-1: 0 = Undefined, 1 = Clean Effects, 2 = Hearing Impaired, 3 = Visually Impaired Commentary, 4-255 = Reserved.
@@ -3818,7 +3875,7 @@ extension MediaConvert {
         public let codecSettings: AudioCodecSettings?
         /// Specify the language for this audio output track. The service puts this language code into your output audio track when you set Language code control to Use configured. The service also uses your specified custom language code when you set Language code control to Follow input, but your input file doesn't specify a language code. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
-        /// Indicates the language of the audio output track. The ISO 639 language specified in the 'Language Code' drop down will be used when 'Follow Input Language Code' is not selected or when 'Follow Input Language Code' is selected but there is no ISO 639 language code specified by the input.
+        /// Specify the language for your output audio track. To follow the input language: Leave blank. When you do, also set Language code control to Follow input. If no input language is detected MediaConvert will not write an output language code. To follow the input langauge, but fall back to a specified language code if there is no input language to follow: Enter an ISO 639-2 three-letter language code in all capital letters. When you do, also set Language code control to Follow input. To specify the language code: Enter an ISO 639 three-letter language code in all capital letters. When you do, also set Language code control to Use configured.
         public let languageCode: LanguageCode?
         /// Specify which source for language code takes precedence for this audio track. When you choose Follow input, the service uses the language code from the input track if it's present. If there's no languge code on the input track, the service uses the code that you specify in the setting Language code. When you choose Use configured, the service uses the language code that you specify.
         public let languageCodeControl: AudioLanguageCodeControl?
@@ -3828,9 +3885,10 @@ extension MediaConvert {
         public let streamName: String?
 
         @inlinable
-        public init(audioChannelTaggingSettings: AudioChannelTaggingSettings? = nil, audioNormalizationSettings: AudioNormalizationSettings? = nil, audioSourceName: String? = nil, audioType: Int? = nil, audioTypeControl: AudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, languageCodeControl: AudioLanguageCodeControl? = nil, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
+        public init(audioChannelTaggingSettings: AudioChannelTaggingSettings? = nil, audioNormalizationSettings: AudioNormalizationSettings? = nil, audioPitchCorrectionSettings: AudioPitchCorrectionSettings? = nil, audioSourceName: String? = nil, audioType: Int? = nil, audioTypeControl: AudioTypeControl? = nil, codecSettings: AudioCodecSettings? = nil, customLanguageCode: String? = nil, languageCode: LanguageCode? = nil, languageCodeControl: AudioLanguageCodeControl? = nil, remixSettings: RemixSettings? = nil, streamName: String? = nil) {
             self.audioChannelTaggingSettings = audioChannelTaggingSettings
             self.audioNormalizationSettings = audioNormalizationSettings
+            self.audioPitchCorrectionSettings = audioPitchCorrectionSettings
             self.audioSourceName = audioSourceName
             self.audioType = audioType
             self.audioTypeControl = audioTypeControl
@@ -3856,6 +3914,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case audioChannelTaggingSettings = "audioChannelTaggingSettings"
             case audioNormalizationSettings = "audioNormalizationSettings"
+            case audioPitchCorrectionSettings = "audioPitchCorrectionSettings"
             case audioSourceName = "audioSourceName"
             case audioType = "audioType"
             case audioTypeControl = "audioTypeControl"
@@ -3911,6 +3970,20 @@ extension MediaConvert {
         }
     }
 
+    public struct AudioPitchCorrectionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Use Slow PAL pitch correction to compensate for audio pitch changes during slow PAL frame rate conversion. This setting only applies when Slow PAL is enabled in your output video codec settings. To automatically apply audio pitch correction: Choose Enabled. MediaConvert automatically applies a pitch correction to your output to match the original content's audio pitch. To not apply audio pitch correction: Keep the default value, Disabled.
+        public let slowPalPitchCorrection: SlowPalPitchCorrection?
+
+        @inlinable
+        public init(slowPalPitchCorrection: SlowPalPitchCorrection? = nil) {
+            self.slowPalPitchCorrection = slowPalPitchCorrection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slowPalPitchCorrection = "slowPalPitchCorrection"
+        }
+    }
+
     public struct AudioProperties: AWSDecodableShape {
         /// The bit depth of the audio track.
         public let bitDepth: Int?
@@ -3918,7 +3991,7 @@ extension MediaConvert {
         public let bitRate: Int64?
         /// The number of audio channels in the audio track.
         public let channels: Int?
-        /// The frame rate of the video or audio track.
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public let frameRate: FrameRate?
         /// The language code of the audio track, in three character ISO 639-3 format.
         public let languageCode: String?
@@ -3956,7 +4029,7 @@ extension MediaConvert {
         public let externalAudioFileInput: String?
         /// Settings specific to audio sources in an HLS alternate rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique audio track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the properties provided, the job fails. If no properties in hlsRenditionGroupSettings are specified, the default audio track within the video segment is chosen. If there is no audio within video segment, the alternative audio with DEFAULT=YES is chosen instead.
         public let hlsRenditionGroupSettings: HlsRenditionGroupSettings?
-        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let languageCode: LanguageCode?
         /// Specify a time delta, in milliseconds, to offset the audio from the input video.
         /// To specify no offset: Keep the default value, 0.
@@ -3968,13 +4041,15 @@ extension MediaConvert {
         public let programSelection: Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public let remixSettings: RemixSettings?
-        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. Language code: Select audio by language using ISO 639-2 or ISO 639-3 three-letter language codes. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers.
+        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter       code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
         public let selectorType: AudioSelectorType?
-        /// Identify a track from the input audio to include in this selector by entering the track index number. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        /// Identify a track from the input audio to include in this selector by entering the stream index number. These numberings count all tracks in the input file, but only a track containing audio data may be used here. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
+        public let streams: [Int]?
+        /// Identify a track from the input audio to include in this selector by entering the track index number. These numberings include only tracks recognized as audio. If the service recognizes more types of audio tracks in the future, these numberings may shift. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public let tracks: [Int]?
 
         @inlinable
-        public init(audioDurationCorrection: AudioDurationCorrection? = nil, customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, hlsRenditionGroupSettings: HlsRenditionGroupSettings? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, pids: [Int]? = nil, programSelection: Int? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, tracks: [Int]? = nil) {
+        public init(audioDurationCorrection: AudioDurationCorrection? = nil, customLanguageCode: String? = nil, defaultSelection: AudioDefaultSelection? = nil, externalAudioFileInput: String? = nil, hlsRenditionGroupSettings: HlsRenditionGroupSettings? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, pids: [Int]? = nil, programSelection: Int? = nil, remixSettings: RemixSettings? = nil, selectorType: AudioSelectorType? = nil, streams: [Int]? = nil, tracks: [Int]? = nil) {
             self.audioDurationCorrection = audioDurationCorrection
             self.customLanguageCode = customLanguageCode
             self.defaultSelection = defaultSelection
@@ -3986,6 +4061,7 @@ extension MediaConvert {
             self.programSelection = programSelection
             self.remixSettings = remixSettings
             self.selectorType = selectorType
+            self.streams = streams
             self.tracks = tracks
         }
 
@@ -4003,6 +4079,10 @@ extension MediaConvert {
             try self.validate(self.programSelection, name: "programSelection", parent: name, max: 8)
             try self.validate(self.programSelection, name: "programSelection", parent: name, min: 0)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
+            try self.streams?.forEach {
+                try validate($0, name: "streams[]", parent: name, max: 2147483647)
+                try validate($0, name: "streams[]", parent: name, min: 1)
+            }
             try self.tracks?.forEach {
                 try validate($0, name: "tracks[]", parent: name, max: 2147483647)
                 try validate($0, name: "tracks[]", parent: name, min: 1)
@@ -4021,6 +4101,7 @@ extension MediaConvert {
             case programSelection = "programSelection"
             case remixSettings = "remixSettings"
             case selectorType = "selectorType"
+            case streams = "streams"
             case tracks = "tracks"
         }
     }
@@ -4190,7 +4271,7 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Specify from the number of B-frames, in the range of 0-15. For AV1 encoding, we recommend using 7 or 15. Choose a larger number for a lower bitrate and smaller file size; choose a smaller number for better video quality.
         public let numberBFramesBetweenReferenceFrames: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Settings for quality-defined variable bitrate encoding with the H.265 codec. Use these settings only when you set QVBR for Rate control mode.
         public let qvbrSettings: Av1QvbrSettings?
@@ -4287,7 +4368,7 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Choose the scan line type for the output. Keep the default value, Progressive to create a progressive output, regardless of the scan type of your input. Use Top field first or Bottom field first to create an output that's interlaced with the same field polarity throughout. Use Follow, default top or Follow, default bottom to produce outputs with the same field polarity as the source. For jobs that have multiple inputs, the output field polarity might change over the course of the output. Follow behavior depends on the input scan type. If the source is interlaced, the output will be interlaced with the same polarity as the source. If the source is progressive, the output will be interlaced with top field bottom field first, depending on which of the Follow options you choose.
         public let interlaceMode: AvcIntraInterlaceMode?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: AvcIntraScanTypeConversionMode?
@@ -4896,7 +4977,7 @@ extension MediaConvert {
         public let codecSpecification: CmafCodecSpecification?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public let dashIFrameTrickPlayNameModifier: String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public let dashManifestStyle: DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
@@ -5079,6 +5160,10 @@ extension MediaConvert {
         public let audioRenditionSets: String?
         /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public let audioTrackType: CmfcAudioTrackType?
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public let c2paManifest: CmfcC2paManifest?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public let certificateSecret: String?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public let descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag?
         /// Choose Include to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude.
@@ -5091,6 +5176,8 @@ extension MediaConvert {
         public let scte35Esam: CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public let scte35Source: CmfcScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public let signingKmsKey: String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public let timedMetadata: CmfcTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output.
@@ -5104,17 +5191,20 @@ extension MediaConvert {
         public let timedMetadataValue: String?
 
         @inlinable
-        public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, klvMetadata: CmfcKlvMetadata? = nil, manifestMetadataSignaling: CmfcManifestMetadataSignaling? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil, timedMetadata: CmfcTimedMetadata? = nil, timedMetadataBoxVersion: CmfcTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, c2paManifest: CmfcC2paManifest? = nil, certificateSecret: String? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, klvMetadata: CmfcKlvMetadata? = nil, manifestMetadataSignaling: CmfcManifestMetadataSignaling? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil, signingKmsKey: String? = nil, timedMetadata: CmfcTimedMetadata? = nil, timedMetadataBoxVersion: CmfcTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
             self.audioDuration = audioDuration
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
+            self.c2paManifest = c2paManifest
+            self.certificateSecret = certificateSecret
             self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -5122,6 +5212,11 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, max: 2048)
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, min: 1)
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, pattern: "^(arn:[a-z-]+:secretsmanager:[\\w-]+:\\d{12}:secret:)?[a-zA-Z0-9_\\/_+=.@-]*$")
+            try self.validate(self.signingKmsKey, name: "signingKmsKey", parent: name, min: 1)
+            try self.validate(self.signingKmsKey, name: "signingKmsKey", parent: name, pattern: "^(arn:aws(-us-gov|-cn)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/)?[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}|mrk-[a-fA-F0-9]{32}$")
             try self.validate(self.timedMetadataSchemeIdUri, name: "timedMetadataSchemeIdUri", parent: name, max: 1000)
             try self.validate(self.timedMetadataValue, name: "timedMetadataValue", parent: name, max: 1000)
         }
@@ -5131,16 +5226,73 @@ extension MediaConvert {
             case audioGroupId = "audioGroupId"
             case audioRenditionSets = "audioRenditionSets"
             case audioTrackType = "audioTrackType"
+            case c2paManifest = "c2paManifest"
+            case certificateSecret = "certificateSecret"
             case descriptiveVideoServiceFlag = "descriptiveVideoServiceFlag"
             case iFrameOnlyManifest = "iFrameOnlyManifest"
             case klvMetadata = "klvMetadata"
             case manifestMetadataSignaling = "manifestMetadataSignaling"
             case scte35Esam = "scte35Esam"
             case scte35Source = "scte35Source"
+            case signingKmsKey = "signingKmsKey"
             case timedMetadata = "timedMetadata"
             case timedMetadataBoxVersion = "timedMetadataBoxVersion"
             case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
             case timedMetadataValue = "timedMetadataValue"
+        }
+    }
+
+    public struct CodecMetadata: AWSDecodableShape {
+        /// The number of bits used per color component in the video essence such as 8, 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while 10-bit is common for high dynamic range (HDR).
+        public let bitDepth: Int?
+        /// The chroma subsampling format used in the video encoding, such as "4:2:0" or "4:4:4". This describes how color information is sampled relative to brightness information. Different subsampling ratios affect video quality and file size, with "4:4:4" providing the highest color fidelity and "4:2:0" being most common for standard video.
+        public let chromaSubsampling: String?
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
+        public let codedFrameRate: FrameRate?
+        /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
+        public let colorPrimaries: ColorPrimaries?
+        /// The height in pixels as coded by the codec. This represents the actual encoded video height as specified in the video stream headers.
+        public let height: Int?
+        /// The codec level or tier that specifies the maximum processing requirements and capabilities. Levels define constraints such as maximum bit rate, frame rate, and resolution.
+        public let level: String?
+        /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
+        public let matrixCoefficients: MatrixCoefficients?
+        /// The codec profile used to encode the video. Profiles define specific feature sets and capabilities within a codec standard. For example, H.264 profiles include Baseline, Main, and High, each supporting different encoding features and complexity levels.
+        public let profile: String?
+        /// The scanning method specified in the video essence, indicating whether the video uses progressive or interlaced scanning.
+        public let scanType: String?
+        /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
+        public let transferCharacteristics: TransferCharacteristics?
+        /// The width in pixels as coded by the codec. This represents the actual encoded video width as specified in the video stream headers.
+        public let width: Int?
+
+        @inlinable
+        public init(bitDepth: Int? = nil, chromaSubsampling: String? = nil, codedFrameRate: FrameRate? = nil, colorPrimaries: ColorPrimaries? = nil, height: Int? = nil, level: String? = nil, matrixCoefficients: MatrixCoefficients? = nil, profile: String? = nil, scanType: String? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
+            self.bitDepth = bitDepth
+            self.chromaSubsampling = chromaSubsampling
+            self.codedFrameRate = codedFrameRate
+            self.colorPrimaries = colorPrimaries
+            self.height = height
+            self.level = level
+            self.matrixCoefficients = matrixCoefficients
+            self.profile = profile
+            self.scanType = scanType
+            self.transferCharacteristics = transferCharacteristics
+            self.width = width
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bitDepth = "bitDepth"
+            case chromaSubsampling = "chromaSubsampling"
+            case codedFrameRate = "codedFrameRate"
+            case colorPrimaries = "colorPrimaries"
+            case height = "height"
+            case level = "level"
+            case matrixCoefficients = "matrixCoefficients"
+            case profile = "profile"
+            case scanType = "scanType"
+            case transferCharacteristics = "transferCharacteristics"
+            case width = "width"
         }
     }
 
@@ -5340,7 +5492,7 @@ extension MediaConvert {
         public let clientRequestToken: String?
         /// Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
         public let hopDestinations: [HopDestination]?
-        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. To specify a Job engine version: Enter a date in a YYYY-MM-DD format. For a list of valid Job engine versions, submit a ListVersions request. To not specify a Job engine version: Leave blank.
+        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
         public let jobEngineVersion: String?
         /// Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
         public let jobTemplate: String?
@@ -5671,7 +5823,7 @@ extension MediaConvert {
         public let baseUrl: String?
         /// Specify whether MediaConvert generates I-frame only video segments for DASH trick play, also known as trick mode. When specified, the I-frame only video segments are included within an additional AdaptationSet in your DASH output manifest. To generate I-frame only video segments: Enter a name as a text string, up to 256 character long. This name is appended to the end of this output group's base filename, that you specify as part of your destination URI, and used for the I-frame only video segment files. You may also include format identifiers. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs To not generate I-frame only video segments: Leave blank.
         public let dashIFrameTrickPlayNameModifier: String?
-        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline in each video Representation: Keep the default value, Basic. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct.
+        /// Specify how MediaConvert writes SegmentTimeline in your output DASH manifest. To write a SegmentTimeline for outputs that you also specify a Name modifier for: Keep the default value, Basic. Note that if you do not specify a name modifier for an output, MediaConvert will not write a SegmentTimeline for it. To write a common SegmentTimeline in the video AdaptationSet: Choose Compact. Note that MediaConvert will still write a SegmentTimeline in any Representation that does not share a common timeline. To write a video AdaptationSet for each different output framerate, and a common SegmentTimeline in each AdaptationSet: Choose Distinct. To write a SegmentTimeline in each AdaptationSet: Choose Full.
         public let dashManifestStyle: DashManifestStyle?
         /// Use Destination to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
@@ -6356,7 +6508,7 @@ extension MediaConvert {
         public let audioDurationCorrection: AudioDurationCorrection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public let externalAudioFileInput: String?
-        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let languageCode: LanguageCode?
         /// Specify a time delta, in milliseconds, to offset the audio from the input video.
         /// To specify no offset: Keep the default value, 0.
@@ -7014,6 +7166,46 @@ extension MediaConvert {
         }
     }
 
+    public struct GetJobsQueryResultsRequest: AWSEncodableShape {
+        /// The ID of the jobs query.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetJobsQueryResultsResponse: AWSDecodableShape {
+        /// List of jobs.
+        public let jobs: [Job]?
+        /// Use this string to request the next batch of jobs via the StartJobsQuery API.
+        public let nextToken: String?
+        /// The status of the jobs query.
+        public let status: JobsQueryStatus?
+
+        @inlinable
+        public init(jobs: [Job]? = nil, nextToken: String? = nil, status: JobsQueryStatus? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+            case status = "status"
+        }
+    }
+
     public struct GetPolicyRequest: AWSEncodableShape {
         public init() {}
     }
@@ -7217,7 +7409,7 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// The Quality tuning level you choose represents a trade-off between the encoding speed of your job and the output video quality. For the fastest encoding speed at the cost of video quality: Choose Single pass. For a good balance between encoding speed and video quality: Leave blank or keep the default value Single pass HQ. For the best video quality, at the cost of encoding speed: Choose Multi pass HQ. MediaConvert performs an analysis pass on your input followed by an encoding pass. Outputs that use this feature incur pro-tier pricing.
         public let qualityTuningLevel: H264QualityTuningLevel?
@@ -7474,7 +7666,7 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: H265QualityTuningLevel?
@@ -7775,9 +7967,9 @@ extension MediaConvert {
     public struct HlsCaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
         /// Caption channel.
         public let captionChannel: Int?
-        /// Specify the language for this captions channel, using the ISO 639-2 or ISO 639-3 three-letter language code
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let customLanguageCode: String?
-        /// Specify the language, using the ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php.
+        /// Specify the language, using an ISO 639-2 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let languageCode: LanguageCode?
         /// Caption language description.
         public let languageDescription: String?
@@ -8063,7 +8255,7 @@ extension MediaConvert {
     public struct HlsRenditionGroupSettings: AWSEncodableShape & AWSDecodableShape {
         /// Optional. Specify alternative group ID
         public let renditionGroupId: String?
-        /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+        /// Optionally specify the language, using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let renditionLanguageCode: LanguageCode?
         /// Optional. Specify media name
         public let renditionName: String?
@@ -8197,7 +8389,7 @@ extension MediaConvert {
     }
 
     public struct ImscDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+        /// If the IMSC captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public let accessibility: ImscAccessibilitySubs?
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
@@ -8606,36 +8798,46 @@ extension MediaConvert {
         /// Specify the number of audio channels to include in your video generator input. MediaConvert creates these audio channels as silent audio within a single audio track. Enter an integer from 1 to 32.
         public let channels: Int?
         /// Specify the duration, in milliseconds, for your video generator input.
-        /// Enter an integer from 50 to 86400000.
+        /// Enter an integer from 1 to 86400000.
         public let duration: Int?
         /// Specify the denominator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate numerator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
         public let framerateDenominator: Int?
         /// Specify the numerator of the fraction that represents the frame rate for your video generator input. When you do, you must also specify a value for Frame rate denominator. MediaConvert uses a default frame rate of 29.97 when you leave Frame rate numerator and Frame rate denominator blank.
         public let framerateNumerator: Int?
+        /// Specify the height, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a height: Enter an even integer from 32 to 8192. When you do, you must also specify a value for width.
+        public let height: Int?
         /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input.
         /// Enter an integer from 32000 to 48000.
         public let sampleRate: Int?
+        /// Specify the width, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a width: Enter an even integer from 32 to 8192. When you do, you must also specify a value for height.
+        public let width: Int?
 
         @inlinable
-        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, sampleRate: Int? = nil) {
+        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, height: Int? = nil, sampleRate: Int? = nil, width: Int? = nil) {
             self.channels = channels
             self.duration = duration
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
+            self.height = height
             self.sampleRate = sampleRate
+            self.width = width
         }
 
         public func validate(name: String) throws {
             try self.validate(self.channels, name: "channels", parent: name, max: 32)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
             try self.validate(self.duration, name: "duration", parent: name, max: 86400000)
-            try self.validate(self.duration, name: "duration", parent: name, min: 50)
+            try self.validate(self.duration, name: "duration", parent: name, min: 1)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 1001)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 60000)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+            try self.validate(self.height, name: "height", parent: name, max: 8192)
+            try self.validate(self.height, name: "height", parent: name, min: 32)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 32000)
+            try self.validate(self.width, name: "width", parent: name, max: 8192)
+            try self.validate(self.width, name: "width", parent: name, min: 32)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8643,7 +8845,9 @@ extension MediaConvert {
             case duration = "duration"
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
+            case height = "height"
             case sampleRate = "sampleRate"
+            case width = "width"
         }
     }
 
@@ -8864,7 +9068,7 @@ extension MediaConvert {
         /// The date that this Job engine version expires. Requests to create jobs with an expired version result in a regular job, as if no specific Job engine version was requested.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var expirationDate: Date?
-        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions are in a YYYY-MM-DD format.
+        /// Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
         public let version: String?
 
         @inlinable
@@ -9138,6 +9342,30 @@ extension MediaConvert {
             case outputGroups = "outputGroups"
             case timecodeConfig = "timecodeConfig"
             case timedMetadataInsertion = "timedMetadataInsertion"
+        }
+    }
+
+    public struct JobsQueryFilter: AWSEncodableShape {
+        /// Specify job details to filter for while performing a jobs query. You specify these filters as part of a key-value pair within the JobsQueryFilter array. The following list describes which keys are available and their possible values: * queue - Your Queue's name or ARN. * status - Your job's status. (SUBMITTED | PROGRESSING | COMPLETE | CANCELED | ERROR) * fileInput - Your input file URL, or partial input file name. * jobEngineVersionRequested - The Job engine version that you requested for your job. Valid versions are in a YYYY-MM-DD format. * jobEngineVersionUsed - The Job engine version that your job used. This may differ from the version that you requested. Valid versions are in a YYYY-MM-DD format. * audioCodec - Your output's audio codec. (AAC | MP2 | MP3 | WAV | AIFF | AC3| EAC3 | EAC3_ATMOS | VORBIS | OPUS | PASSTHROUGH | FLAC) * videoCodec - Your output's video codec. (AV1 | AVC_INTRA | FRAME_CAPTURE | H_264 | H_265 | MPEG2 | PASSTHROUGH | PRORES | UNCOMPRESSED | VC3 | VP8 | VP9 | XAVC)
+        public let key: JobsQueryFilterKey?
+        /// A list of values associated with a JobsQueryFilterKey.
+        public let values: [String]?
+
+        @inlinable
+        public init(key: JobsQueryFilterKey? = nil, values: [String]? = nil) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
         }
     }
 
@@ -10260,8 +10488,12 @@ extension MediaConvert {
         public let accessibilityCaptionHints: MpdAccessibilityCaptionHints?
         /// Specify this setting only when your output will be consumed by a downstream repackaging workflow that is sensitive to very small duration differences between video and audio. For this situation, choose Match video duration. In all other cases, keep the default value, Default codec duration. When you choose Match video duration, MediaConvert pads the output audio streams with silence or trims them to ensure that the total duration of each audio stream is at least as long as the total duration of the video stream. After padding or trimming, the audio stream duration is no more than one frame longer than the video stream. MediaConvert applies audio padding or trimming only to the end of the last segment of the output. For unsegmented outputs, MediaConvert adds padding only to the end of the file. When you keep the default value, any minor discrepancies between audio and video duration will depend on your output audio codec.
         public let audioDuration: MpdAudioDuration?
-        /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
+        /// When enabled, a C2PA compliant manifest will be generated, signed and embeded in the output. For more information on C2PA, see https://c2pa.org/specifications/specifications/2.1/index.html
+        public let c2paManifest: MpdC2paManifest?
+        /// Use this setting only in DASH output groups that include sidecar TTML, IMSC or WEBVTT captions. You specify sidecar captions in a separate output from your audio and video. Choose Raw for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
+        /// Specify the name or ARN of the AWS Secrets Manager secret that contains your C2PA public certificate chain in PEM format. Provide a valid secret name or ARN. Note that your MediaConvert service role must allow access to this secret. The public certificate chain is added to the COSE header (x5chain) for signature validation. Include the signer's certificate and all intermediate certificates. Do not include the root certificate. For details on COSE, see: https://opensource.contentauthenticity.org/docs/manifest/signing-manifests
+        public let certificateSecret: String?
         /// To include key-length-value metadata in this output: Set KLV metadata insertion to Passthrough. MediaConvert reads KLV metadata present in your input and writes each instance to a separate event message box in the output, according to MISB ST1910.1. To exclude this KLV metadata: Set KLV metadata insertion to None or leave blank.
         public let klvMetadata: MpdKlvMetadata?
         /// To add an InbandEventStream element in your output MPD manifest for each type of event message, set Manifest metadata signaling to Enabled. For ID3 event messages, the InbandEventStream element schemeIdUri will be same value that you specify for ID3 metadata scheme ID URI. For SCTE35 event messages, the InbandEventStream element schemeIdUri will be "urn:scte:scte35:2013:bin". To leave these elements out of your output MPD manifest, set Manifest metadata signaling to Disabled. To enable Manifest metadata signaling, you must also set SCTE-35 source to Passthrough, ESAM SCTE-35 to insert, or ID3 metadata to Passthrough.
@@ -10270,6 +10502,8 @@ extension MediaConvert {
         public let scte35Esam: MpdScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want those SCTE-35 markers in this output.
         public let scte35Source: MpdScte35Source?
+        /// Specify the ID or ARN of the AWS KMS key used to sign the C2PA manifest in your MP4 output. Provide a valid KMS key ARN. Note that your MediaConvert service role must allow access to this key.
+        public let signingKmsKey: String?
         /// To include ID3 metadata in this output: Set ID3 metadata to Passthrough. Specify this ID3 metadata in Custom ID3 metadata inserter. MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None or leave blank.
         public let timedMetadata: MpdTimedMetadata?
         /// Specify the event message box (eMSG) version for ID3 timed metadata in your output.
@@ -10283,14 +10517,17 @@ extension MediaConvert {
         public let timedMetadataValue: String?
 
         @inlinable
-        public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, captionContainerType: MpdCaptionContainerType? = nil, klvMetadata: MpdKlvMetadata? = nil, manifestMetadataSignaling: MpdManifestMetadataSignaling? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil, timedMetadata: MpdTimedMetadata? = nil, timedMetadataBoxVersion: MpdTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
+        public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, c2paManifest: MpdC2paManifest? = nil, captionContainerType: MpdCaptionContainerType? = nil, certificateSecret: String? = nil, klvMetadata: MpdKlvMetadata? = nil, manifestMetadataSignaling: MpdManifestMetadataSignaling? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil, signingKmsKey: String? = nil, timedMetadata: MpdTimedMetadata? = nil, timedMetadataBoxVersion: MpdTimedMetadataBoxVersion? = nil, timedMetadataSchemeIdUri: String? = nil, timedMetadataValue: String? = nil) {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
+            self.c2paManifest = c2paManifest
             self.captionContainerType = captionContainerType
+            self.certificateSecret = certificateSecret
             self.klvMetadata = klvMetadata
             self.manifestMetadataSignaling = manifestMetadataSignaling
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
+            self.signingKmsKey = signingKmsKey
             self.timedMetadata = timedMetadata
             self.timedMetadataBoxVersion = timedMetadataBoxVersion
             self.timedMetadataSchemeIdUri = timedMetadataSchemeIdUri
@@ -10298,6 +10535,11 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, max: 2048)
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, min: 1)
+            try self.validate(self.certificateSecret, name: "certificateSecret", parent: name, pattern: "^(arn:[a-z-]+:secretsmanager:[\\w-]+:\\d{12}:secret:)?[a-zA-Z0-9_\\/_+=.@-]*$")
+            try self.validate(self.signingKmsKey, name: "signingKmsKey", parent: name, min: 1)
+            try self.validate(self.signingKmsKey, name: "signingKmsKey", parent: name, pattern: "^(arn:aws(-us-gov|-cn)?:kms:[a-z-]{2,6}-(east|west|central|((north|south)(east|west)?))-[1-9]{1,2}:\\d{12}:key/)?[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}|mrk-[a-fA-F0-9]{32}$")
             try self.validate(self.timedMetadataSchemeIdUri, name: "timedMetadataSchemeIdUri", parent: name, max: 1000)
             try self.validate(self.timedMetadataValue, name: "timedMetadataValue", parent: name, max: 1000)
         }
@@ -10305,11 +10547,14 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case accessibilityCaptionHints = "accessibilityCaptionHints"
             case audioDuration = "audioDuration"
+            case c2paManifest = "c2paManifest"
             case captionContainerType = "captionContainerType"
+            case certificateSecret = "certificateSecret"
             case klvMetadata = "klvMetadata"
             case manifestMetadataSignaling = "manifestMetadataSignaling"
             case scte35Esam = "scte35Esam"
             case scte35Source = "scte35Source"
+            case signingKmsKey = "signingKmsKey"
             case timedMetadata = "timedMetadata"
             case timedMetadataBoxVersion = "timedMetadataBoxVersion"
             case timedMetadataSchemeIdUri = "timedMetadataSchemeIdUri"
@@ -10364,7 +10609,7 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Optional. Use Quality tuning level to choose how you want to trade off encoding speed for output video quality. The default behavior is faster, lower quality, single-pass encoding.
         public let qualityTuningLevel: Mpeg2QualityTuningLevel?
@@ -10746,7 +10991,7 @@ extension MediaConvert {
             try self.validate(self.metadataDestination, name: "metadataDestination", parent: name, pattern: "^s3:\\/\\/")
             try self.validate(self.sourceId, name: "sourceId", parent: name, max: 65534)
             try self.validate(self.sourceId, name: "sourceId", parent: name, min: 0)
-            try self.validate(self.ticServerUrl, name: "ticServerUrl", parent: name, pattern: "^https:\\/\\/$")
+            try self.validate(self.ticServerUrl, name: "ticServerUrl", parent: name, pattern: "^https:\\/\\/.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11079,7 +11324,7 @@ extension MediaConvert {
         public let hlsGroupSettings: HlsGroupSettings?
         /// Settings related to your Microsoft Smooth Streaming output package. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
         public let type: OutputGroupType?
@@ -11143,6 +11388,24 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case nexguardFileMarkerSettings = "nexguardFileMarkerSettings"
+        }
+    }
+
+    public struct PassthroughSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Choose how MediaConvert handles start and end times for input clipping with video passthrough. Your input video codec must be H.264 or H.265 to use IFRAME. To clip at the nearest IDR-frame: Choose Nearest IDR. If an IDR-frame is not found at the frame that you specify, MediaConvert uses the next compatible IDR-frame. Note that your output may be shorter than your input clip duration. To clip at the nearest I-frame: Choose Nearest I-frame. If an I-frame is not found at the frame that you specify, MediaConvert uses the next compatible I-frame. Note that your output may be shorter than your input clip duration. We only recommend this setting for special workflows, and when you choose this setting your output may not be compatible with most players.
+        public let frameControl: FrameControl?
+        /// AUTO will select the highest bitrate input in the video selector source. REMUX_ALL will passthrough all the selected streams in the video selector source. When selecting streams from multiple renditions (i.e. using Stream video selector type): REMUX_ALL will only remux all streams selected, and AUTO will use the highest bitrate video stream among the selected streams as source.
+        public let videoSelectorMode: VideoSelectorMode?
+
+        @inlinable
+        public init(frameControl: FrameControl? = nil, videoSelectorMode: VideoSelectorMode? = nil) {
+            self.frameControl = frameControl
+            self.videoSelectorMode = videoSelectorMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frameControl = "frameControl"
+            case videoSelectorMode = "videoSelectorMode"
         }
     }
 
@@ -11334,7 +11597,7 @@ extension MediaConvert {
         public let parDenominator: Int?
         /// Required when you set Pixel aspect ratio to SPECIFIED. On the console, this corresponds to any value other than Follow source. When you specify an output pixel aspect ratio (PAR) that is different from your input video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC widescreen, you would specify the ratio 40:33. In this example, the value for parNumerator is 40.
         public let parNumerator: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Use this setting for interlaced outputs, when your output frame rate is half of your input frame rate. In this situation, choose Optimized interlacing to create a better quality interlaced output. In this case, each progressive frame from the input corresponds to an interlaced field in the output. Keep the default value, Basic interlacing, for all other output frame rates. With basic interlacing, MediaConvert performs any frame rate conversion first and then interlaces the frames. When you choose Optimized interlacing and you set your output frame rate to a value that isn't suitable for optimized interlacing, MediaConvert automatically falls back to basic interlacing. Required settings: To use optimized interlacing, you must set Telecine to None or Soft. You can't use optimized interlacing for hard telecine outputs. You must also set Interlace mode to a value other than Progressive.
         public let scanTypeConversionMode: ProresScanTypeConversionMode?
@@ -11850,7 +12113,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:aws(-us-gov)?:acm:$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:aws(-us-gov)?:acm:.*$")
             try self.systemIds?.forEach {
                 try validate($0, name: "systemIds[]", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
             }
@@ -11891,7 +12154,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:aws(-us-gov)?:acm:$")
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:aws(-us-gov)?:acm:.*$")
             try self.dashSignaledSystemIds?.forEach {
                 try validate($0, name: "dashSignaledSystemIds[]", parent: name, max: 36)
                 try validate($0, name: "dashSignaledSystemIds[]", parent: name, min: 36)
@@ -11927,6 +12190,54 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case stylePassthrough = "stylePassthrough"
+        }
+    }
+
+    public struct StartJobsQueryRequest: AWSEncodableShape {
+        /// Optional. Provide an array of JobsQueryFilters for your StartJobsQuery request.
+        public let filterList: [JobsQueryFilter]?
+        /// Optional. Number of jobs, up to twenty, that will be included in the jobs query.
+        public let maxResults: Int?
+        /// Use this string to request the next batch of jobs matched by a jobs query.
+        public let nextToken: String?
+        /// Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+        public let order: Order?
+
+        @inlinable
+        public init(filterList: [JobsQueryFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, order: Order? = nil) {
+            self.filterList = filterList
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.order = order
+        }
+
+        public func validate(name: String) throws {
+            try self.filterList?.forEach {
+                try $0.validate(name: "\(name).filterList[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filterList = "filterList"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case order = "order"
+        }
+    }
+
+    public struct StartJobsQueryResponse: AWSDecodableShape {
+        /// The ID of the jobs query.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
         }
     }
 
@@ -12194,20 +12505,26 @@ extension MediaConvert {
     }
 
     public struct TrackSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
+        /// Use this setting to select a single captions track from a source. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this caption selector context, only the stream number of a track containing caption data may be used. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one stream per selector. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of caption data get recognized in the future, these numberings will not shift.
+        public let streamNumber: Int?
+        /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector. If more types of caption data get recognized in the future, these numberings may shift, but the numberings used for streamNumber will not.
         public let trackNumber: Int?
 
         @inlinable
-        public init(trackNumber: Int? = nil) {
+        public init(streamNumber: Int? = nil, trackNumber: Int? = nil) {
+            self.streamNumber = streamNumber
             self.trackNumber = trackNumber
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.streamNumber, name: "streamNumber", parent: name, max: 2147483647)
+            try self.validate(self.streamNumber, name: "streamNumber", parent: name, min: 1)
             try self.validate(self.trackNumber, name: "trackNumber", parent: name, max: 2147483647)
             try self.validate(self.trackNumber, name: "trackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case streamNumber = "streamNumber"
             case trackNumber = "trackNumber"
         }
     }
@@ -12564,6 +12881,8 @@ extension MediaConvert {
         public let h265Settings: H265Settings?
         /// Required when you set Codec to the value MPEG2.
         public let mpeg2Settings: Mpeg2Settings?
+        /// Optional settings when you set Codec to the value Passthrough.
+        public let passthroughSettings: PassthroughSettings?
         /// Required when you set Codec to the value PRORES.
         public let proresSettings: ProresSettings?
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value UNCOMPRESSED.
@@ -12578,7 +12897,7 @@ extension MediaConvert {
         public let xavcSettings: XavcSettings?
 
         @inlinable
-        public init(av1Settings: Av1Settings? = nil, avcIntraSettings: AvcIntraSettings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, gifSettings: GifSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil, uncompressedSettings: UncompressedSettings? = nil, vc3Settings: Vc3Settings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil, xavcSettings: XavcSettings? = nil) {
+        public init(av1Settings: Av1Settings? = nil, avcIntraSettings: AvcIntraSettings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, gifSettings: GifSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, passthroughSettings: PassthroughSettings? = nil, proresSettings: ProresSettings? = nil, uncompressedSettings: UncompressedSettings? = nil, vc3Settings: Vc3Settings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil, xavcSettings: XavcSettings? = nil) {
             self.av1Settings = av1Settings
             self.avcIntraSettings = avcIntraSettings
             self.codec = codec
@@ -12587,6 +12906,7 @@ extension MediaConvert {
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
+            self.passthroughSettings = passthroughSettings
             self.proresSettings = proresSettings
             self.uncompressedSettings = uncompressedSettings
             self.vc3Settings = vc3Settings
@@ -12620,6 +12940,7 @@ extension MediaConvert {
             case h264Settings = "h264Settings"
             case h265Settings = "h265Settings"
             case mpeg2Settings = "mpeg2Settings"
+            case passthroughSettings = "passthroughSettings"
             case proresSettings = "proresSettings"
             case uncompressedSettings = "uncompressedSettings"
             case vc3Settings = "vc3Settings"
@@ -12893,6 +13214,8 @@ extension MediaConvert {
     public struct VideoOverlayPosition: AWSEncodableShape & AWSDecodableShape {
         /// To scale your video overlay to the same height as the base input video: Leave blank. To scale the height of your video overlay to a different height: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 360 and choose Pixels, your video overlay will be rendered with a height of 360. When you enter 50, choose Percentage, and your overlay's source has a height of 1080, your video overlay will be rendered with a height of 540. To scale your overlay to a specific height while automatically maintaining its original aspect ratio, enter a value for Height and leave Width blank.
         public let height: Int?
+        /// Use Opacity to specify how much of the underlying video shows through the overlay video. 0 is transparent and 100 is fully opaque. Default is 100.
+        public let opacity: Int?
         /// Specify the Unit type to use when you enter a value for X position, Y position, Width, or Height. You can choose Pixels or Percentage. Leave blank to use the default value, Pixels.
         public let unit: VideoOverlayUnit?
         /// To scale your video overlay to the same width as the base input video: Leave blank. To scale the width of your video overlay to a different width: Enter an integer representing the Unit type that you choose, either Pixels or Percentage. For example, when you enter 640 and choose Pixels, your video overlay will scale to a height of 640 pixels. When you enter 50, choose Percentage, and your overlay's source has a width of 1920, your video overlay will scale to a width of 960. To scale your overlay to a specific width while automatically maintaining its original aspect ratio, enter a value for Width and leave Height blank.
@@ -12903,8 +13226,9 @@ extension MediaConvert {
         public let yPosition: Int?
 
         @inlinable
-        public init(height: Int? = nil, unit: VideoOverlayUnit? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(height: Int? = nil, opacity: Int? = nil, unit: VideoOverlayUnit? = nil, width: Int? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.height = height
+            self.opacity = opacity
             self.unit = unit
             self.width = width
             self.xPosition = xPosition
@@ -12914,6 +13238,8 @@ extension MediaConvert {
         public func validate(name: String) throws {
             try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: -1)
+            try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
+            try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
             try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: -1)
             try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
@@ -12924,6 +13250,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case height = "height"
+            case opacity = "opacity"
             case unit = "unit"
             case width = "width"
             case xPosition = "xPosition"
@@ -13012,27 +13339,30 @@ extension MediaConvert {
     }
 
     public struct VideoProperties: AWSDecodableShape {
-        /// The bit depth of the video track.
+        /// The number of bits used per color component such as 8, 10, or 12 bits. Standard range (SDR) video typically uses 8-bit, while 10-bit is common for high dynamic range (HDR).
         public let bitDepth: Int?
         /// The bit rate of the video track, in bits per second.
         public let bitRate: Int64?
-        /// The color space color primaries of the video track.
+        /// Codec-specific parameters parsed from the video essence headers. This information provides detailed technical specifications about how the video was encoded, including profile settings, resolution details, and color space information that can help you understand the source video characteristics and make informed encoding decisions.
+        public let codecMetadata: CodecMetadata?
+        /// The color space primaries of the video track, defining the red, green, and blue color coordinates used for the video. This information helps ensure accurate color reproduction during playback and transcoding.
         public let colorPrimaries: ColorPrimaries?
-        /// The frame rate of the video or audio track.
+        /// The frame rate of the video or audio track, expressed as a fraction with numerator and denominator values.
         public let frameRate: FrameRate?
         /// The height of the video track, in pixels.
         public let height: Int?
-        /// The color space matrix coefficients of the video track.
+        /// The color space matrix coefficients of the video track, defining how RGB color values are converted to and from YUV color space. This affects color accuracy during encoding and decoding processes.
         public let matrixCoefficients: MatrixCoefficients?
-        /// The color space transfer characteristics of the video track.
+        /// The color space transfer characteristics of the video track, defining the relationship between linear light values and the encoded signal values. This affects brightness and contrast reproduction.
         public let transferCharacteristics: TransferCharacteristics?
         /// The width of the video track, in pixels.
         public let width: Int?
 
         @inlinable
-        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, colorPrimaries: ColorPrimaries? = nil, frameRate: FrameRate? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
+        public init(bitDepth: Int? = nil, bitRate: Int64? = nil, codecMetadata: CodecMetadata? = nil, colorPrimaries: ColorPrimaries? = nil, frameRate: FrameRate? = nil, height: Int? = nil, matrixCoefficients: MatrixCoefficients? = nil, transferCharacteristics: TransferCharacteristics? = nil, width: Int? = nil) {
             self.bitDepth = bitDepth
             self.bitRate = bitRate
+            self.codecMetadata = codecMetadata
             self.colorPrimaries = colorPrimaries
             self.frameRate = frameRate
             self.height = height
@@ -13044,6 +13374,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case bitDepth = "bitDepth"
             case bitRate = "bitRate"
+            case codecMetadata = "codecMetadata"
             case colorPrimaries = "colorPrimaries"
             case frameRate = "frameRate"
             case height = "height"
@@ -13078,7 +13409,7 @@ extension MediaConvert {
         public let sampleRange: InputSampleRange?
         /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
         public let selectorType: VideoSelectorType?
-        /// Specify a stream for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream order in your HLS manifest.
+        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1.For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input.For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
         public let streams: [Int]?
 
         @inlinable
@@ -13372,7 +13703,7 @@ extension MediaConvert {
     }
 
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
+        /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.transcribes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public let accessibility: WebvttAccessibilitySubs?
         /// Specify how MediaConvert writes style information in your output WebVTT captions. To use the available style, color, and position information from your input captions: Choose Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Choose Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Keep the default value, Disabled. Or leave blank. To use the available style, color, and position information from your input captions, while merging cues with identical time ranges: Choose merge. This setting can help prevent positioning overlaps for certain players that expect a single single cue for any given time range.
         public let stylePassthrough: WebvttStylePassthrough?
@@ -13392,7 +13723,7 @@ extension MediaConvert {
     public struct WebvttHlsSourceSettings: AWSEncodableShape & AWSDecodableShape {
         /// Optional. Specify alternative group ID
         public let renditionGroupId: String?
-        /// Optional. Specify ISO 639-2 or ISO 639-3 code in the language property
+        /// Optionally specify the language, using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. You can find a list of codes at: https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let renditionLanguageCode: LanguageCode?
         /// Optional. Specify media name
         public let renditionName: String?
@@ -13572,7 +13903,7 @@ extension MediaConvert {
         public let framerateDenominator: Int?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateNumerator: Int?
-        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode.
+        /// Optionally choose one or more per frame metric reports to generate along with your output. You can use these metrics to analyze your video output according to one or more commonly used image quality metrics. You can specify per frame metrics for output groups or for individual outputs. When you do, MediaConvert writes a CSV (Comma-Separated Values) file to your S3 output destination, named after the output name and metric type. For example: videofile_PSNR.csv Jobs that generate per frame metrics will take longer to complete, depending on the resolution and complexity of your output. For example, some 4K jobs might take up to twice as long to complete. Note that when analyzing the video quality of your output, or when comparing the video quality of multiple different outputs, we generally also recommend a detailed visual review in a controlled environment. You can choose from the following per frame metrics: * PSNR: Peak Signal-to-Noise Ratio * SSIM: Structural Similarity Index Measure * MS_SSIM: Multi-Scale Similarity Index Measure * PSNR_HVS: Peak Signal-to-Noise Ratio, Human Visual System * VMAF: Video Multi-Method Assessment Fusion * QVBR: Quality-Defined Variable Bitrate. This option is only available when your output uses the QVBR rate control mode. * SHOT_CHANGE: Shot Changes
         public let perFrameMetrics: [FrameMetricType]?
         /// Specify the XAVC profile for this output. For more information, see the Sony documentation at https://www.xavc-info.org/. Note that MediaConvert doesn't support the interlaced video XAVC operating points for XAVC_HD_INTRA_CBG. To create an interlaced XAVC output, choose the profile XAVC_HD.
         public let profile: XavcProfile?
@@ -13659,6 +13990,7 @@ public struct MediaConvertErrorType: AWSErrorType {
         case forbiddenException = "ForbiddenException"
         case internalServerErrorException = "InternalServerErrorException"
         case notFoundException = "NotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
@@ -13690,6 +14022,8 @@ public struct MediaConvertErrorType: AWSErrorType {
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// The resource you requested doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// You attempted to create more resources than the service allows based on service quotas.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }

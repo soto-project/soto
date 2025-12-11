@@ -136,6 +136,13 @@ extension LicenseManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum LicenseAssetGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case disabled = "DISABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LicenseConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case disabled = "DISABLED"
@@ -201,11 +208,13 @@ extension LicenseManager {
     public enum ReportFrequencyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case day = "DAY"
         case month = "MONTH"
+        case oneTime = "ONE_TIME"
         case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case licenseAssetGroupUsageReport = "LicenseAssetGroupUsageReport"
         case licenseConfigurationSummaryReport = "LicenseConfigurationSummaryReport"
         case licenseConfigurationUsageReport = "LicenseConfigurationUsageReport"
         public var description: String { return self.rawValue }
@@ -265,6 +274,42 @@ extension LicenseManager {
             case grantArn = "GrantArn"
             case status = "Status"
             case version = "Version"
+        }
+    }
+
+    public struct AndRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Matching rule statements.
+        public let matchingRuleStatements: [MatchingRuleStatement]?
+        /// Script rule statements.
+        public let scriptRuleStatements: [ScriptRuleStatement]?
+
+        @inlinable
+        public init(matchingRuleStatements: [MatchingRuleStatement]? = nil, scriptRuleStatements: [ScriptRuleStatement]? = nil) {
+            self.matchingRuleStatements = matchingRuleStatements
+            self.scriptRuleStatements = scriptRuleStatements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchingRuleStatements = "MatchingRuleStatements"
+            case scriptRuleStatements = "ScriptRuleStatements"
+        }
+    }
+
+    public struct Asset: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the asset.
+        public let assetArn: String?
+        /// Latest asset discovery time.
+        public let latestAssetDiscoveryTime: Date?
+
+        @inlinable
+        public init(assetArn: String? = nil, latestAssetDiscoveryTime: Date? = nil) {
+            self.assetArn = assetArn
+            self.latestAssetDiscoveryTime = latestAssetDiscoveryTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetArn = "AssetArn"
+            case latestAssetDiscoveryTime = "LatestAssetDiscoveryTime"
         }
     }
 
@@ -680,6 +725,120 @@ extension LicenseManager {
         }
     }
 
+    public struct CreateLicenseAssetGroupRequest: AWSEncodableShape {
+        /// ARNs of associated license asset rulesets.
+        public let associatedLicenseAssetRulesetARNs: [String]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// License asset group description.
+        public let description: String?
+        /// License asset group configurations.
+        public let licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]
+        /// License asset group name.
+        public let name: String
+        /// License asset group properties.
+        public let properties: [LicenseAssetGroupProperty]?
+        /// Tags to add to the license asset group.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(associatedLicenseAssetRulesetARNs: [String], clientToken: String, description: String? = nil, licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration], name: String, properties: [LicenseAssetGroupProperty]? = nil, tags: [Tag]? = nil) {
+            self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+            self.clientToken = clientToken
+            self.description = description
+            self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+            self.name = name
+            self.properties = properties
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.associatedLicenseAssetRulesetARNs.forEach {
+                try validate($0, name: "associatedLicenseAssetRulesetARNs[]", parent: name, max: 2048)
+                try validate($0, name: "associatedLicenseAssetRulesetARNs[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedLicenseAssetRulesetARNs = "AssociatedLicenseAssetRulesetARNs"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case licenseAssetGroupConfigurations = "LicenseAssetGroupConfigurations"
+            case name = "Name"
+            case properties = "Properties"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLicenseAssetGroupResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+        /// License asset group status.
+        public let status: String
+
+        @inlinable
+        public init(licenseAssetGroupArn: String, status: String) {
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateLicenseAssetRulesetRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// License asset ruleset description.
+        public let description: String?
+        /// License asset ruleset name.
+        public let name: String
+        /// License asset rules.
+        public let rules: [LicenseAssetRule]
+        /// Tags to add to the license asset ruleset.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientToken: String, description: String? = nil, name: String, rules: [LicenseAssetRule], tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.rules = rules
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case name = "Name"
+            case rules = "Rules"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLicenseAssetRulesetResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+
+        @inlinable
+        public init(licenseAssetRulesetArn: String) {
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+        }
+    }
+
     public struct CreateLicenseConfigurationRequest: AWSEncodableShape {
         /// Description of the license configuration.
         public let description: String?
@@ -691,6 +850,8 @@ extension LicenseManager {
         public let licenseCountHardLimit: Bool?
         /// Dimension used to track the license inventory.
         public let licenseCountingType: LicenseCountingType
+        /// License configuration expiry.
+        public let licenseExpiry: Int64?
         /// License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
         public let licenseRules: [String]?
         /// Name of the license configuration.
@@ -701,12 +862,13 @@ extension LicenseManager {
         public let tags: [Tag]?
 
         @inlinable
-        public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseRules: [String]? = nil, name: String, productInformationList: [ProductInformation]? = nil, tags: [Tag]? = nil) {
+        public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType, licenseExpiry: Int64? = nil, licenseRules: [String]? = nil, name: String, productInformationList: [ProductInformation]? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.disassociateWhenNotFound = disassociateWhenNotFound
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
+            self.licenseExpiry = licenseExpiry
             self.licenseRules = licenseRules
             self.name = name
             self.productInformationList = productInformationList
@@ -719,6 +881,7 @@ extension LicenseManager {
             case licenseCount = "LicenseCount"
             case licenseCountHardLimit = "LicenseCountHardLimit"
             case licenseCountingType = "LicenseCountingType"
+            case licenseExpiry = "LicenseExpiry"
             case licenseRules = "LicenseRules"
             case name = "Name"
             case productInformationList = "ProductInformationList"
@@ -1082,6 +1245,34 @@ extension LicenseManager {
         }
     }
 
+    public struct CrossAccountDiscoveryServiceStatus: AWSDecodableShape {
+        /// Status message for cross-account discovery service.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct CrossRegionDiscoveryStatus: AWSDecodableShape {
+        /// Map of region status messages for cross-region discovery.
+        public let message: [String: RegionStatus]?
+
+        @inlinable
+        public init(message: [String: RegionStatus]? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct DatetimeRange: AWSEncodableShape & AWSDecodableShape {
         /// Start of the time range.
         public let begin: String
@@ -1156,6 +1347,62 @@ extension LicenseManager {
             case status = "Status"
             case version = "Version"
         }
+    }
+
+    public struct DeleteLicenseAssetGroupRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+
+        @inlinable
+        public init(licenseAssetGroupArn: String) {
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+        }
+    }
+
+    public struct DeleteLicenseAssetGroupResponse: AWSDecodableShape {
+        /// License asset group status.
+        public let status: LicenseAssetGroupStatus
+
+        @inlinable
+        public init(status: LicenseAssetGroupStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
+    public struct DeleteLicenseAssetRulesetRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+
+        @inlinable
+        public init(licenseAssetRulesetArn: String) {
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+        }
+    }
+
+    public struct DeleteLicenseAssetRulesetResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteLicenseConfigurationRequest: AWSEncodableShape {
@@ -1480,6 +1727,72 @@ extension LicenseManager {
         }
     }
 
+    public struct GetLicenseAssetGroupRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+
+        @inlinable
+        public init(licenseAssetGroupArn: String) {
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+        }
+    }
+
+    public struct GetLicenseAssetGroupResponse: AWSDecodableShape {
+        /// License asset group.
+        public let licenseAssetGroup: LicenseAssetGroup
+
+        @inlinable
+        public init(licenseAssetGroup: LicenseAssetGroup) {
+            self.licenseAssetGroup = licenseAssetGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroup = "LicenseAssetGroup"
+        }
+    }
+
+    public struct GetLicenseAssetRulesetRequest: AWSEncodableShape {
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+
+        @inlinable
+        public init(licenseAssetRulesetArn: String) {
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+        }
+    }
+
+    public struct GetLicenseAssetRulesetResponse: AWSDecodableShape {
+        /// License asset ruleset.
+        public let licenseAssetRuleset: LicenseAssetRuleset
+
+        @inlinable
+        public init(licenseAssetRuleset: LicenseAssetRuleset) {
+            self.licenseAssetRuleset = licenseAssetRuleset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRuleset = "LicenseAssetRuleset"
+        }
+    }
+
     public struct GetLicenseConfigurationRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the license configuration.
         public let licenseConfigurationArn: String
@@ -1515,6 +1828,8 @@ extension LicenseManager {
         public let licenseCountHardLimit: Bool?
         /// Dimension for which the licenses are counted.
         public let licenseCountingType: LicenseCountingType?
+        /// License Expiry.
+        public let licenseExpiry: Int64?
         /// License rules.
         public let licenseRules: [String]?
         /// Summaries of the managed resources.
@@ -1531,7 +1846,7 @@ extension LicenseManager {
         public let tags: [Tag]?
 
         @inlinable
-        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil, tags: [Tag]? = nil) {
+        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseExpiry: Int64? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil, tags: [Tag]? = nil) {
             self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
@@ -1542,6 +1857,7 @@ extension LicenseManager {
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
+            self.licenseExpiry = licenseExpiry
             self.licenseRules = licenseRules
             self.managedResourceSummaryList = managedResourceSummaryList
             self.name = name
@@ -1562,6 +1878,7 @@ extension LicenseManager {
             case licenseCount = "LicenseCount"
             case licenseCountHardLimit = "LicenseCountHardLimit"
             case licenseCountingType = "LicenseCountingType"
+            case licenseExpiry = "LicenseExpiry"
             case licenseRules = "LicenseRules"
             case managedResourceSummaryList = "ManagedResourceSummaryList"
             case name = "Name"
@@ -1740,6 +2057,10 @@ extension LicenseManager {
     }
 
     public struct GetServiceSettingsResponse: AWSDecodableShape {
+        /// Cross region discovery home region.
+        public let crossRegionDiscoveryHomeRegion: String?
+        /// Cross region discovery source regions.
+        public let crossRegionDiscoverySourceRegions: [String]?
         /// Indicates whether cross-account discovery is enabled.
         public let enableCrossAccountsDiscovery: Bool?
         /// Amazon Resource Name (ARN) of the resource share. The License Manager management account  provides member accounts with access to this share.
@@ -1748,23 +2069,31 @@ extension LicenseManager {
         public let organizationConfiguration: OrganizationConfiguration?
         /// Regional S3 bucket path for storing reports, license trail event data, discovery data, and so on.
         public let s3BucketArn: String?
+        /// Service status.
+        public let serviceStatus: ServiceStatus?
         /// SNS topic configured to receive notifications from License Manager.
         public let snsTopicArn: String?
 
         @inlinable
-        public init(enableCrossAccountsDiscovery: Bool? = nil, licenseManagerResourceShareArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
+        public init(crossRegionDiscoveryHomeRegion: String? = nil, crossRegionDiscoverySourceRegions: [String]? = nil, enableCrossAccountsDiscovery: Bool? = nil, licenseManagerResourceShareArn: String? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, serviceStatus: ServiceStatus? = nil, snsTopicArn: String? = nil) {
+            self.crossRegionDiscoveryHomeRegion = crossRegionDiscoveryHomeRegion
+            self.crossRegionDiscoverySourceRegions = crossRegionDiscoverySourceRegions
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
             self.licenseManagerResourceShareArn = licenseManagerResourceShareArn
             self.organizationConfiguration = organizationConfiguration
             self.s3BucketArn = s3BucketArn
+            self.serviceStatus = serviceStatus
             self.snsTopicArn = snsTopicArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossRegionDiscoveryHomeRegion = "CrossRegionDiscoveryHomeRegion"
+            case crossRegionDiscoverySourceRegions = "CrossRegionDiscoverySourceRegions"
             case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
             case licenseManagerResourceShareArn = "LicenseManagerResourceShareArn"
             case organizationConfiguration = "OrganizationConfiguration"
             case s3BucketArn = "S3BucketArn"
+            case serviceStatus = "ServiceStatus"
             case snsTopicArn = "SnsTopicArn"
         }
     }
@@ -1890,6 +2219,32 @@ extension LicenseManager {
             case status = "Status"
             case validity = "Validity"
             case version = "Version"
+        }
+    }
+
+    public struct InstanceRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// AND rule statement.
+        public let andRuleStatement: AndRuleStatement?
+        /// Matching rule statement.
+        public let matchingRuleStatement: MatchingRuleStatement?
+        /// OR rule statement.
+        public let orRuleStatement: OrRuleStatement?
+        /// Script rule statement.
+        public let scriptRuleStatement: ScriptRuleStatement?
+
+        @inlinable
+        public init(andRuleStatement: AndRuleStatement? = nil, matchingRuleStatement: MatchingRuleStatement? = nil, orRuleStatement: OrRuleStatement? = nil, scriptRuleStatement: ScriptRuleStatement? = nil) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+            self.scriptRuleStatement = scriptRuleStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andRuleStatement = "AndRuleStatement"
+            case matchingRuleStatement = "MatchingRuleStatement"
+            case orRuleStatement = "OrRuleStatement"
+            case scriptRuleStatement = "ScriptRuleStatement"
         }
     }
 
@@ -2021,6 +2376,128 @@ extension LicenseManager {
         }
     }
 
+    public struct LicenseAssetGroup: AWSDecodableShape {
+        /// ARNs of associated license asset rulesets.
+        public let associatedLicenseAssetRulesetARNs: [String]
+        /// License asset group description.
+        public let description: String?
+        /// Latest resource discovery time.
+        public let latestResourceDiscoveryTime: Date?
+        /// Latest usage analysis time.
+        public let latestUsageAnalysisTime: Date?
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+        /// License asset group configurations.
+        public let licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]?
+        /// License asset group name.
+        public let name: String
+        /// License asset group properties.
+        public let properties: [LicenseAssetGroupProperty]?
+        /// License asset group status.
+        public let status: LicenseAssetGroupStatus
+        /// License asset group status message.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(associatedLicenseAssetRulesetARNs: [String], description: String? = nil, latestResourceDiscoveryTime: Date? = nil, latestUsageAnalysisTime: Date? = nil, licenseAssetGroupArn: String, licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]? = nil, name: String, properties: [LicenseAssetGroupProperty]? = nil, status: LicenseAssetGroupStatus, statusMessage: String? = nil) {
+            self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+            self.description = description
+            self.latestResourceDiscoveryTime = latestResourceDiscoveryTime
+            self.latestUsageAnalysisTime = latestUsageAnalysisTime
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+            self.name = name
+            self.properties = properties
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedLicenseAssetRulesetARNs = "AssociatedLicenseAssetRulesetARNs"
+            case description = "Description"
+            case latestResourceDiscoveryTime = "LatestResourceDiscoveryTime"
+            case latestUsageAnalysisTime = "LatestUsageAnalysisTime"
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+            case licenseAssetGroupConfigurations = "LicenseAssetGroupConfigurations"
+            case name = "Name"
+            case properties = "Properties"
+            case status = "Status"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct LicenseAssetGroupConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// License Asset Group Configuration Usage dimension.
+        public let usageDimension: String?
+
+        @inlinable
+        public init(usageDimension: String? = nil) {
+            self.usageDimension = usageDimension
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case usageDimension = "UsageDimension"
+        }
+    }
+
+    public struct LicenseAssetGroupProperty: AWSEncodableShape & AWSDecodableShape {
+        /// Property key.
+        public let key: String
+        /// Property value.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct LicenseAssetRule: AWSEncodableShape & AWSDecodableShape {
+        /// Rule statement.
+        public let ruleStatement: RuleStatement
+
+        @inlinable
+        public init(ruleStatement: RuleStatement) {
+            self.ruleStatement = ruleStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleStatement = "RuleStatement"
+        }
+    }
+
+    public struct LicenseAssetRuleset: AWSDecodableShape {
+        /// License asset ruleset description.
+        public let description: String?
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+        /// License asset ruleset name.
+        public let name: String
+        /// License asset rules.
+        public let rules: [LicenseAssetRule]
+
+        @inlinable
+        public init(description: String? = nil, licenseAssetRulesetArn: String, name: String, rules: [LicenseAssetRule]) {
+            self.description = description
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+            self.name = name
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+            case name = "Name"
+            case rules = "Rules"
+        }
+    }
+
     public struct LicenseConfiguration: AWSDecodableShape {
         /// Automated discovery information.
         public let automatedDiscoveryInformation: AutomatedDiscoveryInformation?
@@ -2042,6 +2519,8 @@ extension LicenseManager {
         public let licenseCountHardLimit: Bool?
         /// Dimension to use to track the license inventory.
         public let licenseCountingType: LicenseCountingType?
+        /// License configuration expiry time in Unix timestamp format.
+        public let licenseExpiry: Int64?
         /// License rules.
         public let licenseRules: [String]?
         /// Summaries for managed resources.
@@ -2056,7 +2535,7 @@ extension LicenseManager {
         public let status: String?
 
         @inlinable
-        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil) {
+        public init(automatedDiscoveryInformation: AutomatedDiscoveryInformation? = nil, consumedLicenses: Int64? = nil, consumedLicenseSummaryList: [ConsumedLicenseSummary]? = nil, description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String? = nil, licenseConfigurationId: String? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseCountingType: LicenseCountingType? = nil, licenseExpiry: Int64? = nil, licenseRules: [String]? = nil, managedResourceSummaryList: [ManagedResourceSummary]? = nil, name: String? = nil, ownerAccountId: String? = nil, productInformationList: [ProductInformation]? = nil, status: String? = nil) {
             self.automatedDiscoveryInformation = automatedDiscoveryInformation
             self.consumedLicenses = consumedLicenses
             self.consumedLicenseSummaryList = consumedLicenseSummaryList
@@ -2067,6 +2546,7 @@ extension LicenseManager {
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
             self.licenseCountingType = licenseCountingType
+            self.licenseExpiry = licenseExpiry
             self.licenseRules = licenseRules
             self.managedResourceSummaryList = managedResourceSummaryList
             self.name = name
@@ -2086,6 +2566,7 @@ extension LicenseManager {
             case licenseCount = "LicenseCount"
             case licenseCountHardLimit = "LicenseCountHardLimit"
             case licenseCountingType = "LicenseCountingType"
+            case licenseExpiry = "LicenseExpiry"
             case licenseRules = "LicenseRules"
             case managedResourceSummaryList = "ManagedResourceSummaryList"
             case name = "Name"
@@ -2122,6 +2603,28 @@ extension LicenseManager {
             case resourceArn = "ResourceArn"
             case resourceOwnerId = "ResourceOwnerId"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct LicenseConfigurationRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// AND rule statement.
+        public let andRuleStatement: AndRuleStatement?
+        /// Matching rule statement.
+        public let matchingRuleStatement: MatchingRuleStatement?
+        /// OR rule statement.
+        public let orRuleStatement: OrRuleStatement?
+
+        @inlinable
+        public init(andRuleStatement: AndRuleStatement? = nil, matchingRuleStatement: MatchingRuleStatement? = nil, orRuleStatement: OrRuleStatement? = nil) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andRuleStatement = "AndRuleStatement"
+            case matchingRuleStatement = "MatchingRuleStatement"
+            case orRuleStatement = "OrRuleStatement"
         }
     }
 
@@ -2272,6 +2775,28 @@ extension LicenseManager {
         }
     }
 
+    public struct LicenseRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// AND rule statement.
+        public let andRuleStatement: AndRuleStatement?
+        /// Matching rule statement.
+        public let matchingRuleStatement: MatchingRuleStatement?
+        /// OR rule statement.
+        public let orRuleStatement: OrRuleStatement?
+
+        @inlinable
+        public init(andRuleStatement: AndRuleStatement? = nil, matchingRuleStatement: MatchingRuleStatement? = nil, orRuleStatement: OrRuleStatement? = nil) {
+            self.andRuleStatement = andRuleStatement
+            self.matchingRuleStatement = matchingRuleStatement
+            self.orRuleStatement = orRuleStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andRuleStatement = "AndRuleStatement"
+            case matchingRuleStatement = "MatchingRuleStatement"
+            case orRuleStatement = "OrRuleStatement"
+        }
+    }
+
     public struct LicenseSpecification: AWSEncodableShape & AWSDecodableShape {
         /// Scope of AMI associations. The possible value is cross-account.
         public let amiAssociationScope: String?
@@ -2301,6 +2826,50 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case entitlementUsages = "EntitlementUsages"
+        }
+    }
+
+    public struct ListAssetsForLicenseAssetGroupRequest: AWSEncodableShape {
+        /// Asset type. The possible values are Instance | License | LicenseConfiguration.
+        public let assetType: String
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assetType: String, licenseAssetGroupArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.assetType = assetType
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetType = "AssetType"
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAssetsForLicenseAssetGroupResponse: AWSDecodableShape {
+        /// Assets.
+        public let assets: [Asset]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(assets: [Asset]? = nil, nextToken: String? = nil) {
+            self.assets = assets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assets = "Assets"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2433,6 +3002,134 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case licenseOperationFailureList = "LicenseOperationFailureList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseAssetGroupsRequest: AWSEncodableShape {
+        /// Filters to scope the results. Following filters are supported    LicenseAssetRulesetArn
+        public let filters: [Filter]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseAssetGroupsResponse: AWSDecodableShape {
+        /// License asset groups.
+        public let licenseAssetGroups: [LicenseAssetGroup]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(licenseAssetGroups: [LicenseAssetGroup]? = nil, nextToken: String? = nil) {
+            self.licenseAssetGroups = licenseAssetGroups
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroups = "LicenseAssetGroups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseAssetRulesetsRequest: AWSEncodableShape {
+        /// Filters to scope the results. Following filters are supported    Name
+        public let filters: [Filter]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+        /// Specifies whether to show License Manager managed license asset rulesets.
+        public let showAWSManagedLicenseAssetRulesets: Bool?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, showAWSManagedLicenseAssetRulesets: Bool? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.showAWSManagedLicenseAssetRulesets = showAWSManagedLicenseAssetRulesets
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case showAWSManagedLicenseAssetRulesets = "ShowAWSManagedLicenseAssetRulesets"
+        }
+    }
+
+    public struct ListLicenseAssetRulesetsResponse: AWSDecodableShape {
+        /// License asset rulesets.
+        public let licenseAssetRulesets: [LicenseAssetRuleset]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(licenseAssetRulesets: [LicenseAssetRuleset]? = nil, nextToken: String? = nil) {
+            self.licenseAssetRulesets = licenseAssetRulesets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRulesets = "LicenseAssetRulesets"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseConfigurationsForOrganizationRequest: AWSEncodableShape {
+        /// Filters to scope the results.
+        public let filters: [Filter]?
+        /// License configuration ARNs.
+        public let licenseConfigurationArns: [String]?
+        /// Maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [Filter]? = nil, licenseConfigurationArns: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.licenseConfigurationArns = licenseConfigurationArns
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case licenseConfigurationArns = "LicenseConfigurationArns"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLicenseConfigurationsForOrganizationResponse: AWSDecodableShape {
+        /// License configurations.
+        public let licenseConfigurations: [LicenseConfiguration]?
+        /// Token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(licenseConfigurations: [LicenseConfiguration]? = nil, nextToken: String? = nil) {
+            self.licenseConfigurations = licenseConfigurations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseConfigurations = "LicenseConfigurations"
             case nextToken = "NextToken"
         }
     }
@@ -3087,6 +3784,28 @@ extension LicenseManager {
         }
     }
 
+    public struct MatchingRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Constraint.
+        public let constraint: String
+        /// Key to match. The following keys and are supported when the RuleStatement type is Instance:     Platform - The name of the platform. Logical operators are EQUALS and NOT_EQUALS.     EC2BillingProduct - The billing product code. Logical operators are EQUALS and NOT_EQUALS. Possible values are: windows-server-enterprise | windows-byol | rhel | rhel-byol | rhel-high-availability | ubuntu-pro | suse-linux | sql-server-standard | sql-server-enterprise.     MarketPlaceProductCode - The Marketplace product code. Logical operators are EQUALS and NOT_EQUALS.     AMIId - The ID of the AMI. Logical operators are EQUALS and NOT_EQUALS.     InstanceType - The instance type. Logical operators are EQUALS and NOT_EQUALS.     InstanceId - The ID of the instance. Logical operators are EQUALS and NOT_EQUALS.     HostId - The ID of the host. Logical operators are EQUALS and NOT_EQUALS.     AccountId - The ID of the account. Logical operators are EQUALS and NOT_EQUALS.    The following keys and are supported when the RuleStatement type is License:     LicenseArn - The ARN of a Managed Entitlement License. Logical operators are EQUALS and NOT_EQUALS.     ProductSKU - The productSKU of the license. Logical operators are EQUALS and NOT_EQUALS.     Issuer - The issuer of the license. Logical operators are EQUALS and NOT_EQUALS.     Beneficiary - The beneficiary of the license. Logical operators are EQUALS and NOT_EQUALS.     LicenseStatus - The status of the license. Logical operators are EQUALS and NOT_EQUALS.     HomeRegion - The home region of the license. Logical operators are EQUALS and NOT_EQUALS.    The following keys and are supported when the RuleStatement type is License Configuration:     LicenseConfigurationArn - The ARN of a self-managed license configuration. Logical operators are EQUALS and NOT_EQUALS.     AccountId - The account of the license configuration. Logical operators are EQUALS and NOT_EQUALS.
+        public let keyToMatch: String
+        /// Value to match.
+        public let valueToMatch: [String]
+
+        @inlinable
+        public init(constraint: String, keyToMatch: String, valueToMatch: [String]) {
+            self.constraint = constraint
+            self.keyToMatch = keyToMatch
+            self.valueToMatch = valueToMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraint = "Constraint"
+            case keyToMatch = "KeyToMatch"
+            case valueToMatch = "ValueToMatch"
+        }
+    }
+
     public struct Metadata: AWSEncodableShape & AWSDecodableShape {
         /// The key name.
         public let name: String?
@@ -3116,6 +3835,24 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case activationOverrideBehavior = "ActivationOverrideBehavior"
+        }
+    }
+
+    public struct OrRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Matching rule statements.
+        public let matchingRuleStatements: [MatchingRuleStatement]?
+        /// Script rule statements.
+        public let scriptRuleStatements: [ScriptRuleStatement]?
+
+        @inlinable
+        public init(matchingRuleStatements: [MatchingRuleStatement]? = nil, scriptRuleStatements: [ScriptRuleStatement]? = nil) {
+            self.matchingRuleStatements = matchingRuleStatements
+            self.scriptRuleStatements = scriptRuleStatements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchingRuleStatements = "MatchingRuleStatements"
+            case scriptRuleStatements = "ScriptRuleStatements"
         }
     }
 
@@ -3253,6 +3990,20 @@ extension LicenseManager {
         }
     }
 
+    public struct RegionStatus: AWSDecodableShape {
+        /// Status value for the region.
+        public let status: String?
+
+        @inlinable
+        public init(status: String? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct RejectGrantRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
@@ -3295,23 +4046,39 @@ extension LicenseManager {
     }
 
     public struct ReportContext: AWSEncodableShape & AWSDecodableShape {
+        /// Amazon Resource Names (ARNs) of the license asset groups to include in the report.
+        public let licenseAssetGroupArns: [String]?
         /// Amazon Resource Name (ARN) of the license configuration that this generator reports on.
-        public let licenseConfigurationArns: [String]
+        public let licenseConfigurationArns: [String]?
+        /// End date for the report data collection period.
+        public let reportEndDate: Date?
+        /// Start date for the report data collection period.
+        public let reportStartDate: Date?
 
         @inlinable
-        public init(licenseConfigurationArns: [String]) {
+        public init(licenseAssetGroupArns: [String]? = nil, licenseConfigurationArns: [String]? = nil, reportEndDate: Date? = nil, reportStartDate: Date? = nil) {
+            self.licenseAssetGroupArns = licenseAssetGroupArns
             self.licenseConfigurationArns = licenseConfigurationArns
+            self.reportEndDate = reportEndDate
+            self.reportStartDate = reportStartDate
         }
 
         public func validate(name: String) throws {
-            try self.licenseConfigurationArns.forEach {
+            try self.licenseAssetGroupArns?.forEach {
+                try validate($0, name: "licenseAssetGroupArns[]", parent: name, max: 2048)
+                try validate($0, name: "licenseAssetGroupArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            }
+            try self.licenseConfigurationArns?.forEach {
                 try validate($0, name: "licenseConfigurationArns[]", parent: name, max: 2048)
                 try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroupArns = "licenseAssetGroupArns"
             case licenseConfigurationArns = "licenseConfigurationArns"
+            case reportEndDate = "reportEndDate"
+            case reportStartDate = "reportStartDate"
         }
     }
 
@@ -3396,10 +4163,20 @@ extension LicenseManager {
     }
 
     public struct ResourceInventory: AWSDecodableShape {
+        /// Amazon Machine Image (AMI) ID associated with the resource.
+        public let amiId: String?
+        /// Dedicated Host ID where the resource is running.
+        public let hostId: String?
+        /// EC2 instance type of the resource.
+        public let instanceType: String?
+        /// List of Marketplace product codes associated with the resource.
+        public let marketplaceProductCodes: [String]?
         /// Platform of the resource.
         public let platform: String?
         /// Platform version of the resource in the inventory.
         public let platformVersion: String?
+        /// Region where the resource is located.
+        public let region: String?
         /// Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// ID of the resource.
@@ -3408,24 +4185,60 @@ extension LicenseManager {
         public let resourceOwningAccountId: String?
         /// Type of resource.
         public let resourceType: ResourceType?
+        /// Usage operation value that corresponds to the license type for billing purposes.
+        public let usageOperation: String?
 
         @inlinable
-        public init(platform: String? = nil, platformVersion: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil) {
+        public init(amiId: String? = nil, hostId: String? = nil, instanceType: String? = nil, marketplaceProductCodes: [String]? = nil, platform: String? = nil, platformVersion: String? = nil, region: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceOwningAccountId: String? = nil, resourceType: ResourceType? = nil, usageOperation: String? = nil) {
+            self.amiId = amiId
+            self.hostId = hostId
+            self.instanceType = instanceType
+            self.marketplaceProductCodes = marketplaceProductCodes
             self.platform = platform
             self.platformVersion = platformVersion
+            self.region = region
             self.resourceArn = resourceArn
             self.resourceId = resourceId
             self.resourceOwningAccountId = resourceOwningAccountId
             self.resourceType = resourceType
+            self.usageOperation = usageOperation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amiId = "AmiId"
+            case hostId = "HostId"
+            case instanceType = "InstanceType"
+            case marketplaceProductCodes = "MarketplaceProductCodes"
             case platform = "Platform"
             case platformVersion = "PlatformVersion"
+            case region = "Region"
             case resourceArn = "ResourceArn"
             case resourceId = "ResourceId"
             case resourceOwningAccountId = "ResourceOwningAccountId"
             case resourceType = "ResourceType"
+            case usageOperation = "UsageOperation"
+        }
+    }
+
+    public struct RuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Instance rule statement.
+        public let instanceRuleStatement: InstanceRuleStatement?
+        /// License configuration rule statement.
+        public let licenseConfigurationRuleStatement: LicenseConfigurationRuleStatement?
+        /// License rule statement.
+        public let licenseRuleStatement: LicenseRuleStatement?
+
+        @inlinable
+        public init(instanceRuleStatement: InstanceRuleStatement? = nil, licenseConfigurationRuleStatement: LicenseConfigurationRuleStatement? = nil, licenseRuleStatement: LicenseRuleStatement? = nil) {
+            self.instanceRuleStatement = instanceRuleStatement
+            self.licenseConfigurationRuleStatement = licenseConfigurationRuleStatement
+            self.licenseRuleStatement = licenseRuleStatement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceRuleStatement = "InstanceRuleStatement"
+            case licenseConfigurationRuleStatement = "LicenseConfigurationRuleStatement"
+            case licenseRuleStatement = "LicenseRuleStatement"
         }
     }
 
@@ -3444,6 +4257,42 @@ extension LicenseManager {
         private enum CodingKeys: String, CodingKey {
             case bucket = "bucket"
             case keyPrefix = "keyPrefix"
+        }
+    }
+
+    public struct ScriptRuleStatement: AWSEncodableShape & AWSDecodableShape {
+        /// Key name to match against in the script rule evaluation.
+        public let keyToMatch: String
+        /// Script code used to evaluate the rule condition.
+        public let script: String
+
+        @inlinable
+        public init(keyToMatch: String, script: String) {
+            self.keyToMatch = keyToMatch
+            self.script = script
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyToMatch = "KeyToMatch"
+            case script = "Script"
+        }
+    }
+
+    public struct ServiceStatus: AWSDecodableShape {
+        /// Status of cross-account discovery service.
+        public let crossAccountDiscovery: CrossAccountDiscoveryServiceStatus?
+        /// Status of cross-region discovery service.
+        public let crossRegionDiscovery: CrossRegionDiscoveryStatus?
+
+        @inlinable
+        public init(crossAccountDiscovery: CrossAccountDiscoveryServiceStatus? = nil, crossRegionDiscovery: CrossRegionDiscoveryStatus? = nil) {
+            self.crossAccountDiscovery = crossAccountDiscovery
+            self.crossRegionDiscovery = crossRegionDiscovery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crossAccountDiscovery = "CrossAccountDiscovery"
+            case crossRegionDiscovery = "CrossRegionDiscovery"
         }
     }
 
@@ -3547,6 +4396,128 @@ extension LicenseManager {
         public init() {}
     }
 
+    public struct UpdateLicenseAssetGroupRequest: AWSEncodableShape {
+        /// ARNs of associated license asset rulesets.
+        public let associatedLicenseAssetRulesetARNs: [String]
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// License asset group description.
+        public let description: String?
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+        /// License asset group configurations.
+        public let licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]?
+        /// License asset group name.
+        public let name: String?
+        /// License asset group properties.
+        public let properties: [LicenseAssetGroupProperty]?
+        /// License asset group status. The possible values are ACTIVE | DISABLED.
+        public let status: LicenseAssetGroupStatus?
+
+        @inlinable
+        public init(associatedLicenseAssetRulesetARNs: [String], clientToken: String, description: String? = nil, licenseAssetGroupArn: String, licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]? = nil, name: String? = nil, properties: [LicenseAssetGroupProperty]? = nil, status: LicenseAssetGroupStatus? = nil) {
+            self.associatedLicenseAssetRulesetARNs = associatedLicenseAssetRulesetARNs
+            self.clientToken = clientToken
+            self.description = description
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.licenseAssetGroupConfigurations = licenseAssetGroupConfigurations
+            self.name = name
+            self.properties = properties
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.associatedLicenseAssetRulesetARNs.forEach {
+                try validate($0, name: "associatedLicenseAssetRulesetARNs[]", parent: name, max: 2048)
+                try validate($0, name: "associatedLicenseAssetRulesetARNs[]", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            }
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetGroupArn, name: "licenseAssetGroupArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedLicenseAssetRulesetARNs = "AssociatedLicenseAssetRulesetARNs"
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+            case licenseAssetGroupConfigurations = "LicenseAssetGroupConfigurations"
+            case name = "Name"
+            case properties = "Properties"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateLicenseAssetGroupResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the license asset group.
+        public let licenseAssetGroupArn: String
+        /// License asset group status.
+        public let status: String
+
+        @inlinable
+        public init(licenseAssetGroupArn: String, status: String) {
+            self.licenseAssetGroupArn = licenseAssetGroupArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetGroupArn = "LicenseAssetGroupArn"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateLicenseAssetRulesetRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String
+        /// License asset ruleset description.
+        public let description: String?
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+        /// License asset ruleset name.
+        public let name: String?
+        /// License asset rules.
+        public let rules: [LicenseAssetRule]
+
+        @inlinable
+        public init(clientToken: String, description: String? = nil, licenseAssetRulesetArn: String, name: String? = nil, rules: [LicenseAssetRule]) {
+            self.clientToken = clientToken
+            self.description = description
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+            self.name = name
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, max: 2048)
+            try self.validate(self.licenseAssetRulesetArn, name: "licenseAssetRulesetArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+            case name = "Name"
+            case rules = "Rules"
+        }
+    }
+
+    public struct UpdateLicenseAssetRulesetResponse: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the license asset ruleset.
+        public let licenseAssetRulesetArn: String
+
+        @inlinable
+        public init(licenseAssetRulesetArn: String) {
+            self.licenseAssetRulesetArn = licenseAssetRulesetArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case licenseAssetRulesetArn = "LicenseAssetRulesetArn"
+        }
+    }
+
     public struct UpdateLicenseConfigurationRequest: AWSEncodableShape {
         /// New description of the license configuration.
         public let description: String?
@@ -3560,6 +4531,8 @@ extension LicenseManager {
         public let licenseCount: Int64?
         /// New hard limit of the number of available licenses.
         public let licenseCountHardLimit: Bool?
+        /// License configuration expiry time.
+        public let licenseExpiry: Int64?
         /// New license rule. The only rule that you can add after you create a license configuration is licenseAffinityToHost.
         public let licenseRules: [String]?
         /// New name of the license configuration.
@@ -3568,13 +4541,14 @@ extension LicenseManager {
         public let productInformationList: [ProductInformation]?
 
         @inlinable
-        public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseRules: [String]? = nil, name: String? = nil, productInformationList: [ProductInformation]? = nil) {
+        public init(description: String? = nil, disassociateWhenNotFound: Bool? = nil, licenseConfigurationArn: String, licenseConfigurationStatus: LicenseConfigurationStatus? = nil, licenseCount: Int64? = nil, licenseCountHardLimit: Bool? = nil, licenseExpiry: Int64? = nil, licenseRules: [String]? = nil, name: String? = nil, productInformationList: [ProductInformation]? = nil) {
             self.description = description
             self.disassociateWhenNotFound = disassociateWhenNotFound
             self.licenseConfigurationArn = licenseConfigurationArn
             self.licenseConfigurationStatus = licenseConfigurationStatus
             self.licenseCount = licenseCount
             self.licenseCountHardLimit = licenseCountHardLimit
+            self.licenseExpiry = licenseExpiry
             self.licenseRules = licenseRules
             self.name = name
             self.productInformationList = productInformationList
@@ -3587,6 +4561,7 @@ extension LicenseManager {
             case licenseConfigurationStatus = "LicenseConfigurationStatus"
             case licenseCount = "LicenseCount"
             case licenseCountHardLimit = "LicenseCountHardLimit"
+            case licenseExpiry = "LicenseExpiry"
             case licenseRules = "LicenseRules"
             case name = "Name"
             case productInformationList = "ProductInformationList"
@@ -3676,6 +4651,8 @@ extension LicenseManager {
     public struct UpdateServiceSettingsRequest: AWSEncodableShape {
         /// Activates cross-account discovery.
         public let enableCrossAccountsDiscovery: Bool?
+        /// Cross region discovery enabled source regions.
+        public let enabledDiscoverySourceRegions: [String]?
         /// Enables integration with Organizations for cross-account discovery.
         public let organizationConfiguration: OrganizationConfiguration?
         /// Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
@@ -3684,8 +4661,9 @@ extension LicenseManager {
         public let snsTopicArn: String?
 
         @inlinable
-        public init(enableCrossAccountsDiscovery: Bool? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
+        public init(enableCrossAccountsDiscovery: Bool? = nil, enabledDiscoverySourceRegions: [String]? = nil, organizationConfiguration: OrganizationConfiguration? = nil, s3BucketArn: String? = nil, snsTopicArn: String? = nil) {
             self.enableCrossAccountsDiscovery = enableCrossAccountsDiscovery
+            self.enabledDiscoverySourceRegions = enabledDiscoverySourceRegions
             self.organizationConfiguration = organizationConfiguration
             self.s3BucketArn = s3BucketArn
             self.snsTopicArn = snsTopicArn
@@ -3693,6 +4671,7 @@ extension LicenseManager {
 
         private enum CodingKeys: String, CodingKey {
             case enableCrossAccountsDiscovery = "EnableCrossAccountsDiscovery"
+            case enabledDiscoverySourceRegions = "EnabledDiscoverySourceRegions"
             case organizationConfiguration = "OrganizationConfiguration"
             case s3BucketArn = "S3BucketArn"
             case snsTopicArn = "SnsTopicArn"

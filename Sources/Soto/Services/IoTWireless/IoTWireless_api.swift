@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS IoTWireless service.
 ///
-/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT.  Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group. To connect to the AWS IoT Wireless Service, use the Service endpoints as described in IoT  Wireless Service endpoints. You can use both IPv4 and IPv6 protocols to connect to the endpoints and send requests to the AWS IoT Wireless service. For more information, see Using
+/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT.  Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group. To connect to the AWS IoT Wireless Service, use the Service endpoints as described in IoT Wireless Service endpoints. You can use both IPv4 and IPv6 protocols to connect to the endpoints and send requests to the AWS IoT Wireless service. For more information, see Using
 /// 			IPv6 with AWS IoT Wireless.
 public struct IoTWireless: AWSService {
     // MARK: Member variables
@@ -644,7 +644,7 @@ public struct IoTWireless: AWSService {
     ///   - destinationName: The name of the destination to assign to the new wireless device.
     ///   - loRaWAN: The device configuration information to use to create the wireless device.
     ///   - name: The name of the new resource.  The following special characters aren't accepted: <>^#~$
-    ///   - positioning: FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    ///   - positioning: The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
     ///   - sidewalk: The device configuration information to use to create the Sidewalk device.
     ///   - tags: The tags to attach to the new wireless device. Tags are metadata that you can use to manage a resource.
     ///   - type: The wireless device type.
@@ -2676,7 +2676,7 @@ public struct IoTWireless: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// List wireless devices that have been added to an import task.
+    /// List of import tasks and summary information of onboarding status of devices in each import task.
     @Sendable
     @inlinable
     public func listWirelessDeviceImportTasks(_ input: ListWirelessDeviceImportTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWirelessDeviceImportTasksResponse {
@@ -2689,7 +2689,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// List wireless devices that have been added to an import task.
+    /// List of import tasks and summary information of onboarding status of devices in each import task.
     ///
     /// Parameters:
     ///   - maxResults: 
@@ -2724,7 +2724,7 @@ public struct IoTWireless: AWSService {
     /// Lists the wireless devices registered to your AWS account.
     ///
     /// Parameters:
-    ///   - destinationName: A filter to list only the wireless devices that use this destination.
+    ///   - destinationName: A filter to list only the wireless devices that use as uplink destination.
     ///   - deviceProfileId: A filter to list only the wireless devices that use this device profile.
     ///   - fuotaTaskId: 
     ///   - maxResults: The maximum number of results to return in this operation.
@@ -3184,6 +3184,7 @@ public struct IoTWireless: AWSService {
     ///   - clientRequestToken: 
     ///   - destinationName: The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless.
     ///   - deviceName: The name of the wireless device for which an import task is being started.
+    ///   - positioning: The integration status of the Device Location feature for Sidewalk devices.
     ///   - sidewalk: The Sidewalk-related parameters for importing a single wireless device.
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -3192,6 +3193,7 @@ public struct IoTWireless: AWSService {
         clientRequestToken: String? = StartSingleWirelessDeviceImportTaskRequest.idempotencyToken(),
         destinationName: String,
         deviceName: String? = nil,
+        positioning: PositioningConfigStatus? = nil,
         sidewalk: SidewalkSingleStartImportInfo,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3200,6 +3202,7 @@ public struct IoTWireless: AWSService {
             clientRequestToken: clientRequestToken, 
             destinationName: destinationName, 
             deviceName: deviceName, 
+            positioning: positioning, 
             sidewalk: sidewalk, 
             tags: tags
         )
@@ -3224,6 +3227,7 @@ public struct IoTWireless: AWSService {
     /// Parameters:
     ///   - clientRequestToken: 
     ///   - destinationName: The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+    ///   - positioning: The integration status of the Device Location feature for Sidewalk devices.
     ///   - sidewalk: The Sidewalk-related parameters for importing wireless devices that need to be provisioned in bulk.
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -3231,6 +3235,7 @@ public struct IoTWireless: AWSService {
     public func startWirelessDeviceImportTask(
         clientRequestToken: String? = StartWirelessDeviceImportTaskRequest.idempotencyToken(),
         destinationName: String,
+        positioning: PositioningConfigStatus? = nil,
         sidewalk: SidewalkStartImportInfo,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3238,6 +3243,7 @@ public struct IoTWireless: AWSService {
         let input = StartWirelessDeviceImportTaskRequest(
             clientRequestToken: clientRequestToken, 
             destinationName: destinationName, 
+            positioning: positioning, 
             sidewalk: sidewalk, 
             tags: tags
         )
@@ -3811,7 +3817,8 @@ public struct IoTWireless: AWSService {
     ///   - id: The ID of the resource to update.
     ///   - loRaWAN: The updated wireless device's configuration.
     ///   - name: The new name of the resource.  The following special characters aren't accepted: <>^#~$
-    ///   - positioning: FPort values for the GNSS, stream, and ClockSync functions of the positioning information.
+    ///   - positioning: The integration status of the Device Location feature for LoRaWAN and Sidewalk devices.
+    ///   - sidewalk: The updated sidewalk properties.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWirelessDevice(
@@ -3821,6 +3828,7 @@ public struct IoTWireless: AWSService {
         loRaWAN: LoRaWANUpdateDevice? = nil,
         name: String? = nil,
         positioning: PositioningConfigStatus? = nil,
+        sidewalk: SidewalkUpdateWirelessDevice? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWirelessDeviceResponse {
         let input = UpdateWirelessDeviceRequest(
@@ -3829,7 +3837,8 @@ public struct IoTWireless: AWSService {
             id: id, 
             loRaWAN: loRaWAN, 
             name: name, 
-            positioning: positioning
+            positioning: positioning, 
+            sidewalk: sidewalk
         )
         return try await self.updateWirelessDevice(input, logger: logger)
     }
@@ -4268,7 +4277,7 @@ extension IoTWireless {
     /// Return PaginatorSequence for operation ``listWirelessDevices(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - destinationName: A filter to list only the wireless devices that use this destination.
+    ///   - destinationName: A filter to list only the wireless devices that use as uplink destination.
     ///   - deviceProfileId: A filter to list only the wireless devices that use this device profile.
     ///   - fuotaTaskId: 
     ///   - maxResults: The maximum number of results to return in this operation.

@@ -219,6 +219,9 @@ public struct VPCLattice: AWSService {
     /// Parameters:
     ///   - allowAssociationToShareableServiceNetwork: (SINGLE, GROUP, ARN) Specifies whether the resource configuration can be associated with a sharable service network. The default is false.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - customDomainName:  A custom domain name for your resource configuration. Additionally, provide a DomainVerificationID to prove your ownership of a domain.
+    ///   - domainVerificationIdentifier:  The domain verification ID of your verified custom domain name. If you don't provide an ID, you must configure the DNS settings yourself.
+    ///   - groupDomain:  (GROUP) The group domain for a group resource configuration. Any domains that you create for the child resource are subdomains of the group domain. Child resources inherit the verification status of the domain.
     ///   - name: The name of the resource configuration. The name must be unique within the account. The valid characters are a-z, 0-9, and hyphens (-). You can't use a hyphen as the first or last character, or immediately after another hyphen.
     ///   - portRanges: (SINGLE, GROUP, CHILD) The TCP port ranges that a consumer can use to access a resource configuration (for example: 1-65535). You can separate port ranges using commas (for example: 1,2,22-30).
     ///   - protocol: (SINGLE, GROUP) The protocol accepted by the resource configuration.
@@ -232,6 +235,9 @@ public struct VPCLattice: AWSService {
     public func createResourceConfiguration(
         allowAssociationToShareableServiceNetwork: Bool? = nil,
         clientToken: String? = CreateResourceConfigurationRequest.idempotencyToken(),
+        customDomainName: String? = nil,
+        domainVerificationIdentifier: String? = nil,
+        groupDomain: String? = nil,
         name: String,
         portRanges: [String]? = nil,
         protocol: ProtocolType? = nil,
@@ -245,6 +251,9 @@ public struct VPCLattice: AWSService {
         let input = CreateResourceConfigurationRequest(
             allowAssociationToShareableServiceNetwork: allowAssociationToShareableServiceNetwork, 
             clientToken: clientToken, 
+            customDomainName: customDomainName, 
+            domainVerificationIdentifier: domainVerificationIdentifier, 
+            groupDomain: groupDomain, 
             name: name, 
             portRanges: portRanges, 
             protocol: `protocol`, 
@@ -459,6 +468,7 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - privateDnsEnabled:  Indicates if private DNS is enabled for the service network resource association.
     ///   - resourceConfigurationIdentifier: The ID of the resource configuration to associate with the service network.
     ///   - serviceNetworkIdentifier: The ID of the service network to associate with the resource configuration.
     ///   - tags: A key-value pair to associate with a resource.
@@ -466,6 +476,7 @@ public struct VPCLattice: AWSService {
     @inlinable
     public func createServiceNetworkResourceAssociation(
         clientToken: String? = CreateServiceNetworkResourceAssociationRequest.idempotencyToken(),
+        privateDnsEnabled: Bool? = nil,
         resourceConfigurationIdentifier: String,
         serviceNetworkIdentifier: String,
         tags: [String: String]? = nil,
@@ -473,6 +484,7 @@ public struct VPCLattice: AWSService {
     ) async throws -> CreateServiceNetworkResourceAssociationResponse {
         let input = CreateServiceNetworkResourceAssociationRequest(
             clientToken: clientToken, 
+            privateDnsEnabled: privateDnsEnabled, 
             resourceConfigurationIdentifier: resourceConfigurationIdentifier, 
             serviceNetworkIdentifier: serviceNetworkIdentifier, 
             tags: tags
@@ -535,6 +547,8 @@ public struct VPCLattice: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - dnsOptions:  DNS options for the service network VPC association.
+    ///   - privateDnsEnabled:  Indicates if private DNS is enabled for the VPC association.
     ///   - securityGroupIds: The IDs of the security groups. Security groups aren't added by default. You can add a security group to apply network level controls to control which resources in a VPC are allowed to access the service network and its services. For more information, see Control traffic to resources using security groups in the Amazon VPC User Guide.
     ///   - serviceNetworkIdentifier: The ID or ARN of the service network. You must use an ARN if the resources are in different accounts.
     ///   - tags: The tags for the association.
@@ -543,6 +557,8 @@ public struct VPCLattice: AWSService {
     @inlinable
     public func createServiceNetworkVpcAssociation(
         clientToken: String? = CreateServiceNetworkVpcAssociationRequest.idempotencyToken(),
+        dnsOptions: DnsOptions? = nil,
+        privateDnsEnabled: Bool? = nil,
         securityGroupIds: [String]? = nil,
         serviceNetworkIdentifier: String,
         tags: [String: String]? = nil,
@@ -551,6 +567,8 @@ public struct VPCLattice: AWSService {
     ) async throws -> CreateServiceNetworkVpcAssociationResponse {
         let input = CreateServiceNetworkVpcAssociationRequest(
             clientToken: clientToken, 
+            dnsOptions: dnsOptions, 
+            privateDnsEnabled: privateDnsEnabled, 
             securityGroupIds: securityGroupIds, 
             serviceNetworkIdentifier: serviceNetworkIdentifier, 
             tags: tags, 
@@ -656,6 +674,35 @@ public struct VPCLattice: AWSService {
             resourceIdentifier: resourceIdentifier
         )
         return try await self.deleteAuthPolicy(input, logger: logger)
+    }
+
+    ///  Deletes the specified domain verification.
+    @Sendable
+    @inlinable
+    public func deleteDomainVerification(_ input: DeleteDomainVerificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainVerificationResponse {
+        try await self.client.execute(
+            operation: "DeleteDomainVerification", 
+            path: "/domainverifications/{domainVerificationIdentifier}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes the specified domain verification.
+    ///
+    /// Parameters:
+    ///   - domainVerificationIdentifier:  The ID of the domain verification to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDomainVerification(
+        domainVerificationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDomainVerificationResponse {
+        let input = DeleteDomainVerificationRequest(
+            domainVerificationIdentifier: domainVerificationIdentifier
+        )
+        return try await self.deleteDomainVerification(input, logger: logger)
     }
 
     /// Deletes the specified listener.
@@ -1105,6 +1152,35 @@ public struct VPCLattice: AWSService {
         return try await self.getAuthPolicy(input, logger: logger)
     }
 
+    ///  Retrieves information about a domain verification.ß
+    @Sendable
+    @inlinable
+    public func getDomainVerification(_ input: GetDomainVerificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDomainVerificationResponse {
+        try await self.client.execute(
+            operation: "GetDomainVerification", 
+            path: "/domainverifications/{domainVerificationIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves information about a domain verification.ß
+    ///
+    /// Parameters:
+    ///   - domainVerificationIdentifier:  The ID or ARN of the domain verification to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDomainVerification(
+        domainVerificationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDomainVerificationResponse {
+        let input = GetDomainVerificationRequest(
+            domainVerificationIdentifier: domainVerificationIdentifier
+        )
+        return try await self.getDomainVerification(input, logger: logger)
+    }
+
     /// Retrieves information about the specified listener for the specified service.
     @Sendable
     @inlinable
@@ -1468,6 +1544,38 @@ public struct VPCLattice: AWSService {
         return try await self.listAccessLogSubscriptions(input, logger: logger)
     }
 
+    ///  Lists the domain verifications.
+    @Sendable
+    @inlinable
+    public func listDomainVerifications(_ input: ListDomainVerificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainVerificationsResponse {
+        try await self.client.execute(
+            operation: "ListDomainVerifications", 
+            path: "/domainverifications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists the domain verifications.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of results to return.
+    ///   - nextToken:  A pagination token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDomainVerifications(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDomainVerificationsResponse {
+        let input = ListDomainVerificationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDomainVerifications(input, logger: logger)
+    }
+
     /// Lists the listeners for the specified service.
     @Sendable
     @inlinable
@@ -1519,6 +1627,7 @@ public struct VPCLattice: AWSService {
     /// Lists the resource configurations owned by or shared with this account.
     ///
     /// Parameters:
+    ///   - domainVerificationIdentifier:  The domain verification ID.
     ///   - maxResults: The maximum page size.
     ///   - nextToken: A pagination token for the next page of results.
     ///   - resourceConfigurationGroupIdentifier: The ID of the resource configuration of type Group.
@@ -1526,6 +1635,7 @@ public struct VPCLattice: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func listResourceConfigurations(
+        domainVerificationIdentifier: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         resourceConfigurationGroupIdentifier: String? = nil,
@@ -1533,6 +1643,7 @@ public struct VPCLattice: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListResourceConfigurationsResponse {
         let input = ListResourceConfigurationsRequest(
+            domainVerificationIdentifier: domainVerificationIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             resourceConfigurationGroupIdentifier: resourceConfigurationGroupIdentifier, 
@@ -2072,6 +2183,41 @@ public struct VPCLattice: AWSService {
         return try await self.registerTargets(input, logger: logger)
     }
 
+    ///  Starts the domain verification process for a custom domain name.
+    @Sendable
+    @inlinable
+    public func startDomainVerification(_ input: StartDomainVerificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDomainVerificationResponse {
+        try await self.client.execute(
+            operation: "StartDomainVerification", 
+            path: "/domainverifications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Starts the domain verification process for a custom domain name.
+    ///
+    /// Parameters:
+    ///   - clientToken:  A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request that completed successfully using the same client token and parameters, the retry succeeds without performing any actions. If the parameters aren't identical, the retry fails.
+    ///   - domainName:  The domain name to verify ownership for.
+    ///   - tags:  The tags for the domain verification.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startDomainVerification(
+        clientToken: String? = StartDomainVerificationRequest.idempotencyToken(),
+        domainName: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartDomainVerificationResponse {
+        let input = StartDomainVerificationRequest(
+            clientToken: clientToken, 
+            domainName: domainName, 
+            tags: tags
+        )
+        return try await self.startDomainVerification(input, logger: logger)
+    }
+
     /// Adds the specified tags to the specified resource.
     @Sendable
     @inlinable
@@ -2499,6 +2645,40 @@ extension VPCLattice {
         return self.listAccessLogSubscriptionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDomainVerifications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainVerificationsPaginator(
+        _ input: ListDomainVerificationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainVerificationsRequest, ListDomainVerificationsResponse> {
+        return .init(
+            input: input,
+            command: self.listDomainVerifications,
+            inputKey: \ListDomainVerificationsRequest.nextToken,
+            outputKey: \ListDomainVerificationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDomainVerifications(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of results to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainVerificationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDomainVerificationsRequest, ListDomainVerificationsResponse> {
+        let input = ListDomainVerificationsRequest(
+            maxResults: maxResults
+        )
+        return self.listDomainVerificationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listListeners(_:logger:)``.
     ///
     /// - Parameters:
@@ -2557,18 +2737,21 @@ extension VPCLattice {
     /// Return PaginatorSequence for operation ``listResourceConfigurations(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - domainVerificationIdentifier:  The domain verification ID.
     ///   - maxResults: The maximum page size.
     ///   - resourceConfigurationGroupIdentifier: The ID of the resource configuration of type Group.
     ///   - resourceGatewayIdentifier: The ID of the resource gateway for the resource configuration.
     ///   - logger: Logger used for logging
     @inlinable
     public func listResourceConfigurationsPaginator(
+        domainVerificationIdentifier: String? = nil,
         maxResults: Int? = nil,
         resourceConfigurationGroupIdentifier: String? = nil,
         resourceGatewayIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListResourceConfigurationsRequest, ListResourceConfigurationsResponse> {
         let input = ListResourceConfigurationsRequest(
+            domainVerificationIdentifier: domainVerificationIdentifier, 
             maxResults: maxResults, 
             resourceConfigurationGroupIdentifier: resourceConfigurationGroupIdentifier, 
             resourceGatewayIdentifier: resourceGatewayIdentifier
@@ -3016,6 +3199,16 @@ extension VPCLattice.ListAccessLogSubscriptionsRequest: AWSPaginateToken {
     }
 }
 
+extension VPCLattice.ListDomainVerificationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> VPCLattice.ListDomainVerificationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension VPCLattice.ListListenersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> VPCLattice.ListListenersRequest {
@@ -3031,6 +3224,7 @@ extension VPCLattice.ListResourceConfigurationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> VPCLattice.ListResourceConfigurationsRequest {
         return .init(
+            domainVerificationIdentifier: self.domainVerificationIdentifier,
             maxResults: self.maxResults,
             nextToken: token,
             resourceConfigurationGroupIdentifier: self.resourceConfigurationGroupIdentifier,

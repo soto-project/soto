@@ -109,7 +109,7 @@ public struct KinesisVideo: AWSService {
     /// Parameters:
     ///   - channelName: A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region.
     ///   - channelType: A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type.
-    ///   - singleMasterConfiguration: A structure containing the configuration for the SINGLE_MASTER channel type.
+    ///   - singleMasterConfiguration: A structure containing the configuration for the SINGLE_MASTER channel type. The default configuration for the channel message's time to live is 60 seconds (1 minute).
     ///   - tags: A set of tags (key-value pairs) that you want to associate with this channel.
     ///   - logger: Logger use during operation
     @inlinable
@@ -145,11 +145,12 @@ public struct KinesisVideo: AWSService {
     /// Creates a new Kinesis video stream.  When you create a new stream, Kinesis Video Streams assigns it a version number. When you change the stream's metadata, Kinesis Video Streams updates the version.   CreateStream is an asynchronous operation. For information about how the service works, see How it Works.  You must have permissions for the KinesisVideo:CreateStream action.
     ///
     /// Parameters:
-    ///   - dataRetentionInHours: The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
-    ///   - deviceName: The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name.
-    ///   - kmsKeyId: The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (Amazon Web Services/kinesisvideo) is used. For more information, see DescribeKey.
+    ///   - dataRetentionInHours: The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. The minimum is 1 hour. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
+    ///   - deviceName: The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams doesn't use this name.
+    ///   - kmsKeyId: The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used. For more information, see DescribeKey.
     ///   - mediaType: The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
     ///   - streamName: A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
+    ///   - streamStorageConfiguration: The configuration for the stream's storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization. If not specified, the stream will use the default storage configuration with HOT tier for optimal performance.
     ///   - tags: A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
     ///   - logger: Logger use during operation
     @inlinable
@@ -159,6 +160,7 @@ public struct KinesisVideo: AWSService {
         kmsKeyId: String? = nil,
         mediaType: String? = nil,
         streamName: String,
+        streamStorageConfiguration: StreamStorageConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateStreamOutput {
@@ -168,6 +170,7 @@ public struct KinesisVideo: AWSService {
             kmsKeyId: kmsKeyId, 
             mediaType: mediaType, 
             streamName: streamName, 
+            streamStorageConfiguration: streamStorageConfiguration, 
             tags: tags
         )
         return try await self.createStream(input, logger: logger)
@@ -499,6 +502,38 @@ public struct KinesisVideo: AWSService {
         return try await self.describeStream(input, logger: logger)
     }
 
+    /// Retrieves the current storage configuration for the specified Kinesis video stream. In the request, you must specify either the StreamName or the StreamARN. You must have permissions for the KinesisVideo:DescribeStreamStorageConfiguration action.
+    @Sendable
+    @inlinable
+    public func describeStreamStorageConfiguration(_ input: DescribeStreamStorageConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStreamStorageConfigurationOutput {
+        try await self.client.execute(
+            operation: "DescribeStreamStorageConfiguration", 
+            path: "/describeStreamStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current storage configuration for the specified Kinesis video stream. In the request, you must specify either the StreamName or the StreamARN. You must have permissions for the KinesisVideo:DescribeStreamStorageConfiguration action.
+    ///
+    /// Parameters:
+    ///   - streamARN: The Amazon Resource Name (ARN) of the stream for which you want to retrieve the storage configuration.
+    ///   - streamName: The name of the stream for which you want to retrieve the storage configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeStreamStorageConfiguration(
+        streamARN: String? = nil,
+        streamName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeStreamStorageConfigurationOutput {
+        let input = DescribeStreamStorageConfigurationInput(
+            streamARN: streamARN, 
+            streamName: streamName
+        )
+        return try await self.describeStreamStorageConfiguration(input, logger: logger)
+    }
+
     /// Gets an endpoint for a specified stream for either reading or writing. Use this endpoint in your application to read from the specified stream (using the GetMedia or GetMediaForFragmentList operations) or write to it (using the PutMedia operation).   The returned endpoint does not have the API name appended. The client needs to add the API name to the returned endpoint.  In the request, specify the stream either by StreamName or StreamARN.
     @Sendable
     @inlinable
@@ -534,7 +569,7 @@ public struct KinesisVideo: AWSService {
         return try await self.getDataEndpoint(input, logger: logger)
     }
 
-    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties.  Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint.   Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
+    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties.  Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signaling channel isn't configured for ingestion, you will receive the error InvalidArgumentException.  Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     @Sendable
     @inlinable
     public func getSignalingChannelEndpoint(_ input: GetSignalingChannelEndpointInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSignalingChannelEndpointOutput {
@@ -547,7 +582,7 @@ public struct KinesisVideo: AWSService {
             logger: logger
         )
     }
-    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties.  Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint.   Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
+    /// Provides an endpoint for the specified signaling channel to send and receive messages. This API uses the SingleMasterChannelEndpointConfiguration input parameter, which consists of the Protocols and Role properties.  Protocols is used to determine the communication mechanism. For example, if you specify WSS as the protocol, this API produces a secure websocket endpoint. If you specify HTTPS as the protocol, this API generates an HTTPS endpoint. If you specify WEBRTC as the protocol, but the signaling channel isn't configured for ingestion, you will receive the error InvalidArgumentException.  Role determines the messaging permissions. A MASTER role results in this API generating an endpoint that a client can use to communicate with any of the viewers on the channel. A VIEWER role results in this API generating an endpoint that a client can use to communicate only with a MASTER.
     ///
     /// Parameters:
     ///   - channelARN: The Amazon Resource Name (ARN) of the signalling channel for which you want to get an endpoint.
@@ -1068,7 +1103,7 @@ public struct KinesisVideo: AWSService {
     /// Parameters:
     ///   - channelARN: The Amazon Resource Name (ARN) of the signaling channel that you want to update.
     ///   - currentVersion: The current version of the signaling channel that you want to update.
-    ///   - singleMasterConfiguration: The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update.
+    ///   - singleMasterConfiguration: The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parameter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSignalingChannel(
@@ -1124,6 +1159,44 @@ public struct KinesisVideo: AWSService {
             streamName: streamName
         )
         return try await self.updateStream(input, logger: logger)
+    }
+
+    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns.  UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action.
+    @Sendable
+    @inlinable
+    public func updateStreamStorageConfiguration(_ input: UpdateStreamStorageConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStreamStorageConfigurationOutput {
+        try await self.client.execute(
+            operation: "UpdateStreamStorageConfiguration", 
+            path: "/updateStreamStorageConfiguration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the storage configuration for an existing Kinesis video stream. This operation allows you to modify the storage tier settings for a stream, enabling you to optimize storage costs and performance based on your access patterns.  UpdateStreamStorageConfiguration is an asynchronous operation. You must have permissions for the KinesisVideo:UpdateStreamStorageConfiguration action.
+    ///
+    /// Parameters:
+    ///   - currentVersion: The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API.
+    ///   - streamARN: The Amazon Resource Name (ARN) of the stream for which you want to update the storage configuration.
+    ///   - streamName: The name of the stream for which you want to update the storage configuration.
+    ///   - streamStorageConfiguration: The new storage configuration for the stream. This includes the default storage tier that determines how stream data is stored and accessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateStreamStorageConfiguration(
+        currentVersion: String,
+        streamARN: String? = nil,
+        streamName: String? = nil,
+        streamStorageConfiguration: StreamStorageConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateStreamStorageConfigurationOutput {
+        let input = UpdateStreamStorageConfigurationInput(
+            currentVersion: currentVersion, 
+            streamARN: streamARN, 
+            streamName: streamName, 
+            streamStorageConfiguration: streamStorageConfiguration
+        )
+        return try await self.updateStreamStorageConfiguration(input, logger: logger)
     }
 }
 

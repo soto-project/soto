@@ -355,6 +355,76 @@ public struct SageMaker: AWSService {
         return try await self.batchDescribeModelPackage(input, logger: logger)
     }
 
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart.    Rebooting a node may cause temporary service interruption for workloads running on that node. Ensure your workloads can handle node restarts or use appropriate scheduling to minimize impact.   You can reboot up to 25 nodes in a single request.   For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
+    @Sendable
+    @inlinable
+    public func batchRebootClusterNodes(_ input: BatchRebootClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchRebootClusterNodesResponse {
+        try await self.client.execute(
+            operation: "BatchRebootClusterNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reboots specific nodes within a SageMaker HyperPod cluster using a soft recovery mechanism. BatchRebootClusterNodes performs a graceful reboot of the specified nodes by calling the Amazon Elastic Compute Cloud RebootInstances API, which attempts to cleanly shut down the operating system before restarting the instance. This operation is useful for recovering from transient issues or applying certain configuration changes that require a restart.    Rebooting a node may cause temporary service interruption for workloads running on that node. Ensure your workloads can handle node restarts or use appropriate scheduling to minimize impact.   You can reboot up to 25 nodes in a single request.   For SageMaker HyperPod clusters using the Slurm workload manager, ensure rebooting nodes will not disrupt critical cluster operations.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot.
+    ///   - nodeIds: A list of EC2 instance IDs to reboot using soft recovery. You can specify between 1 and 25 instance IDs.    Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.   Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0).
+    ///   - nodeLogicalIds: A list of logical node IDs to reboot using soft recovery. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.    This parameter is only supported for clusters using Continuous as the NodeProvisioningMode. For clusters using the default provisioning mode, use NodeIds instead.   Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchRebootClusterNodes(
+        clusterName: String? = nil,
+        nodeIds: [String]? = nil,
+        nodeLogicalIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchRebootClusterNodesResponse {
+        let input = BatchRebootClusterNodesRequest(
+            clusterName: clusterName, 
+            nodeIds: nodeIds, 
+            nodeLogicalIds: nodeLogicalIds
+        )
+        return try await self.batchRebootClusterNodes(input, logger: logger)
+    }
+
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot.     Data Loss Warning: Replacing nodes destroys all instance volumes, including both root and secondary volumes. All data stored on these volumes will be permanently lost and cannot be recovered.   To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod.   If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.   You can replace up to 25 nodes in a single request.
+    @Sendable
+    @inlinable
+    public func batchReplaceClusterNodes(_ input: BatchReplaceClusterNodesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchReplaceClusterNodesResponse {
+        try await self.client.execute(
+            operation: "BatchReplaceClusterNodes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Replaces specific nodes within a SageMaker HyperPod cluster with new hardware. BatchReplaceClusterNodes terminates the specified instances and provisions new replacement instances with the same configuration but fresh hardware. The Amazon Machine Image (AMI) and instance configuration remain the same. This operation is useful for recovering from hardware failures or persistent issues that cannot be resolved through a reboot.     Data Loss Warning: Replacing nodes destroys all instance volumes, including both root and secondary volumes. All data stored on these volumes will be permanently lost and cannot be recovered.   To safeguard your work, back up your data to Amazon S3 or an FSx for Lustre file system before invoking the API on a worker node group. This will help prevent any potential data loss from the instance root volume. For more information about backup, see Use the backup script provided by SageMaker HyperPod.   If you want to invoke this API on an existing cluster, you'll first need to patch the cluster by running the UpdateClusterSoftware API. For more information about patching a cluster, see Update the SageMaker HyperPod platform software of a cluster.   You can replace up to 25 nodes in a single request.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace.
+    ///   - nodeIds: A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs.  Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.     Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.   Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0).   For SageMaker HyperPod clusters using the Slurm workload manager, you cannot replace instances that are configured as Slurm controller nodes.
+    ///   - nodeLogicalIds: A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.    Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.   This parameter is only supported for clusters using Continuous as the NodeProvisioningMode. For clusters using the default provisioning mode, use NodeIds instead.   Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchReplaceClusterNodes(
+        clusterName: String? = nil,
+        nodeIds: [String]? = nil,
+        nodeLogicalIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchReplaceClusterNodesResponse {
+        let input = BatchReplaceClusterNodesRequest(
+            clusterName: clusterName, 
+            nodeIds: nodeIds, 
+            nodeLogicalIds: nodeLogicalIds
+        )
+        return try await self.batchReplaceClusterNodes(input, logger: logger)
+    }
+
     /// Creates an action. An action is a lineage tracking entity that represents an action or activity. For example, a model deployment or an HPO job. Generally, an action involves at least one input or output artifact. For more information, see Amazon SageMaker ML Lineage Tracking.
     @Sendable
     @inlinable
@@ -702,7 +772,7 @@ public struct SageMaker: AWSService {
         return try await self.createAutoMLJobV2(input, logger: logger)
     }
 
-    /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
+    /// Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
@@ -715,7 +785,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
+    /// Creates an Amazon SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for creating and managing persistent clusters for developing large machine learning models, such as large language models (LLMs) and diffusion models. To learn more, see Amazon SageMaker HyperPod in the Amazon SageMaker Developer Guide.
     ///
     /// Parameters:
     ///   - autoScaling: The autoscaling configuration for the cluster. Enables automatic scaling of cluster nodes based on workload demand using a Karpenter-based system.
@@ -1324,6 +1394,7 @@ public struct SageMaker: AWSService {
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see SageMaker AI Roles.   To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
     ///   - explainerConfig: A member of CreateEndpointConfig that enables explainers.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
+    ///   - metricsConfig: The configuration parameters for utilization metrics.
     ///   - productionVariants: An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
     ///   - shadowProductionVariants: An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants. If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants.
     ///   - tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
@@ -1338,6 +1409,7 @@ public struct SageMaker: AWSService {
         executionRoleArn: String? = nil,
         explainerConfig: ExplainerConfig? = nil,
         kmsKeyId: String? = nil,
+        metricsConfig: MetricsConfig? = nil,
         productionVariants: [ProductionVariant]? = nil,
         shadowProductionVariants: [ProductionVariant]? = nil,
         tags: [Tag]? = nil,
@@ -1352,6 +1424,7 @@ public struct SageMaker: AWSService {
             executionRoleArn: executionRoleArn, 
             explainerConfig: explainerConfig, 
             kmsKeyId: kmsKeyId, 
+            metricsConfig: metricsConfig, 
             productionVariants: productionVariants, 
             shadowProductionVariants: shadowProductionVariants, 
             tags: tags, 
@@ -2024,6 +2097,56 @@ public struct SageMaker: AWSService {
         return try await self.createLabelingJob(input, logger: logger)
     }
 
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
+    @Sendable
+    @inlinable
+    public func createMlflowApp(_ input: CreateMlflowAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMlflowAppResponse {
+        try await self.client.execute(
+            operation: "CreateMlflowApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store.
+    ///
+    /// Parameters:
+    ///   - accountDefaultStatus: Indicates whether this MLflow app is the default for the entire account.
+    ///   - artifactStoreUri: The S3 URI for a general purpose bucket to use as the MLflow App artifact store.
+    ///   - defaultDomainIdList: List of SageMaker domain IDs for which this MLflow App is used as the default.
+    ///   - modelRegistrationMode: Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationDisabled.
+    ///   - name: A string identifying the MLflow app name. This string is not part of the tracking server ARN.
+    ///   - roleArn: The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3. The role should have the AmazonS3FullAccess permission.
+    ///   - tags: Tags consisting of key-value pairs used to manage metadata for the MLflow App.
+    ///   - weeklyMaintenanceWindowStart: The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createMlflowApp(
+        accountDefaultStatus: AccountDefaultStatus? = nil,
+        artifactStoreUri: String? = nil,
+        defaultDomainIdList: [String]? = nil,
+        modelRegistrationMode: ModelRegistrationMode? = nil,
+        name: String? = nil,
+        roleArn: String? = nil,
+        tags: [Tag]? = nil,
+        weeklyMaintenanceWindowStart: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateMlflowAppResponse {
+        let input = CreateMlflowAppRequest(
+            accountDefaultStatus: accountDefaultStatus, 
+            artifactStoreUri: artifactStoreUri, 
+            defaultDomainIdList: defaultDomainIdList, 
+            modelRegistrationMode: modelRegistrationMode, 
+            name: name, 
+            roleArn: roleArn, 
+            tags: tags, 
+            weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart
+        )
+        return try await self.createMlflowApp(input, logger: logger)
+    }
+
     /// Creates an MLflow Tracking Server using a general purpose Amazon S3 bucket as the artifact store. For more information, see Create an MLflow Tracking Server.
     @Sendable
     @inlinable
@@ -2346,6 +2469,7 @@ public struct SageMaker: AWSService {
     ///   - modelPackageDescription: A description of the model package.
     ///   - modelPackageGroupName: The name or Amazon Resource Name (ARN) of the model package group that this model version belongs to. This parameter is required for versioned models, and does not apply to unversioned models.
     ///   - modelPackageName: The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required for unversioned models. It is not applicable to versioned models.
+    ///   - modelPackageRegistrationType:  The package registration type of the model package input.
     ///   - samplePayloadUrl: The Amazon Simple Storage Service (Amazon S3) path where the sample payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). This archive can hold multiple files that are all equally used in the load test. Each file in the archive must satisfy the size constraints of the InvokeEndpoint call.
     ///   - securityConfig: The KMS Key ID (KMSKeyId) used for encryption of model package information.
     ///   - skipModelValidation: Indicates if you want to skip model validation.
@@ -2372,6 +2496,7 @@ public struct SageMaker: AWSService {
         modelPackageDescription: String? = nil,
         modelPackageGroupName: String? = nil,
         modelPackageName: String? = nil,
+        modelPackageRegistrationType: ModelPackageRegistrationType? = nil,
         samplePayloadUrl: String? = nil,
         securityConfig: ModelPackageSecurityConfig? = nil,
         skipModelValidation: SkipModelValidation? = nil,
@@ -2398,6 +2523,7 @@ public struct SageMaker: AWSService {
             modelPackageDescription: modelPackageDescription, 
             modelPackageGroupName: modelPackageGroupName, 
             modelPackageName: modelPackageName, 
+            modelPackageRegistrationType: modelPackageRegistrationType, 
             samplePayloadUrl: samplePayloadUrl, 
             securityConfig: securityConfig, 
             skipModelValidation: skipModelValidation, 
@@ -2562,7 +2688,7 @@ public struct SageMaker: AWSService {
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the new notebook instance.
-    ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment.
+    ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
     ///   - roleArn:  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     ///   - rootAccess: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
     ///   - securityGroupIds: The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet.
@@ -2668,6 +2794,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - deploymentInstanceType: The type of instance that hosts the optimized model that you create with the optimization job.
+    ///   - maxInstanceCount: The maximum number of instances to use for the optimization job.
     ///   - modelSource: The location of the source model to optimize with an optimization job.
     ///   - optimizationConfigs: Settings for each of the optimization techniques that the job applies.
     ///   - optimizationEnvironment: The environment variables to set in the model container.
@@ -2681,6 +2808,7 @@ public struct SageMaker: AWSService {
     @inlinable
     public func createOptimizationJob(
         deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil,
+        maxInstanceCount: Int? = nil,
         modelSource: OptimizationJobModelSource? = nil,
         optimizationConfigs: [OptimizationConfig]? = nil,
         optimizationEnvironment: [String: String]? = nil,
@@ -2694,6 +2822,7 @@ public struct SageMaker: AWSService {
     ) async throws -> CreateOptimizationJobResponse {
         let input = CreateOptimizationJobRequest(
             deploymentInstanceType: deploymentInstanceType, 
+            maxInstanceCount: maxInstanceCount, 
             modelSource: modelSource, 
             optimizationConfigs: optimizationConfigs, 
             optimizationEnvironment: optimizationEnvironment, 
@@ -2726,6 +2855,7 @@ public struct SageMaker: AWSService {
     ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
     ///   - authType: The authorization type that users use to access the SageMaker Partner AI App.
     ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
+    ///   - enableAutoMinorVersionUpgrade: When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available. Default is FALSE.
     ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     ///   - executionRoleArn: The ARN of the IAM role that the partner application uses.
     ///   - kmsKeyId: SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
@@ -2740,6 +2870,7 @@ public struct SageMaker: AWSService {
         applicationConfig: PartnerAppConfig? = nil,
         authType: PartnerAppAuthType? = nil,
         clientToken: String? = CreatePartnerAppRequest.idempotencyToken(),
+        enableAutoMinorVersionUpgrade: Bool? = nil,
         enableIamSessionBasedIdentity: Bool? = nil,
         executionRoleArn: String? = nil,
         kmsKeyId: String? = nil,
@@ -2754,6 +2885,7 @@ public struct SageMaker: AWSService {
             applicationConfig: applicationConfig, 
             authType: authType, 
             clientToken: clientToken, 
+            enableAutoMinorVersionUpgrade: enableAutoMinorVersionUpgrade, 
             enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
             executionRoleArn: executionRoleArn, 
             kmsKeyId: kmsKeyId, 
@@ -2896,6 +3028,41 @@ public struct SageMaker: AWSService {
             userProfileName: userProfileName
         )
         return try await self.createPresignedDomainUrl(input, logger: logger)
+    }
+
+    /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
+    @Sendable
+    @inlinable
+    public func createPresignedMlflowAppUrl(_ input: CreatePresignedMlflowAppUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedMlflowAppUrlResponse {
+        try await self.client.execute(
+            operation: "CreatePresignedMlflowAppUrl", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your MLflow App. For more information, see Launch the MLflow UI using a presigned URL.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the MLflow App to connect to your MLflow UI.
+    ///   - expiresInSeconds: The duration in seconds that your presigned URL is valid. The presigned URL can be used only once.
+    ///   - sessionExpirationDurationInSeconds: The duration in seconds that your presigned URL is valid. The presigned URL can be used only once.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPresignedMlflowAppUrl(
+        arn: String? = nil,
+        expiresInSeconds: Int? = nil,
+        sessionExpirationDurationInSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePresignedMlflowAppUrlResponse {
+        let input = CreatePresignedMlflowAppUrlRequest(
+            arn: arn, 
+            expiresInSeconds: expiresInSeconds, 
+            sessionExpirationDurationInSeconds: sessionExpirationDurationInSeconds
+        )
+        return try await self.createPresignedMlflowAppUrl(input, logger: logger)
     }
 
     /// Returns a presigned URL that you can use to connect to the MLflow UI attached to your tracking server. For more information, see Launch the MLflow UI using a presigned URL.
@@ -3178,6 +3345,8 @@ public struct SageMaker: AWSService {
     ///   - hyperParameters: Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.   Do not include any security-sensitive information including account access IDs, secrets, or tokens in any hyperparameter fields. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request hyperparameter variable or plain text fields.
     ///   - infraCheckConfig: Contains information about the infrastructure health check configuration for the training job.
     ///   - inputDataConfig: An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3, EFS, or FSx location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. For example, if you specify an EFS location, input data files are available as input streams. They do not need to be downloaded. Your input must be in the same Amazon Web Services region as your training job.
+    ///   - mlflowConfig:  The MLflow configuration using SageMaker managed MLflow.
+    ///   - modelPackageConfig:  The configuration for the model package.
     ///   - outputDataConfig: Specifies the path to the S3 location where you want to store model artifacts. SageMaker creates subfolders for the artifacts.
     ///   - profilerConfig: 
     ///   - profilerRuleConfigurations: Configuration information for Amazon SageMaker Debugger rules for profiling system and framework metrics.
@@ -3185,6 +3354,7 @@ public struct SageMaker: AWSService {
     ///   - resourceConfig: The resources, including the ML compute instances and ML storage volumes, to use for model training.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use ML storage volumes for scratch space. If you want SageMaker to use the ML storage volume to store the training data, choose File as the TrainingInputMode in the algorithm specification. For distributed training algorithms, specify an instance count greater than 1.
     ///   - retryStrategy: The number of times to retry the job when the job fails due to an InternalServerError.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to perform tasks on your behalf.  During model training, SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    ///   - serverlessJobConfig:  The configuration for serverless training jobs.
     ///   - sessionChainingConfig: Contains information about attribute-based access control (ABAC) for the training job.
     ///   - stoppingCondition: Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
     ///   - tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.  Do not include any security-sensitive information including account access IDs, secrets, or tokens in any tags. As part of the shared responsibility model, you are responsible for any potential exposure, unauthorized access, or compromise of your sensitive data if caused by any security-sensitive information included in the request tag variable or plain text fields.
@@ -3206,6 +3376,8 @@ public struct SageMaker: AWSService {
         hyperParameters: [String: String]? = nil,
         infraCheckConfig: InfraCheckConfig? = nil,
         inputDataConfig: [Channel]? = nil,
+        mlflowConfig: MlflowConfig? = nil,
+        modelPackageConfig: ModelPackageConfig? = nil,
         outputDataConfig: OutputDataConfig? = nil,
         profilerConfig: ProfilerConfig? = nil,
         profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil,
@@ -3213,6 +3385,7 @@ public struct SageMaker: AWSService {
         resourceConfig: ResourceConfig? = nil,
         retryStrategy: RetryStrategy? = nil,
         roleArn: String? = nil,
+        serverlessJobConfig: ServerlessJobConfig? = nil,
         sessionChainingConfig: SessionChainingConfig? = nil,
         stoppingCondition: StoppingCondition? = nil,
         tags: [Tag]? = nil,
@@ -3234,6 +3407,8 @@ public struct SageMaker: AWSService {
             hyperParameters: hyperParameters, 
             infraCheckConfig: infraCheckConfig, 
             inputDataConfig: inputDataConfig, 
+            mlflowConfig: mlflowConfig, 
+            modelPackageConfig: modelPackageConfig, 
             outputDataConfig: outputDataConfig, 
             profilerConfig: profilerConfig, 
             profilerRuleConfigurations: profilerRuleConfigurations, 
@@ -3241,6 +3416,7 @@ public struct SageMaker: AWSService {
             resourceConfig: resourceConfig, 
             retryStrategy: retryStrategy, 
             roleArn: roleArn, 
+            serverlessJobConfig: serverlessJobConfig, 
             sessionChainingConfig: sessionChainingConfig, 
             stoppingCondition: stoppingCondition, 
             tags: tags, 
@@ -4536,6 +4712,35 @@ public struct SageMaker: AWSService {
         return try await self.deleteInferenceExperiment(input, logger: logger)
     }
 
+    /// Deletes an MLflow App.
+    @Sendable
+    @inlinable
+    public func deleteMlflowApp(_ input: DeleteMlflowAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMlflowAppResponse {
+        try await self.client.execute(
+            operation: "DeleteMlflowApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an MLflow App.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the MLflow App to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteMlflowApp(
+        arn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteMlflowAppResponse {
+        let input = DeleteMlflowAppRequest(
+            arn: arn
+        )
+        return try await self.deleteMlflowApp(input, logger: logger)
+    }
+
     /// Deletes an MLflow Tracking Server. For more information, see Clean up MLflow resources.
     @Sendable
     @inlinable
@@ -4977,6 +5182,35 @@ public struct SageMaker: AWSService {
         return try await self.deletePipeline(input, logger: logger)
     }
 
+    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped, Failed, or Completed). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another processing job.
+    @Sendable
+    @inlinable
+    public func deleteProcessingJob(_ input: DeleteProcessingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteProcessingJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a processing job. After Amazon SageMaker deletes a processing job, all of the metadata for the processing job is lost. You can delete only processing jobs that are in a terminal state (Stopped, Failed, or Completed). You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another processing job.
+    ///
+    /// Parameters:
+    ///   - processingJobName: The name of the processing job to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProcessingJob(
+        processingJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteProcessingJobRequest(
+            processingJobName: processingJobName
+        )
+        return try await self.deleteProcessingJob(input, logger: logger)
+    }
+
     /// Delete the specified project.
     @Sendable
     @inlinable
@@ -5097,6 +5331,35 @@ public struct SageMaker: AWSService {
             tagKeys: tagKeys
         )
         return try await self.deleteTags(input, logger: logger)
+    }
+
+    /// Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (Stopped, Failed, or Completed) and don't retain an Available managed warm pool. You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another training job.
+    @Sendable
+    @inlinable
+    public func deleteTrainingJob(_ input: DeleteTrainingJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTrainingJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a training job. After SageMaker deletes a training job, all of the metadata for the training job is lost. You can delete only training jobs that are in a terminal state (Stopped, Failed, or Completed) and don't retain an Available managed warm pool. You cannot delete a job that is in the InProgress or Stopping state. After deleting the job, you can reuse its name to create another training job.
+    ///
+    /// Parameters:
+    ///   - trainingJobName: The name of the training job to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrainingJob(
+        trainingJobName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTrainingJobRequest(
+            trainingJobName: trainingJobName
+        )
+        return try await self.deleteTrainingJob(input, logger: logger)
     }
 
     /// Deletes the specified trial. All trial components that make up the trial must be deleted first. Use the DescribeTrialComponent API to get the list of trial components.
@@ -6441,6 +6704,35 @@ public struct SageMaker: AWSService {
         return try await self.describeLineageGroup(input, logger: logger)
     }
 
+    /// Returns information about an MLflow App.
+    @Sendable
+    @inlinable
+    public func describeMlflowApp(_ input: DescribeMlflowAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMlflowAppResponse {
+        try await self.client.execute(
+            operation: "DescribeMlflowApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about an MLflow App.
+    ///
+    /// Parameters:
+    ///   - arn: The ARN of the MLflow App for which to get information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMlflowApp(
+        arn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMlflowAppResponse {
+        let input = DescribeMlflowAppRequest(
+            arn: arn
+        )
+        return try await self.describeMlflowApp(input, logger: logger)
+    }
+
     /// Returns information about an MLflow Tracking Server.
     @Sendable
     @inlinable
@@ -6838,14 +7130,17 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - arn: The ARN of the SageMaker Partner AI App to describe.
+    ///   - includeAvailableUpgrade: When set to TRUE, the response includes available upgrade information for the SageMaker Partner AI App. Default is FALSE.
     ///   - logger: Logger use during operation
     @inlinable
     public func describePartnerApp(
         arn: String? = nil,
+        includeAvailableUpgrade: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribePartnerAppResponse {
         let input = DescribePartnerAppRequest(
-            arn: arn
+            arn: arn, 
+            includeAvailableUpgrade: includeAvailableUpgrade
         )
         return try await self.describePartnerApp(input, logger: logger)
     }
@@ -9870,6 +10165,62 @@ public struct SageMaker: AWSService {
         return try await self.listLineageGroups(input, logger: logger)
     }
 
+    /// Lists all MLflow Apps
+    @Sendable
+    @inlinable
+    public func listMlflowApps(_ input: ListMlflowAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMlflowAppsResponse {
+        try await self.client.execute(
+            operation: "ListMlflowApps", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all MLflow Apps
+    ///
+    /// Parameters:
+    ///   - accountDefaultStatus: Filter for MLflow Apps with the specified AccountDefaultStatus.
+    ///   - createdAfter: Use the CreatedAfter filter to only list MLflow Apps created after a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+    ///   - createdBefore: Use the CreatedBefore filter to only list MLflow Apps created before a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+    ///   - defaultForDomainId: Filter for MLflow Apps with the specified default SageMaker Domain ID.
+    ///   - maxResults: The maximum number of MLflow Apps to list.
+    ///   - mlflowVersion: Filter for Mlflow Apps with the specified version.
+    ///   - nextToken: If the previous response was truncated, use this token in your next request to receive the next set of results.
+    ///   - sortBy: Filter for MLflow Apps sorting by name, creation time, or creation status.
+    ///   - sortOrder: Change the order of the listed MLflow Apps. By default, MLflow Apps are listed in Descending order by creation time. To change the list order, specify SortOrder to be Ascending.
+    ///   - status: Filter for Mlflow apps with a specific creation status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMlflowApps(
+        accountDefaultStatus: AccountDefaultStatus? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        defaultForDomainId: String? = nil,
+        maxResults: Int? = nil,
+        mlflowVersion: String? = nil,
+        nextToken: String? = nil,
+        sortBy: SortMlflowAppBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: MlflowAppStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMlflowAppsResponse {
+        let input = ListMlflowAppsRequest(
+            accountDefaultStatus: accountDefaultStatus, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            defaultForDomainId: defaultForDomainId, 
+            maxResults: maxResults, 
+            mlflowVersion: mlflowVersion, 
+            nextToken: nextToken, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return try await self.listMlflowApps(input, logger: logger)
+    }
+
     /// Lists all MLflow Tracking Servers.
     @Sendable
     @inlinable
@@ -12150,7 +12501,7 @@ public struct SageMaker: AWSService {
     ///   - instanceCount: The number of instances you want to reserve in the training plan offerings. This allows you to specify the quantity of compute resources needed for your SageMaker training jobs or SageMaker HyperPod clusters, helping you find reserved capacity offerings that match your requirements.
     ///   - instanceType: The type of instance you want to search for in the available training plan offerings. This field allows you to filter the search results based on the specific compute resources you require for your SageMaker training jobs or SageMaker HyperPod clusters. When searching for training plan offerings, specifying the instance type helps you find Reserved Instances that match your computational needs.
     ///   - startTimeAfter: A filter to search for training plan offerings with a start time after a specified date.
-    ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+    ///   - targetResources: The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
     ///   - ultraServerCount: The number of UltraServers to search for.
     ///   - ultraServerType: The type of UltraServer to search for, such as ml.u-p6e-gb200x72.
     ///   - logger: Logger use during operation
@@ -12414,6 +12765,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
+    ///   - mlflowExperimentName:  The MLflow experiment name of the start execution.
     ///   - parallelismConfiguration: This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run.
     ///   - pipelineExecutionDescription: The description of the pipeline execution.
     ///   - pipelineExecutionDisplayName: The display name of the pipeline execution.
@@ -12425,6 +12777,7 @@ public struct SageMaker: AWSService {
     @inlinable
     public func startPipelineExecution(
         clientRequestToken: String? = nil,
+        mlflowExperimentName: String? = nil,
         parallelismConfiguration: ParallelismConfiguration? = nil,
         pipelineExecutionDescription: String? = nil,
         pipelineExecutionDisplayName: String? = nil,
@@ -12436,6 +12789,7 @@ public struct SageMaker: AWSService {
     ) async throws -> StartPipelineExecutionResponse {
         let input = StartPipelineExecutionRequest(
             clientRequestToken: clientRequestToken, 
+            mlflowExperimentName: mlflowExperimentName, 
             parallelismConfiguration: parallelismConfiguration, 
             pipelineExecutionDescription: pipelineExecutionDescription, 
             pipelineExecutionDisplayName: pipelineExecutionDisplayName, 
@@ -13096,6 +13450,7 @@ public struct SageMaker: AWSService {
     ///   - clusterRole: The Amazon Resource Name (ARN) of the IAM role that HyperPod assumes for cluster autoscaling operations. Cannot be updated while autoscaling is enabled.
     ///   - instanceGroups: Specify the instance groups to update.
     ///   - instanceGroupsToDelete: Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
+    ///   - nodeProvisioningMode: Determines how instance provisioning is handled during cluster operations. In Continuous mode, the cluster provisions available instances incrementally and retries until the target count is reached. The cluster becomes operational once cluster-level resources are ready. Use CurrentCount and TargetCount in DescribeCluster to track provisioning progress.
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
     ///   - restrictedInstanceGroups: The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
     ///   - tieredStorageConfig: Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
@@ -13107,6 +13462,7 @@ public struct SageMaker: AWSService {
         clusterRole: String? = nil,
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
         instanceGroupsToDelete: [String]? = nil,
+        nodeProvisioningMode: ClusterNodeProvisioningMode? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
         restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil,
         tieredStorageConfig: ClusterTieredStorageConfig? = nil,
@@ -13118,6 +13474,7 @@ public struct SageMaker: AWSService {
             clusterRole: clusterRole, 
             instanceGroups: instanceGroups, 
             instanceGroupsToDelete: instanceGroupsToDelete, 
+            nodeProvisioningMode: nodeProvisioningMode, 
             nodeRecovery: nodeRecovery, 
             restrictedInstanceGroups: restrictedInstanceGroups, 
             tieredStorageConfig: tieredStorageConfig
@@ -13412,6 +13769,7 @@ public struct SageMaker: AWSService {
     ///   - domainSettingsForUpdate: A collection of DomainSettings configuration values to update.
     ///   - subnetIds: The VPC subnets that Studio uses for communication. If removing subnets, ensure there are no apps in the InService, Pending, or Deleting state.
     ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
+    ///   - vpcId: The identifier for the VPC used by the domain for network communication. Use this field only when adding VPC configuration to a SageMaker AI domain used in Amazon SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't automatically apply VPC updates to existing applications. Stop and restart your applications to apply the changes.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDomain(
@@ -13423,6 +13781,7 @@ public struct SageMaker: AWSService {
         domainSettingsForUpdate: DomainSettingsForUpdate? = nil,
         subnetIds: [String]? = nil,
         tagPropagation: TagPropagation? = nil,
+        vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDomainResponse {
         let input = UpdateDomainRequest(
@@ -13433,7 +13792,8 @@ public struct SageMaker: AWSService {
             domainId: domainId, 
             domainSettingsForUpdate: domainSettingsForUpdate, 
             subnetIds: subnetIds, 
-            tagPropagation: tagPropagation
+            tagPropagation: tagPropagation, 
+            vpcId: vpcId
         )
         return try await self.updateDomain(input, logger: logger)
     }
@@ -13974,6 +14334,53 @@ public struct SageMaker: AWSService {
         return try await self.updateInferenceExperiment(input, logger: logger)
     }
 
+    /// Updates an MLflow App.
+    @Sendable
+    @inlinable
+    public func updateMlflowApp(_ input: UpdateMlflowAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateMlflowAppResponse {
+        try await self.client.execute(
+            operation: "UpdateMlflowApp", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an MLflow App.
+    ///
+    /// Parameters:
+    ///   - accountDefaultStatus: Indicates whether this this MLflow App is the default for the account.
+    ///   - arn: The ARN of the MLflow App to update.
+    ///   - artifactStoreUri: The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow App.
+    ///   - defaultDomainIdList: List of SageMaker Domain IDs for which this MLflow App is the default.
+    ///   - modelRegistrationMode: Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationEnabled
+    ///   - name: The name of the MLflow App to update.
+    ///   - weeklyMaintenanceWindowStart: The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateMlflowApp(
+        accountDefaultStatus: AccountDefaultStatus? = nil,
+        arn: String? = nil,
+        artifactStoreUri: String? = nil,
+        defaultDomainIdList: [String]? = nil,
+        modelRegistrationMode: ModelRegistrationMode? = nil,
+        name: String? = nil,
+        weeklyMaintenanceWindowStart: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateMlflowAppResponse {
+        let input = UpdateMlflowAppRequest(
+            accountDefaultStatus: accountDefaultStatus, 
+            arn: arn, 
+            artifactStoreUri: artifactStoreUri, 
+            defaultDomainIdList: defaultDomainIdList, 
+            modelRegistrationMode: modelRegistrationMode, 
+            name: name, 
+            weeklyMaintenanceWindowStart: weeklyMaintenanceWindowStart
+        )
+        return try await self.updateMlflowApp(input, logger: logger)
+    }
+
     /// Updates properties of an existing MLflow Tracking Server.
     @Sendable
     @inlinable
@@ -14076,6 +14483,7 @@ public struct SageMaker: AWSService {
     ///   - modelCard: The model card associated with the model package. Since ModelPackageModelCard is tied to a model package, it is a specific usage of a model card and its schema is simplified compared to the schema of ModelCard. The ModelPackageModelCard schema does not include model_package_details, and model_overview is composed of the model_creator and model_artifact properties. For more information about the model package model card schema, see Model package model card schema. For more information about the model card associated with the model package, see View the Details of a Model Version.
     ///   - modelLifeCycle:  A structure describing the current state of the model in its life cycle.
     ///   - modelPackageArn: The Amazon Resource Name (ARN) of the model package.
+    ///   - modelPackageRegistrationType:  The package registration type of the model package input.
     ///   - sourceUri: The URI of the source for the model package.
     ///   - logger: Logger use during operation
     @inlinable
@@ -14090,6 +14498,7 @@ public struct SageMaker: AWSService {
         modelCard: ModelPackageModelCard? = nil,
         modelLifeCycle: ModelLifeCycle? = nil,
         modelPackageArn: String? = nil,
+        modelPackageRegistrationType: ModelPackageRegistrationType? = nil,
         sourceUri: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateModelPackageOutput {
@@ -14104,6 +14513,7 @@ public struct SageMaker: AWSService {
             modelCard: modelCard, 
             modelLifeCycle: modelLifeCycle, 
             modelPackageArn: modelPackageArn, 
+            modelPackageRegistrationType: modelPackageRegistrationType, 
             sourceUri: sourceUri
         )
         return try await self.updateModelPackage(input, logger: logger)
@@ -14207,6 +14617,7 @@ public struct SageMaker: AWSService {
     ///   - ipAddressType: The IP address type for the notebook instance. Specify ipv4 for IPv4-only connectivity or dualstack for both IPv4 and IPv6 connectivity. The notebook instance must be stopped before updating this setting. When you specify dualstack, the subnet must support IPv6 addressing.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the notebook instance to update.
+    ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     ///   - rootAccess: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
     ///   - volumeSizeInGB: The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
@@ -14225,6 +14636,7 @@ public struct SageMaker: AWSService {
         ipAddressType: IPAddressType? = nil,
         lifecycleConfigName: String? = nil,
         notebookInstanceName: String? = nil,
+        platformIdentifier: String? = nil,
         roleArn: String? = nil,
         rootAccess: RootAccess? = nil,
         volumeSizeInGB: Int? = nil,
@@ -14243,6 +14655,7 @@ public struct SageMaker: AWSService {
             ipAddressType: ipAddressType, 
             lifecycleConfigName: lifecycleConfigName, 
             notebookInstanceName: notebookInstanceName, 
+            platformIdentifier: platformIdentifier, 
             roleArn: roleArn, 
             rootAccess: rootAccess, 
             volumeSizeInGB: volumeSizeInGB
@@ -14302,8 +14715,10 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - applicationConfig: Configuration settings for the SageMaker Partner AI App.
+    ///   - appVersion: The semantic version to upgrade the SageMaker Partner AI App to. Must be the same semantic version returned in the AvailableUpgrade field from DescribePartnerApp. Version skipping and downgrades are not supported.
     ///   - arn: The ARN of the SageMaker Partner AI App to update.
     ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
+    ///   - enableAutoMinorVersionUpgrade: When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
     ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
     ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
@@ -14312,8 +14727,10 @@ public struct SageMaker: AWSService {
     @inlinable
     public func updatePartnerApp(
         applicationConfig: PartnerAppConfig? = nil,
+        appVersion: String? = nil,
         arn: String? = nil,
         clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(),
+        enableAutoMinorVersionUpgrade: Bool? = nil,
         enableIamSessionBasedIdentity: Bool? = nil,
         maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
         tags: [Tag]? = nil,
@@ -14322,8 +14739,10 @@ public struct SageMaker: AWSService {
     ) async throws -> UpdatePartnerAppResponse {
         let input = UpdatePartnerAppRequest(
             applicationConfig: applicationConfig, 
+            appVersion: appVersion, 
             arn: arn, 
             clientToken: clientToken, 
+            enableAutoMinorVersionUpgrade: enableAutoMinorVersionUpgrade, 
             enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
             maintenanceConfig: maintenanceConfig, 
             tags: tags, 
@@ -16905,6 +17324,64 @@ extension SageMaker {
             sortOrder: sortOrder
         )
         return self.listLineageGroupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMlflowApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMlflowAppsPaginator(
+        _ input: ListMlflowAppsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMlflowAppsRequest, ListMlflowAppsResponse> {
+        return .init(
+            input: input,
+            command: self.listMlflowApps,
+            inputKey: \ListMlflowAppsRequest.nextToken,
+            outputKey: \ListMlflowAppsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMlflowApps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountDefaultStatus: Filter for MLflow Apps with the specified AccountDefaultStatus.
+    ///   - createdAfter: Use the CreatedAfter filter to only list MLflow Apps created after a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+    ///   - createdBefore: Use the CreatedBefore filter to only list MLflow Apps created before a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+    ///   - defaultForDomainId: Filter for MLflow Apps with the specified default SageMaker Domain ID.
+    ///   - maxResults: The maximum number of MLflow Apps to list.
+    ///   - mlflowVersion: Filter for Mlflow Apps with the specified version.
+    ///   - sortBy: Filter for MLflow Apps sorting by name, creation time, or creation status.
+    ///   - sortOrder: Change the order of the listed MLflow Apps. By default, MLflow Apps are listed in Descending order by creation time. To change the list order, specify SortOrder to be Ascending.
+    ///   - status: Filter for Mlflow apps with a specific creation status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMlflowAppsPaginator(
+        accountDefaultStatus: AccountDefaultStatus? = nil,
+        createdAfter: Date? = nil,
+        createdBefore: Date? = nil,
+        defaultForDomainId: String? = nil,
+        maxResults: Int? = nil,
+        mlflowVersion: String? = nil,
+        sortBy: SortMlflowAppBy? = nil,
+        sortOrder: SortOrder? = nil,
+        status: MlflowAppStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMlflowAppsRequest, ListMlflowAppsResponse> {
+        let input = ListMlflowAppsRequest(
+            accountDefaultStatus: accountDefaultStatus, 
+            createdAfter: createdAfter, 
+            createdBefore: createdBefore, 
+            defaultForDomainId: defaultForDomainId, 
+            maxResults: maxResults, 
+            mlflowVersion: mlflowVersion, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            status: status
+        )
+        return self.listMlflowAppsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMlflowTrackingServers(_:logger:)``.
@@ -19761,6 +20238,24 @@ extension SageMaker.ListLineageGroupsRequest: AWSPaginateToken {
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension SageMaker.ListMlflowAppsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListMlflowAppsRequest {
+        return .init(
+            accountDefaultStatus: self.accountDefaultStatus,
+            createdAfter: self.createdAfter,
+            createdBefore: self.createdBefore,
+            defaultForDomainId: self.defaultForDomainId,
+            maxResults: self.maxResults,
+            mlflowVersion: self.mlflowVersion,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            status: self.status
         )
     }
 }

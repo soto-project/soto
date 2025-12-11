@@ -141,6 +141,50 @@ public struct CostOptimizationHub: AWSService {
         return try await self.getRecommendation(input, logger: logger)
     }
 
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
+    @Sendable
+    @inlinable
+    public func listEfficiencyMetrics(_ input: ListEfficiencyMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEfficiencyMetricsResponse {
+        try await self.client.execute(
+            operation: "ListEfficiencyMetrics", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns cost efficiency metrics aggregated over time and optionally grouped by a specified dimension. The metrics provide insights into your cost optimization progress by tracking estimated savings, spending, and measures how effectively you're optimizing your Cloud resources. The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
+    ///
+    /// Parameters:
+    ///   - granularity: The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month.
+    ///   - groupBy: The dimension by which to group the cost efficiency metrics. Valid values include account ID, Amazon Web Services Region. When no grouping is specified, metrics are aggregated across all resources in the specified time period.
+    ///   - maxResults: The maximum number of groups to return in the response. Valid values range from 0 to 1000. Use in conjunction with nextToken to paginate through results when the total number of groups exceeds this limit.
+    ///   - nextToken: The token to retrieve the next page of results. This value is returned in the response when the number of groups exceeds the specified maxResults value.
+    ///   - orderBy: The ordering specification for the results. Defines which dimension to sort by and whether to sort in ascending or descending order.
+    ///   - timePeriod: The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEfficiencyMetrics(
+        granularity: GranularityType,
+        groupBy: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        orderBy: OrderBy? = nil,
+        timePeriod: TimePeriod,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEfficiencyMetricsResponse {
+        let input = ListEfficiencyMetricsRequest(
+            granularity: granularity, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            orderBy: orderBy, 
+            timePeriod: timePeriod
+        )
+        return try await self.listEfficiencyMetrics(input, logger: logger)
+    }
+
     /// Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
     @Sendable
     @inlinable
@@ -261,7 +305,7 @@ public struct CostOptimizationHub: AWSService {
         return try await self.listRecommendations(input, logger: logger)
     }
 
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     @Sendable
     @inlinable
     public func updateEnrollmentStatus(_ input: UpdateEnrollmentStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEnrollmentStatusResponse {
@@ -274,7 +318,7 @@ public struct CostOptimizationHub: AWSService {
             logger: logger
         )
     }
-    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account or delegated administrator of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
+    /// Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization Hub service. If the account is a management account of an organization, this action can also be used to enroll member accounts of the organization. You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
     ///
     /// Parameters:
     ///   - includeMemberAccounts: Indicates whether to enroll member accounts of the organization if the account is the management account or delegated administrator.
@@ -342,6 +386,52 @@ extension CostOptimizationHub {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CostOptimizationHub {
+    /// Return PaginatorSequence for operation ``listEfficiencyMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEfficiencyMetricsPaginator(
+        _ input: ListEfficiencyMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEfficiencyMetricsRequest, ListEfficiencyMetricsResponse> {
+        return .init(
+            input: input,
+            command: self.listEfficiencyMetrics,
+            inputKey: \ListEfficiencyMetricsRequest.nextToken,
+            outputKey: \ListEfficiencyMetricsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEfficiencyMetrics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - granularity: The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month.
+    ///   - groupBy: The dimension by which to group the cost efficiency metrics. Valid values include account ID, Amazon Web Services Region. When no grouping is specified, metrics are aggregated across all resources in the specified time period.
+    ///   - maxResults: The maximum number of groups to return in the response. Valid values range from 0 to 1000. Use in conjunction with nextToken to paginate through results when the total number of groups exceeds this limit.
+    ///   - orderBy: The ordering specification for the results. Defines which dimension to sort by and whether to sort in ascending or descending order.
+    ///   - timePeriod: The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEfficiencyMetricsPaginator(
+        granularity: GranularityType,
+        groupBy: String? = nil,
+        maxResults: Int? = nil,
+        orderBy: OrderBy? = nil,
+        timePeriod: TimePeriod,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEfficiencyMetricsRequest, ListEfficiencyMetricsResponse> {
+        let input = ListEfficiencyMetricsRequest(
+            granularity: granularity, 
+            groupBy: groupBy, 
+            maxResults: maxResults, 
+            orderBy: orderBy, 
+            timePeriod: timePeriod
+        )
+        return self.listEfficiencyMetricsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEnrollmentStatuses(_:logger:)``.
     ///
     /// - Parameters:
@@ -466,6 +556,20 @@ extension CostOptimizationHub {
             orderBy: orderBy
         )
         return self.listRecommendationsPaginator(input, logger: logger)
+    }
+}
+
+extension CostOptimizationHub.ListEfficiencyMetricsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostOptimizationHub.ListEfficiencyMetricsRequest {
+        return .init(
+            granularity: self.granularity,
+            groupBy: self.groupBy,
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderBy: self.orderBy,
+            timePeriod: self.timePeriod
+        )
     }
 }
 

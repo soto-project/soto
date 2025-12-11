@@ -34,8 +34,22 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventActionability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionMayBeRequired = "ACTION_MAY_BE_REQUIRED"
+        case actionRequired = "ACTION_REQUIRED"
+        case informational = "INFORMATIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventAggregateField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventTypeCategory = "eventTypeCategory"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventPersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billing = "BILLING"
+        case operations = "OPERATIONS"
+        case security = "SECURITY"
         public var description: String { return self.rawValue }
     }
 
@@ -53,11 +67,25 @@ extension Health {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventTypeActionability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case actionMayBeRequired = "ACTION_MAY_BE_REQUIRED"
+        case actionRequired = "ACTION_REQUIRED"
+        case informational = "INFORMATIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventTypeCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountNotification = "accountNotification"
         case investigation = "investigation"
         case issue = "issue"
         case scheduledChange = "scheduledChange"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventTypePersona: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case billing = "BILLING"
+        case operations = "OPERATIONS"
+        case security = "SECURITY"
         public var description: String { return self.rawValue }
     }
 
@@ -102,7 +130,7 @@ extension Health {
         public let eventArn: String?
         /// The most recent time that the entity was updated.
         public let lastUpdatedTime: Date?
-        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
+        /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, UNKNOWN, PENDING, and RESOLVED.
         public let statusCode: EntityStatusCode?
         /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
         public let tags: [String: String]?
@@ -923,6 +951,9 @@ extension Health {
     }
 
     public struct Event: AWSDecodableShape {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required.
+        /// Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public let actionability: EventActionability?
         /// The unique identifier for the event. The event ARN has the
         /// arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
@@ -941,6 +972,8 @@ extension Health {
         public let eventTypeCode: String?
         /// The most recent date and time that the event was updated.
         public let lastUpdatedTime: Date?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public let personas: [EventPersona]?
         /// The Amazon Web Services Region name of the event.
         public let region: String?
         /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
@@ -951,7 +984,8 @@ extension Health {
         public let statusCode: EventStatusCode?
 
         @inlinable
-        public init(arn: String? = nil, availabilityZone: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
+        public init(actionability: EventActionability? = nil, arn: String? = nil, availabilityZone: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, personas: [EventPersona]? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
+            self.actionability = actionability
             self.arn = arn
             self.availabilityZone = availabilityZone
             self.endTime = endTime
@@ -959,6 +993,7 @@ extension Health {
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.region = region
             self.service = service
             self.startTime = startTime
@@ -966,6 +1001,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionability = "actionability"
             case arn = "arn"
             case availabilityZone = "availabilityZone"
             case endTime = "endTime"
@@ -973,6 +1009,7 @@ extension Health {
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
+            case personas = "personas"
             case region = "region"
             case service = "service"
             case startTime = "startTime"
@@ -1086,6 +1123,8 @@ extension Health {
     }
 
     public struct EventFilter: AWSEncodableShape {
+        /// A list of actionability values to filter events. Use this to filter events based on whether they require action (ACTION_REQUIRED), may require action (ACTION_MAY_BE_REQUIRED) or are informational (INFORMATIONAL).
+        public let actionabilities: [EventActionability]?
         /// A list of Amazon Web Services Availability Zones.
         public let availabilityZones: [String]?
         /// A list of dates and times that the event ended.
@@ -1106,6 +1145,8 @@ extension Health {
         public let eventTypeCodes: [String]?
         /// A list of dates and times that the event was last updated.
         public let lastUpdatedTimes: [DateTimeRange]?
+        /// A list of persona values to filter events. Use this to filter events based on their target audience: OPERATIONS, SECURITY, or BILLING.
+        public let personas: [EventPersona]?
         /// A list of Amazon Web Services Regions.
         public let regions: [String]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
@@ -1116,7 +1157,8 @@ extension Health {
         public let tags: [[String: String]]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
+        public init(actionabilities: [EventActionability]? = nil, availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, personas: [EventPersona]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
+            self.actionabilities = actionabilities
             self.availabilityZones = availabilityZones
             self.endTimes = endTimes
             self.entityArns = entityArns
@@ -1126,6 +1168,7 @@ extension Health {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.lastUpdatedTimes = lastUpdatedTimes
+            self.personas = personas
             self.regions = regions
             self.services = services
             self.startTimes = startTimes
@@ -1133,6 +1176,8 @@ extension Health {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, max: 3)
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, min: 1)
             try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 18)
                 try validate($0, name: "availabilityZones[]", parent: name, min: 6)
@@ -1171,6 +1216,8 @@ extension Health {
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, max: 10)
             try self.validate(self.lastUpdatedTimes, name: "lastUpdatedTimes", parent: name, min: 1)
+            try self.validate(self.personas, name: "personas", parent: name, max: 3)
+            try self.validate(self.personas, name: "personas", parent: name, min: 1)
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 25)
                 try validate($0, name: "regions[]", parent: name, min: 2)
@@ -1194,6 +1241,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionabilities = "actionabilities"
             case availabilityZones = "availabilityZones"
             case endTimes = "endTimes"
             case entityArns = "entityArns"
@@ -1203,6 +1251,7 @@ extension Health {
             case eventTypeCategories = "eventTypeCategories"
             case eventTypeCodes = "eventTypeCodes"
             case lastUpdatedTimes = "lastUpdatedTimes"
+            case personas = "personas"
             case regions = "regions"
             case services = "services"
             case startTimes = "startTimes"
@@ -1211,47 +1260,64 @@ extension Health {
     }
 
     public struct EventType: AWSDecodableShape {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required.
+        /// Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public let actionability: EventTypeActionability?
         /// A list of event type category codes. Possible values are
         /// issue, accountNotification, or scheduledChange. Currently,
         /// the investigation value isn't supported at this time.
         public let category: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let code: String?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public let personas: [EventTypePersona]?
         /// The Amazon Web Services service that is affected by the event. For example, EC2, RDS.
         public let service: String?
 
         @inlinable
-        public init(category: EventTypeCategory? = nil, code: String? = nil, service: String? = nil) {
+        public init(actionability: EventTypeActionability? = nil, category: EventTypeCategory? = nil, code: String? = nil, personas: [EventTypePersona]? = nil, service: String? = nil) {
+            self.actionability = actionability
             self.category = category
             self.code = code
+            self.personas = personas
             self.service = service
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionability = "actionability"
             case category = "category"
             case code = "code"
+            case personas = "personas"
             case service = "service"
         }
     }
 
     public struct EventTypeFilter: AWSEncodableShape {
+        /// A list of actionability values to filter event types. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL.
+        public let actionabilities: [EventTypeActionability]?
         /// A list of event type category codes. Possible values are
         /// issue, accountNotification, or scheduledChange. Currently,
         /// the investigation value isn't supported at this time.
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event type codes.
         public let eventTypeCodes: [String]?
+        /// A list of persona classifications to filter event types. Possible values are OPERATIONS, SECURITY, and BILLING.
+        public let personas: [EventTypePersona]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
         public let services: [String]?
 
         @inlinable
-        public init(eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, services: [String]? = nil) {
+        public init(actionabilities: [EventTypeActionability]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, personas: [EventTypePersona]? = nil, services: [String]? = nil) {
+            self.actionabilities = actionabilities
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
+            self.personas = personas
             self.services = services
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, max: 3)
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, min: 1)
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, max: 10)
             try self.validate(self.eventTypeCategories, name: "eventTypeCategories", parent: name, min: 1)
             try self.eventTypeCodes?.forEach {
@@ -1261,6 +1327,8 @@ extension Health {
             }
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, max: 10)
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
+            try self.validate(self.personas, name: "personas", parent: name, max: 3)
+            try self.validate(self.personas, name: "personas", parent: name, min: 1)
             try self.services?.forEach {
                 try validate($0, name: "services[]", parent: name, max: 30)
                 try validate($0, name: "services[]", parent: name, min: 2)
@@ -1271,8 +1339,10 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionabilities = "actionabilities"
             case eventTypeCategories = "eventTypeCategories"
             case eventTypeCodes = "eventTypeCodes"
+            case personas = "personas"
             case services = "services"
         }
     }
@@ -1332,6 +1402,9 @@ extension Health {
     }
 
     public struct OrganizationEvent: AWSDecodableShape {
+        /// The actionability classification of the event. Possible values are ACTION_REQUIRED, ACTION_MAY_BE_REQUIRED and INFORMATIONAL. Events with ACTION_REQUIRED actionability require customer action to resolve or mitigate the event. Events with ACTION_MAY_BE_REQUIRED actionability indicates that the current status is unknown or conditional and inspection is needed to determine if action is required.
+        /// Events with INFORMATIONAL actionability are provided for awareness and do not require immediate action.
+        public let actionability: EventActionability?
         /// The unique identifier for the event. The event ARN has the
         /// arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID
         /// format. For example, an event ARN might look like the following:  arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
@@ -1348,6 +1421,8 @@ extension Health {
         public let eventTypeCode: String?
         /// The most recent date and time that the event was updated.
         public let lastUpdatedTime: Date?
+        /// A list of persona classifications that indicate the target audience for the event. Possible values are OPERATIONS, SECURITY, and BILLING. Events can be associated with multiple personas to indicate relevance to different teams or roles within an organization.
+        public let personas: [EventPersona]?
         /// The Amazon Web Services Region name of the event.
         public let region: String?
         /// The Amazon Web Services service that is affected by the event, such as EC2 and RDS.
@@ -1358,13 +1433,15 @@ extension Health {
         public let statusCode: EventStatusCode?
 
         @inlinable
-        public init(arn: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
+        public init(actionability: EventActionability? = nil, arn: String? = nil, endTime: Date? = nil, eventScopeCode: EventScopeCode? = nil, eventTypeCategory: EventTypeCategory? = nil, eventTypeCode: String? = nil, lastUpdatedTime: Date? = nil, personas: [EventPersona]? = nil, region: String? = nil, service: String? = nil, startTime: Date? = nil, statusCode: EventStatusCode? = nil) {
+            self.actionability = actionability
             self.arn = arn
             self.endTime = endTime
             self.eventScopeCode = eventScopeCode
             self.eventTypeCategory = eventTypeCategory
             self.eventTypeCode = eventTypeCode
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.region = region
             self.service = service
             self.startTime = startTime
@@ -1372,12 +1449,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionability = "actionability"
             case arn = "arn"
             case endTime = "endTime"
             case eventScopeCode = "eventScopeCode"
             case eventTypeCategory = "eventTypeCategory"
             case eventTypeCode = "eventTypeCode"
             case lastUpdatedTime = "lastUpdatedTime"
+            case personas = "personas"
             case region = "region"
             case service = "service"
             case startTime = "startTime"
@@ -1439,6 +1518,8 @@ extension Health {
     }
 
     public struct OrganizationEventFilter: AWSEncodableShape {
+        /// A list of actionability values to filter events. Use this to filter events based on whether they require action (ACTION_REQUIRED), may require action (ACTION_MAY_BE_REQUIRED) or are informational (INFORMATIONAL).
+        public let actionabilities: [EventActionability]?
         /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities.
         public let awsAccountIds: [String]?
         public let endTime: DateTimeRange?
@@ -1455,6 +1536,8 @@ extension Health {
         /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".
         public let eventTypeCodes: [String]?
         public let lastUpdatedTime: DateTimeRange?
+        /// A list of persona values to filter events. Use this to filter events based on their target audience: OPERATIONS, SECURITY, or BILLING.
+        public let personas: [EventPersona]?
         /// A list of Amazon Web Services Regions.
         public let regions: [String]?
         /// The Amazon Web Services services associated with the event. For example, EC2, RDS.
@@ -1462,7 +1545,8 @@ extension Health {
         public let startTime: DateTimeRange?
 
         @inlinable
-        public init(awsAccountIds: [String]? = nil, endTime: DateTimeRange? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTime: DateTimeRange? = nil, regions: [String]? = nil, services: [String]? = nil, startTime: DateTimeRange? = nil) {
+        public init(actionabilities: [EventActionability]? = nil, awsAccountIds: [String]? = nil, endTime: DateTimeRange? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTime: DateTimeRange? = nil, personas: [EventPersona]? = nil, regions: [String]? = nil, services: [String]? = nil, startTime: DateTimeRange? = nil) {
+            self.actionabilities = actionabilities
             self.awsAccountIds = awsAccountIds
             self.endTime = endTime
             self.entityArns = entityArns
@@ -1471,12 +1555,15 @@ extension Health {
             self.eventTypeCategories = eventTypeCategories
             self.eventTypeCodes = eventTypeCodes
             self.lastUpdatedTime = lastUpdatedTime
+            self.personas = personas
             self.regions = regions
             self.services = services
             self.startTime = startTime
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, max: 3)
+            try self.validate(self.actionabilities, name: "actionabilities", parent: name, min: 1)
             try self.awsAccountIds?.forEach {
                 try validate($0, name: "awsAccountIds[]", parent: name, max: 12)
                 try validate($0, name: "awsAccountIds[]", parent: name, pattern: "^\\S+$")
@@ -1506,6 +1593,8 @@ extension Health {
             }
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, max: 10)
             try self.validate(self.eventTypeCodes, name: "eventTypeCodes", parent: name, min: 1)
+            try self.validate(self.personas, name: "personas", parent: name, max: 3)
+            try self.validate(self.personas, name: "personas", parent: name, min: 1)
             try self.regions?.forEach {
                 try validate($0, name: "regions[]", parent: name, max: 25)
                 try validate($0, name: "regions[]", parent: name, min: 2)
@@ -1523,6 +1612,7 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionabilities = "actionabilities"
             case awsAccountIds = "awsAccountIds"
             case endTime = "endTime"
             case entityArns = "entityArns"
@@ -1531,6 +1621,7 @@ extension Health {
             case eventTypeCategories = "eventTypeCategories"
             case eventTypeCodes = "eventTypeCodes"
             case lastUpdatedTime = "lastUpdatedTime"
+            case personas = "personas"
             case regions = "regions"
             case services = "services"
             case startTime = "startTime"

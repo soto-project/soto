@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS IdentityStore service.
 ///
-/// The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). For more information, see the IAM Identity Center User Guide. This reference guide describes the identity store operations that you can call programmatically and includes detailed information about data types and errors.  IAM Identity Center uses the sso and identitystore API namespaces.
+/// The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). For more information, see the  IAM Identity Center User Guide. This reference guide describes the identity store operations that you can call programmatically and includes detailed information about data types and errors.   IAM Identity Center uses the sso, sso-directory, and identitystore API namespaces. The sso-directory and identitystore namespaces authorize access to data in the Identity Store. Make sure your policies with IAM actions from these two namespaces are consistent to avoid conflicting authorization to the same data.
 public struct IdentityStore: AWSService {
     // MARK: Member variables
 
@@ -174,53 +174,65 @@ public struct IdentityStore: AWSService {
     ///
     /// Parameters:
     ///   - addresses: A list of Address objects containing addresses associated with the user.
-    ///   - displayName: A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe."
+    ///   - birthdate: The user's birthdate in YYYY-MM-DD format. This field supports standard date format for storing personal information.
+    ///   - displayName: A string containing the name of the user. This value is typically formatted for display when the user is referenced. For example, "John Doe." When used in IAM Identity Center, this parameter is required.
     ///   - emails: A list of Email objects containing email addresses associated with the user.
+    ///   - extensions: A map with additional attribute extensions for the user. Each map key corresponds to an extension name, while map values represent extension data in Document type (not supported by Java V1, Go V1 and older versions of the CLI). aws:identitystore:enterprise is the only supported extension name.
     ///   - identityStoreId: The globally unique identifier for the identity store.
     ///   - locale: A string containing the geographical region or location of the user.
-    ///   - name: An object containing the name of the user.
+    ///   - name: An object containing the name of the user. When used in IAM Identity Center, this parameter is required.
     ///   - nickName: A string containing an alternate name for the user.
     ///   - phoneNumbers: A list of PhoneNumber objects containing phone numbers associated with the user.
+    ///   - photos: A list of photos associated with the user. You can add up to 3 photos per user. Each photo can include a value, type, display name, and primary designation.
     ///   - preferredLanguage: A string containing the preferred language of the user. For example, "American English" or "en-us."
     ///   - profileUrl: A string containing a URL that might be associated with the user.
     ///   - timezone: A string containing the time zone of the user.
     ///   - title: A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
     ///   - userName: A unique string used to identify the user. The length limit is 128 characters. This value can consist of letters, accented characters, symbols, numbers, and punctuation. This value is specified at the time the user is created and stored as an attribute of the user object in the identity store. Administrator and AWSAdministrators are reserved names and can't be used for users or groups.
     ///   - userType: A string indicating the type of user. Possible values are left unspecified. The value can vary based on your specific use case.
+    ///   - website: The user's personal website or blog URL. This field allows users to provide a link to their personal or professional website.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUser(
         addresses: [Address]? = nil,
+        birthdate: String? = nil,
         displayName: String? = nil,
         emails: [Email]? = nil,
+        extensions: [String: AWSDocument]? = nil,
         identityStoreId: String,
         locale: String? = nil,
         name: Name? = nil,
         nickName: String? = nil,
         phoneNumbers: [PhoneNumber]? = nil,
+        photos: [Photo]? = nil,
         preferredLanguage: String? = nil,
         profileUrl: String? = nil,
         timezone: String? = nil,
         title: String? = nil,
         userName: String? = nil,
         userType: String? = nil,
+        website: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserResponse {
         let input = CreateUserRequest(
             addresses: addresses, 
+            birthdate: birthdate, 
             displayName: displayName, 
             emails: emails, 
+            extensions: extensions, 
             identityStoreId: identityStoreId, 
             locale: locale, 
             name: name, 
             nickName: nickName, 
             phoneNumbers: phoneNumbers, 
+            photos: photos, 
             preferredLanguage: preferredLanguage, 
             profileUrl: profileUrl, 
             timezone: timezone, 
             title: title, 
             userName: userName, 
-            userType: userType
+            userType: userType, 
+            website: website
         )
         return try await self.createUser(input, logger: logger)
     }
@@ -321,7 +333,7 @@ public struct IdentityStore: AWSService {
         return try await self.deleteUser(input, logger: logger)
     }
 
-    /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func describeGroup(_ input: DescribeGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupResponse {
@@ -334,7 +346,7 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the group metadata and attributes from GroupId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - groupId: The identifier for a group in the identity store.
@@ -353,7 +365,7 @@ public struct IdentityStore: AWSService {
         return try await self.describeGroup(input, logger: logger)
     }
 
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func describeGroupMembership(_ input: DescribeGroupMembershipRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGroupMembershipResponse {
@@ -366,7 +378,7 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store.
@@ -385,7 +397,7 @@ public struct IdentityStore: AWSService {
         return try await self.describeGroupMembership(input, logger: logger)
     }
 
-    /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUserResponse {
@@ -398,26 +410,29 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the user metadata and attributes from the UserId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
+    ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
     ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
     ///   - userId: The identifier for a user in the identity store.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeUser(
+        extensions: [String]? = nil,
         identityStoreId: String,
         userId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeUserResponse {
         let input = DescribeUserRequest(
+            extensions: extensions, 
             identityStoreId: identityStoreId, 
             userId: userId
         )
         return try await self.describeUser(input, logger: logger)
     }
 
-    /// Retrieves GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves GroupId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func getGroupId(_ input: GetGroupIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGroupIdResponse {
@@ -430,10 +445,10 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves GroupId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves GroupId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is displayName.
+    ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid path is  displayName.
     ///   - identityStoreId: The globally unique identifier for the identity store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -449,7 +464,7 @@ public struct IdentityStore: AWSService {
         return try await self.getGroupId(input, logger: logger)
     }
 
-    /// Retrieves the MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func getGroupMembershipId(_ input: GetGroupMembershipIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetGroupMembershipIdResponse {
@@ -462,7 +477,7 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the MembershipId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the MembershipId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - groupId: The identifier for a group in the identity store.
@@ -484,7 +499,7 @@ public struct IdentityStore: AWSService {
         return try await self.getGroupMembershipId(input, logger: logger)
     }
 
-    /// Retrieves the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the UserId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func getUserId(_ input: GetUserIdRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetUserIdResponse {
@@ -497,10 +512,10 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the UserId in an identity store.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Retrieves the UserId in an identity store.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
-    ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are userName and emails.value.
+    ///   - alternateIdentifier: A unique identifier for a user or group that is not the primary identifier. This value can be an identifier from an external identity provider (IdP) that is associated with the user, the group, or a unique attribute. For the unique attribute, the only valid paths are  userName and emails.value.
     ///   - identityStoreId: The globally unique identifier for the identity store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -516,7 +531,7 @@ public struct IdentityStore: AWSService {
         return try await self.getUserId(input, logger: logger)
     }
 
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func isMemberInGroups(_ input: IsMemberInGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IsMemberInGroupsResponse {
@@ -529,7 +544,7 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - groupIds: A list of identifiers for groups in the identity store.
@@ -551,7 +566,7 @@ public struct IdentityStore: AWSService {
         return try await self.isMemberInGroups(input, logger: logger)
     }
 
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// For the specified group in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func listGroupMemberships(_ input: ListGroupMembershipsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsResponse {
@@ -564,13 +579,13 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// For the specified group in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - groupId: The identifier for a group in the identity store.
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
-    ///   - nextToken: The pagination token used for the ListUsers, ListGroups and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all  List requests to specify how many results to return in one page.
+    ///   - nextToken: The pagination token used for the ListUsers, ListGroups and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGroupMemberships(
@@ -589,7 +604,7 @@ public struct IdentityStore: AWSService {
         return try await self.listGroupMemberships(input, logger: logger)
     }
 
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// For the specified member in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func listGroupMembershipsForMember(_ input: ListGroupMembershipsForMemberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupMembershipsForMemberResponse {
@@ -602,13 +617,13 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// For the specified member in the specified identity store, returns the list of all  GroupMembership objects and returns results in paginated form.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
-    ///   - nextToken: The pagination token used for the ListUsers, ListGroups, and ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
+    ///   - nextToken: The pagination token used for the ListUsers, ListGroups, and  ListGroupMemberships API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGroupMembershipsForMember(
@@ -627,7 +642,7 @@ public struct IdentityStore: AWSService {
         return try await self.listGroupMembershipsForMember(input, logger: logger)
     }
 
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func listGroups(_ input: ListGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGroupsResponse {
@@ -640,11 +655,11 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects.  Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
     ///   - logger: Logger use during operation
     @inlinable
@@ -662,7 +677,7 @@ public struct IdentityStore: AWSService {
         return try await self.listGroups(input, logger: logger)
     }
 
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     @Sendable
     @inlinable
     public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUsersResponse {
@@ -675,21 +690,24 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects.  Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have administrator access to a member account, you can use this API from the member account.  Read about member accounts in the  Organizations User Guide.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.  If you have access to a member account, you can use this API operation from the member account. For more information, see Limiting access to the identity store from member accounts in the  IAM Identity Center User Guide.
     ///
     /// Parameters:
+    ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
     ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - nextToken: The pagination token used for the ListUsers and ListGroups API operations. This value is generated by the identity store service. It is returned in the API response if the total results are more than the size of one page. This token is also returned when it is used in the API request to search for the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listUsers(
+        extensions: [String]? = nil,
         identityStoreId: String,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListUsersResponse {
         let input = ListUsersRequest(
+            extensions: extensions, 
             identityStoreId: identityStoreId, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -697,7 +715,7 @@ public struct IdentityStore: AWSService {
         return try await self.listUsers(input, logger: logger)
     }
 
-    /// For the specified group in the specified identity store, updates the group metadata and attributes.
+    /// Updates the specified group metadata and attributes in the specified identity store.
     @Sendable
     @inlinable
     public func updateGroup(_ input: UpdateGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGroupResponse {
@@ -710,12 +728,12 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// For the specified group in the specified identity store, updates the group metadata and attributes.
+    /// Updates the specified group metadata and attributes in the specified identity store.
     ///
     /// Parameters:
     ///   - groupId: The identifier for a group in the identity store.
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - operations: A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute.
+    ///   - operations: A list of AttributeOperation objects to apply to the requested group. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see Group.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGroup(
@@ -732,7 +750,7 @@ public struct IdentityStore: AWSService {
         return try await self.updateGroup(input, logger: logger)
     }
 
-    /// For the specified user in the specified identity store, updates the user metadata and attributes.
+    /// Updates the specified user metadata and attributes in the specified identity store.
     @Sendable
     @inlinable
     public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserResponse {
@@ -745,11 +763,11 @@ public struct IdentityStore: AWSService {
             logger: logger
         )
     }
-    /// For the specified user in the specified identity store, updates the user metadata and attributes.
+    /// Updates the specified user metadata and attributes in the specified identity store.
     ///
     /// Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - operations: A list of AttributeOperation objects to apply to the requested user. These operations might add, replace, or remove an attribute.
+    ///   - operations: A list of AttributeOperation objects to apply to the requested user. These operations might add, replace, or remove an attribute. For more information on the attributes that can be added, replaced, or removed, see User.
     ///   - userId: The identifier for a user in the identity store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -804,7 +822,7 @@ extension IdentityStore {
     /// - Parameters:
     ///   - groupId: The identifier for a group in the identity store.
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all List requests to specify how many results to return in one page.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in all  List requests to specify how many results to return in one page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGroupMembershipsPaginator(
@@ -843,7 +861,7 @@ extension IdentityStore {
     ///
     /// - Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - memberId: An object that contains the identifier of a group member. Setting the UserID field to the specific identifier for a user indicates that the user is a member of the group.
     ///   - logger: Logger used for logging
     @inlinable
@@ -883,7 +901,7 @@ extension IdentityStore {
     ///
     /// - Parameters:
     ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGroupsPaginator(
@@ -919,16 +937,19 @@ extension IdentityStore {
     /// Return PaginatorSequence for operation ``listUsers(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - extensions: A collection of extension names indicating what extensions the service should retrieve alongside other user attributes. aws:identitystore:enterprise is the only supported extension name.
     ///   - identityStoreId: The globally unique identifier for the identity store, such as d-1234567890. In this example, d- is a fixed prefix, and 1234567890 is a randomly generated string that contains numbers and lower case letters. This value is generated at the time that a new identity store is created.
-    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
+    ///   - maxResults: The maximum number of results to be returned per request. This parameter is used in the  ListUsers and ListGroups requests to specify how many results to return in one page. The length limit is 50 characters.
     ///   - logger: Logger used for logging
     @inlinable
     public func listUsersPaginator(
+        extensions: [String]? = nil,
         identityStoreId: String,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListUsersRequest, ListUsersResponse> {
         let input = ListUsersRequest(
+            extensions: extensions, 
             identityStoreId: identityStoreId, 
             maxResults: maxResults
         )
@@ -975,6 +996,7 @@ extension IdentityStore.ListUsersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IdentityStore.ListUsersRequest {
         return .init(
+            extensions: self.extensions,
             identityStoreId: self.identityStoreId,
             maxResults: self.maxResults,
             nextToken: token

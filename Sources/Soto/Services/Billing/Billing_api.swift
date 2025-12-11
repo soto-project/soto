@@ -297,6 +297,7 @@ public struct Billing: AWSService {
     ///   - arns: The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     ///   - billingViewTypes: The type of billing view.
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
+    ///   - names:  Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option provided.
     ///   - nextToken: The pagination token that is used on subsequent calls to list billing views.
     ///   - ownerAccountId:  The list of owners of the billing view.
     ///   - sourceAccountId:  Filters the results to include only billing views that use the specified account as a source.
@@ -307,6 +308,7 @@ public struct Billing: AWSService {
         arns: [String]? = nil,
         billingViewTypes: [BillingViewType]? = nil,
         maxResults: Int? = nil,
+        names: [StringSearch]? = nil,
         nextToken: String? = nil,
         ownerAccountId: String? = nil,
         sourceAccountId: String? = nil,
@@ -317,6 +319,7 @@ public struct Billing: AWSService {
             arns: arns, 
             billingViewTypes: billingViewTypes, 
             maxResults: maxResults, 
+            names: names, 
             nextToken: nextToken, 
             ownerAccountId: ownerAccountId, 
             sourceAccountId: sourceAccountId
@@ -529,6 +532,7 @@ extension Billing {
     ///   - arns: The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
     ///   - billingViewTypes: The type of billing view.
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
+    ///   - names:  Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option provided.
     ///   - ownerAccountId:  The list of owners of the billing view.
     ///   - sourceAccountId:  Filters the results to include only billing views that use the specified account as a source.
     ///   - logger: Logger used for logging
@@ -538,6 +542,7 @@ extension Billing {
         arns: [String]? = nil,
         billingViewTypes: [BillingViewType]? = nil,
         maxResults: Int? = nil,
+        names: [StringSearch]? = nil,
         ownerAccountId: String? = nil,
         sourceAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -547,6 +552,7 @@ extension Billing {
             arns: arns, 
             billingViewTypes: billingViewTypes, 
             maxResults: maxResults, 
+            names: names, 
             ownerAccountId: ownerAccountId, 
             sourceAccountId: sourceAccountId
         )
@@ -599,6 +605,7 @@ extension Billing.ListBillingViewsRequest: AWSPaginateToken {
             arns: self.arns,
             billingViewTypes: self.billingViewTypes,
             maxResults: self.maxResults,
+            names: self.names,
             nextToken: token,
             ownerAccountId: self.ownerAccountId,
             sourceAccountId: self.sourceAccountId

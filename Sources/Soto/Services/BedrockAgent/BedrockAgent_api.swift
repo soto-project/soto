@@ -1447,7 +1447,7 @@ public struct BedrockAgent: AWSService {
         return try await self.getIngestionJob(input, logger: logger)
     }
 
-    /// Gets information about a knoweldge base.
+    /// Gets information about a knowledge base.
     @Sendable
     @inlinable
     public func getKnowledgeBase(_ input: GetKnowledgeBaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseResponse {
@@ -1460,7 +1460,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a knoweldge base.
+    /// Gets information about a knowledge base.
     ///
     /// Parameters:
     ///   - knowledgeBaseId: The unique identifier of the knowledge base you want to get information on.

@@ -80,7 +80,7 @@ public struct PaymentCryptography: AWSService {
 
     // MARK: API Calls
 
-    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-region keys allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions.  Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     @Sendable
     @inlinable
     public func addKeyReplicationRegions(_ input: AddKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AddKeyReplicationRegionsOutput {
@@ -93,7 +93,7 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions. Multi-region keys allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Adds replication Amazon Web Services Regions to an existing Amazon Web Services Payment Cryptography key, enabling the key to be used for cryptographic operations in additional Amazon Web Services Regions.  Multi-Region key replication allow you to use the same key material across multiple Amazon Web Services Regions, providing lower latency for applications distributed across regions. When you add Replication Regions, Amazon Web Services Payment Cryptography securely replicates the key material to the specified Amazon Web Services Regions. The key must be in an active state to add Replication Regions. You can add multiple regions in a single operation, and the key will be available for use in those regions once replication is complete.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     RemoveKeyReplicationRegions     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     ///
     /// Parameters:
     ///   - keyIdentifier: The key identifier (ARN or alias) of the key for which to add replication regions. This key must exist and be in a valid state for replication operations.
@@ -252,7 +252,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.deleteKey(input, logger: logger)
     }
 
-    /// Disables multi-region key replication settings for the specified Amazon Web Services Regions in your account, preventing new keys from being automatically replicated to those regions. After disabling default replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Disables Multi-Region key replication settings for the specified Amazon Web Services Regions in your Amazon Web Services account, preventing new keys from being automatically replicated to those regions. After disabling Multi-Region key replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     @Sendable
     @inlinable
     public func disableDefaultKeyReplicationRegions(_ input: DisableDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDefaultKeyReplicationRegionsOutput {
@@ -265,7 +265,7 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Disables multi-region key replication settings for the specified Amazon Web Services Regions in your account, preventing new keys from being automatically replicated to those regions. After disabling default replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Disables Multi-Region key replication settings for the specified Amazon Web Services Regions in your Amazon Web Services account, preventing new keys from being automatically replicated to those regions. After disabling Multi-Region key replication for specific regions, new keys created in your account will not be automatically replicated to those regions. You can still manually add replication to those regions for individual keys using the AddKeyReplicationRegions operation. This operation does not affect existing keys or their current replication configuration.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     ///
     /// Parameters:
     ///   - replicationRegions: The list of Amazon Web Services Regions to remove from the account's default replication regions. New keys created after this operation will not automatically be replicated to these regions, though existing keys with replication to these regions will be unaffected.
@@ -281,7 +281,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.disableDefaultKeyReplicationRegions(input, logger: logger)
     }
 
-    /// Enables multi-region key replication settings for your account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When default Replication Regions are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     @Sendable
     @inlinable
     public func enableDefaultKeyReplicationRegions(_ input: EnableDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDefaultKeyReplicationRegionsOutput {
@@ -294,10 +294,10 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Enables multi-region key replication settings for your account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When default Replication Regions are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
+    /// Enables Multi-Region key replication settings for your Amazon Web Services account, causing new keys to be automatically replicated to the specified Amazon Web Services Regions when created. When Multi-Region key replication are enabled, any new keys created in your account will automatically be replicated to these regions unless you explicitly override this behavior during key creation. This simplifies key management for applications that operate across multiple regions. Existing keys are not affected by this operation - only keys created after enabling default replication will be automatically replicated.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     DisableDefaultKeyReplicationRegions     GetDefaultKeyReplicationRegions
     ///
     /// Parameters:
-    ///   - replicationRegions: The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+    ///   - replicationRegions: The list of Amazon Web Services Regions to enable as default replication regions for the Amazon Web Services account for Multi-Region key replication. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableDefaultKeyReplicationRegions(
@@ -374,7 +374,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.getAlias(input, logger: logger)
     }
 
-    /// Used to retrieve the public key for a keypair.
+    /// Creates a certificate signing request (CSR) from a key pair.
     @Sendable
     @inlinable
     public func getCertificateSigningRequest(_ input: GetCertificateSigningRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCertificateSigningRequestOutput {
@@ -387,12 +387,12 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Used to retrieve the public key for a keypair.
+    /// Creates a certificate signing request (CSR) from a key pair.
     ///
     /// Parameters:
-    ///   - certificateSubject: Certificate subject data
+    ///   - certificateSubject: The metadata used to create the CSR.
     ///   - keyIdentifier: Asymmetric key used for generating the certificate signing request
-    ///   - signingAlgorithm: Algorithm used to generate the certificate signing request
+    ///   - signingAlgorithm: The cryptographic algorithm used to sign your CSR.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCertificateSigningRequest(
@@ -409,7 +409,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.getCertificateSigningRequest(input, logger: logger)
     }
 
-    /// Retrieves the list of regions where default key replication is currently enabled for your account. This operation returns the current configuration of default Replication Regions. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account. This operation returns the current Multi-Region key replication configuration. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
     @Sendable
     @inlinable
     public func getDefaultKeyReplicationRegions(_ input: GetDefaultKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDefaultKeyReplicationRegionsOutput {
@@ -422,7 +422,7 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the list of regions where default key replication is currently enabled for your account. This operation returns the current configuration of default Replication Regions. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    /// Retrieves the list of Amazon Web Services Regions where Multi-Region key replication is currently enabled for your Amazon Web Services account. This operation returns the current Multi-Region key replication configuration. New keys created in your account will be automatically replicated to these regions unless explicitly overridden during key creation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     EnableDefaultKeyReplicationRegions     DisableDefaultKeyReplicationRegions
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -703,7 +703,7 @@ public struct PaymentCryptography: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. For more information, see Multi-Region key replication.  Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
     @Sendable
     @inlinable
     public func removeKeyReplicationRegions(_ input: RemoveKeyReplicationRegionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveKeyReplicationRegionsOutput {
@@ -716,7 +716,7 @@ public struct PaymentCryptography: AWSService {
             logger: logger
         )
     }
-    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.  Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
+    /// Removes Replication Regions from an existing Amazon Web Services Payment Cryptography key, disabling the key's availability for cryptographic operations in the specified Amazon Web Services Regions. When you remove Replication Regions, the key material is securely deleted from those regions and can no longer be used for cryptographic operations there. This operation is irreversible for the specified Amazon Web Services Regions. For more information, see Multi-Region key replication.  Ensure that no active cryptographic operations or applications depend on the key in the regions you're removing before performing this operation.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     AddKeyReplicationRegions     DisableDefaultKeyReplicationRegions
     ///
     /// Parameters:
     ///   - keyIdentifier: The key identifier (ARN or alias) of the key from which to remove replication regions. This key must exist and have replication enabled in the specified regions.

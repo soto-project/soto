@@ -236,6 +236,7 @@ public struct Braket: AWSService {
     ///   - clientToken: The client token associated with the request.
     ///   - deviceArn: The ARN of the device to run the quantum task on.
     ///   - deviceParameters: The parameters for the device to run the quantum task on.
+    ///   - experimentalCapabilities: Enable experimental capabilities for the quantum task.
     ///   - jobToken: The token for an Amazon Braket hybrid job that associates it with the quantum task.
     ///   - outputS3Bucket: The S3 bucket to store quantum task result files in.
     ///   - outputS3KeyPrefix: The key prefix for the location in the S3 bucket to store quantum task results in.
@@ -249,6 +250,7 @@ public struct Braket: AWSService {
         clientToken: String = CreateQuantumTaskRequest.idempotencyToken(),
         deviceArn: String,
         deviceParameters: String? = nil,
+        experimentalCapabilities: ExperimentalCapabilities? = nil,
         jobToken: String? = nil,
         outputS3Bucket: String,
         outputS3KeyPrefix: String,
@@ -262,6 +264,7 @@ public struct Braket: AWSService {
             clientToken: clientToken, 
             deviceArn: deviceArn, 
             deviceParameters: deviceParameters, 
+            experimentalCapabilities: experimentalCapabilities, 
             jobToken: jobToken, 
             outputS3Bucket: outputS3Bucket, 
             outputS3KeyPrefix: outputS3KeyPrefix, 
@@ -269,6 +272,76 @@ public struct Braket: AWSService {
             tags: tags
         )
         return try await self.createQuantumTask(input, logger: logger)
+    }
+
+    /// Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
+    @Sendable
+    @inlinable
+    public func createSpendingLimit(_ input: CreateSpendingLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSpendingLimitResponse {
+        try await self.client.execute(
+            operation: "CreateSpendingLimit", 
+            path: "/spending-limit", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+    ///   - deviceArn: The Amazon Resource Name (ARN) of the quantum device to apply the spending limit to.
+    ///   - spendingLimit: The maximum amount that can be spent on the specified device, in USD.
+    ///   - tags: The tags to apply to the spending limit. Each tag consists of a key and an optional value.
+    ///   - timePeriod: The time period during which the spending limit is active, including start and end dates.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSpendingLimit(
+        clientToken: String = CreateSpendingLimitRequest.idempotencyToken(),
+        deviceArn: String,
+        spendingLimit: String,
+        tags: [String: String]? = nil,
+        timePeriod: TimePeriod? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSpendingLimitResponse {
+        let input = CreateSpendingLimitRequest(
+            clientToken: clientToken, 
+            deviceArn: deviceArn, 
+            spendingLimit: spendingLimit, 
+            tags: tags, 
+            timePeriod: timePeriod
+        )
+        return try await self.createSpendingLimit(input, logger: logger)
+    }
+
+    /// Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
+    @Sendable
+    @inlinable
+    public func deleteSpendingLimit(_ input: DeleteSpendingLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSpendingLimitResponse {
+        try await self.client.execute(
+            operation: "DeleteSpendingLimit", 
+            path: "/spending-limit/{spendingLimitArn}/delete", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
+    ///
+    /// Parameters:
+    ///   - spendingLimitArn: The Amazon Resource Name (ARN) of the spending limit to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSpendingLimit(
+        spendingLimitArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSpendingLimitResponse {
+        let input = DeleteSpendingLimitRequest(
+            spendingLimitArn: spendingLimitArn
+        )
+        return try await self.deleteSpendingLimit(input, logger: logger)
     }
 
     /// Retrieves the devices available in Amazon Braket.  For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
@@ -498,6 +571,41 @@ public struct Braket: AWSService {
         return try await self.searchQuantumTasks(input, logger: logger)
     }
 
+    /// Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    @Sendable
+    @inlinable
+    public func searchSpendingLimits(_ input: SearchSpendingLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchSpendingLimitsResponse {
+        try await self.client.execute(
+            operation: "SearchSpendingLimits", 
+            path: "/spending-limits", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply when searching for spending limits. Use filters to narrow down the results based on specific criteria.
+    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - nextToken: The token to retrieve the next page of results. This value is returned from a previous call to SearchSpendingLimits when there are more results available.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchSpendingLimits(
+        filters: [SearchSpendingLimitsFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchSpendingLimitsResponse {
+        let input = SearchSpendingLimitsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.searchSpendingLimits(input, logger: logger)
+    }
+
     /// Add a tag to the specified resource.
     @Sendable
     @inlinable
@@ -560,6 +668,44 @@ public struct Braket: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
+    @Sendable
+    @inlinable
+    public func updateSpendingLimit(_ input: UpdateSpendingLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSpendingLimitResponse {
+        try await self.client.execute(
+            operation: "UpdateSpendingLimit", 
+            path: "/spending-limit/{spendingLimitArn}/update", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Braket ignores the request, but does not return an error.
+    ///   - spendingLimit: The new maximum amount that can be spent on the specified device, in USD.
+    ///   - spendingLimitArn: The Amazon Resource Name (ARN) of the spending limit to update.
+    ///   - timePeriod: The new time period during which the spending limit is active, including start and end dates.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSpendingLimit(
+        clientToken: String = UpdateSpendingLimitRequest.idempotencyToken(),
+        spendingLimit: String? = nil,
+        spendingLimitArn: String,
+        timePeriod: TimePeriod? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSpendingLimitResponse {
+        let input = UpdateSpendingLimitRequest(
+            clientToken: clientToken, 
+            spendingLimit: spendingLimit, 
+            spendingLimitArn: spendingLimitArn, 
+            timePeriod: timePeriod
+        )
+        return try await self.updateSpendingLimit(input, logger: logger)
     }
 }
 
@@ -686,6 +832,43 @@ extension Braket {
         )
         return self.searchQuantumTasksPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``searchSpendingLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchSpendingLimitsPaginator(
+        _ input: SearchSpendingLimitsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchSpendingLimitsRequest, SearchSpendingLimitsResponse> {
+        return .init(
+            input: input,
+            command: self.searchSpendingLimits,
+            inputKey: \SearchSpendingLimitsRequest.nextToken,
+            outputKey: \SearchSpendingLimitsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchSpendingLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply when searching for spending limits. Use filters to narrow down the results based on specific criteria.
+    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchSpendingLimitsPaginator(
+        filters: [SearchSpendingLimitsFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchSpendingLimitsRequest, SearchSpendingLimitsResponse> {
+        let input = SearchSpendingLimitsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.searchSpendingLimitsPaginator(input, logger: logger)
+    }
 }
 
 extension Braket.SearchDevicesRequest: AWSPaginateToken {
@@ -713,6 +896,17 @@ extension Braket.SearchJobsRequest: AWSPaginateToken {
 extension Braket.SearchQuantumTasksRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Braket.SearchQuantumTasksRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Braket.SearchSpendingLimitsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Braket.SearchSpendingLimitsRequest {
         return .init(
             filters: self.filters,
             maxResults: self.maxResults,

@@ -30,7 +30,7 @@ extension STS {
     public struct AssumeRoleRequest: AWSEncodableShape {
         /// The duration, in seconds, of the role session. The value specified can range from 900 seconds (15 minutes) up to the maximum session duration set for the role. The maximum session duration setting can have a value from 1 hour to 12 hours. If you specify a value higher than this setting or the administrator setting (whichever is lower), the operation fails. For example, if you specify a session duration of 12 hours, but your administrator set the maximum session duration to 6 hours, your operation fails.  Role chaining limits your Amazon Web Services CLI or Amazon Web Services API role session to a maximum of one hour. When you use the AssumeRole API operation to assume a role, you can specify the duration of your role session with the DurationSeconds parameter. You can specify a parameter value of up to 43200 seconds (12 hours), depending on the maximum session duration setting for your role. However, if you assume a role using role chaining and provide a DurationSeconds parameter value greater than one hour, the operation fails. To learn how to view the maximum value for your role, see Update the maximum session duration for a role. By default, the value is set to 3600 seconds.   The DurationSeconds parameter is separate from the duration of a console session that you might request using the returned credentials. The request to the federation endpoint for a console sign-in token takes a SessionDuration parameter that specifies the maximum length of the console session. For more information, see Creating a URL that Enables Federated Users to Access the Amazon Web Services Management Console in the IAM User Guide.
         public let durationSeconds: Int?
-        /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: =,.@:/-
+        /// A unique identifier that might be required when you assume a role in another account. If the administrator of the account to which the role belongs provided you with an external ID, then provide that value in the ExternalId parameter. This value can be any string, such as a passphrase or account number. A cross-account role is usually set up to trust everyone in an account. Therefore, the administrator of the trusting account might send an external ID to the administrator of the trusted account. That way, only someone with the ID can assume the role, rather than everyone in the account. For more information about the external ID, see How to Use an External ID When Granting Access to Your Amazon Web Services Resources to a Third Party in the IAM User Guide. The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: +=,.@:\/-
         public let externalId: String?
         /// An IAM policy in JSON format that you want to use as an inline session policy. This parameter is optional. Passing policies to this operation returns new  temporary credentials. The resulting session's permissions are the intersection of the  role's identity-based policy and the session policies. You can use the role's temporary  credentials in subsequent Amazon Web Services API calls to access resources in the account that owns  the role. You cannot use session policies to grant more permissions than those allowed  by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide. The plaintext that you use for both inline and managed session policies can't exceed 2,048 characters. The JSON policy characters can be any ASCII character from the space character to the end of the valid character list (\u0020 through \u00FF). It can also include the tab (\u0009), linefeed (\u000A), and carriage return (\u000D) characters.  An Amazon Web Services conversion compresses the passed inline session policy, managed policy ARNs, and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plaintext meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.  For more information about role session permissions, see Session policies.
         public let policy: String?
@@ -42,9 +42,9 @@ extension STS {
         public var providedContexts: [ProvidedContext]?
         /// The Amazon Resource Name (ARN) of the role to assume.
         public let roleArn: String
-        /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more information, see  sts:RoleSessionName . The regex used to validate this parameter is a string of characters  consisting of upper- and lower-case alphanumeric characters with no spaces. You can  also include underscores or any of the following characters: =,.@-
+        /// An identifier for the assumed role session. Use the role session name to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the role session name is visible to, and can be logged by the account that owns the role. The role session name is also used in the ARN of the assumed role principal. This means that subsequent cross-account API requests that use the temporary security credentials will expose the role session name to the external account in their CloudTrail logs. For security purposes, administrators can view this field in CloudTrail logs to help identify who performed an action in Amazon Web Services. Your administrator might require that you specify your user name as the session name when you assume the role. For more information, see  sts:RoleSessionName . The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: +=,.@-
         public let roleSessionName: String
-        /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of characters  consisting of upper- and lower-case alphanumeric characters with no spaces. You can  also include underscores or any of the following characters: =,.@-
+        /// The identification number of the MFA device that is associated with the user who is making the AssumeRole call. Specify this value if the trust policy of the role being assumed includes a condition that requires MFA authentication. The value is either the serial number for a hardware device (such as GAHT12345678) or an Amazon Resource Name (ARN) for a virtual device (such as arn:aws:iam::123456789012:mfa/user). The regex used to validate this parameter is a string of  characters consisting of upper- and lower-case alphanumeric characters with no spaces.  You can also include underscores or any of the following characters: +=/:,.@-
         public let serialNumber: String?
         /// The source identity specified by the principal that is calling the AssumeRole operation. The source identity value persists across chained role sessions. You can require users to specify a source identity when they assume a role. You do this by using the  sts:SourceIdentity condition key in a role trust policy. You can use source identity information in CloudTrail logs to determine who took actions with a role. You can use the aws:SourceIdentity condition key to further control access to Amazon Web Services resources based on the value of source identity. For more information about using source identity, see Monitor and control actions taken with assumed roles in the IAM User Guide. The regex used to validate this parameter is a string of characters consisting of upper- and lower-case alphanumeric characters with no spaces. You can also include underscores or any of the following characters: +=,.@-. You cannot use a value that begins with the text aws:. This prefix is reserved for Amazon Web Services internal use.
         public let sourceIdentity: String?
@@ -88,6 +88,7 @@ extension STS {
                 try $0.validate(name: "\(name).providedContexts[]")
             }
             try self.validate(self.providedContexts, name: "providedContexts", parent: name, max: 5)
+            try self.validate(self.providedContexts, name: "providedContexts", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]+$")
@@ -360,7 +361,7 @@ extension STS {
         public let durationSeconds: Int?
         /// The member account principal ARN or account ID.
         public let targetPrincipal: String
-        /// The identity based policy that scopes the session to the privileged tasks that can be performed. You can use one of following Amazon Web Services managed policies to scope root session actions.    IAMAuditRootUserCredentials     IAMCreateRootUserPassword     IAMDeleteRootUserCredentials     S3UnlockBucketPolicy     SQSUnlockQueuePolicy
+        /// The identity based policy that scopes the session to the privileged tasks that can be performed. You must  use one of following Amazon Web Services managed policies to scope root session actions:    IAMAuditRootUserCredentials     IAMCreateRootUserPassword     IAMDeleteRootUserCredentials     S3UnlockBucketPolicy     SQSUnlockQueuePolicy
         public let taskPolicyArn: PolicyDescriptorType
 
         @inlinable
@@ -558,6 +559,41 @@ extension STS {
         }
     }
 
+    public struct GetDelegatedAccessTokenRequest: AWSEncodableShape {
+        /// The token to exchange for temporary Amazon Web Services credentials. This token must be valid and unexpired at the time of the request.
+        public let tradeInToken: String
+
+        @inlinable
+        public init(tradeInToken: String) {
+            self.tradeInToken = tradeInToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tradeInToken = "TradeInToken"
+        }
+    }
+
+    public struct GetDelegatedAccessTokenResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the principal that was assumed when obtaining the delegated access token. This ARN identifies the IAM entity whose permissions are granted by the temporary credentials.
+        public let assumedPrincipal: String?
+        public let credentials: Credentials?
+        /// The percentage of the maximum policy size that is used by the session policy. The policy size is calculated as the sum of all the session policies and permission boundaries attached to the session. If the packed size exceeds 100%, the request fails.
+        public let packedPolicySize: Int?
+
+        @inlinable
+        public init(assumedPrincipal: String? = nil, credentials: Credentials? = nil, packedPolicySize: Int? = nil) {
+            self.assumedPrincipal = assumedPrincipal
+            self.credentials = credentials
+            self.packedPolicySize = packedPolicySize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assumedPrincipal = "AssumedPrincipal"
+            case credentials = "Credentials"
+            case packedPolicySize = "PackedPolicySize"
+        }
+    }
+
     public struct GetFederationTokenRequest: AWSEncodableShape {
         /// The duration, in seconds, that the session should last. Acceptable durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified duration is longer than one hour, the session obtained by using root user credentials defaults to one hour.
         public let durationSeconds: Int?
@@ -677,6 +713,69 @@ extension STS {
         }
     }
 
+    public struct GetWebIdentityTokenRequest: AWSEncodableShape {
+        /// The intended recipient of the web identity token. This value populates the aud claim in the JWT and should identify the service or application that will validate and use the token. The external service should verify this claim to ensure the token was intended for their use.
+        @CustomCoding<StandardArrayCoder<String>>
+        public var audience: [String]
+        /// The duration, in seconds, for which the JSON Web Token (JWT) will remain valid.  The value can range from 60 seconds (1 minute) to 3600 seconds (1 hour). If not specified,  the default duration is 300 seconds (5 minutes). The token is designed to be short-lived and  should be used for proof of identity, then exchanged for credentials or short-lived tokens in the external service.
+        public let durationSeconds: Int?
+        /// The cryptographic algorithm to use for signing the JSON Web Token (JWT). Valid values are  RS256 (RSA with SHA-256) and ES384 (ECDSA using P-384 curve with SHA-384).
+        public let signingAlgorithm: String
+        /// An optional list of tags to include in the JSON Web Token (JWT). These tags are added as custom  claims to the JWT and can be used by the downstream service for authorization decisions.
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(audience: [String], durationSeconds: Int? = nil, signingAlgorithm: String, tags: [Tag]? = nil) {
+            self.audience = audience
+            self.durationSeconds = durationSeconds
+            self.signingAlgorithm = signingAlgorithm
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.audience.forEach {
+                try validate($0, name: "audience[]", parent: name, max: 1000)
+                try validate($0, name: "audience[]", parent: name, min: 1)
+            }
+            try self.validate(self.audience, name: "audience", parent: name, max: 10)
+            try self.validate(self.audience, name: "audience", parent: name, min: 1)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 3600)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 60)
+            try self.validate(self.signingAlgorithm, name: "signingAlgorithm", parent: name, max: 5)
+            try self.validate(self.signingAlgorithm, name: "signingAlgorithm", parent: name, min: 5)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audience = "Audience"
+            case durationSeconds = "DurationSeconds"
+            case signingAlgorithm = "SigningAlgorithm"
+            case tags = "Tags"
+        }
+    }
+
+    public struct GetWebIdentityTokenResponse: AWSDecodableShape {
+        /// The date and time when the web identity token expires, in UTC. The expiration is determined by adding the DurationSeconds value to the time the token was issued. After this time, the token should no longer be considered valid.
+        public let expiration: Date?
+        /// A signed JSON Web Token (JWT) that represents the caller's Amazon Web Services identity. The token contains  standard JWT claims such as subject, audience, expiration time, and additional identity attributes  added by STS as custom claims. You can also add your own custom claims to the token by passing tags  as request parameters to the GetWebIdentityToken API. The token is signed using the specified signing  algorithm and can be verified using the verification keys available at the issuer's JWKS endpoint.
+        public let webIdentityToken: String?
+
+        @inlinable
+        public init(expiration: Date? = nil, webIdentityToken: String? = nil) {
+            self.expiration = expiration
+            self.webIdentityToken = webIdentityToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expiration = "Expiration"
+            case webIdentityToken = "WebIdentityToken"
+        }
+    }
+
     public struct PolicyDescriptorType: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the IAM managed policy to use as a session policy for the role. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let arn: String?
@@ -756,13 +855,17 @@ extension STS {
 public struct STSErrorType: AWSErrorType {
     enum Code: String {
         case expiredTokenException = "ExpiredTokenException"
+        case expiredTradeInTokenException = "ExpiredTradeInTokenException"
         case idpCommunicationErrorException = "IDPCommunicationError"
         case idpRejectedClaimException = "IDPRejectedClaim"
         case invalidAuthorizationMessageException = "InvalidAuthorizationMessageException"
         case invalidIdentityTokenException = "InvalidIdentityToken"
+        case jwtPayloadSizeExceededException = "JWTPayloadSizeExceededException"
         case malformedPolicyDocumentException = "MalformedPolicyDocument"
+        case outboundWebIdentityFederationDisabledException = "OutboundWebIdentityFederationDisabledException"
         case packedPolicyTooLargeException = "PackedPolicyTooLarge"
         case regionDisabledException = "RegionDisabledException"
+        case sessionDurationEscalationException = "SessionDurationEscalationException"
     }
 
     private let error: Code
@@ -785,6 +888,8 @@ public struct STSErrorType: AWSErrorType {
 
     /// The web identity token that was passed is expired or is not valid. Get a new identity token from the identity provider and then retry the request.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    /// The trade-in token provided in the request has expired and can no longer be exchanged for credentials. Request a new token and retry the operation.
+    public static var expiredTradeInTokenException: Self { .init(.expiredTradeInTokenException) }
     /// The request could not be fulfilled because the identity provider (IDP) that was asked to verify the incoming identity token could not be reached. This is often a transient error caused by network conditions. Retry the request a limited number of times so that you don't exceed the request rate. If the error persists, the identity provider might be down or not responding.
     public static var idpCommunicationErrorException: Self { .init(.idpCommunicationErrorException) }
     /// The identity provider (IdP) reported that authentication failed. This might be because the claim is invalid. If this error is returned for the AssumeRoleWithWebIdentity operation, it can also mean that the claim has expired or has been explicitly revoked.
@@ -793,12 +898,18 @@ public struct STSErrorType: AWSErrorType {
     public static var invalidAuthorizationMessageException: Self { .init(.invalidAuthorizationMessageException) }
     /// The web identity token that was passed could not be validated by Amazon Web Services. Get a new identity token from the identity provider and then retry the request.
     public static var invalidIdentityTokenException: Self { .init(.invalidIdentityTokenException) }
+    /// The requested token payload size exceeds the maximum allowed size. Reduce the number of request tags included in the GetWebIdentityToken API call to reduce the token payload size.
+    public static var jwtPayloadSizeExceededException: Self { .init(.jwtPayloadSizeExceededException) }
     /// The request was rejected because the policy document was malformed. The error message describes the specific error.
     public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    /// The outbound web identity federation feature is not enabled for this account. To use this feature, you must first enable it through the Amazon Web Services Management Console or API.
+    public static var outboundWebIdentityFederationDisabledException: Self { .init(.outboundWebIdentityFederationDisabledException) }
     /// The request was rejected because the total packed size of the session policies and session tags combined was too large. An Amazon Web Services conversion compresses the session policy document, session policy ARNs, and session tags into a packed binary format that has a separate limit. The error message indicates by percentage how close the policies and tags are to the upper size limit. For more information, see Passing Session Tags in STS in the IAM User Guide. You could receive this error even though you meet other defined session policy and session tag limits. For more information, see IAM and STS Entity Character Limits in the IAM User Guide.
     public static var packedPolicyTooLargeException: Self { .init(.packedPolicyTooLargeException) }
     /// STS is not activated in the requested region for the account that is being asked to generate credentials. The account administrator must use the IAM console to activate STS in that region. For more information, see Activating and Deactivating STS in an Amazon Web Services Region in the IAM User Guide.
     public static var regionDisabledException: Self { .init(.regionDisabledException) }
+    /// The requested token duration would extend the session beyond its original expiration time.  You cannot use this operation to extend the lifetime of a session beyond what was granted when the session was originally created.
+    public static var sessionDurationEscalationException: Self { .init(.sessionDurationEscalationException) }
 }
 
 extension STSErrorType: Equatable {

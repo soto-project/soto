@@ -47,6 +47,8 @@ extension Billing {
 
     public enum BillingViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billingGroup = "BILLING_GROUP"
+        case billingTransfer = "BILLING_TRANSFER"
+        case billingTransferShowback = "BILLING_TRANSFER_SHOWBACK"
         case custom = "CUSTOM"
         case primary = "PRIMARY"
         public var description: String { return self.rawValue }
@@ -54,6 +56,11 @@ extension Billing {
 
     public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linkedAccount = "LINKED_ACCOUNT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case startsWith = "STARTS_WITH"
         public var description: String { return self.rawValue }
     }
 
@@ -554,6 +561,8 @@ extension Billing {
         public let billingViewTypes: [BillingViewType]?
         /// The maximum number of billing views to retrieve. Default is 100.
         public let maxResults: Int?
+        ///  Filters the list of billing views by name. You can specify search criteria to match billing view names based on the search option provided.
+        public let names: [StringSearch]?
         /// The pagination token that is used on subsequent calls to list billing views.
         public let nextToken: String?
         ///  The list of owners of the billing view.
@@ -562,11 +571,12 @@ extension Billing {
         public let sourceAccountId: String?
 
         @inlinable
-        public init(activeTimeRange: ActiveTimeRange? = nil, arns: [String]? = nil, billingViewTypes: [BillingViewType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccountId: String? = nil, sourceAccountId: String? = nil) {
+        public init(activeTimeRange: ActiveTimeRange? = nil, arns: [String]? = nil, billingViewTypes: [BillingViewType]? = nil, maxResults: Int? = nil, names: [StringSearch]? = nil, nextToken: String? = nil, ownerAccountId: String? = nil, sourceAccountId: String? = nil) {
             self.activeTimeRange = activeTimeRange
             self.arns = arns
             self.billingViewTypes = billingViewTypes
             self.maxResults = maxResults
+            self.names = names
             self.nextToken = nextToken
             self.ownerAccountId = ownerAccountId
             self.sourceAccountId = sourceAccountId
@@ -579,6 +589,11 @@ extension Billing {
             try self.validate(self.arns, name: "arns", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.names?.forEach {
+                try $0.validate(name: "\(name).names[]")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 1)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^[0-9]{12}$")
@@ -590,6 +605,7 @@ extension Billing {
             case arns = "arns"
             case billingViewTypes = "billingViewTypes"
             case maxResults = "maxResults"
+            case names = "names"
             case nextToken = "nextToken"
             case ownerAccountId = "ownerAccountId"
             case sourceAccountId = "sourceAccountId"
@@ -765,6 +781,30 @@ extension Billing {
             case resourceId = "resourceId"
             case resourceType = "resourceType"
             case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct StringSearch: AWSEncodableShape {
+        ///  The type of search operation to perform on the string value. Determines how the search value is matched against the target field.
+        public let searchOption: SearchOption
+        ///  The string value to use in the search operation. This value is compared against the target field using the specified search option.
+        public let searchValue: String
+
+        @inlinable
+        public init(searchOption: SearchOption, searchValue: String) {
+            self.searchOption = searchOption
+            self.searchValue = searchValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.searchValue, name: "searchValue", parent: name, max: 128)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, min: 1)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchOption = "searchOption"
+            case searchValue = "searchValue"
         }
     }
 

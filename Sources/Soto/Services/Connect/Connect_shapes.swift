@@ -25,6 +25,11 @@ import Foundation
 extension Connect {
     // MARK: Enums
 
+    public enum AccessType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assignContactCategory = "ASSIGN_CONTACT_CATEGORY"
         case assignSla = "ASSIGN_SLA"
@@ -57,6 +62,18 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AiUseCase: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentAssistance = "AgentAssistance"
+        case selfService = "SelfService"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllowedUserAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case call = "CALL"
+        case discard = "DISCARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnsweringMachineDetectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amdError = "AMD_ERROR"
         case amdNotApplicable = "AMD_NOT_APPLICABLE"
@@ -72,6 +89,12 @@ extension Connect {
         case undetected = "UNDETECTED"
         case voicemailBeep = "VOICEMAIL_BEEP"
         case voicemailNoBeep = "VOICEMAIL_NO_BEEP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mcp = "MCP"
+        case thirdPartyApplication = "THIRD_PARTY_APPLICATION"
         public var description: String { return self.rawValue }
     }
 
@@ -95,9 +118,22 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum AutoEvaluationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BehaviorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case routeAnyChannel = "ROUTE_ANY_CHANNEL"
         case routeCurrentChannelOnly = "ROUTE_CURRENT_CHANNEL_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BooleanComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case isFalse = "IS_FALSE"
+        case isTrue = "IS_TRUE"
         public var description: String { return self.rawValue }
     }
 
@@ -175,8 +211,27 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContactInteractionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agent = "AGENT"
+        case automated = "AUTOMATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactMediaProcessingFailureMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deliverUnprocessedMessage = "DELIVER_UNPROCESSED_MESSAGE"
+        case doNotDeliverUnprocessedMessage = "DO_NOT_DELIVER_UNPROCESSED_MESSAGE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContactMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case positionInQueue = "POSITION_IN_QUEUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContactParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agent = "AGENT"
+        case customBot = "CUSTOM_BOT"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
@@ -217,12 +272,56 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataTableAttributeValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "BOOLEAN"
+        case number = "NUMBER"
+        case numberList = "NUMBER_LIST"
+        case text = "TEXT"
+        case textList = "TEXT_LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataTableLockLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attribute = "ATTRIBUTE"
+        case dataTable = "DATA_TABLE"
+        case none = "NONE"
+        case primaryValue = "PRIMARY_VALUE"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataTableStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case published = "PUBLISHED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DateComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case equalTo = "EQUAL_TO"
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
         case lessThan = "LESS_THAN"
         case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DateTimeComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case range = "RANGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DecimalComparisonType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equal = "EQUAL"
+        case greater = "GREATER"
+        case greaterOrEqual = "GREATER_OR_EQUAL"
+        case lesser = "LESSER"
+        case lesserOrEqual = "LESSER_OR_EQUAL"
+        case notEqual = "NOT_EQUAL"
+        case range = "RANGE"
         public var description: String { return self.rawValue }
     }
 
@@ -263,7 +362,67 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum EntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aiAgent = "AI_AGENT"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormItemEnablementAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "DISABLE"
+        case enable = "ENABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormItemEnablementOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormItemEnablementSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case questionRefId = "QUESTION_REF_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormItemEnablementSourceValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optionRefId = "OPTION_REF_ID"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormItemSourceValuesComparator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `in` = "IN"
+        case allIn = "ALL_IN"
+        case exact = "EXACT"
+        case notIn = "NOT_IN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deDe = "de-DE"
+        case enUs = "en-US"
+        case esEs = "es-ES"
+        case frFr = "fr-FR"
+        case itIt = "it-IT"
+        case ptBr = "pt-BR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormMultiSelectQuestionDisplayMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case checkbox = "CHECKBOX"
+        case dropdown = "DROPDOWN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationFormQuestionAutomationAnswerSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contactLensData = "CONTACT_LENS_DATA"
+        case genAi = "GEN_AI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationFormQuestionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case datetime = "DATETIME"
+        case multiselect = "MULTISELECT"
         case numeric = "NUMERIC"
         case singleselect = "SINGLESELECT"
         case text = "TEXT"
@@ -294,9 +453,34 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum EvaluationQuestionAnswerAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contactLensData = "CONTACT_LENS_DATA"
+        case genAi = "GEN_AI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EvaluationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case draft = "DRAFT"
         case submitted = "SUBMITTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationSuggestedAnswerStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationTranscriptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case raw = "RAW"
+        case redacted = "REDACTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case calibration = "CALIBRATION"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -321,6 +505,7 @@ extension Connect {
         case internalError = "INTERNAL_ERROR"
         case invalidAttributeKey = "INVALID_ATTRIBUTE_KEY"
         case invalidCustomerEndpoint = "INVALID_CUSTOMER_ENDPOINT"
+        case invalidOutboundStrategy = "INVALID_OUTBOUND_STRATEGY"
         case invalidQueue = "INVALID_QUEUE"
         case invalidSystemEndpoint = "INVALID_SYSTEM_ENDPOINT"
         case missingCampaign = "MISSING_CAMPAIGN"
@@ -344,12 +529,22 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterV2StringConditionComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notExists = "NOT_EXISTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FlowAssociationResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case analyticsConnector = "ANALYTICS_CONNECTOR"
         case inboundEmail = "INBOUND_EMAIL"
         case outboundEmail = "OUTBOUND_EMAIL"
         case smsPhoneNumber = "SMS_PHONE_NUMBER"
         case whatsappMessagingPhoneNumber = "WHATSAPP_MESSAGING_PHONE_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowModuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mcp = "MCP"
         public var description: String { return self.rawValue }
     }
 
@@ -428,6 +623,7 @@ extension Connect {
         case enhancedContactMonitoring = "ENHANCED_CONTACT_MONITORING"
         case highVolumeOutbound = "HIGH_VOLUME_OUTBOUND"
         case inboundCalls = "INBOUND_CALLS"
+        case messageStreaming = "MESSAGE_STREAMING"
         case multiPartyChatConference = "MULTI_PARTY_CHAT_CONFERENCE"
         case multiPartyConference = "MULTI_PARTY_CONFERENCE"
         case outboundCalls = "OUTBOUND_CALLS"
@@ -477,6 +673,7 @@ extension Connect {
         case cognitoUserPool = "COGNITO_USER_POOL"
         case event = "EVENT"
         case fileScanner = "FILE_SCANNER"
+        case messageProcessor = "MESSAGE_PROCESSOR"
         case pinpointApp = "PINPOINT_APP"
         case qMessageTemplates = "Q_MESSAGE_TEMPLATES"
         case sesIdentity = "SES_IDENTITY"
@@ -523,6 +720,14 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum MediaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case imageLogoDarkFavicon = "IMAGE_LOGO_DARK_FAVICON"
+        case imageLogoDarkHorizontal = "IMAGE_LOGO_DARK_HORIZONTAL"
+        case imageLogoLightFavicon = "IMAGE_LOGO_LIGHT_FAVICON"
+        case imageLogoLightHorizontal = "IMAGE_LOGO_LIGHT_HORIZONTAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
@@ -532,6 +737,17 @@ extension Connect {
     public enum MonitorCapability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case barge = "BARGE"
         case silentMonitor = "SILENT_MONITOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MultiSelectQuestionRuleCategoryAutomationCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notPresent = "NOT_PRESENT"
+        case present = "PRESENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NextContactType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case quickConnect = "QUICK_CONNECT"
         public var description: String { return self.rawValue }
     }
 
@@ -557,11 +773,16 @@ extension Connect {
     }
 
     public enum NumericQuestionPropertyAutomationLabel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentInteractionAndHoldDuration = "AGENT_INTERACTION_AND_HOLD_DURATION"
         case agentInteractionDuration = "AGENT_INTERACTION_DURATION"
         case contactDuration = "CONTACT_DURATION"
         case customerHoldTime = "CUSTOMER_HOLD_TIME"
+        case customerSentimentScoreWithAgent = "CUSTOMER_SENTIMENT_SCORE_WITH_AGENT"
+        case customerSentimentScoreWithoutAgent = "CUSTOMER_SENTIMENT_SCORE_WITHOUT_AGENT"
+        case longestHoldDuration = "LONGEST_HOLD_DURATION"
         case nonTalkTime = "NON_TALK_TIME"
         case nonTalkTimePercentage = "NON_TALK_TIME_PERCENTAGE"
+        case numberOfHolds = "NUMBER_OF_HOLDS"
         case numberOfInterruptions = "NUMBER_OF_INTERRUPTIONS"
         case overallAgentSentimentScore = "OVERALL_AGENT_SENTIMENT_SCORE"
         case overallCustomerSentimentScore = "OVERALL_CUSTOMER_SENTIMENT_SCORE"
@@ -571,6 +792,11 @@ extension Connect {
     public enum OutboundMessageSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case raw = "RAW"
         case template = "TEMPLATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutboundStrategyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agentFirst = "AGENT_FIRST"
         public var description: String { return self.rawValue }
     }
 
@@ -897,6 +1123,12 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum QuestionRuleCategoryAutomationCondition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notPresent = "NOT_PRESENT"
+        case present = "PRESENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -910,6 +1142,7 @@ extension Connect {
     }
 
     public enum QuickConnectType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flow = "FLOW"
         case phoneNumber = "PHONE_NUMBER"
         case queue = "QUEUE"
         case user = "USER"
@@ -989,6 +1222,7 @@ extension Connect {
         case date = "DATE"
         case email = "EMAIL"
         case emailMessage = "EMAIL_MESSAGE"
+        case emailMessagePlainText = "EMAIL_MESSAGE_PLAIN_TEXT"
         case number = "NUMBER"
         case string = "STRING"
         case url = "URL"
@@ -1010,6 +1244,12 @@ extension Connect {
         case participant = "PARTICIPANT"
         case phoneNumber = "PHONE_NUMBER"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResponseMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
@@ -1209,6 +1449,13 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum Visibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case assigned = "ASSIGNED"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VocabularyLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case arAe = "ar-AE"
         case caEs = "ca-ES"
@@ -1261,6 +1508,16 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorkspaceFontFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case arial = "Arial"
+        case courierNew = "Courier New"
+        case georgia = "Georgia"
+        case timesNewRoman = "Times New Roman"
+        case trebuchet = "Trebuchet"
+        case verdana = "Verdana"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CreatedByInfo: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// STS or IAM ARN representing the identity of API Caller. SDK users cannot populate this and this value is calculated automatically if ConnectUserArn is not provided.
         case awsIdentityArn(String)
@@ -1303,12 +1560,16 @@ extension Connect {
     }
 
     public enum EvaluationAnswerData: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Date and time value provided as an answer to an evaluation question.
+        case dateTimeValue(String)
         /// The flag to mark the question as not applicable.
         case notApplicable(Bool)
         /// The numeric value for an answer in a contact evaluation.
         case numericValue(Double)
         /// The string value for an answer in a contact evaluation.
         case stringValue(String)
+        /// String values provided as answers to evaluation questions.
+        case stringValues([String])
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -1320,6 +1581,9 @@ extension Connect {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .dateTimeValue:
+                let value = try container.decode(String.self, forKey: .dateTimeValue)
+                self = .dateTimeValue(value)
             case .notApplicable:
                 let value = try container.decode(Bool.self, forKey: .notApplicable)
                 self = .notApplicable(value)
@@ -1329,34 +1593,47 @@ extension Connect {
             case .stringValue:
                 let value = try container.decode(String.self, forKey: .stringValue)
                 self = .stringValue(value)
+            case .stringValues:
+                let value = try container.decode([String].self, forKey: .stringValues)
+                self = .stringValues(value)
             }
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .dateTimeValue(let value):
+                try container.encode(value, forKey: .dateTimeValue)
             case .notApplicable(let value):
                 try container.encode(value, forKey: .notApplicable)
             case .numericValue(let value):
                 try container.encode(value, forKey: .numericValue)
             case .stringValue(let value):
                 try container.encode(value, forKey: .stringValue)
+            case .stringValues(let value):
+                try container.encode(value, forKey: .stringValues)
             }
         }
 
         public func validate(name: String) throws {
             switch self {
             case .stringValue(let value):
-                try self.validate(value, name: "stringValue", parent: name, max: 128)
+                try self.validate(value, name: "stringValue", parent: name, max: 300)
+            case .stringValues(let value):
+                try value.forEach {
+                    try validate($0, name: "stringValues[]", parent: name, max: 300)
+                }
             default:
                 break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dateTimeValue = "DateTimeValue"
             case notApplicable = "NotApplicable"
             case numericValue = "NumericValue"
             case stringValue = "StringValue"
+            case stringValues = "StringValues"
         }
     }
 
@@ -1410,11 +1687,11 @@ extension Connect {
         }
     }
 
-    public enum EvaluationFormQuestionTypeProperties: AWSEncodableShape & AWSDecodableShape, Sendable {
-        /// The properties of the numeric question.
-        case numeric(EvaluationFormNumericQuestionProperties)
-        /// The properties of the numeric question.
-        case singleSelect(EvaluationFormSingleSelectQuestionProperties)
+    public enum EvaluationFormItemEnablementConditionOperand: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A condition for item enablement.
+        case condition(EvaluationFormItemEnablementCondition)
+        /// An expression of the enablement condition.
+        case expression(EvaluationFormItemEnablementExpression)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -1426,37 +1703,166 @@ extension Connect {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
-            case .numeric:
-                let value = try container.decode(EvaluationFormNumericQuestionProperties.self, forKey: .numeric)
-                self = .numeric(value)
-            case .singleSelect:
-                let value = try container.decode(EvaluationFormSingleSelectQuestionProperties.self, forKey: .singleSelect)
-                self = .singleSelect(value)
+            case .condition:
+                let value = try container.decode(EvaluationFormItemEnablementCondition.self, forKey: .condition)
+                self = .condition(value)
+            case .expression:
+                let value = try container.decode(EvaluationFormItemEnablementExpression.self, forKey: .expression)
+                self = .expression(value)
             }
         }
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .condition(let value):
+                try container.encode(value, forKey: .condition)
+            case .expression(let value):
+                try container.encode(value, forKey: .expression)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case expression = "Expression"
+        }
+    }
+
+    public enum EvaluationFormNumericQuestionAutomation: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A source of automation answer for numeric question.
+        case answerSource(EvaluationFormQuestionAutomationAnswerSource)
+        /// The property value of the automation.
+        case propertyValue(NumericQuestionPropertyValueAutomation)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .answerSource:
+                let value = try container.decode(EvaluationFormQuestionAutomationAnswerSource.self, forKey: .answerSource)
+                self = .answerSource(value)
+            case .propertyValue:
+                let value = try container.decode(NumericQuestionPropertyValueAutomation.self, forKey: .propertyValue)
+                self = .propertyValue(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .answerSource(let value):
+                try container.encode(value, forKey: .answerSource)
+            case .propertyValue(let value):
+                try container.encode(value, forKey: .propertyValue)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerSource = "AnswerSource"
+            case propertyValue = "PropertyValue"
+        }
+    }
+
+    public enum EvaluationFormQuestionTypeProperties: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Properties for multi-select question types.
+        case multiSelect(EvaluationFormMultiSelectQuestionProperties)
+        /// The properties of the numeric question.
+        case numeric(EvaluationFormNumericQuestionProperties)
+        /// The properties of the numeric question.
+        case singleSelect(EvaluationFormSingleSelectQuestionProperties)
+        /// The properties of the text question.
+        case text(EvaluationFormTextQuestionProperties)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .multiSelect:
+                let value = try container.decode(EvaluationFormMultiSelectQuestionProperties.self, forKey: .multiSelect)
+                self = .multiSelect(value)
+            case .numeric:
+                let value = try container.decode(EvaluationFormNumericQuestionProperties.self, forKey: .numeric)
+                self = .numeric(value)
+            case .singleSelect:
+                let value = try container.decode(EvaluationFormSingleSelectQuestionProperties.self, forKey: .singleSelect)
+                self = .singleSelect(value)
+            case .text:
+                let value = try container.decode(EvaluationFormTextQuestionProperties.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .multiSelect(let value):
+                try container.encode(value, forKey: .multiSelect)
             case .numeric(let value):
                 try container.encode(value, forKey: .numeric)
             case .singleSelect(let value):
                 try container.encode(value, forKey: .singleSelect)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
             }
         }
 
         public func validate(name: String) throws {
             switch self {
-            case .numeric(let value):
-                try value.validate(name: "\(name).numeric")
-            case .singleSelect(let value):
-                try value.validate(name: "\(name).singleSelect")
+            case .multiSelect(let value):
+                try value.validate(name: "\(name).multiSelect")
+            default:
+                break
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case multiSelect = "MultiSelect"
             case numeric = "Numeric"
             case singleSelect = "SingleSelect"
+            case text = "Text"
+        }
+    }
+
+    public enum EvaluationQuestionAnswerAnalysisDetails: AWSDecodableShape, Sendable {
+        /// Analysis results from the Contact Lens automation for the question.
+        case contactLens(EvaluationContactLensAnswerAnalysisDetails)
+        /// Analysis results from the generative AI automation for the question.
+        case genAI(EvaluationGenAIAnswerAnalysisDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .contactLens:
+                let value = try container.decode(EvaluationContactLensAnswerAnalysisDetails.self, forKey: .contactLens)
+                self = .contactLens(value)
+            case .genAI:
+                let value = try container.decode(EvaluationGenAIAnswerAnalysisDetails.self, forKey: .genAI)
+                self = .genAI(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactLens = "ContactLens"
+            case genAI = "GenAI"
         }
     }
 
@@ -1552,6 +1958,7 @@ extension Connect {
         case email(EmailReference)
         /// Information about the reference when the referenceType is EMAIL_MESSAGE. Otherwise, null.
         case emailMessage(EmailMessageReference)
+        case emailMessagePlainText(EmailMessageReference)
         /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
         case number(NumberReference)
         /// Information about a reference when the referenceType is STRING. Otherwise, null.
@@ -1581,6 +1988,9 @@ extension Connect {
             case .emailMessage:
                 let value = try container.decode(EmailMessageReference.self, forKey: .emailMessage)
                 self = .emailMessage(value)
+            case .emailMessagePlainText:
+                let value = try container.decode(EmailMessageReference.self, forKey: .emailMessagePlainText)
+                self = .emailMessagePlainText(value)
             case .number:
                 let value = try container.decode(NumberReference.self, forKey: .number)
                 self = .number(value)
@@ -1598,6 +2008,7 @@ extension Connect {
             case date = "Date"
             case email = "Email"
             case emailMessage = "EmailMessage"
+            case emailMessagePlainText = "EmailMessagePlainText"
             case number = "Number"
             case string = "String"
             case url = "Url"
@@ -1646,7 +2057,6 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
-            try self.validate(self.evaluationFormVersion, name: "evaluationFormVersion", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -1753,6 +2163,24 @@ extension Connect {
         }
     }
 
+    public struct AgentFirst: AWSEncodableShape & AWSDecodableShape {
+        /// Information about preview configuration of agent first outbound strategy
+        public let preview: Preview?
+
+        @inlinable
+        public init(preview: Preview? = nil) {
+            self.preview = preview
+        }
+
+        public func validate(name: String) throws {
+            try self.preview?.validate(name: "\(name).preview")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case preview = "Preview"
+        }
+    }
+
     public struct AgentHierarchyGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the group.
         public let arn: String?
@@ -1806,6 +2234,8 @@ extension Connect {
     }
 
     public struct AgentInfo: AWSDecodableShape {
+        /// The timestamp when the contact was accepted by the agent.
+        public let acceptedByAgentTimestamp: Date?
         /// The difference in time, in whole seconds, between AfterContactWorkStartTimestamp and AfterContactWorkEndTimestamp.
         public let afterContactWorkDuration: Int?
         /// The date and time when the agent ended After Contact Work for the contact, in UTC time. In cases when agent finishes doing AfterContactWork for chat contacts and switches their activity status to offline or equivalent without clearing the contact in CCP, discrepancies may be noticed for AfterContactWorkEndTimestamp.
@@ -1825,11 +2255,14 @@ extension Connect {
         public let hierarchyGroups: HierarchyGroups?
         /// The identifier of the agent who accepted the contact.
         public let id: String?
+        /// The timestamp when the agent finished previewing the contact.
+        public let previewEndTimestamp: Date?
         /// List of StateTransition for a supervisor.
         public let stateTransitions: [StateTransition]?
 
         @inlinable
-        public init(afterContactWorkDuration: Int? = nil, afterContactWorkEndTimestamp: Date? = nil, afterContactWorkStartTimestamp: Date? = nil, agentInitiatedHoldDuration: Int? = nil, agentPauseDurationInSeconds: Int? = nil, capabilities: ParticipantCapabilities? = nil, connectedToAgentTimestamp: Date? = nil, deviceInfo: DeviceInfo? = nil, hierarchyGroups: HierarchyGroups? = nil, id: String? = nil, stateTransitions: [StateTransition]? = nil) {
+        public init(acceptedByAgentTimestamp: Date? = nil, afterContactWorkDuration: Int? = nil, afterContactWorkEndTimestamp: Date? = nil, afterContactWorkStartTimestamp: Date? = nil, agentInitiatedHoldDuration: Int? = nil, agentPauseDurationInSeconds: Int? = nil, capabilities: ParticipantCapabilities? = nil, connectedToAgentTimestamp: Date? = nil, deviceInfo: DeviceInfo? = nil, hierarchyGroups: HierarchyGroups? = nil, id: String? = nil, previewEndTimestamp: Date? = nil, stateTransitions: [StateTransition]? = nil) {
+            self.acceptedByAgentTimestamp = acceptedByAgentTimestamp
             self.afterContactWorkDuration = afterContactWorkDuration
             self.afterContactWorkEndTimestamp = afterContactWorkEndTimestamp
             self.afterContactWorkStartTimestamp = afterContactWorkStartTimestamp
@@ -1840,10 +2273,12 @@ extension Connect {
             self.deviceInfo = deviceInfo
             self.hierarchyGroups = hierarchyGroups
             self.id = id
+            self.previewEndTimestamp = previewEndTimestamp
             self.stateTransitions = stateTransitions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceptedByAgentTimestamp = "AcceptedByAgentTimestamp"
             case afterContactWorkDuration = "AfterContactWorkDuration"
             case afterContactWorkEndTimestamp = "AfterContactWorkEndTimestamp"
             case afterContactWorkStartTimestamp = "AfterContactWorkStartTimestamp"
@@ -1854,6 +2289,7 @@ extension Connect {
             case deviceInfo = "DeviceInfo"
             case hierarchyGroups = "HierarchyGroups"
             case id = "Id"
+            case previewEndTimestamp = "PreviewEndTimestamp"
             case stateTransitions = "StateTransitions"
         }
     }
@@ -1963,11 +2399,11 @@ extension Connect {
     }
 
     public struct AgentStatusSearchCriteria: AWSEncodableShape {
-        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, state, type, displayOrder, and resourceID.
         public let andConditions: [AgentStatusSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [AgentStatusSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   description, state, type, displayOrder,  and resourceID.
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, description, state, type, displayOrder, and resourceID.
         public let stringCondition: StringCondition?
 
         @inlinable
@@ -2049,6 +2485,47 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case agentIds = "AgentIds"
+        }
+    }
+
+    public struct AiAgentInfo: AWSDecodableShape {
+        ///  A boolean flag indicating whether the contact initially handled by this AI agent was escalated to a human agent.
+        public let aiAgentEscalated: Bool?
+        ///  The unique identifier that specifies both the AI agent ID and its version number that was involved in the contact
+        public let aiAgentVersionId: String?
+        ///  The use case or scenario for which the AI agent is involved in the contact
+        public let aiUseCase: AiUseCase?
+
+        @inlinable
+        public init(aiAgentEscalated: Bool? = nil, aiAgentVersionId: String? = nil, aiUseCase: AiUseCase? = nil) {
+            self.aiAgentEscalated = aiAgentEscalated
+            self.aiAgentVersionId = aiAgentVersionId
+            self.aiUseCase = aiUseCase
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aiAgentEscalated = "AiAgentEscalated"
+            case aiAgentVersionId = "AiAgentVersionId"
+            case aiUseCase = "AiUseCase"
+        }
+    }
+
+    public struct AliasConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The email address ID.
+        public let emailAddressId: String
+
+        @inlinable
+        public init(emailAddressId: String) {
+            self.emailAddressId = emailAddressId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddressId = "EmailAddressId"
         }
     }
 
@@ -2137,15 +2614,18 @@ extension Connect {
     }
 
     public struct Application: AWSEncodableShape & AWSDecodableShape {
-        /// The permissions that the agent is granted on the application. Only the ACCESS permission is supported.
+        /// The permissions that the agent is granted on the application. For third-party applications, only the ACCESS permission is supported. For MCP Servers, the permissions are tool Identifiers accepted by MCP Server.
         public let applicationPermissions: [String]?
         /// Namespace of the application that you want to give access to.
         public let namespace: String?
+        ///  Type of Application.
+        public let type: ApplicationType?
 
         @inlinable
-        public init(applicationPermissions: [String]? = nil, namespace: String? = nil) {
+        public init(applicationPermissions: [String]? = nil, namespace: String? = nil, type: ApplicationType? = nil) {
             self.applicationPermissions = applicationPermissions
             self.namespace = namespace
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2153,7 +2633,7 @@ extension Connect {
                 try validate($0, name: "applicationPermissions[]", parent: name, max: 128)
                 try validate($0, name: "applicationPermissions[]", parent: name, min: 1)
             }
-            try self.validate(self.applicationPermissions, name: "applicationPermissions", parent: name, max: 10)
+            try self.validate(self.applicationPermissions, name: "applicationPermissions", parent: name, max: 50)
             try self.validate(self.applicationPermissions, name: "applicationPermissions", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, max: 128)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
@@ -2162,6 +2642,7 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case applicationPermissions = "ApplicationPermissions"
             case namespace = "Namespace"
+            case type = "Type"
         }
     }
 
@@ -2408,6 +2889,52 @@ extension Connect {
     }
 
     public struct AssociateDefaultVocabularyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateEmailAddressAliasRequest: AWSEncodableShape {
+        /// Configuration object that specifies which email address will serve as the alias. The specified email address must already exist in the Amazon Connect instance and cannot already be configured as an alias or have an alias of its own.
+        public let aliasConfiguration: AliasConfiguration
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The identifier of the email address.
+        public let emailAddressId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(aliasConfiguration: AliasConfiguration, clientToken: String? = AssociateEmailAddressAliasRequest.idempotencyToken(), emailAddressId: String, instanceId: String) {
+            self.aliasConfiguration = aliasConfiguration
+            self.clientToken = clientToken
+            self.emailAddressId = emailAddressId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aliasConfiguration, forKey: .aliasConfiguration)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.emailAddressId, key: "EmailAddressId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.aliasConfiguration.validate(name: "\(name).aliasConfiguration")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasConfiguration = "AliasConfiguration"
+            case clientToken = "ClientToken"
+        }
+    }
+
+    public struct AssociateEmailAddressAliasResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2748,6 +3275,48 @@ extension Connect {
         }
     }
 
+    public struct AssociateSecurityProfilesRequest: AWSEncodableShape {
+        ///  Arn of a Q in Connect AI Agent.
+        public let entityArn: String
+        ///  Only supported type is AI_AGENT.
+        public let entityType: EntityType
+        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        ///  List of Security Profile Object.
+        public let securityProfiles: [SecurityProfileItem]
+
+        @inlinable
+        public init(entityArn: String, entityType: EntityType, instanceId: String, securityProfiles: [SecurityProfileItem]) {
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.instanceId = instanceId
+            self.securityProfiles = securityProfiles
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entityArn, forKey: .entityArn)
+            try container.encode(self.entityType, forKey: .entityType)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.securityProfiles, forKey: .securityProfiles)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityArn, name: "entityArn", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.securityProfiles, name: "securityProfiles", parent: name, max: 10)
+            try self.validate(self.securityProfiles, name: "securityProfiles", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityArn = "EntityArn"
+            case entityType = "EntityType"
+            case securityProfiles = "SecurityProfiles"
+        }
+    }
+
     public struct AssociateTrafficDistributionGroupUserRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -2821,6 +3390,61 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case userProficiencies = "UserProficiencies"
+        }
+    }
+
+    public struct AssociateWorkspaceRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The Amazon Resource Names (ARNs) of the resources to associate with the workspace. Valid resource types are users and routing profiles.
+        public let resourceArns: [String]
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, resourceArns: [String], workspaceId: String) {
+            self.instanceId = instanceId
+            self.resourceArns = resourceArns
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.resourceArns, forKey: .resourceArns)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 25)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "ResourceArns"
+        }
+    }
+
+    public struct AssociateWorkspaceResponse: AWSDecodableShape {
+        /// A list of resources that failed to be associated with the workspace, including error details.
+        public let failedList: [FailedBatchAssociationSummary]?
+        /// A list of resources that were successfully associated with the workspace.
+        public let successfulList: [SuccessfulBatchAssociationSummary]?
+
+        @inlinable
+        public init(failedList: [FailedBatchAssociationSummary]? = nil, successfulList: [SuccessfulBatchAssociationSummary]? = nil) {
+            self.failedList = failedList
+            self.successfulList = successfulList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedList = "FailedList"
+            case successfulList = "SuccessfulList"
         }
     }
 
@@ -3125,9 +3749,32 @@ extension Connect {
         public let name: String?
         /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, see Configure the session duration in the Amazon Connect Administrator Guide.
         public let periodicSessionDuration: Int?
+        /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
+        public let sessionInactivityDuration: Int?
+        /// Determines if automatic logout on user inactivity is enabled.
+        public let sessionInactivityHandlingEnabled: Bool?
 
         @inlinable
-        public init(allowedIps: [String]? = nil, arn: String? = nil, blockedIps: [String]? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, maxSessionDuration: Int? = nil, name: String? = nil, periodicSessionDuration: Int? = nil) {
+        public init(allowedIps: [String]? = nil, arn: String? = nil, blockedIps: [String]? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, maxSessionDuration: Int? = nil, name: String? = nil, sessionInactivityDuration: Int? = nil, sessionInactivityHandlingEnabled: Bool? = nil) {
+            self.allowedIps = allowedIps
+            self.arn = arn
+            self.blockedIps = blockedIps
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.isDefault = isDefault
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.maxSessionDuration = maxSessionDuration
+            self.name = name
+            self.periodicSessionDuration = nil
+            self.sessionInactivityDuration = sessionInactivityDuration
+            self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
+        }
+
+        @available(*, deprecated, message: "Members periodicSessionDuration have been deprecated")
+        @inlinable
+        public init(allowedIps: [String]? = nil, arn: String? = nil, blockedIps: [String]? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, isDefault: Bool? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, maxSessionDuration: Int? = nil, name: String? = nil, periodicSessionDuration: Int? = nil, sessionInactivityDuration: Int? = nil, sessionInactivityHandlingEnabled: Bool? = nil) {
             self.allowedIps = allowedIps
             self.arn = arn
             self.blockedIps = blockedIps
@@ -3140,6 +3787,8 @@ extension Connect {
             self.maxSessionDuration = maxSessionDuration
             self.name = name
             self.periodicSessionDuration = periodicSessionDuration
+            self.sessionInactivityDuration = sessionInactivityDuration
+            self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3155,6 +3804,8 @@ extension Connect {
             case maxSessionDuration = "MaxSessionDuration"
             case name = "Name"
             case periodicSessionDuration = "PeriodicSessionDuration"
+            case sessionInactivityDuration = "SessionInactivityDuration"
+            case sessionInactivityHandlingEnabled = "SessionInactivityHandlingEnabled"
         }
     }
 
@@ -3189,6 +3840,52 @@ extension Connect {
             case lastModifiedRegion = "LastModifiedRegion"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
+        }
+    }
+
+    public struct AutoEvaluationConfiguration: AWSEncodableShape {
+        /// Whether automated evaluations are enabled.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AutoEvaluationDetails: AWSDecodableShape {
+        /// Whether automated evaluation is enabled.
+        public let autoEvaluationEnabled: Bool
+        /// The status of the contact auto-evaluation.
+        public let autoEvaluationStatus: AutoEvaluationStatus?
+
+        @inlinable
+        public init(autoEvaluationEnabled: Bool, autoEvaluationStatus: AutoEvaluationStatus? = nil) {
+            self.autoEvaluationEnabled = autoEvaluationEnabled
+            self.autoEvaluationStatus = autoEvaluationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEvaluationEnabled = "AutoEvaluationEnabled"
+            case autoEvaluationStatus = "AutoEvaluationStatus"
+        }
+    }
+
+    public struct AutomaticFailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The referenceId of the target section for auto failure.
+        public let targetSection: String?
+
+        @inlinable
+        public init(targetSection: String? = nil) {
+            self.targetSection = targetSection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetSection = "TargetSection"
         }
     }
 
@@ -3267,6 +3964,331 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case created = "Created"
             case errors = "Errors"
+        }
+    }
+
+    public struct BatchCreateDataTableValueFailureResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's message.
+        public let message: String
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, message: String, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case message = "Message"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BatchCreateDataTableValueRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If no alias is provided, the default behavior is identical to providing the $LATEST alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// A list of values to create. Each value must specify the attribute name and optionally primary values if the table has primary attributes.
+        public let values: [DataTableValue]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, values: [DataTableValue]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.values, forKey: .values)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct BatchCreateDataTableValueResponse: AWSDecodableShape {
+        /// A list of values that failed to be created with error messages explaining the failure reason.
+        public let failed: [BatchCreateDataTableValueFailureResult]
+        /// A list of successfully created values with their identifiers and lock versions.
+        public let successful: [BatchCreateDataTableValueSuccessResult]
+
+        @inlinable
+        public init(failed: [BatchCreateDataTableValueFailureResult], successful: [BatchCreateDataTableValueSuccessResult]) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
+    public struct BatchCreateDataTableValueSuccessResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's lock version.
+        public let lockVersion: DataTableLockVersion
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+        /// The result's record ID.
+        public let recordId: String
+
+        @inlinable
+        public init(attributeName: String, lockVersion: DataTableLockVersion, primaryValues: [PrimaryValue], recordId: String) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+            case recordId = "RecordId"
+        }
+    }
+
+    public struct BatchDeleteDataTableValueFailureResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's message.
+        public let message: String
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, message: String, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case message = "Message"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BatchDeleteDataTableValueRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// A list of value identifiers to delete, each specifying primary values, attribute name, and lock version information.
+        public let values: [DataTableDeleteValueIdentifier]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, values: [DataTableDeleteValueIdentifier]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.values, forKey: .values)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct BatchDeleteDataTableValueResponse: AWSDecodableShape {
+        /// A list of values that failed to be deleted with error messages explaining the failure reason.
+        public let failed: [BatchDeleteDataTableValueFailureResult]
+        /// A list of successfully deleted values with their identifiers and updated lock versions.
+        public let successful: [BatchDeleteDataTableValueSuccessResult]
+
+        @inlinable
+        public init(failed: [BatchDeleteDataTableValueFailureResult], successful: [BatchDeleteDataTableValueSuccessResult]) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
+    public struct BatchDeleteDataTableValueSuccessResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's lock version.
+        public let lockVersion: DataTableLockVersion
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, lockVersion: DataTableLockVersion, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BatchDescribeDataTableValueFailureResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's message.
+        public let message: String
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, message: String, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case message = "Message"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BatchDescribeDataTableValueRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// A list of value identifiers to retrieve, each specifying primary values and attribute names.
+        public let values: [DataTableValueIdentifier]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, values: [DataTableValueIdentifier]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.values, forKey: .values)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct BatchDescribeDataTableValueResponse: AWSDecodableShape {
+        /// A list of values that failed to be retrieved with error messages explaining the failure reason.
+        public let failed: [BatchDescribeDataTableValueFailureResult]
+        /// A list of successfully retrieved values with their data, metadata, and lock version information.
+        public let successful: [BatchDescribeDataTableValueSuccessResult]
+
+        @inlinable
+        public init(failed: [BatchDescribeDataTableValueFailureResult], successful: [BatchDescribeDataTableValueSuccessResult]) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
+    public struct BatchDescribeDataTableValueSuccessResult: AWSDecodableShape {
+        /// The result's attribute ID.
+        public let attributeId: String
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's last modified region.
+        public let lastModifiedRegion: String?
+        /// The result's last modified time.
+        public let lastModifiedTime: Date?
+        /// The result's lock version.
+        public let lockVersion: DataTableLockVersion
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValueResponse]
+        /// The result's record ID.
+        public let recordId: String
+        /// The result's value.
+        public let value: String?
+
+        @inlinable
+        public init(attributeId: String, attributeName: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, lockVersion: DataTableLockVersion, primaryValues: [PrimaryValueResponse], recordId: String, value: String? = nil) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeId = "AttributeId"
+            case attributeName = "AttributeName"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+            case recordId = "RecordId"
+            case value = "Value"
         }
     }
 
@@ -3488,6 +4510,125 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case failedRequestList = "FailedRequestList"
             case successfulRequestList = "SuccessfulRequestList"
+        }
+    }
+
+    public struct BatchUpdateDataTableValueFailureResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's message.
+        public let message: String
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, message: String, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.message = message
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case message = "Message"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BatchUpdateDataTableValueRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// A list of values to update, each including the current lock version to ensure optimistic locking.
+        public let values: [DataTableValue]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, values: [DataTableValue]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.values, forKey: .values)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
+        }
+    }
+
+    public struct BatchUpdateDataTableValueResponse: AWSDecodableShape {
+        /// A list of values that failed to be updated with error messages explaining the failure reason.
+        public let failed: [BatchUpdateDataTableValueFailureResult]
+        /// A list of successfully updated values with their new lock versions and identifiers.
+        public let successful: [BatchUpdateDataTableValueSuccessResult]
+
+        @inlinable
+        public init(failed: [BatchUpdateDataTableValueFailureResult], successful: [BatchUpdateDataTableValueSuccessResult]) {
+            self.failed = failed
+            self.successful = successful
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case successful = "Successful"
+        }
+    }
+
+    public struct BatchUpdateDataTableValueSuccessResult: AWSDecodableShape {
+        /// The result's attribute name.
+        public let attributeName: String
+        /// The result's lock version.
+        public let lockVersion: DataTableLockVersion
+        /// The result's primary values.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(attributeName: String, lockVersion: DataTableLockVersion, primaryValues: [PrimaryValue]) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct BooleanCondition: AWSEncodableShape {
+        /// Boolean property comparison type.
+        public let comparisonType: BooleanComparisonType?
+        /// A name of the property to be searched.
+        public let fieldName: String?
+
+        @inlinable
+        public init(comparisonType: BooleanComparisonType? = nil, fieldName: String? = nil) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case fieldName = "FieldName"
         }
     }
 
@@ -3890,7 +5031,7 @@ extension Connect {
     public struct Condition: AWSEncodableShape {
         /// A leaf node condition which can be used to specify a numeric condition.
         public let numberCondition: NumberCondition?
-        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name and  value.
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name and value.
         public let stringCondition: StringCondition?
 
         @inlinable
@@ -3959,7 +5100,7 @@ extension Connect {
         public let description: String?
         /// Information about the call disconnect experience.
         public let disconnectDetails: DisconnectDetails?
-        /// The disconnect reason for the contact.
+        /// The disconnect reason for the contact. For a list and description of all the possible disconnect reasons by channel, see DisconnectReason under ContactTraceRecord in the Amazon Connect Administrator Guide.
         public let disconnectReason: String?
         /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public let disconnectTimestamp: Date?
@@ -3979,6 +5120,10 @@ extension Connect {
         public let lastUpdateTimestamp: Date?
         /// The name of the contact.
         public let name: String?
+        ///  List of next contact entries for the contact.
+        public let nextContacts: [NextContactEntry]?
+        /// Information about the outbound strategy.
+        public let outboundStrategy: OutboundStrategy?
         /// If this contact is not the first contact, this is the ID of the previous contact.
         public let previousContactId: String?
         /// Information about the quality of the participant's media connection.
@@ -3993,6 +5138,8 @@ extension Connect {
         public let recordings: [RecordingInfo]?
         /// The contactId that is related to this contact.
         public let relatedContactId: String?
+        /// The timestamp when ringing started for a campaign call.
+        public let ringStartTimestamp: Date?
         /// Latest routing criteria on the contact.
         public let routingCriteria: RoutingCriteria?
         /// The timestamp, in Unix epoch time format, at which to start running the inbound flow.
@@ -4013,7 +5160,7 @@ extension Connect {
         public let wisdomInfo: WisdomInfo?
 
         @inlinable
-        public init(additionalEmailRecipients: AdditionalEmailRecipients? = nil, agentInfo: AgentInfo? = nil, answeringMachineDetectionStatus: AnsweringMachineDetectionStatus? = nil, arn: String? = nil, attributes: [String: String]? = nil, campaign: Campaign? = nil, channel: Channel? = nil, chatMetrics: ChatMetrics? = nil, connectedToSystemTimestamp: Date? = nil, contactAssociationId: String? = nil, contactDetails: ContactDetails? = nil, contactEvaluations: [String: ContactEvaluation]? = nil, customer: Customer? = nil, customerEndpoint: EndpointInfo? = nil, customerId: String? = nil, customerVoiceActivity: CustomerVoiceActivity? = nil, description: String? = nil, disconnectDetails: DisconnectDetails? = nil, disconnectReason: String? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastPausedTimestamp: Date? = nil, lastResumedTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, qualityMetrics: QualityMetrics? = nil, queueInfo: QueueInfo? = nil, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, recordings: [RecordingInfo]? = nil, relatedContactId: String? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, systemEndpoint: EndpointInfo? = nil, tags: [String: String]? = nil, taskTemplateInfo: TaskTemplateInfoV2? = nil, totalPauseCount: Int? = nil, totalPauseDurationInSeconds: Int? = nil, wisdomInfo: WisdomInfo? = nil) {
+        public init(additionalEmailRecipients: AdditionalEmailRecipients? = nil, agentInfo: AgentInfo? = nil, answeringMachineDetectionStatus: AnsweringMachineDetectionStatus? = nil, arn: String? = nil, attributes: [String: String]? = nil, campaign: Campaign? = nil, channel: Channel? = nil, chatMetrics: ChatMetrics? = nil, connectedToSystemTimestamp: Date? = nil, contactAssociationId: String? = nil, contactDetails: ContactDetails? = nil, contactEvaluations: [String: ContactEvaluation]? = nil, customer: Customer? = nil, customerEndpoint: EndpointInfo? = nil, customerId: String? = nil, customerVoiceActivity: CustomerVoiceActivity? = nil, description: String? = nil, disconnectDetails: DisconnectDetails? = nil, disconnectReason: String? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastPausedTimestamp: Date? = nil, lastResumedTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, nextContacts: [NextContactEntry]? = nil, outboundStrategy: OutboundStrategy? = nil, previousContactId: String? = nil, qualityMetrics: QualityMetrics? = nil, queueInfo: QueueInfo? = nil, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, recordings: [RecordingInfo]? = nil, relatedContactId: String? = nil, ringStartTimestamp: Date? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, systemEndpoint: EndpointInfo? = nil, tags: [String: String]? = nil, taskTemplateInfo: TaskTemplateInfoV2? = nil, totalPauseCount: Int? = nil, totalPauseDurationInSeconds: Int? = nil, wisdomInfo: WisdomInfo? = nil) {
             self.additionalEmailRecipients = additionalEmailRecipients
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
@@ -4042,6 +5189,8 @@ extension Connect {
             self.lastResumedTimestamp = lastResumedTimestamp
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
+            self.nextContacts = nextContacts
+            self.outboundStrategy = outboundStrategy
             self.previousContactId = previousContactId
             self.qualityMetrics = qualityMetrics
             self.queueInfo = queueInfo
@@ -4049,6 +5198,7 @@ extension Connect {
             self.queueTimeAdjustmentSeconds = queueTimeAdjustmentSeconds
             self.recordings = recordings
             self.relatedContactId = relatedContactId
+            self.ringStartTimestamp = ringStartTimestamp
             self.routingCriteria = routingCriteria
             self.scheduledTimestamp = scheduledTimestamp
             self.segmentAttributes = segmentAttributes
@@ -4089,6 +5239,8 @@ extension Connect {
             case lastResumedTimestamp = "LastResumedTimestamp"
             case lastUpdateTimestamp = "LastUpdateTimestamp"
             case name = "Name"
+            case nextContacts = "NextContacts"
+            case outboundStrategy = "OutboundStrategy"
             case previousContactId = "PreviousContactId"
             case qualityMetrics = "QualityMetrics"
             case queueInfo = "QueueInfo"
@@ -4096,6 +5248,7 @@ extension Connect {
             case queueTimeAdjustmentSeconds = "QueueTimeAdjustmentSeconds"
             case recordings = "Recordings"
             case relatedContactId = "RelatedContactId"
+            case ringStartTimestamp = "RingStartTimestamp"
             case routingCriteria = "RoutingCriteria"
             case scheduledTimestamp = "ScheduledTimestamp"
             case segmentAttributes = "SegmentAttributes"
@@ -4160,6 +5313,8 @@ extension Connect {
         public let campaign: Campaign?
         /// Endpoint of the customer for which contact will be initiated.
         public let customerEndpoint: Endpoint?
+        /// Information about the outbound strategy.
+        public let outboundStrategy: OutboundStrategy?
         /// The identifier of the queue associated with the Amazon Connect instance in which contacts that are created will be queued.
         public let queueId: String?
         /// Identifier to uniquely identify individual requests in the batch.
@@ -4168,10 +5323,11 @@ extension Connect {
         public let systemEndpoint: Endpoint?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, campaign: Campaign? = nil, customerEndpoint: Endpoint? = nil, queueId: String? = nil, requestIdentifier: String? = nil, systemEndpoint: Endpoint? = nil) {
+        public init(attributes: [String: String]? = nil, campaign: Campaign? = nil, customerEndpoint: Endpoint? = nil, outboundStrategy: OutboundStrategy? = nil, queueId: String? = nil, requestIdentifier: String? = nil, systemEndpoint: Endpoint? = nil) {
             self.attributes = attributes
             self.campaign = campaign
             self.customerEndpoint = customerEndpoint
+            self.outboundStrategy = outboundStrategy
             self.queueId = queueId
             self.requestIdentifier = requestIdentifier
             self.systemEndpoint = systemEndpoint
@@ -4185,6 +5341,7 @@ extension Connect {
             }
             try self.campaign?.validate(name: "\(name).campaign")
             try self.customerEndpoint?.validate(name: "\(name).customerEndpoint")
+            try self.outboundStrategy?.validate(name: "\(name).outboundStrategy")
             try self.validate(self.requestIdentifier, name: "requestIdentifier", parent: name, max: 80)
             try self.systemEndpoint?.validate(name: "\(name).systemEndpoint")
         }
@@ -4193,6 +5350,7 @@ extension Connect {
             case attributes = "Attributes"
             case campaign = "Campaign"
             case customerEndpoint = "CustomerEndpoint"
+            case outboundStrategy = "OutboundStrategy"
             case queueId = "QueueId"
             case requestIdentifier = "RequestIdentifier"
             case systemEndpoint = "SystemEndpoint"
@@ -4339,6 +5497,49 @@ extension Connect {
         }
     }
 
+    public struct ContactFlowAttributeAndCondition: AWSEncodableShape {
+        ///  Contact flow type condition.
+        public let contactFlowTypeCondition: ContactFlowTypeCondition?
+        ///  Tag-based conditions for contact flow filtering.
+        public let tagConditions: [TagCondition]?
+
+        @inlinable
+        public init(contactFlowTypeCondition: ContactFlowTypeCondition? = nil, tagConditions: [TagCondition]? = nil) {
+            self.contactFlowTypeCondition = contactFlowTypeCondition
+            self.tagConditions = tagConditions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowTypeCondition = "ContactFlowTypeCondition"
+            case tagConditions = "TagConditions"
+        }
+    }
+
+    public struct ContactFlowAttributeFilter: AWSEncodableShape {
+        ///  A list of conditions which would be applied together with a AND condition.
+        public let andCondition: ContactFlowAttributeAndCondition?
+        ///  Contact flow type condition within attribute filter.
+        public let contactFlowTypeCondition: ContactFlowTypeCondition?
+        ///  A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [ContactFlowAttributeAndCondition]?
+        public let tagCondition: TagCondition?
+
+        @inlinable
+        public init(andCondition: ContactFlowAttributeAndCondition? = nil, contactFlowTypeCondition: ContactFlowTypeCondition? = nil, orConditions: [ContactFlowAttributeAndCondition]? = nil, tagCondition: TagCondition? = nil) {
+            self.andCondition = andCondition
+            self.contactFlowTypeCondition = contactFlowTypeCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andCondition = "AndCondition"
+            case contactFlowTypeCondition = "ContactFlowTypeCondition"
+            case orConditions = "OrConditions"
+            case tagCondition = "TagCondition"
+        }
+    }
+
     public struct ContactFlowModule: AWSDecodableShape {
         /// The Amazon Resource Name (ARN).
         public let arn: String?
@@ -4346,38 +5547,134 @@ extension Connect {
         public let content: String?
         /// The description of the flow module.
         public let description: String?
+        /// The external invocation configuration for the flow module
+        public let externalInvocationConfiguration: ExternalInvocationConfiguration?
+        /// Hash of the module content for integrity verification.
+        public let flowModuleContentSha256: String?
         /// The identifier of the flow module.
         public let id: String?
         /// The name of the flow module.
         public let name: String?
+        /// The configuration settings for the flow module.
+        public let settings: String?
         /// The type of flow module.
         public let state: ContactFlowModuleState?
         /// The status of the flow module.
         public let status: ContactFlowModuleStatus?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
+        /// The version of the flow module.
+        public let version: Int64?
+        /// Description of the version.
+        public let versionDescription: String?
 
         @inlinable
-        public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, state: ContactFlowModuleState? = nil, status: ContactFlowModuleStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, content: String? = nil, description: String? = nil, externalInvocationConfiguration: ExternalInvocationConfiguration? = nil, flowModuleContentSha256: String? = nil, id: String? = nil, name: String? = nil, settings: String? = nil, state: ContactFlowModuleState? = nil, status: ContactFlowModuleStatus? = nil, tags: [String: String]? = nil, version: Int64? = nil, versionDescription: String? = nil) {
             self.arn = arn
             self.content = content
             self.description = description
+            self.externalInvocationConfiguration = externalInvocationConfiguration
+            self.flowModuleContentSha256 = flowModuleContentSha256
             self.id = id
             self.name = name
+            self.settings = settings
             self.state = state
             self.status = status
             self.tags = tags
+            self.version = version
+            self.versionDescription = versionDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case content = "Content"
             case description = "Description"
+            case externalInvocationConfiguration = "ExternalInvocationConfiguration"
+            case flowModuleContentSha256 = "FlowModuleContentSha256"
             case id = "Id"
             case name = "Name"
+            case settings = "Settings"
             case state = "State"
             case status = "Status"
             case tags = "Tags"
+            case version = "Version"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct ContactFlowModuleAliasInfo: AWSDecodableShape {
+        /// The identifier of the alias.
+        public let aliasId: String?
+        /// The Amazon Resource Name (ARN) of the flow module.
+        public let contactFlowModuleArn: String?
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String?
+        /// The description of the alias.
+        public let description: String?
+        /// The Amazon Web Services Region where this resource was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when this resource was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the alias.
+        public let name: String?
+        /// The version of the flow module.
+        public let version: Int64?
+
+        @inlinable
+        public init(aliasId: String? = nil, contactFlowModuleArn: String? = nil, contactFlowModuleId: String? = nil, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, version: Int64? = nil) {
+            self.aliasId = aliasId
+            self.contactFlowModuleArn = contactFlowModuleArn
+            self.contactFlowModuleId = contactFlowModuleId
+            self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasId = "AliasId"
+            case contactFlowModuleArn = "ContactFlowModuleArn"
+            case contactFlowModuleId = "ContactFlowModuleId"
+            case description = "Description"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct ContactFlowModuleAliasSummary: AWSDecodableShape {
+        /// The description of the alias.
+        public let aliasDescription: String?
+        /// The identifier of the alias.
+        public let aliasId: String?
+        /// The name of the alias.
+        public let aliasName: String?
+        /// The Amazon Resource Name (ARN) of the flow module alias.
+        public let arn: String?
+        /// The timestamp when this resource was last modified.
+        public let lastModifiedTime: Date?
+        /// The version of the flow module.
+        public let version: Int64?
+
+        @inlinable
+        public init(aliasDescription: String? = nil, aliasId: String? = nil, aliasName: String? = nil, arn: String? = nil, lastModifiedTime: Date? = nil, version: Int64? = nil) {
+            self.aliasDescription = aliasDescription
+            self.aliasId = aliasId
+            self.aliasName = aliasName
+            self.arn = arn
+            self.lastModifiedTime = lastModifiedTime
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasDescription = "AliasDescription"
+            case aliasId = "AliasId"
+            case aliasName = "AliasName"
+            case arn = "Arn"
+            case lastModifiedTime = "LastModifiedTime"
+            case version = "Version"
         }
     }
 
@@ -4449,6 +5746,28 @@ extension Connect {
         }
     }
 
+    public struct ContactFlowModuleVersionSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow module version.
+        public let arn: String?
+        /// The version of the flow module.
+        public let version: Int64?
+        /// The description of the flow module version.
+        public let versionDescription: String?
+
+        @inlinable
+        public init(arn: String? = nil, version: Int64? = nil, versionDescription: String? = nil) {
+            self.arn = arn
+            self.version = version
+            self.versionDescription = versionDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case version = "Version"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
     public struct ContactFlowSearchCriteria: AWSEncodableShape {
         /// A list of conditions which would be applied together with an AND condition.
         public let andConditions: [ContactFlowSearchCriteria]?
@@ -4483,14 +5802,18 @@ extension Connect {
     }
 
     public struct ContactFlowSearchFilter: AWSEncodableShape {
+        ///  Flow attribute filter for contact flow search operations.
+        public let flowAttributeFilter: ContactFlowAttributeFilter?
         public let tagFilter: ControlPlaneTagFilter?
 
         @inlinable
-        public init(tagFilter: ControlPlaneTagFilter? = nil) {
+        public init(flowAttributeFilter: ContactFlowAttributeFilter? = nil, tagFilter: ControlPlaneTagFilter? = nil) {
+            self.flowAttributeFilter = flowAttributeFilter
             self.tagFilter = tagFilter
         }
 
         private enum CodingKeys: String, CodingKey {
+            case flowAttributeFilter = "FlowAttributeFilter"
             case tagFilter = "TagFilter"
         }
     }
@@ -4526,6 +5849,20 @@ extension Connect {
             case contactFlowType = "ContactFlowType"
             case id = "Id"
             case name = "Name"
+        }
+    }
+
+    public struct ContactFlowTypeCondition: AWSEncodableShape {
+        ///  Contact flow type of the contact flow type condition.
+        public let contactFlowType: ContactFlowType?
+
+        @inlinable
+        public init(contactFlowType: ContactFlowType? = nil) {
+            self.contactFlowType = contactFlowType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowType = "ContactFlowType"
         }
     }
 
@@ -4876,6 +6213,74 @@ extension Connect {
         }
     }
 
+    public struct CreateContactFlowModuleAliasRequest: AWSEncodableShape {
+        /// The name of the alias.
+        public let aliasName: String
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The version of the flow module.
+        public let contactFlowModuleVersion: Int64
+        /// The description of the alias.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(aliasName: String, contactFlowModuleId: String, contactFlowModuleVersion: Int64, description: String? = nil, instanceId: String) {
+            self.aliasName = aliasName
+            self.contactFlowModuleId = contactFlowModuleId
+            self.contactFlowModuleVersion = contactFlowModuleVersion
+            self.description = description
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aliasName, forKey: .aliasName)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            try container.encode(self.contactFlowModuleVersion, forKey: .contactFlowModuleVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasName, name: "aliasName", parent: name, max: 100)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, min: 1)
+            try self.validate(self.aliasName, name: "aliasName", parent: name, pattern: "^([$0-9a-zA-Z][_-]?)+$")
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.contactFlowModuleVersion, name: "contactFlowModuleVersion", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasName = "AliasName"
+            case contactFlowModuleVersion = "ContactFlowModuleVersion"
+            case description = "Description"
+        }
+    }
+
+    public struct CreateContactFlowModuleAliasResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow module.
+        public let contactFlowModuleArn: String?
+        /// The identifier of the alias.
+        public let id: String?
+
+        @inlinable
+        public init(contactFlowModuleArn: String? = nil, id: String? = nil) {
+            self.contactFlowModuleArn = contactFlowModuleArn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleArn = "ContactFlowModuleArn"
+            case id = "Id"
+        }
+    }
+
     public struct CreateContactFlowModuleRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -4883,20 +6288,26 @@ extension Connect {
         public let content: String
         /// The description of the flow module.
         public let description: String?
+        /// The external invocation configuration for the flow module.
+        public let externalInvocationConfiguration: ExternalInvocationConfiguration?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The name of the flow module.
         public let name: String
+        /// The configuration settings for the flow module.
+        public let settings: String?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateContactFlowModuleRequest.idempotencyToken(), content: String, description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateContactFlowModuleRequest.idempotencyToken(), content: String, description: String? = nil, externalInvocationConfiguration: ExternalInvocationConfiguration? = nil, instanceId: String, name: String, settings: String? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.content = content
             self.description = description
+            self.externalInvocationConfiguration = externalInvocationConfiguration
             self.instanceId = instanceId
             self.name = name
+            self.settings = settings
             self.tags = tags
         }
 
@@ -4906,8 +6317,10 @@ extension Connect {
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.content, forKey: .content)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.externalInvocationConfiguration, forKey: .externalInvocationConfiguration)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.settings, forKey: .settings)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -4936,7 +6349,9 @@ extension Connect {
             case clientToken = "ClientToken"
             case content = "Content"
             case description = "Description"
+            case externalInvocationConfiguration = "ExternalInvocationConfiguration"
             case name = "Name"
+            case settings = "Settings"
             case tags = "Tags"
         }
     }
@@ -4956,6 +6371,67 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
+        }
+    }
+
+    public struct CreateContactFlowModuleVersionRequest: AWSEncodableShape {
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The description of the flow module version.
+        public let description: String?
+        /// Indicates the checksum value of the flow module content.
+        public let flowModuleContentSha256: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(contactFlowModuleId: String, description: String? = nil, flowModuleContentSha256: String? = nil, instanceId: String) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.description = description
+            self.flowModuleContentSha256 = flowModuleContentSha256
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.flowModuleContentSha256, forKey: .flowModuleContentSha256)
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.flowModuleContentSha256, name: "flowModuleContentSha256", parent: name, max: 64)
+            try self.validate(self.flowModuleContentSha256, name: "flowModuleContentSha256", parent: name, min: 1)
+            try self.validate(self.flowModuleContentSha256, name: "flowModuleContentSha256", parent: name, pattern: "^[a-zA-Z0-9]{64}$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case flowModuleContentSha256 = "FlowModuleContentSha256"
+        }
+    }
+
+    public struct CreateContactFlowModuleVersionResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the flow module.
+        public let contactFlowModuleArn: String?
+        /// The version of the flow module.
+        public let version: Int64?
+
+        @inlinable
+        public init(contactFlowModuleArn: String? = nil, version: Int64? = nil) {
+            self.contactFlowModuleArn = contactFlowModuleArn
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleArn = "ContactFlowModuleArn"
+            case version = "Version"
         }
     }
 
@@ -5232,6 +6708,178 @@ extension Connect {
         }
     }
 
+    public struct CreateDataTableAttributeRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST.
+        public let dataTableId: String
+        /// An optional description for the attribute. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace trimmed before persisting.
+        public let description: String?
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The name for the attribute. Must conform to Connect human readable string specification and have 1-127 characters. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Whitespace trimmed before persisting. Must be unique for the data table using case-insensitive comparison.
+        public let name: String
+        /// Optional boolean that defaults to false. Determines if the value is used to identify a record in the table. Values for primary attributes must not be expressions.
+        public let primary: Bool?
+        /// Optional validation rules for the attribute. Borrows heavily from JSON Schema - Draft 2020-12. The maximum length of arrays within validations and depth of validations is 5. There are default limits that apply to all types. Customer specified limits in excess of the default limits are not permitted.
+        public let validation: Validation?
+        /// The type of value allowed or the resultant type after the value's expression is evaluated. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, and BOOLEAN.
+        public let valueType: DataTableAttributeValueType
+
+        @inlinable
+        public init(dataTableId: String, description: String? = nil, instanceId: String, name: String, primary: Bool? = nil, validation: Validation? = nil, valueType: DataTableAttributeValueType) {
+            self.dataTableId = dataTableId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.primary = primary
+            self.validation = validation
+            self.valueType = valueType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.primary, forKey: .primary)
+            try container.encodeIfPresent(self.validation, forKey: .validation)
+            try container.encode(self.valueType, forKey: .valueType)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validation?.validate(name: "\(name).validation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case primary = "Primary"
+            case validation = "Validation"
+            case valueType = "ValueType"
+        }
+    }
+
+    public struct CreateDataTableAttributeResponse: AWSDecodableShape {
+        /// The unique identifier assigned to the created attribute.
+        public let attributeId: String?
+        /// The lock version information for the data table and attribute, used for optimistic locking and versioning.
+        public let lockVersion: DataTableLockVersion
+        /// The name of the created attribute since it also serves as the identifier. This could be different than the parameter passed in since it will be trimmed for whitespace.
+        public let name: String
+
+        @inlinable
+        public init(attributeId: String? = nil, lockVersion: DataTableLockVersion, name: String) {
+            self.attributeId = attributeId
+            self.lockVersion = lockVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeId = "AttributeId"
+            case lockVersion = "LockVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateDataTableRequest: AWSEncodableShape {
+        /// An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first.
+        public let description: String?
+        /// The unique identifier for the Amazon Connect instance where the data table will be created.
+        public let instanceId: String
+        /// The name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Whitespace must be trimmed first. Must not start with the reserved case insensitive values 'connect:' and 'aws:'. Must be unique for the instance using case-insensitive comparison.
+        public let name: String
+        /// The status of the data table. One of PUBLISHED or SAVED. Required parameter that determines the initial state of the table.
+        public let status: DataTableStatus
+        /// Key value pairs for attribute based access control (TBAC or ABAC). Optional tags to apply to the data table for organization and access control purposes.
+        public let tags: [String: String]?
+        /// The IANA timezone identifier to use when resolving time based dynamic values. Required even if no time slices are specified.
+        public let timeZone: String
+        /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. NONE is the default if unspecified. This determines how concurrent edits are handled when multiple users attempt to modify values simultaneously.
+        public let valueLockLevel: DataTableLockLevel
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String, status: DataTableStatus, tags: [String: String]? = nil, timeZone: String, valueLockLevel: DataTableLockLevel) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.timeZone = timeZone
+            self.valueLockLevel = valueLockLevel
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.status, forKey: .status)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.timeZone, forKey: .timeZone)
+            try container.encode(self.valueLockLevel, forKey: .valueLockLevel)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case status = "Status"
+            case tags = "Tags"
+            case timeZone = "TimeZone"
+            case valueLockLevel = "ValueLockLevel"
+        }
+    }
+
+    public struct CreateDataTableResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the created data table. Does not include the version alias.
+        public let arn: String
+        /// The unique identifier for the created data table. Does not include the version alias.
+        public let id: String
+        /// The lock version information for the created data table, used for optimistic locking and table versioning.
+        public let lockVersion: DataTableLockVersion
+
+        @inlinable
+        public init(arn: String, id: String, lockVersion: DataTableLockVersion) {
+            self.arn = arn
+            self.id = id
+            self.lockVersion = lockVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case lockVersion = "LockVersion"
+        }
+    }
+
     public struct CreateEmailAddressRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -5314,6 +6962,10 @@ extension Connect {
     }
 
     public struct CreateEvaluationFormRequest: AWSEncodableShape {
+        /// A boolean flag indicating whether to create evaluation form in draft state.
+        public let asDraft: Bool?
+        /// Configuration information about automated evaluations.
+        public let autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the evaluation form.
@@ -5322,51 +6974,75 @@ extension Connect {
         public let instanceId: String
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
+        /// Configuration for language settings of the evaluation form.
+        public let languageConfiguration: EvaluationFormLanguageConfiguration?
         /// A scoring strategy of the evaluation form.
         public let scoringStrategy: EvaluationFormScoringStrategy?
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+        /// Configuration that specifies the target for the evaluation form.
+        public let targetConfiguration: EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         public let title: String
 
         @inlinable
-        public init(clientToken: String? = CreateEvaluationFormRequest.idempotencyToken(), description: String? = nil, instanceId: String, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
+        public init(asDraft: Bool? = nil, autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, clientToken: String? = CreateEvaluationFormRequest.idempotencyToken(), description: String? = nil, instanceId: String, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, scoringStrategy: EvaluationFormScoringStrategy? = nil, tags: [String: String]? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
+            self.asDraft = asDraft
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.clientToken = clientToken
             self.description = description
             self.instanceId = instanceId
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.scoringStrategy = scoringStrategy
+            self.tags = tags
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.asDraft, forKey: .asDraft)
+            try container.encodeIfPresent(self.autoEvaluationConfiguration, forKey: .autoEvaluationConfiguration)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.items, forKey: .items)
+            try container.encodeIfPresent(self.languageConfiguration, forKey: .languageConfiguration)
             try container.encodeIfPresent(self.scoringStrategy, forKey: .scoringStrategy)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.targetConfiguration, forKey: .targetConfiguration)
             try container.encode(self.title, forKey: .title)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try self.validate(self.items, name: "items", parent: name, max: 100)
-            try self.validate(self.items, name: "items", parent: name, min: 1)
-            try self.validate(self.title, name: "title", parent: name, max: 128)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asDraft = "AsDraft"
+            case autoEvaluationConfiguration = "AutoEvaluationConfiguration"
             case clientToken = "ClientToken"
             case description = "Description"
             case items = "Items"
+            case languageConfiguration = "LanguageConfiguration"
             case scoringStrategy = "ScoringStrategy"
+            case tags = "Tags"
+            case targetConfiguration = "TargetConfiguration"
             case title = "Title"
         }
     }
@@ -6383,10 +8059,14 @@ extension Connect {
         public let allowedAccessControlHierarchyGroupId: String?
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public let allowedAccessControlTags: [String: String]?
-        /// A list of third-party applications that the security profile will give access to.
+        ///  A list of Flow Modules an AI Agent can invoke as a tool.
+        public let allowedFlowModules: [FlowModule]?
+        /// A list of third-party applications or MCP Servers that the security profile will give access to.
         public let applications: [Application]?
         /// The description of the security profile.
         public let description: String?
+        /// The granular access control configuration for the security profile, including data table permissions.
+        public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
         /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -6401,11 +8081,13 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, applications: [Application]? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
+        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, allowedFlowModules: [FlowModule]? = nil, applications: [Application]? = nil, description: String? = nil, granularAccessControlConfiguration: GranularAccessControlConfiguration? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileName: String, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
+            self.allowedFlowModules = allowedFlowModules
             self.applications = applications
             self.description = description
+            self.granularAccessControlConfiguration = granularAccessControlConfiguration
             self.hierarchyRestrictedResources = hierarchyRestrictedResources
             self.instanceId = instanceId
             self.permissions = permissions
@@ -6419,8 +8101,10 @@ extension Connect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.allowedAccessControlHierarchyGroupId, forKey: .allowedAccessControlHierarchyGroupId)
             try container.encodeIfPresent(self.allowedAccessControlTags, forKey: .allowedAccessControlTags)
+            try container.encodeIfPresent(self.allowedFlowModules, forKey: .allowedFlowModules)
             try container.encodeIfPresent(self.applications, forKey: .applications)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.granularAccessControlConfiguration, forKey: .granularAccessControlConfiguration)
             try container.encodeIfPresent(self.hierarchyRestrictedResources, forKey: .hierarchyRestrictedResources)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.permissions, forKey: .permissions)
@@ -6436,11 +8120,16 @@ extension Connect {
                 try validate($0.value, name: "allowedAccessControlTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.allowedAccessControlTags, name: "allowedAccessControlTags", parent: name, max: 4)
+            try self.allowedFlowModules?.forEach {
+                try $0.validate(name: "\(name).allowedFlowModules[]")
+            }
+            try self.validate(self.allowedFlowModules, name: "allowedFlowModules", parent: name, max: 10)
             try self.applications?.forEach {
                 try $0.validate(name: "\(name).applications[]")
             }
             try self.validate(self.applications, name: "applications", parent: name, max: 10)
             try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.granularAccessControlConfiguration?.validate(name: "\(name).granularAccessControlConfiguration")
             try self.hierarchyRestrictedResources?.forEach {
                 try validate($0, name: "hierarchyRestrictedResources[]", parent: name, max: 128)
                 try validate($0, name: "hierarchyRestrictedResources[]", parent: name, min: 1)
@@ -6473,8 +8162,10 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
             case allowedAccessControlTags = "AllowedAccessControlTags"
+            case allowedFlowModules = "AllowedFlowModules"
             case applications = "Applications"
             case description = "Description"
+            case granularAccessControlConfiguration = "GranularAccessControlConfiguration"
             case hierarchyRestrictedResources = "HierarchyRestrictedResources"
             case permissions = "Permissions"
             case securityProfileName = "SecurityProfileName"
@@ -7139,6 +8830,149 @@ extension Connect {
         }
     }
 
+    public struct CreateWorkspacePageRequest: AWSEncodableShape {
+        /// A JSON string containing input parameters for the view, validated against the view's input schema.
+        public let inputData: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The page identifier. Valid system pages include HOME and AGENT_EXPERIENCE. Custom pages cannot use the aws: or connect: prefixes.
+        public let page: String
+        /// The Amazon Resource Name (ARN) of the view to associate with the page.
+        public let resourceArn: String
+        /// The URL-friendly identifier for the page.
+        public let slug: String?
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(inputData: String? = nil, instanceId: String, page: String, resourceArn: String, slug: String? = nil, workspaceId: String) {
+            self.inputData = inputData
+            self.instanceId = instanceId
+            self.page = page
+            self.resourceArn = resourceArn
+            self.slug = slug
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.inputData, forKey: .inputData)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.page, forKey: .page)
+            try container.encode(self.resourceArn, forKey: .resourceArn)
+            try container.encodeIfPresent(self.slug, forKey: .slug)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputData, name: "inputData", parent: name, max: 4096)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.page, name: "page", parent: name, max: 25)
+            try self.validate(self.page, name: "page", parent: name, min: 1)
+            try self.validate(self.page, name: "page", parent: name, pattern: "^(?!\\\\.$)(?!\\\\.\\\\.$)[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]+$")
+            try self.validate(self.slug, name: "slug", parent: name, max: 63)
+            try self.validate(self.slug, name: "slug", parent: name, pattern: "^$|^[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]{3,}$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputData = "InputData"
+            case page = "Page"
+            case resourceArn = "ResourceArn"
+            case slug = "Slug"
+        }
+    }
+
+    public struct CreateWorkspacePageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateWorkspaceRequest: AWSEncodableShape {
+        /// The description of the workspace. Maximum length is 250 characters.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The name of the workspace. Must be unique within the instance and can contain 1-127 characters.
+        public let name: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+        /// The theme configuration for the workspace, including colors and styling.
+        public let theme: WorkspaceTheme?
+        /// The title displayed for the workspace.
+        public let title: String?
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil, theme: WorkspaceTheme? = nil, title: String? = nil) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.tags = tags
+            self.theme = theme
+            self.title = title
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.theme, forKey: .theme)
+            try container.encodeIfPresent(self.title, forKey: .title)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]*$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\\\S")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.theme?.validate(name: "\(name).theme")
+            try self.validate(self.title, name: "title", parent: name, max: 127)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[\\\\P{C}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+            case theme = "Theme"
+            case title = "Title"
+        }
+    }
+
+    public struct CreateWorkspaceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public let workspaceArn: String
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(workspaceArn: String, workspaceId: String) {
+            self.workspaceArn = workspaceArn
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceArn = "WorkspaceArn"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
     public struct Credentials: AWSDecodableShape {
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
@@ -7299,6 +9133,453 @@ extension Connect {
         }
     }
 
+    public struct DataTable: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the data table. Does not include version aliases.
+        public let arn: String
+        /// The timestamp when the data table was created.
+        public let createdTime: Date?
+        /// An optional description of the data table's purpose and contents.
+        public let description: String?
+        /// The unique identifier for the data table. Does not include version aliases.
+        public let id: String
+        /// The AWS region where the data table was last modified, used for region replication.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the data table or any of its properties were last modified.
+        public let lastModifiedTime: Date
+        /// The lock version information used for optimistic locking and table versioning. Changes with each update to prevent concurrent modification conflicts.
+        public let lockVersion: DataTableLockVersion?
+        /// The human-readable name of the data table. Must be unique within the instance and conform to Connect naming standards.
+        public let name: String
+        /// The current status of the data table. One of PUBLISHED or SAVED.
+        public let status: DataTableStatus?
+        /// Key-value pairs for attribute based access control (TBAC or ABAC) and organization.
+        public let tags: [String: String]?
+        /// The IANA timezone identifier used when resolving time based dynamic values. Required even if no time slices are specified.
+        public let timeZone: String
+        /// The data level that concurrent value edits are locked on. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE. Determines how concurrent edits are handled when multiple users attempt to modify values simultaneously.
+        public let valueLockLevel: DataTableLockLevel?
+        /// A unique identifier and alias for customer managed versions (not $LATEST or $SAVED).
+        public let version: String?
+        /// A description of the customer managed version.
+        public let versionDescription: String?
+
+        @inlinable
+        public init(arn: String, createdTime: Date? = nil, description: String? = nil, id: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date, lockVersion: DataTableLockVersion? = nil, name: String, status: DataTableStatus? = nil, tags: [String: String]? = nil, timeZone: String, valueLockLevel: DataTableLockLevel? = nil, version: String? = nil, versionDescription: String? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.timeZone = timeZone
+            self.valueLockLevel = valueLockLevel
+            self.version = version
+            self.versionDescription = versionDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case id = "Id"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case lockVersion = "LockVersion"
+            case name = "Name"
+            case status = "Status"
+            case tags = "Tags"
+            case timeZone = "TimeZone"
+            case valueLockLevel = "ValueLockLevel"
+            case version = "Version"
+            case versionDescription = "VersionDescription"
+        }
+    }
+
+    public struct DataTableAccessControlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration's primary attribute access control configuration.
+        public let primaryAttributeAccessControlConfiguration: PrimaryAttributeAccessControlConfigurationItem?
+
+        @inlinable
+        public init(primaryAttributeAccessControlConfiguration: PrimaryAttributeAccessControlConfigurationItem? = nil) {
+            self.primaryAttributeAccessControlConfiguration = primaryAttributeAccessControlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.primaryAttributeAccessControlConfiguration?.validate(name: "\(name).primaryAttributeAccessControlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryAttributeAccessControlConfiguration = "PrimaryAttributeAccessControlConfiguration"
+        }
+    }
+
+    public struct DataTableAttribute: AWSDecodableShape {
+        /// The unique identifier for the attribute within the data table.
+        public let attributeId: String?
+        /// The Amazon Resource Name (ARN) of the data table that contains this attribute.
+        public let dataTableArn: String?
+        /// The unique identifier of the data table that contains this attribute.
+        public let dataTableId: String?
+        /// An optional description explaining the purpose and usage of this attribute.
+        public let description: String?
+        /// The AWS region where this attribute was last modified, used for region replication.
+        public let lastModifiedRegion: String?
+        /// The timestamp when this attribute was last modified.
+        public let lastModifiedTime: Date?
+        /// The lock version for this attribute, used for optimistic locking to prevent concurrent modification conflicts.
+        public let lockVersion: DataTableLockVersion?
+        /// The human-readable name of the attribute. Must be unique within the data table and conform to Connect naming standards.
+        public let name: String
+        /// Boolean indicating whether this attribute is used as a primary key for record identification. Primary attributes must have unique value combinations and cannot contain expressions.
+        public let primary: Bool?
+        /// The validation rules applied to values of this attribute. Based on JSON Schema Draft 2020-12 with additional Connect-specific validations for data integrity.
+        public let validation: Validation?
+        /// The type of value allowed for this attribute. Must be one of TEXT, TEXT_LIST, NUMBER, NUMBER_LIST, or BOOLEAN. Determines how values are validated and processed.
+        public let valueType: DataTableAttributeValueType
+        /// The version identifier for this attribute, used for versioning and change tracking.
+        public let version: String?
+
+        @inlinable
+        public init(attributeId: String? = nil, dataTableArn: String? = nil, dataTableId: String? = nil, description: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, lockVersion: DataTableLockVersion? = nil, name: String, primary: Bool? = nil, validation: Validation? = nil, valueType: DataTableAttributeValueType, version: String? = nil) {
+            self.attributeId = attributeId
+            self.dataTableArn = dataTableArn
+            self.dataTableId = dataTableId
+            self.description = description
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.name = name
+            self.primary = primary
+            self.validation = validation
+            self.valueType = valueType
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeId = "AttributeId"
+            case dataTableArn = "DataTableArn"
+            case dataTableId = "DataTableId"
+            case description = "Description"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case lockVersion = "LockVersion"
+            case name = "Name"
+            case primary = "Primary"
+            case validation = "Validation"
+            case valueType = "ValueType"
+            case version = "Version"
+        }
+    }
+
+    public struct DataTableDeleteValueIdentifier: AWSEncodableShape {
+        /// The identifier's attribute name.
+        public let attributeName: String
+        /// The identifier's lock version.
+        public let lockVersion: DataTableLockVersion
+        /// The identifier's primary values.
+        public let primaryValues: [PrimaryValue]?
+
+        @inlinable
+        public init(attributeName: String, lockVersion: DataTableLockVersion, primaryValues: [PrimaryValue]? = nil) {
+            self.attributeName = attributeName
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.primaryValues?.forEach {
+                try $0.validate(name: "\(name).primaryValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct DataTableEvaluatedValue: AWSDecodableShape {
+        /// The value's attribute name.
+        public let attributeName: String
+        /// The value's error.
+        public let error: Bool
+        /// The value's evaluated value.
+        public let evaluatedValue: String
+        /// The value's found.
+        public let found: Bool
+        /// The value's primary values.
+        public let primaryValues: [PrimaryValue]
+        /// The value's record ID.
+        public let recordId: String
+        /// The value's value type.
+        public let valueType: DataTableAttributeValueType
+
+        @inlinable
+        public init(attributeName: String, error: Bool, evaluatedValue: String, found: Bool, primaryValues: [PrimaryValue], recordId: String, valueType: DataTableAttributeValueType) {
+            self.attributeName = attributeName
+            self.error = error
+            self.evaluatedValue = evaluatedValue
+            self.found = found
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.valueType = valueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case error = "Error"
+            case evaluatedValue = "EvaluatedValue"
+            case found = "Found"
+            case primaryValues = "PrimaryValues"
+            case recordId = "RecordId"
+            case valueType = "ValueType"
+        }
+    }
+
+    public struct DataTableLockVersion: AWSEncodableShape & AWSDecodableShape {
+        /// The lock version for a specific attribute. When the ValueLockLevel is ATTRIBUTE, this version changes when any value for the attribute changes. For other lock levels, it only changes when the attribute's properties are directly updated.
+        public let attribute: String?
+        /// The lock version for the data table itself. Used for optimistic locking and table versioning. Changes with each update to the table's metadata or structure.
+        public let dataTable: String?
+        /// The lock version for a specific set of primary values (record). This includes the default record even if the table does not have any primary attributes. Used for record-level locking.
+        public let primaryValues: String?
+        /// The lock version for a specific value. Changes each time the individual value is modified. Used for the finest-grained locking control.
+        public let value: String?
+
+        @inlinable
+        public init(attribute: String? = nil, dataTable: String? = nil, primaryValues: String? = nil, value: String? = nil) {
+            self.attribute = attribute
+            self.dataTable = dataTable
+            self.primaryValues = primaryValues
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case dataTable = "DataTable"
+            case primaryValues = "PrimaryValues"
+            case value = "Value"
+        }
+    }
+
+    public struct DataTableSearchCriteria: AWSEncodableShape {
+        /// The criteria's and conditions.
+        public let andConditions: [DataTableSearchCriteria]?
+        /// The criteria's or conditions.
+        public let orConditions: [DataTableSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [DataTableSearchCriteria]? = nil, orConditions: [DataTableSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct DataTableSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
+    public struct DataTableSummary: AWSDecodableShape {
+        /// The summary's ARN.
+        public let arn: String?
+        /// The summary's ID.
+        public let id: String?
+        /// The summary's last modified region.
+        public let lastModifiedRegion: String?
+        /// The summary's last modified time.
+        public let lastModifiedTime: Date?
+        /// The summary's name.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+        }
+    }
+
+    public struct DataTableValue: AWSEncodableShape {
+        /// The value's attribute name.
+        public let attributeName: String
+        /// The value's last modified region.
+        public let lastModifiedRegion: String?
+        /// The value's last modified time.
+        public let lastModifiedTime: Date?
+        /// The value's lock version.
+        public let lockVersion: DataTableLockVersion?
+        /// The value's primary values.
+        public let primaryValues: [PrimaryValue]?
+        /// The value's value.
+        public let value: String
+
+        @inlinable
+        public init(attributeName: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, lockVersion: DataTableLockVersion? = nil, primaryValues: [PrimaryValue]? = nil, value: String) {
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validate(self.lastModifiedRegion, name: "lastModifiedRegion", parent: name, pattern: "^[a-z]{2}(-[a-z]+){1,2}(-[0-9])?$")
+            try self.primaryValues?.forEach {
+                try $0.validate(name: "\(name).primaryValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+            case value = "Value"
+        }
+    }
+
+    public struct DataTableValueEvaluationSet: AWSEncodableShape {
+        /// The set's attribute names.
+        public let attributeNames: [String]
+        /// The set's primary values.
+        public let primaryValues: [PrimaryValue]?
+
+        @inlinable
+        public init(attributeNames: [String], primaryValues: [PrimaryValue]? = nil) {
+            self.attributeNames = attributeNames
+            self.primaryValues = primaryValues
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeNames.forEach {
+                try validate($0, name: "attributeNames[]", parent: name, max: 127)
+                try validate($0, name: "attributeNames[]", parent: name, min: 1)
+                try validate($0, name: "attributeNames[]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            }
+            try self.primaryValues?.forEach {
+                try $0.validate(name: "\(name).primaryValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeNames = "AttributeNames"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct DataTableValueIdentifier: AWSEncodableShape {
+        /// The identifier's attribute name.
+        public let attributeName: String
+        /// The identifier's primary values.
+        public let primaryValues: [PrimaryValue]?
+
+        @inlinable
+        public init(attributeName: String, primaryValues: [PrimaryValue]? = nil) {
+            self.attributeName = attributeName
+            self.primaryValues = primaryValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.primaryValues?.forEach {
+                try $0.validate(name: "\(name).primaryValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct DataTableValueSummary: AWSDecodableShape {
+        /// The summary's attribute ID.
+        public let attributeId: String?
+        /// The summary's attribute name.
+        public let attributeName: String
+        /// The summary's last modified region.
+        public let lastModifiedRegion: String?
+        /// The summary's last modified time.
+        public let lastModifiedTime: Date?
+        /// The summary's lock version.
+        public let lockVersion: DataTableLockVersion?
+        /// The summary's primary values.
+        public let primaryValues: [PrimaryValueResponse]
+        /// The summary's record ID.
+        public let recordId: String?
+        /// The summary's value.
+        public let value: String
+        /// The summary's value type.
+        public let valueType: DataTableAttributeValueType
+
+        @inlinable
+        public init(attributeId: String? = nil, attributeName: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, lockVersion: DataTableLockVersion? = nil, primaryValues: [PrimaryValueResponse], recordId: String? = nil, value: String, valueType: DataTableAttributeValueType) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.lockVersion = lockVersion
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+            self.value = value
+            self.valueType = valueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeId = "AttributeId"
+            case attributeName = "AttributeName"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case lockVersion = "LockVersion"
+            case primaryValues = "PrimaryValues"
+            case recordId = "RecordId"
+            case value = "Value"
+            case valueType = "ValueType"
+        }
+    }
+
     public struct DateCondition: AWSEncodableShape {
         /// An object to specify the hours of operation override date condition comparisonType.
         public let comparisonType: DateComparisonType?
@@ -7343,6 +9624,37 @@ extension Connect {
         }
     }
 
+    public struct DateTimeCondition: AWSEncodableShape {
+        /// Datetime property comparison type.
+        public let comparisonType: DateTimeComparisonType?
+        /// A name of the datetime property to be searched
+        public let fieldName: String?
+        /// A maximum value of the property.
+        public let maxValue: String?
+        /// A minimum value of the property.
+        public let minValue: String?
+
+        @inlinable
+        public init(comparisonType: DateTimeComparisonType? = nil, fieldName: String? = nil, maxValue: String? = nil, minValue: String? = nil) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxValue, name: "maxValue", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z?$")
+            try self.validate(self.minValue, name: "minValue", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case fieldName = "FieldName"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
+        }
+    }
+
     public struct DeactivateEvaluationFormRequest: AWSEncodableShape {
         /// The unique identifier for the evaluation form.
         public let evaluationFormId: String
@@ -7369,7 +9681,6 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
-            try self.validate(self.evaluationFormVersion, name: "evaluationFormVersion", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -7398,6 +9709,32 @@ extension Connect {
             case evaluationFormArn = "EvaluationFormArn"
             case evaluationFormId = "EvaluationFormId"
             case evaluationFormVersion = "EvaluationFormVersion"
+        }
+    }
+
+    public struct DecimalCondition: AWSEncodableShape {
+        /// The type of comparison to be made when evaluating the decimal condition.
+        public let comparisonType: DecimalComparisonType?
+        /// A name of the decimal property to be searched.
+        public let fieldName: String?
+        /// A maximum value of the decimal property.
+        public let maxValue: Double?
+        /// A minimum value of the decimal property.
+        public let minValue: Double?
+
+        @inlinable
+        public init(comparisonType: DecimalComparisonType? = nil, fieldName: String? = nil, maxValue: Double? = nil, minValue: Double? = nil) {
+            self.comparisonType = comparisonType
+            self.fieldName = fieldName
+            self.maxValue = maxValue
+            self.minValue = minValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonType = "ComparisonType"
+            case fieldName = "FieldName"
+            case maxValue = "MaxValue"
+            case minValue = "MinValue"
         }
     }
 
@@ -7494,6 +9831,46 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteContactFlowModuleAliasRequest: AWSEncodableShape {
+        /// The identifier of the alias.
+        public let aliasId: String
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(aliasId: String, contactFlowModuleId: String, instanceId: String) {
+            self.aliasId = aliasId
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasId, key: "AliasId")
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasId, name: "aliasId", parent: name, max: 500)
+            try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 500)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactFlowModuleAliasResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteContactFlowModuleRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
@@ -7524,6 +9901,42 @@ extension Connect {
     }
 
     public struct DeleteContactFlowModuleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteContactFlowModuleVersionRequest: AWSEncodableShape {
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The version of the flow module to delete.
+        public let contactFlowModuleVersion: Int64
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(contactFlowModuleId: String, contactFlowModuleVersion: Int64, instanceId: String) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.contactFlowModuleVersion = contactFlowModuleVersion
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.contactFlowModuleVersion, key: "ContactFlowModuleVersion")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowModuleVersion, name: "contactFlowModuleVersion", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactFlowModuleVersionResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -7595,6 +10008,89 @@ extension Connect {
         public init() {}
     }
 
+    public struct DeleteDataTableAttributeRequest: AWSEncodableShape {
+        /// The name of the attribute to delete.
+        public let attributeName: String
+        /// The unique identifier for the data table.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(attributeName: String, dataTableId: String, instanceId: String) {
+            self.attributeName = attributeName
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataTableAttributeResponse: AWSDecodableShape {
+        /// The updated lock version of the data table.
+        public let lockVersion: DataTableLockVersion
+
+        @inlinable
+        public init(lockVersion: DataTableLockVersion) {
+            self.lockVersion = lockVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockVersion = "LockVersion"
+        }
+    }
+
+    public struct DeleteDataTableRequest: AWSEncodableShape {
+        /// The unique identifier for the data table to delete. Must also accept the table ARN. Fails with an error if the version is provided and is not $LATEST.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDataTableResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEmailAddressRequest: AWSEncodableShape {
         /// The identifier of the email address.
         public let emailAddressId: String
@@ -7654,7 +10150,6 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
-            try self.validate(self.evaluationFormVersion, name: "evaluationFormVersion", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -8287,6 +10782,116 @@ extension Connect {
         }
     }
 
+    public struct DeleteWorkspaceMediaRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The type of media to delete. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+        public let mediaType: MediaType
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, mediaType: MediaType, workspaceId: String) {
+            self.instanceId = instanceId
+            self.mediaType = mediaType
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.mediaType, key: "mediaType")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceMediaResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteWorkspacePageRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The page identifier.
+        public let page: String
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, page: String, workspaceId: String) {
+            self.instanceId = instanceId
+            self.page = page
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.page, key: "Page")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.page, name: "page", parent: name, max: 25)
+            try self.validate(self.page, name: "page", parent: name, min: 1)
+            try self.validate(self.page, name: "page", parent: name, pattern: "^(?!\\\\.$)(?!\\\\.\\\\.$)[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspacePageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteWorkspaceRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, workspaceId: String) {
+            self.instanceId = instanceId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeAgentStatusRequest: AWSEncodableShape {
         /// The identifier for the agent status.
         public let agentStatusId: String
@@ -8418,6 +11023,56 @@ extension Connect {
         }
     }
 
+    public struct DescribeContactFlowModuleAliasRequest: AWSEncodableShape {
+        /// The identifier of the alias.
+        public let aliasId: String
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(aliasId: String, contactFlowModuleId: String, instanceId: String) {
+            self.aliasId = aliasId
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasId, key: "AliasId")
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasId, name: "aliasId", parent: name, max: 500)
+            try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeContactFlowModuleAliasResponse: AWSDecodableShape {
+        /// Information about the flow module alias.
+        public let contactFlowModuleAlias: ContactFlowModuleAliasInfo?
+
+        @inlinable
+        public init(contactFlowModuleAlias: ContactFlowModuleAliasInfo? = nil) {
+            self.contactFlowModuleAlias = contactFlowModuleAlias
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleAlias = "ContactFlowModuleAlias"
+        }
+    }
+
     public struct DescribeContactFlowModuleRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
@@ -8546,6 +11201,99 @@ extension Connect {
         }
     }
 
+    public struct DescribeDataTableAttributeRequest: AWSEncodableShape {
+        /// The name of the attribute to retrieve detailed information for.
+        public let attributeName: String
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(attributeName: String, dataTableId: String, instanceId: String) {
+            self.attributeName = attributeName
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDataTableAttributeResponse: AWSDecodableShape {
+        /// The complete attribute information including configuration, validation rules, lock version, and metadata.
+        public let attribute: DataTableAttribute
+
+        @inlinable
+        public init(attribute: DataTableAttribute) {
+            self.attribute = attribute
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+        }
+    }
+
+    public struct DescribeDataTableRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If no alias is provided, the default behavior is identical to providing the $LATEST alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDataTableResponse: AWSDecodableShape {
+        /// The complete data table information including metadata, configuration, and versioning details.
+        public let dataTable: DataTable
+
+        @inlinable
+        public init(dataTable: DataTable) {
+            self.dataTable = dataTable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTable = "DataTable"
+        }
+    }
+
     public struct DescribeEmailAddressRequest: AWSEncodableShape {
         /// The identifier of the email address.
         public let emailAddressId: String
@@ -8576,6 +11324,8 @@ extension Connect {
     }
 
     public struct DescribeEmailAddressResponse: AWSDecodableShape {
+        /// A list of alias configurations associated with this email address. Contains details about email addresses that forward to this primary email address. The list can contain at most one alias configuration per email address.
+        public let aliasConfigurations: [AliasConfiguration]?
         /// The email address creation timestamp in ISO 8601 Datetime.
         public let createTimestamp: String?
         /// The description of the email address.
@@ -8594,7 +11344,8 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(createTimestamp: String? = nil, description: String? = nil, displayName: String? = nil, emailAddress: String? = nil, emailAddressArn: String? = nil, emailAddressId: String? = nil, modifiedTimestamp: String? = nil, tags: [String: String]? = nil) {
+        public init(aliasConfigurations: [AliasConfiguration]? = nil, createTimestamp: String? = nil, description: String? = nil, displayName: String? = nil, emailAddress: String? = nil, emailAddressArn: String? = nil, emailAddressId: String? = nil, modifiedTimestamp: String? = nil, tags: [String: String]? = nil) {
+            self.aliasConfigurations = aliasConfigurations
             self.createTimestamp = createTimestamp
             self.description = description
             self.displayName = displayName
@@ -8606,6 +11357,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasConfigurations = "AliasConfigurations"
             case createTimestamp = "CreateTimestamp"
             case description = "Description"
             case displayName = "DisplayName"
@@ -8643,7 +11395,6 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
-            try self.validate(self.evaluationFormVersion, name: "evaluationFormVersion", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -9452,6 +12203,49 @@ extension Connect {
         }
     }
 
+    public struct DescribeWorkspaceRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, workspaceId: String) {
+            self.instanceId = instanceId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeWorkspaceResponse: AWSDecodableShape {
+        /// Information about the workspace.
+        public let workspace: Workspace
+
+        @inlinable
+        public init(workspace: Workspace) {
+            self.workspace = workspace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspace = "Workspace"
+        }
+    }
+
     public struct DeviceInfo: AWSDecodableShape {
         /// Operating system that the participant used for the call.
         public let operatingSystem: String?
@@ -9611,6 +12405,52 @@ extension Connect {
             case lexBot = "LexBot"
             case lexV2Bot = "LexV2Bot"
         }
+    }
+
+    public struct DisassociateEmailAddressAliasRequest: AWSEncodableShape {
+        /// Configuration object that specifies which alias relationship to remove. The alias association must currently exist between the primary email address and the specified alias email address.
+        public let aliasConfiguration: AliasConfiguration
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
+        /// The identifier of the email address.
+        public let emailAddressId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(aliasConfiguration: AliasConfiguration, clientToken: String? = DisassociateEmailAddressAliasRequest.idempotencyToken(), emailAddressId: String, instanceId: String) {
+            self.aliasConfiguration = aliasConfiguration
+            self.clientToken = clientToken
+            self.emailAddressId = emailAddressId
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.aliasConfiguration, forKey: .aliasConfiguration)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.emailAddressId, key: "EmailAddressId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.aliasConfiguration.validate(name: "\(name).aliasConfiguration")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, max: 500)
+            try self.validate(self.emailAddressId, name: "emailAddressId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aliasConfiguration = "AliasConfiguration"
+            case clientToken = "ClientToken"
+        }
+    }
+
+    public struct DisassociateEmailAddressAliasResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisassociateFlowRequest: AWSEncodableShape {
@@ -9892,6 +12732,48 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateSecurityProfilesRequest: AWSEncodableShape {
+        ///  ARN of a Q in Connect AI Agent.
+        public let entityArn: String
+        ///  Only supported type is AI_AGENT.
+        public let entityType: EntityType
+        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        ///  List of Security Profile Object.
+        public let securityProfiles: [SecurityProfileItem]
+
+        @inlinable
+        public init(entityArn: String, entityType: EntityType, instanceId: String, securityProfiles: [SecurityProfileItem]) {
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.instanceId = instanceId
+            self.securityProfiles = securityProfiles
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entityArn, forKey: .entityArn)
+            try container.encode(self.entityType, forKey: .entityType)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.securityProfiles, forKey: .securityProfiles)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityArn, name: "entityArn", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.securityProfiles, name: "securityProfiles", parent: name, max: 10)
+            try self.validate(self.securityProfiles, name: "securityProfiles", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityArn = "EntityArn"
+            case entityType = "EntityType"
+            case securityProfiles = "SecurityProfiles"
+        }
+    }
+
     public struct DisassociateTrafficDistributionGroupUserRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -9962,6 +12844,61 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case userProficiencies = "UserProficiencies"
+        }
+    }
+
+    public struct DisassociateWorkspaceRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The Amazon Resource Names (ARNs) of the resources to disassociate from the workspace.
+        public let resourceArns: [String]
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, resourceArns: [String], workspaceId: String) {
+            self.instanceId = instanceId
+            self.resourceArns = resourceArns
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.resourceArns, forKey: .resourceArns)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, max: 25)
+            try self.validate(self.resourceArns, name: "resourceArns", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArns = "ResourceArns"
+        }
+    }
+
+    public struct DisassociateWorkspaceResponse: AWSDecodableShape {
+        /// A list of resources that failed to be disassociated from the workspace, including error details.
+        public let failedList: [FailedBatchAssociationSummary]?
+        /// A list of resources that were successfully disassociated from the workspace.
+        public let successfulList: [SuccessfulBatchAssociationSummary]?
+
+        @inlinable
+        public init(failedList: [FailedBatchAssociationSummary]? = nil, successfulList: [SuccessfulBatchAssociationSummary]? = nil) {
+            self.failedList = failedList
+            self.successfulList = successfulList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedList = "FailedList"
+            case successfulList = "SuccessfulList"
         }
     }
 
@@ -10120,6 +13057,8 @@ extension Connect {
     }
 
     public struct EmailAddressMetadata: AWSDecodableShape {
+        /// A list of alias configurations for this email address, showing which email addresses forward to this primary address. Each configuration contains the email address ID of an alias that forwards emails to this address.
+        public let aliasConfigurations: [AliasConfiguration]?
         /// The description of the email address.
         public let description: String?
         /// The display name of email address.
@@ -10132,7 +13071,8 @@ extension Connect {
         public let emailAddressId: String?
 
         @inlinable
-        public init(description: String? = nil, displayName: String? = nil, emailAddress: String? = nil, emailAddressArn: String? = nil, emailAddressId: String? = nil) {
+        public init(aliasConfigurations: [AliasConfiguration]? = nil, description: String? = nil, displayName: String? = nil, emailAddress: String? = nil, emailAddressArn: String? = nil, emailAddressId: String? = nil) {
+            self.aliasConfigurations = aliasConfigurations
             self.description = description
             self.displayName = displayName
             self.emailAddress = emailAddress
@@ -10141,6 +13081,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aliasConfigurations = "AliasConfigurations"
             case description = "Description"
             case displayName = "DisplayName"
             case emailAddress = "EmailAddress"
@@ -10356,6 +13297,77 @@ extension Connect {
         }
     }
 
+    public struct EvaluateDataTableValuesRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of data table values to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Optional IANA timezone identifier to use when resolving time based dynamic values. Defaults to the data table time zone if not provided.
+        public let timeZone: String?
+        /// A list of value evaluation sets specifying which primary values and attributes to evaluate.
+        public let values: [DataTableValueEvaluationSet]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, timeZone: String? = nil, values: [DataTableValueEvaluationSet]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.timeZone = timeZone
+            self.values = values
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.timeZone, forKey: .timeZone)
+            try container.encode(self.values, forKey: .values)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timeZone = "TimeZone"
+            case values = "Values"
+        }
+    }
+
+    public struct EvaluateDataTableValuesResponse: AWSDecodableShape {
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// A list of evaluated values with their computed results, error information, and metadata.
+        public let values: [DataTableEvaluatedValue]
+
+        @inlinable
+        public init(nextToken: String? = nil, values: [DataTableEvaluatedValue]) {
+            self.nextToken = nextToken
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case values = "Values"
+        }
+    }
+
     public struct Evaluation: AWSDecodableShape {
         /// A map of question identifiers to answer value.
         public let answers: [String: EvaluationAnswerOutput]
@@ -10365,6 +13377,8 @@ extension Connect {
         public let evaluationArn: String
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
+        /// Type of the evaluation.
+        public let evaluationType: EvaluationType?
         /// The timestamp for when the evaluation was last updated.
         public let lastModifiedTime: Date
         /// Metadata about the contact evaluation.
@@ -10379,11 +13393,12 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(answers: [String: EvaluationAnswerOutput], createdTime: Date, evaluationArn: String, evaluationId: String, lastModifiedTime: Date, metadata: EvaluationMetadata, notes: [String: EvaluationNote], scores: [String: EvaluationScore]? = nil, status: EvaluationStatus, tags: [String: String]? = nil) {
+        public init(answers: [String: EvaluationAnswerOutput], createdTime: Date, evaluationArn: String, evaluationId: String, evaluationType: EvaluationType? = nil, lastModifiedTime: Date, metadata: EvaluationMetadata, notes: [String: EvaluationNote], scores: [String: EvaluationScore]? = nil, status: EvaluationStatus, tags: [String: String]? = nil) {
             self.answers = answers
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationId = evaluationId
+            self.evaluationType = evaluationType
             self.lastModifiedTime = lastModifiedTime
             self.metadata = metadata
             self.notes = notes
@@ -10397,12 +13412,57 @@ extension Connect {
             case createdTime = "CreatedTime"
             case evaluationArn = "EvaluationArn"
             case evaluationId = "EvaluationId"
+            case evaluationType = "EvaluationType"
             case lastModifiedTime = "LastModifiedTime"
             case metadata = "Metadata"
             case notes = "Notes"
             case scores = "Scores"
             case status = "Status"
             case tags = "Tags"
+        }
+    }
+
+    public struct EvaluationAcknowledgement: AWSDecodableShape {
+        /// The agent who acknowledged the evaluation.
+        public let acknowledgedBy: String
+        /// When the agent acknowledged the evaluation.
+        public let acknowledgedTime: Date
+        /// A comment from the agent when they confirmed they acknowledged the evaluation.
+        public let acknowledgerComment: String?
+
+        @inlinable
+        public init(acknowledgedBy: String, acknowledgedTime: Date, acknowledgerComment: String? = nil) {
+            self.acknowledgedBy = acknowledgedBy
+            self.acknowledgedTime = acknowledgedTime
+            self.acknowledgerComment = acknowledgerComment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgedBy = "AcknowledgedBy"
+            case acknowledgedTime = "AcknowledgedTime"
+            case acknowledgerComment = "AcknowledgerComment"
+        }
+    }
+
+    public struct EvaluationAcknowledgementSummary: AWSDecodableShape {
+        /// The agent who acknowledged the evaluation.
+        public let acknowledgedBy: String?
+        /// The time when an agent acknowledged the evaluation.
+        public let acknowledgedTime: Date?
+        /// A comment from the agent when they confirmed they acknowledged the evaluation.
+        public let acknowledgerComment: String?
+
+        @inlinable
+        public init(acknowledgedBy: String? = nil, acknowledgedTime: Date? = nil, acknowledgerComment: String? = nil) {
+            self.acknowledgedBy = acknowledgedBy
+            self.acknowledgedTime = acknowledgedTime
+            self.acknowledgerComment = acknowledgerComment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgedBy = "AcknowledgedBy"
+            case acknowledgedTime = "AcknowledgedTime"
+            case acknowledgerComment = "AcknowledgerComment"
         }
     }
 
@@ -10425,24 +13485,84 @@ extension Connect {
     }
 
     public struct EvaluationAnswerOutput: AWSDecodableShape {
+        /// Automation suggested answers for the questions.
+        public let suggestedAnswers: [EvaluationSuggestedAnswer]?
         /// The system suggested value for an answer in a contact evaluation.
         public let systemSuggestedValue: EvaluationAnswerData?
         /// The value for an answer in a contact evaluation.
         public let value: EvaluationAnswerData?
 
         @inlinable
-        public init(systemSuggestedValue: EvaluationAnswerData? = nil, value: EvaluationAnswerData? = nil) {
+        public init(suggestedAnswers: [EvaluationSuggestedAnswer]? = nil, systemSuggestedValue: EvaluationAnswerData? = nil, value: EvaluationAnswerData? = nil) {
+            self.suggestedAnswers = suggestedAnswers
             self.systemSuggestedValue = systemSuggestedValue
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
+            case suggestedAnswers = "SuggestedAnswers"
             case systemSuggestedValue = "SystemSuggestedValue"
             case value = "Value"
         }
     }
 
+    public struct EvaluationAutomationRuleCategory: AWSDecodableShape {
+        /// A category label.
+        public let category: String
+        /// An automation condition for a Contact Lens category.
+        public let condition: QuestionRuleCategoryAutomationCondition
+        /// A point of interest in a contact transcript that indicates match of condition.
+        public let pointsOfInterest: [EvaluationTranscriptPointOfInterest]?
+
+        @inlinable
+        public init(category: String, condition: QuestionRuleCategoryAutomationCondition, pointsOfInterest: [EvaluationTranscriptPointOfInterest]? = nil) {
+            self.category = category
+            self.condition = condition
+            self.pointsOfInterest = pointsOfInterest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case condition = "Condition"
+            case pointsOfInterest = "PointsOfInterest"
+        }
+    }
+
+    public struct EvaluationContactLensAnswerAnalysisDetails: AWSDecodableShape {
+        /// A list of match rule categories.
+        public let matchedRuleCategories: [EvaluationAutomationRuleCategory]?
+
+        @inlinable
+        public init(matchedRuleCategories: [EvaluationAutomationRuleCategory]? = nil) {
+            self.matchedRuleCategories = matchedRuleCategories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchedRuleCategories = "MatchedRuleCategories"
+        }
+    }
+
+    public struct EvaluationContactParticipant: AWSDecodableShape {
+        /// The identifier for the contact participant.
+        public let contactParticipantId: String?
+        /// The role of the contact participant.
+        public let contactParticipantRole: ContactParticipantRole?
+
+        @inlinable
+        public init(contactParticipantId: String? = nil, contactParticipantRole: ContactParticipantRole? = nil) {
+            self.contactParticipantId = contactParticipantId
+            self.contactParticipantRole = contactParticipantRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactParticipantId = "ContactParticipantId"
+            case contactParticipantRole = "ContactParticipantRole"
+        }
+    }
+
     public struct EvaluationForm: AWSDecodableShape {
+        /// The automatic evaluation configuration of an evaluation form.
+        public let autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration?
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
         public let createdBy: String
         /// The timestamp for when the evaluation form was created.
@@ -10457,6 +13577,8 @@ extension Connect {
         public let evaluationFormVersion: Int
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
+        /// Configuration for language settings of this evaluation form.
+        public let languageConfiguration: EvaluationFormLanguageConfiguration?
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation form.
         public let lastModifiedBy: String
         /// The timestamp for when the evaluation form was last updated.
@@ -10469,11 +13591,14 @@ extension Connect {
         public let status: EvaluationFormVersionStatus
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
+        /// Configuration that specifies the target for this evaluation form.
+        public let targetConfiguration: EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         public let title: String
 
         @inlinable
-        public init(createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], lastModifiedBy: String, lastModifiedTime: Date, locked: Bool, scoringStrategy: EvaluationFormScoringStrategy? = nil, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, title: String) {
+        public init(autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, lastModifiedBy: String, lastModifiedTime: Date, locked: Bool, scoringStrategy: EvaluationFormScoringStrategy? = nil, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.createdBy = createdBy
             self.createdTime = createdTime
             self.description = description
@@ -10481,16 +13606,19 @@ extension Connect {
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.locked = locked
             self.scoringStrategy = scoringStrategy
             self.status = status
             self.tags = tags
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEvaluationConfiguration = "AutoEvaluationConfiguration"
             case createdBy = "CreatedBy"
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -10498,17 +13626,35 @@ extension Connect {
             case evaluationFormId = "EvaluationFormId"
             case evaluationFormVersion = "EvaluationFormVersion"
             case items = "Items"
+            case languageConfiguration = "LanguageConfiguration"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case locked = "Locked"
             case scoringStrategy = "ScoringStrategy"
             case status = "Status"
             case tags = "Tags"
+            case targetConfiguration = "TargetConfiguration"
             case title = "Title"
         }
     }
 
+    public struct EvaluationFormAutoEvaluationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// When automated evaluation is enabled.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct EvaluationFormContent: AWSDecodableShape {
+        /// The configuration of the automated evaluation.
+        public let autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration?
         /// The description of the evaluation form.
         public let description: String?
         /// The Amazon Resource Name (ARN) for the evaluation form resource.
@@ -10519,36 +13665,238 @@ extension Connect {
         public let evaluationFormVersion: Int
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
+        /// Configuration for language settings of this evaluation form content.
+        public let languageConfiguration: EvaluationFormLanguageConfiguration?
         /// A scoring strategy of the evaluation form.
         public let scoringStrategy: EvaluationFormScoringStrategy?
+        /// Configuration that specifies the target for this evaluation form content.
+        public let targetConfiguration: EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         public let title: String
 
         @inlinable
-        public init(description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
+        public init(autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormVersion: Int, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, scoringStrategy: EvaluationFormScoringStrategy? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.description = description
             self.evaluationFormArn = evaluationFormArn
             self.evaluationFormId = evaluationFormId
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.scoringStrategy = scoringStrategy
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEvaluationConfiguration = "AutoEvaluationConfiguration"
             case description = "Description"
             case evaluationFormArn = "EvaluationFormArn"
             case evaluationFormId = "EvaluationFormId"
             case evaluationFormVersion = "EvaluationFormVersion"
             case items = "Items"
+            case languageConfiguration = "LanguageConfiguration"
             case scoringStrategy = "ScoringStrategy"
+            case targetConfiguration = "TargetConfiguration"
             case title = "Title"
+        }
+    }
+
+    public struct EvaluationFormItemEnablementCondition: AWSEncodableShape & AWSDecodableShape {
+        /// Operands of the enablement condition.
+        public let operands: [EvaluationFormItemEnablementConditionOperand]
+        /// The operator to be used to be applied to operands if more than one provided.
+        public let `operator`: EvaluationFormItemEnablementOperator?
+
+        @inlinable
+        public init(operands: [EvaluationFormItemEnablementConditionOperand], operator: EvaluationFormItemEnablementOperator? = nil) {
+            self.operands = operands
+            self.`operator` = `operator`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operands = "Operands"
+            case `operator` = "Operator"
+        }
+    }
+
+    public struct EvaluationFormItemEnablementConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An enablement action that if condition is satisfied.
+        public let action: EvaluationFormItemEnablementAction
+        /// A condition for item enablement configuration.
+        public let condition: EvaluationFormItemEnablementCondition
+        /// An enablement action that if condition is not satisfied.
+        public let defaultAction: EvaluationFormItemEnablementAction?
+
+        @inlinable
+        public init(action: EvaluationFormItemEnablementAction, condition: EvaluationFormItemEnablementCondition, defaultAction: EvaluationFormItemEnablementAction? = nil) {
+            self.action = action
+            self.condition = condition
+            self.defaultAction = defaultAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case condition = "Condition"
+            case defaultAction = "DefaultAction"
+        }
+    }
+
+    public struct EvaluationFormItemEnablementExpression: AWSEncodableShape & AWSDecodableShape {
+        /// A comparator to be used against list of values.
+        public let comparator: EvaluationFormItemSourceValuesComparator
+        /// A source item of enablement expression.
+        public let source: EvaluationFormItemEnablementSource
+        /// A list of values from source item.
+        public let values: [EvaluationFormItemEnablementSourceValue]
+
+        @inlinable
+        public init(comparator: EvaluationFormItemSourceValuesComparator, source: EvaluationFormItemEnablementSource, values: [EvaluationFormItemEnablementSourceValue]) {
+            self.comparator = comparator
+            self.source = source
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparator = "Comparator"
+            case source = "Source"
+            case values = "Values"
+        }
+    }
+
+    public struct EvaluationFormItemEnablementSource: AWSEncodableShape & AWSDecodableShape {
+        /// A referenceId of the source item.
+        public let refId: String?
+        /// A type of source item.
+        public let type: EvaluationFormItemEnablementSourceType
+
+        @inlinable
+        public init(refId: String? = nil, type: EvaluationFormItemEnablementSourceType) {
+            self.refId = refId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refId = "RefId"
+            case type = "Type"
+        }
+    }
+
+    public struct EvaluationFormItemEnablementSourceValue: AWSEncodableShape & AWSDecodableShape {
+        /// A referenceId of the source value.
+        public let refId: String?
+        /// A type of source item value.
+        public let type: EvaluationFormItemEnablementSourceValueType
+
+        @inlinable
+        public init(refId: String? = nil, type: EvaluationFormItemEnablementSourceValueType) {
+            self.refId = refId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refId = "RefId"
+            case type = "Type"
+        }
+    }
+
+    public struct EvaluationFormLanguageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The language for the evaluation form.
+        public let formLanguage: EvaluationFormLanguageCode?
+
+        @inlinable
+        public init(formLanguage: EvaluationFormLanguageCode? = nil) {
+            self.formLanguage = formLanguage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case formLanguage = "FormLanguage"
+        }
+    }
+
+    public struct EvaluationFormMultiSelectQuestionAutomation: AWSEncodableShape & AWSDecodableShape {
+        public let answerSource: EvaluationFormQuestionAutomationAnswerSource?
+        /// Reference IDs of default options.
+        public let defaultOptionRefIds: [String]?
+        /// Automation options for the multi-select question.
+        public let options: [EvaluationFormMultiSelectQuestionAutomationOption]?
+
+        @inlinable
+        public init(answerSource: EvaluationFormQuestionAutomationAnswerSource? = nil, defaultOptionRefIds: [String]? = nil, options: [EvaluationFormMultiSelectQuestionAutomationOption]? = nil) {
+            self.answerSource = answerSource
+            self.defaultOptionRefIds = defaultOptionRefIds
+            self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.options?.forEach {
+                try $0.validate(name: "\(name).options[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerSource = "AnswerSource"
+            case defaultOptionRefIds = "DefaultOptionRefIds"
+            case options = "Options"
+        }
+    }
+
+    public struct EvaluationFormMultiSelectQuestionOption: AWSEncodableShape & AWSDecodableShape {
+        /// Reference identifier for this option.
+        public let refId: String
+        /// Display text for this option.
+        public let text: String
+
+        @inlinable
+        public init(refId: String, text: String) {
+            self.refId = refId
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 128)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case refId = "RefId"
+            case text = "Text"
+        }
+    }
+
+    public struct EvaluationFormMultiSelectQuestionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Automation configuration for this multi-select question.
+        public let automation: EvaluationFormMultiSelectQuestionAutomation?
+        /// Display format for the multi-select question.
+        public let displayAs: EvaluationFormMultiSelectQuestionDisplayMode?
+        /// Options available for this multi-select question.
+        public let options: [EvaluationFormMultiSelectQuestionOption]
+
+        @inlinable
+        public init(automation: EvaluationFormMultiSelectQuestionAutomation? = nil, displayAs: EvaluationFormMultiSelectQuestionDisplayMode? = nil, options: [EvaluationFormMultiSelectQuestionOption]) {
+            self.automation = automation
+            self.displayAs = displayAs
+            self.options = options
+        }
+
+        public func validate(name: String) throws {
+            try self.automation?.validate(name: "\(name).automation")
+            try self.options.forEach {
+                try $0.validate(name: "\(name).options[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automation = "Automation"
+            case displayAs = "DisplayAs"
+            case options = "Options"
         }
     }
 
     public struct EvaluationFormNumericQuestionOption: AWSEncodableShape & AWSDecodableShape {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
         public let automaticFail: Bool?
+        /// A configuration for automatic fail.
+        public let automaticFailConfiguration: AutomaticFailConfiguration?
         /// The maximum answer value of the range option.
         public let maxValue: Int
         /// The minimum answer value of the range option.
@@ -10557,20 +13905,17 @@ extension Connect {
         public let score: Int?
 
         @inlinable
-        public init(automaticFail: Bool? = nil, maxValue: Int, minValue: Int, score: Int? = nil) {
+        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, maxValue: Int, minValue: Int, score: Int? = nil) {
             self.automaticFail = automaticFail
+            self.automaticFailConfiguration = automaticFailConfiguration
             self.maxValue = maxValue
             self.minValue = minValue
             self.score = score
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.score, name: "score", parent: name, max: 10)
-            try self.validate(self.score, name: "score", parent: name, min: 0)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automaticFail = "AutomaticFail"
+            case automaticFailConfiguration = "AutomaticFailConfiguration"
             case maxValue = "MaxValue"
             case minValue = "MinValue"
             case score = "Score"
@@ -10595,14 +13940,6 @@ extension Connect {
             self.options = options
         }
 
-        public func validate(name: String) throws {
-            try self.options?.forEach {
-                try $0.validate(name: "\(name).options[]")
-            }
-            try self.validate(self.options, name: "options", parent: name, max: 10)
-            try self.validate(self.options, name: "options", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automation = "Automation"
             case maxValue = "MaxValue"
@@ -10612,6 +13949,8 @@ extension Connect {
     }
 
     public struct EvaluationFormQuestion: AWSEncodableShape & AWSDecodableShape {
+        /// A question conditional enablement.
+        public let enablement: EvaluationFormItemEnablementConfiguration?
         /// The instructions of the section.
         public let instructions: String?
         /// The flag to enable not applicable answers to the question.
@@ -10628,7 +13967,8 @@ extension Connect {
         public let weight: Double?
 
         @inlinable
-        public init(instructions: String? = nil, notApplicableEnabled: Bool? = nil, questionType: EvaluationFormQuestionType, questionTypeProperties: EvaluationFormQuestionTypeProperties? = nil, refId: String, title: String, weight: Double? = nil) {
+        public init(enablement: EvaluationFormItemEnablementConfiguration? = nil, instructions: String? = nil, notApplicableEnabled: Bool? = nil, questionType: EvaluationFormQuestionType, questionTypeProperties: EvaluationFormQuestionTypeProperties? = nil, refId: String, title: String, weight: Double? = nil) {
+            self.enablement = enablement
             self.instructions = instructions
             self.notApplicableEnabled = notApplicableEnabled
             self.questionType = questionType
@@ -10639,16 +13979,11 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.instructions, name: "instructions", parent: name, max: 1024)
             try self.questionTypeProperties?.validate(name: "\(name).questionTypeProperties")
-            try self.validate(self.refId, name: "refId", parent: name, max: 40)
-            try self.validate(self.refId, name: "refId", parent: name, min: 1)
-            try self.validate(self.title, name: "title", parent: name, max: 350)
-            try self.validate(self.weight, name: "weight", parent: name, max: 100.0)
-            try self.validate(self.weight, name: "weight", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enablement = "Enablement"
             case instructions = "Instructions"
             case notApplicableEnabled = "NotApplicableEnabled"
             case questionType = "QuestionType"
@@ -10656,6 +13991,20 @@ extension Connect {
             case refId = "RefId"
             case title = "Title"
             case weight = "Weight"
+        }
+    }
+
+    public struct EvaluationFormQuestionAutomationAnswerSource: AWSEncodableShape & AWSDecodableShape {
+        /// The automation answer source type.
+        public let sourceType: EvaluationFormQuestionAutomationAnswerSourceType
+
+        @inlinable
+        public init(sourceType: EvaluationFormQuestionAutomationAnswerSourceType) {
+            self.sourceType = sourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceType = "SourceType"
         }
     }
 
@@ -10674,6 +14023,139 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case mode = "Mode"
             case status = "Status"
+        }
+    }
+
+    public struct EvaluationFormSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [EvaluationFormSearchCriteria]?
+        /// Boolean search condition.
+        public let booleanCondition: BooleanCondition?
+        /// Datetime search condition.
+        public let dateTimeCondition: DateTimeCondition?
+        public let numberCondition: NumberCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [EvaluationFormSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [EvaluationFormSearchCriteria]? = nil, booleanCondition: BooleanCondition? = nil, dateTimeCondition: DateTimeCondition? = nil, numberCondition: NumberCondition? = nil, orConditions: [EvaluationFormSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.booleanCondition = booleanCondition
+            self.dateTimeCondition = dateTimeCondition
+            self.numberCondition = numberCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.andConditions?.forEach {
+                try $0.validate(name: "\(name).andConditions[]")
+            }
+            try self.dateTimeCondition?.validate(name: "\(name).dateTimeCondition")
+            try self.orConditions?.forEach {
+                try $0.validate(name: "\(name).orConditions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case booleanCondition = "BooleanCondition"
+            case dateTimeCondition = "DateTimeCondition"
+            case numberCondition = "NumberCondition"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct EvaluationFormSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
+    public struct EvaluationFormSearchSummary: AWSDecodableShape {
+        /// Active version of the evaluation form.
+        public let activeVersion: Int?
+        /// Whether automated evaluation is enabled.
+        public let autoEvaluationEnabled: Bool?
+        /// The contact interaction type for this evaluation form.
+        public let contactInteractionType: ContactInteractionType?
+        /// Who created the evaluation form.
+        public let createdBy: String
+        /// When the evaluation form was created.
+        public let createdTime: Date
+        /// The description of the evaluation form.
+        public let description: String?
+        /// The Amazon Resource Name (ARN) for the evaluation form resource.
+        public let evaluationFormArn: String
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String
+        /// The language of the evaluation form.
+        public let evaluationFormLanguage: EvaluationFormLanguageCode?
+        /// The ID of user who last activated evaluation form.
+        public let lastActivatedBy: String?
+        /// When the evaluation format was last activated.
+        public let lastActivatedTime: Date?
+        /// Who changed the evaluation form.
+        public let lastModifiedBy: String
+        /// When the evaluation form was last changed.
+        public let lastModifiedTime: Date
+        /// Latest version of the evaluation form.
+        public let latestVersion: Int
+        /// The status of the evaluation form.
+        public let status: EvaluationFormVersionStatus
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+        /// The title of the evaluation form.
+        public let title: String
+
+        @inlinable
+        public init(activeVersion: Int? = nil, autoEvaluationEnabled: Bool? = nil, contactInteractionType: ContactInteractionType? = nil, createdBy: String, createdTime: Date, description: String? = nil, evaluationFormArn: String, evaluationFormId: String, evaluationFormLanguage: EvaluationFormLanguageCode? = nil, lastActivatedBy: String? = nil, lastActivatedTime: Date? = nil, lastModifiedBy: String, lastModifiedTime: Date, latestVersion: Int, status: EvaluationFormVersionStatus, tags: [String: String]? = nil, title: String) {
+            self.activeVersion = activeVersion
+            self.autoEvaluationEnabled = autoEvaluationEnabled
+            self.contactInteractionType = contactInteractionType
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.description = description
+            self.evaluationFormArn = evaluationFormArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormLanguage = evaluationFormLanguage
+            self.lastActivatedBy = lastActivatedBy
+            self.lastActivatedTime = lastActivatedTime
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.latestVersion = latestVersion
+            self.status = status
+            self.tags = tags
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeVersion = "ActiveVersion"
+            case autoEvaluationEnabled = "AutoEvaluationEnabled"
+            case contactInteractionType = "ContactInteractionType"
+            case createdBy = "CreatedBy"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case evaluationFormArn = "EvaluationFormArn"
+            case evaluationFormId = "EvaluationFormId"
+            case evaluationFormLanguage = "EvaluationFormLanguage"
+            case lastActivatedBy = "LastActivatedBy"
+            case lastActivatedTime = "LastActivatedTime"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case latestVersion = "LatestVersion"
+            case status = "Status"
+            case tags = "Tags"
+            case title = "Title"
         }
     }
 
@@ -10699,17 +14181,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.instructions, name: "instructions", parent: name, max: 1024)
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try self.validate(self.items, name: "items", parent: name, max: 100)
-            try self.validate(self.items, name: "items", parent: name, min: 1)
-            try self.validate(self.refId, name: "refId", parent: name, max: 40)
-            try self.validate(self.refId, name: "refId", parent: name, min: 1)
-            try self.validate(self.title, name: "title", parent: name, max: 128)
-            try self.validate(self.weight, name: "weight", parent: name, max: 100.0)
-            try self.validate(self.weight, name: "weight", parent: name, min: 0.0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10722,28 +14196,22 @@ extension Connect {
     }
 
     public struct EvaluationFormSingleSelectQuestionAutomation: AWSEncodableShape & AWSDecodableShape {
+        /// Automation answer source.
+        public let answerSource: EvaluationFormQuestionAutomationAnswerSource?
         /// The identifier of the default answer option, when none of the automation options match the criteria.
         public let defaultOptionRefId: String?
         /// The automation options of the single select question.
-        public let options: [EvaluationFormSingleSelectQuestionAutomationOption]
+        public let options: [EvaluationFormSingleSelectQuestionAutomationOption]?
 
         @inlinable
-        public init(defaultOptionRefId: String? = nil, options: [EvaluationFormSingleSelectQuestionAutomationOption]) {
+        public init(answerSource: EvaluationFormQuestionAutomationAnswerSource? = nil, defaultOptionRefId: String? = nil, options: [EvaluationFormSingleSelectQuestionAutomationOption]? = nil) {
+            self.answerSource = answerSource
             self.defaultOptionRefId = defaultOptionRefId
             self.options = options
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.defaultOptionRefId, name: "defaultOptionRefId", parent: name, max: 40)
-            try self.validate(self.defaultOptionRefId, name: "defaultOptionRefId", parent: name, min: 1)
-            try self.options.forEach {
-                try $0.validate(name: "\(name).options[]")
-            }
-            try self.validate(self.options, name: "options", parent: name, max: 20)
-            try self.validate(self.options, name: "options", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
+            case answerSource = "AnswerSource"
             case defaultOptionRefId = "DefaultOptionRefId"
             case options = "Options"
         }
@@ -10752,6 +14220,8 @@ extension Connect {
     public struct EvaluationFormSingleSelectQuestionOption: AWSEncodableShape & AWSDecodableShape {
         /// The flag to mark the option as automatic fail. If an automatic fail answer is provided, the overall evaluation gets a score of 0.
         public let automaticFail: Bool?
+        /// Whether automatic fail is configured on a single select question.
+        public let automaticFailConfiguration: AutomaticFailConfiguration?
         /// The identifier of the answer option. An identifier must be unique within the question.
         public let refId: String
         /// The score assigned to the answer option.
@@ -10760,23 +14230,17 @@ extension Connect {
         public let text: String
 
         @inlinable
-        public init(automaticFail: Bool? = nil, refId: String, score: Int? = nil, text: String) {
+        public init(automaticFail: Bool? = nil, automaticFailConfiguration: AutomaticFailConfiguration? = nil, refId: String, score: Int? = nil, text: String) {
             self.automaticFail = automaticFail
+            self.automaticFailConfiguration = automaticFailConfiguration
             self.refId = refId
             self.score = score
             self.text = text
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.refId, name: "refId", parent: name, max: 40)
-            try self.validate(self.refId, name: "refId", parent: name, min: 1)
-            try self.validate(self.score, name: "score", parent: name, max: 10)
-            try self.validate(self.score, name: "score", parent: name, min: 0)
-            try self.validate(self.text, name: "text", parent: name, max: 128)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case automaticFail = "AutomaticFail"
+            case automaticFailConfiguration = "AutomaticFailConfiguration"
             case refId = "RefId"
             case score = "Score"
             case text = "Text"
@@ -10796,15 +14260,6 @@ extension Connect {
             self.automation = automation
             self.displayAs = displayAs
             self.options = options
-        }
-
-        public func validate(name: String) throws {
-            try self.automation?.validate(name: "\(name).automation")
-            try self.options.forEach {
-                try $0.validate(name: "\(name).options[]")
-            }
-            try self.validate(self.options, name: "options", parent: name, max: 256)
-            try self.validate(self.options, name: "options", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10868,6 +14323,48 @@ extension Connect {
         }
     }
 
+    public struct EvaluationFormTargetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The contact interaction type for this evaluation form.
+        public let contactInteractionType: ContactInteractionType
+
+        @inlinable
+        public init(contactInteractionType: ContactInteractionType) {
+            self.contactInteractionType = contactInteractionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactInteractionType = "ContactInteractionType"
+        }
+    }
+
+    public struct EvaluationFormTextQuestionAutomation: AWSEncodableShape & AWSDecodableShape {
+        /// Automation answer source.
+        public let answerSource: EvaluationFormQuestionAutomationAnswerSource?
+
+        @inlinable
+        public init(answerSource: EvaluationFormQuestionAutomationAnswerSource? = nil) {
+            self.answerSource = answerSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case answerSource = "AnswerSource"
+        }
+    }
+
+    public struct EvaluationFormTextQuestionProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The automation properties of the text question.
+        public let automation: EvaluationFormTextQuestionAutomation?
+
+        @inlinable
+        public init(automation: EvaluationFormTextQuestionAutomation? = nil) {
+            self.automation = automation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automation = "Automation"
+        }
+    }
+
     public struct EvaluationFormVersionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the user who created the evaluation form.
         public let createdBy: String
@@ -10914,28 +14411,66 @@ extension Connect {
         }
     }
 
+    public struct EvaluationGenAIAnswerAnalysisDetails: AWSDecodableShape {
+        /// Generative AI automation answer justification.
+        public let justification: String?
+        /// Generative AI automation answer analysis points of interest.
+        public let pointsOfInterest: [EvaluationTranscriptPointOfInterest]?
+
+        @inlinable
+        public init(justification: String? = nil, pointsOfInterest: [EvaluationTranscriptPointOfInterest]? = nil) {
+            self.justification = justification
+            self.pointsOfInterest = pointsOfInterest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case justification = "Justification"
+            case pointsOfInterest = "PointsOfInterest"
+        }
+    }
+
     public struct EvaluationMetadata: AWSDecodableShape {
+        /// Information related to evaluation acknowledgement.
+        public let acknowledgement: EvaluationAcknowledgement?
+        /// Information related to automated evaluation.
+        public let autoEvaluation: AutoEvaluationDetails?
+        /// The calibration session ID that this evaluation belongs to.
+        public let calibrationSessionId: String?
         /// The identifier of the agent who performed the contact.
         public let contactAgentId: String?
         /// The identifier of the contact in this instance of Amazon Connect.
         public let contactId: String
+        /// Information about a contact participant in this evaluation.
+        public let contactParticipant: EvaluationContactParticipant?
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
         public let evaluatorArn: String
+        /// Identifier of the sampling job.
+        public let samplingJobId: String?
         /// The overall score of the contact evaluation.
         public let score: EvaluationScore?
 
         @inlinable
-        public init(contactAgentId: String? = nil, contactId: String, evaluatorArn: String, score: EvaluationScore? = nil) {
+        public init(acknowledgement: EvaluationAcknowledgement? = nil, autoEvaluation: AutoEvaluationDetails? = nil, calibrationSessionId: String? = nil, contactAgentId: String? = nil, contactId: String, contactParticipant: EvaluationContactParticipant? = nil, evaluatorArn: String, samplingJobId: String? = nil, score: EvaluationScore? = nil) {
+            self.acknowledgement = acknowledgement
+            self.autoEvaluation = autoEvaluation
+            self.calibrationSessionId = calibrationSessionId
             self.contactAgentId = contactAgentId
             self.contactId = contactId
+            self.contactParticipant = contactParticipant
             self.evaluatorArn = evaluatorArn
+            self.samplingJobId = samplingJobId
             self.score = score
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acknowledgement = "Acknowledgement"
+            case autoEvaluation = "AutoEvaluation"
+            case calibrationSessionId = "CalibrationSessionId"
             case contactAgentId = "ContactAgentId"
             case contactId = "ContactId"
+            case contactParticipant = "ContactParticipant"
             case evaluatorArn = "EvaluatorArn"
+            case samplingJobId = "SamplingJobId"
             case score = "Score"
         }
     }
@@ -10958,7 +14493,23 @@ extension Connect {
         }
     }
 
+    public struct EvaluationQuestionInputDetails: AWSDecodableShape {
+        /// Transcript type.
+        public let transcriptType: EvaluationTranscriptType?
+
+        @inlinable
+        public init(transcriptType: EvaluationTranscriptType? = nil) {
+            self.transcriptType = transcriptType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcriptType = "TranscriptType"
+        }
+    }
+
     public struct EvaluationScore: AWSDecodableShape {
+        /// Weight applied to this evaluation score.
+        public let appliedWeight: Double?
         /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag will be true.
         public let automaticFail: Bool?
         /// The flag to mark the item as not applicable for scoring.
@@ -10967,20 +14518,262 @@ extension Connect {
         public let percentage: Double?
 
         @inlinable
-        public init(automaticFail: Bool? = nil, notApplicable: Bool? = nil, percentage: Double? = nil) {
+        public init(appliedWeight: Double? = nil, automaticFail: Bool? = nil, notApplicable: Bool? = nil, percentage: Double? = nil) {
+            self.appliedWeight = appliedWeight
             self.automaticFail = automaticFail
             self.notApplicable = notApplicable
             self.percentage = percentage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appliedWeight = "AppliedWeight"
             case automaticFail = "AutomaticFail"
             case notApplicable = "NotApplicable"
             case percentage = "Percentage"
         }
     }
 
+    public struct EvaluationSearchCriteria: AWSEncodableShape {
+        /// A list of conditions which would be applied together with an AND condition.
+        public let andConditions: [EvaluationSearchCriteria]?
+        /// The boolean condition search criteria for searching evaluations.
+        public let booleanCondition: BooleanCondition?
+        /// The datetime condition search criteria for searching evaluations.
+        public let dateTimeCondition: DateTimeCondition?
+        /// The decimal condition search criteria for searching evaluations.
+        public let decimalCondition: DecimalCondition?
+        public let numberCondition: NumberCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public let orConditions: [EvaluationSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [EvaluationSearchCriteria]? = nil, booleanCondition: BooleanCondition? = nil, dateTimeCondition: DateTimeCondition? = nil, decimalCondition: DecimalCondition? = nil, numberCondition: NumberCondition? = nil, orConditions: [EvaluationSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.booleanCondition = booleanCondition
+            self.dateTimeCondition = dateTimeCondition
+            self.decimalCondition = decimalCondition
+            self.numberCondition = numberCondition
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        public func validate(name: String) throws {
+            try self.andConditions?.forEach {
+                try $0.validate(name: "\(name).andConditions[]")
+            }
+            try self.dateTimeCondition?.validate(name: "\(name).dateTimeCondition")
+            try self.orConditions?.forEach {
+                try $0.validate(name: "\(name).orConditions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case booleanCondition = "BooleanCondition"
+            case dateTimeCondition = "DateTimeCondition"
+            case decimalCondition = "DecimalCondition"
+            case numberCondition = "NumberCondition"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct EvaluationSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
+    public struct EvaluationSearchMetadata: AWSDecodableShape {
+        /// The agent who acknowledged the evaluation.
+        public let acknowledgedBy: String?
+        /// When the evaluation was acknowledged by the agent.
+        public let acknowledgedTime: Date?
+        /// The comment from the agent when they acknowledged the evaluation.
+        public let acknowledgerComment: String?
+        /// Whether auto-evaluation is enabled.
+        public let autoEvaluationEnabled: Bool?
+        /// The status of the contact auto evaluation.
+        public let autoEvaluationStatus: AutoEvaluationStatus?
+        /// The calibration session ID that this evaluation belongs to.
+        public let calibrationSessionId: String?
+        /// The unique ID of the agent who handled the contact.
+        public let contactAgentId: String?
+        /// The identifier of the contact in this instance of Amazon Connect.
+        public let contactId: String
+        /// Identifier for a contact participant in the evaluation.
+        public let contactParticipantId: String?
+        /// Role of a contact participant in the evaluation.
+        public let contactParticipantRole: ContactParticipantRole?
+        /// The Amazon Resource Name (ARN) of the person who evaluated the contact.
+        public let evaluatorArn: String
+        /// Identifier for the review.
+        public let reviewId: String?
+        /// Identifier of the sampling job.
+        public let samplingJobId: String?
+        /// The flag that marks the item as automatic fail. If the item or a child item gets an automatic fail answer, this flag is true.
+        public let scoreAutomaticFail: Bool?
+        /// The flag to mark the item as not applicable for scoring.
+        public let scoreNotApplicable: Bool?
+        /// The total evaluation score expressed as a percentage.
+        public let scorePercentage: Double?
+
+        @inlinable
+        public init(acknowledgedBy: String? = nil, acknowledgedTime: Date? = nil, acknowledgerComment: String? = nil, autoEvaluationEnabled: Bool? = nil, autoEvaluationStatus: AutoEvaluationStatus? = nil, calibrationSessionId: String? = nil, contactAgentId: String? = nil, contactId: String, contactParticipantId: String? = nil, contactParticipantRole: ContactParticipantRole? = nil, evaluatorArn: String, reviewId: String? = nil, samplingJobId: String? = nil, scoreAutomaticFail: Bool? = nil, scoreNotApplicable: Bool? = nil, scorePercentage: Double? = nil) {
+            self.acknowledgedBy = acknowledgedBy
+            self.acknowledgedTime = acknowledgedTime
+            self.acknowledgerComment = acknowledgerComment
+            self.autoEvaluationEnabled = autoEvaluationEnabled
+            self.autoEvaluationStatus = autoEvaluationStatus
+            self.calibrationSessionId = calibrationSessionId
+            self.contactAgentId = contactAgentId
+            self.contactId = contactId
+            self.contactParticipantId = contactParticipantId
+            self.contactParticipantRole = contactParticipantRole
+            self.evaluatorArn = evaluatorArn
+            self.reviewId = reviewId
+            self.samplingJobId = samplingJobId
+            self.scoreAutomaticFail = scoreAutomaticFail
+            self.scoreNotApplicable = scoreNotApplicable
+            self.scorePercentage = scorePercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acknowledgedBy = "AcknowledgedBy"
+            case acknowledgedTime = "AcknowledgedTime"
+            case acknowledgerComment = "AcknowledgerComment"
+            case autoEvaluationEnabled = "AutoEvaluationEnabled"
+            case autoEvaluationStatus = "AutoEvaluationStatus"
+            case calibrationSessionId = "CalibrationSessionId"
+            case contactAgentId = "ContactAgentId"
+            case contactId = "ContactId"
+            case contactParticipantId = "ContactParticipantId"
+            case contactParticipantRole = "ContactParticipantRole"
+            case evaluatorArn = "EvaluatorArn"
+            case reviewId = "ReviewId"
+            case samplingJobId = "SamplingJobId"
+            case scoreAutomaticFail = "ScoreAutomaticFail"
+            case scoreNotApplicable = "ScoreNotApplicable"
+            case scorePercentage = "ScorePercentage"
+        }
+    }
+
+    public struct EvaluationSearchSummary: AWSDecodableShape {
+        /// The date and time when the evaluation was created, in UTC time.
+        public let createdTime: Date
+        /// The Amazon Resource Name (ARN) for the contact evaluation resource.
+        public let evaluationArn: String
+        /// The unique identifier for the evaluation form.
+        public let evaluationFormId: String?
+        /// Title of the evaluation form.
+        public let evaluationFormTitle: String?
+        /// A version of the evaluation form.
+        public let evaluationFormVersion: Int
+        /// A unique identifier for the contact evaluation.
+        public let evaluationId: String
+        /// Type of the evaluation.
+        public let evaluationType: EvaluationType?
+        /// The date and time when the evaluation was modified last time, in UTC time.
+        public let lastModifiedTime: Date
+        /// Summary information about the evaluation search.
+        public let metadata: EvaluationSearchMetadata
+        /// The status of the evaluation.
+        public let status: EvaluationStatus
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdTime: Date, evaluationArn: String, evaluationFormId: String? = nil, evaluationFormTitle: String? = nil, evaluationFormVersion: Int, evaluationId: String, evaluationType: EvaluationType? = nil, lastModifiedTime: Date, metadata: EvaluationSearchMetadata, status: EvaluationStatus, tags: [String: String]? = nil) {
+            self.createdTime = createdTime
+            self.evaluationArn = evaluationArn
+            self.evaluationFormId = evaluationFormId
+            self.evaluationFormTitle = evaluationFormTitle
+            self.evaluationFormVersion = evaluationFormVersion
+            self.evaluationId = evaluationId
+            self.evaluationType = evaluationType
+            self.lastModifiedTime = lastModifiedTime
+            self.metadata = metadata
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdTime = "CreatedTime"
+            case evaluationArn = "EvaluationArn"
+            case evaluationFormId = "EvaluationFormId"
+            case evaluationFormTitle = "EvaluationFormTitle"
+            case evaluationFormVersion = "EvaluationFormVersion"
+            case evaluationId = "EvaluationId"
+            case evaluationType = "EvaluationType"
+            case lastModifiedTime = "LastModifiedTime"
+            case metadata = "Metadata"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct EvaluationSuggestedAnswer: AWSDecodableShape {
+        /// Detailed analysis results.
+        public let analysisDetails: EvaluationQuestionAnswerAnalysisDetails?
+        /// Type of analysis used to provide suggested answer.
+        public let analysisType: EvaluationQuestionAnswerAnalysisType
+        /// Details about the input used to question automation.
+        public let input: EvaluationQuestionInputDetails?
+        /// The status of the suggested answer. D
+        public let status: EvaluationSuggestedAnswerStatus
+        public let value: EvaluationAnswerData?
+
+        @inlinable
+        public init(analysisDetails: EvaluationQuestionAnswerAnalysisDetails? = nil, analysisType: EvaluationQuestionAnswerAnalysisType, input: EvaluationQuestionInputDetails? = nil, status: EvaluationSuggestedAnswerStatus, value: EvaluationAnswerData? = nil) {
+            self.analysisDetails = analysisDetails
+            self.analysisType = analysisType
+            self.input = input
+            self.status = status
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisDetails = "AnalysisDetails"
+            case analysisType = "AnalysisType"
+            case input = "Input"
+            case status = "Status"
+            case value = "Value"
+        }
+    }
+
+    public struct EvaluationSuggestedAnswerTranscriptMillisecondOffsets: AWSDecodableShape {
+        /// Offset in milliseconds from the beginning of the transcript.
+        public let beginOffsetMillis: Int
+
+        @inlinable
+        public init(beginOffsetMillis: Int) {
+            self.beginOffsetMillis = beginOffsetMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffsetMillis = "BeginOffsetMillis"
+        }
+    }
+
     public struct EvaluationSummary: AWSDecodableShape {
+        /// Information related to evaluation acknowledgement.
+        public let acknowledgement: EvaluationAcknowledgementSummary?
+        /// Whether automated evaluation is enabled.
+        public let autoEvaluationEnabled: Bool?
+        /// The status of the contact auto evaluation.
+        public let autoEvaluationStatus: AutoEvaluationStatus?
+        /// The calibration session ID that this evaluation belongs to.
+        public let calibrationSessionId: String?
+        /// Information about a contact participant in the evaluation.
+        public let contactParticipant: EvaluationContactParticipant?
         /// The timestamp for when the evaluation was created.
         public let createdTime: Date
         /// The Amazon Resource Name (ARN) for the contact evaluation resource.
@@ -10991,6 +14784,8 @@ extension Connect {
         public let evaluationFormTitle: String
         /// A unique identifier for the contact evaluation.
         public let evaluationId: String
+        /// Type of the evaluation.
+        public let evaluationType: EvaluationType?
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
         public let evaluatorArn: String
         /// The timestamp for when the evaluation was last updated.
@@ -11001,12 +14796,18 @@ extension Connect {
         public let status: EvaluationStatus
 
         @inlinable
-        public init(createdTime: Date, evaluationArn: String, evaluationFormId: String, evaluationFormTitle: String, evaluationId: String, evaluatorArn: String, lastModifiedTime: Date, score: EvaluationScore? = nil, status: EvaluationStatus) {
+        public init(acknowledgement: EvaluationAcknowledgementSummary? = nil, autoEvaluationEnabled: Bool? = nil, autoEvaluationStatus: AutoEvaluationStatus? = nil, calibrationSessionId: String? = nil, contactParticipant: EvaluationContactParticipant? = nil, createdTime: Date, evaluationArn: String, evaluationFormId: String, evaluationFormTitle: String, evaluationId: String, evaluationType: EvaluationType? = nil, evaluatorArn: String, lastModifiedTime: Date, score: EvaluationScore? = nil, status: EvaluationStatus) {
+            self.acknowledgement = acknowledgement
+            self.autoEvaluationEnabled = autoEvaluationEnabled
+            self.autoEvaluationStatus = autoEvaluationStatus
+            self.calibrationSessionId = calibrationSessionId
+            self.contactParticipant = contactParticipant
             self.createdTime = createdTime
             self.evaluationArn = evaluationArn
             self.evaluationFormId = evaluationFormId
             self.evaluationFormTitle = evaluationFormTitle
             self.evaluationId = evaluationId
+            self.evaluationType = evaluationType
             self.evaluatorArn = evaluatorArn
             self.lastModifiedTime = lastModifiedTime
             self.score = score
@@ -11014,15 +14815,39 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acknowledgement = "Acknowledgement"
+            case autoEvaluationEnabled = "AutoEvaluationEnabled"
+            case autoEvaluationStatus = "AutoEvaluationStatus"
+            case calibrationSessionId = "CalibrationSessionId"
+            case contactParticipant = "ContactParticipant"
             case createdTime = "CreatedTime"
             case evaluationArn = "EvaluationArn"
             case evaluationFormId = "EvaluationFormId"
             case evaluationFormTitle = "EvaluationFormTitle"
             case evaluationId = "EvaluationId"
+            case evaluationType = "EvaluationType"
             case evaluatorArn = "EvaluatorArn"
             case lastModifiedTime = "LastModifiedTime"
             case score = "Score"
             case status = "Status"
+        }
+    }
+
+    public struct EvaluationTranscriptPointOfInterest: AWSDecodableShape {
+        /// Offset in milliseconds from the beginning of transcript.
+        public let millisecondOffsets: EvaluationSuggestedAnswerTranscriptMillisecondOffsets?
+        /// Segment of transcript.
+        public let transcriptSegment: String?
+
+        @inlinable
+        public init(millisecondOffsets: EvaluationSuggestedAnswerTranscriptMillisecondOffsets? = nil, transcriptSegment: String? = nil) {
+            self.millisecondOffsets = millisecondOffsets
+            self.transcriptSegment = transcriptSegment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case millisecondOffsets = "MillisecondOffsets"
+            case transcriptSegment = "TranscriptSegment"
         }
     }
 
@@ -11096,6 +14921,42 @@ extension Connect {
             case attributeCondition = "AttributeCondition"
             case notAttributeCondition = "NotAttributeCondition"
             case orExpression = "OrExpression"
+        }
+    }
+
+    public struct ExternalInvocationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enable external invocation.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct FailedBatchAssociationSummary: AWSDecodableShape {
+        /// The error code indicating why the association failed.
+        public let errorCode: String?
+        /// An error message describing why the association failed.
+        public let errorMessage: String?
+        /// The Amazon Resource Name (ARN) of the resource that failed to be associated.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, errorMessage: String? = nil, resourceArn: String? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -11180,11 +15041,14 @@ extension Connect {
         public let filterKey: String?
         /// The identifiers to use for filtering data. For example, if you have a filter key of QUEUE, you would add queue IDs or ARNs in FilterValues.
         public let filterValues: [String]?
+        ///  System defined filtering condition. For example, the NOT_EXISTS StringCondition returns documents where the field specified by FilterKey does not exist in the document. When the NOT_EXISTS StringCondition is added to a FilterV2 object, FilterValues must be null or empty.
+        public let stringCondition: FilterV2StringCondition?
 
         @inlinable
-        public init(filterKey: String? = nil, filterValues: [String]? = nil) {
+        public init(filterKey: String? = nil, filterValues: [String]? = nil, stringCondition: FilterV2StringCondition? = nil) {
             self.filterKey = filterKey
             self.filterValues = filterValues
+            self.stringCondition = stringCondition
         }
 
         public func validate(name: String) throws {
@@ -11201,6 +15065,21 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case filterKey = "FilterKey"
             case filterValues = "FilterValues"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct FilterV2StringCondition: AWSEncodableShape {
+        ///  The string condition.
+        public let comparison: FilterV2StringConditionComparisonOperator?
+
+        @inlinable
+        public init(comparison: FilterV2StringConditionComparisonOperator? = nil) {
+            self.comparison = comparison
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparison = "Comparison"
         }
     }
 
@@ -11266,6 +15145,61 @@ extension Connect {
             case flowId = "FlowId"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct FlowModule: AWSEncodableShape & AWSDecodableShape {
+        ///  If of Flow Modules invocable as tool
+        public let flowModuleId: String?
+        ///  Only Type we support is MCP.
+        public let type: FlowModuleType?
+
+        @inlinable
+        public init(flowModuleId: String? = nil, type: FlowModuleType? = nil) {
+            self.flowModuleId = flowModuleId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.flowModuleId, name: "flowModuleId", parent: name, max: 128)
+            try self.validate(self.flowModuleId, name: "flowModuleId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowModuleId = "FlowModuleId"
+            case type = "Type"
+        }
+    }
+
+    public struct FlowQuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The contact flow ID for the quick connect configuration.
+        public let contactFlowId: String
+
+        @inlinable
+        public init(contactFlowId: String) {
+            self.contactFlowId = contactFlowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowId = "ContactFlowId"
+        }
+    }
+
+    public struct FontFamily: AWSEncodableShape & AWSDecodableShape {
+        /// The default font family to use in the workspace theme.
+        public let `default`: WorkspaceFontFamily?
+
+        @inlinable
+        public init(default: WorkspaceFontFamily? = nil) {
+            self.`default` = `default`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `default` = "Default"
         }
     }
 
@@ -11460,7 +15394,7 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataRequest: AWSEncodableShape {
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
         /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: Filters
@@ -11852,15 +15786,15 @@ extension Connect {
     public struct GetMetricDataV2Request: AWSEncodableShape {
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
         public let endTime: Date
-        /// The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE  | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Amazon Q in Connect enabled as part of the flow.   FALSE includes all contacts that did not have Amazon Q in Connect enabled as part of the flow   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
+        /// The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_FIVE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_ HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_TWO |  ANSWERING_MACHINE_DETECTION_STATUS | BOT_ALIAS | BOT_ID | BOT_INTENT_NAME | BOT_LOCALE | BOT_VERSION | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |  CAMPAIGN_EXCLUDED_EVENT_TYPE | CASE_STATUS | CASE_TEMPLATE_ARN | CHANNEL |  contact/segmentAttributes/connect:Subtype | contact/segmentAttributes/connect:ValidationTestType |  DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_QUESTION | EVALUATION_SECTION | EVALUATION_SOURCE | EVALUATOR_ID | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATING_FLOW | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_ TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_ CASE_EXECUTION_FAILURE_REASON | TEST_CASE_EXECUTION_RESULT | TEST_CASE_EXECUTION_STATE     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Connect AI Agents enabled as part of the flow.   FALSE includes all contacts that did not have Connect AI Agents enabled as part of the flow   EXPERIENCE_VALIDATION and FLOW_VALIDATION are the only valid filterValues for the contact/segmentAttributes/connect:ValidationTestType filter key   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
         public let filters: [FilterV2]
-        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION  Type: Array of strings Array Members: Maximum number of 4 items Required: No
+        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CAMPAIGN_EXCLUDED_EVENT_TYPE | CAMPAIGN_EXECUTION_TIMESTAMP | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | EVALUATOR_ID | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | TEST_CASE | TEST_CASE_EXECUTION_FAILURE_REASON | TEST_CASE_INVOCATION_METHOD  API, SCHEDULE, and EVENT are the only valid filterValues for TEST_CASE_INVOCATION_METHOD. OBSERVE_EVENT, SEND_INSTRUCTION, ASSERT_DATA, and OVERRIDE_SYSTEM_BEHAVIOR are the only valid filterValues for TEST_CASE_EXECUTION_FAILURE_REASON Type: Array of strings Array Members: Maximum number of 4 items Required: No
         public let groupings: [String]?
         /// The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
         public let interval: IntervalDetails?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+        /// The metrics to retrieve. Specify the name or metricId, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Metrics definition in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 20 MetricId per request.   ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect Valid metric filter key: INITIATION_METHOD  UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONCURRENCY  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent concurrency   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONTACT_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Agent average contact first response wait time   AVG_CONVERSATION_CLOSE_TIME  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average conversation close time   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average evaluation score   AVG_FIRST_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent first response time   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   ACTIVE_AI_AGENTS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: Active AI Agents  AI_HANDOFF_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Handoff Rate  AI_HANDOFFS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Handoff Count  AI_AGENT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_AGENT_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Agent Name Version, AI Use Case, Channel, Queue, Routing Profile UI name: AI Agent Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_RESPONSE_COMPLETION_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Response Completion Rate  AI_INVOLVED_CONTACTS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Contacts  AI_PROMPT_INVOCATION_SUCCESS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Count  AI Agent Name Version is not a valid filter but a valid grouping.   AI_PROMPT_INVOCATION_SUCCESS_RATE  Unit: Percent Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Prompt Invocation Success Rate  AI Agent Name Version is not a valid filter but a valid grouping.   AI_TOOL_INVOCATIONS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: AI Tool Invocation Count  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_AGENT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Use Case, Channel, Queue, Routing Profile  UI name: Average AI Agent Conversation Turns  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: AI Conversation Turns  AVG_AI_PROMPT_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Prompt, AI Prompt ID, AI Prompt Name, AI Prompt Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Prompt Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   AVG_AI_TOOL_INVOCATION_LATENCY  Unit: Milliseconds Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Name Version, AI Agent Type, AI Tool ID, AI Tool Name, AI Tool Type, AI Use Case, Channel, Queue, Routing Profile UI name: Average AI Tool Invocation Latency  AI Agent Name Version is not a valid filter but a valid grouping.   KNOWLEDGE_CONTENT_REFERENCES  Unit: Count Valid groupings and filters: AI Agent, AI Agent Name, AI Agent Type, AI Use Case, Channel, Knowledge Base Name, Queue, Routing Profile UI name: KnowledgeBase Reference Count  PROACTIVE_INTENT_ENGAGEMENT_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intent Engagement Rate  PROACTIVE_INTENT_RESPONSE_RATE  Unit: Percent Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile  UI name: Proactive Intent Response Rate  PROACTIVE_INTENTS_ANSWERED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Answered  PROACTIVE_INTENTS_DETECTED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: Proactive Intents Detected    Unit:  Valid groupings and filters:  UI name:     Unit:  Valid groupings and filters:  UI name:   PROACTIVE_INTENTS_ENGAGED  Unit: Count Valid groupings and filters: AI Use Case, Channel, Queue, Routing Profile UI name: UI name:  AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_MESSAGE_LENGTH_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent message length   AVG_MESSAGE_LENGTH_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer message length   AVG_MESSAGES  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average messages   AVG_MESSAGES_AGENT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent messages   AVG_MESSAGES_BOT  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average bot messages   AVG_MESSAGES_CUSTOMER  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer messages   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time  Valid metric level filters: INITIATION_METHOD, FEATURE, DISCONNECT_REASON   Feature is a valid filter but not a valid grouping.   AVG_QUEUE_ANSWER_TIME_CUSTOMER_FIRST_CALLBACK  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. queue answer time - customer first callback   AVG_RESPONSE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average agent response time   AVG_RESPONSE_TIME_CUSTOMER  Unit: Seconds Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Average customer response time   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WAIT_TIME_AFTER_CUSTOMER_FIRST_CALLBACK_CONNECTION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect, Agent Hierarchy UI name: Avg. wait time after customer connection - customer first callback   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations completed   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_PROGRESS_RATE  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Percent Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Campaign progress rate   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CAMPAIGN_SEND_EXCLUSIONS  This metric is available only for outbound campaigns. Valid metric filter key: CAMPAIGN_EXCLUDED_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Campaign Excluded Event Type, Campaign Execution Timestamp UI name: Campaign send exclusions   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   CONVERSATIONS_ABANDONED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Feature, RoutingStepExpression, Initiation method, Routing Profile, Queue, Q in Connect UI name: Conversations abandoned   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   RECIPIENTS_ATTEMPTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients attempted   RECIPIENTS_INTERACTED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype, Campaign Execution Timestamp UI name: Recipients interacted   RECIPIENTS_TARGETED  This metric is only available for outbound campaigns initiated using a customer segment. It is not available for event triggered campaigns. Unit: Count Valid groupings and filters: Campaign, Campaign Execution Timestamp UI name: Recipients targeted   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API | CALLBACK_CUSTOMER_FIRST_DIALED  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| INCOMING | OUTBOUND | TRANSFER | CALLBACK | QUEUE_TRANSFER| Disconnect | CALLBACK_CUSTOMER_FIRST_DIALED    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent non-productive time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
         public let metrics: [MetricV2]
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
@@ -12135,6 +16069,24 @@ extension Connect {
             case id = "Id"
             case signInConfig = "SignInConfig"
             case telephonyConfig = "TelephonyConfig"
+        }
+    }
+
+    public struct GranularAccessControlConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The access control configuration for data tables.
+        public let dataTableAccessControlConfiguration: DataTableAccessControlConfiguration?
+
+        @inlinable
+        public init(dataTableAccessControlConfiguration: DataTableAccessControlConfiguration? = nil) {
+            self.dataTableAccessControlConfiguration = dataTableAccessControlConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.dataTableAccessControlConfiguration?.validate(name: "\(name).dataTableAccessControlConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTableAccessControlConfiguration = "DataTableAccessControlConfiguration"
         }
     }
 
@@ -12769,6 +16721,33 @@ extension Connect {
         }
     }
 
+    public struct ImagesLogo: AWSEncodableShape & AWSDecodableShape {
+        /// The default logo image displayed in the workspace.
+        public let `default`: String?
+        /// The favicon image displayed in the browser tab.
+        public let favicon: String?
+
+        @inlinable
+        public init(default: String? = nil, favicon: String? = nil) {
+            self.`default` = `default`
+            self.favicon = favicon
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.`default`, name: "`default`", parent: name, max: 254)
+            try self.validate(self.`default`, name: "`default`", parent: name, min: 1)
+            try self.validate(self.`default`, name: "`default`", parent: name, pattern: "\\\\S")
+            try self.validate(self.favicon, name: "favicon", parent: name, max: 254)
+            try self.validate(self.favicon, name: "favicon", parent: name, min: 1)
+            try self.validate(self.favicon, name: "favicon", parent: name, pattern: "\\\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `default` = "Default"
+            case favicon = "Favicon"
+        }
+    }
+
     public struct ImportPhoneNumberRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -12831,6 +16810,53 @@ extension Connect {
             case phoneNumberArn = "PhoneNumberArn"
             case phoneNumberId = "PhoneNumberId"
         }
+    }
+
+    public struct ImportWorkspaceMediaRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The media source. Can be an S3 presigned URL or a base64-encoded string.
+        public let mediaSource: String
+        /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+        public let mediaType: MediaType
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, mediaSource: String, mediaType: MediaType, workspaceId: String) {
+            self.instanceId = instanceId
+            self.mediaSource = mediaSource
+            self.mediaType = mediaType
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.mediaSource, forKey: .mediaSource)
+            try container.encode(self.mediaType, forKey: .mediaType)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.mediaSource, name: "mediaSource", parent: name, max: 533333)
+            try self.validate(self.mediaSource, name: "mediaSource", parent: name, min: 1)
+            try self.validate(self.mediaSource, name: "mediaSource", parent: name, pattern: "\\\\S")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaSource = "MediaSource"
+            case mediaType = "MediaType"
+        }
+    }
+
+    public struct ImportWorkspaceMediaResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct InboundAdditionalRecipients: AWSEncodableShape {
@@ -13795,6 +17821,119 @@ extension Connect {
         }
     }
 
+    public struct ListContactFlowModuleAliasesRequest: AWSEncodableShape {
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactFlowModuleId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactFlowModuleAliasesResponse: AWSDecodableShape {
+        /// Information about the flow module aliases.
+        public let contactFlowModuleAliasSummaryList: [ContactFlowModuleAliasSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactFlowModuleAliasSummaryList: [ContactFlowModuleAliasSummary]? = nil, nextToken: String? = nil) {
+            self.contactFlowModuleAliasSummaryList = contactFlowModuleAliasSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleAliasSummaryList = "ContactFlowModuleAliasSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListContactFlowModuleVersionsRequest: AWSEncodableShape {
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactFlowModuleId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.contactFlowModuleId = contactFlowModuleId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListContactFlowModuleVersionsResponse: AWSDecodableShape {
+        /// Information about the flow module versions.
+        public let contactFlowModuleVersionSummaryList: [ContactFlowModuleVersionSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(contactFlowModuleVersionSummaryList: [ContactFlowModuleVersionSummary]? = nil, nextToken: String? = nil) {
+            self.contactFlowModuleVersionSummaryList = contactFlowModuleVersionSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleVersionSummaryList = "ContactFlowModuleVersionSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListContactFlowModulesRequest: AWSEncodableShape {
         /// The state of the flow module.
         public let contactFlowModuleState: ContactFlowModuleState?
@@ -14021,6 +18160,274 @@ extension Connect {
         }
     }
 
+    public struct ListDataTableAttributesRequest: AWSEncodableShape {
+        /// Optional list of specific attribute IDs to retrieve. Used for CloudFormation to effectively describe attributes by ID. If NextToken is provided, this parameter is ignored.
+        public let attributeIds: [String]?
+        /// The unique identifier for the data table whose attributes should be listed.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of data table attributes to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attributeIds: [String]? = nil, dataTableId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.attributeIds = attributeIds
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.attributeIds, forKey: .attributeIds)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeIds?.forEach {
+                try validate($0, name: "attributeIds[]", parent: name, max: 256)
+                try validate($0, name: "attributeIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeIds = "AttributeIds"
+        }
+    }
+
+    public struct ListDataTableAttributesResponse: AWSDecodableShape {
+        /// A list of data table attributes with their complete configuration and metadata.
+        public let attributes: [DataTableAttribute]
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attributes: [DataTableAttribute], nextToken: String? = nil) {
+            self.attributes = attributes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDataTablePrimaryValuesRequest: AWSEncodableShape {
+        /// The unique identifier for the data table whose primary values should be listed.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of data table primary values to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Optional filter to retrieve primary values matching specific criteria.
+        public let primaryAttributeValues: [PrimaryAttributeValueFilter]?
+        /// Optional list of specific record IDs to retrieve. Used for CloudFormation to effectively describe records by ID. If NextToken is provided, this parameter is ignored.
+        public let recordIds: [String]?
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, primaryAttributeValues: [PrimaryAttributeValueFilter]? = nil, recordIds: [String]? = nil) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.primaryAttributeValues = primaryAttributeValues
+            self.recordIds = recordIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.primaryAttributeValues, forKey: .primaryAttributeValues)
+            try container.encodeIfPresent(self.recordIds, forKey: .recordIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.primaryAttributeValues?.forEach {
+                try $0.validate(name: "\(name).primaryAttributeValues[]")
+            }
+            try self.recordIds?.forEach {
+                try validate($0, name: "recordIds[]", parent: name, max: 256)
+                try validate($0, name: "recordIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryAttributeValues = "PrimaryAttributeValues"
+            case recordIds = "RecordIds"
+        }
+    }
+
+    public struct ListDataTablePrimaryValuesResponse: AWSDecodableShape {
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// A list of primary value combinations with their record IDs and modification metadata.
+        public let primaryValuesList: [RecordPrimaryValue]
+
+        @inlinable
+        public init(nextToken: String? = nil, primaryValuesList: [RecordPrimaryValue]) {
+            self.nextToken = nextToken
+            self.primaryValuesList = primaryValuesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case primaryValuesList = "PrimaryValuesList"
+        }
+    }
+
+    public struct ListDataTableValuesRequest: AWSEncodableShape {
+        /// The unique identifier for the data table whose values should be listed.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The maximum number of data table values to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Optional filter to retrieve values for records matching specific primary attribute criteria.
+        public let primaryAttributeValues: [PrimaryAttributeValueFilter]?
+        /// Optional list of specific record IDs to retrieve values for.
+        public let recordIds: [String]?
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, primaryAttributeValues: [PrimaryAttributeValueFilter]? = nil, recordIds: [String]? = nil) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.primaryAttributeValues = primaryAttributeValues
+            self.recordIds = recordIds
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encodeIfPresent(self.primaryAttributeValues, forKey: .primaryAttributeValues)
+            try container.encodeIfPresent(self.recordIds, forKey: .recordIds)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.primaryAttributeValues?.forEach {
+                try $0.validate(name: "\(name).primaryAttributeValues[]")
+            }
+            try self.recordIds?.forEach {
+                try validate($0, name: "recordIds[]", parent: name, max: 256)
+                try validate($0, name: "recordIds[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryAttributeValues = "PrimaryAttributeValues"
+            case recordIds = "RecordIds"
+        }
+    }
+
+    public struct ListDataTableValuesResponse: AWSDecodableShape {
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// A list of data table values with their associated metadata, lock versions, and modification details.
+        public let values: [DataTableValueSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, values: [DataTableValueSummary]) {
+            self.nextToken = nextToken
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case values = "Values"
+        }
+    }
+
+    public struct ListDataTablesRequest: AWSEncodableShape {
+        /// The unique identifier for the Amazon Connect instance whose data tables should be listed.
+        public let instanceId: String
+        /// The maximum number of data tables to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataTablesResponse: AWSDecodableShape {
+        /// A list of data table summaries containing basic information about each table including ID, ARN, name, and modification details.
+        public let dataTableSummaryList: [DataTableSummary]
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataTableSummaryList: [DataTableSummary], nextToken: String? = nil) {
+            self.dataTableSummaryList = dataTableSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTableSummaryList = "DataTableSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDefaultVocabulariesRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -14082,6 +18489,73 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case defaultVocabularyList = "DefaultVocabularyList"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntitySecurityProfilesRequest: AWSEncodableShape {
+        ///  ARN of a Q in Connect AI Agent.
+        public let entityArn: String
+        ///  Only supported type is AI_AGENT.
+        public let entityType: EntityType
+        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        ///  The maximum number of results to return per page. The default MaxResult size is 100.
+        public let maxResults: Int?
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(entityArn: String, entityType: EntityType, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.entityArn = entityArn
+            self.entityType = entityType
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.entityArn, forKey: .entityArn)
+            try container.encode(self.entityType, forKey: .entityType)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityArn, name: "entityArn", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityArn = "EntityArn"
+            case entityType = "EntityType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntitySecurityProfilesResponse: AWSDecodableShape {
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        ///  List of Security Profile Object.
+        public let securityProfiles: [SecurityProfileItem]?
+
+        @inlinable
+        public init(nextToken: String? = nil, securityProfiles: [SecurityProfileItem]? = nil) {
+            self.nextToken = nextToken
+            self.securityProfiles = securityProfiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case securityProfiles = "SecurityProfiles"
         }
     }
 
@@ -15117,7 +19591,7 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.quickConnectTypes, name: "quickConnectTypes", parent: name, max: 3)
+            try self.validate(self.quickConnectTypes, name: "quickConnectTypes", parent: name, max: 4)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -15573,6 +20047,69 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case applications = "Applications"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSecurityProfileFlowModulesRequest: AWSEncodableShape {
+        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        ///  The maximum number of results to return per page. The default MaxResult size is 100.
+        public let maxResults: Int?
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        ///  The identifier for the security profile.
+        public let securityProfileId: String
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, securityProfileId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.securityProfileId = securityProfileId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.securityProfileId, key: "SecurityProfileId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSecurityProfileFlowModulesResponse: AWSDecodableShape {
+        ///  A list of Flow Modules an AI Agent can invoke as a tool.
+        public let allowedFlowModules: [FlowModule]?
+        ///  The Region that flow module was last modified in.
+        public let lastModifiedRegion: String?
+        ///  The time the flow module was last modified.
+        public let lastModifiedTime: Date?
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(allowedFlowModules: [FlowModule]? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, nextToken: String? = nil) {
+            self.allowedFlowModules = allowedFlowModules
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedFlowModules = "AllowedFlowModules"
             case lastModifiedRegion = "LastModifiedRegion"
             case lastModifiedTime = "LastModifiedTime"
             case nextToken = "NextToken"
@@ -16243,6 +20780,157 @@ extension Connect {
         }
     }
 
+    public struct ListWorkspaceMediaRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, workspaceId: String) {
+            self.instanceId = instanceId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspaceMediaResponse: AWSDecodableShape {
+        /// A list of media assets for the workspace.
+        public let media: [MediaItem]?
+
+        @inlinable
+        public init(media: [MediaItem]? = nil) {
+            self.media = media
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case media = "Media"
+        }
+    }
+
+    public struct ListWorkspacePagesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspacePagesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of page configurations in the workspace.
+        public let workspacePageList: [WorkspacePage]
+
+        @inlinable
+        public init(nextToken: String? = nil, workspacePageList: [WorkspacePage]) {
+            self.nextToken = nextToken
+            self.workspacePageList = workspacePageList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspacePageList = "WorkspacePageList"
+        }
+    }
+
+    public struct ListWorkspacesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkspacesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A summary list of workspaces.
+        public let workspaceSummaryList: [WorkspaceSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, workspaceSummaryList: [WorkspaceSummary]) {
+            self.nextToken = nextToken
+            self.workspaceSummaryList = workspaceSummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case workspaceSummaryList = "WorkspaceSummaryList"
+        }
+    }
+
     public struct MatchCriteria: AWSEncodableShape & AWSDecodableShape {
         /// An object to define agentIds.
         public let agentsCriteria: AgentsCriteria?
@@ -16285,6 +20973,24 @@ extension Connect {
             case channel = "Channel"
             case concurrency = "Concurrency"
             case crossChannelBehavior = "CrossChannelBehavior"
+        }
+    }
+
+    public struct MediaItem: AWSDecodableShape {
+        /// The source URL or data for the media asset.
+        public let source: String?
+        /// The type of media. Valid values are: IMAGE_LOGO_FAVICON and IMAGE_LOGO_HORIZONTAL.
+        public let type: MediaType?
+
+        @inlinable
+        public init(source: String? = nil, type: MediaType? = nil) {
+            self.source = source
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case type = "Type"
         }
     }
 
@@ -16359,7 +21065,7 @@ extension Connect {
     }
 
     public struct MetricDataV2: AWSDecodableShape {
-        /// The metric name, thresholds, and metric filters of the returned metric.
+        /// The metric name or metricId, thresholds, and metric filters of the returned metric.
         public let metric: MetricV2?
         /// The corresponding value of the metric returned in the response.
         public let value: Double?
@@ -16450,14 +21156,17 @@ extension Connect {
     public struct MetricV2: AWSEncodableShape & AWSDecodableShape {
         /// Contains the filters to be used when returning data.
         public let metricFilters: [MetricFilterV2]?
-        /// The name of the metric.  This parameter is required. The following Required = No is incorrect.
+        /// Historical metrics or custom metrics can be referenced via this field. This field is a valid Amazon Connect Arn or a UUID
+        public let metricId: String?
+        /// The name of the metric.
         public let name: String?
         /// Contains information about the threshold for service level metrics.
         public let threshold: [ThresholdV2]?
 
         @inlinable
-        public init(metricFilters: [MetricFilterV2]? = nil, name: String? = nil, threshold: [ThresholdV2]? = nil) {
+        public init(metricFilters: [MetricFilterV2]? = nil, metricId: String? = nil, name: String? = nil, threshold: [ThresholdV2]? = nil) {
             self.metricFilters = metricFilters
+            self.metricId = metricId
             self.name = name
             self.threshold = threshold
         }
@@ -16467,6 +21176,8 @@ extension Connect {
                 try $0.validate(name: "\(name).metricFilters[]")
             }
             try self.validate(self.metricFilters, name: "metricFilters", parent: name, max: 2)
+            try self.validate(self.metricId, name: "metricId", parent: name, max: 150)
+            try self.validate(self.metricId, name: "metricId", parent: name, min: 1)
             try self.threshold?.forEach {
                 try $0.validate(name: "\(name).threshold[]")
             }
@@ -16475,6 +21186,7 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case metricFilters = "MetricFilters"
+            case metricId = "MetricId"
             case name = "Name"
             case threshold = "Threshold"
         }
@@ -16539,6 +21251,33 @@ extension Connect {
         }
     }
 
+    public struct MultiSelectQuestionRuleCategoryAutomation: AWSEncodableShape & AWSDecodableShape {
+        /// The category name for this automation rule.
+        public let category: String
+        /// The condition for this automation rule.
+        public let condition: MultiSelectQuestionRuleCategoryAutomationCondition
+        /// Reference IDs of options for this automation rule.
+        public let optionRefIds: [String]
+
+        @inlinable
+        public init(category: String, condition: MultiSelectQuestionRuleCategoryAutomationCondition, optionRefIds: [String]) {
+            self.category = category
+            self.condition = condition
+            self.optionRefIds = optionRefIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.category, name: "category", parent: name, max: 50)
+            try self.validate(self.category, name: "category", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case category = "Category"
+            case condition = "Condition"
+            case optionRefIds = "OptionRefIds"
+        }
+    }
+
     public struct NameCriteria: AWSEncodableShape {
         /// The match type combining name search criteria using multiple search texts in a name criteria.
         public let matchType: SearchContactsMatchType
@@ -16599,6 +21338,24 @@ extension Connect {
             case participantDetails = "ParticipantDetails"
             case streamingConfiguration = "StreamingConfiguration"
             case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
+        }
+    }
+
+    public struct NextContactEntry: AWSDecodableShape {
+        ///  Metadata for the next contact entry.
+        public let nextContactMetadata: NextContactMetadata?
+        ///  The type of the next contact entry.
+        public let type: NextContactType?
+
+        @inlinable
+        public init(nextContactMetadata: NextContactMetadata? = nil, type: NextContactType? = nil) {
+            self.nextContactMetadata = nextContactMetadata
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextContactMetadata = "NextContactMetadata"
+            case type = "Type"
         }
     }
 
@@ -16823,6 +21580,46 @@ extension Connect {
         }
     }
 
+    public struct OutboundStrategy: AWSEncodableShape & AWSDecodableShape {
+        /// Config of the outbound strategy.
+        public let config: OutboundStrategyConfig?
+        /// Type of the outbound strategy.
+        public let type: OutboundStrategyType
+
+        @inlinable
+        public init(config: OutboundStrategyConfig? = nil, type: OutboundStrategyType) {
+            self.config = config
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.config?.validate(name: "\(name).config")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case type = "Type"
+        }
+    }
+
+    public struct OutboundStrategyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The config of agent first outbound strategy.
+        public let agentFirst: AgentFirst?
+
+        @inlinable
+        public init(agentFirst: AgentFirst? = nil) {
+            self.agentFirst = agentFirst
+        }
+
+        public func validate(name: String) throws {
+            try self.agentFirst?.validate(name: "\(name).agentFirst")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentFirst = "AgentFirst"
+        }
+    }
+
     public struct OverrideTimeSlice: AWSEncodableShape & AWSDecodableShape {
         /// The hours.
         public let hours: Int
@@ -16848,6 +21645,171 @@ extension Connect {
         }
     }
 
+    public struct PaletteCanvas: AWSEncodableShape & AWSDecodableShape {
+        /// The background color for active elements.
+        public let activeBackground: String?
+        /// The background color for container elements.
+        public let containerBackground: String?
+        /// The background color for page elements.
+        public let pageBackground: String?
+
+        @inlinable
+        public init(activeBackground: String? = nil, containerBackground: String? = nil, pageBackground: String? = nil) {
+            self.activeBackground = activeBackground
+            self.containerBackground = containerBackground
+            self.pageBackground = pageBackground
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.activeBackground, name: "activeBackground", parent: name, max: 127)
+            try self.validate(self.activeBackground, name: "activeBackground", parent: name, min: 1)
+            try self.validate(self.activeBackground, name: "activeBackground", parent: name, pattern: "\\\\S")
+            try self.validate(self.containerBackground, name: "containerBackground", parent: name, max: 127)
+            try self.validate(self.containerBackground, name: "containerBackground", parent: name, min: 1)
+            try self.validate(self.containerBackground, name: "containerBackground", parent: name, pattern: "\\\\S")
+            try self.validate(self.pageBackground, name: "pageBackground", parent: name, max: 127)
+            try self.validate(self.pageBackground, name: "pageBackground", parent: name, min: 1)
+            try self.validate(self.pageBackground, name: "pageBackground", parent: name, pattern: "\\\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeBackground = "ActiveBackground"
+            case containerBackground = "ContainerBackground"
+            case pageBackground = "PageBackground"
+        }
+    }
+
+    public struct PaletteHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The background color of the header.
+        public let background: String?
+        /// Whether to invert the colors of action buttons in the header.
+        public let invertActionsColors: Bool?
+        /// The text color in the header.
+        public let text: String?
+        /// The text color when hovering over header elements.
+        public let textHover: String?
+
+        @inlinable
+        public init(background: String? = nil, invertActionsColors: Bool? = nil, text: String? = nil, textHover: String? = nil) {
+            self.background = background
+            self.invertActionsColors = invertActionsColors
+            self.text = text
+            self.textHover = textHover
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.background, name: "background", parent: name, max: 127)
+            try self.validate(self.background, name: "background", parent: name, min: 1)
+            try self.validate(self.background, name: "background", parent: name, pattern: "\\\\S")
+            try self.validate(self.text, name: "text", parent: name, max: 127)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, pattern: "\\\\S")
+            try self.validate(self.textHover, name: "textHover", parent: name, max: 127)
+            try self.validate(self.textHover, name: "textHover", parent: name, min: 1)
+            try self.validate(self.textHover, name: "textHover", parent: name, pattern: "\\\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case background = "Background"
+            case invertActionsColors = "InvertActionsColors"
+            case text = "Text"
+            case textHover = "TextHover"
+        }
+    }
+
+    public struct PaletteNavigation: AWSEncodableShape & AWSDecodableShape {
+        /// The background color of the navigation area.
+        public let background: String?
+        /// Whether to invert the colors of action buttons in the navigation area.
+        public let invertActionsColors: Bool?
+        /// The text color in the navigation area.
+        public let text: String?
+        /// The text color for active navigation items.
+        public let textActive: String?
+        /// The background color for active navigation items.
+        public let textBackgroundActive: String?
+        /// The background color when hovering over navigation text.
+        public let textBackgroundHover: String?
+        /// The text color when hovering over navigation items.
+        public let textHover: String?
+
+        @inlinable
+        public init(background: String? = nil, invertActionsColors: Bool? = nil, text: String? = nil, textActive: String? = nil, textBackgroundActive: String? = nil, textBackgroundHover: String? = nil, textHover: String? = nil) {
+            self.background = background
+            self.invertActionsColors = invertActionsColors
+            self.text = text
+            self.textActive = textActive
+            self.textBackgroundActive = textBackgroundActive
+            self.textBackgroundHover = textBackgroundHover
+            self.textHover = textHover
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.background, name: "background", parent: name, max: 127)
+            try self.validate(self.background, name: "background", parent: name, min: 1)
+            try self.validate(self.background, name: "background", parent: name, pattern: "\\\\S")
+            try self.validate(self.text, name: "text", parent: name, max: 127)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, pattern: "\\\\S")
+            try self.validate(self.textActive, name: "textActive", parent: name, max: 127)
+            try self.validate(self.textActive, name: "textActive", parent: name, min: 1)
+            try self.validate(self.textActive, name: "textActive", parent: name, pattern: "\\\\S")
+            try self.validate(self.textBackgroundActive, name: "textBackgroundActive", parent: name, max: 127)
+            try self.validate(self.textBackgroundActive, name: "textBackgroundActive", parent: name, min: 1)
+            try self.validate(self.textBackgroundActive, name: "textBackgroundActive", parent: name, pattern: "\\\\S")
+            try self.validate(self.textBackgroundHover, name: "textBackgroundHover", parent: name, max: 127)
+            try self.validate(self.textBackgroundHover, name: "textBackgroundHover", parent: name, min: 1)
+            try self.validate(self.textBackgroundHover, name: "textBackgroundHover", parent: name, pattern: "\\\\S")
+            try self.validate(self.textHover, name: "textHover", parent: name, max: 127)
+            try self.validate(self.textHover, name: "textHover", parent: name, min: 1)
+            try self.validate(self.textHover, name: "textHover", parent: name, pattern: "\\\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case background = "Background"
+            case invertActionsColors = "InvertActionsColors"
+            case text = "Text"
+            case textActive = "TextActive"
+            case textBackgroundActive = "TextBackgroundActive"
+            case textBackgroundHover = "TextBackgroundHover"
+            case textHover = "TextHover"
+        }
+    }
+
+    public struct PalettePrimary: AWSEncodableShape & AWSDecodableShape {
+        /// The primary color used for active states.
+        public let active: String?
+        /// The text color that contrasts with the primary color for readability.
+        public let contrastText: String?
+        /// The default primary color used throughout the workspace.
+        public let `default`: String?
+
+        @inlinable
+        public init(active: String? = nil, contrastText: String? = nil, default: String? = nil) {
+            self.active = active
+            self.contrastText = contrastText
+            self.`default` = `default`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.active, name: "active", parent: name, max: 127)
+            try self.validate(self.active, name: "active", parent: name, min: 1)
+            try self.validate(self.active, name: "active", parent: name, pattern: "\\\\S")
+            try self.validate(self.contrastText, name: "contrastText", parent: name, max: 127)
+            try self.validate(self.contrastText, name: "contrastText", parent: name, min: 1)
+            try self.validate(self.contrastText, name: "contrastText", parent: name, pattern: "\\\\S")
+            try self.validate(self.`default`, name: "`default`", parent: name, max: 127)
+            try self.validate(self.`default`, name: "`default`", parent: name, min: 1)
+            try self.validate(self.`default`, name: "`default`", parent: name, pattern: "\\\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case active = "Active"
+            case contrastText = "ContrastText"
+            case `default` = "Default"
+        }
+    }
+
     public struct ParticipantCapabilities: AWSEncodableShape & AWSDecodableShape {
         /// The screen sharing capability that is enabled for the participant. SEND indicates the participant can share their screen.
         public let screenShare: ScreenShareCapability?
@@ -16863,6 +21825,20 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case screenShare = "ScreenShare"
             case video = "Video"
+        }
+    }
+
+    public struct ParticipantConfiguration: AWSEncodableShape {
+        ///  The mode in which responses should be sent to the participant.
+        public let responseMode: ResponseMode?
+
+        @inlinable
+        public init(responseMode: ResponseMode? = nil) {
+            self.responseMode = responseMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case responseMode = "ResponseMode"
         }
     }
 
@@ -17124,6 +22100,24 @@ extension Connect {
         }
     }
 
+    public struct PostAcceptTimeoutConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Duration in seconds for the countdown timer after the agent accepted the contact.
+        public let durationInSeconds: Int
+
+        @inlinable
+        public init(durationInSeconds: Int) {
+            self.durationInSeconds = durationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.durationInSeconds, name: "durationInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+        }
+    }
+
     public struct PredefinedAttribute: AWSDecodableShape {
         /// Custom metadata that is associated to predefined attributes to control behavior
         /// in upstream services, such as controlling
@@ -17218,6 +22212,151 @@ extension Connect {
             case lastModifiedRegion = "LastModifiedRegion"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
+        }
+    }
+
+    public struct Preview: AWSEncodableShape & AWSDecodableShape {
+        /// The actions the agent can perform after accepting the preview outbound contact.
+        public let allowedUserActions: [AllowedUserAction]
+        /// Countdown timer configuration after the agent accepted the preview outbound contact.
+        public let postAcceptTimeoutConfig: PostAcceptTimeoutConfig
+
+        @inlinable
+        public init(allowedUserActions: [AllowedUserAction], postAcceptTimeoutConfig: PostAcceptTimeoutConfig) {
+            self.allowedUserActions = allowedUserActions
+            self.postAcceptTimeoutConfig = postAcceptTimeoutConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.postAcceptTimeoutConfig.validate(name: "\(name).postAcceptTimeoutConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedUserActions = "AllowedUserActions"
+            case postAcceptTimeoutConfig = "PostAcceptTimeoutConfig"
+        }
+    }
+
+    public struct PrimaryAttributeAccessControlConfigurationItem: AWSEncodableShape & AWSDecodableShape {
+        /// The item's primary attribute values.
+        public let primaryAttributeValues: [PrimaryAttributeValue]?
+
+        @inlinable
+        public init(primaryAttributeValues: [PrimaryAttributeValue]? = nil) {
+            self.primaryAttributeValues = primaryAttributeValues
+        }
+
+        public func validate(name: String) throws {
+            try self.primaryAttributeValues?.forEach {
+                try $0.validate(name: "\(name).primaryAttributeValues[]")
+            }
+            try self.validate(self.primaryAttributeValues, name: "primaryAttributeValues", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryAttributeValues = "PrimaryAttributeValues"
+        }
+    }
+
+    public struct PrimaryAttributeValue: AWSEncodableShape & AWSDecodableShape {
+        /// The value's access type.
+        public let accessType: AccessType?
+        /// The value's attribute name.
+        public let attributeName: String?
+        /// The value's values.
+        public let values: [String]?
+
+        @inlinable
+        public init(accessType: AccessType? = nil, attributeName: String? = nil, values: [String]? = nil) {
+            self.accessType = accessType
+            self.attributeName = attributeName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^(?!aws:|connect:)[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+$")
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessType = "AccessType"
+            case attributeName = "AttributeName"
+            case values = "Values"
+        }
+    }
+
+    public struct PrimaryAttributeValueFilter: AWSEncodableShape {
+        /// The filter's attribute name.
+        public let attributeName: String
+        /// The filter's values.
+        public let values: [String]
+
+        @inlinable
+        public init(attributeName: String, values: [String]) {
+            self.attributeName = attributeName
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case values = "Values"
+        }
+    }
+
+    public struct PrimaryValue: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the primary attribute that this value belongs to.
+        public let attributeName: String
+        /// The actual value for the primary attribute. Must be provided as a string regardless of the attribute's value type. Primary values cannot be expressions and must be explicitly specified.
+        public let value: String
+
+        @inlinable
+        public init(attributeName: String, value: String) {
+            self.attributeName = attributeName
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeName = "AttributeName"
+            case value = "Value"
+        }
+    }
+
+    public struct PrimaryValueResponse: AWSDecodableShape {
+        /// The value's attribute ID.
+        public let attributeId: String?
+        /// The value's attribute name.
+        public let attributeName: String?
+        /// The value's value.
+        public let value: String?
+
+        @inlinable
+        public init(attributeId: String? = nil, attributeName: String? = nil, value: String? = nil) {
+            self.attributeId = attributeId
+            self.attributeName = attributeName
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeId = "AttributeId"
+            case attributeName = "AttributeName"
+            case value = "Value"
         }
     }
 
@@ -17677,6 +22816,8 @@ extension Connect {
     }
 
     public struct QuickConnectConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  Flow configuration for quick connect setup.
+        public let flowConfig: FlowQuickConnectConfig?
         /// The phone configuration. This is required only if QuickConnectType is PHONE_NUMBER.
         public let phoneConfig: PhoneNumberQuickConnectConfig?
         /// The queue configuration. This is required only if QuickConnectType is QUEUE.
@@ -17687,7 +22828,8 @@ extension Connect {
         public let userConfig: UserQuickConnectConfig?
 
         @inlinable
-        public init(phoneConfig: PhoneNumberQuickConnectConfig? = nil, queueConfig: QueueQuickConnectConfig? = nil, quickConnectType: QuickConnectType, userConfig: UserQuickConnectConfig? = nil) {
+        public init(flowConfig: FlowQuickConnectConfig? = nil, phoneConfig: PhoneNumberQuickConnectConfig? = nil, queueConfig: QueueQuickConnectConfig? = nil, quickConnectType: QuickConnectType, userConfig: UserQuickConnectConfig? = nil) {
+            self.flowConfig = flowConfig
             self.phoneConfig = phoneConfig
             self.queueConfig = queueConfig
             self.quickConnectType = quickConnectType
@@ -17695,16 +22837,48 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.flowConfig?.validate(name: "\(name).flowConfig")
             try self.phoneConfig?.validate(name: "\(name).phoneConfig")
             try self.queueConfig?.validate(name: "\(name).queueConfig")
             try self.userConfig?.validate(name: "\(name).userConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case flowConfig = "FlowConfig"
             case phoneConfig = "PhoneConfig"
             case queueConfig = "QueueConfig"
             case quickConnectType = "QuickConnectType"
             case userConfig = "UserConfig"
+        }
+    }
+
+    public struct QuickConnectContactData: AWSDecodableShape {
+        ///  The contact ID for quick connect contact data.
+        public let contactId: String?
+        ///  Timestamp when the quick connect contact was initiated.
+        public let initiationTimestamp: Date?
+        ///  The quick connect ID.
+        public let quickConnectId: String?
+        ///  The name of the quick connect.
+        public let quickConnectName: String?
+        ///  The type of the quick connect.
+        public let quickConnectType: QuickConnectType?
+
+        @inlinable
+        public init(contactId: String? = nil, initiationTimestamp: Date? = nil, quickConnectId: String? = nil, quickConnectName: String? = nil, quickConnectType: QuickConnectType? = nil) {
+            self.contactId = contactId
+            self.initiationTimestamp = initiationTimestamp
+            self.quickConnectId = quickConnectId
+            self.quickConnectName = quickConnectName
+            self.quickConnectType = quickConnectType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case initiationTimestamp = "InitiationTimestamp"
+            case quickConnectId = "QuickConnectId"
+            case quickConnectName = "QuickConnectName"
+            case quickConnectType = "QuickConnectType"
         }
     }
 
@@ -18123,6 +23297,32 @@ extension Connect {
         }
     }
 
+    public struct RecordPrimaryValue: AWSDecodableShape {
+        /// The value's last modified region.
+        public let lastModifiedRegion: String?
+        /// The value's last modified time.
+        public let lastModifiedTime: Date?
+        /// The value's primary values.
+        public let primaryValues: [PrimaryValueResponse]?
+        /// The value's record ID.
+        public let recordId: String?
+
+        @inlinable
+        public init(lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, primaryValues: [PrimaryValueResponse]? = nil, recordId: String? = nil) {
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.primaryValues = primaryValues
+            self.recordId = recordId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case primaryValues = "PrimaryValues"
+            case recordId = "RecordId"
+        }
+    }
+
     public struct RecordingInfo: AWSDecodableShape {
         /// If the recording/transcript was deleted, this is the reason entered for the deletion.
         public let deletionReason: String?
@@ -18144,9 +23344,11 @@ extension Connect {
         public let stopTimestamp: Date?
         /// Where the recording/transcript is stored.
         public let storageType: StorageType?
+        ///  The location, in Amazon S3, for the unprocessed transcript if any media processing was performed.
+        public let unprocessedTranscriptLocation: String?
 
         @inlinable
-        public init(deletionReason: String? = nil, fragmentStartNumber: String? = nil, fragmentStopNumber: String? = nil, location: String? = nil, mediaStreamType: MediaStreamType? = nil, participantType: ParticipantType? = nil, startTimestamp: Date? = nil, status: RecordingStatus? = nil, stopTimestamp: Date? = nil, storageType: StorageType? = nil) {
+        public init(deletionReason: String? = nil, fragmentStartNumber: String? = nil, fragmentStopNumber: String? = nil, location: String? = nil, mediaStreamType: MediaStreamType? = nil, participantType: ParticipantType? = nil, startTimestamp: Date? = nil, status: RecordingStatus? = nil, stopTimestamp: Date? = nil, storageType: StorageType? = nil, unprocessedTranscriptLocation: String? = nil) {
             self.deletionReason = deletionReason
             self.fragmentStartNumber = fragmentStartNumber
             self.fragmentStopNumber = fragmentStopNumber
@@ -18157,6 +23359,7 @@ extension Connect {
             self.status = status
             self.stopTimestamp = stopTimestamp
             self.storageType = storageType
+            self.unprocessedTranscriptLocation = unprocessedTranscriptLocation
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -18170,6 +23373,7 @@ extension Connect {
             case status = "Status"
             case stopTimestamp = "StopTimestamp"
             case storageType = "StorageType"
+            case unprocessedTranscriptLocation = "UnprocessedTranscriptLocation"
         }
     }
 
@@ -18499,7 +23703,7 @@ extension Connect {
     }
 
     public struct RoutingCriteriaInput: AWSEncodableShape {
-        /// When Amazon Connect does not find an available agent meeting the requirements in a step for  a given step duration, the routing criteria will move on to the next step sequentially until a  join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
+        /// When Amazon Connect does not find an available agent meeting the requirements in a step for a given step duration, the routing criteria will move on to the next step sequentially until a join is completed with an agent. When all steps are exhausted, the contact will be offered to any agent in the queue.
         public let steps: [RoutingCriteriaInputStep]?
 
         @inlinable
@@ -18541,7 +23745,7 @@ extension Connect {
     }
 
     public struct RoutingCriteriaInputStepExpiry: AWSEncodableShape {
-        /// The number of seconds that the contact will be routed only to agents matching this routing  step, if expiry was configured for this routing step.
+        /// The number of seconds that the contact will be routed only to agents matching this routing step, if expiry was configured for this routing step.
         public let durationInSeconds: Int?
 
         @inlinable
@@ -19172,6 +24376,67 @@ extension Connect {
         }
     }
 
+    public struct SearchContactEvaluationsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return contact evaluations.
+        public let searchCriteria: EvaluationSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: EvaluationSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: EvaluationSearchCriteria? = nil, searchFilter: EvaluationSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.searchCriteria?.validate(name: "\(name).searchCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchContactEvaluationsResponse: AWSDecodableShape {
+        /// The total number of contact evaluations that matched your search query.
+        public let approximateTotalCount: Int64?
+        /// Contains information about contact evaluations.
+        public let evaluationSearchSummaryList: [EvaluationSearchSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, evaluationSearchSummaryList: [EvaluationSearchSummary]? = nil, nextToken: String? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.evaluationSearchSummaryList = evaluationSearchSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case evaluationSearchSummaryList = "EvaluationSearchSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct SearchContactFlowModulesRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -19504,6 +24769,65 @@ extension Connect {
         }
     }
 
+    public struct SearchDataTablesRequest: AWSEncodableShape {
+        /// The unique identifier for the Amazon Connect instance to search within.
+        public let instanceId: String
+        /// The maximum number of data tables to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Search criteria including string conditions for matching table names, descriptions, or resource IDs. Supports STARTS_WITH, CONTAINS, and EXACT comparison types.
+        public let searchCriteria: DataTableSearchCriteria?
+        /// Optional filters to apply to the search results, such as tag-based filtering for attribute-based access control.
+        public let searchFilter: DataTableSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: DataTableSearchCriteria? = nil, searchFilter: DataTableSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchDataTablesResponse: AWSDecodableShape {
+        /// The approximate number of data tables that matched the search criteria.
+        public let approximateTotalCount: Int64?
+        /// An array of data tables matching the search criteria with the same structure as DescribeTable except Version, VersionDescription, and LockVersion are omitted.
+        public let dataTables: [DataTable]?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, dataTables: [DataTable]? = nil, nextToken: String? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.dataTables = dataTables
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case dataTables = "DataTables"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct SearchEmailAddressesRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -19562,6 +24886,67 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case approximateTotalCount = "ApproximateTotalCount"
             case emailAddresses = "EmailAddresses"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchEvaluationFormsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria to be used to return evaluation forms.
+        public let searchCriteria: EvaluationFormSearchCriteria?
+        /// Filters to be applied to search results.
+        public let searchFilter: EvaluationFormSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: EvaluationFormSearchCriteria? = nil, searchFilter: EvaluationFormSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.searchCriteria?.validate(name: "\(name).searchCriteria")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchEvaluationFormsResponse: AWSDecodableShape {
+        /// The total number of evaluation forms that matched your search query.
+        public let approximateTotalCount: Int64?
+        /// Information about the returned evaluation forms.
+        public let evaluationFormSearchSummaryList: [EvaluationFormSearchSummary]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, evaluationFormSearchSummaryList: [EvaluationFormSearchSummary]? = nil, nextToken: String? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.evaluationFormSearchSummaryList = evaluationFormSearchSummaryList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case evaluationFormSearchSummaryList = "EvaluationFormSearchSummaryList"
             case nextToken = "NextToken"
         }
     }
@@ -20237,6 +25622,68 @@ extension Connect {
         }
     }
 
+    public struct SearchViewsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria, including field names and comparison types.
+        public let searchCriteria: ViewSearchCriteria?
+        /// Filters to apply to the search, such as tag-based filters.
+        public let searchFilter: ViewSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: ViewSearchCriteria? = nil, searchFilter: ViewSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchViewsResponse: AWSDecodableShape {
+        /// The approximate total number of views that match the search criteria.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of views that match the search criteria.
+        public let views: [View]?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, views: [View]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.views = views
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case views = "Views"
+        }
+    }
+
     public struct SearchVocabulariesRequest: AWSEncodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -20311,6 +25758,128 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case vocabularySummaryList = "VocabularySummaryList"
+        }
+    }
+
+    public struct SearchWorkspaceAssociationsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria, including workspace ID, resource ID, or resource type.
+        public let searchCriteria: WorkspaceAssociationSearchCriteria?
+        /// Filters to apply to the search, such as tag-based filters.
+        public let searchFilter: WorkspaceAssociationSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: WorkspaceAssociationSearchCriteria? = nil, searchFilter: WorkspaceAssociationSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchWorkspaceAssociationsResponse: AWSDecodableShape {
+        /// The approximate total number of workspace associations that match the search criteria.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of workspace associations that match the search criteria.
+        public let workspaceAssociations: [WorkspaceAssociationSearchSummary]?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, workspaceAssociations: [WorkspaceAssociationSearchSummary]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.workspaceAssociations = workspaceAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case workspaceAssociations = "WorkspaceAssociations"
+        }
+    }
+
+    public struct SearchWorkspacesRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The search criteria, including field names and comparison types.
+        public let searchCriteria: WorkspaceSearchCriteria?
+        /// Filters to apply to the search, such as tag-based filters.
+        public let searchFilter: WorkspaceSearchFilter?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil, searchCriteria: WorkspaceSearchCriteria? = nil, searchFilter: WorkspaceSearchFilter? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchCriteria = searchCriteria
+            self.searchFilter = searchFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2500)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchCriteria = "SearchCriteria"
+            case searchFilter = "SearchFilter"
+        }
+    }
+
+    public struct SearchWorkspacesResponse: AWSDecodableShape {
+        /// The approximate total number of workspaces that match the search criteria.
+        public let approximateTotalCount: Int64?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of workspaces that match the search criteria.
+        public let workspaces: [WorkspaceSearchSummary]?
+
+        @inlinable
+        public init(approximateTotalCount: Int64? = nil, nextToken: String? = nil, workspaces: [WorkspaceSearchSummary]? = nil) {
+            self.approximateTotalCount = approximateTotalCount
+            self.nextToken = nextToken
+            self.workspaces = workspaces
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case approximateTotalCount = "ApproximateTotalCount"
+            case nextToken = "NextToken"
+            case workspaces = "Workspaces"
         }
     }
 
@@ -20515,6 +26084,8 @@ extension Connect {
         public let arn: String?
         /// The description of the security profile.
         public let description: String?
+        /// The granular access control configuration for the security profile, including data table permissions.
+        public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
         /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
         /// The identifier for the security profile.
@@ -20533,11 +26104,12 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, arn: String? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
+        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, arn: String? = nil, description: String? = nil, granularAccessControlConfiguration: GranularAccessControlConfiguration? = nil, hierarchyRestrictedResources: [String]? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, organizationResourceId: String? = nil, securityProfileName: String? = nil, tagRestrictedResources: [String]? = nil, tags: [String: String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
             self.description = description
+            self.granularAccessControlConfiguration = granularAccessControlConfiguration
             self.hierarchyRestrictedResources = hierarchyRestrictedResources
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
@@ -20553,6 +26125,7 @@ extension Connect {
             case allowedAccessControlTags = "AllowedAccessControlTags"
             case arn = "Arn"
             case description = "Description"
+            case granularAccessControlConfiguration = "GranularAccessControlConfiguration"
             case hierarchyRestrictedResources = "HierarchyRestrictedResources"
             case id = "Id"
             case lastModifiedRegion = "LastModifiedRegion"
@@ -20561,6 +26134,20 @@ extension Connect {
             case securityProfileName = "SecurityProfileName"
             case tagRestrictedResources = "TagRestrictedResources"
             case tags = "Tags"
+        }
+    }
+
+    public struct SecurityProfileItem: AWSEncodableShape & AWSDecodableShape {
+        ///  Id of a security profile item.
+        public let id: String?
+
+        @inlinable
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
         }
     }
 
@@ -20773,6 +26360,8 @@ extension Connect {
         public let contentType: NotificationContentType
         /// Notification delivery method.
         public let deliveryMethod: NotificationDeliveryType
+        /// Recipients to exclude from notification.
+        public let exclusion: NotificationRecipientType?
         /// Notification recipient.
         public let recipient: NotificationRecipientType
         /// The subject of the email if the delivery method is EMAIL. Supports variable injection. For more information, see
@@ -20781,10 +26370,11 @@ extension Connect {
         public let subject: String?
 
         @inlinable
-        public init(content: String, contentType: NotificationContentType, deliveryMethod: NotificationDeliveryType, recipient: NotificationRecipientType, subject: String? = nil) {
+        public init(content: String, contentType: NotificationContentType, deliveryMethod: NotificationDeliveryType, exclusion: NotificationRecipientType? = nil, recipient: NotificationRecipientType, subject: String? = nil) {
             self.content = content
             self.contentType = contentType
             self.deliveryMethod = deliveryMethod
+            self.exclusion = exclusion
             self.recipient = recipient
             self.subject = subject
         }
@@ -20800,6 +26390,7 @@ extension Connect {
             case content = "Content"
             case contentType = "ContentType"
             case deliveryMethod = "DeliveryMethod"
+            case exclusion = "Exclusion"
             case recipient = "Recipient"
             case subject = "Subject"
         }
@@ -20947,13 +26538,6 @@ extension Connect {
             self.category = category
             self.condition = condition
             self.optionRefId = optionRefId
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.category, name: "category", parent: name, max: 50)
-            try self.validate(self.category, name: "category", parent: name, min: 1)
-            try self.validate(self.optionRefId, name: "optionRefId", parent: name, max: 40)
-            try self.validate(self.optionRefId, name: "optionRefId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21133,6 +26717,8 @@ extension Connect {
         public let initialMessage: ChatMessage?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
+        ///  The configuration of the participant.
+        public let participantConfiguration: ParticipantConfiguration?
         /// Information identifying the participant.
         public let participantDetails: ParticipantDetails
         /// Enable persistent chats. For more information about enabling persistent chat, and for example use cases and how to configure for them, see Enable persistent chat.
@@ -21145,7 +26731,7 @@ extension Connect {
         public let supportedMessagingContentTypes: [String]?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, customerId: String? = nil, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, customerId: String? = nil, initialMessage: ChatMessage? = nil, instanceId: String, participantConfiguration: ParticipantConfiguration? = nil, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
@@ -21153,6 +26739,7 @@ extension Connect {
             self.customerId = customerId
             self.initialMessage = initialMessage
             self.instanceId = instanceId
+            self.participantConfiguration = participantConfiguration
             self.participantDetails = participantDetails
             self.persistentChat = persistentChat
             self.relatedContactId = relatedContactId
@@ -21198,6 +26785,7 @@ extension Connect {
             case customerId = "CustomerId"
             case initialMessage = "InitialMessage"
             case instanceId = "InstanceId"
+            case participantConfiguration = "ParticipantConfiguration"
             case participantDetails = "ParticipantDetails"
             case persistentChat = "PersistentChat"
             case relatedContactId = "RelatedContactId"
@@ -21233,6 +26821,8 @@ extension Connect {
     }
 
     public struct StartContactEvaluationRequest: AWSEncodableShape {
+        /// Whether automated evaluations are enabled.
+        public let autoEvaluationConfiguration: AutoEvaluationConfiguration?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The identifier of the contact in this instance of Amazon Connect.
@@ -21241,22 +26831,28 @@ extension Connect {
         public let evaluationFormId: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
+        /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = StartContactEvaluationRequest.idempotencyToken(), contactId: String, evaluationFormId: String, instanceId: String) {
+        public init(autoEvaluationConfiguration: AutoEvaluationConfiguration? = nil, clientToken: String? = StartContactEvaluationRequest.idempotencyToken(), contactId: String, evaluationFormId: String, instanceId: String, tags: [String: String]? = nil) {
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.clientToken = clientToken
             self.contactId = contactId
             self.evaluationFormId = evaluationFormId
             self.instanceId = instanceId
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.autoEvaluationConfiguration, forKey: .autoEvaluationConfiguration)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.contactId, forKey: .contactId)
             try container.encode(self.evaluationFormId, forKey: .evaluationFormId)
             request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -21267,12 +26863,22 @@ extension Connect {
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoEvaluationConfiguration = "AutoEvaluationConfiguration"
             case clientToken = "ClientToken"
             case contactId = "ContactId"
             case evaluationFormId = "EvaluationFormId"
+            case tags = "Tags"
         }
     }
 
@@ -21292,6 +26898,43 @@ extension Connect {
             case evaluationArn = "EvaluationArn"
             case evaluationId = "EvaluationId"
         }
+    }
+
+    public struct StartContactMediaProcessingRequest: AWSEncodableShape {
+        /// The identifier of the contact.
+        public let contactId: String?
+        ///  The desired behavior for failed message processing.
+        public let failureMode: ContactMediaProcessingFailureMode?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String?
+        ///  The Amazon Resource Name (ARN) of the Lambda processor. You can find the Amazon Resource Name of the lambda in the lambda console.
+        public let processorArn: String?
+
+        @inlinable
+        public init(contactId: String? = nil, failureMode: ContactMediaProcessingFailureMode? = nil, instanceId: String? = nil, processorArn: String? = nil) {
+            self.contactId = contactId
+            self.failureMode = failureMode
+            self.instanceId = instanceId
+            self.processorArn = processorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case failureMode = "FailureMode"
+            case instanceId = "InstanceId"
+            case processorArn = "ProcessorArn"
+        }
+    }
+
+    public struct StartContactMediaProcessingResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StartContactRecordingRequest: AWSEncodableShape {
@@ -21679,19 +27322,23 @@ extension Connect {
         public let instanceId: String
         /// The name of a voice contact that is shown to an agent in the Contact Control Panel (CCP).
         public let name: String?
+        /// Information about the outbound strategy.
+        public let outboundStrategy: OutboundStrategy?
         /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the flow is used. If you do not specify a queue, you must specify a source phone number.
         public let queueId: String?
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Contacts can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL. ATTACHMENT is not a supported reference type during voice contact creation.
         public let references: [String: Reference]?
         /// The contactId that is related to this contact. Linking voice, task, or chat by using RelatedContactID copies over contact attributes from the related contact to the new contact. All updates to user-defined attributes in the new contact are limited to the individual contact ID. There are no limits to the number of contacts that can be linked by using RelatedContactId.
         public let relatedContactId: String?
+        /// The maximum time the outbound call will wait for the destination to answer the call, in seconds
+        public let ringTimeoutInSeconds: Int?
         /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public let sourcePhoneNumber: String?
         /// Denotes the class of traffic. Calls with different traffic types are handled differently by Amazon Connect. The default value is GENERAL. Use CAMPAIGN if EnableAnswerMachineDetection is set to true. For all other cases, use GENERAL.
         public let trafficType: TrafficType?
 
         @inlinable
-        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String]? = nil, campaignId: String? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, destinationPhoneNumber: String, instanceId: String, name: String? = nil, queueId: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, sourcePhoneNumber: String? = nil, trafficType: TrafficType? = nil) {
+        public init(answerMachineDetectionConfig: AnswerMachineDetectionConfig? = nil, attributes: [String: String]? = nil, campaignId: String? = nil, clientToken: String? = StartOutboundVoiceContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, destinationPhoneNumber: String, instanceId: String, name: String? = nil, outboundStrategy: OutboundStrategy? = nil, queueId: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, ringTimeoutInSeconds: Int? = nil, sourcePhoneNumber: String? = nil, trafficType: TrafficType? = nil) {
             self.answerMachineDetectionConfig = answerMachineDetectionConfig
             self.attributes = attributes
             self.campaignId = campaignId
@@ -21701,9 +27348,11 @@ extension Connect {
             self.destinationPhoneNumber = destinationPhoneNumber
             self.instanceId = instanceId
             self.name = name
+            self.outboundStrategy = outboundStrategy
             self.queueId = queueId
             self.references = references
             self.relatedContactId = relatedContactId
+            self.ringTimeoutInSeconds = ringTimeoutInSeconds
             self.sourcePhoneNumber = sourcePhoneNumber
             self.trafficType = trafficType
         }
@@ -21723,6 +27372,7 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.outboundStrategy?.validate(name: "\(name).outboundStrategy")
             try self.references?.forEach {
                 try validate($0.key, name: "references.key", parent: name, max: 4096)
                 try validate($0.key, name: "references.key", parent: name, min: 1)
@@ -21730,6 +27380,8 @@ extension Connect {
             }
             try self.validate(self.relatedContactId, name: "relatedContactId", parent: name, max: 256)
             try self.validate(self.relatedContactId, name: "relatedContactId", parent: name, min: 1)
+            try self.validate(self.ringTimeoutInSeconds, name: "ringTimeoutInSeconds", parent: name, max: 60)
+            try self.validate(self.ringTimeoutInSeconds, name: "ringTimeoutInSeconds", parent: name, min: 15)
             try self.validate(self.sourcePhoneNumber, name: "sourcePhoneNumber", parent: name, pattern: "^\\\\+[1-9]\\\\d{1,14}$")
         }
 
@@ -21743,9 +27395,11 @@ extension Connect {
             case destinationPhoneNumber = "DestinationPhoneNumber"
             case instanceId = "InstanceId"
             case name = "Name"
+            case outboundStrategy = "OutboundStrategy"
             case queueId = "QueueId"
             case references = "References"
             case relatedContactId = "RelatedContactId"
+            case ringTimeoutInSeconds = "RingTimeoutInSeconds"
             case sourcePhoneNumber = "SourcePhoneNumber"
             case trafficType = "TrafficType"
         }
@@ -22041,6 +27695,35 @@ extension Connect {
         }
     }
 
+    public struct StopContactMediaProcessingRequest: AWSEncodableShape {
+        ///  The identifier of the contact.
+        public let contactId: String?
+        ///  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String?
+
+        @inlinable
+        public init(contactId: String? = nil, instanceId: String? = nil) {
+            self.contactId = contactId
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct StopContactMediaProcessingResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StopContactRecordingRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
@@ -22083,7 +27766,7 @@ extension Connect {
     public struct StopContactRequest: AWSEncodableShape {
         /// The ID of the contact.
         public let contactId: String
-        /// The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field.
+        /// The reason a contact can be disconnected. Only Amazon Connect outbound campaigns can provide this field. For a list and description of all the possible disconnect reasons by channel (including outbound campaign voice contacts) see DisconnectReason under ContactTraceRecord in the Amazon Connect Administrator Guide.
         public let disconnectReason: DisconnectReason?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -22216,13 +27899,16 @@ extension Connect {
         public let instanceId: String
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
+        /// The ID of the user who submitted the contact evaluation.
+        public let submittedBy: EvaluatorUserUnion?
 
         @inlinable
-        public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil) {
+        public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil, submittedBy: EvaluatorUserUnion? = nil) {
             self.answers = answers
             self.evaluationId = evaluationId
             self.instanceId = instanceId
             self.notes = notes
+            self.submittedBy = submittedBy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -22232,6 +27918,7 @@ extension Connect {
             request.encodePath(self.evaluationId, key: "EvaluationId")
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.notes, forKey: .notes)
+            try container.encodeIfPresent(self.submittedBy, forKey: .submittedBy)
         }
 
         public func validate(name: String) throws {
@@ -22256,6 +27943,7 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case answers = "Answers"
             case notes = "Notes"
+            case submittedBy = "SubmittedBy"
         }
     }
 
@@ -22274,6 +27962,20 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case evaluationArn = "EvaluationArn"
             case evaluationId = "EvaluationId"
+        }
+    }
+
+    public struct SuccessfulBatchAssociationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that was successfully associated.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -23188,9 +28890,27 @@ extension Connect {
         public let name: String?
         /// The short lived session duration configuration for users logged in to Amazon Connect, in minutes. This value determines the maximum possible time before an agent is authenticated. For more information, For more information on how to configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator Guide.
         public let periodicSessionDuration: Int?
+        /// The period, in minutes, before an agent is automatically signed out of the contact center when they go inactive.
+        public let sessionInactivityDuration: Int?
+        /// Determines if automatic logout on user inactivity is enabled.
+        public let sessionInactivityHandlingEnabled: Bool?
 
         @inlinable
-        public init(allowedIps: [String]? = nil, authenticationProfileId: String, blockedIps: [String]? = nil, description: String? = nil, instanceId: String, name: String? = nil, periodicSessionDuration: Int? = nil) {
+        public init(allowedIps: [String]? = nil, authenticationProfileId: String, blockedIps: [String]? = nil, description: String? = nil, instanceId: String, name: String? = nil, sessionInactivityDuration: Int? = nil, sessionInactivityHandlingEnabled: Bool? = nil) {
+            self.allowedIps = allowedIps
+            self.authenticationProfileId = authenticationProfileId
+            self.blockedIps = blockedIps
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.periodicSessionDuration = nil
+            self.sessionInactivityDuration = sessionInactivityDuration
+            self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
+        }
+
+        @available(*, deprecated, message: "Members periodicSessionDuration have been deprecated")
+        @inlinable
+        public init(allowedIps: [String]? = nil, authenticationProfileId: String, blockedIps: [String]? = nil, description: String? = nil, instanceId: String, name: String? = nil, periodicSessionDuration: Int? = nil, sessionInactivityDuration: Int? = nil, sessionInactivityHandlingEnabled: Bool? = nil) {
             self.allowedIps = allowedIps
             self.authenticationProfileId = authenticationProfileId
             self.blockedIps = blockedIps
@@ -23198,6 +28918,8 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.periodicSessionDuration = periodicSessionDuration
+            self.sessionInactivityDuration = sessionInactivityDuration
+            self.sessionInactivityHandlingEnabled = sessionInactivityHandlingEnabled
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -23210,6 +28932,8 @@ extension Connect {
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.periodicSessionDuration, forKey: .periodicSessionDuration)
+            try container.encodeIfPresent(self.sessionInactivityDuration, forKey: .sessionInactivityDuration)
+            try container.encodeIfPresent(self.sessionInactivityHandlingEnabled, forKey: .sessionInactivityHandlingEnabled)
         }
 
         public func validate(name: String) throws {
@@ -23233,6 +28957,8 @@ extension Connect {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.periodicSessionDuration, name: "periodicSessionDuration", parent: name, max: 60)
             try self.validate(self.periodicSessionDuration, name: "periodicSessionDuration", parent: name, min: 10)
+            try self.validate(self.sessionInactivityDuration, name: "sessionInactivityDuration", parent: name, max: 720)
+            try self.validate(self.sessionInactivityDuration, name: "sessionInactivityDuration", parent: name, min: 15)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -23241,6 +28967,8 @@ extension Connect {
             case description = "Description"
             case name = "Name"
             case periodicSessionDuration = "PeriodicSessionDuration"
+            case sessionInactivityDuration = "SessionInactivityDuration"
+            case sessionInactivityHandlingEnabled = "SessionInactivityHandlingEnabled"
         }
     }
 
@@ -23311,13 +29039,16 @@ extension Connect {
         public let instanceId: String
         /// A map of question identifiers to note value.
         public let notes: [String: EvaluationNote]?
+        /// The ID of the user who updated the contact evaluation.
+        public let updatedBy: EvaluatorUserUnion?
 
         @inlinable
-        public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil) {
+        public init(answers: [String: EvaluationAnswerInput]? = nil, evaluationId: String, instanceId: String, notes: [String: EvaluationNote]? = nil, updatedBy: EvaluatorUserUnion? = nil) {
             self.answers = answers
             self.evaluationId = evaluationId
             self.instanceId = instanceId
             self.notes = notes
+            self.updatedBy = updatedBy
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -23327,6 +29058,7 @@ extension Connect {
             request.encodePath(self.evaluationId, key: "EvaluationId")
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.notes, forKey: .notes)
+            try container.encodeIfPresent(self.updatedBy, forKey: .updatedBy)
         }
 
         public func validate(name: String) throws {
@@ -23351,6 +29083,7 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case answers = "Answers"
             case notes = "Notes"
+            case updatedBy = "UpdatedBy"
         }
     }
 
@@ -23459,27 +29192,93 @@ extension Connect {
         public init() {}
     }
 
+    public struct UpdateContactFlowModuleAliasRequest: AWSEncodableShape {
+        /// The identifier of the alias.
+        public let aliasId: String
+        /// The identifier of the flow module.
+        public let contactFlowModuleId: String
+        /// The version of the flow module.
+        public let contactFlowModuleVersion: Int64?
+        /// The description of the alias.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The name of the alias.
+        public let name: String?
+
+        @inlinable
+        public init(aliasId: String, contactFlowModuleId: String, contactFlowModuleVersion: Int64? = nil, description: String? = nil, instanceId: String, name: String? = nil) {
+            self.aliasId = aliasId
+            self.contactFlowModuleId = contactFlowModuleId
+            self.contactFlowModuleVersion = contactFlowModuleVersion
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.aliasId, key: "AliasId")
+            request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
+            try container.encodeIfPresent(self.contactFlowModuleVersion, forKey: .contactFlowModuleVersion)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasId, name: "aliasId", parent: name, max: 500)
+            try self.validate(self.aliasId, name: "aliasId", parent: name, min: 1)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, max: 256)
+            try self.validate(self.contactFlowModuleId, name: "contactFlowModuleId", parent: name, min: 1)
+            try self.validate(self.contactFlowModuleVersion, name: "contactFlowModuleVersion", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 250)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, pattern: "^(arn:(aws|aws-us-gov):connect:[a-z]{2}-[a-z]+-[0-9]{1}:[0-9]{1,20}:instance/)?[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFlowModuleVersion = "ContactFlowModuleVersion"
+            case description = "Description"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateContactFlowModuleAliasResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateContactFlowModuleContentRequest: AWSEncodableShape {
         /// The identifier of the flow module.
         public let contactFlowModuleId: String
         /// The JSON string that represents the content of the flow. For an example, see Example flow in Amazon Connect Flow language.
-        public let content: String
+        public let content: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
+        /// Serialized JSON string of the flow module Settings schema.
+        public let settings: String?
 
         @inlinable
-        public init(contactFlowModuleId: String, content: String, instanceId: String) {
+        public init(contactFlowModuleId: String, content: String? = nil, instanceId: String, settings: String? = nil) {
             self.contactFlowModuleId = contactFlowModuleId
             self.content = content
             self.instanceId = instanceId
+            self.settings = settings
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.contactFlowModuleId, key: "ContactFlowModuleId")
-            try container.encode(self.content, forKey: .content)
+            try container.encodeIfPresent(self.content, forKey: .content)
             request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.settings, forKey: .settings)
         }
 
         public func validate(name: String) throws {
@@ -23493,6 +29292,7 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+            case settings = "Settings"
         }
     }
 
@@ -23696,7 +29496,7 @@ extension Connect {
         public let queuePriority: Int64?
         /// The number of seconds to add or subtract from the contact's routing age. Contacts are routed to agents on a first-come, first-serve basis. This means that changing their amount of time in queue compared to others also changes their position in queue.
         public let queueTimeAdjustmentSeconds: Int?
-        /// Updates the routing criteria on the contact. These properties can be used to change how a  contact is routed within the queue.
+        /// Updates the routing criteria on the contact. These properties can be used to change how a contact is routed within the queue.
         public let routingCriteria: RoutingCriteriaInput?
 
         @inlinable
@@ -23772,6 +29572,226 @@ extension Connect {
         public init() {}
     }
 
+    public struct UpdateDataTableAttributeRequest: AWSEncodableShape {
+        /// The current name of the attribute to update. Used as an identifier since attribute names can be changed.
+        public let attributeName: String
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
+        public let dataTableId: String
+        /// The updated description for the attribute.
+        public let description: String?
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The new name for the attribute. Must conform to Connect human readable string specification and be unique within the data table.
+        public let name: String
+        /// Whether the attribute should be treated as a primary key. Converting to primary attribute requires existing values to maintain uniqueness.
+        public let primary: Bool?
+        /// The updated validation rules for the attribute. Changes do not affect existing values until they are modified.
+        public let validation: Validation?
+        /// The updated value type for the attribute. When changing value types, existing values are not deleted but may return default values if incompatible.
+        public let valueType: DataTableAttributeValueType
+
+        @inlinable
+        public init(attributeName: String, dataTableId: String, description: String? = nil, instanceId: String, name: String, primary: Bool? = nil, validation: Validation? = nil, valueType: DataTableAttributeValueType) {
+            self.attributeName = attributeName
+            self.dataTableId = dataTableId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.primary = primary
+            self.validation = validation
+            self.valueType = valueType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.primary, forKey: .primary)
+            try container.encodeIfPresent(self.validation, forKey: .validation)
+            try container.encode(self.valueType, forKey: .valueType)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 127)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+            try self.validation?.validate(name: "\(name).validation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case primary = "Primary"
+            case validation = "Validation"
+            case valueType = "ValueType"
+        }
+    }
+
+    public struct UpdateDataTableAttributeResponse: AWSDecodableShape {
+        /// The new lock version for the attribute after the update.
+        public let lockVersion: DataTableLockVersion
+        /// The trimmed name and identifier for the updated attribute.
+        public let name: String
+
+        @inlinable
+        public init(lockVersion: DataTableLockVersion, name: String) {
+            self.lockVersion = lockVersion
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockVersion = "LockVersion"
+            case name = "Name"
+        }
+    }
+
+    public struct UpdateDataTableMetadataRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be $LATEST. Providing any other alias fails with an error.
+        public let dataTableId: String
+        /// The updated description for the data table. Must conform to Connect human readable string specification and have 0-250 characters.
+        public let description: String?
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The updated name for the data table. Must conform to Connect human readable string specification and have 1-127 characters. Must be unique for the instance using case-insensitive comparison.
+        public let name: String
+        /// The updated IANA timezone identifier to use when resolving time based dynamic values.
+        public let timeZone: String
+        /// The updated value lock level for the data table. One of DATA_TABLE, PRIMARY_VALUE, ATTRIBUTE, VALUE, and NONE.
+        public let valueLockLevel: DataTableLockLevel
+
+        @inlinable
+        public init(dataTableId: String, description: String? = nil, instanceId: String, name: String, timeZone: String, valueLockLevel: DataTableLockLevel) {
+            self.dataTableId = dataTableId
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.timeZone = timeZone
+            self.valueLockLevel = valueLockLevel
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.timeZone, forKey: .timeZone)
+            try container.encode(self.valueLockLevel, forKey: .valueLockLevel)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]+$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}\\-_.:=@'|]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case timeZone = "TimeZone"
+            case valueLockLevel = "ValueLockLevel"
+        }
+    }
+
+    public struct UpdateDataTableMetadataResponse: AWSDecodableShape {
+        /// The new lock version for the data table after the update.
+        public let lockVersion: DataTableLockVersion
+
+        @inlinable
+        public init(lockVersion: DataTableLockVersion) {
+            self.lockVersion = lockVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockVersion = "LockVersion"
+        }
+    }
+
+    public struct UpdateDataTablePrimaryValuesRequest: AWSEncodableShape {
+        /// The unique identifier for the data table. Must also accept the table ARN with or without a version alias. If the version is provided as part of the identifier or ARN, the version must be one of the two available system managed aliases, $SAVED or $LATEST.
+        public let dataTableId: String
+        /// The unique identifier for the Amazon Connect instance.
+        public let instanceId: String
+        /// The lock version information required for optimistic locking to prevent concurrent modifications.
+        public let lockVersion: DataTableLockVersion
+        /// The new primary values for the record. Required and must include values for all primary attributes. The combination must be unique within the table.
+        public let newPrimaryValues: [PrimaryValue]
+        /// The current primary values for the record. Required and must include values for all primary attributes. Fails if the table has primary attributes and some primary values are omitted.
+        public let primaryValues: [PrimaryValue]
+
+        @inlinable
+        public init(dataTableId: String, instanceId: String, lockVersion: DataTableLockVersion, newPrimaryValues: [PrimaryValue], primaryValues: [PrimaryValue]) {
+            self.dataTableId = dataTableId
+            self.instanceId = instanceId
+            self.lockVersion = lockVersion
+            self.newPrimaryValues = newPrimaryValues
+            self.primaryValues = primaryValues
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.dataTableId, key: "DataTableId")
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.lockVersion, forKey: .lockVersion)
+            try container.encode(self.newPrimaryValues, forKey: .newPrimaryValues)
+            try container.encode(self.primaryValues, forKey: .primaryValues)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, max: 256)
+            try self.validate(self.dataTableId, name: "dataTableId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.newPrimaryValues.forEach {
+                try $0.validate(name: "\(name).newPrimaryValues[]")
+            }
+            try self.primaryValues.forEach {
+                try $0.validate(name: "\(name).primaryValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockVersion = "LockVersion"
+            case newPrimaryValues = "NewPrimaryValues"
+            case primaryValues = "PrimaryValues"
+        }
+    }
+
+    public struct UpdateDataTablePrimaryValuesResponse: AWSDecodableShape {
+        /// The updated lock version information for the data table and affected components after the primary values change.
+        public let lockVersion: DataTableLockVersion
+
+        @inlinable
+        public init(lockVersion: DataTableLockVersion) {
+            self.lockVersion = lockVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lockVersion = "LockVersion"
+        }
+    }
+
     public struct UpdateEmailAddressMetadataRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -23839,6 +29859,10 @@ extension Connect {
     }
 
     public struct UpdateEvaluationFormRequest: AWSEncodableShape {
+        /// A boolean flag indicating whether to update evaluation form to draft state.
+        public let asDraft: Bool?
+        /// Whether automated evaluations are enabled.
+        public let autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// A flag indicating whether the operation must create a new version.
@@ -23853,13 +29877,19 @@ extension Connect {
         public let instanceId: String
         /// Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
         public let items: [EvaluationFormItem]
+        /// Configuration for language settings of the evaluation form.
+        public let languageConfiguration: EvaluationFormLanguageConfiguration?
         /// A scoring strategy of the evaluation form.
         public let scoringStrategy: EvaluationFormScoringStrategy?
+        /// Configuration that specifies the target for the evaluation form.
+        public let targetConfiguration: EvaluationFormTargetConfiguration?
         /// A title of the evaluation form.
         public let title: String
 
         @inlinable
-        public init(clientToken: String? = UpdateEvaluationFormRequest.idempotencyToken(), createNewVersion: Bool? = nil, description: String? = nil, evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String, items: [EvaluationFormItem], scoringStrategy: EvaluationFormScoringStrategy? = nil, title: String) {
+        public init(asDraft: Bool? = nil, autoEvaluationConfiguration: EvaluationFormAutoEvaluationConfiguration? = nil, clientToken: String? = UpdateEvaluationFormRequest.idempotencyToken(), createNewVersion: Bool? = nil, description: String? = nil, evaluationFormId: String, evaluationFormVersion: Int = 0, instanceId: String, items: [EvaluationFormItem], languageConfiguration: EvaluationFormLanguageConfiguration? = nil, scoringStrategy: EvaluationFormScoringStrategy? = nil, targetConfiguration: EvaluationFormTargetConfiguration? = nil, title: String) {
+            self.asDraft = asDraft
+            self.autoEvaluationConfiguration = autoEvaluationConfiguration
             self.clientToken = clientToken
             self.createNewVersion = createNewVersion
             self.description = description
@@ -23867,13 +29897,17 @@ extension Connect {
             self.evaluationFormVersion = evaluationFormVersion
             self.instanceId = instanceId
             self.items = items
+            self.languageConfiguration = languageConfiguration
             self.scoringStrategy = scoringStrategy
+            self.targetConfiguration = targetConfiguration
             self.title = title
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.asDraft, forKey: .asDraft)
+            try container.encodeIfPresent(self.autoEvaluationConfiguration, forKey: .autoEvaluationConfiguration)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.createNewVersion, forKey: .createNewVersion)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -23881,34 +29915,34 @@ extension Connect {
             try container.encode(self.evaluationFormVersion, forKey: .evaluationFormVersion)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.items, forKey: .items)
+            try container.encodeIfPresent(self.languageConfiguration, forKey: .languageConfiguration)
             try container.encodeIfPresent(self.scoringStrategy, forKey: .scoringStrategy)
+            try container.encodeIfPresent(self.targetConfiguration, forKey: .targetConfiguration)
             try container.encode(self.title, forKey: .title)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
-            try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, max: 500)
             try self.validate(self.evaluationFormId, name: "evaluationFormId", parent: name, min: 1)
-            try self.validate(self.evaluationFormVersion, name: "evaluationFormVersion", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.items.forEach {
                 try $0.validate(name: "\(name).items[]")
             }
-            try self.validate(self.items, name: "items", parent: name, max: 100)
-            try self.validate(self.items, name: "items", parent: name, min: 1)
-            try self.validate(self.title, name: "title", parent: name, max: 128)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case asDraft = "AsDraft"
+            case autoEvaluationConfiguration = "AutoEvaluationConfiguration"
             case clientToken = "ClientToken"
             case createNewVersion = "CreateNewVersion"
             case description = "Description"
             case evaluationFormVersion = "EvaluationFormVersion"
             case items = "Items"
+            case languageConfiguration = "LanguageConfiguration"
             case scoringStrategy = "ScoringStrategy"
+            case targetConfiguration = "TargetConfiguration"
             case title = "Title"
         }
     }
@@ -24058,7 +30092,7 @@ extension Connect {
     }
 
     public struct UpdateInstanceAttributeRequest: AWSEncodableShape {
-        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
+        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.   If you set the attribute type as MESSAGE_STREAMING, you need to update the Lex bot alias resource based policy to include the lex:RecognizeMessageAsync action for the connect instance ARN resource.
         public let attributeType: InstanceAttributeType
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -24977,10 +31011,14 @@ extension Connect {
         public let allowedAccessControlHierarchyGroupId: String?
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public let allowedAccessControlTags: [String: String]?
+        ///  A list of Flow Modules an AI Agent can invoke as a tool
+        public let allowedFlowModules: [FlowModule]?
         /// A list of the third-party application's metadata.
         public let applications: [Application]?
         /// The description of the security profile.
         public let description: String?
+        /// The granular access control configuration for the security profile, including data table permissions.
+        public let granularAccessControlConfiguration: GranularAccessControlConfiguration?
         /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
         public let hierarchyRestrictedResources: [String]?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -24993,11 +31031,13 @@ extension Connect {
         public let tagRestrictedResources: [String]?
 
         @inlinable
-        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, applications: [Application]? = nil, description: String? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String, tagRestrictedResources: [String]? = nil) {
+        public init(allowedAccessControlHierarchyGroupId: String? = nil, allowedAccessControlTags: [String: String]? = nil, allowedFlowModules: [FlowModule]? = nil, applications: [Application]? = nil, description: String? = nil, granularAccessControlConfiguration: GranularAccessControlConfiguration? = nil, hierarchyRestrictedResources: [String]? = nil, instanceId: String, permissions: [String]? = nil, securityProfileId: String, tagRestrictedResources: [String]? = nil) {
             self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
+            self.allowedFlowModules = allowedFlowModules
             self.applications = applications
             self.description = description
+            self.granularAccessControlConfiguration = granularAccessControlConfiguration
             self.hierarchyRestrictedResources = hierarchyRestrictedResources
             self.instanceId = instanceId
             self.permissions = permissions
@@ -25010,8 +31050,10 @@ extension Connect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.allowedAccessControlHierarchyGroupId, forKey: .allowedAccessControlHierarchyGroupId)
             try container.encodeIfPresent(self.allowedAccessControlTags, forKey: .allowedAccessControlTags)
+            try container.encodeIfPresent(self.allowedFlowModules, forKey: .allowedFlowModules)
             try container.encodeIfPresent(self.applications, forKey: .applications)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.granularAccessControlConfiguration, forKey: .granularAccessControlConfiguration)
             try container.encodeIfPresent(self.hierarchyRestrictedResources, forKey: .hierarchyRestrictedResources)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.permissions, forKey: .permissions)
@@ -25026,11 +31068,16 @@ extension Connect {
                 try validate($0.value, name: "allowedAccessControlTags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.allowedAccessControlTags, name: "allowedAccessControlTags", parent: name, max: 4)
+            try self.allowedFlowModules?.forEach {
+                try $0.validate(name: "\(name).allowedFlowModules[]")
+            }
+            try self.validate(self.allowedFlowModules, name: "allowedFlowModules", parent: name, max: 10)
             try self.applications?.forEach {
                 try $0.validate(name: "\(name).applications[]")
             }
             try self.validate(self.applications, name: "applications", parent: name, max: 10)
             try self.validate(self.description, name: "description", parent: name, max: 250)
+            try self.granularAccessControlConfiguration?.validate(name: "\(name).granularAccessControlConfiguration")
             try self.hierarchyRestrictedResources?.forEach {
                 try validate($0, name: "hierarchyRestrictedResources[]", parent: name, max: 128)
                 try validate($0, name: "hierarchyRestrictedResources[]", parent: name, min: 1)
@@ -25052,8 +31099,10 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
             case allowedAccessControlTags = "AllowedAccessControlTags"
+            case allowedFlowModules = "AllowedFlowModules"
             case applications = "Applications"
             case description = "Description"
+            case granularAccessControlConfiguration = "GranularAccessControlConfiguration"
             case hierarchyRestrictedResources = "HierarchyRestrictedResources"
             case permissions = "Permissions"
             case tagRestrictedResources = "TagRestrictedResources"
@@ -25630,6 +31679,208 @@ extension Connect {
         public init() {}
     }
 
+    public struct UpdateWorkspaceMetadataRequest: AWSEncodableShape {
+        /// The description of the workspace.
+        public let description: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The name of the workspace.
+        public let name: String?
+        /// The title displayed for the workspace.
+        public let title: String?
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(description: String? = nil, instanceId: String, name: String? = nil, title: String? = nil, workspaceId: String) {
+            self.description = description
+            self.instanceId = instanceId
+            self.name = name
+            self.title = title
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.title, forKey: .title)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\\\P{C}\\r\\n\\t]*$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 127)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\\\S")
+            try self.validate(self.title, name: "title", parent: name, max: 127)
+            try self.validate(self.title, name: "title", parent: name, pattern: "^[\\\\P{C}]*$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case title = "Title"
+        }
+    }
+
+    public struct UpdateWorkspaceMetadataResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateWorkspacePageRequest: AWSEncodableShape {
+        /// A JSON string containing input parameters for the view.
+        public let inputData: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The new page identifier, if changing the page name.
+        public let newPage: String?
+        /// The current page identifier.
+        public let page: String
+        /// The Amazon Resource Name (ARN) of the view to associate with the page.
+        public let resourceArn: String?
+        /// The URL-friendly identifier for the page.
+        public let slug: String?
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(inputData: String? = nil, instanceId: String, newPage: String? = nil, page: String, resourceArn: String? = nil, slug: String? = nil, workspaceId: String) {
+            self.inputData = inputData
+            self.instanceId = instanceId
+            self.newPage = newPage
+            self.page = page
+            self.resourceArn = resourceArn
+            self.slug = slug
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.inputData, forKey: .inputData)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.newPage, forKey: .newPage)
+            request.encodePath(self.page, key: "Page")
+            try container.encodeIfPresent(self.resourceArn, forKey: .resourceArn)
+            try container.encodeIfPresent(self.slug, forKey: .slug)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inputData, name: "inputData", parent: name, max: 4096)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.newPage, name: "newPage", parent: name, max: 25)
+            try self.validate(self.newPage, name: "newPage", parent: name, min: 1)
+            try self.validate(self.newPage, name: "newPage", parent: name, pattern: "^(?!\\\\.$)(?!\\\\.\\\\.$)[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]+$")
+            try self.validate(self.page, name: "page", parent: name, max: 25)
+            try self.validate(self.page, name: "page", parent: name, min: 1)
+            try self.validate(self.page, name: "page", parent: name, pattern: "^(?!\\\\.$)(?!\\\\.\\\\.$)[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]+$")
+            try self.validate(self.slug, name: "slug", parent: name, max: 63)
+            try self.validate(self.slug, name: "slug", parent: name, pattern: "^$|^[\\\\p{L}\\\\p{Z}\\\\p{N}\\\\-_.:=@'|]{3,}$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputData = "InputData"
+            case newPage = "NewPage"
+            case resourceArn = "ResourceArn"
+            case slug = "Slug"
+        }
+    }
+
+    public struct UpdateWorkspacePageResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateWorkspaceThemeRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The theme configuration, including color schemes and visual styles.
+        public let theme: WorkspaceTheme?
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, theme: WorkspaceTheme? = nil, workspaceId: String) {
+            self.instanceId = instanceId
+            self.theme = theme
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encodeIfPresent(self.theme, forKey: .theme)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.theme?.validate(name: "\(name).theme")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case theme = "Theme"
+        }
+    }
+
+    public struct UpdateWorkspaceThemeResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateWorkspaceVisibilityRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The visibility setting for the workspace. Valid values are: ALL (available to all users), ASSIGNED (available only to assigned users and routing profiles), and NONE (not visible to any users).
+        public let visibility: Visibility
+        /// The identifier of the workspace.
+        public let workspaceId: String
+
+        @inlinable
+        public init(instanceId: String, visibility: Visibility, workspaceId: String) {
+            self.instanceId = instanceId
+            self.visibility = visibility
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            try container.encode(self.visibility, forKey: .visibility)
+            request.encodePath(self.workspaceId, key: "WorkspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 256)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct UpdateWorkspaceVisibilityResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UploadUrlMetadata: AWSDecodableShape {
         /// A map of headers that should be provided when uploading the attached file.
         public let headersToInclude: [String: String]?
@@ -25843,7 +32094,7 @@ extension Connect {
         public let andConditions: [UserHierarchyGroupSearchCriteria]?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [UserHierarchyGroupSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name,   parentId, levelId, and resourceID.
+        /// A leaf node condition which can be used to specify a string condition.  The currently supported values for FieldName are name, parentId, levelId, and resourceID.
         public let stringCondition: StringCondition?
 
         @inlinable
@@ -26087,7 +32338,7 @@ extension Connect {
         public let listCondition: ListCondition?
         /// A list of conditions which would be applied together with an OR condition.
         public let orConditions: [UserSearchCriteria]?
-        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are Username, FirstName, LastName, RoutingProfileId, SecurityProfileId, ResourceId.
+        /// A leaf node condition which can be used to specify a string condition. The currently supported values for FieldName are Username, FirstName, LastName, RoutingProfileId, SecurityProfileId, resourceId.
         public let stringCondition: StringCondition?
 
         @inlinable
@@ -26204,6 +32455,90 @@ extension Connect {
         }
     }
 
+    public struct Validation: AWSEncodableShape & AWSDecodableShape {
+        /// Defines enumeration constraints for attribute values. Can specify a list of allowed values and whether custom values are permitted beyond the enumerated list.
+        public let `enum`: ValidationEnum?
+        /// The largest exclusive numeric value for NUMBER value type. Can be provided alongside Maximum where both operate independently. Must be greater than ExclusiveMinimum and Minimum. Applies to NUMBER and values within NUMBER_LIST.
+        public let exclusiveMaximum: Double?
+        /// The smallest exclusive numeric value for NUMBER value type. Can be provided alongside Minimum where both operate independently. Must be less than ExclusiveMaximum and Maximum. Applies to NUMBER and values within NUMBER_LIST.
+        public let exclusiveMinimum: Double?
+        /// Boolean that defaults to false. Applies to text lists and text primary attributes. When true, enforces case-insensitive uniqueness for primary attributes and allows case-insensitive lookups.
+        public let ignoreCase: Bool?
+        /// The largest inclusive numeric value for NUMBER value type. Can be provided alongside ExclusiveMaximum where both operate independently. Must be greater than or equal to Minimum and greater than ExclusiveMinimum. Applies to NUMBER and values within NUMBER_LIST.
+        public let maximum: Double?
+        /// The maximum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be greater than or equal to MinLength.
+        public let maxLength: Int?
+        /// The maximum number of values in a list. Must be an integer greater than or equal to 0 and greater than or equal to MinValues. Applies to all list types.
+        public let maxValues: Int?
+        /// The smallest inclusive numeric value for NUMBER value type. Cannot be provided when ExclusiveMinimum is also provided. Must be less than or equal to Maximum and less than ExclusiveMaximum. Applies to NUMBER and values within NUMBER_LIST.
+        public let minimum: Double?
+        /// The minimum number of characters a text value can contain. Applies to TEXT value type and values within a TEXT_LIST. Must be less than or equal to MaxLength.
+        public let minLength: Int?
+        /// The minimum number of values in a list. Must be an integer greater than or equal to 0 and less than or equal to MaxValues. Applies to all list types.
+        public let minValues: Int?
+        /// Specifies that numeric values must be multiples of this number. Must be greater than 0. The result of dividing a value by this multiple must result in an integer. Applies to NUMBER and values within NUMBER_LIST.
+        public let multipleOf: Double?
+
+        @inlinable
+        public init(enum: ValidationEnum? = nil, exclusiveMaximum: Double? = nil, exclusiveMinimum: Double? = nil, ignoreCase: Bool? = nil, maximum: Double? = nil, maxLength: Int? = nil, maxValues: Int? = nil, minimum: Double? = nil, minLength: Int? = nil, minValues: Int? = nil, multipleOf: Double? = nil) {
+            self.`enum` = `enum`
+            self.exclusiveMaximum = exclusiveMaximum
+            self.exclusiveMinimum = exclusiveMinimum
+            self.ignoreCase = ignoreCase
+            self.maximum = maximum
+            self.maxLength = maxLength
+            self.maxValues = maxValues
+            self.minimum = minimum
+            self.minLength = minLength
+            self.minValues = minValues
+            self.multipleOf = multipleOf
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxLength, name: "maxLength", parent: name, max: 1000)
+            try self.validate(self.maxLength, name: "maxLength", parent: name, min: 0)
+            try self.validate(self.maxValues, name: "maxValues", parent: name, max: 100)
+            try self.validate(self.maxValues, name: "maxValues", parent: name, min: 0)
+            try self.validate(self.minLength, name: "minLength", parent: name, max: 1000)
+            try self.validate(self.minLength, name: "minLength", parent: name, min: 0)
+            try self.validate(self.minValues, name: "minValues", parent: name, max: 100)
+            try self.validate(self.minValues, name: "minValues", parent: name, min: 0)
+            try self.validate(self.multipleOf, name: "multipleOf", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `enum` = "Enum"
+            case exclusiveMaximum = "ExclusiveMaximum"
+            case exclusiveMinimum = "ExclusiveMinimum"
+            case ignoreCase = "IgnoreCase"
+            case maximum = "Maximum"
+            case maxLength = "MaxLength"
+            case maxValues = "MaxValues"
+            case minimum = "Minimum"
+            case minLength = "MinLength"
+            case minValues = "MinValues"
+            case multipleOf = "MultipleOf"
+        }
+    }
+
+    public struct ValidationEnum: AWSEncodableShape & AWSDecodableShape {
+        /// Boolean that defaults to false. When true, only values specified in the enum list are allowed. When false, custom values beyond the enumerated list are permitted.
+        public let strict: Bool?
+        /// A list of predefined values that are allowed for this attribute. These values are always permitted regardless of the Strict setting.
+        public let values: [String]?
+
+        @inlinable
+        public init(strict: Bool? = nil, values: [String]? = nil) {
+            self.strict = strict
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case strict = "Strict"
+            case values = "Values"
+        }
+    }
+
     public struct View: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the view.
         public let arn: String?
@@ -26311,6 +32646,48 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case template = "Template"
+        }
+    }
+
+    public struct ViewSearchCriteria: AWSEncodableShape {
+        /// A list of conditions that must all be satisfied.
+        public let andConditions: [ViewSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public let orConditions: [ViewSearchCriteria]?
+        public let stringCondition: StringCondition?
+        /// A condition that filters views by their status.
+        public let viewStatusCondition: ViewStatus?
+        /// A condition that filters views by their type.
+        public let viewTypeCondition: ViewType?
+
+        @inlinable
+        public init(andConditions: [ViewSearchCriteria]? = nil, orConditions: [ViewSearchCriteria]? = nil, stringCondition: StringCondition? = nil, viewStatusCondition: ViewStatus? = nil, viewTypeCondition: ViewType? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+            self.viewStatusCondition = viewStatusCondition
+            self.viewTypeCondition = viewTypeCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+            case viewStatusCondition = "ViewStatusCondition"
+            case viewTypeCondition = "ViewTypeCondition"
+        }
+    }
+
+    public struct ViewSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
         }
     }
 
@@ -26491,16 +32868,385 @@ extension Connect {
     }
 
     public struct WisdomInfo: AWSDecodableShape {
+        /// The array of AI agents involved in the contact.
+        public let aiAgents: [AiAgentInfo]?
         /// The Amazon Resource Name (ARN) of the Wisdom session.
         public let sessionArn: String?
 
         @inlinable
-        public init(sessionArn: String? = nil) {
+        public init(aiAgents: [AiAgentInfo]? = nil, sessionArn: String? = nil) {
+            self.aiAgents = aiAgents
             self.sessionArn = sessionArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aiAgents = "AiAgents"
             case sessionArn = "SessionArn"
+        }
+    }
+
+    public struct Workspace: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public let arn: String
+        /// The description of the workspace.
+        public let description: String?
+        /// The unique identifier of the workspace.
+        public let id: String
+        /// The AWS Region where the workspace was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the workspace was last modified.
+        public let lastModifiedTime: Date
+        /// The name of the workspace.
+        public let name: String
+        /// The tags used to organize, track, or control access for the workspace.
+        public let tags: [String: String]?
+        /// The theme configuration for the workspace, including colors and styling.
+        public let theme: WorkspaceTheme?
+        /// The title displayed for the workspace.
+        public let title: String?
+        /// Controls who can access the workspace. Valid values are: ALL (all users), ASSIGNED (only assigned users and routing profiles), and NONE (not visible).
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(arn: String, description: String? = nil, id: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date, name: String, tags: [String: String]? = nil, theme: WorkspaceTheme? = nil, title: String? = nil, visibility: Visibility? = nil) {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.tags = tags
+            self.theme = theme
+            self.title = title
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case id = "Id"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case tags = "Tags"
+            case theme = "Theme"
+            case title = "Title"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct WorkspaceAssociationSearchCriteria: AWSEncodableShape {
+        /// A list of conditions that must all be satisfied.
+        public let andConditions: [WorkspaceAssociationSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public let orConditions: [WorkspaceAssociationSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [WorkspaceAssociationSearchCriteria]? = nil, orConditions: [WorkspaceAssociationSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct WorkspaceAssociationSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
+    public struct WorkspaceAssociationSearchSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the associated resource.
+        public let resourceArn: String?
+        /// The identifier of the associated resource (user or routing profile).
+        public let resourceId: String?
+        /// The name of the associated resource.
+        public let resourceName: String?
+        /// The type of resource associated with the workspace. Valid values are: USER and ROUTING_PROFILE.
+        public let resourceType: String?
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public let workspaceArn: String?
+        /// The identifier of the workspace.
+        public let workspaceId: String?
+
+        @inlinable
+        public init(resourceArn: String? = nil, resourceId: String? = nil, resourceName: String? = nil, resourceType: String? = nil, workspaceArn: String? = nil, workspaceId: String? = nil) {
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.workspaceArn = workspaceArn
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case resourceId = "ResourceId"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+            case workspaceArn = "WorkspaceArn"
+            case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct WorkspacePage: AWSDecodableShape {
+        /// A JSON string containing input parameters passed to the view when the page is rendered.
+        public let inputData: String?
+        /// The page identifier. System pages include HOME and AGENT_EXPERIENCE.
+        public let page: String?
+        /// The Amazon Resource Name (ARN) of the view associated with this page.
+        public let resourceArn: String?
+        /// The URL-friendly identifier for the page.
+        public let slug: String?
+
+        @inlinable
+        public init(inputData: String? = nil, page: String? = nil, resourceArn: String? = nil, slug: String? = nil) {
+            self.inputData = inputData
+            self.page = page
+            self.resourceArn = resourceArn
+            self.slug = slug
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputData = "InputData"
+            case page = "Page"
+            case resourceArn = "ResourceArn"
+            case slug = "Slug"
+        }
+    }
+
+    public struct WorkspaceSearchCriteria: AWSEncodableShape {
+        /// A list of conditions that must all be satisfied.
+        public let andConditions: [WorkspaceSearchCriteria]?
+        /// A list of conditions to be met, where at least one condition must be satisfied.
+        public let orConditions: [WorkspaceSearchCriteria]?
+        public let stringCondition: StringCondition?
+
+        @inlinable
+        public init(andConditions: [WorkspaceSearchCriteria]? = nil, orConditions: [WorkspaceSearchCriteria]? = nil, stringCondition: StringCondition? = nil) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.stringCondition = stringCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case andConditions = "AndConditions"
+            case orConditions = "OrConditions"
+            case stringCondition = "StringCondition"
+        }
+    }
+
+    public struct WorkspaceSearchFilter: AWSEncodableShape {
+        public let attributeFilter: ControlPlaneAttributeFilter?
+
+        @inlinable
+        public init(attributeFilter: ControlPlaneAttributeFilter? = nil) {
+            self.attributeFilter = attributeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeFilter = "AttributeFilter"
+        }
+    }
+
+    public struct WorkspaceSearchSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public let arn: String?
+        /// The timestamp when the workspace was created.
+        public let createdAt: Date?
+        /// The description of the workspace.
+        public let description: String?
+        /// The unique identifier of the workspace.
+        public let id: String?
+        /// The name of the workspace.
+        public let name: String?
+        /// The tags associated with the workspace.
+        public let tags: [String: String]?
+        /// The title displayed for the workspace.
+        public let title: String?
+        /// The visibility setting of the workspace.
+        public let visibility: Visibility?
+
+        @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil, title: String? = nil, visibility: Visibility? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.name = name
+            self.tags = tags
+            self.title = title
+            self.visibility = visibility
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case id = "Id"
+            case name = "Name"
+            case tags = "Tags"
+            case title = "Title"
+            case visibility = "Visibility"
+        }
+    }
+
+    public struct WorkspaceSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the workspace.
+        public let arn: String?
+        /// The unique identifier of the workspace.
+        public let id: String?
+        /// The AWS Region where the workspace was last modified.
+        public let lastModifiedRegion: String?
+        /// The timestamp when the workspace was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the workspace.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+            case lastModifiedRegion = "LastModifiedRegion"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+        }
+    }
+
+    public struct WorkspaceTheme: AWSEncodableShape & AWSDecodableShape {
+        /// The theme configuration for dark mode.
+        public let dark: WorkspaceThemeConfig?
+        /// The theme configuration for light mode.
+        public let light: WorkspaceThemeConfig?
+
+        @inlinable
+        public init(dark: WorkspaceThemeConfig? = nil, light: WorkspaceThemeConfig? = nil) {
+            self.dark = dark
+            self.light = light
+        }
+
+        public func validate(name: String) throws {
+            try self.dark?.validate(name: "\(name).dark")
+            try self.light?.validate(name: "\(name).light")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dark = "Dark"
+            case light = "Light"
+        }
+    }
+
+    public struct WorkspaceThemeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The image assets used in the workspace theme.
+        public let images: WorkspaceThemeImages?
+        /// The color palette configuration for the workspace theme.
+        public let palette: WorkspaceThemePalette?
+        /// The typography configuration for the workspace theme.
+        public let typography: WorkspaceThemeTypography?
+
+        @inlinable
+        public init(images: WorkspaceThemeImages? = nil, palette: WorkspaceThemePalette? = nil, typography: WorkspaceThemeTypography? = nil) {
+            self.images = images
+            self.palette = palette
+            self.typography = typography
+        }
+
+        public func validate(name: String) throws {
+            try self.images?.validate(name: "\(name).images")
+            try self.palette?.validate(name: "\(name).palette")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
+            case palette = "Palette"
+            case typography = "Typography"
+        }
+    }
+
+    public struct WorkspaceThemeImages: AWSEncodableShape & AWSDecodableShape {
+        /// The logo images used in the workspace.
+        public let logo: ImagesLogo?
+
+        @inlinable
+        public init(logo: ImagesLogo? = nil) {
+            self.logo = logo
+        }
+
+        public func validate(name: String) throws {
+            try self.logo?.validate(name: "\(name).logo")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logo = "Logo"
+        }
+    }
+
+    public struct WorkspaceThemePalette: AWSEncodableShape & AWSDecodableShape {
+        /// The color configuration for the canvas area.
+        public let canvas: PaletteCanvas?
+        /// The color configuration for the header area.
+        public let header: PaletteHeader?
+        /// The color configuration for the navigation area.
+        public let navigation: PaletteNavigation?
+        /// The primary color configuration used throughout the workspace.
+        public let primary: PalettePrimary?
+
+        @inlinable
+        public init(canvas: PaletteCanvas? = nil, header: PaletteHeader? = nil, navigation: PaletteNavigation? = nil, primary: PalettePrimary? = nil) {
+            self.canvas = canvas
+            self.header = header
+            self.navigation = navigation
+            self.primary = primary
+        }
+
+        public func validate(name: String) throws {
+            try self.canvas?.validate(name: "\(name).canvas")
+            try self.header?.validate(name: "\(name).header")
+            try self.navigation?.validate(name: "\(name).navigation")
+            try self.primary?.validate(name: "\(name).primary")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canvas = "Canvas"
+            case header = "Header"
+            case navigation = "Navigation"
+            case primary = "Primary"
+        }
+    }
+
+    public struct WorkspaceThemeTypography: AWSEncodableShape & AWSDecodableShape {
+        /// The font family configuration for text in the workspace.
+        public let fontFamily: FontFamily?
+
+        @inlinable
+        public init(fontFamily: FontFamily? = nil) {
+            self.fontFamily = fontFamily
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fontFamily = "FontFamily"
         }
     }
 
@@ -26518,17 +33264,21 @@ extension Connect {
         }
     }
 
-    public struct EvaluationFormNumericQuestionAutomation: AWSEncodableShape & AWSDecodableShape {
-        /// The property value of the automation.
-        public let propertyValue: NumericQuestionPropertyValueAutomation?
+    public struct EvaluationFormMultiSelectQuestionAutomationOption: AWSEncodableShape & AWSDecodableShape {
+        /// Rule category configuration for this automation option.
+        public let ruleCategory: MultiSelectQuestionRuleCategoryAutomation?
 
         @inlinable
-        public init(propertyValue: NumericQuestionPropertyValueAutomation? = nil) {
-            self.propertyValue = propertyValue
+        public init(ruleCategory: MultiSelectQuestionRuleCategoryAutomation? = nil) {
+            self.ruleCategory = ruleCategory
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleCategory?.validate(name: "\(name).ruleCategory")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case propertyValue = "PropertyValue"
+            case ruleCategory = "RuleCategory"
         }
     }
 
@@ -26541,12 +33291,22 @@ extension Connect {
             self.ruleCategory = ruleCategory
         }
 
-        public func validate(name: String) throws {
-            try self.ruleCategory?.validate(name: "\(name).ruleCategory")
+        private enum CodingKeys: String, CodingKey {
+            case ruleCategory = "RuleCategory"
+        }
+    }
+
+    public struct EvaluatorUserUnion: AWSEncodableShape {
+        /// Represents the Amazon Connect ARN of the user.
+        public let connectUserArn: String?
+
+        @inlinable
+        public init(connectUserArn: String? = nil) {
+            self.connectUserArn = connectUserArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ruleCategory = "RuleCategory"
+            case connectUserArn = "ConnectUserArn"
         }
     }
 
@@ -26561,6 +33321,20 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case attachedFileInvalidRequestExceptionReason = "AttachedFileInvalidRequestExceptionReason"
+        }
+    }
+
+    public struct NextContactMetadata: AWSDecodableShape {
+        ///  Quick connect contact data for the next contact metadata.
+        public let quickConnectContactData: QuickConnectContactData?
+
+        @inlinable
+        public init(quickConnectContactData: QuickConnectContactData? = nil) {
+            self.quickConnectContactData = quickConnectContactData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case quickConnectContactData = "QuickConnectContactData"
         }
     }
 
@@ -26693,7 +33467,7 @@ public struct ConnectErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
-    /// The contact with the specified ID is not active or does not exist.
+    /// The contact with the specified ID does not exist.
     public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
     /// Outbound calls to the destination number are not allowed.
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }

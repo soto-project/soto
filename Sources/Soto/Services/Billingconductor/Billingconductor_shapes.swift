@@ -36,7 +36,20 @@ extension Billingconductor {
 
     public enum BillingGroupStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        case pending = "PENDING"
         case primaryAccountMissing = "PRIMARY_ACCOUNT_MISSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BillingGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case standard = "STANDARD"
+        case transferBilling = "TRANSFER_BILLING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ComputationRuleEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case consolidated = "CONSOLIDATED"
+        case itemized = "ITEMIZED"
         public var description: String { return self.rawValue }
     }
 
@@ -75,6 +88,7 @@ extension Billingconductor {
 
     public enum LineItemFilterAttributeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case lineItemType = "LINE_ITEM_TYPE"
+        case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +98,7 @@ extension Billingconductor {
     }
 
     public enum MatchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equal = "EQUAL"
         case notEqual = "NOT_EQUAL"
         public var description: String { return self.rawValue }
     }
@@ -103,27 +118,37 @@ extension Billingconductor {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountsAlreadyAssociated = "ACCOUNTS_ALREADY_ASSOCIATED"
         case accountsNotAssociated = "ACCOUNTS_NOT_ASSOCIATED"
+        case billingGroupAlreadyExistInCurrentBillingPeriod = "BILLING_GROUP_ALREADY_EXIST_IN_CURRENT_BILLING_PERIOD"
         case cannotDeleteAutoAssociateBillingGroup = "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
         case cannotParse = "CANNOT_PARSE"
         case customLineItemAssociationExists = "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
         case duplicateAccount = "DUPLICATE_ACCOUNT"
         case duplicatePricingruleArns = "DUPLICATE_PRICINGRULE_ARNS"
         case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
-        case illegalAccounts = "ILLEGAL_ACCOUNTS"
         case illegalAccountId = "ILLEGAL_ACCOUNT_ID"
+        case illegalAccounts = "ILLEGAL_ACCOUNTS"
         case illegalBillingEntity = "ILLEGAL_BILLING_ENTITY"
+        case illegalBillingGroupPricingPlan = "ILLEGAL_BILLING_GROUP_PRICING_PLAN"
+        case illegalBillingGroupType = "ILLEGAL_BILLING_GROUP_TYPE"
         case illegalBillingPeriod = "ILLEGAL_BILLING_PERIOD"
         case illegalBillingPeriodRange = "ILLEGAL_BILLING_PERIOD_RANGE"
         case illegalChargeDetails = "ILLEGAL_CHARGE_DETAILS"
         case illegalChildAssociateResource = "ILLEGAL_CHILD_ASSOCIATE_RESOURCE"
+        case illegalComputationRule = "ILLEGAL_COMPUTATION_RULE"
         case illegalCustomlineitem = "ILLEGAL_CUSTOMLINEITEM"
         case illegalCustomlineitemModification = "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
         case illegalCustomlineitemUpdate = "ILLEGAL_CUSTOMLINEITEM_UPDATE"
         case illegalEndedBillinggroup = "ILLEGAL_ENDED_BILLINGGROUP"
         case illegalExpression = "ILLEGAL_EXPRESSION"
+        case illegalLineItemFilter = "ILLEGAL_LINE_ITEM_FILTER"
         case illegalModifierPercentage = "ILLEGAL_MODIFIER_PERCENTAGE"
         case illegalOperation = "ILLEGAL_OPERATION"
         case illegalPrimaryAccount = "ILLEGAL_PRIMARY_ACCOUNT"
@@ -135,10 +160,10 @@ extension Billingconductor {
         case illegalUpdateChargeDetails = "ILLEGAL_UPDATE_CHARGE_DETAILS"
         case illegalUsageType = "ILLEGAL_USAGE_TYPE"
         case invalidArn = "INVALID_ARN"
-        case invalidBillingviewArn = "INVALID_BILLINGVIEW_ARN"
         case invalidBillingGroup = "INVALID_BILLING_GROUP"
         case invalidBillingGroupStatus = "INVALID_BILLING_GROUP_STATUS"
         case invalidBillingPeriodForOperation = "INVALID_BILLING_PERIOD_FOR_OPERATION"
+        case invalidBillingviewArn = "INVALID_BILLINGVIEW_ARN"
         case invalidFilter = "INVALID_FILTER"
         case invalidSkuCombo = "INVALID_SKU_COMBO"
         case invalidTimeRange = "INVALID_TIME_RANGE"
@@ -148,10 +173,11 @@ extension Billingconductor {
         case mismatchedPricingplanArn = "MISMATCHED_PRICINGPLAN_ARN"
         case mismatchedPricingruleArn = "MISMATCHED_PRICINGRULE_ARN"
         case missingBillinggroup = "MISSING_BILLINGGROUP"
+        case missingCostcategory = "MISSING_COSTCATEGORY"
         case missingCustomlineitem = "MISSING_CUSTOMLINEITEM"
         case missingLinkedAccountIds = "MISSING_LINKED_ACCOUNT_IDS"
-        case missingPricingplan = "MISSING_PRICINGPLAN"
         case missingPricingPlanArn = "MISSING_PRICING_PLAN_ARN"
+        case missingPricingplan = "MISSING_PRICINGPLAN"
         case multipleLinkedAccountIds = "MULTIPLE_LINKED_ACCOUNT_IDS"
         case multiplePricingPlanArn = "MULTIPLE_PRICING_PLAN_ARN"
         case other = "OTHER"
@@ -196,29 +222,32 @@ extension Billingconductor {
     }
 
     public struct AccountGrouping: AWSEncodableShape {
-        /// Specifies if this billing group will automatically associate newly added
-        /// Amazon Web Services accounts that join your consolidated billing family.
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
         /// The account IDs that make up the billing group. Account IDs must be a part of the consolidated billing family, and not associated with another billing group.
-        public let linkedAccountIds: [String]
+        public let linkedAccountIds: [String]?
+        ///  The Amazon Resource Name (ARN) that identifies the transfer relationship owned by the Bill Transfer account (caller account). When specified, the PrimaryAccountId is no longer required.
+        public let responsibilityTransferArn: String?
 
         @inlinable
-        public init(autoAssociate: Bool? = nil, linkedAccountIds: [String]) {
+        public init(autoAssociate: Bool? = nil, linkedAccountIds: [String]? = nil, responsibilityTransferArn: String? = nil) {
             self.autoAssociate = autoAssociate
             self.linkedAccountIds = linkedAccountIds
+            self.responsibilityTransferArn = responsibilityTransferArn
         }
 
         public func validate(name: String) throws {
-            try self.linkedAccountIds.forEach {
+            try self.linkedAccountIds?.forEach {
                 try validate($0, name: "linkedAccountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.linkedAccountIds, name: "linkedAccountIds", parent: name, max: 30)
-            try self.validate(self.linkedAccountIds, name: "linkedAccountIds", parent: name, min: 1)
+            try self.validate(self.responsibilityTransferArn, name: "responsibilityTransferArn", parent: name, pattern: "^arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoAssociate = "AutoAssociate"
             case linkedAccountIds = "LinkedAccountIds"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
         }
     }
 
@@ -239,8 +268,7 @@ extension Billingconductor {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 30)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -276,7 +304,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
             try self.pricingRuleArns.forEach {
                 try validate($0, name: "pricingRuleArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}$")
             }
@@ -529,11 +557,12 @@ extension Billingconductor {
     }
 
     public struct BillingGroupListElement: AWSDecodableShape {
-        /// Specifies if the billing group has automatic account
-        /// association (AutoAssociate) enabled.
+        /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
         public let accountGrouping: ListBillingGroupAccountGrouping?
         /// The Amazon Resource Number (ARN) that can be used to uniquely identify the billing group.
         public let arn: String?
+        ///  The type of billing group.
+        public let billingGroupType: BillingGroupType?
         public let computationPreference: ComputationPreference?
         /// The time when the billing group was created.
         public let creationTime: Int64?
@@ -553,9 +582,10 @@ extension Billingconductor {
         public let statusReason: String?
 
         @inlinable
-        public init(accountGrouping: ListBillingGroupAccountGrouping? = nil, arn: String? = nil, computationPreference: ComputationPreference? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
+        public init(accountGrouping: ListBillingGroupAccountGrouping? = nil, arn: String? = nil, billingGroupType: BillingGroupType? = nil, computationPreference: ComputationPreference? = nil, creationTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, primaryAccountId: String? = nil, size: Int64? = nil, status: BillingGroupStatus? = nil, statusReason: String? = nil) {
             self.accountGrouping = accountGrouping
             self.arn = arn
+            self.billingGroupType = billingGroupType
             self.computationPreference = computationPreference
             self.creationTime = creationTime
             self.description = description
@@ -570,6 +600,7 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case accountGrouping = "AccountGrouping"
             case arn = "Arn"
+            case billingGroupType = "BillingGroupType"
             case computationPreference = "ComputationPreference"
             case creationTime = "CreationTime"
             case description = "Description"
@@ -615,7 +646,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/[a-zA-Z0-9]{10}$")
+            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -651,7 +682,7 @@ extension Billingconductor {
     public struct CreateBillingGroupInput: AWSEncodableShape {
         ///  The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
         public let accountGrouping: AccountGrouping
-        ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+        /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
         public let clientToken: String?
         ///  The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
         public let computationPreference: ComputationPreference
@@ -740,24 +771,30 @@ extension Billingconductor {
         public let billingPeriodRange: CustomLineItemBillingPeriodRange?
         ///  A CustomLineItemChargeDetails that describes the charge details for a custom line item.
         public let chargeDetails: CustomLineItemChargeDetails
-        ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+        /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
         public let clientToken: String?
+        ///  Specifies how the custom line item charges are computed.
+        public let computationRule: ComputationRuleEnum?
         ///  The description of the custom line item. This is shown on the Bills page in association with the charge value.
         public let description: String
         ///  The name of the custom line item.
         public let name: String
+        ///  Details controlling how the custom line item charges are presented in the bill. Contains specifications for which service the charges will be shown under.
+        public let presentationDetails: PresentationObject?
         ///  A map that contains tag keys and tag values that are attached to a custom line item.
         public let tags: [String: String]?
 
         @inlinable
-        public init(accountId: String? = nil, billingGroupArn: String, billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, chargeDetails: CustomLineItemChargeDetails, clientToken: String? = CreateCustomLineItemInput.idempotencyToken(), description: String, name: String, tags: [String: String]? = nil) {
+        public init(accountId: String? = nil, billingGroupArn: String, billingPeriodRange: CustomLineItemBillingPeriodRange? = nil, chargeDetails: CustomLineItemChargeDetails, clientToken: String? = CreateCustomLineItemInput.idempotencyToken(), computationRule: ComputationRuleEnum? = nil, description: String, name: String, presentationDetails: PresentationObject? = nil, tags: [String: String]? = nil) {
             self.accountId = accountId
             self.billingGroupArn = billingGroupArn
             self.billingPeriodRange = billingPeriodRange
             self.chargeDetails = chargeDetails
             self.clientToken = clientToken
+            self.computationRule = computationRule
             self.description = description
             self.name = name
+            self.presentationDetails = presentationDetails
             self.tags = tags
         }
 
@@ -769,14 +806,16 @@ extension Billingconductor {
             try container.encodeIfPresent(self.billingPeriodRange, forKey: .billingPeriodRange)
             try container.encode(self.chargeDetails, forKey: .chargeDetails)
             request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.computationRule, forKey: .computationRule)
             try container.encode(self.description, forKey: .description)
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.presentationDetails, forKey: .presentationDetails)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
-            try self.validate(self.billingGroupArn, name: "billingGroupArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.validate(self.billingGroupArn, name: "billingGroupArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             try self.billingPeriodRange?.validate(name: "\(name).billingPeriodRange")
             try self.chargeDetails.validate(name: "\(name).chargeDetails")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
@@ -787,6 +826,7 @@ extension Billingconductor {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@]+$")
+            try self.presentationDetails?.validate(name: "\(name).presentationDetails")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -801,8 +841,10 @@ extension Billingconductor {
             case billingGroupArn = "BillingGroupArn"
             case billingPeriodRange = "BillingPeriodRange"
             case chargeDetails = "ChargeDetails"
+            case computationRule = "ComputationRule"
             case description = "Description"
             case name = "Name"
+            case presentationDetails = "PresentationDetails"
             case tags = "Tags"
         }
     }
@@ -836,7 +878,7 @@ extension Billingconductor {
     }
 
     public struct CreatePricingPlanInput: AWSEncodableShape {
-        ///  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+        /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
         public let clientToken: String?
         /// The description of the pricing plan.
         public let description: String?
@@ -912,11 +954,11 @@ extension Billingconductor {
     public struct CreatePricingRuleInput: AWSEncodableShape {
         ///  The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
         public let billingEntity: String?
-        ///  The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+        /// A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
         public let clientToken: String?
         ///  The pricing rule description.
         public let description: String?
-        ///  A percentage modifier that's applied on the public pricing rates.
+        /// A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places.
         public let modifierPercentage: Double?
         ///  The pricing rule name. The names must be unique to each pricing rule.
         public let name: String
@@ -969,7 +1011,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.billingEntity, name: "billingEntity", parent: name, pattern: "^[a-zA-Z0-9 ]+$")
+            try self.validate(self.billingEntity, name: "billingEntity", parent: name, pattern: "^[a-zA-Z0-9() ]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -1127,6 +1169,8 @@ extension Billingconductor {
         public let billingGroupArn: String?
         /// A ListCustomLineItemChargeDetails that describes the charge details of a custom line item.
         public let chargeDetails: ListCustomLineItemChargeDetails?
+        ///  The computation rule that determines how the custom line item charges are computed and reflected in the bill.
+        public let computationRule: ComputationRuleEnum?
         /// The time created.
         public let creationTime: Int64?
         /// The custom line item's charge value currency. Only one of the valid values can be used.
@@ -1137,21 +1181,25 @@ extension Billingconductor {
         public let lastModifiedTime: Int64?
         /// The custom line item's name.
         public let name: String?
+        ///  Configuration details specifying how the custom line item charges are presented, including which service the charges are shown under.
+        public let presentationDetails: PresentationObject?
         /// The product code that's associated with the custom line item.
         public let productCode: String?
 
         @inlinable
-        public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, computationRule: ComputationRuleEnum? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, presentationDetails: PresentationObject? = nil, productCode: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
+            self.computationRule = computationRule
             self.creationTime = creationTime
             self.currencyCode = currencyCode
             self.description = description
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.presentationDetails = presentationDetails
             self.productCode = productCode
         }
 
@@ -1161,11 +1209,13 @@ extension Billingconductor {
             case associationSize = "AssociationSize"
             case billingGroupArn = "BillingGroupArn"
             case chargeDetails = "ChargeDetails"
+            case computationRule = "ComputationRule"
             case creationTime = "CreationTime"
             case currencyCode = "CurrencyCode"
             case description = "Description"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
+            case presentationDetails = "PresentationDetails"
             case productCode = "ProductCode"
         }
     }
@@ -1207,6 +1257,8 @@ extension Billingconductor {
         /// The Amazon Resource Name (ARN) of the billing group that the custom line item applies to.
         public let billingGroupArn: String?
         public let chargeDetails: ListCustomLineItemChargeDetails?
+        ///  The computation rule for a specific version of a custom line item, determining how charges are computed and reflected in the bill.
+        public let computationRule: ComputationRuleEnum?
         /// The time when the custom line item version was created.
         public let creationTime: Int64?
         /// The charge value currency of the custom line item.
@@ -1219,6 +1271,8 @@ extension Billingconductor {
         public let lastModifiedTime: Int64?
         /// The name of the custom line item.
         public let name: String?
+        ///  Presentation configuration for a specific version of a custom line item, specifying how charges are displayed in the bill.
+        public let presentationDetails: PresentationObject?
         /// The product code that’s associated with the custom line item.
         public let productCode: String?
         /// The start billing period of the custom line item version.
@@ -1227,18 +1281,20 @@ extension Billingconductor {
         public let startTime: Int64?
 
         @inlinable
-        public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, endBillingPeriod: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, productCode: String? = nil, startBillingPeriod: String? = nil, startTime: Int64? = nil) {
+        public init(accountId: String? = nil, arn: String? = nil, associationSize: Int64? = nil, billingGroupArn: String? = nil, chargeDetails: ListCustomLineItemChargeDetails? = nil, computationRule: ComputationRuleEnum? = nil, creationTime: Int64? = nil, currencyCode: CurrencyCode? = nil, description: String? = nil, endBillingPeriod: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, presentationDetails: PresentationObject? = nil, productCode: String? = nil, startBillingPeriod: String? = nil, startTime: Int64? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.associationSize = associationSize
             self.billingGroupArn = billingGroupArn
             self.chargeDetails = chargeDetails
+            self.computationRule = computationRule
             self.creationTime = creationTime
             self.currencyCode = currencyCode
             self.description = description
             self.endBillingPeriod = endBillingPeriod
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.presentationDetails = presentationDetails
             self.productCode = productCode
             self.startBillingPeriod = startBillingPeriod
             self.startTime = startTime
@@ -1250,12 +1306,14 @@ extension Billingconductor {
             case associationSize = "AssociationSize"
             case billingGroupArn = "BillingGroupArn"
             case chargeDetails = "ChargeDetails"
+            case computationRule = "ComputationRule"
             case creationTime = "CreationTime"
             case currencyCode = "CurrencyCode"
             case description = "Description"
             case endBillingPeriod = "EndBillingPeriod"
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
+            case presentationDetails = "PresentationDetails"
             case productCode = "ProductCode"
             case startBillingPeriod = "StartBillingPeriod"
             case startTime = "StartTime"
@@ -1272,7 +1330,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1340,7 +1398,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1411,8 +1469,7 @@ extension Billingconductor {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 30)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1448,7 +1505,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
             try self.pricingRuleArns.forEach {
                 try validate($0, name: "pricingRuleArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingrule/)?[a-zA-Z0-9]{10}$")
             }
@@ -1513,7 +1570,7 @@ extension Billingconductor {
         public let arn: String
         /// A time range for which the margin summary is effective. You can specify up to 12 months.
         public let billingPeriodRange: BillingPeriodRange?
-        /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Service name or the billing period.
+        /// A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period.
         public let groupBy: [GroupByAttributeName]?
         /// The maximum number of margin summary reports to retrieve.
         public let maxResults: Int?
@@ -1530,7 +1587,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             try self.billingPeriodRange?.validate(name: "\(name).billingPeriodRange")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 200)
@@ -1589,25 +1646,34 @@ extension Billingconductor {
     public struct LineItemFilter: AWSEncodableShape & AWSDecodableShape {
         /// The attribute of the line item filter. This specifies what attribute that you can filter on.
         public let attribute: LineItemFilterAttributeName
+        /// The values of the line item filter. This specifies the values to filter on.
+        public let attributeValues: [String]?
         /// The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost.
         public let matchOption: MatchOption
-        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plan discounts.
-        public let values: [LineItemFilterValue]
+        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plans discounts.
+        public let values: [LineItemFilterValue]?
 
         @inlinable
-        public init(attribute: LineItemFilterAttributeName, matchOption: MatchOption, values: [LineItemFilterValue]) {
+        public init(attribute: LineItemFilterAttributeName, attributeValues: [String]? = nil, matchOption: MatchOption, values: [LineItemFilterValue]? = nil) {
             self.attribute = attribute
+            self.attributeValues = attributeValues
             self.matchOption = matchOption
             self.values = values
         }
 
         public func validate(name: String) throws {
+            try self.attributeValues?.forEach {
+                try validate($0, name: "attributeValues[]", parent: name, max: 128)
+                try validate($0, name: "attributeValues[]", parent: name, min: 1)
+                try validate($0, name: "attributeValues[]", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            }
+            try self.validate(self.attributeValues, name: "attributeValues", parent: name, max: 1)
             try self.validate(self.values, name: "values", parent: name, max: 1)
-            try self.validate(self.values, name: "values", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case attribute = "Attribute"
+            case attributeValues = "AttributeValues"
             case matchOption = "MatchOption"
             case values = "Values"
         }
@@ -1635,7 +1701,7 @@ extension Billingconductor {
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 30)
             try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
-            try self.validate(self.association, name: "association", parent: name, pattern: "^((arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}|MONITORED|UNMONITORED)$")
+            try self.validate(self.association, name: "association", parent: name, pattern: "^((arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}|MONITORED|UNMONITORED)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1691,17 +1757,20 @@ extension Billingconductor {
     }
 
     public struct ListBillingGroupAccountGrouping: AWSDecodableShape {
-        /// Specifies if this billing group will automatically associate newly added
-        /// Amazon Web Services accounts that join your consolidated billing family.
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
+        ///  The Amazon Resource Name (ARN) that identifies the transfer relationship for the billing group.
+        public let responsibilityTransferArn: String?
 
         @inlinable
-        public init(autoAssociate: Bool? = nil) {
+        public init(autoAssociate: Bool? = nil, responsibilityTransferArn: String? = nil) {
             self.autoAssociate = autoAssociate
+            self.responsibilityTransferArn = responsibilityTransferArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoAssociate = "AutoAssociate"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
         }
     }
 
@@ -1716,7 +1785,7 @@ extension Billingconductor {
 
         public func validate(name: String) throws {
             try self.billingGroupArns?.forEach {
-                try validate($0, name: "billingGroupArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+                try validate($0, name: "billingGroupArns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             }
             try self.validate(self.billingGroupArns, name: "billingGroupArns", parent: name, max: 100)
             try self.validate(self.billingGroupArns, name: "billingGroupArns", parent: name, min: 1)
@@ -1781,29 +1850,57 @@ extension Billingconductor {
     public struct ListBillingGroupsFilter: AWSEncodableShape {
         /// The list of billing group Amazon Resource Names (ARNs) to retrieve information.
         public let arns: [String]?
-        /// Specifies if this billing group will automatically associate newly added
-        /// Amazon Web Services accounts that join your consolidated billing family.
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
+        ///  Filter billing groups by their type.
+        public let billingGroupTypes: [BillingGroupType]?
+        ///  Filter billing groups by their names.
+        public let names: [StringSearch]?
         /// The pricing plan Amazon Resource Names (ARNs) to retrieve information.
         public let pricingPlan: String?
+        ///  A list of primary account IDs to filter the billing groups.
+        public let primaryAccountIds: [String]?
+        ///  Filter billing groups by their responsibility transfer ARNs.
+        public let responsibilityTransferArns: [String]?
         ///  A list of billing groups to retrieve their current status for a specific time range
         public let statuses: [BillingGroupStatus]?
 
         @inlinable
-        public init(arns: [String]? = nil, autoAssociate: Bool? = nil, pricingPlan: String? = nil, statuses: [BillingGroupStatus]? = nil) {
+        public init(arns: [String]? = nil, autoAssociate: Bool? = nil, billingGroupTypes: [BillingGroupType]? = nil, names: [StringSearch]? = nil, pricingPlan: String? = nil, primaryAccountIds: [String]? = nil, responsibilityTransferArns: [String]? = nil, statuses: [BillingGroupStatus]? = nil) {
             self.arns = arns
             self.autoAssociate = autoAssociate
+            self.billingGroupTypes = billingGroupTypes
+            self.names = names
             self.pricingPlan = pricingPlan
+            self.primaryAccountIds = primaryAccountIds
+            self.responsibilityTransferArns = responsibilityTransferArns
             self.statuses = statuses
         }
 
         public func validate(name: String) throws {
             try self.arns?.forEach {
-                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 100)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
-            try self.validate(self.pricingPlan, name: "pricingPlan", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/[a-zA-Z0-9]{10}$")
+            try self.validate(self.billingGroupTypes, name: "billingGroupTypes", parent: name, max: 2)
+            try self.validate(self.billingGroupTypes, name: "billingGroupTypes", parent: name, min: 1)
+            try self.names?.forEach {
+                try $0.validate(name: "\(name).names[]")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 1)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
+            try self.validate(self.pricingPlan, name: "pricingPlan", parent: name, pattern: "^arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/(BasicPricingPlan|[a-zA-Z0-9]{10})$")
+            try self.primaryAccountIds?.forEach {
+                try validate($0, name: "primaryAccountIds[]", parent: name, pattern: "^[0-9]{12}$")
+            }
+            try self.validate(self.primaryAccountIds, name: "primaryAccountIds", parent: name, max: 100)
+            try self.validate(self.primaryAccountIds, name: "primaryAccountIds", parent: name, min: 1)
+            try self.responsibilityTransferArns?.forEach {
+                try validate($0, name: "responsibilityTransferArns[]", parent: name, pattern: "^arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}$")
+            }
+            try self.validate(self.responsibilityTransferArns, name: "responsibilityTransferArns", parent: name, max: 30)
+            try self.validate(self.responsibilityTransferArns, name: "responsibilityTransferArns", parent: name, min: 1)
             try self.validate(self.statuses, name: "statuses", parent: name, max: 2)
             try self.validate(self.statuses, name: "statuses", parent: name, min: 1)
         }
@@ -1811,7 +1908,11 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case arns = "Arns"
             case autoAssociate = "AutoAssociate"
+            case billingGroupTypes = "BillingGroupTypes"
+            case names = "Names"
             case pricingPlan = "PricingPlan"
+            case primaryAccountIds = "PrimaryAccountIds"
+            case responsibilityTransferArns = "ResponsibilityTransferArns"
             case statuses = "Statuses"
         }
     }
@@ -1922,9 +2023,9 @@ extension Billingconductor {
     }
 
     public struct ListCustomLineItemVersionsBillingPeriodRangeFilter: AWSEncodableShape {
-        /// The exclusive end billing period that defines a billing period range where a  custom line item version is applied.
+        /// The exclusive end billing period that defines a billing period range where a custom line item version is applied.
         public let endBillingPeriod: String?
-        /// The inclusive start billing period that defines a billing period range where  a custom line item version is applied.
+        /// The inclusive start billing period that defines a billing period range where a custom line item version is applied.
         public let startBillingPeriod: String?
 
         @inlinable
@@ -2036,14 +2137,13 @@ extension Billingconductor {
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^[0-9]{12}$")
             }
             try self.validate(self.accountIds, name: "accountIds", parent: name, max: 30)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.arns?.forEach {
                 try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:customlineitem/)?[a-zA-Z0-9]{10}$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 100)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
             try self.billingGroups?.forEach {
-                try validate($0, name: "billingGroups[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+                try validate($0, name: "billingGroups[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             }
             try self.validate(self.billingGroups, name: "billingGroups", parent: name, max: 100)
             try self.validate(self.billingGroups, name: "billingGroups", parent: name, min: 1)
@@ -2185,7 +2285,7 @@ extension Billingconductor {
 
         public func validate(name: String) throws {
             try self.arns?.forEach {
-                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+                try validate($0, name: "arns[]", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
             }
             try self.validate(self.arns, name: "arns", parent: name, max: 100)
             try self.validate(self.arns, name: "arns", parent: name, min: 1)
@@ -2273,7 +2373,7 @@ extension Billingconductor {
             try self.validate(self.billingPeriod, name: "billingPeriod", parent: name, pattern: "^\\d{4}-(0?[1-9]|1[012])$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+            try self.validate(self.pricingPlanArn, name: "pricingPlanArn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2519,6 +2619,26 @@ extension Billingconductor {
         }
     }
 
+    public struct PresentationObject: AWSEncodableShape & AWSDecodableShape {
+        ///  The service under which the custom line item charges will be presented. Must be a string between 1 and 128 characters matching the pattern "^[a-zA-Z0-9]+$".
+        public let service: String
+
+        @inlinable
+        public init(service: String) {
+            self.service = service
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.service, name: "service", parent: name, max: 128)
+            try self.validate(self.service, name: "service", parent: name, min: 1)
+            try self.validate(self.service, name: "service", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case service = "Service"
+        }
+    }
+
     public struct PricingPlanListElement: AWSDecodableShape {
         /// The pricing plan Amazon Resource Names (ARN). This can be used to uniquely identify a pricing plan.
         public let arn: String?
@@ -2669,6 +2789,30 @@ extension Billingconductor {
         }
     }
 
+    public struct StringSearch: AWSEncodableShape {
+        ///  The search option to be applied when performing the string search.
+        public let searchOption: SearchOption
+        ///  The value to search for within the specified string field.
+        public let searchValue: String
+
+        @inlinable
+        public init(searchOption: SearchOption, searchValue: String) {
+            self.searchOption = searchOption
+            self.searchValue = searchValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.searchValue, name: "searchValue", parent: name, max: 128)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, min: 1)
+            try self.validate(self.searchValue, name: "searchValue", parent: name, pattern: "^[a-zA-Z0-9_\\+=\\.\\-@ ]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case searchOption = "SearchOption"
+            case searchValue = "SearchValue"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the resource to which to add tags.
         public let resourceArn: String
@@ -2784,23 +2928,29 @@ extension Billingconductor {
     }
 
     public struct UpdateBillingGroupAccountGrouping: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies if this billing group will automatically associate newly added
-        /// Amazon Web Services accounts that join your consolidated billing family.
+        /// Specifies if this billing group will automatically associate newly added Amazon Web Services accounts that join your consolidated billing family.
         public let autoAssociate: Bool?
+        ///  The Amazon Resource Name (ARN) that identifies the transfer relationship. Note: Modifications to the ResponsibilityTransferArn are not permitted for existing billing groups.
+        public let responsibilityTransferArn: String?
 
         @inlinable
-        public init(autoAssociate: Bool? = nil) {
+        public init(autoAssociate: Bool? = nil, responsibilityTransferArn: String? = nil) {
             self.autoAssociate = autoAssociate
+            self.responsibilityTransferArn = responsibilityTransferArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.responsibilityTransferArn, name: "responsibilityTransferArn", parent: name, pattern: "^arn:[a-z0-9][a-z0-9-.]{0,62}:organizations::\\d{12}:transfer/o-[a-z0-9]{10,32}/(billing)/(inbound|outbound)/rt-[0-9a-z]{8,32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoAssociate = "AutoAssociate"
+            case responsibilityTransferArn = "ResponsibilityTransferArn"
         }
     }
 
     public struct UpdateBillingGroupInput: AWSEncodableShape {
-        /// Specifies if the billing group has automatic account
-        /// association (AutoAssociate) enabled.
+        /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
         public let accountGrouping: UpdateBillingGroupAccountGrouping?
         /// The Amazon Resource Name (ARN) of the billing group being updated.
         public let arn: String
@@ -2824,7 +2974,8 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[0-9]{12}$")
+            try self.accountGrouping?.validate(name: "\(name).accountGrouping")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:billinggroup/)?[a-zA-Z0-9]{10,12}$")
             try self.computationPreference?.validate(name: "\(name).computationPreference")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 128)
@@ -2843,8 +2994,7 @@ extension Billingconductor {
     }
 
     public struct UpdateBillingGroupOutput: AWSDecodableShape {
-        /// Specifies if the billing group has automatic account
-        /// association (AutoAssociate) enabled.
+        /// Specifies if the billing group has automatic account association (AutoAssociate) enabled.
         public let accountGrouping: UpdateBillingGroupAccountGrouping?
         /// The Amazon Resource Name (ARN) of the billing group that was updated.
         public let arn: String?
@@ -3070,7 +3220,7 @@ extension Billingconductor {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::[0-9]{12}:pricingplan/)?[a-zA-Z0-9]{10}$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^(arn:aws(-cn)?:billingconductor::(aws|[0-9]{12}):pricingplan/)?(BasicPricingPlan|[a-zA-Z0-9]{10})$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -3119,7 +3269,7 @@ extension Billingconductor {
         public let arn: String
         ///  The new description for the pricing rule.
         public let description: String?
-        ///  The new modifier to show pricing plan rates as a percentage.
+        ///  The new modifier to show pricing plan rates as a percentage. Your entry will be rounded to the nearest 2 decimal places.
         public let modifierPercentage: Double?
         ///  The new name of the pricing rule. The name must be unique to each pricing rule.
         public let name: String?
@@ -3317,7 +3467,7 @@ public struct BillingconductorErrorType: AWSErrorType {
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The input doesn't match with the constraints specified by Amazon Web Services.
+    /// The input doesn't match with the constraints specified by Amazon Web Services services.
     public static var validationException: Self { .init(.validationException) }
 }
 

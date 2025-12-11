@@ -36,7 +36,9 @@ extension NetworkManager {
         case subnetNotFound = "SUBNET_NOT_FOUND"
         case subnetUnsupportedAvailabilityZone = "SUBNET_UNSUPPORTED_AVAILABILITY_ZONE"
         case vpcNotFound = "VPC_NOT_FOUND"
+        case vpcUnsupportedFeatures = "VPC_UNSUPPORTED_FEATURES"
         case vpnConnectionNotFound = "VPN_CONNECTION_NOT_FOUND"
+        case vpnExistingAssociations = "VPN_EXISTING_ASSOCIATIONS"
         public var description: String { return self.rawValue }
     }
 
@@ -96,6 +98,10 @@ extension NetworkManager {
         case coreNetworkEdge = "CORE_NETWORK_EDGE"
         case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
         case networkFunctionGroup = "NETWORK_FUNCTION_GROUP"
+        case routingPolicy = "ROUTING_POLICY"
+        case routingPolicyAttachmentAssociation = "ROUTING_POLICY_ATTACHMENT_ASSOCIATION"
+        case routingPolicyEdgeAssociation = "ROUTING_POLICY_EDGE_ASSOCIATION"
+        case routingPolicySegmentAssociation = "ROUTING_POLICY_SEGMENT_ASSOCIATION"
         case segmentActionsConfiguration = "SEGMENT_ACTIONS_CONFIGURATION"
         case segmentsConfiguration = "SEGMENTS_CONFIGURATION"
         public var description: String { return self.rawValue }
@@ -268,6 +274,12 @@ extension NetworkManager {
     public enum RouteType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case propagated = "PROPAGATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RoutingPolicyDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inbound = "inbound"
+        case outbound = "outbound"
         public var description: String { return self.rawValue }
     }
 
@@ -738,6 +750,32 @@ extension NetworkManager {
             case message = "Message"
             case requestId = "RequestId"
             case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct AttachmentRoutingPolicyAssociationSummary: AWSDecodableShape {
+        /// The list of routing policies currently associated with the attachment.
+        public let associatedRoutingPolicies: [String]?
+        /// The ID of the attachment associated with the routing policy.
+        public let attachmentId: String?
+        /// The list of routing policies that are pending association with the attachment.
+        public let pendingRoutingPolicies: [String]?
+        /// The routing policy label associated with the attachment.
+        public let routingPolicyLabel: String?
+
+        @inlinable
+        public init(associatedRoutingPolicies: [String]? = nil, attachmentId: String? = nil, pendingRoutingPolicies: [String]? = nil, routingPolicyLabel: String? = nil) {
+            self.associatedRoutingPolicies = associatedRoutingPolicies
+            self.attachmentId = attachmentId
+            self.pendingRoutingPolicies = pendingRoutingPolicies
+            self.routingPolicyLabel = routingPolicyLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedRoutingPolicies = "AssociatedRoutingPolicies"
+            case attachmentId = "AttachmentId"
+            case pendingRoutingPolicies = "PendingRoutingPolicies"
+            case routingPolicyLabel = "RoutingPolicyLabel"
         }
     }
 
@@ -1237,15 +1275,24 @@ extension NetworkManager {
         public let edgeLocation: String?
         /// The changed network function group name.
         public let networkFunctionGroupName: String?
+        /// The edge location of the peer in a core network change event.
+        public let peerEdgeLocation: String?
+        /// The names of the routing policies and other association details in the core network change values.
+        public let routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]?
+        /// The routing policy direction (inbound/outbound) in a core network change event.
+        public let routingPolicyDirection: RoutingPolicyDirection?
         /// The segment name if the change event is associated with a segment.
         public let segmentName: String?
 
         @inlinable
-        public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, segmentName: String? = nil) {
+        public init(attachmentId: String? = nil, cidr: String? = nil, edgeLocation: String? = nil, networkFunctionGroupName: String? = nil, peerEdgeLocation: String? = nil, routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]? = nil, routingPolicyDirection: RoutingPolicyDirection? = nil, segmentName: String? = nil) {
             self.attachmentId = attachmentId
             self.cidr = cidr
             self.edgeLocation = edgeLocation
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.peerEdgeLocation = peerEdgeLocation
+            self.routingPolicyAssociationDetails = routingPolicyAssociationDetails
+            self.routingPolicyDirection = routingPolicyDirection
             self.segmentName = segmentName
         }
 
@@ -1254,6 +1301,9 @@ extension NetworkManager {
             case cidr = "Cidr"
             case edgeLocation = "EdgeLocation"
             case networkFunctionGroupName = "NetworkFunctionGroupName"
+            case peerEdgeLocation = "PeerEdgeLocation"
+            case routingPolicyAssociationDetails = "RoutingPolicyAssociationDetails"
+            case routingPolicyDirection = "RoutingPolicyDirection"
             case segmentName = "SegmentName"
         }
     }
@@ -1261,6 +1311,8 @@ extension NetworkManager {
     public struct CoreNetworkChangeValues: AWSDecodableShape {
         /// The ASN of a core network.
         public let asn: Int64?
+        /// The attachment identifier in the core network change values.
+        public let attachmentId: String?
         /// The IP addresses used for a core network.
         public let cidr: String?
         /// The ID of the destination.
@@ -1273,6 +1325,14 @@ extension NetworkManager {
         public let insideCidrBlocks: [String]?
         /// The network function group name if the change event is associated with a network function group.
         public let networkFunctionGroupName: String?
+        /// The edge locations of peers in the core network change values.
+        public let peerEdgeLocations: [String]?
+        /// The routing policy configuration in the core network change values.
+        public let routingPolicy: String?
+        /// The names of the routing policies and other association details in the core network change values.
+        public let routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]?
+        /// The routing policy direction (inbound/outbound) in a core network change event.
+        public let routingPolicyDirection: RoutingPolicyDirection?
         /// Indicates whether security group referencing is enabled for the core network.
         public let securityGroupReferencingSupport: Bool?
         /// The names of the segments in a core network.
@@ -1285,14 +1345,19 @@ extension NetworkManager {
         public let vpnEcmpSupport: Bool?
 
         @inlinable
-        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, dnsSupport: Bool? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, securityGroupReferencingSupport: Bool? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil, vpnEcmpSupport: Bool? = nil) {
+        public init(asn: Int64? = nil, attachmentId: String? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, dnsSupport: Bool? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, networkFunctionGroupName: String? = nil, peerEdgeLocations: [String]? = nil, routingPolicy: String? = nil, routingPolicyAssociationDetails: [RoutingPolicyAssociationDetail]? = nil, routingPolicyDirection: RoutingPolicyDirection? = nil, securityGroupReferencingSupport: Bool? = nil, segmentName: String? = nil, serviceInsertionActions: [ServiceInsertionAction]? = nil, sharedSegments: [String]? = nil, vpnEcmpSupport: Bool? = nil) {
             self.asn = asn
+            self.attachmentId = attachmentId
             self.cidr = cidr
             self.destinationIdentifier = destinationIdentifier
             self.dnsSupport = dnsSupport
             self.edgeLocations = edgeLocations
             self.insideCidrBlocks = insideCidrBlocks
             self.networkFunctionGroupName = networkFunctionGroupName
+            self.peerEdgeLocations = peerEdgeLocations
+            self.routingPolicy = routingPolicy
+            self.routingPolicyAssociationDetails = routingPolicyAssociationDetails
+            self.routingPolicyDirection = routingPolicyDirection
             self.securityGroupReferencingSupport = securityGroupReferencingSupport
             self.segmentName = segmentName
             self.serviceInsertionActions = serviceInsertionActions
@@ -1302,12 +1367,17 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case asn = "Asn"
+            case attachmentId = "AttachmentId"
             case cidr = "Cidr"
             case destinationIdentifier = "DestinationIdentifier"
             case dnsSupport = "DnsSupport"
             case edgeLocations = "EdgeLocations"
             case insideCidrBlocks = "InsideCidrBlocks"
             case networkFunctionGroupName = "NetworkFunctionGroupName"
+            case peerEdgeLocations = "PeerEdgeLocations"
+            case routingPolicy = "RoutingPolicy"
+            case routingPolicyAssociationDetails = "RoutingPolicyAssociationDetails"
+            case routingPolicyDirection = "RoutingPolicyDirection"
             case securityGroupReferencingSupport = "SecurityGroupReferencingSupport"
             case segmentName = "SegmentName"
             case serviceInsertionActions = "ServiceInsertionActions"
@@ -1507,6 +1577,40 @@ extension NetworkManager {
         }
     }
 
+    public struct CoreNetworkRoutingInformation: AWSDecodableShape {
+        /// The BGP AS path for the route.
+        public let asPath: [String]?
+        /// The BGP community values for the route.
+        public let communities: [String]?
+        /// The BGP local preference value for the route.
+        public let localPreference: String?
+        /// The BGP Multi-Exit Discriminator (MED) value for the route.
+        public let med: String?
+        /// The next hop information for the route.
+        public let nextHop: RoutingInformationNextHop?
+        /// The IP prefix for the route.
+        public let prefix: String?
+
+        @inlinable
+        public init(asPath: [String]? = nil, communities: [String]? = nil, localPreference: String? = nil, med: String? = nil, nextHop: RoutingInformationNextHop? = nil, prefix: String? = nil) {
+            self.asPath = asPath
+            self.communities = communities
+            self.localPreference = localPreference
+            self.med = med
+            self.nextHop = nextHop
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asPath = "AsPath"
+            case communities = "Communities"
+            case localPreference = "LocalPreference"
+            case med = "Med"
+            case nextHop = "NextHop"
+            case prefix = "Prefix"
+        }
+    }
+
     public struct CoreNetworkSegment: AWSDecodableShape {
         /// The Regions where the edges are located.
         public let edgeLocations: [String]?
@@ -1608,17 +1712,20 @@ extension NetworkManager {
         public let edgeLocation: String
         /// Options for creating an attachment.
         public let options: ConnectAttachmentOptions
+        /// The routing policy label to apply to the Connect attachment for traffic routing decisions.
+        public let routingPolicyLabel: String?
         /// The list of key-value tags associated with the request.
         public let tags: [Tag]?
         /// The ID of the attachment between the two connections.
         public let transportAttachmentId: String
 
         @inlinable
-        public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, options: ConnectAttachmentOptions, tags: [Tag]? = nil, transportAttachmentId: String) {
+        public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, options: ConnectAttachmentOptions, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, transportAttachmentId: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
             self.edgeLocation = edgeLocation
             self.options = options
+            self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
             self.transportAttachmentId = transportAttachmentId
         }
@@ -1631,6 +1738,8 @@ extension NetworkManager {
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
             try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1643,6 +1752,7 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case edgeLocation = "EdgeLocation"
             case options = "Options"
+            case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
             case transportAttachmentId = "TransportAttachmentId"
         }
@@ -1821,6 +1931,65 @@ extension NetworkManager {
         }
     }
 
+    public struct CreateCoreNetworkPrefixListAssociationRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the core network to associate with the prefix list.
+        public let coreNetworkId: String
+        /// An optional alias for the prefix list association.
+        public let prefixListAlias: String
+        /// The ARN of the prefix list to associate with the core network.
+        public let prefixListArn: String
+
+        @inlinable
+        public init(clientToken: String? = CreateCoreNetworkPrefixListAssociationRequest.idempotencyToken(), coreNetworkId: String, prefixListAlias: String, prefixListArn: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.prefixListAlias = prefixListAlias
+            self.prefixListArn = prefixListArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.prefixListAlias, name: "prefixListAlias", parent: name, max: 256)
+            try self.validate(self.prefixListAlias, name: "prefixListAlias", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, max: 500)
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case prefixListAlias = "PrefixListAlias"
+            case prefixListArn = "PrefixListArn"
+        }
+    }
+
+    public struct CreateCoreNetworkPrefixListAssociationResponse: AWSDecodableShape {
+        /// The ID of the core network associated with the prefix list.
+        public let coreNetworkId: String?
+        /// The alias of the prefix list association, if provided.
+        public let prefixListAlias: String?
+        /// The ARN of the prefix list that was associated with the core network.
+        public let prefixListArn: String?
+
+        @inlinable
+        public init(coreNetworkId: String? = nil, prefixListAlias: String? = nil, prefixListArn: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.prefixListAlias = prefixListAlias
+            self.prefixListArn = prefixListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkId = "CoreNetworkId"
+            case prefixListAlias = "PrefixListAlias"
+            case prefixListArn = "PrefixListArn"
+        }
+    }
+
     public struct CreateCoreNetworkRequest: AWSEncodableShape {
         /// The client token associated with a core network request.
         public let clientToken: String?
@@ -1988,15 +2157,18 @@ extension NetworkManager {
         public let directConnectGatewayArn: String
         /// One or more core network edge locations that the Direct Connect gateway attachment is associated with.
         public let edgeLocations: [String]
+        /// The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
+        public let routingPolicyLabel: String?
         /// The key value tags to apply to the Direct Connect gateway attachment during creation.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(), coreNetworkId: String, directConnectGatewayArn: String, edgeLocations: [String], tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateDirectConnectGatewayAttachmentRequest.idempotencyToken(), coreNetworkId: String, directConnectGatewayArn: String, edgeLocations: [String], routingPolicyLabel: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
             self.directConnectGatewayArn = directConnectGatewayArn
             self.edgeLocations = edgeLocations
+            self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
         }
 
@@ -2012,6 +2184,8 @@ extension NetworkManager {
                 try validate($0, name: "edgeLocations[]", parent: name, min: 1)
                 try validate($0, name: "edgeLocations[]", parent: name, pattern: "^[\\s\\S]*$")
             }
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2022,6 +2196,7 @@ extension NetworkManager {
             case coreNetworkId = "CoreNetworkId"
             case directConnectGatewayArn = "DirectConnectGatewayArn"
             case edgeLocations = "EdgeLocations"
+            case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
         }
     }
@@ -2223,15 +2398,18 @@ extension NetworkManager {
         public let clientToken: String?
         /// The ID of a core network where you're creating a site-to-site VPN attachment.
         public let coreNetworkId: String
+        /// The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
+        public let routingPolicyLabel: String?
         /// The tags associated with the request.
         public let tags: [Tag]?
         /// The ARN identifying the VPN attachment.
         public let vpnConnectionArn: String
 
         @inlinable
-        public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, tags: [Tag]? = nil, vpnConnectionArn: String) {
+        public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, vpnConnectionArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
+            self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
             self.vpnConnectionArn = vpnConnectionArn
         }
@@ -2241,6 +2419,8 @@ extension NetworkManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2251,6 +2431,7 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case coreNetworkId = "CoreNetworkId"
+            case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
             case vpnConnectionArn = "VpnConnectionArn"
         }
@@ -2327,15 +2508,18 @@ extension NetworkManager {
         public let clientToken: String?
         /// The ID of the peer for the
         public let peeringId: String
+        /// The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions.
+        public let routingPolicyLabel: String?
         /// The list of key-value tags associated with the request.
         public let tags: [Tag]?
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
         public let transitGatewayRouteTableArn: String
 
         @inlinable
-        public init(clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(), peeringId: String, tags: [Tag]? = nil, transitGatewayRouteTableArn: String) {
+        public init(clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(), peeringId: String, routingPolicyLabel: String? = nil, tags: [Tag]? = nil, transitGatewayRouteTableArn: String) {
             self.clientToken = clientToken
             self.peeringId = peeringId
+            self.routingPolicyLabel = routingPolicyLabel
             self.tags = tags
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
         }
@@ -2345,6 +2529,8 @@ extension NetworkManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.peeringId, name: "peeringId", parent: name, max: 50)
             try self.validate(self.peeringId, name: "peeringId", parent: name, pattern: "^peering-([0-9a-f]{8,17})$")
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2355,6 +2541,7 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case peeringId = "PeeringId"
+            case routingPolicyLabel = "RoutingPolicyLabel"
             case tags = "Tags"
             case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
         }
@@ -2381,6 +2568,8 @@ extension NetworkManager {
         public let coreNetworkId: String
         /// Options for the VPC attachment.
         public let options: VpcOptions?
+        /// The routing policy label to apply to the VPC attachment for traffic routing decisions.
+        public let routingPolicyLabel: String?
         /// The subnet ARN of the VPC attachment.
         public let subnetArns: [String]
         /// The key-value tags associated with the request.
@@ -2389,10 +2578,11 @@ extension NetworkManager {
         public let vpcArn: String
 
         @inlinable
-        public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, options: VpcOptions? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
+        public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, options: VpcOptions? = nil, routingPolicyLabel: String? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
             self.clientToken = clientToken
             self.coreNetworkId = coreNetworkId
             self.options = options
+            self.routingPolicyLabel = routingPolicyLabel
             self.subnetArns = subnetArns
             self.tags = tags
             self.vpcArn = vpcArn
@@ -2403,6 +2593,8 @@ extension NetworkManager {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
             try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
             try self.subnetArns.forEach {
                 try validate($0, name: "subnetArns[]", parent: name, max: 500)
                 try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$|^$")
@@ -2418,6 +2610,7 @@ extension NetworkManager {
             case clientToken = "ClientToken"
             case coreNetworkId = "CoreNetworkId"
             case options = "Options"
+            case routingPolicyLabel = "RoutingPolicyLabel"
             case subnetArns = "SubnetArns"
             case tags = "Tags"
             case vpcArn = "VpcArn"
@@ -2623,6 +2816,53 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case coreNetworkPolicy = "CoreNetworkPolicy"
+        }
+    }
+
+    public struct DeleteCoreNetworkPrefixListAssociationRequest: AWSEncodableShape {
+        /// The ID of the core network from which to delete the prefix list association.
+        public let coreNetworkId: String
+        /// The ARN of the prefix list to disassociate from the core network.
+        public let prefixListArn: String
+
+        @inlinable
+        public init(coreNetworkId: String, prefixListArn: String) {
+            self.coreNetworkId = coreNetworkId
+            self.prefixListArn = prefixListArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodePath(self.prefixListArn, key: "PrefixListArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, max: 500)
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCoreNetworkPrefixListAssociationResponse: AWSDecodableShape {
+        /// The ID of the core network from which the prefix list association was deleted.
+        public let coreNetworkId: String?
+        /// The ARN of the prefix list that was disassociated from the core network.
+        public let prefixListArn: String?
+
+        @inlinable
+        public init(coreNetworkId: String? = nil, prefixListArn: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.prefixListArn = prefixListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkId = "CoreNetworkId"
+            case prefixListArn = "PrefixListArn"
         }
     }
 
@@ -5012,6 +5252,65 @@ extension NetworkManager {
         }
     }
 
+    public struct ListAttachmentRoutingPolicyAssociationsRequest: AWSEncodableShape {
+        /// The ID of a specific attachment to filter the routing policy associations.
+        public let attachmentId: String?
+        /// The ID of the core network to list attachment routing policy associations for.
+        public let coreNetworkId: String
+        /// The maximum number of results to return in a single page.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachmentId: String? = nil, coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.attachmentId = attachmentId
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.attachmentId, key: "attachmentId")
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttachmentRoutingPolicyAssociationsResponse: AWSDecodableShape {
+        /// The list of attachment routing policy associations.
+        public let attachmentRoutingPolicyAssociations: [AttachmentRoutingPolicyAssociationSummary]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(attachmentRoutingPolicyAssociations: [AttachmentRoutingPolicyAssociationSummary]? = nil, nextToken: String? = nil) {
+            self.attachmentRoutingPolicyAssociations = attachmentRoutingPolicyAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentRoutingPolicyAssociations = "AttachmentRoutingPolicyAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAttachmentsRequest: AWSEncodableShape {
         /// The type of attachment.
         public let attachmentType: AttachmentType?
@@ -5188,6 +5487,179 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case coreNetworkPolicyVersions = "CoreNetworkPolicyVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreNetworkPrefixListAssociationsRequest: AWSEncodableShape {
+        /// The ID of the core network to list prefix list associations for.
+        public let coreNetworkId: String
+        /// The maximum number of results to return in a single page.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ARN of a specific prefix list to filter the associations.
+        public let prefixListArn: String?
+
+        @inlinable
+        public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, prefixListArn: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.prefixListArn = prefixListArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.prefixListArn, key: "prefixListArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, max: 500)
+            try self.validate(self.prefixListArn, name: "prefixListArn", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCoreNetworkPrefixListAssociationsResponse: AWSDecodableShape {
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The list of prefix list associations for the core network.
+        public let prefixListAssociations: [PrefixListAssociation]?
+
+        @inlinable
+        public init(nextToken: String? = nil, prefixListAssociations: [PrefixListAssociation]? = nil) {
+            self.nextToken = nextToken
+            self.prefixListAssociations = prefixListAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case prefixListAssociations = "PrefixListAssociations"
+        }
+    }
+
+    public struct ListCoreNetworkRoutingInformationRequest: AWSEncodableShape {
+        /// BGP community values to match when filtering routing information.
+        public let communityMatches: [String]?
+        /// The ID of the core network to retrieve routing information for.
+        public let coreNetworkId: String
+        /// The edge location to filter routing information by.
+        public let edgeLocation: String
+        /// Exact AS path values to match when filtering routing information.
+        public let exactAsPathMatches: [String]?
+        /// Local preference values to match when filtering routing information.
+        public let localPreferenceMatches: [String]?
+        /// The maximum number of routing information entries to return in a single page.
+        public let maxResults: Int?
+        /// Multi-Exit Discriminator (MED) values to match when filtering routing information.
+        public let medMatches: [String]?
+        /// Filters to apply based on next hop information.
+        public let nextHopFilters: [String: [String]]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The name of the segment to filter routing information by.
+        public let segmentName: String
+
+        @inlinable
+        public init(communityMatches: [String]? = nil, coreNetworkId: String, edgeLocation: String, exactAsPathMatches: [String]? = nil, localPreferenceMatches: [String]? = nil, maxResults: Int? = nil, medMatches: [String]? = nil, nextHopFilters: [String: [String]]? = nil, nextToken: String? = nil, segmentName: String) {
+            self.communityMatches = communityMatches
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.exactAsPathMatches = exactAsPathMatches
+            self.localPreferenceMatches = localPreferenceMatches
+            self.maxResults = maxResults
+            self.medMatches = medMatches
+            self.nextHopFilters = nextHopFilters
+            self.nextToken = nextToken
+            self.segmentName = segmentName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.communityMatches, forKey: .communityMatches)
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+            try container.encode(self.edgeLocation, forKey: .edgeLocation)
+            try container.encodeIfPresent(self.exactAsPathMatches, forKey: .exactAsPathMatches)
+            try container.encodeIfPresent(self.localPreferenceMatches, forKey: .localPreferenceMatches)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            try container.encodeIfPresent(self.medMatches, forKey: .medMatches)
+            try container.encodeIfPresent(self.nextHopFilters, forKey: .nextHopFilters)
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            try container.encode(self.segmentName, forKey: .segmentName)
+        }
+
+        public func validate(name: String) throws {
+            try self.communityMatches?.forEach {
+                try validate($0, name: "communityMatches[]", parent: name, max: 256)
+                try validate($0, name: "communityMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, pattern: "^[\\s\\S]*$")
+            try self.exactAsPathMatches?.forEach {
+                try validate($0, name: "exactAsPathMatches[]", parent: name, max: 256)
+                try validate($0, name: "exactAsPathMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.localPreferenceMatches?.forEach {
+                try validate($0, name: "localPreferenceMatches[]", parent: name, max: 256)
+                try validate($0, name: "localPreferenceMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.medMatches?.forEach {
+                try validate($0, name: "medMatches[]", parent: name, max: 256)
+                try validate($0, name: "medMatches[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.nextHopFilters?.forEach {
+                try validate($0.key, name: "nextHopFilters.key", parent: name, max: 128)
+                try validate($0.key, name: "nextHopFilters.key", parent: name, pattern: "^[0-9a-zA-Z\\.-]*$")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.segmentName, name: "segmentName", parent: name, max: 256)
+            try self.validate(self.segmentName, name: "segmentName", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case communityMatches = "CommunityMatches"
+            case edgeLocation = "EdgeLocation"
+            case exactAsPathMatches = "ExactAsPathMatches"
+            case localPreferenceMatches = "LocalPreferenceMatches"
+            case medMatches = "MedMatches"
+            case nextHopFilters = "NextHopFilters"
+            case segmentName = "SegmentName"
+        }
+    }
+
+    public struct ListCoreNetworkRoutingInformationResponse: AWSDecodableShape {
+        /// The list of routing information for the core network.
+        public let coreNetworkRoutingInformation: [CoreNetworkRoutingInformation]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(coreNetworkRoutingInformation: [CoreNetworkRoutingInformation]? = nil, nextToken: String? = nil) {
+            self.coreNetworkRoutingInformation = coreNetworkRoutingInformation
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkRoutingInformation = "CoreNetworkRoutingInformation"
             case nextToken = "NextToken"
         }
     }
@@ -5802,6 +6274,28 @@ extension NetworkManager {
         }
     }
 
+    public struct PrefixListAssociation: AWSDecodableShape {
+        /// The core network id in the association.
+        public let coreNetworkId: String?
+        /// The alias of the prefix list in the association.
+        public let prefixListAlias: String?
+        /// The ARN of the prefix list in the association.
+        public let prefixListArn: String?
+
+        @inlinable
+        public init(coreNetworkId: String? = nil, prefixListAlias: String? = nil, prefixListArn: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.prefixListAlias = prefixListAlias
+            self.prefixListArn = prefixListArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkId = "CoreNetworkId"
+            case prefixListAlias = "PrefixListAlias"
+            case prefixListArn = "PrefixListArn"
+        }
+    }
+
     public struct ProposedNetworkFunctionGroupChange: AWSDecodableShape {
         /// The proposed new attachment policy rule number for the network function group.
         public let attachmentPolicyRuleNumber: Int?
@@ -5843,6 +6337,65 @@ extension NetworkManager {
             case attachmentPolicyRuleNumber = "AttachmentPolicyRuleNumber"
             case segmentName = "SegmentName"
             case tags = "Tags"
+        }
+    }
+
+    public struct PutAttachmentRoutingPolicyLabelRequest: AWSEncodableShape {
+        /// The ID of the attachment to apply the routing policy label to.
+        public let attachmentId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The ID of the core network containing the attachment.
+        public let coreNetworkId: String
+        /// The routing policy label to apply to the attachment.
+        public let routingPolicyLabel: String
+
+        @inlinable
+        public init(attachmentId: String, clientToken: String? = PutAttachmentRoutingPolicyLabelRequest.idempotencyToken(), coreNetworkId: String, routingPolicyLabel: String) {
+            self.attachmentId = attachmentId
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.routingPolicyLabel = routingPolicyLabel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\s\\S]*$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, max: 256)
+            try self.validate(self.routingPolicyLabel, name: "routingPolicyLabel", parent: name, pattern: "^[\\s\\S]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case routingPolicyLabel = "RoutingPolicyLabel"
+        }
+    }
+
+    public struct PutAttachmentRoutingPolicyLabelResponse: AWSDecodableShape {
+        /// The ID of the attachment that received the routing policy label.
+        public let attachmentId: String?
+        /// The ID of the core network containing the attachment.
+        public let coreNetworkId: String?
+        /// The routing policy label that was applied to the attachment.
+        public let routingPolicyLabel: String?
+
+        @inlinable
+        public init(attachmentId: String? = nil, coreNetworkId: String? = nil, routingPolicyLabel: String? = nil) {
+            self.attachmentId = attachmentId
+            self.coreNetworkId = coreNetworkId
+            self.routingPolicyLabel = routingPolicyLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case coreNetworkId = "CoreNetworkId"
+            case routingPolicyLabel = "RoutingPolicyLabel"
         }
     }
 
@@ -6042,6 +6595,57 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case from = "From"
             case to = "To"
+        }
+    }
+
+    public struct RemoveAttachmentRoutingPolicyLabelRequest: AWSEncodableShape {
+        /// The ID of the attachment to remove the routing policy label from.
+        public let attachmentId: String
+        /// The ID of the core network containing the attachment.
+        public let coreNetworkId: String
+
+        @inlinable
+        public init(attachmentId: String, coreNetworkId: String) {
+            self.attachmentId = attachmentId
+            self.coreNetworkId = coreNetworkId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attachmentId, key: "AttachmentId")
+            request.encodePath(self.coreNetworkId, key: "CoreNetworkId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RemoveAttachmentRoutingPolicyLabelResponse: AWSDecodableShape {
+        /// The ID of the attachment from which the routing policy label was removed.
+        public let attachmentId: String?
+        /// The ID of the core network containing the attachment.
+        public let coreNetworkId: String?
+        /// The routing policy label that was removed from the attachment.
+        public let routingPolicyLabel: String?
+
+        @inlinable
+        public init(attachmentId: String? = nil, coreNetworkId: String? = nil, routingPolicyLabel: String? = nil) {
+            self.attachmentId = attachmentId
+            self.coreNetworkId = coreNetworkId
+            self.routingPolicyLabel = routingPolicyLabel
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case coreNetworkId = "CoreNetworkId"
+            case routingPolicyLabel = "RoutingPolicyLabel"
         }
     }
 
@@ -6279,6 +6883,58 @@ extension NetworkManager {
             case coreNetworkNetworkFunctionGroup = "CoreNetworkNetworkFunctionGroup"
             case coreNetworkSegmentEdge = "CoreNetworkSegmentEdge"
             case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
+        }
+    }
+
+    public struct RoutingInformationNextHop: AWSDecodableShape {
+        /// The ID of the core network attachment for the next hop.
+        public let coreNetworkAttachmentId: String?
+        /// The edge location for the next hop.
+        public let edgeLocation: String?
+        /// The IP address of the next hop.
+        public let ipAddress: String?
+        /// The ID of the resource for the next hop.
+        public let resourceId: String?
+        /// The type of resource for the next hop.
+        public let resourceType: String?
+        /// The name of the segment for the next hop.
+        public let segmentName: String?
+
+        @inlinable
+        public init(coreNetworkAttachmentId: String? = nil, edgeLocation: String? = nil, ipAddress: String? = nil, resourceId: String? = nil, resourceType: String? = nil, segmentName: String? = nil) {
+            self.coreNetworkAttachmentId = coreNetworkAttachmentId
+            self.edgeLocation = edgeLocation
+            self.ipAddress = ipAddress
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.segmentName = segmentName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkAttachmentId = "CoreNetworkAttachmentId"
+            case edgeLocation = "EdgeLocation"
+            case ipAddress = "IpAddress"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case segmentName = "SegmentName"
+        }
+    }
+
+    public struct RoutingPolicyAssociationDetail: AWSDecodableShape {
+        /// The names of the routing policies in the association.
+        public let routingPolicyNames: [String]?
+        /// The names of the segments that are shared with each other in the association.
+        public let sharedSegments: [String]?
+
+        @inlinable
+        public init(routingPolicyNames: [String]? = nil, sharedSegments: [String]? = nil) {
+            self.routingPolicyNames = routingPolicyNames
+            self.sharedSegments = sharedSegments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routingPolicyNames = "RoutingPolicyNames"
+            case sharedSegments = "SharedSegments"
         }
     }
 

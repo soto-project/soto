@@ -160,7 +160,7 @@ public struct SavingsPlans: AWSService {
         return try await self.deleteQueuedSavingsPlan(input, logger: logger)
     }
 
-    /// Describes the rates for the specified Savings Plan.
+    /// Describes the rates for a specific, existing Savings Plan.
     @Sendable
     @inlinable
     public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSavingsPlanRatesResponse {
@@ -173,7 +173,7 @@ public struct SavingsPlans: AWSService {
             logger: logger
         )
     }
-    /// Describes the rates for the specified Savings Plan.
+    /// Describes the rates for a specific, existing Savings Plan.
     ///
     /// Parameters:
     ///   - filters: The filters.
@@ -242,7 +242,7 @@ public struct SavingsPlans: AWSService {
         return try await self.describeSavingsPlans(input, logger: logger)
     }
 
-    /// Describes the offering rates for the specified Savings Plans.
+    /// Describes the offering rates for Savings Plans you might want to purchase.
     @Sendable
     @inlinable
     public func describeSavingsPlansOfferingRates(_ input: DescribeSavingsPlansOfferingRatesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSavingsPlansOfferingRatesResponse {
@@ -255,7 +255,7 @@ public struct SavingsPlans: AWSService {
             logger: logger
         )
     }
-    /// Describes the offering rates for the specified Savings Plans.
+    /// Describes the offering rates for Savings Plans you might want to purchase.
     ///
     /// Parameters:
     ///   - filters: The filters.

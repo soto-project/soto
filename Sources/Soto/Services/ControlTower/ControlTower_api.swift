@@ -109,25 +109,28 @@ public struct ControlTower: AWSService {
     ///
     /// Parameters:
     ///   - manifest: The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review Launch your landing zone.
+    ///   - remediationTypes: Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement.
     ///   - tags: Tags to be applied to the landing zone.
     ///   - version: The landing zone version, for example, 3.0.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLandingZone(
-        manifest: AWSDocument,
+        manifest: AWSDocument? = nil,
+        remediationTypes: [RemediationType]? = nil,
         tags: [String: String]? = nil,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLandingZoneOutput {
         let input = CreateLandingZoneInput(
             manifest: manifest, 
+            remediationTypes: remediationTypes, 
             tags: tags, 
             version: version
         )
         return try await self.createLandingZone(input, logger: logger)
     }
 
-    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower.
+    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower. Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
     @Sendable
     @inlinable
     public func deleteLandingZone(_ input: DeleteLandingZoneInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLandingZoneOutput {
@@ -140,7 +143,7 @@ public struct ControlTower: AWSService {
             logger: logger
         )
     }
-    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower.
+    /// Decommissions a landing zone. This API call starts an asynchronous operation that deletes Amazon Web Services Control Tower resources deployed in accounts managed by Amazon Web Services Control Tower. Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
     ///
     /// Parameters:
     ///   - landingZoneIdentifier: The unique identifier of the landing zone.
@@ -202,16 +205,19 @@ public struct ControlTower: AWSService {
     ///
     /// Parameters:
     ///   - controlIdentifier: The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see the overview page.
+    ///   - enabledControlIdentifier: The ARN of the enabled control to be disabled, which uniquely identifies the control instance on the target organizational unit.
     ///   - targetIdentifier: The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableControl(
-        controlIdentifier: String,
-        targetIdentifier: String,
+        controlIdentifier: String? = nil,
+        enabledControlIdentifier: String? = nil,
+        targetIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DisableControlOutput {
         let input = DisableControlInput(
             controlIdentifier: controlIdentifier, 
+            enabledControlIdentifier: enabledControlIdentifier, 
             targetIdentifier: targetIdentifier
         )
         return try await self.disableControl(input, logger: logger)
@@ -621,6 +627,7 @@ public struct ControlTower: AWSService {
     ///
     /// Parameters:
     ///   - filter: An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
+    ///   - includeChildren: A boolean value that determines whether to include enabled controls from child organizational units in the response.
     ///   - maxResults: How many results to return per API call.
     ///   - nextToken: The token to continue the list from a previous API call with the same parameters.
     ///   - targetIdentifier: The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
@@ -628,6 +635,7 @@ public struct ControlTower: AWSService {
     @inlinable
     public func listEnabledControls(
         filter: EnabledControlFilter? = nil,
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         targetIdentifier: String? = nil,
@@ -635,6 +643,7 @@ public struct ControlTower: AWSService {
     ) async throws -> ListEnabledControlsOutput {
         let input = ListEnabledControlsInput(
             filter: filter, 
+            includeChildren: includeChildren, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             targetIdentifier: targetIdentifier
@@ -767,7 +776,7 @@ public struct ControlTower: AWSService {
         return try await self.resetEnabledBaseline(input, logger: logger)
     }
 
-    /// Resets an enabled control.
+    /// Resets an enabled control. Does not work for controls implemented with SCPs.
     @Sendable
     @inlinable
     public func resetEnabledControl(_ input: ResetEnabledControlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetEnabledControlOutput {
@@ -780,7 +789,7 @@ public struct ControlTower: AWSService {
             logger: logger
         )
     }
-    /// Resets an enabled control.
+    /// Resets an enabled control. Does not work for controls implemented with SCPs.
     ///
     /// Parameters:
     ///   - enabledControlIdentifier: The ARN of the enabled control to be reset.
@@ -974,18 +983,21 @@ public struct ControlTower: AWSService {
     /// Parameters:
     ///   - landingZoneIdentifier: The unique identifier of the landing zone.
     ///   - manifest: The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone. The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
+    ///   - remediationTypes: Specifies the types of remediation actions to apply when updating the landing zone configuration.
     ///   - version: The landing zone version, for example, 3.2.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLandingZone(
         landingZoneIdentifier: String,
-        manifest: AWSDocument,
+        manifest: AWSDocument? = nil,
+        remediationTypes: [RemediationType]? = nil,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLandingZoneOutput {
         let input = UpdateLandingZoneInput(
             landingZoneIdentifier: landingZoneIdentifier, 
             manifest: manifest, 
+            remediationTypes: remediationTypes, 
             version: version
         )
         return try await self.updateLandingZone(input, logger: logger)
@@ -1138,18 +1150,21 @@ extension ControlTower {
     ///
     /// - Parameters:
     ///   - filter: An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
+    ///   - includeChildren: A boolean value that determines whether to include enabled controls from child organizational units in the response.
     ///   - maxResults: How many results to return per API call.
     ///   - targetIdentifier: The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEnabledControlsPaginator(
         filter: EnabledControlFilter? = nil,
+        includeChildren: Bool? = nil,
         maxResults: Int? = nil,
         targetIdentifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListEnabledControlsInput, ListEnabledControlsOutput> {
         let input = ListEnabledControlsInput(
             filter: filter, 
+            includeChildren: includeChildren, 
             maxResults: maxResults, 
             targetIdentifier: targetIdentifier
         )
@@ -1266,6 +1281,7 @@ extension ControlTower.ListEnabledControlsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> ControlTower.ListEnabledControlsInput {
         return .init(
             filter: self.filter,
+            includeChildren: self.includeChildren,
             maxResults: self.maxResults,
             nextToken: token,
             targetIdentifier: self.targetIdentifier

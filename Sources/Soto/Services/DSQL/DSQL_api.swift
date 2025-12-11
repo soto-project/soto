@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS DSQL service.
 ///
-/// This is an interface reference for Amazon Aurora DSQL. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Aurora DSQL. Amazon Aurora DSQL is a serverless, distributed SQL database suitable for workloads of any size. is available in both single-Region and multi-Region configurations, so your clusters and databases are always available even if an Availability Zone or an Amazon Web Services Region are unavailable.  lets you focus on using your data to acquire new insights for your business and customers.
+/// This is an interface reference for Amazon Aurora DSQL. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Aurora DSQL. Amazon Aurora DSQL is a serverless, distributed SQL database suitable for workloads of any size. is available in both single-Region and multi-Region configurations, so your clusters and databases are always available even if an Availability Zone or an Amazon Web Services Region are unavailable. lets you focus on using your data to acquire new insights for your business and customers.
 public struct DSQL: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct DSQL: AWSService {
 
     // MARK: API Calls
 
-    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterOutput {
@@ -91,29 +91,35 @@ public struct DSQL: AWSService {
             logger: logger
         )
     }
-    /// The CreateCluster API allows you to create both single-region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
+    /// The CreateCluster API allows you to create both single-Region clusters and multi-Region clusters. With the addition of the multiRegionProperties parameter, you can create a cluster with witness Region support and establish peer relationships with clusters in other Regions during creation.  Creating multi-Region clusters requires additional IAM permissions beyond those needed for single-Region clusters, as detailed in the Required permissions section below.   Required permissions   dsql:CreateCluster  Required to create a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:TagResource  Permission to add tags to a resource. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/*   dsql:AddPeerCluster  When specifying multiRegionProperties.clusters, permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/*    Each peer cluster: exact ARN of each specified peer cluster    dsql:PutWitnessRegion  When specifying multiRegionProperties.witnessRegion, permission to set a witness Region. This permission is checked both in the cluster Region and in the witness Region. Resources: arn:aws:dsql:region:account-id:cluster/*  Condition Keys: dsql:WitnessRegion (matching the specified witness region)      The witness Region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.
     ///
     /// Parameters:
+    ///   - bypassPolicyLockoutSafetyCheck: An optional field that controls whether to bypass the lockout prevention check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
     ///   - deletionProtectionEnabled: If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
     ///   - kmsEncryptionKey: The KMS key that encrypts and protects the data on your cluster. You can specify the ARN, ID, or alias of an existing key or have Amazon Web Services create a default key for you.
     ///   - multiRegionProperties: The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
+    ///   - policy: An optional resource-based policy document in JSON format that defines access permissions for the cluster.
     ///   - tags: A map of key and value pairs to use to tag your cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
+        bypassPolicyLockoutSafetyCheck: Bool? = nil,
         clientToken: String? = CreateClusterInput.idempotencyToken(),
         deletionProtectionEnabled: Bool? = nil,
         kmsEncryptionKey: String? = nil,
         multiRegionProperties: MultiRegionProperties? = nil,
+        policy: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateClusterOutput {
         let input = CreateClusterInput(
+            bypassPolicyLockoutSafetyCheck: bypassPolicyLockoutSafetyCheck, 
             clientToken: clientToken, 
             deletionProtectionEnabled: deletionProtectionEnabled, 
             kmsEncryptionKey: kmsEncryptionKey, 
             multiRegionProperties: multiRegionProperties, 
+            policy: policy, 
             tags: tags
         )
         return try await self.createCluster(input, logger: logger)
@@ -151,6 +157,41 @@ public struct DSQL: AWSService {
         return try await self.deleteCluster(input, logger: logger)
     }
 
+    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
+    @Sendable
+    @inlinable
+    public func deleteClusterPolicy(_ input: DeleteClusterPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteClusterPolicyOutput {
+        try await self.client.execute(
+            operation: "DeleteClusterPolicy", 
+            path: "/cluster/{identifier}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
+    ///
+    /// Parameters:
+    ///   - clientToken: 
+    ///   - expectedPolicyVersion: The expected version of the policy to delete. This parameter ensures that you're deleting the correct version of the policy and helps prevent accidental deletions.
+    ///   - identifier: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteClusterPolicy(
+        clientToken: String? = DeleteClusterPolicyInput.idempotencyToken(),
+        expectedPolicyVersion: String? = nil,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteClusterPolicyOutput {
+        let input = DeleteClusterPolicyInput(
+            clientToken: clientToken, 
+            expectedPolicyVersion: expectedPolicyVersion, 
+            identifier: identifier
+        )
+        return try await self.deleteClusterPolicy(input, logger: logger)
+    }
+
     /// Retrieves information about a cluster.
     @Sendable
     @inlinable
@@ -178,6 +219,35 @@ public struct DSQL: AWSService {
             identifier: identifier
         )
         return try await self.getCluster(input, logger: logger)
+    }
+
+    /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
+    @Sendable
+    @inlinable
+    public func getClusterPolicy(_ input: GetClusterPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetClusterPolicyOutput {
+        try await self.client.execute(
+            operation: "GetClusterPolicy", 
+            path: "/cluster/{identifier}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID of the cluster to retrieve the policy from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getClusterPolicy(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetClusterPolicyOutput {
+        let input = GetClusterPolicyInput(
+            identifier: identifier
+        )
+        return try await self.getClusterPolicy(input, logger: logger)
     }
 
     /// Retrieves the VPC endpoint service name.
@@ -270,6 +340,47 @@ public struct DSQL: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
+    @Sendable
+    @inlinable
+    public func putClusterPolicy(_ input: PutClusterPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutClusterPolicyOutput {
+        try await self.client.execute(
+            operation: "PutClusterPolicy", 
+            path: "/cluster/{identifier}/policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
+    ///
+    /// Parameters:
+    ///   - bypassPolicyLockoutSafetyCheck: A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+    ///   - clientToken: 
+    ///   - expectedPolicyVersion: The expected version of the current policy. This parameter ensures that you're updating the correct version of the policy and helps prevent concurrent modification conflicts.
+    ///   - identifier: 
+    ///   - policy: The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putClusterPolicy(
+        bypassPolicyLockoutSafetyCheck: Bool? = nil,
+        clientToken: String? = PutClusterPolicyInput.idempotencyToken(),
+        expectedPolicyVersion: String? = nil,
+        identifier: String,
+        policy: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutClusterPolicyOutput {
+        let input = PutClusterPolicyInput(
+            bypassPolicyLockoutSafetyCheck: bypassPolicyLockoutSafetyCheck, 
+            clientToken: clientToken, 
+            expectedPolicyVersion: expectedPolicyVersion, 
+            identifier: identifier, 
+            policy: policy
+        )
+        return try await self.putClusterPolicy(input, logger: logger)
+    }
+
     /// Tags a resource with a map of key and value pairs.
     @Sendable
     @inlinable
@@ -334,7 +445,7 @@ public struct DSQL: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     @Sendable
     @inlinable
     public func updateCluster(_ input: UpdateClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterOutput {
@@ -347,7 +458,7 @@ public struct DSQL: AWSService {
             logger: logger
         )
     }
-    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
+    /// The UpdateCluster API allows you to modify both single-Region and multi-Region cluster configurations. With the multiRegionProperties parameter, you can add or modify witness Region support and manage peer relationships with clusters in other Regions.  Note that updating multi-Region clusters requires additional IAM permissions beyond those needed for standard cluster updates, as detailed in the Permissions section.   Required permissions   dsql:UpdateCluster  Permission to update a DSQL cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:PutMultiRegionProperties  Permission to configure multi-Region properties for a cluster. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id      dsql:GetCluster  Permission to retrieve cluster information. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id    dsql:AddPeerCluster  Permission to add peer clusters. Resources:   Local cluster: arn:aws:dsql:region:account-id:cluster/cluster-id     Each peer cluster: exact ARN of each specified peer cluster    dsql:RemovePeerCluster  Permission to remove peer clusters. The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates. Resources: arn:aws:dsql:*:account-id:cluster/*     dsql:PutWitnessRegion  Permission to set a witness Region. Resources: arn:aws:dsql:region:account-id:cluster/cluster-id   Condition Keys: dsql:WitnessRegion (matching the specified witness Region)  This permission is checked both in the cluster Region and in the witness Region.       The witness region specified in multiRegionProperties.witnessRegion cannot be the same as the cluster's Region.   When updating clusters with peer relationships, permissions are checked for both adding and removing peers.   The dsql:RemovePeerCluster permission uses a wildcard ARN pattern to simplify permission management during updates.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.

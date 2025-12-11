@@ -460,7 +460,7 @@ extension StorageGateway {
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -593,7 +593,7 @@ extension StorageGateway {
             try self.validate(self.targetName, name: "targetName", parent: name, pattern: "^[-\\.;a-z0-9]+$")
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -909,7 +909,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -981,7 +981,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1072,11 +1072,11 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, min: 50)
-            try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1235,7 +1235,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.nfsFileShareDefaults?.validate(name: "\(name).nfsFileShareDefaults")
@@ -1244,7 +1244,7 @@ extension StorageGateway {
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
-            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):iam::([0-9]+):role/(\\S+)$")
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\\S+)$")
             try self.validate(self.squash, name: "squash", parent: name, max: 15)
             try self.validate(self.squash, name: "squash", parent: name, min: 5)
             try self.tags?.forEach {
@@ -1440,7 +1440,7 @@ extension StorageGateway {
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
@@ -1448,7 +1448,7 @@ extension StorageGateway {
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
-            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):iam::([0-9]+):role/(\\S+)$")
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1530,7 +1530,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1585,7 +1585,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1652,7 +1652,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1787,7 +1787,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1867,7 +1867,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, max: 10)
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, min: 1)
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
@@ -2133,7 +2133,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2170,7 +2170,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2213,7 +2213,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2282,7 +2282,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2518,7 +2518,7 @@ extension StorageGateway {
             try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
-                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             }
         }
 
@@ -2922,7 +2922,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2977,7 +2977,7 @@ extension StorageGateway {
             try self.volumeARNs.forEach {
                 try validate($0, name: "volumeARNs[]", parent: name, max: 500)
                 try validate($0, name: "volumeARNs[]", parent: name, min: 50)
-                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+                try validate($0, name: "volumeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
             }
         }
 
@@ -3022,7 +3022,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -3127,7 +3127,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -3316,7 +3316,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4183,7 +4183,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -4223,7 +4223,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4726,7 +4726,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4765,7 +4765,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5186,7 +5186,7 @@ extension StorageGateway {
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
-            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):iam::([0-9]+):role/(\\S+)$")
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):iam::([0-9]+):role/(\\S+)$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -6022,7 +6022,7 @@ extension StorageGateway {
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.nfsFileShareDefaults?.validate(name: "\(name).nfsFileShareDefaults")
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
@@ -6176,7 +6176,7 @@ extension StorageGateway {
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
-            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
@@ -6364,7 +6364,7 @@ extension StorageGateway {
             }
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, max: 500)
             try self.validate(self.volumeARN, name: "volumeARN", parent: name, min: 50)
-            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
+            try self.validate(self.volumeARN, name: "volumeARN", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*|-eusc)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)$")
         }
 
         private enum CodingKeys: String, CodingKey {

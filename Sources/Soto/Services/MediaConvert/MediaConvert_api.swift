@@ -200,7 +200,7 @@ public struct MediaConvert: AWSService {
     ///   - billingTagsSource: Optionally choose a Billing tags source that AWS Billing and Cost Management will use to display tags for individual output costs on any billing report that you set up. Leave blank to use the default value, Job.
     ///   - clientRequestToken: Prevent duplicate jobs from being created and ensure idempotency for your requests. A client request token can be any string that includes up to 64 ASCII characters. If you reuse a client request token within one minute of a successful request, the API returns the job details of the original request instead. For more information see https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
     ///   - hopDestinations: Optional. Use queue hopping to avoid overly long waits in the backlog of the queue that you submit your job to. Specify an alternate queue and the maximum time that your job will wait in the initial queue before hopping. For more information about this feature, see the AWS Elemental MediaConvert User Guide.
-    ///   - jobEngineVersion: Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. To specify a Job engine version: Enter a date in a YYYY-MM-DD format. For a list of valid Job engine versions, submit a ListVersions request. To not specify a Job engine version: Leave blank.
+    ///   - jobEngineVersion: Use Job engine versions to run jobs for your production workflow on one version, while you test and validate the latest version. Job engine versions represent periodically grouped MediaConvert releases with new features, updates, improvements, and fixes. Job engine versions are in a YYYY-MM-DD format. Note that the Job engine version feature is not publicly available at this time. To request access, contact AWS support.
     ///   - jobTemplate: Optional. When you create a job, you can either specify a job template or specify the transcoding settings individually.
     ///   - priority: Optional. Specify the relative priority for this job. In any given queue, the service begins processing the job with the highest value first. When more than one job has the same priority, the service begins processing the job that you submitted first. If you don't specify a priority, the service uses the default value 0.
     ///   - queue: Optional. When you create a job, you can specify a queue to send it to. If you don't specify, the job will go to the default queue. For more about queues, see the User Guide topic at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
@@ -661,6 +661,35 @@ public struct MediaConvert: AWSService {
         return try await self.getJobTemplate(input, logger: logger)
     }
 
+    /// Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
+    @Sendable
+    @inlinable
+    public func getJobsQueryResults(_ input: GetJobsQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetJobsQueryResultsResponse {
+        try await self.client.execute(
+            operation: "GetJobsQueryResults", 
+            path: "/2017-08-29/jobsQueries/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the jobs query.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getJobsQueryResults(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetJobsQueryResultsResponse {
+        let input = GetJobsQueryResultsRequest(
+            id: id
+        )
+        return try await self.getJobsQueryResults(input, logger: logger)
+    }
+
     /// Retrieve the JSON for your policy.
     @Sendable
     @inlinable
@@ -1067,6 +1096,44 @@ public struct MediaConvert: AWSService {
             status: status
         )
         return try await self.searchJobs(input, logger: logger)
+    }
+
+    /// Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+    @Sendable
+    @inlinable
+    public func startJobsQuery(_ input: StartJobsQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartJobsQueryResponse {
+        try await self.client.execute(
+            operation: "StartJobsQuery", 
+            path: "/2017-08-29/jobsQueries", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
+    ///
+    /// Parameters:
+    ///   - filterList: Optional. Provide an array of JobsQueryFilters for your StartJobsQuery request.
+    ///   - maxResults: Optional. Number of jobs, up to twenty, that will be included in the jobs query.
+    ///   - nextToken: Use this string to request the next batch of jobs matched by a jobs query.
+    ///   - order: Optional. When you request lists of resources, you can specify whether they are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startJobsQuery(
+        filterList: [JobsQueryFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        order: Order? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartJobsQueryResponse {
+        let input = StartJobsQueryRequest(
+            filterList: filterList, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            order: order
+        )
+        return try await self.startJobsQuery(input, logger: logger)
     }
 
     /// Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html

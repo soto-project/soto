@@ -270,6 +270,93 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowVpcInterfaces(input, logger: logger)
     }
 
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func batchGetRouterInput(_ input: BatchGetRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRouterInputResponse {
+        try await self.client.execute(
+            operation: "BatchGetRouterInput", 
+            path: "/v1/routerInputs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arns: The Amazon Resource Names (ARNs) of the router inputs you want to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetRouterInput(
+        arns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetRouterInputResponse {
+        let input = BatchGetRouterInputRequest(
+            arns: arns
+        )
+        return try await self.batchGetRouterInput(input, logger: logger)
+    }
+
+    /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func batchGetRouterNetworkInterface(_ input: BatchGetRouterNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRouterNetworkInterfaceResponse {
+        try await self.client.execute(
+            operation: "BatchGetRouterNetworkInterface", 
+            path: "/v1/routerNetworkInterfaces", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arns: The Amazon Resource Names (ARNs) of the router network interfaces you want to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetRouterNetworkInterface(
+        arns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetRouterNetworkInterfaceResponse {
+        let input = BatchGetRouterNetworkInterfaceRequest(
+            arns: arns
+        )
+        return try await self.batchGetRouterNetworkInterface(input, logger: logger)
+    }
+
+    /// Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func batchGetRouterOutput(_ input: BatchGetRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetRouterOutputResponse {
+        try await self.client.execute(
+            operation: "BatchGetRouterOutput", 
+            path: "/v1/routerOutputs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arns: The Amazon Resource Names (ARNs) of the router outputs you want to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetRouterOutput(
+        arns: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetRouterOutputResponse {
+        let input = BatchGetRouterOutputRequest(
+            arns: arns
+        )
+        return try await self.batchGetRouterOutput(input, logger: logger)
+    }
+
     ///  Creates a new bridge. The request must include one source.
     @Sendable
     @inlinable
@@ -420,6 +507,162 @@ public struct MediaConnect: AWSService {
         return try await self.createGateway(input, logger: logger)
     }
 
+    /// Creates a new router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func createRouterInput(_ input: CreateRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouterInputResponse {
+        try await self.client.execute(
+            operation: "CreateRouterInput", 
+            path: "/v1/routerInput", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The Availability Zone where you want to create the router input. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
+    ///   - clientToken: A unique identifier for the request to ensure idempotency.
+    ///   - configuration: The configuration settings for the router input, which can include the protocol, network interface, and other details.
+    ///   - maintenanceConfiguration: The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
+    ///   - maximumBitrate: The maximum bitrate for the router input.
+    ///   - name: The name of the router input.
+    ///   - regionName: The AWS Region for the router input. Defaults to the current region if not specified.
+    ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
+    ///   - tags: Key-value pairs that can be used to tag and organize this router input.
+    ///   - tier: The tier level for the router input.
+    ///   - transitEncryption: The transit encryption settings for the router input.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouterInput(
+        availabilityZone: String? = nil,
+        clientToken: String? = CreateRouterInputRequest.idempotencyToken(),
+        configuration: RouterInputConfiguration,
+        maintenanceConfiguration: MaintenanceConfiguration? = nil,
+        maximumBitrate: Int64,
+        name: String,
+        regionName: String? = nil,
+        routingScope: RoutingScope,
+        tags: [String: String]? = nil,
+        tier: RouterInputTier,
+        transitEncryption: RouterInputTransitEncryption? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouterInputResponse {
+        let input = CreateRouterInputRequest(
+            availabilityZone: availabilityZone, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            maintenanceConfiguration: maintenanceConfiguration, 
+            maximumBitrate: maximumBitrate, 
+            name: name, 
+            regionName: regionName, 
+            routingScope: routingScope, 
+            tags: tags, 
+            tier: tier, 
+            transitEncryption: transitEncryption
+        )
+        return try await self.createRouterInput(input, logger: logger)
+    }
+
+    /// Creates a new router network interface in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func createRouterNetworkInterface(_ input: CreateRouterNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouterNetworkInterfaceResponse {
+        try await self.client.execute(
+            operation: "CreateRouterNetworkInterface", 
+            path: "/v1/routerNetworkInterface", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new router network interface in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique identifier for the request to ensure idempotency.
+    ///   - configuration: The configuration settings for the router network interface.
+    ///   - name: The name of the router network interface.
+    ///   - regionName: The AWS Region for the router network interface. Defaults to the current region if not specified.
+    ///   - tags: Key-value pairs that can be used to tag and organize this router network interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouterNetworkInterface(
+        clientToken: String? = CreateRouterNetworkInterfaceRequest.idempotencyToken(),
+        configuration: RouterNetworkInterfaceConfiguration,
+        name: String,
+        regionName: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouterNetworkInterfaceResponse {
+        let input = CreateRouterNetworkInterfaceRequest(
+            clientToken: clientToken, 
+            configuration: configuration, 
+            name: name, 
+            regionName: regionName, 
+            tags: tags
+        )
+        return try await self.createRouterNetworkInterface(input, logger: logger)
+    }
+
+    /// Creates a new router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func createRouterOutput(_ input: CreateRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouterOutputResponse {
+        try await self.client.execute(
+            operation: "CreateRouterOutput", 
+            path: "/v1/routerOutput", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The Availability Zone where you want to create the router output. This must be a valid Availability Zone for the region specified by regionName, or the current region if no regionName is provided.
+    ///   - clientToken: A unique identifier for the request to ensure idempotency.
+    ///   - configuration: The configuration settings for the router output.
+    ///   - maintenanceConfiguration: The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
+    ///   - maximumBitrate: The maximum bitrate for the router output.
+    ///   - name: The name of the router output.
+    ///   - regionName: The AWS Region for the router output. Defaults to the current region if not specified.
+    ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
+    ///   - tags: Key-value pairs that can be used to tag this router output.
+    ///   - tier: The tier level for the router output.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouterOutput(
+        availabilityZone: String? = nil,
+        clientToken: String? = CreateRouterOutputRequest.idempotencyToken(),
+        configuration: RouterOutputConfiguration,
+        maintenanceConfiguration: MaintenanceConfiguration? = nil,
+        maximumBitrate: Int64,
+        name: String,
+        regionName: String? = nil,
+        routingScope: RoutingScope,
+        tags: [String: String]? = nil,
+        tier: RouterOutputTier,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouterOutputResponse {
+        let input = CreateRouterOutputRequest(
+            availabilityZone: availabilityZone, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            maintenanceConfiguration: maintenanceConfiguration, 
+            maximumBitrate: maximumBitrate, 
+            name: name, 
+            regionName: regionName, 
+            routingScope: routingScope, 
+            tags: tags, 
+            tier: tier
+        )
+        return try await self.createRouterOutput(input, logger: logger)
+    }
+
     ///  Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     @Sendable
     @inlinable
@@ -505,6 +748,93 @@ public struct MediaConnect: AWSService {
             gatewayArn: gatewayArn
         )
         return try await self.deleteGateway(input, logger: logger)
+    }
+
+    /// Deletes a router input from AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func deleteRouterInput(_ input: DeleteRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouterInputResponse {
+        try await self.client.execute(
+            operation: "DeleteRouterInput", 
+            path: "/v1/routerInput/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a router input from AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouterInput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouterInputResponse {
+        let input = DeleteRouterInputRequest(
+            arn: arn
+        )
+        return try await self.deleteRouterInput(input, logger: logger)
+    }
+
+    /// Deletes a router network interface from AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func deleteRouterNetworkInterface(_ input: DeleteRouterNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouterNetworkInterfaceResponse {
+        try await self.client.execute(
+            operation: "DeleteRouterNetworkInterface", 
+            path: "/v1/routerNetworkInterface/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a router network interface from AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router network interface that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouterNetworkInterface(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouterNetworkInterfaceResponse {
+        let input = DeleteRouterNetworkInterfaceRequest(
+            arn: arn
+        )
+        return try await self.deleteRouterNetworkInterface(input, logger: logger)
+    }
+
+    /// Deletes a router output from AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func deleteRouterOutput(_ input: DeleteRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouterOutputResponse {
+        try await self.client.execute(
+            operation: "DeleteRouterOutput", 
+            path: "/v1/routerOutput/{Arn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a router output from AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouterOutput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouterOutputResponse {
+        let input = DeleteRouterOutputRequest(
+            arn: arn
+        )
+        return try await self.deleteRouterOutput(input, logger: logger)
     }
 
     ///  Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
@@ -771,6 +1101,151 @@ public struct MediaConnect: AWSService {
         return try await self.describeReservation(input, logger: logger)
     }
 
+    /// Retrieves information about a specific router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func getRouterInput(_ input: GetRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouterInputResponse {
+        try await self.client.execute(
+            operation: "GetRouterInput", 
+            path: "/v1/routerInput/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouterInput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouterInputResponse {
+        let input = GetRouterInputRequest(
+            arn: arn
+        )
+        return try await self.getRouterInput(input, logger: logger)
+    }
+
+    /// Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
+    @Sendable
+    @inlinable
+    public func getRouterInputSourceMetadata(_ input: GetRouterInputSourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouterInputSourceMetadataResponse {
+        try await self.client.execute(
+            operation: "GetRouterInputSourceMetadata", 
+            path: "/v1/routerInput/{Arn}/source-metadata", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input to retrieve metadata for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouterInputSourceMetadata(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouterInputSourceMetadataResponse {
+        let input = GetRouterInputSourceMetadataRequest(
+            arn: arn
+        )
+        return try await self.getRouterInputSourceMetadata(input, logger: logger)
+    }
+
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func getRouterInputThumbnail(_ input: GetRouterInputThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouterInputThumbnailResponse {
+        try await self.client.execute(
+            operation: "GetRouterInputThumbnail", 
+            path: "/v1/routerInput/{Arn}/thumbnail", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to see a thumbnail of.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouterInputThumbnail(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouterInputThumbnailResponse {
+        let input = GetRouterInputThumbnailRequest(
+            arn: arn
+        )
+        return try await self.getRouterInputThumbnail(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func getRouterNetworkInterface(_ input: GetRouterNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouterNetworkInterfaceResponse {
+        try await self.client.execute(
+            operation: "GetRouterNetworkInterface", 
+            path: "/v1/routerNetworkInterface/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router network interface that you want to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouterNetworkInterface(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouterNetworkInterfaceResponse {
+        let input = GetRouterNetworkInterfaceRequest(
+            arn: arn
+        )
+        return try await self.getRouterNetworkInterface(input, logger: logger)
+    }
+
+    /// Retrieves information about a specific router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func getRouterOutput(_ input: GetRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouterOutputResponse {
+        try await self.client.execute(
+            operation: "GetRouterOutput", 
+            path: "/v1/routerOutput/{Arn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouterOutput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouterOutputResponse {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        return try await self.getRouterOutput(input, logger: logger)
+    }
+
     ///  Grants entitlements to an existing flow.
     @Sendable
     @inlinable
@@ -1033,7 +1508,141 @@ public struct MediaConnect: AWSService {
         return try await self.listReservations(input, logger: logger)
     }
 
-    ///  List all tags on a MediaConnect resource.
+    /// Retrieves a list of router inputs in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func listRouterInputs(_ input: ListRouterInputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRouterInputsResponse {
+        try await self.client.execute(
+            operation: "ListRouterInputs", 
+            path: "/v1/routerInputs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of router inputs in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router inputs.
+    ///   - maxResults: The maximum number of router inputs to return in the response.
+    ///   - nextToken: A token used to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRouterInputs(
+        filters: [RouterInputFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRouterInputsResponse {
+        let input = ListRouterInputsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRouterInputs(input, logger: logger)
+    }
+
+    /// Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func listRouterNetworkInterfaces(_ input: ListRouterNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRouterNetworkInterfacesResponse {
+        try await self.client.execute(
+            operation: "ListRouterNetworkInterfaces", 
+            path: "/v1/routerNetworkInterfaces", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router network interfaces.
+    ///   - maxResults: The maximum number of router network interfaces to return in the response.
+    ///   - nextToken: A token used to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRouterNetworkInterfaces(
+        filters: [RouterNetworkInterfaceFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRouterNetworkInterfacesResponse {
+        let input = ListRouterNetworkInterfacesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRouterNetworkInterfaces(input, logger: logger)
+    }
+
+    /// Retrieves a list of router outputs in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func listRouterOutputs(_ input: ListRouterOutputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRouterOutputsResponse {
+        try await self.client.execute(
+            operation: "ListRouterOutputs", 
+            path: "/v1/routerOutputs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of router outputs in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router outputs.
+    ///   - maxResults: The maximum number of router outputs to return in the response.
+    ///   - nextToken: A token used to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRouterOutputs(
+        filters: [RouterOutputFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRouterOutputsResponse {
+        let input = ListRouterOutputsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRouterOutputs(input, logger: logger)
+    }
+
+    /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    @Sendable
+    @inlinable
+    public func listTagsForGlobalResource(_ input: ListTagsForGlobalResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForGlobalResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForGlobalResource", 
+            path: "/tags/global/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the global resource whose tags you want to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForGlobalResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForGlobalResourceResponse {
+        let input = ListTagsForGlobalResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForGlobalResource(input, logger: logger)
+    }
+
+    ///  List all tags on a MediaConnect resource in the current region.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1046,7 +1655,7 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    ///  List all tags on a MediaConnect resource.
+    ///  List all tags on a MediaConnect resource in the current region.
     ///
     /// Parameters:
     ///   - resourceArn:  The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
@@ -1289,6 +1898,64 @@ public struct MediaConnect: AWSService {
         return try await self.removeFlowVpcInterface(input, logger: logger)
     }
 
+    /// Restarts a router input. This operation can be used to recover from errors or refresh the input state.
+    @Sendable
+    @inlinable
+    public func restartRouterInput(_ input: RestartRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartRouterInputResponse {
+        try await self.client.execute(
+            operation: "RestartRouterInput", 
+            path: "/v1/routerInput/restart/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restarts a router input. This operation can be used to recover from errors or refresh the input state.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to restart.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restartRouterInput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestartRouterInputResponse {
+        let input = RestartRouterInputRequest(
+            arn: arn
+        )
+        return try await self.restartRouterInput(input, logger: logger)
+    }
+
+    /// Restarts a router output. This operation can be used to recover from errors or refresh the output state.
+    @Sendable
+    @inlinable
+    public func restartRouterOutput(_ input: RestartRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RestartRouterOutputResponse {
+        try await self.client.execute(
+            operation: "RestartRouterOutput", 
+            path: "/v1/routerOutput/restart/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Restarts a router output. This operation can be used to recover from errors or refresh the output state.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to restart.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func restartRouterOutput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RestartRouterOutputResponse {
+        let input = RestartRouterOutputRequest(
+            arn: arn
+        )
+        return try await self.restartRouterOutput(input, logger: logger)
+    }
+
     ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     @Sendable
     @inlinable
@@ -1350,6 +2017,64 @@ public struct MediaConnect: AWSService {
         return try await self.startFlow(input, logger: logger)
     }
 
+    /// Starts a router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func startRouterInput(_ input: StartRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRouterInputResponse {
+        try await self.client.execute(
+            operation: "StartRouterInput", 
+            path: "/v1/routerInput/start/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRouterInput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRouterInputResponse {
+        let input = StartRouterInputRequest(
+            arn: arn
+        )
+        return try await self.startRouterInput(input, logger: logger)
+    }
+
+    /// Starts a router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func startRouterOutput(_ input: StartRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRouterOutputResponse {
+        try await self.client.execute(
+            operation: "StartRouterOutput", 
+            path: "/v1/routerOutput/start/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startRouterOutput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartRouterOutputResponse {
+        let input = StartRouterOutputRequest(
+            arn: arn
+        )
+        return try await self.startRouterOutput(input, logger: logger)
+    }
+
     ///  Stops a flow.
     @Sendable
     @inlinable
@@ -1379,7 +2104,97 @@ public struct MediaConnect: AWSService {
         return try await self.stopFlow(input, logger: logger)
     }
 
-    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    /// Stops a router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func stopRouterInput(_ input: StopRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRouterInputResponse {
+        try await self.client.execute(
+            operation: "StopRouterInput", 
+            path: "/v1/routerInput/stop/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopRouterInput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopRouterInputResponse {
+        let input = StopRouterInputRequest(
+            arn: arn
+        )
+        return try await self.stopRouterInput(input, logger: logger)
+    }
+
+    /// Stops a router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func stopRouterOutput(_ input: StopRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRouterOutputResponse {
+        try await self.client.execute(
+            operation: "StopRouterOutput", 
+            path: "/v1/routerOutput/stop/{Arn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to stop.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopRouterOutput(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopRouterOutputResponse {
+        let input = StopRouterOutputRequest(
+            arn: arn
+        )
+        return try await self.stopRouterOutput(input, logger: logger)
+    }
+
+    /// Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    @Sendable
+    @inlinable
+    public func tagGlobalResource(_ input: TagGlobalResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "TagGlobalResource", 
+            path: "/tags/global/{ResourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the global resource to tag.
+    ///   - tags: A map of tag keys and values to add to the global resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagGlobalResource(
+        resourceArn: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = TagGlobalResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagGlobalResource(input, logger: logger)
+    }
+
+    ///  Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1392,7 +2207,7 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    ///  Associates the specified tags to a resource with the specified resourceArn in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// Parameters:
     ///   - resourceArn:  The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
@@ -1411,7 +2226,71 @@ public struct MediaConnect: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    ///  Deletes specified tags from a resource.
+    /// Associates a router input with a router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func takeRouterInput(_ input: TakeRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TakeRouterInputResponse {
+        try await self.client.execute(
+            operation: "TakeRouterInput", 
+            path: "/v1/routerOutput/takeRouterInput/{RouterOutputArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a router input with a router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - routerInputArn: The Amazon Resource Name (ARN) of the router input that you want to associate with a router output.
+    ///   - routerOutputArn: The Amazon Resource Name (ARN) of the router output that you want to associate with a router input.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func takeRouterInput(
+        routerInputArn: String? = nil,
+        routerOutputArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TakeRouterInputResponse {
+        let input = TakeRouterInputRequest(
+            routerInputArn: routerInputArn, 
+            routerOutputArn: routerOutputArn
+        )
+        return try await self.takeRouterInput(input, logger: logger)
+    }
+
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    @Sendable
+    @inlinable
+    public func untagGlobalResource(_ input: UntagGlobalResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UntagGlobalResource", 
+            path: "/tags/global/{ResourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the global resource to remove tags from.
+    ///   - tagKeys: The keys of the tags to remove from the global resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagGlobalResource(
+        resourceArn: String,
+        tagKeys: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UntagGlobalResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagGlobalResource(input, logger: logger)
+    }
+
+    ///  Deletes specified tags from a resource in the current region.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1424,7 +2303,7 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    ///  Deletes specified tags from a resource.
+    ///  Deletes specified tags from a resource in the current region.
     ///
     /// Parameters:
     ///   - resourceArn:  The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -1752,6 +2631,8 @@ public struct MediaConnect: AWSService {
     ///   - port:  The port to use when content is distributed to this output.
     ///   - protocol:  The protocol to use for the output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     ///   - remoteId:  The remote ID for the Zixi-pull stream.
+    ///   - routerIntegrationState: Indicates whether to enable or disable router integration for this flow output.
+    ///   - routerIntegrationTransitEncryption: 
     ///   - senderControlPort:  The port that the flow uses to send outbound requests to initiate connection with the sender.
     ///   - senderIpAddress:  The IP address that the flow communicates with to initiate connection with the sender.
     ///   - smoothingLatency:  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
@@ -1775,6 +2656,8 @@ public struct MediaConnect: AWSService {
         port: Int? = nil,
         protocol: `Protocol`? = nil,
         remoteId: String? = nil,
+        routerIntegrationState: State? = nil,
+        routerIntegrationTransitEncryption: FlowTransitEncryption? = nil,
         senderControlPort: Int? = nil,
         senderIpAddress: String? = nil,
         smoothingLatency: Int? = nil,
@@ -1798,6 +2681,8 @@ public struct MediaConnect: AWSService {
             port: port, 
             protocol: `protocol`, 
             remoteId: remoteId, 
+            routerIntegrationState: routerIntegrationState, 
+            routerIntegrationTransitEncryption: routerIntegrationTransitEncryption, 
             senderControlPort: senderControlPort, 
             senderIpAddress: senderIpAddress, 
             smoothingLatency: smoothingLatency, 
@@ -1835,6 +2720,8 @@ public struct MediaConnect: AWSService {
     ///   - mediaStreamSourceConfigurations: The media stream that is associated with the source, and the parameters for that association.
     ///   - minLatency: The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     ///   - protocol: The protocol that the source uses to deliver the content to MediaConnect.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+    ///   - routerIntegrationState: Indicates whether to enable or disable router integration for this flow source.
+    ///   - routerIntegrationTransitDecryption: The encryption configuration for the flow source when router integration is enabled.
     ///   - senderControlPort: The port that the flow uses to send outbound requests to initiate connection with the sender.
     ///   - senderIpAddress: The IP address that the flow communicates with to initiate connection with the sender.
     ///   - sourceArn: The ARN of the source that you want to update.
@@ -1858,6 +2745,8 @@ public struct MediaConnect: AWSService {
         mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil,
         minLatency: Int? = nil,
         protocol: `Protocol`? = nil,
+        routerIntegrationState: State? = nil,
+        routerIntegrationTransitDecryption: FlowTransitEncryption? = nil,
         senderControlPort: Int? = nil,
         senderIpAddress: String? = nil,
         sourceArn: String,
@@ -1881,6 +2770,8 @@ public struct MediaConnect: AWSService {
             mediaStreamSourceConfigurations: mediaStreamSourceConfigurations, 
             minLatency: minLatency, 
             protocol: `protocol`, 
+            routerIntegrationState: routerIntegrationState, 
+            routerIntegrationTransitDecryption: routerIntegrationTransitDecryption, 
             senderControlPort: senderControlPort, 
             senderIpAddress: senderIpAddress, 
             sourceArn: sourceArn, 
@@ -1923,6 +2814,138 @@ public struct MediaConnect: AWSService {
             gatewayInstanceArn: gatewayInstanceArn
         )
         return try await self.updateGatewayInstance(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing router input in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func updateRouterInput(_ input: UpdateRouterInputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRouterInputResponse {
+        try await self.client.execute(
+            operation: "UpdateRouterInput", 
+            path: "/v1/routerInput/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing router input in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input that you want to update.
+    ///   - configuration: The updated configuration settings for the router input. Changing the type of the configuration is not supported.
+    ///   - maintenanceConfiguration: The updated maintenance configuration settings for the router input, including any changes to preferred maintenance windows and schedules.
+    ///   - maximumBitrate: The updated maximum bitrate for the router input.
+    ///   - name: The updated name for the router input.
+    ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - can be assigned only to outputs in the same Region. GLOBAL - can be assigned to outputs in any Region.
+    ///   - tier: The updated tier level for the router input.
+    ///   - transitEncryption: The updated transit encryption settings for the router input.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRouterInput(
+        arn: String,
+        configuration: RouterInputConfiguration? = nil,
+        maintenanceConfiguration: MaintenanceConfiguration? = nil,
+        maximumBitrate: Int64? = nil,
+        name: String? = nil,
+        routingScope: RoutingScope? = nil,
+        tier: RouterInputTier? = nil,
+        transitEncryption: RouterInputTransitEncryption? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRouterInputResponse {
+        let input = UpdateRouterInputRequest(
+            arn: arn, 
+            configuration: configuration, 
+            maintenanceConfiguration: maintenanceConfiguration, 
+            maximumBitrate: maximumBitrate, 
+            name: name, 
+            routingScope: routingScope, 
+            tier: tier, 
+            transitEncryption: transitEncryption
+        )
+        return try await self.updateRouterInput(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func updateRouterNetworkInterface(_ input: UpdateRouterNetworkInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRouterNetworkInterfaceResponse {
+        try await self.client.execute(
+            operation: "UpdateRouterNetworkInterface", 
+            path: "/v1/routerNetworkInterface/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router network interface that you want to update.
+    ///   - configuration: The updated configuration settings for the router network interface. Changing the type of the configuration is not supported.
+    ///   - name: The updated name for the router network interface.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRouterNetworkInterface(
+        arn: String,
+        configuration: RouterNetworkInterfaceConfiguration? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRouterNetworkInterfaceResponse {
+        let input = UpdateRouterNetworkInterfaceRequest(
+            arn: arn, 
+            configuration: configuration, 
+            name: name
+        )
+        return try await self.updateRouterNetworkInterface(input, logger: logger)
+    }
+
+    /// Updates the configuration of an existing router output in AWS Elemental MediaConnect.
+    @Sendable
+    @inlinable
+    public func updateRouterOutput(_ input: UpdateRouterOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRouterOutputResponse {
+        try await self.client.execute(
+            operation: "UpdateRouterOutput", 
+            path: "/v1/routerOutput/{Arn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing router output in AWS Elemental MediaConnect.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to update.
+    ///   - configuration: The updated configuration settings for the router output. Changing the type of the configuration is not supported.
+    ///   - maintenanceConfiguration: The updated maintenance configuration settings for the router output, including any changes to preferred maintenance windows and schedules.
+    ///   - maximumBitrate: The updated maximum bitrate for the router output.
+    ///   - name: The updated name for the router output.
+    ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
+    ///   - tier: The updated tier level for the router output.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRouterOutput(
+        arn: String,
+        configuration: RouterOutputConfiguration? = nil,
+        maintenanceConfiguration: MaintenanceConfiguration? = nil,
+        maximumBitrate: Int64? = nil,
+        name: String? = nil,
+        routingScope: RoutingScope? = nil,
+        tier: RouterOutputTier? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRouterOutputResponse {
+        let input = UpdateRouterOutputRequest(
+            arn: arn, 
+            configuration: configuration, 
+            maintenanceConfiguration: maintenanceConfiguration, 
+            maximumBitrate: maximumBitrate, 
+            name: name, 
+            routingScope: routingScope, 
+            tier: tier
+        )
+        return try await self.updateRouterOutput(input, logger: logger)
     }
 }
 
@@ -2182,6 +3205,117 @@ extension MediaConnect {
         )
         return self.listReservationsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listRouterInputs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterInputsPaginator(
+        _ input: ListRouterInputsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRouterInputsRequest, ListRouterInputsResponse> {
+        return .init(
+            input: input,
+            command: self.listRouterInputs,
+            inputKey: \ListRouterInputsRequest.nextToken,
+            outputKey: \ListRouterInputsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRouterInputs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router inputs.
+    ///   - maxResults: The maximum number of router inputs to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterInputsPaginator(
+        filters: [RouterInputFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRouterInputsRequest, ListRouterInputsResponse> {
+        let input = ListRouterInputsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listRouterInputsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRouterNetworkInterfaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterNetworkInterfacesPaginator(
+        _ input: ListRouterNetworkInterfacesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRouterNetworkInterfacesRequest, ListRouterNetworkInterfacesResponse> {
+        return .init(
+            input: input,
+            command: self.listRouterNetworkInterfaces,
+            inputKey: \ListRouterNetworkInterfacesRequest.nextToken,
+            outputKey: \ListRouterNetworkInterfacesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRouterNetworkInterfaces(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router network interfaces.
+    ///   - maxResults: The maximum number of router network interfaces to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterNetworkInterfacesPaginator(
+        filters: [RouterNetworkInterfaceFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRouterNetworkInterfacesRequest, ListRouterNetworkInterfacesResponse> {
+        let input = ListRouterNetworkInterfacesRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listRouterNetworkInterfacesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listRouterOutputs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterOutputsPaginator(
+        _ input: ListRouterOutputsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRouterOutputsRequest, ListRouterOutputsResponse> {
+        return .init(
+            input: input,
+            command: self.listRouterOutputs,
+            inputKey: \ListRouterOutputsRequest.nextToken,
+            outputKey: \ListRouterOutputsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRouterOutputs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply when retrieving the list of router outputs.
+    ///   - maxResults: The maximum number of router outputs to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRouterOutputsPaginator(
+        filters: [RouterOutputFilter]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRouterOutputsRequest, ListRouterOutputsResponse> {
+        let input = ListRouterOutputsRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listRouterOutputsPaginator(input, logger: logger)
+    }
 }
 
 extension MediaConnect.ListBridgesRequest: AWSPaginateToken {
@@ -2250,6 +3384,39 @@ extension MediaConnect.ListReservationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MediaConnect.ListReservationsRequest {
         return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListRouterInputsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListRouterInputsRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListRouterNetworkInterfacesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListRouterNetworkInterfacesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension MediaConnect.ListRouterOutputsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaConnect.ListRouterOutputsRequest {
+        return .init(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -2380,5 +3547,286 @@ extension MediaConnect {
             flowArn: flowArn
         )
         try await self.waitUntilFlowStandby(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputActive(
+        _ input: GetRouterInputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerInput.state", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "STARTING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "UPDATING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerInput.state", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterInput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputActive(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterInputRequest(
+            arn: arn
+        )
+        try await self.waitUntilInputActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputDeleted(
+        _ input: GetRouterInputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
+            acceptors: [
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "DELETING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerInput.state", expected: "ERROR")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("NotFoundException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterInput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputDeleted(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterInputRequest(
+            arn: arn
+        )
+        try await self.waitUntilInputDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputStandby(
+        _ input: GetRouterInputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterInputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerInput.state", expected: "STANDBY")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "STOPPING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerInput.state", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterInput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterInput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router input to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInputStandby(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterInputRequest(
+            arn: arn
+        )
+        try await self.waitUntilInputStandby(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputActive(
+        _ input: GetRouterOutputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "STARTING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "UPDATING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterOutput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputActive(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        try await self.waitUntilOutputActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputDeleted(
+        _ input: GetRouterOutputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
+            acceptors: [
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "DELETING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ERROR")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("NotFoundException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterOutput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputDeleted(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        try await self.waitUntilOutputDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputRouted(
+        _ input: GetRouterOutputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerOutput.routedState", expected: "ROUTED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.routedState", expected: "ROUTING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterOutput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputRouted(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        try await self.waitUntilOutputRouted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputStandby(
+        _ input: GetRouterOutputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerOutput.state", expected: "STANDBY")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "STOPPING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ERROR")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterOutput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputStandby(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        try await self.waitUntilOutputStandby(input, logger: logger)
     }
 }

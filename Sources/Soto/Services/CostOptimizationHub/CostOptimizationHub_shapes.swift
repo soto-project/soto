@@ -55,6 +55,14 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum GranularityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Metrics are aggregated daily, with each data point representing a single day's worth of efficiency data. Timestamps are formatted as YYYY-MM-DD.
+        case daily = "Daily"
+        /// Metrics are aggregated monthly, with each data point representing a full month's worth of efficiency data. Timestamps are formatted as YYYY-MM.
+        case monthly = "Monthly"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImplementationEffort: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case high = "High"
         case low = "Low"
@@ -96,6 +104,7 @@ extension CostOptimizationHub {
         case elastiCacheReservedInstances = "ElastiCacheReservedInstances"
         case lambdaFunction = "LambdaFunction"
         case memoryDbReservedInstances = "MemoryDbReservedInstances"
+        case natGateway = "NatGateway"
         case openSearchReservedInstances = "OpenSearchReservedInstances"
         case rdsDbInstance = "RdsDbInstance"
         case rdsDbInstanceStorage = "RdsDbInstanceStorage"
@@ -159,6 +168,8 @@ extension CostOptimizationHub {
         case lambdaFunction(LambdaFunction)
         /// The MemoryDB reserved instances recommendation details.
         case memoryDbReservedInstances(MemoryDbReservedInstances)
+        /// The NAT Gateway recommendation details.
+        case natGateway(NatGateway)
         /// The OpenSearch reserved instances recommendation details.
         case openSearchReservedInstances(OpenSearchReservedInstances)
         /// The DB instance recommendation details.
@@ -218,6 +229,9 @@ extension CostOptimizationHub {
             case .memoryDbReservedInstances:
                 let value = try container.decode(MemoryDbReservedInstances.self, forKey: .memoryDbReservedInstances)
                 self = .memoryDbReservedInstances(value)
+            case .natGateway:
+                let value = try container.decode(NatGateway.self, forKey: .natGateway)
+                self = .natGateway(value)
             case .openSearchReservedInstances:
                 let value = try container.decode(OpenSearchReservedInstances.self, forKey: .openSearchReservedInstances)
                 self = .openSearchReservedInstances(value)
@@ -252,6 +266,7 @@ extension CostOptimizationHub {
             case elastiCacheReservedInstances = "elastiCacheReservedInstances"
             case lambdaFunction = "lambdaFunction"
             case memoryDbReservedInstances = "memoryDbReservedInstances"
+            case natGateway = "natGateway"
             case openSearchReservedInstances = "openSearchReservedInstances"
             case rdsDbInstance = "rdsDbInstance"
             case rdsDbInstanceStorage = "rdsDbInstanceStorage"
@@ -624,7 +639,7 @@ extension CostOptimizationHub {
         public let accountScope: String?
         /// The hourly commitment for the Savings Plans type.
         public let hourlyCommitment: String?
-        /// The instance family of the recommended Savings Plan.
+        /// The instance family of the recommended Savings Plans.
         public let instanceFamily: String?
         /// The payment option for the commitment.
         public let paymentOption: String?
@@ -774,6 +789,28 @@ extension CostOptimizationHub {
 
         private enum CodingKeys: String, CodingKey {
             case compute = "compute"
+        }
+    }
+
+    public struct EfficiencyMetricsByGroup: AWSDecodableShape {
+        /// The value of the grouping dimension for this set of metrics. For example, if grouped by account ID, this field contains the account ID. If no grouping is specified, this field is empty.
+        public let group: String?
+        /// An explanation of why efficiency metrics could not be calculated for this group when the metricsByTime field is null. Common reasons include insufficient or inconclusive cost and usage data during the specified time period. This field is null or empty when metrics are successfully calculated.
+        public let message: String?
+        /// A list of time-series data points containing efficiency metrics for this group. Each data point includes an efficiency score, estimated savings, spending, and a timestamp corresponding to the specified granularity. This field is null when efficiency metrics cannot be calculated for the group, in which case the message field provides an explanation.
+        public let metricsByTime: [MetricsByTime]?
+
+        @inlinable
+        public init(group: String? = nil, message: String? = nil, metricsByTime: [MetricsByTime]? = nil) {
+            self.group = group
+            self.message = message
+            self.metricsByTime = metricsByTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case message = "message"
+            case metricsByTime = "metricsByTime"
         }
     }
 
@@ -1145,6 +1182,63 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct ListEfficiencyMetricsRequest: AWSEncodableShape {
+        /// The time granularity for the cost efficiency metrics. Specify Daily for metrics aggregated by day, or Monthly for metrics aggregated by month.
+        public let granularity: GranularityType
+        /// The dimension by which to group the cost efficiency metrics. Valid values include account ID, Amazon Web Services Region. When no grouping is specified, metrics are aggregated across all resources in the specified time period.
+        public let groupBy: String?
+        /// The maximum number of groups to return in the response. Valid values range from 0 to 1000. Use in conjunction with nextToken to paginate through results when the total number of groups exceeds this limit.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results. This value is returned in the response when the number of groups exceeds the specified maxResults value.
+        public let nextToken: String?
+        /// The ordering specification for the results. Defines which dimension to sort by and whether to sort in ascending or descending order.
+        public let orderBy: OrderBy?
+        /// The time period for which to retrieve the cost efficiency metrics. The start date is inclusive and the end date is exclusive. Dates can be specified in either YYYY-MM-DD format or YYYY-MM format depending on the desired granularity.
+        public let timePeriod: TimePeriod
+
+        @inlinable
+        public init(granularity: GranularityType, groupBy: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderBy: OrderBy? = nil, timePeriod: TimePeriod) {
+            self.granularity = granularity
+            self.groupBy = groupBy
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.orderBy = orderBy
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case granularity = "granularity"
+            case groupBy = "groupBy"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case orderBy = "orderBy"
+            case timePeriod = "timePeriod"
+        }
+    }
+
+    public struct ListEfficiencyMetricsResponse: AWSDecodableShape {
+        /// A list of cost efficiency metrics grouped by the specified dimension. Each group contains time-series data points with cost efficiency, potential savings, and optimzable spend for the specified time period.
+        public let efficiencyMetricsByGroup: [EfficiencyMetricsByGroup]?
+        /// The token to retrieve the next page of results. When this value is present in the response, additional groups are available. Pass this token in the nextToken parameter of a subsequent request to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(efficiencyMetricsByGroup: [EfficiencyMetricsByGroup]? = nil, nextToken: String? = nil) {
+            self.efficiencyMetricsByGroup = efficiencyMetricsByGroup
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case efficiencyMetricsByGroup = "efficiencyMetricsByGroup"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListEnrollmentStatusesRequest: AWSEncodableShape {
         /// The account ID of a member account in the organization.
         public let accountId: String?
@@ -1403,6 +1497,32 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct MetricsByTime: AWSDecodableShape {
+        /// The estimated savings amount for this time period, representing the potential cost reduction achieved through optimization recommendations.
+        public let savings: Double?
+        /// The efficiency score for this time period. The score represents a measure of how effectively the cloud resources are being optimized, with higher scores indicating better optimization performance.
+        public let score: Double?
+        /// The total spending amount for this time period.
+        public let spend: Double?
+        /// The timestamp for this data point. The format depends on the granularity: YYYY-MM-DD for daily metrics, or YYYY-MM for monthly metrics.
+        public let timestamp: String?
+
+        @inlinable
+        public init(savings: Double? = nil, score: Double? = nil, spend: Double? = nil, timestamp: String? = nil) {
+            self.savings = savings
+            self.score = score
+            self.spend = spend
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savings = "savings"
+            case score = "score"
+            case spend = "spend"
+            case timestamp = "timestamp"
+        }
+    }
+
     public struct MixedInstanceConfiguration: AWSDecodableShape {
         /// The instance type of the configuration.
         public let type: String?
@@ -1414,6 +1534,45 @@ extension CostOptimizationHub {
 
         private enum CodingKeys: String, CodingKey {
             case type = "type"
+        }
+    }
+
+    public struct NatGateway: AWSDecodableShape {
+        /// The NAT Gateway configuration used for recommendations.
+        public let configuration: NatGatewayConfiguration?
+        public let costCalculation: ResourceCostCalculation?
+
+        @inlinable
+        public init(configuration: NatGatewayConfiguration? = nil, costCalculation: ResourceCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct NatGatewayConfiguration: AWSDecodableShape {
+        /// The number of active connections through the NAT Gateway.
+        public let activeConnectionCount: Int64?
+        /// The number of packets received from the destination through the NAT Gateway.
+        public let packetsInFromDestination: Int64?
+        /// The number of packets received from the source through the NAT Gateway.
+        public let packetsInFromSource: Int64?
+
+        @inlinable
+        public init(activeConnectionCount: Int64? = nil, packetsInFromDestination: Int64? = nil, packetsInFromSource: Int64? = nil) {
+            self.activeConnectionCount = activeConnectionCount
+            self.packetsInFromDestination = packetsInFromDestination
+            self.packetsInFromSource = packetsInFromSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeConnectionCount = "activeConnectionCount"
+            case packetsInFromDestination = "packetsInFromDestination"
+            case packetsInFromSource = "packetsInFromSource"
         }
     }
 
@@ -2055,13 +2214,13 @@ extension CostOptimizationHub {
     }
 
     public struct SavingsPlansPricing: AWSDecodableShape {
-        /// Estimated monthly commitment for the Savings Plan.
+        /// Estimated monthly commitment for the Savings Plans.
         public let estimatedMonthlyCommitment: Double?
-        /// Estimated On-Demand cost you will pay after buying the Savings Plan.
+        /// Estimated On-Demand cost you will pay after buying the Savings Plans.
         public let estimatedOnDemandCost: Double?
-        /// The cost of paying for the recommended Savings Plan monthly.
+        /// The cost of paying for the recommended Savings Plans monthly.
         public let monthlySavingsPlansEligibleCost: Double?
-        /// Estimated savings as a percentage of your overall costs after buying the Savings Plan.
+        /// Estimated savings as a percentage of your overall costs after buying the Savings Plans.
         public let savingsPercentage: Double?
 
         @inlinable
@@ -2127,6 +2286,24 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct TimePeriod: AWSEncodableShape {
+        /// The end of the time period (exclusive). Specify the date in ISO 8601 format, such as 2024-12-31.
+        public let end: String
+        /// The beginning of the time period (inclusive). Specify the date in ISO 8601 format, such as 2024-01-01.
+        public let start: String
+
+        @inlinable
+        public init(end: String, start: String) {
+            self.end = end
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "end"
+            case start = "start"
         }
     }
 

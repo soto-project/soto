@@ -208,7 +208,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createConnectorDestination(input, logger: logger)
     }
 
-    /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
+    /// Create a credential locker.  This operation will not trigger the creation of all the manufacturing resources.
     @Sendable
     @inlinable
     public func createCredentialLocker(_ input: CreateCredentialLockerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCredentialLockerResponse {
@@ -221,7 +221,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Create a product credential locker. This operation will trigger the creation of all the manufacturing resources including the Wi-Fi setup key pair and device certificate.
+    /// Create a credential locker.  This operation will not trigger the creation of all the manufacturing resources.
     ///
     /// Parameters:
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
@@ -243,7 +243,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createCredentialLocker(input, logger: logger)
     }
 
-    ///  Create a destination. IoT managed integrations uses the destination to determine where to deliver notifications for a device.
+    ///  Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
     @Sendable
     @inlinable
     public func createDestination(_ input: CreateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDestinationResponse {
@@ -256,7 +256,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  Create a destination. IoT managed integrations uses the destination to determine where to deliver notifications for a device.
+    ///  Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
     ///
     /// Parameters:
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
@@ -325,7 +325,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createEventLogConfiguration(input, logger: logger)
     }
 
-    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a protocol-specific format.
+    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
     @Sendable
     @inlinable
     public func createManagedThing(_ input: CreateManagedThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateManagedThingResponse {
@@ -338,7 +338,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a protocol-specific format.
+    /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
     ///
     /// Parameters:
     ///   - authenticationMaterial: The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
@@ -434,7 +434,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createNotificationConfiguration(input, logger: logger)
     }
 
-    /// Create an over-the-air (OTA) task to update a device.
+    /// Create an over-the-air (OTA) task to target a device.
     @Sendable
     @inlinable
     public func createOtaTask(_ input: CreateOtaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOtaTaskResponse {
@@ -447,7 +447,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Create an over-the-air (OTA) task to update a device.
+    /// Create an over-the-air (OTA) task to target a device.
     ///
     /// Parameters:
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
@@ -575,7 +575,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.createProvisioningProfile(input, logger: logger)
     }
 
-    /// Remove a third party account and related devices from an end user.
+    /// Remove a third-party account association for an end user.  You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API.
     @Sendable
     @inlinable
     public func deleteAccountAssociation(_ input: DeleteAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -588,7 +588,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Remove a third party account and related devices from an end user.
+    /// Remove a third-party account association for an end user.  You must first call the DeregisterAccountAssociation to remove the connection between the managed thing and the third-party account before calling the DeleteAccountAssociation API.
     ///
     /// Parameters:
     ///   - accountAssociationId: The unique identifier of the account association to be deleted.
@@ -633,7 +633,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.deleteCloudConnector(input, logger: logger)
     }
 
-    /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connector.  Deletion can't be done if the account association has used this connector destination.
     @Sendable
     @inlinable
     public func deleteConnectorDestination(_ input: DeleteConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -646,7 +646,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Delete a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
+    /// Delete a connector destination linked to a cloud-to-cloud (C2C) connector.  Deletion can't be done if the account association has used this connector destination.
     ///
     /// Parameters:
     ///   - identifier: The identifier of the connector destination.
@@ -691,7 +691,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.deleteCredentialLocker(input, logger: logger)
     }
 
-    /// Deletes a customer-managed destination specified by id.
+    /// Deletes a notification destination specified by name.
     @Sendable
     @inlinable
     public func deleteDestination(_ input: DeleteDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -704,7 +704,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Deletes a customer-managed destination specified by id.
+    /// Deletes a notification destination specified by name.
     ///
     /// Parameters:
     ///   - name: The id of the customer-managed destination.
@@ -749,7 +749,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.deleteEventLogConfiguration(input, logger: logger)
     }
 
-    /// Delete a managed thing. If a controller is deleted, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud device.
+    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud-to-cloud device.
     @Sendable
     @inlinable
     public func deleteManagedThing(_ input: DeleteManagedThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -762,7 +762,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Delete a managed thing. If a controller is deleted, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud device.
+    /// Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to PENDING. It is not possible to remove a cloud-to-cloud device.
     ///
     /// Parameters:
     ///   - force: When set to TRUE, a forceful deteletion of the managed thing will occur. When set to FALSE, a non-forceful deletion of the managed thing will occur.
@@ -897,7 +897,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.deleteProvisioningProfile(input, logger: logger)
     }
 
-    /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
+    /// Deregister an account association from a managed thing.
     @Sendable
     @inlinable
     public func deregisterAccountAssociation(_ input: DeregisterAccountAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -910,7 +910,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Deregisters an account association, removing the connection between a managed thing and a third-party account.
+    /// Deregister an account association from a managed thing.
     ///
     /// Parameters:
     ///   - accountAssociationId: The unique identifier of the account association to be deregistered.
@@ -958,7 +958,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getAccountAssociation(input, logger: logger)
     }
 
-    /// Gets all the information about a connector for a connector developer.
+    /// Get configuration details for a cloud connector.
     @Sendable
     @inlinable
     public func getCloudConnector(_ input: GetCloudConnectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCloudConnectorResponse {
@@ -971,7 +971,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Gets all the information about a connector for a connector developer.
+    /// Get configuration details for a cloud connector.
     ///
     /// Parameters:
     ///   - identifier: The identifier of the C2C connector.
@@ -987,7 +987,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getCloudConnector(input, logger: logger)
     }
 
-    /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
+    /// Get connector destination details linked to a cloud-to-cloud (C2C) connector.
     @Sendable
     @inlinable
     public func getConnectorDestination(_ input: GetConnectorDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectorDestinationResponse {
@@ -1000,7 +1000,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Get a connector destination of a cloud-to-cloud (C2C) connector connecting to a customer's Amazon Web Services account.
+    /// Get connector destination details linked to a cloud-to-cloud (C2C) connector.
     ///
     /// Parameters:
     ///   - identifier: The identifier of the C2C connector destination.
@@ -1097,7 +1097,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getDefaultEncryptionConfiguration(input, logger: logger)
     }
 
-    /// Gets a destination by ID.
+    /// Gets a destination by name.
     @Sendable
     @inlinable
     public func getDestination(_ input: GetDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDestinationResponse {
@@ -1110,7 +1110,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Gets a destination by ID.
+    /// Gets a destination by name.
     ///
     /// Parameters:
     ///   - name: The name of the customer-managed destination.
@@ -1210,7 +1210,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getHubConfiguration(input, logger: logger)
     }
 
-    ///  Get the attributes and capabilities associated with a managed thing.
+    ///  Get details of a managed thing including its attributes and capabilities.
     @Sendable
     @inlinable
     public func getManagedThing(_ input: GetManagedThingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedThingResponse {
@@ -1223,7 +1223,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  Get the attributes and capabilities associated with a managed thing.
+    ///  Get details of a managed thing including its attributes and capabilities.
     ///
     /// Parameters:
     ///   - identifier: The id of the managed thing.
@@ -1266,6 +1266,35 @@ public struct IoTManagedIntegrations: AWSService {
             identifier: identifier
         )
         return try await self.getManagedThingCapabilities(input, logger: logger)
+    }
+
+    /// Retrieves the certificate PEM for a managed IoT thing.
+    @Sendable
+    @inlinable
+    public func getManagedThingCertificate(_ input: GetManagedThingCertificateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedThingCertificateResponse {
+        try await self.client.execute(
+            operation: "GetManagedThingCertificate", 
+            path: "/managed-things-certificate/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the certificate PEM for a managed IoT thing.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the managed thing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getManagedThingCertificate(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetManagedThingCertificateResponse {
+        let input = GetManagedThingCertificateRequest(
+            identifier: identifier
+        )
+        return try await self.getManagedThingCertificate(input, logger: logger)
     }
 
     /// Get the connectivity status of a managed thing.
@@ -1355,7 +1384,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getManagedThingState(input, logger: logger)
     }
 
-    ///  Get a notification configuration.
+    ///  Get a notification configuration for a specified event type.
     @Sendable
     @inlinable
     public func getNotificationConfiguration(_ input: GetNotificationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNotificationConfigurationResponse {
@@ -1368,7 +1397,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  Get a notification configuration.
+    ///  Get a notification configuration for a specified event type.
     ///
     /// Parameters:
     ///   - eventType: The type of event triggering a device notification to the customer-managed destination.
@@ -1384,7 +1413,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getNotificationConfiguration(input, logger: logger)
     }
 
-    /// Get the over-the-air (OTA) task.
+    /// Get details of the over-the-air (OTA) task by its task id.
     @Sendable
     @inlinable
     public func getOtaTask(_ input: GetOtaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOtaTaskResponse {
@@ -1397,7 +1426,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Get the over-the-air (OTA) task.
+    /// Get details of the over-the-air (OTA) task by its task id.
     ///
     /// Parameters:
     ///   - identifier: The over-the-air (OTA) task id.
@@ -1471,7 +1500,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.getProvisioningProfile(input, logger: logger)
     }
 
-    /// Get the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Get the runtime log configuration for a specific managed thing.
     @Sendable
     @inlinable
     public func getRuntimeLogConfiguration(_ input: GetRuntimeLogConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRuntimeLogConfigurationResponse {
@@ -1484,7 +1513,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Get the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Get the runtime log configuration for a specific managed thing.
     ///
     /// Parameters:
     ///   - managedThingId: The id for a managed thing.
@@ -1570,7 +1599,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listAccountAssociations(input, logger: logger)
     }
 
-    /// Returns a list of connectors based on permissions.
+    /// Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and type.
     @Sendable
     @inlinable
     public func listCloudConnectors(_ input: ListCloudConnectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCloudConnectorsResponse {
@@ -1583,7 +1612,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of connectors based on permissions.
+    /// Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and type.
     ///
     /// Parameters:
     ///   - lambdaArn: The Amazon Resource Name (ARN) of the Lambda function to filter cloud connectors by.
@@ -1675,7 +1704,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listCredentialLockers(input, logger: logger)
     }
 
-    ///  List all destination names under one Amazon Web Services account.
+    ///  List all notification destinations.
     @Sendable
     @inlinable
     public func listDestinations(_ input: ListDestinationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDestinationsResponse {
@@ -1688,7 +1717,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  List all destination names under one Amazon Web Services account.
+    ///  List all notification destinations.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return at one time.
@@ -2340,7 +2369,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.registerCustomEndpoint(input, logger: logger)
     }
 
-    /// Reset a runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Reset a runtime log configuration for a specific managed thing.
     @Sendable
     @inlinable
     public func resetRuntimeLogConfiguration(_ input: ResetRuntimeLogConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2353,7 +2382,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Reset a runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Reset a runtime log configuration for a specific managed thing.
     ///
     /// Parameters:
     ///   - managedThingId: The id of a managed thing.
@@ -2394,7 +2423,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - operation: The Open Connectivity Foundation (OCF) operation requested to be performed on the managed thing.  The field op can have a value of "I" or "U". The field "cn" will contain the capability types.
     ///   - operationVersion: The Open Connectivity Foundation (OCF) security specification version for the operation being requested on the managed thing. For more information, see OCF Security Specification.
     ///   - statusCode: The status code of the Open Connectivity Foundation (OCF) operation being performed on the managed thing.
-    ///   - traceId: The trace request identifier used to correlate a command request and response. This is specified by the device owner, but will be generated by IoT managed integrations if not provided by the device owner.
+    ///   - traceId: The trace request identifier. This is generated by IoT managed integrations and can be used to trace this command and its related operations in CloudWatch.
     ///   - userId: The id of the third-party cloud provider.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2492,7 +2521,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.startAccountAssociationRefresh(input, logger: logger)
     }
 
-    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
+    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
     @Sendable
     @inlinable
     public func startDeviceDiscovery(_ input: StartDeviceDiscoveryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartDeviceDiscoveryResponse {
@@ -2505,7 +2534,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is passed as a message to the controller telling it to start the discovery.
+    ///  This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
     ///
     /// Parameters:
     ///   - accountAssociationId: The identifier of the cloud-to-cloud account association to use for discovery of third-party devices.
@@ -2717,7 +2746,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.updateConnectorDestination(input, logger: logger)
     }
 
-    ///  Update a destination specified by id.
+    ///  Update a destination specified by name.
     @Sendable
     @inlinable
     public func updateDestination(_ input: UpdateDestinationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2730,7 +2759,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    ///  Update a destination specified by id.
+    ///  Update a destination specified by name.
     ///
     /// Parameters:
     ///   - deliveryDestinationArn: The Amazon Resource Name (ARN) of the customer-managed destination.

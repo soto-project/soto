@@ -118,6 +118,48 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum EphemerisErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azElSegmentEndTimeBeforeStartTime = "AZ_EL_SEGMENT_END_TIME_BEFORE_START_TIME"
+        case azElSegmentEndTimeInvalid = "AZ_EL_SEGMENT_END_TIME_INVALID"
+        case azElSegmentEndTimeTooLate = "AZ_EL_SEGMENT_END_TIME_TOO_LATE"
+        case azElSegmentListMissing = "AZ_EL_SEGMENT_LIST_MISSING"
+        case azElSegmentReferenceEpochInvalid = "AZ_EL_SEGMENT_REFERENCE_EPOCH_INVALID"
+        case azElSegmentStartTimeInvalid = "AZ_EL_SEGMENT_START_TIME_INVALID"
+        case azElSegmentTimesOverlap = "AZ_EL_SEGMENT_TIMES_OVERLAP"
+        case azElSegmentValidTimeRangeInvalid = "AZ_EL_SEGMENT_VALID_TIME_RANGE_INVALID"
+        case azElSegmentsOutOfOrder = "AZ_EL_SEGMENTS_OUT_OF_ORDER"
+        case azElTotalDurationExceeded = "AZ_EL_TOTAL_DURATION_EXCEEDED"
+        case centerBodyUnsupported = "CENTER_BODY_UNSUPPORTED"
+        case creationDateMissing = "CREATION_DATE_MISSING"
+        case endTimeInPast = "END_TIME_IN_PAST"
+        case expirationTimeTooEarly = "EXPIRATION_TIME_TOO_EARLY"
+        case fileFormatInvalid = "FILE_FORMAT_INVALID"
+        case insufficientKmsPermissions = "INSUFFICIENT_KMS_PERMISSIONS"
+        case insufficientTimeAzEl = "INSUFFICIENT_TIME_AZ_EL"
+        case internalError = "INTERNAL_ERROR"
+        case interpolationDegreeInvalid = "INTERPOLATION_DEGREE_INVALID"
+        case interpolationMissing = "INTERPOLATION_MISSING"
+        case meanMotionInvalid = "MEAN_MOTION_INVALID"
+        case mismatchedSatcatId = "MISMATCHED_SATCAT_ID"
+        case objectIdMissing = "OBJECT_ID_MISSING"
+        case objectNameMissing = "OBJECT_NAME_MISSING"
+        case oemVersionUnsupported = "OEM_VERSION_UNSUPPORTED"
+        case originatorMissing = "ORIGINATOR_MISSING"
+        case refFrameEpochUnsupported = "REF_FRAME_EPOCH_UNSUPPORTED"
+        case refFrameUnsupported = "REF_FRAME_UNSUPPORTED"
+        case startTimeInFuture = "START_TIME_IN_FUTURE"
+        case startTimeMetadataTooEarly = "START_TIME_METADATA_TOO_EARLY"
+        case stopTimeMetadataTooLate = "STOP_TIME_METADATA_TOO_LATE"
+        case timeAzElAngleUnitsInvalid = "TIME_AZ_EL_ANGLE_UNITS_INVALID"
+        case timeAzElAzDegreeRangeInvalid = "TIME_AZ_EL_AZ_DEGREE_RANGE_INVALID"
+        case timeAzElAzRadianRangeInvalid = "TIME_AZ_EL_AZ_RADIAN_RANGE_INVALID"
+        case timeAzElElDegreeRangeInvalid = "TIME_AZ_EL_EL_DEGREE_RANGE_INVALID"
+        case timeAzElElRadianRangeInvalid = "TIME_AZ_EL_EL_RADIAN_RANGE_INVALID"
+        case timeAzElItemsOutOfOrder = "TIME_AZ_EL_ITEMS_OUT_OF_ORDER"
+        case timeSystemUnsupported = "TIME_SYSTEM_UNSUPPORTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EphemerisInvalidReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Provided KMS key is invalid
         case kmsKeyInvalid = "KMS_KEY_INVALID"
@@ -148,6 +190,14 @@ extension GroundStation {
         public var description: String { return self.rawValue }
     }
 
+    public enum EphemerisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case azEl = "AZ_EL"
+        case oem = "OEM"
+        case serviceManaged = "SERVICE_MANAGED"
+        case tle = "TLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ghz = "GHz"
         case khz = "kHz"
@@ -160,6 +210,37 @@ extension GroundStation {
         case none = "NONE"
         case rightHand = "RIGHT_HAND"
         public var description: String { return self.rawValue }
+    }
+
+    public enum AzElSegmentsData: AWSEncodableShape, Sendable {
+        /// Azimuth elevation segment data provided directly in the request. Use this option for smaller datasets or when Amazon S3 access is not available.
+        case azElData(AzElSegments)
+        /// The Amazon S3 object containing azimuth elevation segment data. The Amazon S3 object must contain JSON-formatted azimuth elevation data matching the AzElSegments structure.
+        case s3Object(S3Object)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .azElData(let value):
+                try container.encode(value, forKey: .azElData)
+            case .s3Object(let value):
+                try container.encode(value, forKey: .s3Object)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .azElData(let value):
+                try value.validate(name: "\(name).azElData")
+            case .s3Object(let value):
+                try value.validate(name: "\(name).s3Object")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azElData = "azElData"
+            case s3Object = "s3Object"
+        }
     }
 
     public enum ConfigDetails: AWSDecodableShape, Sendable {
@@ -292,13 +373,47 @@ extension GroundStation {
         }
     }
 
+    public enum CreateEndpointDetails: AWSEncodableShape, Sendable {
+        /// Definition for a downlink agent endpoint
+        case downlinkAwsGroundStationAgentEndpoint(DownlinkAwsGroundStationAgentEndpoint)
+        /// Definition for an uplink agent endpoint
+        case uplinkAwsGroundStationAgentEndpoint(UplinkAwsGroundStationAgentEndpoint)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .downlinkAwsGroundStationAgentEndpoint(let value):
+                try container.encode(value, forKey: .downlinkAwsGroundStationAgentEndpoint)
+            case .uplinkAwsGroundStationAgentEndpoint(let value):
+                try container.encode(value, forKey: .uplinkAwsGroundStationAgentEndpoint)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .downlinkAwsGroundStationAgentEndpoint(let value):
+                try value.validate(name: "\(name).downlinkAwsGroundStationAgentEndpoint")
+            case .uplinkAwsGroundStationAgentEndpoint(let value):
+                try value.validate(name: "\(name).uplinkAwsGroundStationAgentEndpoint")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downlinkAwsGroundStationAgentEndpoint = "downlinkAwsGroundStationAgentEndpoint"
+            case uplinkAwsGroundStationAgentEndpoint = "uplinkAwsGroundStationAgentEndpoint"
+        }
+    }
+
     public enum EphemerisData: AWSEncodableShape, Sendable {
+        case azEl(AzElEphemeris)
         case oem(OEMEphemeris)
         case tle(TLEEphemeris)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .azEl(let value):
+                try container.encode(value, forKey: .azEl)
             case .oem(let value):
                 try container.encode(value, forKey: .oem)
             case .tle(let value):
@@ -308,6 +423,8 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             switch self {
+            case .azEl(let value):
+                try value.validate(name: "\(name).azEl")
             case .oem(let value):
                 try value.validate(name: "\(name).oem")
             case .tle(let value):
@@ -316,12 +433,14 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azEl = "azEl"
             case oem = "oem"
             case tle = "tle"
         }
     }
 
     public enum EphemerisTypeDescription: AWSDecodableShape, Sendable {
+        case azEl(EphemerisDescription)
         case oem(EphemerisDescription)
         case tle(EphemerisDescription)
 
@@ -335,6 +454,9 @@ extension GroundStation {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .azEl:
+                let value = try container.decode(EphemerisDescription.self, forKey: .azEl)
+                self = .azEl(value)
             case .oem:
                 let value = try container.decode(EphemerisDescription.self, forKey: .oem)
                 self = .oem(value)
@@ -345,6 +467,7 @@ extension GroundStation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case azEl = "azEl"
             case oem = "oem"
             case tle = "tle"
         }
@@ -601,6 +724,123 @@ extension GroundStation {
         }
     }
 
+    public struct AzElEphemeris: AWSEncodableShape {
+        /// Azimuth elevation segment data. You can provide data inline in the request or through an Amazon S3 object reference.
+        public let data: AzElSegmentsData
+        /// The ground station name for which you're providing azimuth elevation data. This ephemeris is specific to this ground station and can't be used at other locations.
+        public let groundStation: String
+
+        @inlinable
+        public init(data: AzElSegmentsData, groundStation: String) {
+            self.data = data
+            self.groundStation = groundStation
+        }
+
+        public func validate(name: String) throws {
+            try self.data.validate(name: "\(name).data")
+            try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
+            try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "data"
+            case groundStation = "groundStation"
+        }
+    }
+
+    public struct AzElEphemerisFilter: AWSEncodableShape {
+        /// Unique identifier of the azimuth elevation ephemeris.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 36)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct AzElProgramTrackSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Unique identifier of the azimuth elevation ephemeris.
+        public let ephemerisId: String
+
+        @inlinable
+        public init(ephemerisId: String) {
+            self.ephemerisId = ephemerisId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId = "ephemerisId"
+        }
+    }
+
+    public struct AzElSegment: AWSEncodableShape {
+        /// List of time-tagged azimuth elevation data points.  Must contain at least five points to support 4th order Lagrange interpolation. Points must be in chronological order with no duplicates.
+        public let azElList: [TimeAzEl]
+        /// The reference time for this segment in ISO 8601 format in Coordinated Universal Time (UTC). All time values within the segment's AzElSegment$azElList are specified as offsets in atomic seconds from this reference epoch. Example: 2024-01-15T12:00:00.000Z
+        public let referenceEpoch: Date
+        /// The valid time range for this segment.  Specifies the start and end timestamps in ISO 8601 format in Coordinated Universal Time (UTC). The segment's pointing data must cover this entire time range.
+        public let validTimeRange: ISO8601TimeRange
+
+        @inlinable
+        public init(azElList: [TimeAzEl], referenceEpoch: Date, validTimeRange: ISO8601TimeRange) {
+            self.azElList = azElList
+            self.referenceEpoch = referenceEpoch
+            self.validTimeRange = validTimeRange
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.azElList, name: "azElList", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azElList = "azElList"
+            case referenceEpoch = "referenceEpoch"
+            case validTimeRange = "validTimeRange"
+        }
+    }
+
+    public struct AzElSegments: AWSEncodableShape {
+        /// The unit of measure for azimuth and elevation angles. All angles in all segments must use the same unit.
+        public let angleUnit: AngleUnits
+        /// List of azimuth elevation segments. Must contain between 1 and 100 segments. Segments must be in chronological order with no overlaps.
+        public let azElSegmentList: [AzElSegment]
+
+        @inlinable
+        public init(angleUnit: AngleUnits, azElSegmentList: [AzElSegment]) {
+            self.angleUnit = angleUnit
+            self.azElSegmentList = azElSegmentList
+        }
+
+        public func validate(name: String) throws {
+            try self.azElSegmentList.forEach {
+                try $0.validate(name: "\(name).azElSegmentList[]")
+            }
+            try self.validate(self.azElSegmentList, name: "azElSegmentList", parent: name, max: 100)
+            try self.validate(self.azElSegmentList, name: "azElSegmentList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case angleUnit = "angleUnit"
+            case azElSegmentList = "azElSegmentList"
+        }
+    }
+
     public struct CancelContactRequest: AWSEncodableShape {
         /// UUID of a contact.
         public let contactId: String
@@ -772,6 +1012,8 @@ extension GroundStation {
         public let contactStatus: ContactStatus?
         /// End time of a contact in UTC.
         public let endTime: Date?
+        /// The ephemeris that determines antenna pointing for the contact.
+        public let ephemeris: EphemerisResponseData?
         /// Error message of a contact.
         public let errorMessage: String?
         /// Name of a ground station.
@@ -798,10 +1040,11 @@ extension GroundStation {
         public let visibilityStartTime: Date?
 
         @inlinable
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.endTime = endTime
+            self.ephemeris = ephemeris
             self.errorMessage = errorMessage
             self.groundStation = groundStation
             self.maximumElevation = maximumElevation
@@ -820,6 +1063,7 @@ extension GroundStation {
             case contactId = "contactId"
             case contactStatus = "contactStatus"
             case endTime = "endTime"
+            case ephemeris = "ephemeris"
             case errorMessage = "errorMessage"
             case groundStation = "groundStation"
             case maximumElevation = "maximumElevation"
@@ -883,8 +1127,7 @@ extension GroundStation {
         public let contactPostPassDurationSeconds: Int?
         /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
-        /// Endpoint details of each endpoint in the dataflow endpoint group.
-        ///  All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
+        /// Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
         public let endpointDetails: [EndpointDetails]
         /// Tags of a dataflow endpoint group.
         public let tags: [String: String]?
@@ -899,9 +1142,9 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 480)
-            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 120)
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 30)
             try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 480)
-            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 120)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 30)
             try self.endpointDetails.forEach {
                 try $0.validate(name: "\(name).endpointDetails[]")
             }
@@ -916,26 +1159,78 @@ extension GroundStation {
         }
     }
 
+    public struct CreateDataflowEndpointGroupV2Request: AWSEncodableShape {
+        /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+        public let contactPostPassDurationSeconds: Int?
+        /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+        public let contactPrePassDurationSeconds: Int?
+        /// Dataflow endpoint group's endpoint definitions
+        public let endpoints: [CreateEndpointDetails]
+        /// Tags of a V2 dataflow endpoint group.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(contactPostPassDurationSeconds: Int? = nil, contactPrePassDurationSeconds: Int? = nil, endpoints: [CreateEndpointDetails], tags: [String: String]? = nil) {
+            self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
+            self.contactPrePassDurationSeconds = contactPrePassDurationSeconds
+            self.endpoints = endpoints
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, max: 480)
+            try self.validate(self.contactPostPassDurationSeconds, name: "contactPostPassDurationSeconds", parent: name, min: 30)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, max: 480)
+            try self.validate(self.contactPrePassDurationSeconds, name: "contactPrePassDurationSeconds", parent: name, min: 30)
+            try self.endpoints.forEach {
+                try $0.validate(name: "\(name).endpoints[]")
+            }
+            try self.validate(self.endpoints, name: "endpoints", parent: name, max: 12)
+            try self.validate(self.endpoints, name: "endpoints", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactPostPassDurationSeconds = "contactPostPassDurationSeconds"
+            case contactPrePassDurationSeconds = "contactPrePassDurationSeconds"
+            case endpoints = "endpoints"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateDataflowEndpointGroupV2Response: AWSDecodableShape {
+        /// Dataflow endpoint group ID
+        public let dataflowEndpointGroupId: String?
+
+        @inlinable
+        public init(dataflowEndpointGroupId: String? = nil) {
+            self.dataflowEndpointGroupId = dataflowEndpointGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataflowEndpointGroupId = "dataflowEndpointGroupId"
+        }
+    }
+
     public struct CreateEphemerisRequest: AWSEncodableShape {
-        /// Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
+        /// Set to true to enable the ephemeris after validation. Set to false to keep it disabled.
         public let enabled: Bool?
         /// Ephemeris data.
         public let ephemeris: EphemerisData?
         /// An overall expiration time for the ephemeris in UTC, after which it will become EXPIRED.
         public let expirationTime: Date?
-        /// The ARN of a KMS key used to encrypt the ephemeris in Ground Station.
+        /// The ARN of the KMS key to use for encrypting the ephemeris.
         public let kmsKeyArn: String?
-        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        /// A name that you can use to identify the ephemeris.
         public let name: String
-        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
         public let priority: Int?
-        /// AWS Ground Station satellite ID for this ephemeris.
-        public let satelliteId: String
+        /// The satellite ID that associates this ephemeris with a satellite in AWS Ground Station.
+        public let satelliteId: String?
         /// Tags assigned to an ephemeris.
         public let tags: [String: String]?
 
         @inlinable
-        public init(enabled: Bool? = nil, ephemeris: EphemerisData? = nil, expirationTime: Date? = nil, kmsKeyArn: String? = nil, name: String, priority: Int? = nil, satelliteId: String, tags: [String: String]? = nil) {
+        public init(enabled: Bool? = nil, ephemeris: EphemerisData? = nil, expirationTime: Date? = nil, kmsKeyArn: String? = nil, name: String, priority: Int? = nil, satelliteId: String? = nil, tags: [String: String]? = nil) {
             self.enabled = enabled
             self.ephemeris = ephemeris
             self.expirationTime = expirationTime
@@ -1328,6 +1623,8 @@ extension GroundStation {
         public let dataflowList: [DataflowDetail]?
         /// End time of a contact in UTC.
         public let endTime: Date?
+        /// The ephemeris that determines antenna pointing directions for the contact.
+        public let ephemeris: EphemerisResponseData?
         /// Error message for a contact.
         public let errorMessage: String?
         /// Ground station for a contact.
@@ -1348,17 +1645,20 @@ extension GroundStation {
         public let startTime: Date?
         /// Tags assigned to a contact.
         public let tags: [String: String]?
+        /// Tracking configuration overrides specified when the contact was reserved.
+        public let trackingOverrides: TrackingOverrides?
         ///  Projected time in UTC your satellite will set below the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
         public let visibilityEndTime: Date?
         ///  Projected time in UTC your satellite will rise above the receive mask. This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
         public let visibilityStartTime: Date?
 
         @inlinable
-        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
+        public init(contactId: String? = nil, contactStatus: ContactStatus? = nil, dataflowList: [DataflowDetail]? = nil, endTime: Date? = nil, ephemeris: EphemerisResponseData? = nil, errorMessage: String? = nil, groundStation: String? = nil, maximumElevation: Elevation? = nil, missionProfileArn: String? = nil, postPassEndTime: Date? = nil, prePassStartTime: Date? = nil, region: String? = nil, satelliteArn: String? = nil, startTime: Date? = nil, tags: [String: String]? = nil, trackingOverrides: TrackingOverrides? = nil, visibilityEndTime: Date? = nil, visibilityStartTime: Date? = nil) {
             self.contactId = contactId
             self.contactStatus = contactStatus
             self.dataflowList = dataflowList
             self.endTime = endTime
+            self.ephemeris = ephemeris
             self.errorMessage = errorMessage
             self.groundStation = groundStation
             self.maximumElevation = maximumElevation
@@ -1369,6 +1669,7 @@ extension GroundStation {
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
+            self.trackingOverrides = trackingOverrides
             self.visibilityEndTime = visibilityEndTime
             self.visibilityStartTime = visibilityStartTime
         }
@@ -1378,6 +1679,7 @@ extension GroundStation {
             case contactStatus = "contactStatus"
             case dataflowList = "dataflowList"
             case endTime = "endTime"
+            case ephemeris = "ephemeris"
             case errorMessage = "errorMessage"
             case groundStation = "groundStation"
             case maximumElevation = "maximumElevation"
@@ -1388,6 +1690,7 @@ extension GroundStation {
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
+            case trackingOverrides = "trackingOverrides"
             case visibilityEndTime = "visibilityEndTime"
             case visibilityStartTime = "visibilityStartTime"
         }
@@ -1424,11 +1727,13 @@ extension GroundStation {
         public let enabled: Bool?
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String?
-        /// Reason that an ephemeris failed validation. Only provided for ephemerides with INVALID status.
+        /// Detailed error information for ephemerides with INVALID status. Provides specific error codes and messages to help diagnose validation failures.
+        public let errorReasons: [EphemerisErrorReason]?
+        /// Reason that an ephemeris failed validation. Appears only when the status is INVALID.
         public let invalidReason: EphemerisInvalidReason?
-        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        /// A name that you can use to identify the ephemeris.
         public let name: String?
-        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
         public let priority: Int?
         /// The AWS Ground Station satellite ID associated with ephemeris.
         public let satelliteId: String?
@@ -1440,10 +1745,11 @@ extension GroundStation {
         public let tags: [String: String]?
 
         @inlinable
-        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, invalidReason: EphemerisInvalidReason? = nil, name: String? = nil, priority: Int? = nil, satelliteId: String? = nil, status: EphemerisStatus? = nil, suppliedData: EphemerisTypeDescription? = nil, tags: [String: String]? = nil) {
+        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, errorReasons: [EphemerisErrorReason]? = nil, invalidReason: EphemerisInvalidReason? = nil, name: String? = nil, priority: Int? = nil, satelliteId: String? = nil, status: EphemerisStatus? = nil, suppliedData: EphemerisTypeDescription? = nil, tags: [String: String]? = nil) {
             self.creationTime = creationTime
             self.enabled = enabled
             self.ephemerisId = ephemerisId
+            self.errorReasons = errorReasons
             self.invalidReason = invalidReason
             self.name = name
             self.priority = priority
@@ -1457,6 +1763,7 @@ extension GroundStation {
             case creationTime = "creationTime"
             case enabled = "enabled"
             case ephemerisId = "ephemerisId"
+            case errorReasons = "errorReasons"
             case invalidReason = "invalidReason"
             case name = "name"
             case priority = "priority"
@@ -1534,6 +1841,84 @@ extension GroundStation {
         }
     }
 
+    public struct DownlinkAwsGroundStationAgentEndpoint: AWSEncodableShape {
+        /// Dataflow details for the downlink endpoint
+        public let dataflowDetails: DownlinkDataflowDetails
+        /// Downlink dataflow endpoint name
+        public let name: String
+
+        @inlinable
+        public init(dataflowDetails: DownlinkDataflowDetails, name: String) {
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.dataflowDetails.validate(name: "\(name).dataflowDetails")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataflowDetails = "dataflowDetails"
+            case name = "name"
+        }
+    }
+
+    public struct DownlinkAwsGroundStationAgentEndpointDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Status of the agent associated with the downlink dataflow endpoint
+        public let agentStatus: AgentStatus?
+        /// Health audit results for the downlink dataflow endpoint
+        public let auditResults: AuditResults?
+        /// Dataflow details for the downlink endpoint
+        public let dataflowDetails: DownlinkDataflowDetails
+        /// Downlink dataflow endpoint name
+        public let name: String
+
+        @inlinable
+        public init(agentStatus: AgentStatus? = nil, auditResults: AuditResults? = nil, dataflowDetails: DownlinkDataflowDetails, name: String) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.dataflowDetails.validate(name: "\(name).dataflowDetails")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatus = "agentStatus"
+            case auditResults = "auditResults"
+            case dataflowDetails = "dataflowDetails"
+            case name = "name"
+        }
+    }
+
+    public struct DownlinkConnectionDetails: AWSEncodableShape & AWSDecodableShape {
+        public let agentIpAndPortAddress: RangedConnectionDetails
+        public let egressAddressAndPort: ConnectionDetails
+
+        @inlinable
+        public init(agentIpAndPortAddress: RangedConnectionDetails, egressAddressAndPort: ConnectionDetails) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.egressAddressAndPort = egressAddressAndPort
+        }
+
+        public func validate(name: String) throws {
+            try self.agentIpAndPortAddress.validate(name: "\(name).agentIpAndPortAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentIpAndPortAddress = "agentIpAndPortAddress"
+            case egressAddressAndPort = "egressAddressAndPort"
+        }
+    }
+
     public struct Eirp: AWSEncodableShape & AWSDecodableShape {
         /// Units of an EIRP.
         public let units: EirpUnits
@@ -1573,6 +1958,8 @@ extension GroundStation {
     public struct EndpointDetails: AWSEncodableShape & AWSDecodableShape {
         /// An agent endpoint.
         public let awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint?
+        /// Definition for a downlink agent endpoint
+        public let downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpointDetails?
         /// A dataflow endpoint.
         public let endpoint: DataflowEndpoint?
         /// Health reasons for a dataflow endpoint. This field is ignored when calling CreateDataflowEndpointGroup.
@@ -1581,35 +1968,43 @@ extension GroundStation {
         public let healthStatus: CapabilityHealth?
         /// Endpoint security details including a list of subnets, a list of security groups and a role to connect streams to instances.
         public let securityDetails: SecurityDetails?
+        /// Definition for an uplink agent endpoint
+        public let uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpointDetails?
 
         @inlinable
-        public init(awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint? = nil, endpoint: DataflowEndpoint? = nil, healthReasons: [CapabilityHealthReason]? = nil, healthStatus: CapabilityHealth? = nil, securityDetails: SecurityDetails? = nil) {
+        public init(awsGroundStationAgentEndpoint: AwsGroundStationAgentEndpoint? = nil, downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpointDetails? = nil, endpoint: DataflowEndpoint? = nil, healthReasons: [CapabilityHealthReason]? = nil, healthStatus: CapabilityHealth? = nil, securityDetails: SecurityDetails? = nil, uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpointDetails? = nil) {
             self.awsGroundStationAgentEndpoint = awsGroundStationAgentEndpoint
+            self.downlinkAwsGroundStationAgentEndpoint = downlinkAwsGroundStationAgentEndpoint
             self.endpoint = endpoint
             self.healthReasons = healthReasons
             self.healthStatus = healthStatus
             self.securityDetails = securityDetails
+            self.uplinkAwsGroundStationAgentEndpoint = uplinkAwsGroundStationAgentEndpoint
         }
 
         public func validate(name: String) throws {
             try self.awsGroundStationAgentEndpoint?.validate(name: "\(name).awsGroundStationAgentEndpoint")
+            try self.downlinkAwsGroundStationAgentEndpoint?.validate(name: "\(name).downlinkAwsGroundStationAgentEndpoint")
             try self.endpoint?.validate(name: "\(name).endpoint")
             try self.validate(self.healthReasons, name: "healthReasons", parent: name, max: 500)
+            try self.uplinkAwsGroundStationAgentEndpoint?.validate(name: "\(name).uplinkAwsGroundStationAgentEndpoint")
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsGroundStationAgentEndpoint = "awsGroundStationAgentEndpoint"
+            case downlinkAwsGroundStationAgentEndpoint = "downlinkAwsGroundStationAgentEndpoint"
             case endpoint = "endpoint"
             case healthReasons = "healthReasons"
             case healthStatus = "healthStatus"
             case securityDetails = "securityDetails"
+            case uplinkAwsGroundStationAgentEndpoint = "uplinkAwsGroundStationAgentEndpoint"
         }
     }
 
     public struct EphemerisDescription: AWSDecodableShape {
         /// Supplied ephemeris data.
         public let ephemerisData: String?
-        /// Source S3 object used for the ephemeris.
+        /// Source Amazon S3 object used for the ephemeris.
         public let sourceS3Object: S3Object?
 
         @inlinable
@@ -1621,6 +2016,24 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case ephemerisData = "ephemerisData"
             case sourceS3Object = "sourceS3Object"
+        }
+    }
+
+    public struct EphemerisErrorReason: AWSDecodableShape {
+        /// The error code identifying the type of validation failure. See the Troubleshooting Invalid Ephemerides guide for error code details.
+        public let errorCode: EphemerisErrorCode
+        /// A human-readable message describing the validation failure. Provides specific details about what failed and may include suggestions for remediation.
+        public let errorMessage: String
+
+        @inlinable
+        public init(errorCode: EphemerisErrorCode, errorMessage: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
@@ -1645,20 +2058,23 @@ extension GroundStation {
         public let enabled: Bool?
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String?
-        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        /// The type of ephemeris.
+        public let ephemerisType: EphemerisType?
+        /// A name that you can use to identify the ephemeris.
         public let name: String?
-        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
         public let priority: Int?
-        /// Source S3 object used for the ephemeris.
+        /// Source Amazon S3 object used for the ephemeris.
         public let sourceS3Object: S3Object?
         /// The status of the ephemeris.
         public let status: EphemerisStatus?
 
         @inlinable
-        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, name: String? = nil, priority: Int? = nil, sourceS3Object: S3Object? = nil, status: EphemerisStatus? = nil) {
+        public init(creationTime: Date? = nil, enabled: Bool? = nil, ephemerisId: String? = nil, ephemerisType: EphemerisType? = nil, name: String? = nil, priority: Int? = nil, sourceS3Object: S3Object? = nil, status: EphemerisStatus? = nil) {
             self.creationTime = creationTime
             self.enabled = enabled
             self.ephemerisId = ephemerisId
+            self.ephemerisType = ephemerisType
             self.name = name
             self.priority = priority
             self.sourceS3Object = sourceS3Object
@@ -1669,6 +2085,7 @@ extension GroundStation {
             case creationTime = "creationTime"
             case enabled = "enabled"
             case ephemerisId = "ephemerisId"
+            case ephemerisType = "ephemerisType"
             case name = "name"
             case priority = "priority"
             case sourceS3Object = "sourceS3Object"
@@ -1699,6 +2116,24 @@ extension GroundStation {
             case epoch = "epoch"
             case name = "name"
             case source = "source"
+        }
+    }
+
+    public struct EphemerisResponseData: AWSDecodableShape {
+        /// Unique identifier of the ephemeris. Appears only for custom ephemerides.
+        public let ephemerisId: String?
+        /// Type of ephemeris.
+        public let ephemerisType: EphemerisType
+
+        @inlinable
+        public init(ephemerisId: String? = nil, ephemerisType: EphemerisType) {
+            self.ephemerisId = ephemerisId
+            self.ephemerisType = ephemerisType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ephemerisId = "ephemerisId"
+            case ephemerisType = "ephemerisType"
         }
     }
 
@@ -1777,6 +2212,59 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case agentId = "agentId"
             case taskingDocument = "taskingDocument"
+        }
+    }
+
+    public struct GetAgentTaskResponseUrlRequest: AWSEncodableShape {
+        /// UUID of agent requesting the response URL.
+        public let agentId: String
+        /// GUID of the agent task for which the response URL is being requested.
+        public let taskId: String
+
+        @inlinable
+        public init(agentId: String, taskId: String) {
+            self.agentId = agentId
+            self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.agentId, key: "agentId")
+            request.encodePath(self.taskId, key: "taskId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 36)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 36)
+            try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 36)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 36)
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAgentTaskResponseUrlResponse: AWSDecodableShape {
+        /// UUID of the agent.
+        public let agentId: String
+        /// Presigned URL for uploading agent task response logs.
+        public let presignedLogUrl: String
+        /// GUID of the agent task.
+        public let taskId: String
+
+        @inlinable
+        public init(agentId: String, presignedLogUrl: String, taskId: String) {
+            self.agentId = agentId
+            self.presignedLogUrl = presignedLogUrl
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case presignedLogUrl = "presignedLogUrl"
+            case taskId = "taskId"
         }
     }
 
@@ -2113,6 +2601,24 @@ extension GroundStation {
         }
     }
 
+    public struct ISO8601TimeRange: AWSEncodableShape {
+        /// End time in ISO 8601 format in Coordinated Universal Time (UTC). Example: 2024-01-15T12:00:00.000Z
+        public let endTime: Date
+        /// Start time in ISO 8601 format in Coordinated Universal Time (UTC). Example: 2026-11-15T10:28:48.000Z
+        public let startTime: Date
+
+        @inlinable
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "endTime"
+            case startTime = "startTime"
+        }
+    }
+
     public struct IntegerRange: AWSEncodableShape & AWSDecodableShape {
         /// A maximum value.
         public let maximum: Int
@@ -2198,6 +2704,8 @@ extension GroundStation {
     public struct ListContactsRequest: AWSEncodableShape {
         /// End time of a contact in UTC.
         public let endTime: Date
+        /// Filter for selecting contacts that use a specific ephemeris".
+        public let ephemeris: EphemerisFilter?
         /// Name of a ground station.
         public let groundStation: String?
         /// Maximum number of contacts returned.
@@ -2214,8 +2722,9 @@ extension GroundStation {
         public let statusList: [ContactStatus]
 
         @inlinable
-        public init(endTime: Date, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: Date, statusList: [ContactStatus]) {
+        public init(endTime: Date, ephemeris: EphemerisFilter? = nil, groundStation: String? = nil, maxResults: Int? = nil, missionProfileArn: String? = nil, nextToken: String? = nil, satelliteArn: String? = nil, startTime: Date, statusList: [ContactStatus]) {
             self.endTime = endTime
+            self.ephemeris = ephemeris
             self.groundStation = groundStation
             self.maxResults = maxResults
             self.missionProfileArn = missionProfileArn
@@ -2226,6 +2735,7 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
+            try self.ephemeris?.validate(name: "\(name).ephemeris")
             try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
             try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
@@ -2245,6 +2755,7 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
+            case ephemeris = "ephemeris"
             case groundStation = "groundStation"
             case maxResults = "maxResults"
             case missionProfileArn = "missionProfileArn"
@@ -2322,22 +2833,25 @@ extension GroundStation {
     }
 
     public struct ListEphemeridesRequest: AWSEncodableShape {
-        /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+        /// The end time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
         public let endTime: Date
+        /// Filter ephemerides by type. If not specified, all ephemeris types will be returned.
+        public let ephemerisType: EphemerisType?
         /// Maximum number of ephemerides to return.
         public let maxResults: Int?
         /// Pagination token.
         public let nextToken: String?
         /// The AWS Ground Station satellite ID to list ephemeris for.
-        public let satelliteId: String
-        /// The start time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
+        public let satelliteId: String?
+        /// The start time for the list operation in UTC. Returns ephemerides with expiration times within your specified time range.
         public let startTime: Date
         /// The list of ephemeris status to return.
         public let statusList: [EphemerisStatus]?
 
         @inlinable
-        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String, startTime: Date, statusList: [EphemerisStatus]? = nil) {
+        public init(endTime: Date, ephemerisType: EphemerisType? = nil, maxResults: Int? = nil, nextToken: String? = nil, satelliteId: String? = nil, startTime: Date, statusList: [EphemerisStatus]? = nil) {
             self.endTime = endTime
+            self.ephemerisType = ephemerisType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.satelliteId = satelliteId
@@ -2349,9 +2863,10 @@ extension GroundStation {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.endTime, forKey: .endTime)
+            try container.encodeIfPresent(self.ephemerisType, forKey: .ephemerisType)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
-            try container.encode(self.satelliteId, forKey: .satelliteId)
+            try container.encodeIfPresent(self.satelliteId, forKey: .satelliteId)
             try container.encode(self.startTime, forKey: .startTime)
             try container.encodeIfPresent(self.statusList, forKey: .statusList)
         }
@@ -2370,6 +2885,7 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case endTime = "endTime"
+            case ephemerisType = "ephemerisType"
             case satelliteId = "satelliteId"
             case startTime = "startTime"
             case statusList = "statusList"
@@ -2624,9 +3140,9 @@ extension GroundStation {
     }
 
     public struct OEMEphemeris: AWSEncodableShape {
-        /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
+        /// OEM data that you provide directly instead of using an Amazon S3 object.
         public let oemData: String?
-        /// Identifies the S3 object to be used as the ephemeris.
+        /// The Amazon S3 object that contains the ephemeris data.
         public let s3Object: S3Object?
 
         @inlinable
@@ -2742,20 +3258,23 @@ extension GroundStation {
         /// ARN of a mission profile.
         public let missionProfileArn: String
         /// ARN of a satellite
-        public let satelliteArn: String
+        public let satelliteArn: String?
         /// Start time of a contact in UTC.
         public let startTime: Date
         /// Tags assigned to a contact.
         public let tags: [String: String]?
+        /// Tracking configuration overrides for the contact.
+        public let trackingOverrides: TrackingOverrides?
 
         @inlinable
-        public init(endTime: Date, groundStation: String, missionProfileArn: String, satelliteArn: String, startTime: Date, tags: [String: String]? = nil) {
+        public init(endTime: Date, groundStation: String, missionProfileArn: String, satelliteArn: String? = nil, startTime: Date, tags: [String: String]? = nil, trackingOverrides: TrackingOverrides? = nil) {
             self.endTime = endTime
             self.groundStation = groundStation
             self.missionProfileArn = missionProfileArn
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
+            self.trackingOverrides = trackingOverrides
         }
 
         public func validate(name: String) throws {
@@ -2768,6 +3287,7 @@ extension GroundStation {
             try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, max: 132)
             try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, min: 82)
             try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, pattern: "^arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.trackingOverrides?.validate(name: "\(name).trackingOverrides")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2777,6 +3297,7 @@ extension GroundStation {
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
+            case trackingOverrides = "trackingOverrides"
         }
     }
 
@@ -2801,7 +3322,7 @@ extension GroundStation {
         public let bucket: String?
         /// An Amazon S3 key for the ephemeris.
         public let key: String?
-        /// For versioned S3 objects, the version to use for the ephemeris.
+        /// For versioned Amazon S3 objects, the version to use for the ephemeris.
         public let version: String?
 
         @inlinable
@@ -2928,6 +3449,23 @@ extension GroundStation {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        /// Parameter name that caused the exception
+        public let parameterName: String?
+
+        @inlinable
+        public init(message: String? = nil, parameterName: String? = nil) {
+            self.message = message
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case parameterName = "parameterName"
+        }
+    }
+
     public struct SocketAddress: AWSEncodableShape & AWSDecodableShape {
         /// Name of a socket address.
         public let name: String
@@ -2999,7 +3537,7 @@ extension GroundStation {
         public let tleLine1: String
         /// Second line of two-line element set (TLE) data.
         public let tleLine2: String
-        /// The valid time range for the TLE. Gaps or overlap are not permitted.
+        /// The valid time range for the TLE. Time ranges must be continuous without gaps or overlaps.
         public let validTimeRange: TimeRange
 
         @inlinable
@@ -3026,9 +3564,9 @@ extension GroundStation {
     }
 
     public struct TLEEphemeris: AWSEncodableShape {
-        /// Identifies the S3 object to be used as the ephemeris.
+        /// The Amazon S3 object that contains the ephemeris data.
         public let s3Object: S3Object?
-        /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
+        /// TLE data that you provide directly instead of using an Amazon S3 object.
         public let tleData: [TLEData]?
 
         @inlinable
@@ -3086,10 +3624,32 @@ extension GroundStation {
         public init() {}
     }
 
+    public struct TimeAzEl: AWSEncodableShape {
+        /// Azimuth angle at the specified time. Valid ranges by unit:    DEGREE_ANGLE: -180 to 360 degrees, measured clockwise from true north    RADIAN: -π to 2π radians, measured clockwise from true north
+        public let az: Double
+        /// Time offset in atomic seconds from the segment's reference epoch. All dt values within a segment must be in ascending order with no duplicates.  dt values may be:   negative   expressed as fractions of a second   expressed in scientific notation
+        public let dt: Double
+        /// Elevation angle at the specified time. Valid ranges by unit:    DEGREE_ANGLE: -90 to 90 degrees, where 0 is the horizon, 90 is zenith, and negative values are below the horizon     RADIAN: -π/2 to π/2 radians, where 0 is the horizon, π/2 is zenith, and negative values are below the horizon
+        public let el: Double
+
+        @inlinable
+        public init(az: Double, dt: Double, el: Double) {
+            self.az = az
+            self.dt = dt
+            self.el = el
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case az = "az"
+            case dt = "dt"
+            case el = "el"
+        }
+    }
+
     public struct TimeRange: AWSEncodableShape {
-        /// Time in UTC at which the time range ends.
+        /// Unix epoch timestamp in UTC at which the time range ends.
         public let endTime: Date
-        /// Time in UTC at which the time range starts.
+        /// Unix epoch timestamp in UTC at which the time range starts.
         public let startTime: Date
 
         @inlinable
@@ -3115,6 +3675,24 @@ extension GroundStation {
 
         private enum CodingKeys: String, CodingKey {
             case autotrack = "autotrack"
+        }
+    }
+
+    public struct TrackingOverrides: AWSEncodableShape & AWSDecodableShape {
+        /// Program track settings to override for antenna tracking during the contact.
+        public let programTrackSettings: ProgramTrackSettings
+
+        @inlinable
+        public init(programTrackSettings: ProgramTrackSettings) {
+            self.programTrackSettings = programTrackSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.programTrackSettings.validate(name: "\(name).programTrackSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case programTrackSettings = "programTrackSettings"
         }
     }
 
@@ -3260,13 +3838,13 @@ extension GroundStation {
     }
 
     public struct UpdateEphemerisRequest: AWSEncodableShape {
-        /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
+        /// Enable or disable the ephemeris. Changing this value doesn't require re-validation.
         public let enabled: Bool
         /// The AWS Ground Station ephemeris ID.
         public let ephemerisId: String
-        /// A name string associated with the ephemeris. Used as a human-readable identifier for the ephemeris.
+        /// A name that you can use to identify the ephemeris.
         public let name: String?
-        /// Customer-provided priority score to establish the order in which overlapping ephemerides should be used. The default for customer-provided ephemeris priority is 1, and higher numbers take precedence. Priority must be 1 or greater
+        /// A priority score that determines which ephemeris to use when multiple ephemerides overlap. Higher numbers take precedence. The default is 1. Must be 1 or greater.
         public let priority: Int?
 
         @inlinable
@@ -3387,6 +3965,84 @@ extension GroundStation {
         }
     }
 
+    public struct UplinkAwsGroundStationAgentEndpoint: AWSEncodableShape {
+        /// Dataflow details for the uplink endpoint
+        public let dataflowDetails: UplinkDataflowDetails
+        /// Uplink dataflow endpoint name
+        public let name: String
+
+        @inlinable
+        public init(dataflowDetails: UplinkDataflowDetails, name: String) {
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.dataflowDetails.validate(name: "\(name).dataflowDetails")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataflowDetails = "dataflowDetails"
+            case name = "name"
+        }
+    }
+
+    public struct UplinkAwsGroundStationAgentEndpointDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Status of the agent associated with the uplink dataflow endpoint
+        public let agentStatus: AgentStatus?
+        /// Health audit results for the uplink dataflow endpoint
+        public let auditResults: AuditResults?
+        /// Dataflow details for the uplink endpoint
+        public let dataflowDetails: UplinkDataflowDetails
+        /// Uplink dataflow endpoint name
+        public let name: String
+
+        @inlinable
+        public init(agentStatus: AgentStatus? = nil, auditResults: AuditResults? = nil, dataflowDetails: UplinkDataflowDetails, name: String) {
+            self.agentStatus = agentStatus
+            self.auditResults = auditResults
+            self.dataflowDetails = dataflowDetails
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.dataflowDetails.validate(name: "\(name).dataflowDetails")
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentStatus = "agentStatus"
+            case auditResults = "auditResults"
+            case dataflowDetails = "dataflowDetails"
+            case name = "name"
+        }
+    }
+
+    public struct UplinkConnectionDetails: AWSEncodableShape & AWSDecodableShape {
+        public let agentIpAndPortAddress: RangedConnectionDetails
+        public let ingressAddressAndPort: ConnectionDetails
+
+        @inlinable
+        public init(agentIpAndPortAddress: RangedConnectionDetails, ingressAddressAndPort: ConnectionDetails) {
+            self.agentIpAndPortAddress = agentIpAndPortAddress
+            self.ingressAddressAndPort = ingressAddressAndPort
+        }
+
+        public func validate(name: String) throws {
+            try self.agentIpAndPortAddress.validate(name: "\(name).agentIpAndPortAddress")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentIpAndPortAddress = "agentIpAndPortAddress"
+            case ingressAddressAndPort = "ingressAddressAndPort"
+        }
+    }
+
     public struct UplinkEchoConfig: AWSEncodableShape & AWSDecodableShape {
         /// ARN of an uplink Config.
         public let antennaUplinkConfigArn: String
@@ -3428,6 +4084,78 @@ extension GroundStation {
             case polarization = "polarization"
         }
     }
+
+    public struct DownlinkDataflowDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Downlink connection details for customer to Agent and Agent to Ground Station
+        public let agentConnectionDetails: DownlinkConnectionDetails?
+
+        @inlinable
+        public init(agentConnectionDetails: DownlinkConnectionDetails? = nil) {
+            self.agentConnectionDetails = agentConnectionDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.agentConnectionDetails?.validate(name: "\(name).agentConnectionDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentConnectionDetails = "agentConnectionDetails"
+        }
+    }
+
+    public struct EphemerisFilter: AWSEncodableShape {
+        /// Filter for AzElEphemeris.
+        public let azEl: AzElEphemerisFilter?
+
+        @inlinable
+        public init(azEl: AzElEphemerisFilter? = nil) {
+            self.azEl = azEl
+        }
+
+        public func validate(name: String) throws {
+            try self.azEl?.validate(name: "\(name).azEl")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azEl = "azEl"
+        }
+    }
+
+    public struct ProgramTrackSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Program track settings for AzElEphemeris.
+        public let azEl: AzElProgramTrackSettings?
+
+        @inlinable
+        public init(azEl: AzElProgramTrackSettings? = nil) {
+            self.azEl = azEl
+        }
+
+        public func validate(name: String) throws {
+            try self.azEl?.validate(name: "\(name).azEl")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case azEl = "azEl"
+        }
+    }
+
+    public struct UplinkDataflowDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Uplink connection details for customer to Agent and Agent to Ground Station
+        public let agentConnectionDetails: UplinkConnectionDetails?
+
+        @inlinable
+        public init(agentConnectionDetails: UplinkConnectionDetails? = nil) {
+            self.agentConnectionDetails = agentConnectionDetails
+        }
+
+        public func validate(name: String) throws {
+            try self.agentConnectionDetails?.validate(name: "\(name).agentConnectionDetails")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentConnectionDetails = "agentConnectionDetails"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3437,8 +4165,10 @@ public struct GroundStationErrorType: AWSErrorType {
     enum Code: String {
         case dependencyException = "DependencyException"
         case invalidParameterException = "InvalidParameterException"
+        case resourceInUseException = "ResourceInUseException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
     }
 
     private let error: Code
@@ -3463,17 +4193,22 @@ public struct GroundStationErrorType: AWSErrorType {
     public static var dependencyException: Self { .init(.dependencyException) }
     /// One or more parameters are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The specified resource is in use by non-terminal state contacts and cannot be modified or deleted.
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Account limits for this resource have been exceeded.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
     /// Resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Request would cause a service quota to be exceeded.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
 }
 
 extension GroundStationErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "DependencyException": GroundStation.DependencyException.self,
         "InvalidParameterException": GroundStation.InvalidParameterException.self,
-        "ResourceLimitExceededException": GroundStation.ResourceLimitExceededException.self
+        "ResourceLimitExceededException": GroundStation.ResourceLimitExceededException.self,
+        "ServiceQuotaExceededException": GroundStation.ServiceQuotaExceededException.self
     ]
 }
 

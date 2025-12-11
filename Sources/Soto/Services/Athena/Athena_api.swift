@@ -1099,7 +1099,7 @@ public struct Athena: AWSService {
         return try await self.getQueryResults(input, logger: logger)
     }
 
-    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
+    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes or, in some cases, may not be returned. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
     @Sendable
     @inlinable
     public func getQueryRuntimeStatistics(_ input: GetQueryRuntimeStatisticsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryRuntimeStatisticsOutput {
@@ -1112,7 +1112,7 @@ public struct Athena: AWSService {
             logger: logger
         )
     }
-    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
+    /// Returns query execution runtime statistics related to a single execution of a query if you have access to the workgroup in which the query ran. Statistics from the Timeline section of the response object are available as soon as QueryExecutionStatus$State is in a SUCCEEDED or FAILED state. The remaining non-timeline statistics in the response (like stage-level input and output row count and data size) are updated asynchronously and may not be available immediately after a query completes or, in some cases, may not be returned. The non-timeline statistics are also not included when a query has row-level filters defined in Lake Formation.
     ///
     /// Parameters:
     ///   - queryExecutionId: The unique ID of the query execution.
@@ -1126,6 +1126,35 @@ public struct Athena: AWSService {
             queryExecutionId: queryExecutionId
         )
         return try await self.getQueryRuntimeStatistics(input, logger: logger)
+    }
+
+    /// Gets the Live UI/Persistence UI for a session.
+    @Sendable
+    @inlinable
+    public func getResourceDashboard(_ input: GetResourceDashboardRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceDashboardResponse {
+        try await self.client.execute(
+            operation: "GetResourceDashboard", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the Live UI/Persistence UI for a session.
+    ///
+    /// Parameters:
+    ///   - resourceARN: The The Amazon Resource Name (ARN) for a session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourceDashboard(
+        resourceARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourceDashboardResponse {
+        let input = GetResourceDashboardRequest(
+            resourceARN: resourceARN
+        )
+        return try await self.getResourceDashboard(input, logger: logger)
     }
 
     /// Gets the full details of a previously created session, including the session status and configuration.
@@ -1155,6 +1184,35 @@ public struct Athena: AWSService {
             sessionId: sessionId
         )
         return try await self.getSession(input, logger: logger)
+    }
+
+    /// Gets a connection endpoint and authentication token for a given session Id.
+    @Sendable
+    @inlinable
+    public func getSessionEndpoint(_ input: GetSessionEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionEndpointResponse {
+        try await self.client.execute(
+            operation: "GetSessionEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a connection endpoint and authentication token for a given session Id.
+    ///
+    /// Parameters:
+    ///   - sessionId: The session ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSessionEndpoint(
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionEndpointResponse {
+        let input = GetSessionEndpointRequest(
+            sessionId: sessionId
+        )
+        return try await self.getSessionEndpoint(input, logger: logger)
     }
 
     /// Gets the current status of a session.
@@ -1956,6 +2014,7 @@ public struct Athena: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    ///   - engineConfiguration: 
     ///   - executionParameters: A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     ///   - queryExecutionContext: The database within which the query executes.
     ///   - queryString: The SQL query statements to be executed.
@@ -1966,6 +2025,7 @@ public struct Athena: AWSService {
     @inlinable
     public func startQueryExecution(
         clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(),
+        engineConfiguration: EngineConfiguration? = nil,
         executionParameters: [String]? = nil,
         queryExecutionContext: QueryExecutionContext? = nil,
         queryString: String,
@@ -1976,6 +2036,7 @@ public struct Athena: AWSService {
     ) async throws -> StartQueryExecutionOutput {
         let input = StartQueryExecutionInput(
             clientRequestToken: clientRequestToken, 
+            engineConfiguration: engineConfiguration, 
             executionParameters: executionParameters, 
             queryExecutionContext: queryExecutionContext, 
             queryString: queryString, 
@@ -2003,28 +2064,40 @@ public struct Athena: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
+    ///   - copyWorkGroupTags: Copies the tags from the Workgroup to the Session when.
     ///   - description: The session description.
     ///   - engineConfiguration: Contains engine data processing unit (DPU) configuration settings and parameter mappings.
+    ///   - executionRole: The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
+    ///   - monitoringConfiguration: Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
     ///   - notebookVersion: The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See EngineConfiguration$AdditionalConfigs.
     ///   - sessionIdleTimeoutInMinutes: The idle timeout in minutes for the session.
+    ///   - tags: A list of comma separated tags to add to the session that is created.
     ///   - workGroup: The workgroup to which the session belongs.
     ///   - logger: Logger use during operation
     @inlinable
     public func startSession(
         clientRequestToken: String? = nil,
+        copyWorkGroupTags: Bool? = nil,
         description: String? = nil,
         engineConfiguration: EngineConfiguration,
+        executionRole: String? = nil,
+        monitoringConfiguration: MonitoringConfiguration? = nil,
         notebookVersion: String? = nil,
         sessionIdleTimeoutInMinutes: Int? = nil,
+        tags: [Tag]? = nil,
         workGroup: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartSessionResponse {
         let input = StartSessionRequest(
             clientRequestToken: clientRequestToken, 
+            copyWorkGroupTags: copyWorkGroupTags, 
             description: description, 
             engineConfiguration: engineConfiguration, 
+            executionRole: executionRole, 
+            monitoringConfiguration: monitoringConfiguration, 
             notebookVersion: notebookVersion, 
             sessionIdleTimeoutInMinutes: sessionIdleTimeoutInMinutes, 
+            tags: tags, 
             workGroup: workGroup
         )
         return try await self.startSession(input, logger: logger)

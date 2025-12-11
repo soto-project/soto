@@ -567,6 +567,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum FunctionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aggregateFunction = "AGGREGATE_FUNCTION"
+        case regularFunction = "REGULAR_FUNCTION"
+        case storedProcedure = "STORED_PROCEDURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GlueRecordType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bigdecimal = "BIGDECIMAL"
         case byte = "BYTE"
@@ -616,6 +623,21 @@ extension Glue {
         case lzo = "lzo"
         case snappy = "snappy"
         case uncompressed = "uncompressed"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IcebergUpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case addEncryptionKey = "add-encryption-key"
+        case addSchema = "add-schema"
+        case addSortOrder = "add-sort-order"
+        case addSpec = "add-spec"
+        case removeEncryptionKey = "remove-encryption-key"
+        case removeProperties = "remove-properties"
+        case setCurrentSchema = "set-current-schema"
+        case setDefaultSortOrder = "set-default-sort-order"
+        case setDefaultSpec = "set-default-spec"
+        case setLocation = "set-location"
+        case setProperties = "set-properties"
         public var description: String { return self.rawValue }
     }
 
@@ -741,6 +763,12 @@ extension Glue {
         case cancelled = "CANCELLED"
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LastRefreshType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case incremental = "INCREMENTAL"
         public var description: String { return self.rawValue }
     }
 
@@ -1753,7 +1781,7 @@ extension Glue {
                 try validate($0.value, name: "customAuthenticationCredentials[\"\($0.key)\"]", parent: name, max: 2048)
                 try validate($0.value, name: "customAuthenticationCredentials[\"\($0.key)\"]", parent: name, min: 1)
             }
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:")
             try self.oAuth2Properties?.validate(name: "\(name).oAuth2Properties")
             try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:aws(-(cn|us-gov|iso(-[bef])?))?:secretsmanager:.*$")
         }
@@ -3893,7 +3921,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5038,7 +5066,7 @@ extension Glue {
         public let authenticationConfiguration: AuthenticationConfigurationInput?
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      VIEW_VALIDATION_REDSHIFT - Designates a connection used for view validation by Amazon Redshift.    VIEW_VALIDATION_ATHENA - Designates a connection used for view validation by Amazon Athena.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   Additionally, a ConnectionType for the following SaaS connectors is supported:    FACEBOOKADS - Designates a connection to Facebook Ads.    GOOGLEADS - Designates a connection to Google Ads.    GOOGLESHEETS - Designates a connection to Google Sheets.    GOOGLEANALYTICS4 - Designates a connection to Google Analytics 4.    HUBSPOT - Designates a connection to HubSpot.    INSTAGRAMADS - Designates a connection to Instagram Ads.    INTERCOM - Designates a connection to Intercom.    JIRACLOUD - Designates a connection to Jira Cloud.    MARKETO - Designates a connection to Adobe Marketo Engage.    NETSUITEERP - Designates a connection to Oracle NetSuite.    SALESFORCE - Designates a connection to Salesforce using OAuth authentication.    SALESFORCEMARKETINGCLOUD - Designates a connection to Salesforce Marketing Cloud.    SALESFORCEPARDOT - Designates a connection to Salesforce Marketing Cloud Account Engagement (MCAE).    SAPODATA - Designates a connection to SAP OData.    SERVICENOW - Designates a connection to ServiceNow.    SLACK - Designates a connection to Slack.    SNAPCHATADS - Designates a connection to Snapchat Ads.    STRIPE - Designates a connection to Stripe.    ZENDESK - Designates a connection to Zendesk.    ZOHOCRM - Designates a connection to Zoho CRM.   For more information on the connection parameters needed for a particular connector, see the documentation for the connector in Adding an Glue connectionin the Glue User Guide.  SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).  JDBC Connections use the following ConnectionParameters.   Required: All of (HOST, PORT, JDBC_ENGINE) or JDBC_CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.   Optional: JDBC_ENFORCE_SSL, CUSTOM_JDBC_CERT, CUSTOM_JDBC_CERT_STRING, SKIP_CUSTOM_JDBC_CERT_VALIDATION.  These parameters are used to configure SSL with JDBC.      KAFKA - Designates a connection to an Apache Kafka streaming platform.  KAFKA Connections use the following ConnectionParameters.   Required: KAFKA_BOOTSTRAP_SERVERS.   Optional: KAFKA_SSL_ENABLED, KAFKA_CUSTOM_CERT, KAFKA_SKIP_CUSTOM_CERT_VALIDATION. These parameters are used to configure SSL with KAFKA.   Optional: KAFKA_CLIENT_KEYSTORE, KAFKA_CLIENT_KEYSTORE_PASSWORD, KAFKA_CLIENT_KEY_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEYSTORE_PASSWORD, ENCRYPTED_KAFKA_CLIENT_KEY_PASSWORD. These parameters are used to configure TLS client configuration with SSL in KAFKA.   Optional: KAFKA_SASL_MECHANISM. Can be specified as SCRAM-SHA-512, GSSAPI, or AWS_MSK_IAM.   Optional: KAFKA_SASL_SCRAM_USERNAME, KAFKA_SASL_SCRAM_PASSWORD, ENCRYPTED_KAFKA_SASL_SCRAM_PASSWORD. These parameters are used to configure SASL/SCRAM-SHA-512 authentication with KAFKA.   Optional: KAFKA_SASL_GSSAPI_KEYTAB, KAFKA_SASL_GSSAPI_KRB5_CONF, KAFKA_SASL_GSSAPI_SERVICE, KAFKA_SASL_GSSAPI_PRINCIPAL. These parameters are used to configure SASL/GSSAPI authentication with KAFKA.      MONGODB - Designates a connection to a MongoDB document database.  MONGODB Connections use the following ConnectionParameters.   Required: CONNECTION_URL.   Required: All of (USERNAME, PASSWORD) or SECRET_ID.      VIEW_VALIDATION_REDSHIFT - Designates a connection used for view validation by Amazon Redshift.    VIEW_VALIDATION_ATHENA - Designates a connection used for view validation by Amazon Athena.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).  NETWORK Connections do not require ConnectionParameters. Instead, provide a PhysicalConnectionRequirements.    MARKETPLACE - Uses configuration settings contained in a connector purchased from Amazon Web Services Marketplace to read from and write to data stores that are not natively supported by Glue.  MARKETPLACE Connections use the following ConnectionParameters.   Required: CONNECTOR_TYPE, CONNECTOR_URL, CONNECTOR_CLASS_NAME, CONNECTION_URL.   Required for JDBC CONNECTOR_TYPE connections: All of (USERNAME, PASSWORD) or SECRET_ID.      CUSTOM - Uses configuration settings contained in a custom connector to read from and write to data stores that are not natively supported by Glue.   For more information on the connection parameters needed for a particular connector, see the documentation for the connector in Adding an Glue connectionin the Glue User Guide.  SFTP is not supported. For more information about how optional ConnectionProperties are used to configure features in Glue, consult Glue connection properties. For more information about how optional ConnectionProperties are used to configure features in Glue Studio, consult Using connectors and connections.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -6400,11 +6428,14 @@ extension Glue {
         public let instanceArn: String
         /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
         public let scopes: [String]?
+        /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+        public let userBackgroundSessionsEnabled: Bool?
 
         @inlinable
-        public init(instanceArn: String, scopes: [String]? = nil) {
+        public init(instanceArn: String, scopes: [String]? = nil, userBackgroundSessionsEnabled: Bool? = nil) {
             self.instanceArn = instanceArn
             self.scopes = scopes
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
 
         public func validate(name: String) throws {
@@ -6420,6 +6451,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case instanceArn = "InstanceArn"
             case scopes = "Scopes"
+            case userBackgroundSessionsEnabled = "UserBackgroundSessionsEnabled"
         }
     }
 
@@ -6554,12 +6586,12 @@ extension Glue {
             try self.validate(self.integrationName, name: "integrationName", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
-            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 128)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 512)
             try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 128)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 512)
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
 
@@ -6581,26 +6613,33 @@ extension Glue {
         public let resourceArn: String
         /// The resource properties associated with the integration source.
         public let sourceProcessingProperties: SourceProcessingProperties?
+        /// Metadata assigned to the resource consisting of a list of key-value pairs.
+        public let tags: [Tag]?
         /// The resource properties associated with the integration target.
         public let targetProcessingProperties: TargetProcessingProperties?
 
         @inlinable
-        public init(resourceArn: String, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
+        public init(resourceArn: String, sourceProcessingProperties: SourceProcessingProperties? = nil, tags: [Tag]? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
             self.resourceArn = resourceArn
             self.sourceProcessingProperties = sourceProcessingProperties
+            self.tags = tags
             self.targetProcessingProperties = targetProcessingProperties
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.sourceProcessingProperties?.validate(name: "\(name).sourceProcessingProperties")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.targetProcessingProperties?.validate(name: "\(name).targetProcessingProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
             case sourceProcessingProperties = "SourceProcessingProperties"
+            case tags = "Tags"
             case targetProcessingProperties = "TargetProcessingProperties"
         }
     }
@@ -6608,20 +6647,24 @@ extension Glue {
     public struct CreateIntegrationResourcePropertyResponse: AWSDecodableShape {
         /// The connection ARN of the source, or the database ARN of the target.
         public let resourceArn: String
+        /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+        public let resourcePropertyArn: String?
         /// The resource properties associated with the integration source.
         public let sourceProcessingProperties: SourceProcessingProperties?
         /// The resource properties associated with the integration target.
         public let targetProcessingProperties: TargetProcessingProperties?
 
         @inlinable
-        public init(resourceArn: String, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
+        public init(resourceArn: String, resourcePropertyArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
             self.resourceArn = resourceArn
+            self.resourcePropertyArn = resourcePropertyArn
             self.sourceProcessingProperties = sourceProcessingProperties
             self.targetProcessingProperties = targetProcessingProperties
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+            case resourcePropertyArn = "ResourcePropertyArn"
             case sourceProcessingProperties = "SourceProcessingProperties"
             case targetProcessingProperties = "TargetProcessingProperties"
         }
@@ -6708,7 +6751,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.sourceTableConfig?.validate(name: "\(name).sourceTableConfig")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
@@ -8327,7 +8370,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9564,6 +9607,29 @@ extension Glue {
         }
     }
 
+    public struct DeleteIntegrationResourcePropertyRequest: AWSEncodableShape {
+        /// The connection ARN of the source, or the database ARN of the target.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteIntegrationResourcePropertyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteIntegrationResponse: AWSDecodableShape {
         /// An optional set of non-secret key–value pairs that contains additional contextual information for encryption.
         public let additionalEncryptionContext: [String: String]?
@@ -9635,7 +9701,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
@@ -10473,7 +10539,7 @@ extension Glue {
             try self.validate(self.integrationArn, name: "integrationArn", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, max: 128)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 128)
+            try self.validate(self.targetArn, name: "targetArn", parent: name, max: 512)
             try self.validate(self.targetArn, name: "targetArn", parent: name, min: 1)
         }
 
@@ -13583,18 +13649,22 @@ extension Glue {
         public let instanceArn: String?
         /// A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
         public let scopes: [String]?
+        /// Indicates whether users can run background sessions when using Identity Center authentication with Glue services.
+        public let userBackgroundSessionsEnabled: Bool?
 
         @inlinable
-        public init(applicationArn: String? = nil, instanceArn: String? = nil, scopes: [String]? = nil) {
+        public init(applicationArn: String? = nil, instanceArn: String? = nil, scopes: [String]? = nil, userBackgroundSessionsEnabled: Bool? = nil) {
             self.applicationArn = applicationArn
             self.instanceArn = instanceArn
             self.scopes = scopes
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationArn = "ApplicationArn"
             case instanceArn = "InstanceArn"
             case scopes = "Scopes"
+            case userBackgroundSessionsEnabled = "UserBackgroundSessionsEnabled"
         }
     }
 
@@ -13608,7 +13678,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
         }
 
@@ -13620,20 +13690,24 @@ extension Glue {
     public struct GetIntegrationResourcePropertyResponse: AWSDecodableShape {
         /// The connection ARN of the source, or the database ARN of the target.
         public let resourceArn: String?
+        /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+        public let resourcePropertyArn: String?
         /// The resource properties associated with the integration source.
         public let sourceProcessingProperties: SourceProcessingProperties?
         /// The resource properties associated with the integration target.
         public let targetProcessingProperties: TargetProcessingProperties?
 
         @inlinable
-        public init(resourceArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
+        public init(resourceArn: String? = nil, resourcePropertyArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
             self.resourceArn = resourceArn
+            self.resourcePropertyArn = resourcePropertyArn
             self.sourceProcessingProperties = sourceProcessingProperties
             self.targetProcessingProperties = targetProcessingProperties
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+            case resourcePropertyArn = "ResourcePropertyArn"
             case sourceProcessingProperties = "SourceProcessingProperties"
             case targetProcessingProperties = "TargetProcessingProperties"
         }
@@ -13652,7 +13726,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
@@ -15745,6 +15819,8 @@ extension Glue {
         public let authorizedColumns: [String]?
         /// A list of column row filters.
         public let cellFilters: [ColumnRowFilter]?
+        /// Indicates if a table is a materialized view.
+        public let isMaterializedView: Bool?
         /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
         public let isMultiDialectView: Bool?
         /// A flag that instructs the engine not to push user-provided operations into the logical plan of the view during query planning. However, if set this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
@@ -15763,9 +15839,10 @@ extension Glue {
         public let table: Table?
 
         @inlinable
-        public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isMultiDialectView: Bool? = nil, isProtected: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, permissions: [Permission]? = nil, queryAuthorizationId: String? = nil, resourceArn: String? = nil, rowFilter: String? = nil, table: Table? = nil) {
+        public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isProtected: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, permissions: [Permission]? = nil, queryAuthorizationId: String? = nil, resourceArn: String? = nil, rowFilter: String? = nil, table: Table? = nil) {
             self.authorizedColumns = authorizedColumns
             self.cellFilters = cellFilters
+            self.isMaterializedView = isMaterializedView
             self.isMultiDialectView = isMultiDialectView
             self.isProtected = isProtected
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
@@ -15779,6 +15856,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case authorizedColumns = "AuthorizedColumns"
             case cellFilters = "CellFilters"
+            case isMaterializedView = "IsMaterializedView"
             case isMultiDialectView = "IsMultiDialectView"
             case isProtected = "IsProtected"
             case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
@@ -15893,6 +15971,8 @@ extension Glue {
         public let catalogId: String?
         /// The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
         public let databaseName: String?
+        /// An optional function-type pattern string that filters the function definitions returned from Amazon Redshift Federated Permissions Catalog. Specify a value of REGULAR_FUNCTION or STORED_PROCEDURE. The STORED_PROCEDURE function type is only compatible with Amazon Redshift Federated Permissions Catalog.
+        public let functionType: FunctionType?
         /// The maximum number of functions to return in one response.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
@@ -15901,9 +15981,10 @@ extension Glue {
         public let pattern: String
 
         @inlinable
-        public init(catalogId: String? = nil, databaseName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
+        public init(catalogId: String? = nil, databaseName: String? = nil, functionType: FunctionType? = nil, maxResults: Int? = nil, nextToken: String? = nil, pattern: String) {
             self.catalogId = catalogId
             self.databaseName = databaseName
+            self.functionType = functionType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.pattern = pattern
@@ -15926,6 +16007,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
+            case functionType = "FunctionType"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case pattern = "Pattern"
@@ -16484,6 +16566,41 @@ extension Glue {
         }
     }
 
+    public struct IcebergEncryptedKey: AWSEncodableShape {
+        /// Optional ID of the key used to encrypt or wrap the key metadata in Iceberg table encryption. This field references another encryption key that was used to encrypt the current key's metadata.
+        public let encryptedById: String?
+        /// Encrypted key and metadata, base64 encoded. The format of encrypted key metadata is determined by the table's encryption scheme and can be a wrapped format specific to the table's KMS provider.
+        public let encryptedKeyMetadata: String
+        /// Unique identifier of the encryption key used for Iceberg table encryption. This ID is used to reference the key in table metadata and track which key was used to encrypt specific data.
+        public let keyId: String
+        /// A string to string map of additional metadata used by the table's encryption scheme. These properties provide additional context and configuration for the encryption key implementation.
+        public let properties: [String: String]?
+
+        @inlinable
+        public init(encryptedById: String? = nil, encryptedKeyMetadata: String, keyId: String, properties: [String: String]? = nil) {
+            self.encryptedById = encryptedById
+            self.encryptedKeyMetadata = encryptedKeyMetadata
+            self.keyId = keyId
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptedById, name: "encryptedById", parent: name, max: 2056)
+            try self.validate(self.encryptedById, name: "encryptedById", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.encryptedKeyMetadata, name: "encryptedKeyMetadata", parent: name, max: 2056)
+            try self.validate(self.encryptedKeyMetadata, name: "encryptedKeyMetadata", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2056)
+            try self.validate(self.keyId, name: "keyId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptedById = "EncryptedById"
+            case encryptedKeyMetadata = "EncryptedKeyMetadata"
+            case keyId = "KeyId"
+            case properties = "Properties"
+        }
+    }
+
     public struct IcebergInput: AWSEncodableShape {
         /// The configuration parameters required to create a new Iceberg table in the Glue Data Catalog, including table properties  and metadata specifications.
         public let createIcebergTableInput: CreateIcebergTableInput?
@@ -16836,20 +16953,26 @@ extension Glue {
         public let doc: String?
         /// The unique identifier assigned to this field within the Iceberg table schema, used for schema evolution and field tracking.
         public let id: Int
+        /// Default value used to populate the field's value for all records that were written before the field was added to the schema. This enables backward compatibility when adding new fields to existing Iceberg tables.
+        public let initialDefault: AWSDocument?
         /// The name of the field as it appears in the table schema and query operations.
         public let name: String
         /// Indicates whether this field is required (non-nullable) or optional (nullable) in the table schema.
         public let required: Bool
         /// The data type definition for this field, specifying the structure and format of the data it contains.
         public let type: AWSDocument
+        /// Default value used to populate the field's value for any records written after the field was added to the schema, if the writer does not supply the field's value. This can be changed through schema evolution.
+        public let writeDefault: AWSDocument?
 
         @inlinable
-        public init(doc: String? = nil, id: Int = 0, name: String, required: Bool = false, type: AWSDocument) {
+        public init(doc: String? = nil, id: Int = 0, initialDefault: AWSDocument? = nil, name: String, required: Bool = false, type: AWSDocument, writeDefault: AWSDocument? = nil) {
             self.doc = doc
             self.id = id
+            self.initialDefault = initialDefault
             self.name = name
             self.required = required
             self.type = type
+            self.writeDefault = writeDefault
         }
 
         public func validate(name: String) throws {
@@ -16863,13 +16986,21 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case doc = "Doc"
             case id = "Id"
+            case initialDefault = "InitialDefault"
             case name = "Name"
             case required = "Required"
             case type = "Type"
+            case writeDefault = "WriteDefault"
         }
     }
 
     public struct IcebergTableUpdate: AWSEncodableShape {
+        /// The type of update action to be performed on the Iceberg table. Defines the specific operation such as adding schema, setting current schema, adding partition spec, or managing encryption keys.
+        public let action: IcebergUpdateAction?
+        /// Encryption key information associated with an Iceberg table update operation. Used when adding or removing encryption keys from the table metadata during table evolution.
+        public let encryptionKey: IcebergEncryptedKey?
+        /// Identifier of the encryption key involved in an Iceberg table update operation. References the specific key being added to or removed from the table's encryption configuration.
+        public let keyId: String?
         /// The updated S3 location where the Iceberg table data will be stored.
         public let location: String
         /// The updated partitioning specification that defines how the table data should be reorganized and partitioned.
@@ -16882,7 +17013,10 @@ extension Glue {
         public let sortOrder: IcebergSortOrder?
 
         @inlinable
-        public init(location: String, partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, sortOrder: IcebergSortOrder? = nil) {
+        public init(action: IcebergUpdateAction? = nil, encryptionKey: IcebergEncryptedKey? = nil, keyId: String? = nil, location: String, partitionSpec: IcebergPartitionSpec? = nil, properties: [String: String]? = nil, schema: IcebergSchema, sortOrder: IcebergSortOrder? = nil) {
+            self.action = action
+            self.encryptionKey = encryptionKey
+            self.keyId = keyId
             self.location = location
             self.partitionSpec = partitionSpec
             self.properties = properties
@@ -16891,6 +17025,9 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.encryptionKey?.validate(name: "\(name).encryptionKey")
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2056)
+            try self.validate(self.keyId, name: "keyId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.location, name: "location", parent: name, max: 2056)
             try self.validate(self.location, name: "location", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.partitionSpec?.validate(name: "\(name).partitionSpec")
@@ -16898,6 +17035,9 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case encryptionKey = "EncryptionKey"
+            case keyId = "KeyId"
             case location = "Location"
             case partitionSpec = "PartitionSpec"
             case properties = "Properties"
@@ -17077,7 +17217,7 @@ extension Glue {
     public struct IntegrationConfig: AWSEncodableShape & AWSDecodableShape {
         /// Enables continuous synchronization for on-demand data extractions from SaaS applications to Amazon Web Services data services like Amazon Redshift  and Amazon S3.
         public let continuousSync: Bool?
-        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align  the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from   15 minutes to 8640 minutes (six days). Currently supports creation of RefreshInterval only.
+        /// Specifies the frequency at which CDC (Change Data Capture) pulls or incremental loads should occur. This parameter provides flexibility to align  the refresh rate with your specific data update patterns, system load considerations, and performance optimization goals. Time increment can be set from   15 minutes to 8640 minutes (six days).
         public let refreshInterval: String?
         ///  A collection of key-value pairs that specify additional properties for the integration source. These properties provide configuration options that  can be used to customize the behavior of the ODB source during data integration operations.
         public let sourceProperties: [String: String]?
@@ -17174,6 +17314,59 @@ extension Glue {
             case conversionSpec = "ConversionSpec"
             case fieldName = "FieldName"
             case functionSpec = "FunctionSpec"
+        }
+    }
+
+    public struct IntegrationResourceProperty: AWSDecodableShape {
+        /// The connection ARN of the source, or the database ARN of the target.
+        public let resourceArn: String
+        /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+        public let resourcePropertyArn: String?
+        /// The resource properties associated with the integration source.
+        public let sourceProcessingProperties: SourceProcessingProperties?
+        /// The resource properties associated with the integration target.
+        public let targetProcessingProperties: TargetProcessingProperties?
+
+        @inlinable
+        public init(resourceArn: String, resourcePropertyArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
+            self.resourceArn = resourceArn
+            self.resourcePropertyArn = resourcePropertyArn
+            self.sourceProcessingProperties = sourceProcessingProperties
+            self.targetProcessingProperties = targetProcessingProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case resourcePropertyArn = "ResourcePropertyArn"
+            case sourceProcessingProperties = "SourceProcessingProperties"
+            case targetProcessingProperties = "TargetProcessingProperties"
+        }
+    }
+
+    public struct IntegrationResourcePropertyFilter: AWSEncodableShape {
+        /// The name of the filter. Supported filter keys are SourceArn and TargetArn.
+        public let name: String?
+        /// A list of filter values.
+        public let values: [String]?
+
+        @inlinable
+        public init(name: String? = nil, values: [String]? = nil) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values?.forEach {
+                try validate($0, name: "values[]", parent: name, max: 128)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
         }
     }
 
@@ -17593,7 +17786,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19132,6 +19325,54 @@ extension Glue {
         }
     }
 
+    public struct ListIntegrationResourcePropertiesRequest: AWSEncodableShape {
+        /// A list of filters, supported filter Key is SourceArn and TargetArn.
+        public let filters: [IntegrationResourcePropertyFilter]?
+        /// This is the pagination token for next page, initial value is null.
+        public let marker: String?
+        /// This is total number of items to be evaluated.
+        public let maxRecords: Int?
+
+        @inlinable
+        public init(filters: [IntegrationResourcePropertyFilter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.marker, name: "marker", parent: name, max: 1024)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+        }
+    }
+
+    public struct ListIntegrationResourcePropertiesResponse: AWSDecodableShape {
+        /// A list of integration resource property meeting the filter criteria.
+        public let integrationResourcePropertyList: [IntegrationResourceProperty]?
+        /// This is the pagination token for the next page.
+        public let marker: String?
+
+        @inlinable
+        public init(integrationResourcePropertyList: [IntegrationResourceProperty]? = nil, marker: String? = nil) {
+            self.integrationResourcePropertyList = integrationResourcePropertyList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationResourcePropertyList = "IntegrationResourcePropertyList"
+            case marker = "Marker"
+        }
+    }
+
     public struct ListJobsRequest: AWSEncodableShape {
         /// The maximum size of a list to return.
         public let maxResults: Int?
@@ -20138,6 +20379,7 @@ extension Glue {
         public let dataFilter: String?
         /// A description of the integration.
         public let description: String?
+        /// The configuration settings for the integration. Currently, only the RefreshInterval can be modified.
         public let integrationConfig: IntegrationConfig?
         /// The Amazon Resource Name (ARN) for the integration.
         public let integrationIdentifier: String
@@ -20187,6 +20429,7 @@ extension Glue {
         public let errors: [IntegrationError]?
         /// The Amazon Resource Name (ARN) for the integration.
         public let integrationArn: String
+        /// The updated configuration settings for the integration.
         public let integrationConfig: IntegrationConfig?
         /// A unique name for an integration in Glue.
         public let integrationName: String
@@ -22972,7 +23215,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^$|arn:aws[a-z0-9-]*:kms:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26182,6 +26425,8 @@ extension Glue {
         public let description: String?
         /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
         public let federatedTable: FederatedTable?
+        /// Indicates a table is a MaterializedView.
+        public let isMaterializedView: Bool?
         /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
         public let isMultiDialectView: Bool?
         /// Indicates whether the table has been registered with Lake Formation.
@@ -26200,6 +26445,7 @@ extension Glue {
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
+        /// Indicates the the state of an asynchronous change to a table.
         public let status: TableStatus?
         /// A storage descriptor containing information about the physical storage of this table.
         public let storageDescriptor: StorageDescriptor?
@@ -26219,13 +26465,14 @@ extension Glue {
         public let viewOriginalText: String?
 
         @inlinable
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, federatedTable: FederatedTable? = nil, isMaterializedView: Bool? = nil, isMultiDialectView: Bool? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, status: TableStatus? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewDefinition: ViewDefinition? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
             self.databaseName = databaseName
             self.description = description
             self.federatedTable = federatedTable
+            self.isMaterializedView = isMaterializedView
             self.isMultiDialectView = isMultiDialectView
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
@@ -26253,6 +26500,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case description = "Description"
             case federatedTable = "FederatedTable"
+            case isMaterializedView = "IsMaterializedView"
             case isMultiDialectView = "IsMultiDialectView"
             case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
             case lastAccessTime = "LastAccessTime"
@@ -28040,10 +28288,13 @@ extension Glue {
     public struct UpdateGlueIdentityCenterConfigurationRequest: AWSEncodableShape {
         /// A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
         public let scopes: [String]?
+        /// Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
+        public let userBackgroundSessionsEnabled: Bool?
 
         @inlinable
-        public init(scopes: [String]? = nil) {
+        public init(scopes: [String]? = nil, userBackgroundSessionsEnabled: Bool? = nil) {
             self.scopes = scopes
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
 
         public func validate(name: String) throws {
@@ -28056,6 +28307,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case scopes = "Scopes"
+            case userBackgroundSessionsEnabled = "UserBackgroundSessionsEnabled"
         }
     }
 
@@ -28154,7 +28406,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.sourceProcessingProperties?.validate(name: "\(name).sourceProcessingProperties")
             try self.targetProcessingProperties?.validate(name: "\(name).targetProcessingProperties")
@@ -28170,20 +28422,24 @@ extension Glue {
     public struct UpdateIntegrationResourcePropertyResponse: AWSDecodableShape {
         /// The connection ARN of the source, or the database ARN of the target.
         public let resourceArn: String?
+        /// The resource ARN created through this create API. The format is something like arn:aws:glue:::integrationresourceproperty/*
+        public let resourcePropertyArn: String?
         /// The resource properties associated with the integration source.
         public let sourceProcessingProperties: SourceProcessingProperties?
         /// The resource properties associated with the integration target.
         public let targetProcessingProperties: TargetProcessingProperties?
 
         @inlinable
-        public init(resourceArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
+        public init(resourceArn: String? = nil, resourcePropertyArn: String? = nil, sourceProcessingProperties: SourceProcessingProperties? = nil, targetProcessingProperties: TargetProcessingProperties? = nil) {
             self.resourceArn = resourceArn
+            self.resourcePropertyArn = resourcePropertyArn
             self.sourceProcessingProperties = sourceProcessingProperties
             self.targetProcessingProperties = targetProcessingProperties
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "ResourceArn"
+            case resourcePropertyArn = "ResourcePropertyArn"
             case sourceProcessingProperties = "SourceProcessingProperties"
             case targetProcessingProperties = "TargetProcessingProperties"
         }
@@ -28208,7 +28464,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 128)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 512)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
             try self.sourceTableConfig?.validate(name: "\(name).sourceTableConfig")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
@@ -29105,6 +29361,8 @@ extension Glue {
         public let databaseName: String?
         /// The name of the function.
         public let functionName: String?
+        /// The type of the function.
+        public let functionType: FunctionType?
         /// The owner of the function.
         public let ownerName: String?
         /// The owner type.
@@ -29113,12 +29371,13 @@ extension Glue {
         public let resourceUris: [ResourceUri]?
 
         @inlinable
-        public init(catalogId: String? = nil, className: String? = nil, createTime: Date? = nil, databaseName: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+        public init(catalogId: String? = nil, className: String? = nil, createTime: Date? = nil, databaseName: String? = nil, functionName: String? = nil, functionType: FunctionType? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.catalogId = catalogId
             self.className = className
             self.createTime = createTime
             self.databaseName = databaseName
             self.functionName = functionName
+            self.functionType = functionType
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -29130,6 +29389,7 @@ extension Glue {
             case createTime = "CreateTime"
             case databaseName = "DatabaseName"
             case functionName = "FunctionName"
+            case functionType = "FunctionType"
             case ownerName = "OwnerName"
             case ownerType = "OwnerType"
             case resourceUris = "ResourceUris"
@@ -29141,6 +29401,8 @@ extension Glue {
         public let className: String?
         /// The name of the function.
         public let functionName: String?
+        /// The type of the function.
+        public let functionType: FunctionType?
         /// The owner of the function.
         public let ownerName: String?
         /// The owner type.
@@ -29149,9 +29411,10 @@ extension Glue {
         public let resourceUris: [ResourceUri]?
 
         @inlinable
-        public init(className: String? = nil, functionName: String? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
+        public init(className: String? = nil, functionName: String? = nil, functionType: FunctionType? = nil, ownerName: String? = nil, ownerType: PrincipalType? = nil, resourceUris: [ResourceUri]? = nil) {
             self.className = className
             self.functionName = functionName
+            self.functionType = functionType
             self.ownerName = ownerName
             self.ownerType = ownerType
             self.resourceUris = resourceUris
@@ -29176,6 +29439,7 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case className = "ClassName"
             case functionName = "FunctionName"
+            case functionType = "FunctionType"
             case ownerName = "OwnerName"
             case ownerType = "OwnerType"
             case resourceUris = "ResourceUris"
@@ -29187,24 +29451,44 @@ extension Glue {
         public let definer: String?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
+        /// Sets the method used for the most recent refresh.
+        public let lastRefreshType: LastRefreshType?
+        /// Auto refresh interval in seconds for the materialized view. If not specified, the view will  not automatically refresh.
+        public let refreshSeconds: Int64?
         /// A list of representations.
         public let representations: [ViewRepresentation]?
         /// A list of table Amazon Resource Names (ARNs).
         public let subObjects: [String]?
+        /// List of the Apache Iceberg table versions referenced by the materialized view.
+        public let subObjectVersionIds: [Int64]?
+        /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
+        public let viewVersionId: Int64?
+        /// The version ID of the Apache Iceberg table.
+        public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, representations: [ViewRepresentation]? = nil, subObjects: [String]? = nil) {
+        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentation]? = nil, subObjects: [String]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
             self.isProtected = isProtected
+            self.lastRefreshType = lastRefreshType
+            self.refreshSeconds = refreshSeconds
             self.representations = representations
             self.subObjects = subObjects
+            self.subObjectVersionIds = subObjectVersionIds
+            self.viewVersionId = viewVersionId
+            self.viewVersionToken = viewVersionToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
             case isProtected = "IsProtected"
+            case lastRefreshType = "LastRefreshType"
+            case refreshSeconds = "RefreshSeconds"
             case representations = "Representations"
             case subObjects = "SubObjects"
+            case subObjectVersionIds = "SubObjectVersionIds"
+            case viewVersionId = "ViewVersionId"
+            case viewVersionToken = "ViewVersionToken"
         }
     }
 
@@ -29213,17 +29497,32 @@ extension Glue {
         public let definer: String?
         /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
         public let isProtected: Bool?
+        /// The type of the materialized view's last refresh. Valid values: Full,  Incremental.
+        public let lastRefreshType: LastRefreshType?
+        /// Auto refresh interval in seconds for the materialized view. If not specified, the view will  not automatically refresh.
+        public let refreshSeconds: Int64?
         /// A list of structures that contains the dialect of the view, and the query that defines the view.
         public let representations: [ViewRepresentationInput]?
         /// A list of base table ARNs that make up the view.
         public let subObjects: [String]?
+        /// List of the Apache Iceberg table versions referenced by the materialized view.
+        public let subObjectVersionIds: [Int64]?
+        /// The ID value that identifies this view's version. For materialized views, the version ID is the Apache Iceberg table's snapshot ID.
+        public let viewVersionId: Int64?
+        /// The version ID of the Apache Iceberg table.
+        public let viewVersionToken: String?
 
         @inlinable
-        public init(definer: String? = nil, isProtected: Bool? = nil, representations: [ViewRepresentationInput]? = nil, subObjects: [String]? = nil) {
+        public init(definer: String? = nil, isProtected: Bool? = nil, lastRefreshType: LastRefreshType? = nil, refreshSeconds: Int64? = nil, representations: [ViewRepresentationInput]? = nil, subObjects: [String]? = nil, subObjectVersionIds: [Int64]? = nil, viewVersionId: Int64? = nil, viewVersionToken: String? = nil) {
             self.definer = definer
             self.isProtected = isProtected
+            self.lastRefreshType = lastRefreshType
+            self.refreshSeconds = refreshSeconds
             self.representations = representations
             self.subObjects = subObjects
+            self.subObjectVersionIds = subObjectVersionIds
+            self.viewVersionId = viewVersionId
+            self.viewVersionToken = viewVersionToken
         }
 
         public func validate(name: String) throws {
@@ -29239,13 +29538,26 @@ extension Glue {
                 try validate($0, name: "subObjects[]", parent: name, min: 20)
             }
             try self.validate(self.subObjects, name: "subObjects", parent: name, max: 10)
+            try self.subObjectVersionIds?.forEach {
+                try validate($0, name: "subObjectVersionIds[]", parent: name, min: -1)
+            }
+            try self.validate(self.subObjectVersionIds, name: "subObjectVersionIds", parent: name, max: 250)
+            try self.validate(self.viewVersionId, name: "viewVersionId", parent: name, min: -1)
+            try self.validate(self.viewVersionToken, name: "viewVersionToken", parent: name, max: 255)
+            try self.validate(self.viewVersionToken, name: "viewVersionToken", parent: name, min: 1)
+            try self.validate(self.viewVersionToken, name: "viewVersionToken", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case definer = "Definer"
             case isProtected = "IsProtected"
+            case lastRefreshType = "LastRefreshType"
+            case refreshSeconds = "RefreshSeconds"
             case representations = "Representations"
             case subObjects = "SubObjects"
+            case subObjectVersionIds = "SubObjectVersionIds"
+            case viewVersionId = "ViewVersionId"
+            case viewVersionToken = "ViewVersionToken"
         }
     }
 

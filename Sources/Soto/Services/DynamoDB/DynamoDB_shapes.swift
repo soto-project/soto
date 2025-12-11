@@ -1388,7 +1388,6 @@ extension DynamoDB {
             try self.keySchema.forEach {
                 try $0.validate(name: "\(name).keySchema[]")
             }
-            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
             try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
             try self.projection.validate(name: "\(name).projection")
             try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
@@ -1573,7 +1572,6 @@ extension DynamoDB {
             try self.keySchema.forEach {
                 try $0.validate(name: "\(name).keySchema[]")
             }
-            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
             try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
             try self.localSecondaryIndexes?.forEach {
                 try $0.validate(name: "\(name).localSecondaryIndexes[]")
@@ -3012,7 +3010,6 @@ extension DynamoDB {
             try self.keySchema.forEach {
                 try $0.validate(name: "\(name).keySchema[]")
             }
-            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
             try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
             try self.projection.validate(name: "\(name).projection")
             try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
@@ -4058,7 +4055,6 @@ extension DynamoDB {
             try self.keySchema.forEach {
                 try $0.validate(name: "\(name).keySchema[]")
             }
-            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
             try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
             try self.projection.validate(name: "\(name).projection")
         }
@@ -5714,7 +5710,6 @@ extension DynamoDB {
             try self.keySchema.forEach {
                 try $0.validate(name: "\(name).keySchema[]")
             }
-            try self.validate(self.keySchema, name: "keySchema", parent: name, max: 2)
             try self.validate(self.keySchema, name: "keySchema", parent: name, min: 1)
             try self.provisionedThroughput?.validate(name: "\(name).provisionedThroughput")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)

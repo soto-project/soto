@@ -1179,12 +1179,12 @@ public struct Route53: AWSService {
     /// 				Route 53, see UpdateDomainNameservers for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is
     /// 			registered with another registrar, use the method provided by the registrar to update
     /// 			name servers for the domain registration. For more information, perform an internet
-    /// 			search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA record and NS
-    /// 			resource record sets. If the hosted zone contains other resource record sets, you must
-    /// 			delete them before you can delete the hosted zone. If you try to delete a hosted zone
-    /// 			that contains other resource record sets, the request fails, and Route 53
-    /// 			returns a HostedZoneNotEmpty error. For information about deleting records
-    /// 			from your hosted zone, see ChangeResourceRecordSets. To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
+    /// 			search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA and NS records
+    /// 			and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC
+    /// 			enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
+    /// 			delete a hosted zone with additional records or DNSSEC enabled returns a
+    /// 				HostedZoneNotEmpty error. For information about deleting records, see
+    /// 				ChangeResourceRecordSets.  To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
     /// 					hosted zone.   Use the ListHostedZones action to get a list of the hosted zones
     /// 					associated with the current Amazon Web Services account.
     @Sendable
@@ -1217,12 +1217,12 @@ public struct Route53: AWSService {
     /// 				Route 53, see UpdateDomainNameservers for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is
     /// 			registered with another registrar, use the method provided by the registrar to update
     /// 			name servers for the domain registration. For more information, perform an internet
-    /// 			search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA record and NS
-    /// 			resource record sets. If the hosted zone contains other resource record sets, you must
-    /// 			delete them before you can delete the hosted zone. If you try to delete a hosted zone
-    /// 			that contains other resource record sets, the request fails, and Route 53
-    /// 			returns a HostedZoneNotEmpty error. For information about deleting records
-    /// 			from your hosted zone, see ChangeResourceRecordSets. To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
+    /// 			search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA and NS records
+    /// 			and has DNSSEC signing disabled. If the hosted zone contains other records or has DNSSEC
+    /// 			enabled, you must delete the records and disable DNSSEC before deletion. Attempting to
+    /// 			delete a hosted zone with additional records or DNSSEC enabled returns a
+    /// 				HostedZoneNotEmpty error. For information about deleting records, see
+    /// 				ChangeResourceRecordSets.  To verify that the hosted zone has been deleted, do one of the following:   Use the GetHostedZone action to request information about the
     /// 					hosted zone.   Use the ListHostedZones action to get a list of the hosted zones
     /// 					associated with the current Amazon Web Services account.
     ///
@@ -3260,6 +3260,38 @@ public struct Route53: AWSService {
             id: id
         )
         return try await self.updateHostedZoneComment(input, logger: logger)
+    }
+
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+    @Sendable
+    @inlinable
+    public func updateHostedZoneFeatures(_ input: UpdateHostedZoneFeaturesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateHostedZoneFeaturesResponse {
+        try await self.client.execute(
+            operation: "UpdateHostedZoneFeatures", 
+            path: "/2013-04-01/hostedzone/{HostedZoneId}/features", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the features configuration for a hosted zone. This operation allows you to enable or disable specific features for your hosted zone, such as accelerated recovery. Accelerated recovery enables you to update DNS records in your public hosted zone even when the us-east-1 region is unavailable.
+    ///
+    /// Parameters:
+    ///   - enableAcceleratedRecovery: Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to disable it.
+    ///   - hostedZoneId: The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateHostedZoneFeatures(
+        enableAcceleratedRecovery: Bool? = nil,
+        hostedZoneId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateHostedZoneFeaturesResponse {
+        let input = UpdateHostedZoneFeaturesRequest(
+            enableAcceleratedRecovery: enableAcceleratedRecovery, 
+            hostedZoneId: hostedZoneId
+        )
+        return try await self.updateHostedZoneFeatures(input, logger: logger)
     }
 
     /// Updates the comment for a specified traffic policy version.

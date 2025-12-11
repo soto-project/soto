@@ -74,6 +74,7 @@ extension IVSRealTime {
         case subscribeError = "SUBSCRIBE_ERROR"
         case subscribeStarted = "SUBSCRIBE_STARTED"
         case subscribeStopped = "SUBSCRIBE_STOPPED"
+        case tokenExchanged = "TOKEN_EXCHANGED"
         public var description: String { return self.rawValue }
     }
 
@@ -1091,8 +1092,12 @@ extension IVSRealTime {
         public var eventTime: Date?
         /// The name of the event.
         public let name: EventName?
+        /// Participant token created during TOKEN_EXCHANGED event.
+        public let newToken: ExchangedParticipantToken?
         /// Unique identifier for the participant who triggered the event. This is assigned by IVS.
         public let participantId: String?
+        /// Source participant token for TOKEN_EXCHANGED event.
+        public let previousToken: ExchangedParticipantToken?
         /// Unique identifier for the remote participant. For a subscribe event, this is the publisher. For a publish or join event, this is null. This is assigned by IVS.
         public let remoteParticipantId: String?
         /// If true, this indicates the participantId is a replicated participant.
@@ -1100,13 +1105,15 @@ extension IVSRealTime {
         public let replica: Bool?
 
         @inlinable
-        public init(destinationSessionId: String? = nil, destinationStageArn: String? = nil, errorCode: EventErrorCode? = nil, eventTime: Date? = nil, name: EventName? = nil, participantId: String? = nil, remoteParticipantId: String? = nil, replica: Bool? = nil) {
+        public init(destinationSessionId: String? = nil, destinationStageArn: String? = nil, errorCode: EventErrorCode? = nil, eventTime: Date? = nil, name: EventName? = nil, newToken: ExchangedParticipantToken? = nil, participantId: String? = nil, previousToken: ExchangedParticipantToken? = nil, remoteParticipantId: String? = nil, replica: Bool? = nil) {
             self.destinationSessionId = destinationSessionId
             self.destinationStageArn = destinationStageArn
             self.errorCode = errorCode
             self.eventTime = eventTime
             self.name = name
+            self.newToken = newToken
             self.participantId = participantId
+            self.previousToken = previousToken
             self.remoteParticipantId = remoteParticipantId
             self.replica = replica
         }
@@ -1117,9 +1124,38 @@ extension IVSRealTime {
             case errorCode = "errorCode"
             case eventTime = "eventTime"
             case name = "name"
+            case newToken = "newToken"
             case participantId = "participantId"
+            case previousToken = "previousToken"
             case remoteParticipantId = "remoteParticipantId"
             case replica = "replica"
+        }
+    }
+
+    public struct ExchangedParticipantToken: AWSDecodableShape {
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let attributes: [String: String]?
+        /// Set of capabilities that the user is allowed to perform in the stage.
+        public let capabilities: [ParticipantTokenCapability]?
+        /// ISO 8601 timestamp (returned as a string) for when this token expires.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var expirationTime: Date?
+        /// Customer-assigned name to help identify the token; this can be used to link a participant to a user in the customer’s own systems. This can be any UTF-8 encoded text. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        public let userId: String?
+
+        @inlinable
+        public init(attributes: [String: String]? = nil, capabilities: [ParticipantTokenCapability]? = nil, expirationTime: Date? = nil, userId: String? = nil) {
+            self.attributes = attributes
+            self.capabilities = capabilities
+            self.expirationTime = expirationTime
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case capabilities = "capabilities"
+            case expirationTime = "expirationTime"
+            case userId = "userId"
         }
     }
 
@@ -2463,7 +2499,7 @@ extension IVSRealTime {
     }
 
     public struct ParticipantToken: AWSDecodableShape {
-        /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
+        /// Application-provided attributes to encode into the token and attach to a stage. Map keys and values can contain UTF-8 encoded text. The maximum length of this field is 1 KB total. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public let attributes: [String: String]?
         /// Set of capabilities that the user is allowed to perform in the stage.
         public let capabilities: [ParticipantTokenCapability]?

@@ -109,6 +109,47 @@ public struct BedrockDataAutomationRuntime: AWSService {
         return try await self.getDataAutomationStatus(input, logger: logger)
     }
 
+    /// Sync API: Invoke data automation.
+    @Sendable
+    @inlinable
+    public func invokeDataAutomation(_ input: InvokeDataAutomationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeDataAutomationResponse {
+        try await self.client.execute(
+            operation: "InvokeDataAutomation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sync API: Invoke data automation.
+    ///
+    /// Parameters:
+    ///   - blueprints: Blueprint list.
+    ///   - dataAutomationConfiguration: Data automation configuration.
+    ///   - dataAutomationProfileArn: Data automation profile ARN
+    ///   - encryptionConfiguration: Encryption configuration.
+    ///   - inputConfiguration: Input configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeDataAutomation(
+        blueprints: [Blueprint]? = nil,
+        dataAutomationConfiguration: DataAutomationConfiguration? = nil,
+        dataAutomationProfileArn: String,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        inputConfiguration: SyncInputConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeDataAutomationResponse {
+        let input = InvokeDataAutomationRequest(
+            blueprints: blueprints, 
+            dataAutomationConfiguration: dataAutomationConfiguration, 
+            dataAutomationProfileArn: dataAutomationProfileArn, 
+            encryptionConfiguration: encryptionConfiguration, 
+            inputConfiguration: inputConfiguration
+        )
+        return try await self.invokeDataAutomation(input, logger: logger)
+    }
+
     /// Async API: Invoke data automation.
     @Sendable
     @inlinable

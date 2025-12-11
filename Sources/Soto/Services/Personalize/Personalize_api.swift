@@ -427,7 +427,7 @@ public struct Personalize: AWSService {
         importMode: ImportMode? = nil,
         jobName: String,
         publishAttributionMetricsToS3: Bool? = nil,
-        roleArn: String,
+        roleArn: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDatasetImportJobResponse {
@@ -652,6 +652,7 @@ public struct Personalize: AWSService {
     ///   - performAutoML:  We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize  recipes. For more information, see Choosing a recipe.  Whether to perform automated machine learning (AutoML). The default is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
     ///   - performAutoTraining: Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see Configuring automatic training.  Automatic solution version creation starts within one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
     ///   - performHPO: Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
+    ///   - performIncrementalUpdate: Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
     ///   - recipeArn: The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs,  see Choosing a recipe.
     ///   - solutionConfig: The configuration properties for the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective  at this time.
     ///   - tags: A list of tags to apply to the solution.
@@ -664,6 +665,7 @@ public struct Personalize: AWSService {
         performAutoML: Bool? = nil,
         performAutoTraining: Bool? = nil,
         performHPO: Bool? = nil,
+        performIncrementalUpdate: Bool? = nil,
         recipeArn: String? = nil,
         solutionConfig: SolutionConfig? = nil,
         tags: [Tag]? = nil,
@@ -676,6 +678,7 @@ public struct Personalize: AWSService {
             performAutoML: performAutoML, 
             performAutoTraining: performAutoTraining, 
             performHPO: performHPO, 
+            performIncrementalUpdate: performIncrementalUpdate, 
             recipeArn: recipeArn, 
             solutionConfig: solutionConfig, 
             tags: tags
@@ -2462,18 +2465,21 @@ public struct Personalize: AWSService {
     ///
     /// Parameters:
     ///   - performAutoTraining: Whether the solution uses automatic training to create new solution versions (trained models). You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration.   If you turn on automatic training, the first automatic training starts within one hour after the solution update completes. If you manually create a solution version within the hour, the solution skips the first automatic training.  For more information about automatic training, see Configuring automatic training.   After training starts, you can get the solution version's Amazon Resource Name (ARN) with the ListSolutionVersions API operation.  To get its status, use the DescribeSolutionVersion.
+    ///   - performIncrementalUpdate: Whether to perform incremental training updates on your model. When enabled, this allows the model to learn from new data more frequently without requiring full retraining, which enables near real-time personalization. This parameter is supported only for solutions that use the semantic-similarity recipe.
     ///   - solutionArn: The Amazon Resource Name (ARN) of the solution to update.
     ///   - solutionUpdateConfig: The new configuration details of the solution.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSolution(
         performAutoTraining: Bool? = nil,
+        performIncrementalUpdate: Bool? = nil,
         solutionArn: String,
         solutionUpdateConfig: SolutionUpdateConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateSolutionResponse {
         let input = UpdateSolutionRequest(
             performAutoTraining: performAutoTraining, 
+            performIncrementalUpdate: performIncrementalUpdate, 
             solutionArn: solutionArn, 
             solutionUpdateConfig: solutionUpdateConfig
         )

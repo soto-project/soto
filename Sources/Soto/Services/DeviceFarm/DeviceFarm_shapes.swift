@@ -645,25 +645,41 @@ extension DeviceFarm {
     public struct CreateProjectRequest: AWSEncodableShape {
         /// Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
         public let defaultJobTimeoutMinutes: Int?
+        ///  A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file.   For more information about using test spec files, please see Custom test environments  in AWS Device Farm.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// An IAM role to be assumed by the test host for all runs in the project.
+        public let executionRoleArn: String?
         /// The project's name.
         public let name: String
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(defaultJobTimeoutMinutes: Int? = nil, name: String, vpcConfig: VpcConfig? = nil) {
+        public init(defaultJobTimeoutMinutes: Int? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, name: String, vpcConfig: VpcConfig? = nil) {
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.name = name
             self.vpcConfig = vpcConfig
         }
 
         public func validate(name: String) throws {
+            try self.environmentVariables?.forEach {
+                try $0.validate(name: "\(name).environmentVariables[]")
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 32)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case environmentVariables = "environmentVariables"
+            case executionRoleArn = "executionRoleArn"
             case name = "name"
             case vpcConfig = "vpcConfig"
         }
@@ -684,6 +700,8 @@ extension DeviceFarm {
     }
 
     public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
+        /// A list of upload ARNs for app packages to be installed onto your device. (Maximum 3)
+        public let auxiliaryApps: [String]?
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
         /// The device proxy to be configured on the device for the remote access session.
@@ -692,13 +710,20 @@ extension DeviceFarm {
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(billingMethod: BillingMethod? = nil, deviceProxy: DeviceProxy? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, deviceProxy: DeviceProxy? = nil, vpceConfigurationArns: [String]? = nil) {
+            self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.deviceProxy = deviceProxy
             self.vpceConfigurationArns = vpceConfigurationArns
         }
 
         public func validate(name: String) throws {
+            try self.auxiliaryApps?.forEach {
+                try validate($0, name: "auxiliaryApps[]", parent: name, max: 1011)
+                try validate($0, name: "auxiliaryApps[]", parent: name, min: 32)
+                try validate($0, name: "auxiliaryApps[]", parent: name, pattern: "^arn:aws:devicefarm:.+$")
+            }
+            try self.validate(self.auxiliaryApps, name: "auxiliaryApps", parent: name, max: 3)
             try self.deviceProxy?.validate(name: "\(name).deviceProxy")
             try self.vpceConfigurationArns?.forEach {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
@@ -708,6 +733,7 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case auxiliaryApps = "auxiliaryApps"
             case billingMethod = "billingMethod"
             case deviceProxy = "deviceProxy"
             case vpceConfigurationArns = "vpceConfigurationArns"
@@ -715,49 +741,52 @@ extension DeviceFarm {
     }
 
     public struct CreateRemoteAccessSessionRequest: AWSEncodableShape {
-        /// Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
-        public let clientId: String?
+        /// The Amazon Resource Name (ARN) of the app to create the remote access session.
+        public let appArn: String?
         /// The configuration information for the remote access session request.
         public let configuration: CreateRemoteAccessSessionConfiguration?
         /// The ARN of the device for which you want to create a remote access session.
         public let deviceArn: String
         /// The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session.
         public let instanceArn: String?
-        /// The interaction mode of the remote access session. Valid values are:   INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.   NO_VIDEO: You are connected to the device, but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.   VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
+        /// The interaction mode of the remote access session. Changing the interactive mode of remote access sessions is no longer available.
         public let interactionMode: InteractionMode?
         /// The name of the remote access session to create.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
         public let projectArn: String
-        /// Set to true if you want to access devices remotely for debugging in your remote access session. Remote debugging is no longer supported.
-        public let remoteDebugEnabled: Bool?
-        /// The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
-        public let remoteRecordAppArn: String?
-        /// Set to true to enable remote recording for the remote access session.
-        public let remoteRecordEnabled: Bool?
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information on how Device Farm modifies your uploads during tests, see Do you modify my app?
         public let skipAppResign: Bool?
-        /// Ignored. The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This key is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
-        public let sshPublicKey: String?
 
         @inlinable
-        public init(clientId: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, deviceArn: String, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, name: String? = nil, projectArn: String, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, skipAppResign: Bool? = nil, sshPublicKey: String? = nil) {
-            self.clientId = clientId
+        public init(appArn: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, deviceArn: String, instanceArn: String? = nil, name: String? = nil, projectArn: String, skipAppResign: Bool? = nil) {
+            self.appArn = appArn
+            self.configuration = configuration
+            self.deviceArn = deviceArn
+            self.instanceArn = instanceArn
+            self.interactionMode = nil
+            self.name = name
+            self.projectArn = projectArn
+            self.skipAppResign = skipAppResign
+        }
+
+        @available(*, deprecated, message: "Members interactionMode have been deprecated")
+        @inlinable
+        public init(appArn: String? = nil, configuration: CreateRemoteAccessSessionConfiguration? = nil, deviceArn: String, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, name: String? = nil, projectArn: String, skipAppResign: Bool? = nil) {
+            self.appArn = appArn
             self.configuration = configuration
             self.deviceArn = deviceArn
             self.instanceArn = instanceArn
             self.interactionMode = interactionMode
             self.name = name
             self.projectArn = projectArn
-            self.remoteDebugEnabled = remoteDebugEnabled
-            self.remoteRecordAppArn = remoteRecordAppArn
-            self.remoteRecordEnabled = remoteRecordEnabled
             self.skipAppResign = skipAppResign
-            self.sshPublicKey = sshPublicKey
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clientId, name: "clientId", parent: name, max: 64)
+            try self.validate(self.appArn, name: "appArn", parent: name, max: 1011)
+            try self.validate(self.appArn, name: "appArn", parent: name, min: 32)
+            try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 1011)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 32)
@@ -769,25 +798,17 @@ extension DeviceFarm {
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 1011)
             try self.validate(self.projectArn, name: "projectArn", parent: name, min: 32)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
-            try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, max: 1011)
-            try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, min: 32)
-            try self.validate(self.remoteRecordAppArn, name: "remoteRecordAppArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
-            try self.validate(self.sshPublicKey, name: "sshPublicKey", parent: name, max: 8192)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId = "clientId"
+            case appArn = "appArn"
             case configuration = "configuration"
             case deviceArn = "deviceArn"
             case instanceArn = "instanceArn"
             case interactionMode = "interactionMode"
             case name = "name"
             case projectArn = "projectArn"
-            case remoteDebugEnabled = "remoteDebugEnabled"
-            case remoteRecordAppArn = "remoteRecordAppArn"
-            case remoteRecordEnabled = "remoteRecordEnabled"
             case skipAppResign = "skipAppResign"
-            case sshPublicKey = "sshPublicKey"
         }
     }
 
@@ -1273,6 +1294,32 @@ extension DeviceFarm {
         public let resolution: Resolution?
 
         @inlinable
+        public init(arn: String? = nil, availability: DeviceAvailability? = nil, carrier: String? = nil, cpu: CPU? = nil, fleetName: String? = nil, fleetType: String? = nil, formFactor: DeviceFormFactor? = nil, heapSize: Int64? = nil, image: String? = nil, instances: [DeviceInstance]? = nil, manufacturer: String? = nil, memory: Int64? = nil, model: String? = nil, modelId: String? = nil, name: String? = nil, os: String? = nil, platform: DevicePlatform? = nil, radio: String? = nil, remoteAccessEnabled: Bool? = nil, resolution: Resolution? = nil) {
+            self.arn = arn
+            self.availability = availability
+            self.carrier = carrier
+            self.cpu = cpu
+            self.fleetName = fleetName
+            self.fleetType = fleetType
+            self.formFactor = formFactor
+            self.heapSize = heapSize
+            self.image = image
+            self.instances = instances
+            self.manufacturer = manufacturer
+            self.memory = memory
+            self.model = model
+            self.modelId = modelId
+            self.name = name
+            self.os = os
+            self.platform = platform
+            self.radio = radio
+            self.remoteAccessEnabled = remoteAccessEnabled
+            self.remoteDebugEnabled = nil
+            self.resolution = resolution
+        }
+
+        @available(*, deprecated, message: "Members remoteDebugEnabled have been deprecated")
+        @inlinable
         public init(arn: String? = nil, availability: DeviceAvailability? = nil, carrier: String? = nil, cpu: CPU? = nil, fleetName: String? = nil, fleetType: String? = nil, formFactor: DeviceFormFactor? = nil, heapSize: Int64? = nil, image: String? = nil, instances: [DeviceInstance]? = nil, manufacturer: String? = nil, memory: Int64? = nil, model: String? = nil, modelId: String? = nil, name: String? = nil, os: String? = nil, platform: DevicePlatform? = nil, radio: String? = nil, remoteAccessEnabled: Bool? = nil, remoteDebugEnabled: Bool? = nil, resolution: Resolution? = nil) {
             self.arn = arn
             self.availability = availability
@@ -1519,6 +1566,32 @@ extension DeviceFarm {
             case filters = "filters"
             case matchedDevicesCount = "matchedDevicesCount"
             case maxDevices = "maxDevices"
+        }
+    }
+
+    public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the environment variable.
+        public let name: String
+        /// The value of the environment variable.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
         }
     }
 
@@ -3014,7 +3087,7 @@ extension DeviceFarm {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+        /// The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
 
         @inlinable
@@ -3702,16 +3775,22 @@ extension DeviceFarm {
         public let created: Date?
         /// The default number of minutes (at the project level) a test run executes before it times out. The default value is 150 minutes.
         public let defaultJobTimeoutMinutes: Int?
+        /// Environment variables associated with the project.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// The IAM execution role associated with the project.
+        public let executionRoleArn: String?
         /// The project's name.
         public let name: String?
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, created: Date? = nil, defaultJobTimeoutMinutes: Int? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.created = created
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.name = name
             self.vpcConfig = vpcConfig
         }
@@ -3720,6 +3799,8 @@ extension DeviceFarm {
             case arn = "arn"
             case created = "created"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case environmentVariables = "environmentVariables"
+            case executionRoleArn = "executionRoleArn"
             case name = "name"
             case vpcConfig = "vpcConfig"
         }
@@ -3810,13 +3891,31 @@ extension DeviceFarm {
         }
     }
 
+    public struct RemoteAccessEndpoints: AWSDecodableShape {
+        /// URL for viewing and interacting with the device during the remote access session.
+        public let interactiveEndpoint: String?
+        /// URL for controlling the device using WebDriver-compliant clients, like Appium, during the remote access session.
+        public let remoteDriverEndpoint: String?
+
+        @inlinable
+        public init(interactiveEndpoint: String? = nil, remoteDriverEndpoint: String? = nil) {
+            self.interactiveEndpoint = interactiveEndpoint
+            self.remoteDriverEndpoint = remoteDriverEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interactiveEndpoint = "interactiveEndpoint"
+            case remoteDriverEndpoint = "remoteDriverEndpoint"
+        }
+    }
+
     public struct RemoteAccessSession: AWSDecodableShape {
+        /// The ARN for the app to be installed onto your device.
+        public let appUpload: String?
         /// The Amazon Resource Name (ARN) of the remote access session.
         public let arn: String?
         /// The billing method of the remote access session. Possible values include METERED or UNMETERED. For more information about metered devices, see AWS Device Farm terminology.
         public let billingMethod: BillingMethod?
-        /// Unique identifier of your client for the remote access session. Only returned if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
-        public let clientId: String?
         /// The date and time the remote access session was created.
         public let created: Date?
         /// The device (phone or tablet) used in the remote access session.
@@ -3827,24 +3926,17 @@ extension DeviceFarm {
         public let deviceProxy: DeviceProxy?
         /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
         public let deviceUdid: String?
-        /// The endpoint for the remote access sesssion.
+        /// The endpoint for the remote access session. This field is deprecated, and is replaced by the new endpoints.interactiveEndpoint field.
         public let endpoint: String?
-        /// IP address of the EC2 host where you need to connect to remotely debug devices. Only returned if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
-        public let hostAddress: String?
+        public let endpoints: RemoteAccessEndpoints?
         /// The ARN of the instance.
         public let instanceArn: String?
-        /// The interaction mode of the remote access session. Valid values are:   INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.   NO_VIDEO: You are connected to the device, but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.   VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
+        /// The interaction mode of the remote access session. Changing the interactive mode of remote access sessions is no longer available.
         public let interactionMode: InteractionMode?
         /// A message about the remote access session.
         public let message: String?
         /// The name of the remote access session.
         public let name: String?
-        /// This flag is set to true if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
-        public let remoteDebugEnabled: Bool?
-        /// The ARN for the app to be recorded in the remote access session.
-        public let remoteRecordAppArn: String?
-        /// This flag is set to true if remote recording is enabled for the remote access session.
-        public let remoteRecordEnabled: Bool?
         /// The result of the remote access session. Can be any of the following:   PENDING.   PASSED.   WARNED.   FAILED.   SKIPPED.   ERRORED.   STOPPED.
         public let result: ExecutionResult?
         /// When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information about how Device Farm re-signs your apps, see Do you modify my app? in the AWS Device Farm FAQs.
@@ -3859,24 +3951,46 @@ extension DeviceFarm {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceProxy: DeviceProxy? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceProxy: DeviceProxy? = nil, deviceUdid: String? = nil, endpoints: RemoteAccessEndpoints? = nil, instanceArn: String? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
+            self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
-            self.clientId = clientId
+            self.created = created
+            self.device = device
+            self.deviceMinutes = deviceMinutes
+            self.deviceProxy = deviceProxy
+            self.deviceUdid = deviceUdid
+            self.endpoint = nil
+            self.endpoints = endpoints
+            self.instanceArn = instanceArn
+            self.interactionMode = nil
+            self.message = message
+            self.name = name
+            self.result = result
+            self.skipAppResign = skipAppResign
+            self.started = started
+            self.status = status
+            self.stopped = stopped
+            self.vpcConfig = vpcConfig
+        }
+
+        @available(*, deprecated, message: "Members endpoint, interactionMode have been deprecated")
+        @inlinable
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceProxy: DeviceProxy? = nil, deviceUdid: String? = nil, endpoint: String? = nil, endpoints: RemoteAccessEndpoints? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
+            self.appUpload = appUpload
+            self.arn = arn
+            self.billingMethod = billingMethod
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
             self.deviceProxy = deviceProxy
             self.deviceUdid = deviceUdid
             self.endpoint = endpoint
-            self.hostAddress = hostAddress
+            self.endpoints = endpoints
             self.instanceArn = instanceArn
             self.interactionMode = interactionMode
             self.message = message
             self.name = name
-            self.remoteDebugEnabled = remoteDebugEnabled
-            self.remoteRecordAppArn = remoteRecordAppArn
-            self.remoteRecordEnabled = remoteRecordEnabled
             self.result = result
             self.skipAppResign = skipAppResign
             self.started = started
@@ -3886,23 +4000,20 @@ extension DeviceFarm {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appUpload = "appUpload"
             case arn = "arn"
             case billingMethod = "billingMethod"
-            case clientId = "clientId"
             case created = "created"
             case device = "device"
             case deviceMinutes = "deviceMinutes"
             case deviceProxy = "deviceProxy"
             case deviceUdid = "deviceUdid"
             case endpoint = "endpoint"
-            case hostAddress = "hostAddress"
+            case endpoints = "endpoints"
             case instanceArn = "instanceArn"
             case interactionMode = "interactionMode"
             case message = "message"
             case name = "name"
-            case remoteDebugEnabled = "remoteDebugEnabled"
-            case remoteRecordAppArn = "remoteRecordAppArn"
-            case remoteRecordEnabled = "remoteRecordEnabled"
             case result = "result"
             case skipAppResign = "skipAppResign"
             case started = "started"
@@ -4011,8 +4122,12 @@ extension DeviceFarm {
         public let deviceProxy: DeviceProxy?
         /// The results of a device filter used to select the devices for a test run.
         public let deviceSelectionResult: DeviceSelectionResult?
+        /// Environment variables associated with the run.
+        public let environmentVariables: [EnvironmentVariable]?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
         public let eventCount: Int?
+        /// The IAM role associated with the run.
+        public let executionRoleArn: String?
         /// The number of minutes the job executes before it times out.
         public let jobTimeoutMinutes: Int?
         /// Information about the locale that is used for the run.
@@ -4057,7 +4172,7 @@ extension DeviceFarm {
         public let webUrl: String?
 
         @inlinable
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceProxy: DeviceProxy? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceProxy: DeviceProxy? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, environmentVariables: [EnvironmentVariable]? = nil, eventCount: Int? = nil, executionRoleArn: String? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4069,7 +4184,9 @@ extension DeviceFarm {
             self.devicePoolArn = devicePoolArn
             self.deviceProxy = deviceProxy
             self.deviceSelectionResult = deviceSelectionResult
+            self.environmentVariables = environmentVariables
             self.eventCount = eventCount
+            self.executionRoleArn = executionRoleArn
             self.jobTimeoutMinutes = jobTimeoutMinutes
             self.locale = locale
             self.location = location
@@ -4105,7 +4222,9 @@ extension DeviceFarm {
             case devicePoolArn = "devicePoolArn"
             case deviceProxy = "deviceProxy"
             case deviceSelectionResult = "deviceSelectionResult"
+            case environmentVariables = "environmentVariables"
             case eventCount = "eventCount"
+            case executionRoleArn = "executionRoleArn"
             case jobTimeoutMinutes = "jobTimeoutMinutes"
             case locale = "locale"
             case location = "location"
@@ -4161,6 +4280,10 @@ extension DeviceFarm {
         public let customerArtifactPaths: CustomerArtifactPaths?
         /// The device proxy to be configured on the device for the run.
         public let deviceProxy: DeviceProxy?
+        /// Environment variables associated with the run.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// An IAM role to be assumed by the test host for the run.
+        public let executionRoleArn: String?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public let extraDataPackageArn: String?
         /// Information about the locale that is used for the run.
@@ -4175,11 +4298,13 @@ extension DeviceFarm {
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceProxy: DeviceProxy? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceProxy: DeviceProxy? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
             self.deviceProxy = deviceProxy
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.extraDataPackageArn = extraDataPackageArn
             self.locale = locale
             self.location = location
@@ -4195,6 +4320,14 @@ extension DeviceFarm {
                 try validate($0, name: "auxiliaryApps[]", parent: name, pattern: "^arn:aws:devicefarm:.+$")
             }
             try self.deviceProxy?.validate(name: "\(name).deviceProxy")
+            try self.environmentVariables?.forEach {
+                try $0.validate(name: "\(name).environmentVariables[]")
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 32)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.+$")
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, max: 1011)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, min: 32)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
@@ -4213,6 +4346,8 @@ extension DeviceFarm {
             case billingMethod = "billingMethod"
             case customerArtifactPaths = "customerArtifactPaths"
             case deviceProxy = "deviceProxy"
+            case environmentVariables = "environmentVariables"
+            case executionRoleArn = "executionRoleArn"
             case extraDataPackageArn = "extraDataPackageArn"
             case locale = "locale"
             case location = "location"
@@ -4296,7 +4431,7 @@ extension DeviceFarm {
     public struct ScheduleRunTest: AWSEncodableShape {
         /// The test's filter.
         public let filter: String?
-        /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:    app_performance_monitoring: Performance monitoring is enabled by default. Set this parameter to false to disable it.    For Appium tests (all types):   appium_version: The Appium version. Currently supported values are 1.6.5 (and later), latest, and default.    latest runs the latest Appium version supported by Device Farm (1.9.1).   For default, Device Farm selects a compatible version of Appium for the device. The current behavior is to run 1.7.2 on Android devices and iOS 9 and earlier and 1.7.2 for iOS 10 and later.   This behavior is subject to change.     For fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.    For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2      For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: LoginTests    Running a multiple test classes: LoginTests,SmokeTests    Running a single test: LoginTests/testValid    Running multiple tests: LoginTests/testValid,LoginTests/testInvalid
+        /// The test's parameters, such as test framework parameters and fixture settings. Parameters are represented by name-value pairs of strings. For all tests:    app_performance_monitoring: Performance monitoring is enabled by default. Set this parameter to false to disable it.   For Appium tests (all types):   appium_version: The Appium version. Currently supported values are 1.6.5 (and later), latest, and default.   latest runs the latest Appium version supported by Device Farm (1.9.1).   For default, Device Farm selects a compatible version of Appium for the device. The current behavior is to run 1.7.2 on Android devices and iOS 9 and earlier and 1.7.2 for iOS 10 and later.   This behavior is subject to change.     For fuzz tests (Android only):   event_count: The number of events, between 1 and 10000, that the UI fuzz test should perform.   throttle: The time, in ms, between 0 and 1000, that the UI fuzz test should wait between events.   seed: A seed to use for randomizing the UI fuzz test. Using the same seed value between tests ensures identical event sequences.   For Instrumentation:   filter: A test filter string. Examples:   Running a single test case: com.android.abc.Test1    Running a single test: com.android.abc.Test1#smoke    Running multiple tests: com.android.abc.Test1,com.android.abc.Test2      For XCTest and XCTestUI:   filter: A test filter string. Examples:   Running a single test class: LoginTests    Running a multiple test classes: LoginTests,SmokeTests    Running a single test: LoginTests/testValid    Running multiple tests: LoginTests/testValid,LoginTests/testInvalid
         public let parameters: [String: String]?
         /// The ARN of the uploaded test to be run.
         public let testPackageArn: String?
@@ -4546,7 +4681,7 @@ extension DeviceFarm {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+        /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
         public let tags: [Tag]
@@ -4842,7 +4977,7 @@ extension DeviceFarm {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+        /// The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]
@@ -5120,15 +5255,21 @@ extension DeviceFarm {
         public let arn: String
         /// The number of minutes a test run in the project executes before it times out.
         public let defaultJobTimeoutMinutes: Int?
+        ///  A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file.   For more information about using test spec files, please see Custom test environments  in AWS Device Farm.
+        public let environmentVariables: [EnvironmentVariable]?
+        /// An IAM role to be assumed by the test host for all runs in the project.
+        public let executionRoleArn: String?
         /// A string that represents the new name of the project that you are updating.
         public let name: String?
         /// The VPC security groups and subnets that are attached to a project.
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, defaultJobTimeoutMinutes: Int? = nil, environmentVariables: [EnvironmentVariable]? = nil, executionRoleArn: String? = nil, name: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.defaultJobTimeoutMinutes = defaultJobTimeoutMinutes
+            self.environmentVariables = environmentVariables
+            self.executionRoleArn = executionRoleArn
             self.name = name
             self.vpcConfig = vpcConfig
         }
@@ -5137,6 +5278,14 @@ extension DeviceFarm {
             try self.validate(self.arn, name: "arn", parent: name, max: 1011)
             try self.validate(self.arn, name: "arn", parent: name, min: 32)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
+            try self.environmentVariables?.forEach {
+                try $0.validate(name: "\(name).environmentVariables[]")
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 32)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, min: 1)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/.+$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
@@ -5144,6 +5293,8 @@ extension DeviceFarm {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case defaultJobTimeoutMinutes = "defaultJobTimeoutMinutes"
+            case environmentVariables = "environmentVariables"
+            case executionRoleArn = "executionRoleArn"
             case name = "name"
             case vpcConfig = "vpcConfig"
         }

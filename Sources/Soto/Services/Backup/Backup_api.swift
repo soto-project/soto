@@ -357,6 +357,7 @@ public struct Backup: AWSService {
     ///   - backupVaultName: The name of a logical container where backups are stored. Logically air-gapped  backup vaults are identified by names that are unique to the account used to create  them and the Region where they are created.
     ///   - backupVaultTags: The tags to assign to the vault.
     ///   - creatorRequestId: The ID of the creation request. This parameter is optional. If used, this parameter must contain  1 to 50 alphanumeric or '-_.' characters.
+    ///   - encryptionKeyArn: The ARN of the customer-managed KMS key to use for encrypting the logically air-gapped backup vault. If not specified, the vault will be encrypted with an Amazon Web Services-owned key managed by Amazon Web Services Backup.
     ///   - maxRetentionDays: The maximum retention period that the vault retains its recovery points.
     ///   - minRetentionDays: This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.
     ///   - logger: Logger use during operation
@@ -365,6 +366,7 @@ public struct Backup: AWSService {
         backupVaultName: String,
         backupVaultTags: [String: String]? = nil,
         creatorRequestId: String? = CreateLogicallyAirGappedBackupVaultInput.idempotencyToken(),
+        encryptionKeyArn: String? = nil,
         maxRetentionDays: Int64,
         minRetentionDays: Int64,
         logger: Logger = AWSClient.loggingDisabled        
@@ -373,6 +375,7 @@ public struct Backup: AWSService {
             backupVaultName: backupVaultName, 
             backupVaultTags: backupVaultTags, 
             creatorRequestId: creatorRequestId, 
+            encryptionKeyArn: encryptionKeyArn, 
             maxRetentionDays: maxRetentionDays, 
             minRetentionDays: minRetentionDays
         )
@@ -400,7 +403,7 @@ public struct Backup: AWSService {
     ///   - reportPlanDescription: An optional description of the report plan with a maximum of 1,024 characters.
     ///   - reportPlanName: The unique name of the report plan. The name must be between 1 and 256 characters, starting with a letter, and consisting of letters (a-z, A-Z), numbers (0-9), and underscores (_).
     ///   - reportPlanTags: The tags to assign to the report plan.
-    ///   - reportSetting: Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
+    ///   - reportSetting: Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT   If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
     ///   - logger: Logger use during operation
     @inlinable
     public func createReportPlan(
@@ -532,6 +535,41 @@ public struct Backup: AWSService {
             restoreTestingSelection: restoreTestingSelection
         )
         return try await self.createRestoreTestingSelection(input, logger: logger)
+    }
+
+    /// Creates a tiering configuration. A tiering configuration enables automatic movement of backup data to a lower-cost storage tier based on the age of backed-up objects in the backup vault. Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
+    @Sendable
+    @inlinable
+    public func createTieringConfiguration(_ input: CreateTieringConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTieringConfigurationOutput {
+        try await self.client.execute(
+            operation: "CreateTieringConfiguration", 
+            path: "/tiering-configurations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a tiering configuration. A tiering configuration enables automatic movement of backup data to a lower-cost storage tier based on the age of backed-up objects in the backup vault. Each vault can only have one vault-specific tiering configuration, in addition to any global configuration that applies to all vaults.
+    ///
+    /// Parameters:
+    ///   - creatorRequestId: This is a unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+    ///   - tieringConfiguration: A tiering configuration must contain a unique TieringConfigurationName string you create and must contain a BackupVaultName and ResourceSelection. You may optionally include a CreatorRequestId string. The TieringConfigurationName is a unique string that is the name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+    ///   - tieringConfigurationTags: The tags to assign to the tiering configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTieringConfiguration(
+        creatorRequestId: String? = CreateTieringConfigurationInput.idempotencyToken(),
+        tieringConfiguration: TieringConfigurationInputForCreate,
+        tieringConfigurationTags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTieringConfigurationOutput {
+        let input = CreateTieringConfigurationInput(
+            creatorRequestId: creatorRequestId, 
+            tieringConfiguration: tieringConfiguration, 
+            tieringConfigurationTags: tieringConfigurationTags
+        )
+        return try await self.createTieringConfiguration(input, logger: logger)
     }
 
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
@@ -862,6 +900,35 @@ public struct Backup: AWSService {
         return try await self.deleteRestoreTestingSelection(input, logger: logger)
     }
 
+    /// Deletes the tiering configuration specified by a tiering configuration name.
+    @Sendable
+    @inlinable
+    public func deleteTieringConfiguration(_ input: DeleteTieringConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTieringConfigurationOutput {
+        try await self.client.execute(
+            operation: "DeleteTieringConfiguration", 
+            path: "/tiering-configurations/{TieringConfigurationName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the tiering configuration specified by a tiering configuration name.
+    ///
+    /// Parameters:
+    ///   - tieringConfigurationName: The unique name of a tiering configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTieringConfiguration(
+        tieringConfigurationName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTieringConfigurationOutput {
+        let input = DeleteTieringConfigurationInput(
+            tieringConfigurationName: tieringConfigurationName
+        )
+        return try await self.deleteTieringConfiguration(input, logger: logger)
+    }
+
     /// Returns backup job details for the specified BackupJobId.
     @Sendable
     @inlinable
@@ -1182,6 +1249,35 @@ public struct Backup: AWSService {
             restoreJobId: restoreJobId
         )
         return try await self.describeRestoreJob(input, logger: logger)
+    }
+
+    /// Returns scan job details for the specified ScanJobID.
+    @Sendable
+    @inlinable
+    public func describeScanJob(_ input: DescribeScanJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeScanJobOutput {
+        try await self.client.execute(
+            operation: "DescribeScanJob", 
+            path: "/scan/jobs/{ScanJobId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns scan job details for the specified ScanJobID.
+    ///
+    /// Parameters:
+    ///   - scanJobId: Uniquely identifies a request to Backup to scan a resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeScanJob(
+        scanJobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeScanJobOutput {
+        let input = DescribeScanJobInput(
+            scanJobId: scanJobId
+        )
+        return try await self.describeScanJob(input, logger: logger)
     }
 
     /// Removes the association between an MPA approval team and a backup vault, disabling the MPA approval workflow for restore operations.
@@ -1726,6 +1822,35 @@ public struct Backup: AWSService {
         )
     }
 
+    /// Returns TieringConfiguration details for the specified TieringConfigurationName. The details are the body of a tiering configuration in JSON format, in addition to configuration metadata.
+    @Sendable
+    @inlinable
+    public func getTieringConfiguration(_ input: GetTieringConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTieringConfigurationOutput {
+        try await self.client.execute(
+            operation: "GetTieringConfiguration", 
+            path: "/tiering-configurations/{TieringConfigurationName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns TieringConfiguration details for the specified TieringConfigurationName. The details are the body of a tiering configuration in JSON format, in addition to configuration metadata.
+    ///
+    /// Parameters:
+    ///   - tieringConfigurationName: The unique name of a tiering configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTieringConfiguration(
+        tieringConfigurationName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTieringConfigurationOutput {
+        let input = GetTieringConfigurationInput(
+            tieringConfigurationName: tieringConfigurationName
+        )
+        return try await self.getTieringConfiguration(input, logger: logger)
+    }
+
     /// This is a request for a summary of backup jobs created  or running within the most recent 30 days. You can  include parameters AccountID, State, ResourceType, MessageCategory,  AggregationPeriod, MaxResults, or NextToken to filter  results. This request returns a summary that contains  Region, Account, State, ResourceType, MessageCategory,  StartTime, EndTime, and Count of included jobs.
     @Sendable
     @inlinable
@@ -2086,6 +2211,7 @@ public struct Backup: AWSService {
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
     ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - bySourceRecoveryPointArn: Filters copy jobs by the specified source recovery point ARN.
     ///   - byState: Returns only copy jobs that are in the specified state.
     ///   - maxResults: The maximum number of items to be returned.
     ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -2102,6 +2228,7 @@ public struct Backup: AWSService {
         byParentJobId: String? = nil,
         byResourceArn: String? = nil,
         byResourceType: String? = nil,
+        bySourceRecoveryPointArn: String? = nil,
         byState: CopyJobState? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -2118,6 +2245,7 @@ public struct Backup: AWSService {
             byParentJobId: byParentJobId, 
             byResourceArn: byResourceArn, 
             byResourceType: byResourceType, 
+            bySourceRecoveryPointArn: bySourceRecoveryPointArn, 
             byState: byState, 
             maxResults: maxResults, 
             nextToken: nextToken
@@ -2454,7 +2582,7 @@ public struct Backup: AWSService {
     ///   - byCreationAfter: Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
     ///   - byCreationBefore: Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
     ///   - byReportPlanName: Returns only report jobs with the specified report plan name.
-    ///   - byStatus: Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED
+    ///   - byStatus: Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES  Please note that only scanning jobs finish with state completed with issues.  For backup jobs this is a console interpretation of a job that finishes in  completed state and has a status message.
     ///   - maxResults: The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
     ///   - nextToken: An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
     ///   - logger: Logger use during operation
@@ -2611,6 +2739,7 @@ public struct Backup: AWSService {
     ///   - byCompleteBefore: Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
     ///   - byCreatedAfter: Returns only restore jobs that were created after the specified date.
     ///   - byCreatedBefore: Returns only restore jobs that were created before the specified date.
+    ///   - byParentJobId: This is a filter to list child (nested) restore jobs based on parent restore job ID.
     ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byRestoreTestingPlanArn: This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
     ///   - byStatus: Returns only restore jobs associated with the specified job status.
@@ -2624,6 +2753,7 @@ public struct Backup: AWSService {
         byCompleteBefore: Date? = nil,
         byCreatedAfter: Date? = nil,
         byCreatedBefore: Date? = nil,
+        byParentJobId: String? = nil,
         byResourceType: String? = nil,
         byRestoreTestingPlanArn: String? = nil,
         byStatus: RestoreJobStatus? = nil,
@@ -2637,6 +2767,7 @@ public struct Backup: AWSService {
             byCompleteBefore: byCompleteBefore, 
             byCreatedAfter: byCreatedAfter, 
             byCreatedBefore: byCreatedBefore, 
+            byParentJobId: byParentJobId, 
             byResourceType: byResourceType, 
             byRestoreTestingPlanArn: byRestoreTestingPlanArn, 
             byStatus: byStatus, 
@@ -2757,6 +2888,118 @@ public struct Backup: AWSService {
         return try await self.listRestoreTestingSelections(input, logger: logger)
     }
 
+    /// This is a request for a summary of scan jobs created or running within the most recent 30 days.
+    @Sendable
+    @inlinable
+    public func listScanJobSummaries(_ input: ListScanJobSummariesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScanJobSummariesOutput {
+        try await self.client.execute(
+            operation: "ListScanJobSummaries", 
+            path: "/audit/scan-job-summaries", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This is a request for a summary of scan jobs created or running within the most recent 30 days.
+    ///
+    /// Parameters:
+    ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization.  AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    ///   - aggregationPeriod: The period for the returned results.    ONE_DAYThe daily job count for the prior 1 day.    SEVEN_DAYSThe daily job count for the prior 7 days.    FOURTEEN_DAYSThe daily job count for the prior 14 days.
+    ///   - malwareScanner: Returns only the scan jobs for the specified malware scanner.  Currently the only MalwareScanner is GUARDDUTY. But the field also supports ANY, and AGGREGATE_ALL.
+    ///   - maxResults: The maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - resourceType: Returns the job count for the specified resource type. Use request  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource types and returns the sum.
+    ///   - scanResultStatus: Returns only the scan jobs for the specified scan results.
+    ///   - state: Returns only the scan jobs for the specified scanning job state.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listScanJobSummaries(
+        accountId: String? = nil,
+        aggregationPeriod: AggregationPeriod? = nil,
+        malwareScanner: MalwareScanner? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        resourceType: String? = nil,
+        scanResultStatus: ScanResultStatus? = nil,
+        state: ScanJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListScanJobSummariesOutput {
+        let input = ListScanJobSummariesInput(
+            accountId: accountId, 
+            aggregationPeriod: aggregationPeriod, 
+            malwareScanner: malwareScanner, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceType: resourceType, 
+            scanResultStatus: scanResultStatus, 
+            state: state
+        )
+        return try await self.listScanJobSummaries(input, logger: logger)
+    }
+
+    /// Returns a list of existing scan jobs for an authenticated account for the last 30 days.
+    @Sendable
+    @inlinable
+    public func listScanJobs(_ input: ListScanJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScanJobsOutput {
+        try await self.client.execute(
+            operation: "ListScanJobs", 
+            path: "/scan/jobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of existing scan jobs for an authenticated account for the last 30 days.
+    ///
+    /// Parameters:
+    ///   - byAccountId: The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Amazon Web Services Organizations management account, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
+    ///   - byBackupVaultName: Returns only scan jobs that will be stored in the specified backup vault.  Backup vaults are identified by names that are unique to the account  used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+    ///   - byCompleteAfter: Returns only scan jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+    ///   - byCompleteBefore: Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+    ///   - byMalwareScanner: Returns only the scan jobs for the specified malware scanner. Currently only supports GUARDDUTY.
+    ///   - byRecoveryPointArn: Returns only the scan jobs that are ran against the specified recovery point.
+    ///   - byResourceArn: Returns only scan jobs that match the specified resource Amazon Resource Name (ARN).
+    ///   - byResourceType: Returns restore testing selections by the specified restore testing  plan name.    EBSfor Amazon Elastic Block Store    EC2for Amazon Elastic Compute Cloud    S3for Amazon Simple Storage Service (Amazon S3)   Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    ///   - byScanResultStatus: Returns only the scan jobs for the specified scan results:    THREATS_FOUND     NO_THREATS_FOUND
+    ///   - byState: Returns only the scan jobs for the specified scanning job state.
+    ///   - maxResults: The maximum number of items to be returned. Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listScanJobs(
+        byAccountId: String? = nil,
+        byBackupVaultName: String? = nil,
+        byCompleteAfter: Date? = nil,
+        byCompleteBefore: Date? = nil,
+        byMalwareScanner: MalwareScanner? = nil,
+        byRecoveryPointArn: String? = nil,
+        byResourceArn: String? = nil,
+        byResourceType: ScanResourceType? = nil,
+        byScanResultStatus: ScanResultStatus? = nil,
+        byState: ScanState? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListScanJobsOutput {
+        let input = ListScanJobsInput(
+            byAccountId: byAccountId, 
+            byBackupVaultName: byBackupVaultName, 
+            byCompleteAfter: byCompleteAfter, 
+            byCompleteBefore: byCompleteBefore, 
+            byMalwareScanner: byMalwareScanner, 
+            byRecoveryPointArn: byRecoveryPointArn, 
+            byResourceArn: byResourceArn, 
+            byResourceType: byResourceType, 
+            byScanResultStatus: byScanResultStatus, 
+            byState: byState, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listScanJobs(input, logger: logger)
+    }
+
     /// Returns the tags assigned to the resource, such as a target recovery point, backup plan, or backup vault. This operation returns results depending on the resource type used in the value for resourceArn. For example, recovery points of Amazon DynamoDB with Advanced Settings have an ARN (Amazon Resource Name) that begins with arn:aws:backup. Recovery points (backups) of DynamoDB without Advanced Settings enabled have an ARN that begins with arn:aws:dynamodb. When this operation is called and when you include values of resourceArn that have an ARN other than arn:aws:backup, it may return one of the exceptions listed below. To prevent this exception, include only values representing resource types that are fully managed by Backup. These have an ARN that begins arn:aws:backup and they are noted in the Feature availability by resource table.
     @Sendable
     @inlinable
@@ -2790,6 +3033,38 @@ public struct Backup: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTags(input, logger: logger)
+    }
+
+    /// Returns a list of tiering configurations.
+    @Sendable
+    @inlinable
+    public func listTieringConfigurations(_ input: ListTieringConfigurationsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTieringConfigurationsOutput {
+        try await self.client.execute(
+            operation: "ListTieringConfigurations", 
+            path: "/tiering-configurations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of tiering configurations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - nextToken: The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTieringConfigurations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTieringConfigurationsOutput {
+        let input = ListTieringConfigurationsInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTieringConfigurations(input, logger: logger)
     }
 
     /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
@@ -2990,6 +3265,7 @@ public struct Backup: AWSService {
     ///   - idempotencyToken: A customer-chosen string that you can use to distinguish between otherwise identical calls to StartBackupJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
     ///   - index: Include this parameter to enable index creation if your backup  job has a resource type that supports backup indexes. Resource types that support backup indexes include:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)   Index can have 1 of 2 possible values, either ENABLED or  DISABLED. To create a backup index for an eligible ACTIVE recovery point  that does not yet have a backup index, set value to ENABLED. To delete a backup index, set value to DISABLED.
     ///   - lifecycle: The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that can transition to cold storage are listed in the Feature  availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
+    ///   - logicallyAirGappedBackupVaultArn: The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
     ///   - recoveryPointTags: The tags to assign to the resources.
     ///   - resourceArn: An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
     ///   - startWindowMinutes: A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional, and the default is 8 hours.  If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it  has successfully begun or until the start window time has run out. If within the start  window time Backup receives an error that allows the job to be retried,  Backup will automatically retry to begin the job at least every 10 minutes  until the backup  successfully begins (the job status changes to RUNNING) or until the job status  changes to EXPIRED (which is expected to occur when the start window time is over).
@@ -3003,6 +3279,7 @@ public struct Backup: AWSService {
         idempotencyToken: String? = StartBackupJobInput.idempotencyToken(),
         index: Index? = nil,
         lifecycle: Lifecycle? = nil,
+        logicallyAirGappedBackupVaultArn: String? = nil,
         recoveryPointTags: [String: String]? = nil,
         resourceArn: String,
         startWindowMinutes: Int64? = nil,
@@ -3016,6 +3293,7 @@ public struct Backup: AWSService {
             idempotencyToken: idempotencyToken, 
             index: index, 
             lifecycle: lifecycle, 
+            logicallyAirGappedBackupVaultArn: logicallyAirGappedBackupVaultArn, 
             recoveryPointTags: recoveryPointTags, 
             resourceArn: resourceArn, 
             startWindowMinutes: startWindowMinutes
@@ -3141,6 +3419,56 @@ public struct Backup: AWSService {
             resourceType: resourceType
         )
         return try await self.startRestoreJob(input, logger: logger)
+    }
+
+    /// Starts scanning jobs for specific resources.
+    @Sendable
+    @inlinable
+    public func startScanJob(_ input: StartScanJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartScanJobOutput {
+        try await self.client.execute(
+            operation: "StartScanJob", 
+            path: "/scan/job", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts scanning jobs for specific resources.
+    ///
+    /// Parameters:
+    ///   - backupVaultName: The name of a logical container where backups are stored. Backup vaults are identified by names that  are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+    ///   - iamRoleArn: Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+    ///   - idempotencyToken: A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+    ///   - malwareScanner: Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
+    ///   - recoveryPointArn: An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan.  If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.
+    ///   - scanBaseRecoveryPointArn: An ARN that uniquely identifies the base recovery point to be used for incremental scanning.
+    ///   - scanMode: Specifies the scan type use for the scan job. Includes:    FULL_SCAN will scan the entire data lineage within the backup.    INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN.
+    ///   - scannerRoleArn: Specified the IAM scanner role ARN.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startScanJob(
+        backupVaultName: String,
+        iamRoleArn: String,
+        idempotencyToken: String? = nil,
+        malwareScanner: MalwareScanner,
+        recoveryPointArn: String,
+        scanBaseRecoveryPointArn: String? = nil,
+        scanMode: ScanMode,
+        scannerRoleArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartScanJobOutput {
+        let input = StartScanJobInput(
+            backupVaultName: backupVaultName, 
+            iamRoleArn: iamRoleArn, 
+            idempotencyToken: idempotencyToken, 
+            malwareScanner: malwareScanner, 
+            recoveryPointArn: recoveryPointArn, 
+            scanBaseRecoveryPointArn: scanBaseRecoveryPointArn, 
+            scanMode: scanMode, 
+            scannerRoleArn: scannerRoleArn
+        )
+        return try await self.startScanJob(input, logger: logger)
     }
 
     /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services:   Amazon Aurora   Amazon DocumentDB (with MongoDB compatibility)   Amazon FSx for Lustre   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server   Amazon Neptune   SAP HANA databases on Amazon EC2 instances   Amazon RDS
@@ -3322,7 +3650,7 @@ public struct Backup: AWSService {
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
     ///
     /// Parameters:
-    ///   - globalSettings: Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2.
+    ///   - globalSettings: Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlobalSettings(
@@ -3546,6 +3874,38 @@ public struct Backup: AWSService {
             restoreTestingSelectionName: restoreTestingSelectionName
         )
         return try await self.updateRestoreTestingSelection(input, logger: logger)
+    }
+
+    /// This request will send changes to your specified tiering configuration. TieringConfigurationName cannot be updated after it is created.  ResourceSelection can contain:    Resources     TieringDownSettingsInDays     ResourceType
+    @Sendable
+    @inlinable
+    public func updateTieringConfiguration(_ input: UpdateTieringConfigurationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTieringConfigurationOutput {
+        try await self.client.execute(
+            operation: "UpdateTieringConfiguration", 
+            path: "/tiering-configurations/{TieringConfigurationName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This request will send changes to your specified tiering configuration. TieringConfigurationName cannot be updated after it is created.  ResourceSelection can contain:    Resources     TieringDownSettingsInDays     ResourceType
+    ///
+    /// Parameters:
+    ///   - tieringConfiguration: Specifies the body of a tiering configuration.
+    ///   - tieringConfigurationName: The name of a tiering configuration to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTieringConfiguration(
+        tieringConfiguration: TieringConfigurationInputForUpdate,
+        tieringConfigurationName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTieringConfigurationOutput {
+        let input = UpdateTieringConfigurationInput(
+            tieringConfiguration: tieringConfiguration, 
+            tieringConfigurationName: tieringConfigurationName
+        )
+        return try await self.updateTieringConfiguration(input, logger: logger)
     }
 }
 
@@ -3943,6 +4303,7 @@ extension Backup {
     ///   - byParentJobId: This is a filter to list child (nested) jobs based on parent job ID.
     ///   - byResourceArn: Returns only copy jobs that match the specified resource Amazon Resource Name (ARN).
     ///   - byResourceType: Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
+    ///   - bySourceRecoveryPointArn: Filters copy jobs by the specified source recovery point ARN.
     ///   - byState: Returns only copy jobs that are in the specified state.
     ///   - maxResults: The maximum number of items to be returned.
     ///   - logger: Logger used for logging
@@ -3958,6 +4319,7 @@ extension Backup {
         byParentJobId: String? = nil,
         byResourceArn: String? = nil,
         byResourceType: String? = nil,
+        bySourceRecoveryPointArn: String? = nil,
         byState: CopyJobState? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3973,6 +4335,7 @@ extension Backup {
             byParentJobId: byParentJobId, 
             byResourceArn: byResourceArn, 
             byResourceType: byResourceType, 
+            bySourceRecoveryPointArn: bySourceRecoveryPointArn, 
             byState: byState, 
             maxResults: maxResults
         )
@@ -4329,7 +4692,7 @@ extension Backup {
     ///   - byCreationAfter: Returns only report jobs that were created after the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
     ///   - byCreationBefore: Returns only report jobs that were created before the date and time specified in Unix format and Coordinated Universal Time (UTC). For example, the value 1516925490 represents Friday, January 26, 2018 12:11:30 AM.
     ///   - byReportPlanName: Returns only report jobs with the specified report plan name.
-    ///   - byStatus: Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED
+    ///   - byStatus: Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES  Please note that only scanning jobs finish with state completed with issues.  For backup jobs this is a console interpretation of a job that finishes in  completed state and has a status message.
     ///   - maxResults: The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4494,6 +4857,7 @@ extension Backup {
     ///   - byCompleteBefore: Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
     ///   - byCreatedAfter: Returns only restore jobs that were created after the specified date.
     ///   - byCreatedBefore: Returns only restore jobs that were created before the specified date.
+    ///   - byParentJobId: This is a filter to list child (nested) restore jobs based on parent restore job ID.
     ///   - byResourceType: Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
     ///   - byRestoreTestingPlanArn: This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
     ///   - byStatus: Returns only restore jobs associated with the specified job status.
@@ -4506,6 +4870,7 @@ extension Backup {
         byCompleteBefore: Date? = nil,
         byCreatedAfter: Date? = nil,
         byCreatedBefore: Date? = nil,
+        byParentJobId: String? = nil,
         byResourceType: String? = nil,
         byRestoreTestingPlanArn: String? = nil,
         byStatus: RestoreJobStatus? = nil,
@@ -4518,6 +4883,7 @@ extension Backup {
             byCompleteBefore: byCompleteBefore, 
             byCreatedAfter: byCreatedAfter, 
             byCreatedBefore: byCreatedBefore, 
+            byParentJobId: byParentJobId, 
             byResourceType: byResourceType, 
             byRestoreTestingPlanArn: byRestoreTestingPlanArn, 
             byStatus: byStatus, 
@@ -4643,6 +5009,122 @@ extension Backup {
         return self.listRestoreTestingSelectionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listScanJobSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScanJobSummariesPaginator(
+        _ input: ListScanJobSummariesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScanJobSummariesInput, ListScanJobSummariesOutput> {
+        return .init(
+            input: input,
+            command: self.listScanJobSummaries,
+            inputKey: \ListScanJobSummariesInput.nextToken,
+            outputKey: \ListScanJobSummariesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listScanJobSummaries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization.  AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+    ///   - aggregationPeriod: The period for the returned results.    ONE_DAYThe daily job count for the prior 1 day.    SEVEN_DAYSThe daily job count for the prior 7 days.    FOURTEEN_DAYSThe daily job count for the prior 14 days.
+    ///   - malwareScanner: Returns only the scan jobs for the specified malware scanner.  Currently the only MalwareScanner is GUARDDUTY. But the field also supports ANY, and AGGREGATE_ALL.
+    ///   - maxResults: The maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+    ///   - resourceType: Returns the job count for the specified resource type. Use request  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource types and returns the sum.
+    ///   - scanResultStatus: Returns only the scan jobs for the specified scan results.
+    ///   - state: Returns only the scan jobs for the specified scanning job state.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScanJobSummariesPaginator(
+        accountId: String? = nil,
+        aggregationPeriod: AggregationPeriod? = nil,
+        malwareScanner: MalwareScanner? = nil,
+        maxResults: Int? = nil,
+        resourceType: String? = nil,
+        scanResultStatus: ScanResultStatus? = nil,
+        state: ScanJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListScanJobSummariesInput, ListScanJobSummariesOutput> {
+        let input = ListScanJobSummariesInput(
+            accountId: accountId, 
+            aggregationPeriod: aggregationPeriod, 
+            malwareScanner: malwareScanner, 
+            maxResults: maxResults, 
+            resourceType: resourceType, 
+            scanResultStatus: scanResultStatus, 
+            state: state
+        )
+        return self.listScanJobSummariesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listScanJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScanJobsPaginator(
+        _ input: ListScanJobsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScanJobsInput, ListScanJobsOutput> {
+        return .init(
+            input: input,
+            command: self.listScanJobs,
+            inputKey: \ListScanJobsInput.nextToken,
+            outputKey: \ListScanJobsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listScanJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - byAccountId: The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Amazon Web Services Organizations management account, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
+    ///   - byBackupVaultName: Returns only scan jobs that will be stored in the specified backup vault.  Backup vaults are identified by names that are unique to the account  used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+    ///   - byCompleteAfter: Returns only scan jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+    ///   - byCompleteBefore: Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+    ///   - byMalwareScanner: Returns only the scan jobs for the specified malware scanner. Currently only supports GUARDDUTY.
+    ///   - byRecoveryPointArn: Returns only the scan jobs that are ran against the specified recovery point.
+    ///   - byResourceArn: Returns only scan jobs that match the specified resource Amazon Resource Name (ARN).
+    ///   - byResourceType: Returns restore testing selections by the specified restore testing  plan name.    EBSfor Amazon Elastic Block Store    EC2for Amazon Elastic Compute Cloud    S3for Amazon Simple Storage Service (Amazon S3)   Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+    ///   - byScanResultStatus: Returns only the scan jobs for the specified scan results:    THREATS_FOUND     NO_THREATS_FOUND
+    ///   - byState: Returns only the scan jobs for the specified scanning job state.
+    ///   - maxResults: The maximum number of items to be returned. Valid Range: Minimum value of 1. Maximum value of 1000.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScanJobsPaginator(
+        byAccountId: String? = nil,
+        byBackupVaultName: String? = nil,
+        byCompleteAfter: Date? = nil,
+        byCompleteBefore: Date? = nil,
+        byMalwareScanner: MalwareScanner? = nil,
+        byRecoveryPointArn: String? = nil,
+        byResourceArn: String? = nil,
+        byResourceType: ScanResourceType? = nil,
+        byScanResultStatus: ScanResultStatus? = nil,
+        byState: ScanState? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListScanJobsInput, ListScanJobsOutput> {
+        let input = ListScanJobsInput(
+            byAccountId: byAccountId, 
+            byBackupVaultName: byBackupVaultName, 
+            byCompleteAfter: byCompleteAfter, 
+            byCompleteBefore: byCompleteBefore, 
+            byMalwareScanner: byMalwareScanner, 
+            byRecoveryPointArn: byRecoveryPointArn, 
+            byResourceArn: byResourceArn, 
+            byResourceType: byResourceType, 
+            byScanResultStatus: byScanResultStatus, 
+            byState: byState, 
+            maxResults: maxResults
+        )
+        return self.listScanJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTags(_:logger:)``.
     ///
     /// - Parameters:
@@ -4678,6 +5160,40 @@ extension Backup {
             resourceArn: resourceArn
         )
         return self.listTagsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTieringConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTieringConfigurationsPaginator(
+        _ input: ListTieringConfigurationsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTieringConfigurationsInput, ListTieringConfigurationsOutput> {
+        return .init(
+            input: input,
+            command: self.listTieringConfigurations,
+            inputKey: \ListTieringConfigurationsInput.nextToken,
+            outputKey: \ListTieringConfigurationsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTieringConfigurations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to be returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTieringConfigurationsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTieringConfigurationsInput, ListTieringConfigurationsOutput> {
+        let input = ListTieringConfigurationsInput(
+            maxResults: maxResults
+        )
+        return self.listTieringConfigurationsPaginator(input, logger: logger)
     }
 }
 
@@ -4801,6 +5317,7 @@ extension Backup.ListCopyJobsInput: AWSPaginateToken {
             byParentJobId: self.byParentJobId,
             byResourceArn: self.byResourceArn,
             byResourceType: self.byResourceType,
+            bySourceRecoveryPointArn: self.bySourceRecoveryPointArn,
             byState: self.byState,
             maxResults: self.maxResults,
             nextToken: token
@@ -4978,6 +5495,7 @@ extension Backup.ListRestoreJobsInput: AWSPaginateToken {
             byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
+            byParentJobId: self.byParentJobId,
             byResourceType: self.byResourceType,
             byRestoreTestingPlanArn: self.byRestoreTestingPlanArn,
             byStatus: self.byStatus,
@@ -5008,6 +5526,42 @@ extension Backup.ListRestoreTestingSelectionsInput: AWSPaginateToken {
     }
 }
 
+extension Backup.ListScanJobSummariesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListScanJobSummariesInput {
+        return .init(
+            accountId: self.accountId,
+            aggregationPeriod: self.aggregationPeriod,
+            malwareScanner: self.malwareScanner,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceType: self.resourceType,
+            scanResultStatus: self.scanResultStatus,
+            state: self.state
+        )
+    }
+}
+
+extension Backup.ListScanJobsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListScanJobsInput {
+        return .init(
+            byAccountId: self.byAccountId,
+            byBackupVaultName: self.byBackupVaultName,
+            byCompleteAfter: self.byCompleteAfter,
+            byCompleteBefore: self.byCompleteBefore,
+            byMalwareScanner: self.byMalwareScanner,
+            byRecoveryPointArn: self.byRecoveryPointArn,
+            byResourceArn: self.byResourceArn,
+            byResourceType: self.byResourceType,
+            byScanResultStatus: self.byScanResultStatus,
+            byState: self.byState,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Backup.ListTagsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Backup.ListTagsInput {
@@ -5015,6 +5569,16 @@ extension Backup.ListTagsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn
+        )
+    }
+}
+
+extension Backup.ListTieringConfigurationsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Backup.ListTieringConfigurationsInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

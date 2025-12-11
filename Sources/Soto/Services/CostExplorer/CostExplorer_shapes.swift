@@ -250,7 +250,10 @@ extension CostExplorer {
     }
 
     public enum MonitorDimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case costCategory = "COST_CATEGORY"
+        case linkedAccount = "LINKED_ACCOUNT"
         case service = "SERVICE"
+        case tag = "TAG"
         public var description: String { return self.rawValue }
     }
 
@@ -335,6 +338,7 @@ extension CostExplorer {
 
     public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case computeSp = "COMPUTE_SP"
+        case databaseSp = "DATABASE_SP"
         case ec2InstanceSp = "EC2_INSTANCE_SP"
         case sagemakerSp = "SAGEMAKER_SP"
         public var description: String { return self.rawValue }
@@ -482,12 +486,13 @@ extension CostExplorer {
         public let lastUpdatedDate: String?
         /// The Amazon Resource Name (ARN) value.
         public let monitorArn: String?
-        /// The dimensions to evaluate.
+        /// For customer managed monitors, do not specify this field. For Amazon Web Services managed monitors, this field controls which cost dimension is automatically analyzed by the monitor. For TAG and COST_CATEGORY dimensions, you must also specify MonitorSpecification to configure the specific tag or cost category key to analyze.
         public let monitorDimension: MonitorDimension?
         /// The name of the monitor.
         public let monitorName: String
+        /// An Expression object used to control what costs the monitor analyzes for anomalies. For Amazon Web Services managed monitors:   If MonitorDimension is SERVICE or LINKED_ACCOUNT, do not specify this field   If MonitorDimension is TAG, set this field to { "Tags": { "Key": "your tag key" } }    If MonitorDimension is COST_CATEGORY, set this field to { "CostCategories": { "Key": "your cost category key" } }    For customer managed monitors:   To track linked accounts, set this field to { "Dimensions": { "Key": "LINKED_ACCOUNT", "Values": [ "your list of up to 10 account IDs" ] } }     To track cost allocation tags, set this field to { "Tags": { "Key": "your tag key", "Values": [ "your list of up to 10 tag values" ] } }     To track cost categories, set this field to{ "CostCategories": { "Key": "your cost category key", "Values": [ "your cost category value" ] } }
         public let monitorSpecification: Expression?
-        /// The possible type values.
+        /// The type of the monitor.  Set this to DIMENSIONAL for an Amazon Web Services managed monitor. Amazon Web Services managed monitors automatically track up to the top 5,000 values by cost within a dimension of your choosing. Each dimension value is evaluated independently. If you start incurring cost in a new value of your chosen dimension, it will automatically be analyzed by an Amazon Web Services managed monitor. Set this to CUSTOM for a customer managed monitor. Customer managed monitors let you select specific dimension values that get monitored in aggregate.  For more information about monitor types, see Monitor types in the Billing and Cost Management User Guide.
         public let monitorType: MonitorType
 
         @inlinable
@@ -768,20 +773,20 @@ extension CostExplorer {
     }
 
     public struct CostCategory: AWSDecodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String
         public let defaultValue: String?
-        /// The effective end date of your Cost Category.
+        /// The effective end date of your cost category.
         public let effectiveEnd: String?
-        /// The effective start date of your Cost Category.
+        /// The effective start date of your cost category.
         public let effectiveStart: String
         public let name: String
         /// The list of processing statuses for Cost Management products for a specific cost category.
         public let processingStatus: [CostCategoryProcessingStatus]?
-        /// The rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value.
+        /// The rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that cost category value.
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
-        ///  The split charge rules that are used to allocate your charges between your Cost Category values.
+        ///  The split charge rules that are used to allocate your charges between your cost category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
         @inlinable
@@ -852,23 +857,25 @@ extension CostExplorer {
     }
 
     public struct CostCategoryReference: AWSDecodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String?
         public let defaultValue: String?
-        /// The Cost Category's effective end date.
+        /// The cost category's effective end date.
         public let effectiveEnd: String?
-        /// The Cost Category's effective start date.
+        /// The cost category's effective start date.
         public let effectiveStart: String?
         public let name: String?
-        /// The number of rules that are associated with a specific Cost Category.
+        /// The number of rules that are associated with a specific cost category.
         public let numberOfRules: Int?
         /// The list of processing statuses for Cost Management products for a specific cost category.
         public let processingStatus: [CostCategoryProcessingStatus]?
+        ///  The resource types supported by a specific cost category.
+        public let supportedResourceTypes: [String]?
         /// A list of unique cost category values in a specific cost category.
         public let values: [String]?
 
         @inlinable
-        public init(costCategoryArn: String? = nil, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
+        public init(costCategoryArn: String? = nil, defaultValue: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, supportedResourceTypes: [String]? = nil, values: [String]? = nil) {
             self.costCategoryArn = costCategoryArn
             self.defaultValue = defaultValue
             self.effectiveEnd = effectiveEnd
@@ -876,6 +883,7 @@ extension CostExplorer {
             self.name = name
             self.numberOfRules = numberOfRules
             self.processingStatus = processingStatus
+            self.supportedResourceTypes = supportedResourceTypes
             self.values = values
         }
 
@@ -887,7 +895,29 @@ extension CostExplorer {
             case name = "Name"
             case numberOfRules = "NumberOfRules"
             case processingStatus = "ProcessingStatus"
+            case supportedResourceTypes = "SupportedResourceTypes"
             case values = "Values"
+        }
+    }
+
+    public struct CostCategoryResourceAssociation: AWSDecodableShape {
+        /// The unique identifier for your cost category.
+        public let costCategoryArn: String?
+        public let costCategoryName: String?
+        ///  The unique identifier for an associated resource.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(costCategoryArn: String? = nil, costCategoryName: String? = nil, resourceArn: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.costCategoryName = costCategoryName
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case costCategoryName = "CostCategoryName"
+            case resourceArn = "ResourceArn"
         }
     }
 
@@ -895,7 +925,7 @@ extension CostExplorer {
         /// The value the line item is categorized as if the line item contains the matched dimension.
         public let inheritedValue: CostCategoryInheritedValueDimension?
         /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT,
-        ///  SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the Billing and Cost Management User Guide.
+        ///  SERVICE_CODE, RECORD_TYPE, LINKED_ACCOUNT_NAME, REGION, and USAGE_TYPE.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for cost category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the Billing and Cost Management User Guide.
         public let rule: Expression?
         /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public let type: CostCategoryRuleType?
@@ -930,9 +960,9 @@ extension CostExplorer {
         public let method: CostCategorySplitChargeMethod
         /// The parameters for a split charge method. This is only required for the FIXED method.
         public let parameters: [CostCategorySplitChargeRuleParameter]?
-        /// The Cost Category value that you want to split. That value can't be used as a source or a target in other split charge rules. To indicate uncategorized costs, you can use an empty string as the source.
+        /// The cost category value that you want to split. That value can't be used as a source or a target in other split charge rules. To indicate uncategorized costs, you can use an empty string as the source.
         public let source: String
-        /// The Cost Category values that you want to split costs across. These values can't be used as a source in other split charge rules.
+        /// The cost category values that you want to split costs across. These values can't be used as a source in other split charge rules.
         public let targets: [String]
 
         @inlinable
@@ -998,7 +1028,7 @@ extension CostExplorer {
         public let key: String?
         /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
-        /// The specific value of the Cost Category.
+        /// The specific value of the cost category.
         public let values: [String]?
 
         @inlinable
@@ -1260,15 +1290,15 @@ extension CostExplorer {
 
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
         public let defaultValue: String?
-        /// The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+        /// The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
         public let effectiveStart: String?
         public let name: String
         /// An optional list of tags to associate with the specified  CostCategory . You can use resource tags to control access to your cost category using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
-        /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
+        /// The cost category rules used to categorize costs. For more information, see CostCategoryRule.
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
-        ///  The split charge rules used to allocate your charges between your Cost Category values.
+        ///  The split charge rules used to allocate your charges between your cost category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
         @inlinable
@@ -1320,9 +1350,9 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionResponse: AWSDecodableShape {
-        /// The unique identifier for your newly created Cost Category.
+        /// The unique identifier for your newly created cost category.
         public let costCategoryArn: String?
-        /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
+        /// The cost category's effective start date. It can only be a billing start date (first day of the month).
         public let effectiveStart: String?
 
         @inlinable
@@ -1463,7 +1493,7 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionRequest: AWSEncodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String
 
         @inlinable
@@ -1483,9 +1513,9 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionResponse: AWSDecodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String?
-        /// The effective end date of the Cost Category as a result of deleting it. No costs after this date is categorized by the deleted Cost Category.
+        /// The effective end date of the cost category as a result of deleting it. No costs after this date is categorized by the deleted cost category.
         public let effectiveEnd: String?
 
         @inlinable
@@ -1501,9 +1531,9 @@ extension CostExplorer {
     }
 
     public struct DescribeCostCategoryDefinitionRequest: AWSEncodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String
-        /// The date when the Cost Category was effective.
+        /// The date when the cost category was effective.
         public let effectiveOn: String?
 
         @inlinable
@@ -1543,7 +1573,7 @@ extension CostExplorer {
     public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones. Not all dimensions are supported in each API. Refer to the documentation for each specific API to see what is supported.  LINKED_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.  ANOMALY_TOTAL_IMPACT_ABSOLUTE and ANOMALY_TOTAL_IMPACT_PERCENTAGE can only be used in AnomalySubscriptions.
         public let key: Dimension?
-        /// The match options that you can use to filter your results.  MatchOptions is only applicable for actions related to Cost Category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results.  MatchOptions is only applicable for actions related to cost category and Anomaly Subscriptions. Refer to the documentation for each specific API to see what is supported. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
@@ -2402,7 +2432,7 @@ extension CostExplorer {
     public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
         public let billingViewArn: String?
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression
         /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
         public let granularity: Granularity
@@ -2489,7 +2519,7 @@ extension CostExplorer {
         public let maxResults: Int?
         /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
         public let nextPageToken: String?
-        /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
+        /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter cost category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter cost category values that match the SearchString pattern.
         public let searchString: String?
         /// The value that you sort the data by. The key represents the cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    The supported key values for the SortOrder value are ASCENDING and DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values aren't supported.
         public let sortBy: [SortDefinition]?
@@ -2539,9 +2569,9 @@ extension CostExplorer {
     }
 
     public struct GetCostCategoriesResponse: AWSDecodableShape {
-        /// The names of the Cost Categories.
+        /// The names of the cost categories.
         public let costCategoryNames: [String]?
-        /// The Cost Category values. If the CostCategoryName key isn't specified in the request, the CostCategoryValues fields aren't returned.
+        /// The cost category values. If the CostCategoryName key isn't specified in the request, the CostCategoryValues fields aren't returned.
         public let costCategoryValues: [String]?
         /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextPageToken: String?
@@ -2650,7 +2680,7 @@ extension CostExplorer {
         public let billingViewArn: String?
         /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
         /// Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST
         public let metric: Metric
@@ -3489,7 +3519,7 @@ extension CostExplorer {
         public let billingViewArn: String?
         /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
-        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
+        /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity
         /// Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT
         public let metric: Metric
@@ -3812,18 +3842,21 @@ extension CostExplorer {
     }
 
     public struct ListCostCategoryDefinitionsRequest: AWSEncodableShape {
-        /// The date when the Cost Category was effective.
+        /// The date when the cost category was effective.
         public let effectiveOn: String?
         /// The number of entries a paginated response contains.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
+        ///  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
+        public let supportedResourceTypes: [String]?
 
         @inlinable
-        public init(effectiveOn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(effectiveOn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, supportedResourceTypes: [String]? = nil) {
             self.effectiveOn = effectiveOn
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.supportedResourceTypes = supportedResourceTypes
         }
 
         public func validate(name: String) throws {
@@ -3834,17 +3867,22 @@ extension CostExplorer {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.supportedResourceTypes?.forEach {
+                try validate($0, name: "supportedResourceTypes[]", parent: name, pattern: "^[-a-zA-Z0-9/_]+:[-a-zA-Z0-9/_]+$")
+            }
+            try self.validate(self.supportedResourceTypes, name: "supportedResourceTypes", parent: name, max: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
             case effectiveOn = "EffectiveOn"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case supportedResourceTypes = "SupportedResourceTypes"
         }
     }
 
     public struct ListCostCategoryDefinitionsResponse: AWSDecodableShape {
-        /// A reference to a Cost Category that contains enough information to identify the Cost Category.
+        /// A reference to a cost category that contains enough information to identify the Cost Category.
         public let costCategoryReferences: [CostCategoryReference]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
@@ -3857,6 +3895,56 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case costCategoryReferences = "CostCategoryReferences"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCostCategoryResourceAssociationsRequest: AWSEncodableShape {
+        /// The unique identifier for your cost category.
+        public let costCategoryArn: String?
+        ///  The number of entries a paginated response contains.
+        public let maxResults: Int?
+        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+
+        @inlinable
+        public init(costCategoryArn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.costCategoryArn = costCategoryArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, max: 2048)
+            try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, min: 20)
+            try self.validate(self.costCategoryArn, name: "costCategoryArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:[-a-zA-Z0-9/:_]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryArn = "CostCategoryArn"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCostCategoryResourceAssociationsResponse: AWSDecodableShape {
+        ///  A reference to a cost category association that contains information on an associated resource.
+        public let costCategoryResourceAssociations: [CostCategoryResourceAssociation]?
+        ///  The token to retrieve the next set of results.  Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+
+        @inlinable
+        public init(costCategoryResourceAssociations: [CostCategoryResourceAssociation]? = nil, nextToken: String? = nil) {
+            self.costCategoryResourceAssociations = costCategoryResourceAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costCategoryResourceAssociations = "CostCategoryResourceAssociations"
             case nextToken = "NextToken"
         }
     }
@@ -5679,7 +5767,7 @@ extension CostExplorer {
     public struct TagValues: AWSEncodableShape & AWSDecodableShape {
         /// The key for the tag.
         public let key: String?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to cost category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The specific value of the tag.
         public let values: [String]?
@@ -6014,15 +6102,15 @@ extension CostExplorer {
     }
 
     public struct UpdateCostCategoryDefinitionRequest: AWSEncodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String
         public let defaultValue: String?
-        /// The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+        /// The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
         public let effectiveStart: String?
         /// The Expression object used to categorize costs. For more information, see CostCategoryRule .
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
-        ///  The split charge rules used to allocate your charges between your Cost Category values.
+        ///  The split charge rules used to allocate your charges between your cost category values.
         public let splitChargeRules: [CostCategorySplitChargeRule]?
 
         @inlinable
@@ -6068,9 +6156,9 @@ extension CostExplorer {
     }
 
     public struct UpdateCostCategoryDefinitionResponse: AWSDecodableShape {
-        /// The unique identifier for your Cost Category.
+        /// The unique identifier for your cost category.
         public let costCategoryArn: String?
-        /// The Cost Category's effective start date. It can only be a billing start date (first day of the month).
+        /// The cost category's effective start date. It can only be a billing start date (first day of the month).
         public let effectiveStart: String?
 
         @inlinable

@@ -201,6 +201,13 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum IndexStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case created = "CREATED"
+        case deleted = "DELETED"
+        case updated = "UPDATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InitiatedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customer = "CUSTOMER"
         case service = "SERVICE"
@@ -636,16 +643,20 @@ extension OpenSearch {
         public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput?
         /// Container for parameters required to enable S3 vectors engine features on the specified domain.
         public let s3VectorsEngine: S3VectorsEngine?
+        /// Specifies whether to enable serverless vector acceleration for the domain. When enabled, provides GPU-accelerated vector search capabilities for improved performance on vector workloads.
+        public let serverlessVectorAcceleration: ServerlessVectorAcceleration?
 
         @inlinable
-        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput? = nil, s3VectorsEngine: S3VectorsEngine? = nil) {
+        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsInput? = nil, s3VectorsEngine: S3VectorsEngine? = nil, serverlessVectorAcceleration: ServerlessVectorAcceleration? = nil) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
 
         private enum CodingKeys: String, CodingKey {
             case naturalLanguageQueryGenerationOptions = "NaturalLanguageQueryGenerationOptions"
             case s3VectorsEngine = "S3VectorsEngine"
+            case serverlessVectorAcceleration = "ServerlessVectorAcceleration"
         }
     }
 
@@ -654,16 +665,20 @@ extension OpenSearch {
         public let naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput?
         /// Container for parameters representing the state of S3 vectors engine features on the specified domain.
         public let s3VectorsEngine: S3VectorsEngine?
+        /// The current serverless vector acceleration configuration for the domain.
+        public let serverlessVectorAcceleration: ServerlessVectorAcceleration?
 
         @inlinable
-        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput? = nil, s3VectorsEngine: S3VectorsEngine? = nil) {
+        public init(naturalLanguageQueryGenerationOptions: NaturalLanguageQueryGenerationOptionsOutput? = nil, s3VectorsEngine: S3VectorsEngine? = nil, serverlessVectorAcceleration: ServerlessVectorAcceleration? = nil) {
             self.naturalLanguageQueryGenerationOptions = naturalLanguageQueryGenerationOptions
             self.s3VectorsEngine = s3VectorsEngine
+            self.serverlessVectorAcceleration = serverlessVectorAcceleration
         }
 
         private enum CodingKeys: String, CodingKey {
             case naturalLanguageQueryGenerationOptions = "NaturalLanguageQueryGenerationOptions"
             case s3VectorsEngine = "S3VectorsEngine"
+            case serverlessVectorAcceleration = "ServerlessVectorAcceleration"
         }
     }
 
@@ -835,13 +850,13 @@ extension OpenSearch {
     }
 
     public struct AddDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String
         ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType
         ///  An optional text field for providing additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
         public let openSearchArns: [String]
         public let tagList: [Tag]?
 
@@ -964,7 +979,7 @@ extension OpenSearch {
         public let anonymousAuthEnabled: Bool?
         /// True if fine-grained access control is enabled.
         public let enabled: Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Configuration options for IAM identity federation in advanced security settings.
         public let iamFederationOptions: IAMFederationOptionsOutput?
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
@@ -1000,7 +1015,7 @@ extension OpenSearch {
         public let anonymousAuthEnabled: Bool?
         /// True to enable fine-grained access control.
         public let enabled: Bool?
-        /// Container for information about the IAM federation configuration for an OpenSearch UI application.
+        /// Input configuration for IAM identity federation within advanced security options.
         public let iamFederationOptions: IAMFederationOptionsInput?
         /// True to enable the internal user database.
         public let internalUserDatabaseEnabled: Bool?
@@ -1730,7 +1745,7 @@ extension OpenSearch {
     }
 
     public struct CloudWatchDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
-        ///  The unique identifier of the IAM role that grants  OpenSearch Service permission to access the specified data source.
+        ///  The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
         public let roleArn: String
 
         @inlinable
@@ -1948,16 +1963,19 @@ extension OpenSearch {
         public let dataSources: [DataSource]?
         /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
         public let iamIdentityCenterOptions: IamIdentityCenterOptionsInput?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest. If provided, the application uses your customer-managed key for encryption. If omitted, the application uses an AWS-managed key. The KMS key must be in the same region as the application.
+        public let kmsKeyArn: String?
         /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
         public let name: String
         public let tagList: [Tag]?
 
         @inlinable
-        public init(appConfigs: [AppConfig]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil, name: String, tagList: [Tag]? = nil) {
+        public init(appConfigs: [AppConfig]? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptionsInput? = nil, kmsKeyArn: String? = nil, name: String, tagList: [Tag]? = nil) {
             self.appConfigs = appConfigs
             self.clientToken = clientToken
             self.dataSources = dataSources
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.tagList = tagList
         }
@@ -1973,6 +1991,9 @@ extension OpenSearch {
                 try $0.validate(name: "\(name).dataSources[]")
             }
             try self.iamIdentityCenterOptions?.validate(name: "\(name).iamIdentityCenterOptions")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
@@ -1986,6 +2007,7 @@ extension OpenSearch {
             case clientToken = "clientToken"
             case dataSources = "dataSources"
             case iamIdentityCenterOptions = "iamIdentityCenterOptions"
+            case kmsKeyArn = "kmsKeyArn"
             case name = "name"
             case tagList = "tagList"
         }
@@ -2003,18 +2025,21 @@ extension OpenSearch {
         public let iamIdentityCenterOptions: IamIdentityCenterOptions?
         /// The unique identifier assigned to the OpenSearch application.
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+        public let kmsKeyArn: String?
         /// The name of the OpenSearch application.
         public let name: String?
         public let tagList: [Tag]?
 
         @inlinable
-        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, name: String? = nil, tagList: [Tag]? = nil) {
+        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, kmsKeyArn: String? = nil, name: String? = nil, tagList: [Tag]? = nil) {
             self.appConfigs = appConfigs
             self.arn = arn
             self.createdAt = createdAt
             self.dataSources = dataSources
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.tagList = tagList
         }
@@ -2026,6 +2051,7 @@ extension OpenSearch {
             case dataSources = "dataSources"
             case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
             case name = "name"
             case tagList = "tagList"
         }
@@ -2058,7 +2084,7 @@ extension OpenSearch {
         public let engineVersion: String?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsInput?
-        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
+        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressType?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
@@ -2160,6 +2186,57 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case domainStatus = "DomainStatus"
+        }
+    }
+
+    public struct CreateIndexRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The name of the index to create. Must be between 1 and 255 characters and follow OpenSearch naming conventions.
+        public let indexName: String
+        /// The JSON schema defining index mappings, settings, and semantic enrichment configuration. The schema specifies which text fields should be automatically enriched for semantic search capabilities and includes OpenSearch index configuration parameters.
+        public let indexSchema: AWSDocument
+
+        @inlinable
+        public init(domainName: String, indexName: String, indexSchema: AWSDocument) {
+            self.domainName = domainName
+            self.indexName = indexName
+            self.indexSchema = indexSchema
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encode(self.indexName, forKey: .indexName)
+            try container.encode(self.indexSchema, forKey: .indexSchema)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^(?!\\.\\.?$)[^_ ,:\"+/*\\\\|?#><A-Z-][^ ,:\"+/*\\\\|?#><A-Z]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexName = "IndexName"
+            case indexSchema = "IndexSchema"
+        }
+    }
+
+    public struct CreateIndexResponse: AWSDecodableShape {
+        /// The status of the index creation operation.
+        public let status: IndexStatus
+
+        @inlinable
+        public init(status: IndexStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -2488,7 +2565,7 @@ extension OpenSearch {
     }
 
     public struct DeleteDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String
 
         @inlinable
@@ -2584,6 +2661,50 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "Connection"
+        }
+    }
+
+    public struct DeleteIndexRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The name of the index to delete.
+        public let indexName: String
+
+        @inlinable
+        public init(domainName: String, indexName: String) {
+            self.domainName = domainName
+            self.indexName = indexName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.indexName, key: "IndexName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^(?!\\.\\.?$)[^_ ,:\"+/*\\\\|?#><A-Z-][^ ,:\"+/*\\\\|?#><A-Z]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteIndexResponse: AWSDecodableShape {
+        /// The status of the index deletion operation.
+        public let status: IndexStatus
+
+        @inlinable
+        public init(status: IndexStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -3451,13 +3572,13 @@ extension OpenSearch {
     public struct DirectQueryDataSource: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
-        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String?
         ///  The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType?
         ///  A description that provides additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
         public let openSearchArns: [String]?
         ///  A list of tags attached to a direct query data source.
         public let tagList: [Tag]?
@@ -3592,7 +3713,7 @@ extension OpenSearch {
         public let engineVersion: VersionStatus?
         /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsStatus?
-        /// Choose either dual stack or IPv4 as your IP address type.  Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
+        /// Choose either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressTypeStatus?
         /// Key-value pairs to configure log publishing.
         public let logPublishingOptions: LogPublishingOptionsStatus?
@@ -3899,7 +4020,7 @@ extension OpenSearch {
         public let advancedSecurityOptions: AdvancedSecurityOptions?
         /// Container for parameters required to enable all machine learning features.
         public let aimlOptions: AIMLOptionsOutput?
-        /// The Amazon Resource Name (ARN) of the domain. For more information, see IAM identifiers in the AWS Identity and Access Management User Guide.
+        /// The Amazon Resource Name (ARN) of the domain. For more information, see IAM identifiers in the Amazon Web Services Identity and Access Management User Guide.
         public let arn: String
         /// Auto-Tune settings for the domain.
         public let autoTuneOptions: AutoTuneOptionsOutput?
@@ -4295,6 +4416,8 @@ extension OpenSearch {
         public let iamIdentityCenterOptions: IamIdentityCenterOptions?
         /// The unique identifier of the OpenSearch application.
         public let id: String?
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the application's data at rest.
+        public let kmsKeyArn: String?
         /// The timestamp of the last update to the OpenSearch application.
         public let lastUpdatedAt: Date?
         /// The name of the OpenSearch application.
@@ -4303,7 +4426,7 @@ extension OpenSearch {
         public let status: ApplicationStatus?
 
         @inlinable
-        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, endpoint: String? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ApplicationStatus? = nil) {
+        public init(appConfigs: [AppConfig]? = nil, arn: String? = nil, createdAt: Date? = nil, dataSources: [DataSource]? = nil, endpoint: String? = nil, iamIdentityCenterOptions: IamIdentityCenterOptions? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastUpdatedAt: Date? = nil, name: String? = nil, status: ApplicationStatus? = nil) {
             self.appConfigs = appConfigs
             self.arn = arn
             self.createdAt = createdAt
@@ -4311,6 +4434,7 @@ extension OpenSearch {
             self.endpoint = endpoint
             self.iamIdentityCenterOptions = iamIdentityCenterOptions
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.status = status
@@ -4324,6 +4448,7 @@ extension OpenSearch {
             case endpoint = "endpoint"
             case iamIdentityCenterOptions = "iamIdentityCenterOptions"
             case id = "id"
+            case kmsKeyArn = "kmsKeyArn"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
             case status = "status"
@@ -4425,8 +4550,25 @@ extension OpenSearch {
         }
     }
 
+    public struct GetDefaultApplicationSettingRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetDefaultApplicationSettingResponse: AWSDecodableShape {
+        public let applicationArn: String?
+
+        @inlinable
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+        }
+    }
+
     public struct GetDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label that identifies the data source within  your OpenSearch Service environment.
+        ///  A unique, user-defined label that identifies the data source within your OpenSearch Service environment.
         public let dataSourceName: String
 
         @inlinable
@@ -4452,13 +4594,13 @@ extension OpenSearch {
     public struct GetDirectQueryDataSourceResponse: AWSDecodableShape {
         ///  The unique, system-generated identifier that represents the data source.
         public let dataSourceArn: String?
-        ///  A unique, user-defined label to identify the data source  within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String?
-        ///  The supported Amazon Web Services service that is used as the source for  direct queries in OpenSearch Service.
+        ///  The supported Amazon Web Services service that is used as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType?
         ///  A description that provides additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
         public let openSearchArns: [String]?
 
         @inlinable
@@ -4541,6 +4683,50 @@ extension OpenSearch {
             case status = "Status"
             case statusMessage = "StatusMessage"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct GetIndexRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The name of the index to retrieve information about.
+        public let indexName: String
+
+        @inlinable
+        public init(domainName: String, indexName: String) {
+            self.domainName = domainName
+            self.indexName = indexName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.indexName, key: "IndexName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^(?!\\.\\.?$)[^_ ,:\"+/*\\\\|?#><A-Z-][^ ,:\"+/*\\\\|?#><A-Z]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIndexResponse: AWSDecodableShape {
+        /// The JSON schema of the index including mappings, settings, and semantic enrichment configuration.
+        public let indexSchema: AWSDocument
+
+        @inlinable
+        public init(indexSchema: AWSDocument) {
+            self.indexSchema = indexSchema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexSchema = "IndexSchema"
         }
     }
 
@@ -4695,11 +4881,11 @@ extension OpenSearch {
     }
 
     public struct IAMFederationOptionsInput: AWSEncodableShape {
-        /// True to enable IAM federation authentication for a domain.
+        /// Specifies whether IAM identity federation is enabled for the OpenSearch domain.
         public let enabled: Bool?
-        /// Element of the IAM federation assertion to use for backend roles. Default is roles.
+        /// The key in the SAML assertion that contains the user's role information.
         public let rolesKey: String?
-        /// Element of the IAM federation assertion to use for the user name. Default is sub.
+        /// The key in the SAML assertion that contains the user's subject identifier.
         public let subjectKey: String?
 
         @inlinable
@@ -4726,11 +4912,11 @@ extension OpenSearch {
     }
 
     public struct IAMFederationOptionsOutput: AWSDecodableShape {
-        /// True if IAM federation is enabled.
+        /// Indicates whether IAM identity federation is currently enabled for the domain.
         public let enabled: Bool?
-        /// The key used for matching the IAM federation roles attribute.
+        /// The configured key in the SAML assertion for the user's role information.
         public let rolesKey: String?
-        /// The key used for matching the IAM federation subject attribute.
+        /// The configured key in the SAML assertion for the user's subject identifier.
         public let subjectKey: String?
 
         @inlinable
@@ -5230,7 +5416,7 @@ extension OpenSearch {
     }
 
     public struct ListDirectQueryDataSourcesResponse: AWSDecodableShape {
-        ///  A list of the direct query data sources that are returned by  the ListDirectQueryDataSources API operation.
+        ///  A list of the direct query data sources that are returned by the ListDirectQueryDataSources API operation.
         public let directQueryDataSources: [DirectQueryDataSource]?
         public let nextToken: String?
 
@@ -6443,6 +6629,42 @@ extension OpenSearch {
         }
     }
 
+    public struct PutDefaultApplicationSettingRequest: AWSEncodableShape {
+        public let applicationArn: String
+        /// Set to true to set the specified ARN as the default application. Set to false to clear the default application.
+        public let setAsDefault: Bool
+
+        @inlinable
+        public init(applicationArn: String, setAsDefault: Bool) {
+            self.applicationArn = applicationArn
+            self.setAsDefault = setAsDefault
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, max: 2048)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, min: 20)
+            try self.validate(self.applicationArn, name: "applicationArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+            case setAsDefault = "setAsDefault"
+        }
+    }
+
+    public struct PutDefaultApplicationSettingResponse: AWSDecodableShape {
+        public let applicationArn: String?
+
+        @inlinable
+        public init(applicationArn: String? = nil) {
+            self.applicationArn = applicationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationArn = "applicationArn"
+        }
+    }
+
     public struct RecurringCharge: AWSDecodableShape {
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
@@ -6880,7 +7102,7 @@ extension OpenSearch {
     }
 
     public struct SecurityLakeDirectQueryDataSource: AWSEncodableShape & AWSDecodableShape {
-        ///  The unique identifier of the IAM role that grants OpenSearch  Service permission to access the specified data source.
+        ///  The unique identifier of the IAM role that grants OpenSearch Service permission to access the specified data source.
         public let roleArn: String
 
         @inlinable
@@ -6896,6 +7118,20 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct ServerlessVectorAcceleration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether serverless vector acceleration is enabled for the domain.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -7328,13 +7564,13 @@ extension OpenSearch {
     }
 
     public struct UpdateDirectQueryDataSourceRequest: AWSEncodableShape {
-        ///  A unique, user-defined label to identify the data  source within your OpenSearch Service environment.
+        ///  A unique, user-defined label to identify the data source within your OpenSearch Service environment.
         public let dataSourceName: String
-        ///  The supported Amazon Web Services service that you want to use as the source for  direct queries in OpenSearch Service.
+        ///  The supported Amazon Web Services service that you want to use as the source for direct queries in OpenSearch Service.
         public let dataSourceType: DirectQueryDataSourceType
-        ///  An optional text field for providing additional context and  details about the data source.
+        ///  An optional text field for providing additional context and details about the data source.
         public let description: String?
-        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch  collections that are associated with the direct query data source.
+        ///  A list of Amazon Resource Names (ARNs) for the OpenSearch collections that are associated with the direct query data source.
         public let openSearchArns: [String]
 
         @inlinable
@@ -7417,7 +7653,7 @@ extension OpenSearch {
         /// Encryption at rest options for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         public let identityCenterOptions: IdentityCenterOptionsInput?
-        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If your IP address type is currently set to dual stack, you can't change it.
+        /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option. If your IP address type is currently set to dual stack, you can't change it.
         public let ipAddressType: IPAddressType?
         /// Options to publish OpenSearch logs to Amazon CloudWatch Logs.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
@@ -7544,6 +7780,56 @@ extension OpenSearch {
             case domainConfig = "DomainConfig"
             case dryRunProgressStatus = "DryRunProgressStatus"
             case dryRunResults = "DryRunResults"
+        }
+    }
+
+    public struct UpdateIndexRequest: AWSEncodableShape {
+        public let domainName: String
+        /// The name of the index to update.
+        public let indexName: String
+        /// The updated JSON schema for the index including any changes to mappings, settings, and semantic enrichment configuration.
+        public let indexSchema: AWSDocument
+
+        @inlinable
+        public init(domainName: String, indexName: String, indexSchema: AWSDocument) {
+            self.domainName = domainName
+            self.indexName = indexName
+            self.indexSchema = indexSchema
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.indexName, key: "IndexName")
+            try container.encode(self.indexSchema, forKey: .indexSchema)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 255)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^(?!\\.\\.?$)[^_ ,:\"+/*\\\\|?#><A-Z-][^ ,:\"+/*\\\\|?#><A-Z]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexSchema = "IndexSchema"
+        }
+    }
+
+    public struct UpdateIndexResponse: AWSDecodableShape {
+        /// The status of the index update operation.
+        public let status: IndexStatus
+
+        @inlinable
+        public init(status: IndexStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
         }
     }
 
@@ -8130,6 +8416,7 @@ public struct OpenSearchErrorType: AWSErrorType {
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case slotNotAvailableException = "SlotNotAvailableException"
+        case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
 
@@ -8175,6 +8462,8 @@ public struct OpenSearchErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// An exception for attempting to schedule a domain action during an unavailable time slot.
     public static var slotNotAvailableException: Self { .init(.slotNotAvailableException) }
+    /// The request was denied due to request throttling. Reduce the frequency of your requests and try again.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// An exception for accessing or deleting a resource that doesn't exist.
     public static var validationException: Self { .init(.validationException) }
 }

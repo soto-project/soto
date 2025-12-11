@@ -1031,7 +1031,7 @@ extension AccessAnalyzer {
     public struct AnalyzerSummary: AWSDecodableShape {
         /// The ARN of the analyzer.
         public let arn: String
-        /// Specifies if the analyzer is an external access, unused access, or internal access analyzer.
+        /// Specifies if the analyzer is an external access, unused access, or internal access analyzer. The GetAnalyzer action includes this property in its response if a configuration is specified, while the ListAnalyzers action omits it.
         public let configuration: AnalyzerConfiguration?
         /// A timestamp for the time at which the analyzer was created.
         @CustomCoding<ISO8601DateCoder>
@@ -1047,9 +1047,9 @@ extension AccessAnalyzer {
         public let status: AnalyzerStatus
         /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is returned. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the Amazon Web Services organization.
         public let statusReason: StatusReason?
-        /// The tags added to the analyzer.
+        /// An array of key-value pairs applied to the analyzer. The key-value pairs consist of the set of Unicode letters, digits, whitespace, _, ., /, =, +, and -. The tag key is a value that is 1 to 128 characters in length and cannot be prefixed with aws:. The tag value is a value that is 0 to 256 characters in length.
         public let tags: [String: String]?
-        /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
+        /// The type represents the zone of trust or scope for the analyzer.
         public let type: `Type`
 
         @inlinable
@@ -3512,17 +3512,21 @@ extension AccessAnalyzer {
     public struct ResourceTypeDetails: AWSDecodableShape {
         /// The total number of active cross-account findings for the resource type.
         public let totalActiveCrossAccount: Int?
+        /// The total number of active errors for the resource type.
+        public let totalActiveErrors: Int?
         /// The total number of active public findings for the resource type.
         public let totalActivePublic: Int?
 
         @inlinable
-        public init(totalActiveCrossAccount: Int? = nil, totalActivePublic: Int? = nil) {
+        public init(totalActiveCrossAccount: Int? = nil, totalActiveErrors: Int? = nil, totalActivePublic: Int? = nil) {
             self.totalActiveCrossAccount = totalActiveCrossAccount
+            self.totalActiveErrors = totalActiveErrors
             self.totalActivePublic = totalActivePublic
         }
 
         private enum CodingKeys: String, CodingKey {
             case totalActiveCrossAccount = "totalActiveCrossAccount"
+            case totalActiveErrors = "totalActiveErrors"
             case totalActivePublic = "totalActivePublic"
         }
     }

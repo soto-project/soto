@@ -107,11 +107,11 @@ public struct RolesAnywhere: AWSService {
     ///
     /// Parameters:
     ///   - acceptRoleSessionName: Used to determine if a custom role session name will be accepted in a temporary credential request.
-    ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
+    ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
     ///   - enabled: Specifies whether the profile is enabled.
     ///   - managedPolicyArns: A list of managed policy ARNs that apply to the vended session credentials.
     ///   - name: The name of the profile.
-    ///   - requireInstanceProperties: Specifies whether instance properties are required in temporary credential requests with this profile.
+    ///   - requireInstanceProperties: Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
     ///   - roleArns: A list of IAM roles that this profile can assume in a temporary credential request.
     ///   - sessionPolicy: A session policy that applies to the trust boundary of the vended session credentials.
     ///   - tags: The tags to attach to the profile.
@@ -596,7 +596,7 @@ public struct RolesAnywhere: AWSService {
         return try await self.getTrustAnchor(input, logger: logger)
     }
 
-    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM  format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
+    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
     @Sendable
     @inlinable
     public func importCrl(_ input: ImportCrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CrlDetailResponse {
@@ -609,7 +609,7 @@ public struct RolesAnywhere: AWSService {
             logger: logger
         )
     }
-    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM  format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
+    /// Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
     ///
     /// Parameters:
     ///   - crlData: The x509 v3 specified certificate revocation list (CRL).
@@ -794,7 +794,7 @@ public struct RolesAnywhere: AWSService {
         return try await self.listTrustAnchors(input, logger: logger)
     }
 
-    /// Put an entry in the attribute mapping rules that will be enforced by a given profile.  A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
+    /// Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
     @Sendable
     @inlinable
     public func putAttributeMapping(_ input: PutAttributeMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttributeMappingResponse {
@@ -807,7 +807,7 @@ public struct RolesAnywhere: AWSService {
             logger: logger
         )
     }
-    /// Put an entry in the attribute mapping rules that will be enforced by a given profile.  A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
+    /// Put an entry in the attribute mapping rules that will be enforced by a given profile. A mapping specifies a certificate field and one or more specifiers that have contextual meanings.
     ///
     /// Parameters:
     ///   - certificateField: Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
@@ -1009,7 +1009,7 @@ public struct RolesAnywhere: AWSService {
     ///
     /// Parameters:
     ///   - acceptRoleSessionName: Used to determine if a custom role session name will be accepted in a temporary credential request.
-    ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
+    ///   - durationSeconds:  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
     ///   - managedPolicyArns: A list of managed policy ARNs that apply to the vended session credentials.
     ///   - name: The name of the profile.
     ///   - profileId: The unique identifier of the profile.

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AppStream service.
 ///
-/// Amazon AppStream 2.0 This is the Amazon AppStream 2.0 API Reference. This documentation provides descriptions and syntax for each of the actions and data types in AppStream 2.0. AppStream 2.0 is a fully managed, secure application streaming service that lets you stream desktop applications to users without rewriting applications. AppStream 2.0 manages the AWS resources that are required to host and run your applications, scales automatically, and provides access to your users on demand.   You can call the AppStream 2.0 API operations by using an interface VPC endpoint (interface endpoint). For more information, see Access AppStream 2.0 API Operations and CLI Commands Through an Interface VPC Endpoint in the Amazon AppStream 2.0 Administration Guide.  To learn more about AppStream 2.0, see the following resources:    Amazon AppStream 2.0 product page     Amazon AppStream 2.0 documentation
+/// Amazon WorkSpaces Applications This is the Amazon WorkSpaces Applications API Reference. This documentation provides descriptions and syntax for each of the actions and data types in WorkSpaces Applications. WorkSpaces Applications is a fully managed, secure application streaming service that lets you stream desktop applications to users without rewriting applications. WorkSpaces Applications manages the AWS resources that are required to host and run your applications, scales automatically, and provides access to your users on demand.   You can call the WorkSpaces Applications API operations by using an interface VPC endpoint (interface endpoint). For more information, see Access WorkSpaces Applications API Operations and CLI Commands Through an Interface VPC Endpoint in the Amazon WorkSpaces Applications Administration Guide.  To learn more about WorkSpaces Applications, see the following resources:    Amazon WorkSpaces Applications product page     Amazon WorkSpaces Applications documentation
 public struct AppStream: AWSService {
     // MARK: Member variables
 
@@ -349,7 +349,7 @@ public struct AppStream: AWSService {
         return try await self.copyImage(input, logger: logger)
     }
 
-    /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     @Sendable
     @inlinable
     public func createAppBlock(_ input: CreateAppBlockRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppBlockResult {
@@ -362,7 +362,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
+    /// Creates an app block. App blocks are a WorkSpaces Applications resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
     ///
     /// Parameters:
     ///   - description: The description of the app block.
@@ -419,11 +419,11 @@ public struct AppStream: AWSService {
     ///   - description: The description of the app block builder.
     ///   - displayName: The display name of the app block builder.
     ///   - enableDefaultInternetAccess: Enables or disables default internet access for the app block builder.
-    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
     ///   - instanceType: The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - name: The unique name for the app block builder.
     ///   - platform: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
-    ///   - tags: The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    ///   - tags: The tags to associate with the app block builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///   - vpcConfig: The VPC configuration for the app block builder. App block builders require that you specify at least two subnets in different availability zones.
     ///   - logger: Logger use during operation
     @inlinable
@@ -487,7 +487,7 @@ public struct AppStream: AWSService {
         return try await self.createAppBlockBuilderStreamingURL(input, logger: logger)
     }
 
-    /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
     @Sendable
     @inlinable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResult {
@@ -500,7 +500,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates an application. Applications are an Amazon AppStream 2.0 resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
+    /// Creates an application. Applications are a WorkSpaces Applications resource that stores the details about how to launch applications on Elastic fleet streaming instances. An application consists of the launch details, icon, and display name. Applications are associated with an app block that contains the application binaries and other files. The applications assigned to an Elastic fleet are the applications users can launch.  This is only supported for Elastic fleets.
     ///
     /// Parameters:
     ///   - appBlockArn: The app block ARN to which the application should be associated
@@ -546,7 +546,7 @@ public struct AppStream: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
-    /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     @Sendable
     @inlinable
     public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDirectoryConfigResult {
@@ -559,7 +559,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Creates a Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// Parameters:
     ///   - certificateBasedAuthProperties: The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
@@ -584,7 +584,7 @@ public struct AppStream: AWSService {
         return try await self.createDirectoryConfig(input, logger: logger)
     }
 
-    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     @Sendable
     @inlinable
     public func createEntitlement(_ input: CreateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEntitlementResult {
@@ -597,7 +597,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. WorkSpaces Applications user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
     ///
     /// Parameters:
     ///   - appVisibility: Specifies whether all or selected apps are entitled.
@@ -625,6 +625,47 @@ public struct AppStream: AWSService {
         return try await self.createEntitlement(input, logger: logger)
     }
 
+    /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
+    @Sendable
+    @inlinable
+    public func createExportImageTask(_ input: CreateExportImageTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateExportImageTaskResult {
+        try await self.client.execute(
+            operation: "CreateExportImageTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a task to export a WorkSpaces Applications image to an EC2 AMI. This allows you to use your customized WorkSpaces Applications images with other AWS services or for backup purposes.
+    ///
+    /// Parameters:
+    ///   - amiDescription: An optional description for the exported AMI. This description will be applied to the resulting EC2 AMI.
+    ///   - amiName: The name for the exported EC2 AMI. This is a required field that must be unique within your account and region.
+    ///   - iamRoleArn: The ARN of the IAM role that allows WorkSpaces Applications to create the AMI. The role must have permissions to copy images, describe images, and create tags, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+    ///   - imageName: The name of the WorkSpaces Applications image to export. The image must be in an available state and owned by your account.
+    ///   - tagSpecifications: The tags to apply to the exported AMI. These tags help you organize and manage your EC2 AMIs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createExportImageTask(
+        amiDescription: String? = nil,
+        amiName: String? = nil,
+        iamRoleArn: String? = nil,
+        imageName: String? = nil,
+        tagSpecifications: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateExportImageTaskResult {
+        let input = CreateExportImageTaskRequest(
+            amiDescription: amiDescription, 
+            amiName: amiName, 
+            iamRoleArn: iamRoleArn, 
+            imageName: imageName, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createExportImageTask(input, logger: logger)
+    }
+
     /// Creates a fleet. A fleet consists of streaming instances that your users access for their applications and desktops.
     @Sendable
     @inlinable
@@ -648,19 +689,20 @@ public struct AppStream: AWSService {
     ///   - domainJoinInfo: The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
     ///   - enableDefaultInternetAccess: Enables or disables default internet access for the fleet.
     ///   - fleetType: The fleet type.  ALWAYS_ON  Provides users with instant-on access to their apps. You are charged for all running instances in your fleet, even if no users are streaming apps.  ON_DEMAND  Provide users with access to applications after they connect, which takes one to two minutes. You are charged for instance streaming when users are connected and a small hourly fee for instances that are not streaming apps.
-    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
     ///   - idleDisconnectTimeoutInSeconds: The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If they try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected. To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the fleet.
-    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - maxConcurrentSessions: The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
     ///   - maxSessionsPerInstance: The maximum number of user sessions on an instance. This only applies to multi-session fleets.
     ///   - maxUserDurationInSeconds: The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     ///   - name: A unique name for the fleet.
     ///   - platform: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    ///   - rootVolumeConfig: The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
     ///   - sessionScriptS3Location: The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
-    ///   - streamView: The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
-    ///   - tags: The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    ///   - streamView: The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+    ///   - tags: The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///   - usbDeviceFilterStrings: The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
     ///   - vpcConfig: The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
     ///   - logger: Logger use during operation
@@ -683,6 +725,7 @@ public struct AppStream: AWSService {
         maxUserDurationInSeconds: Int? = nil,
         name: String? = nil,
         platform: PlatformType? = nil,
+        rootVolumeConfig: VolumeConfig? = nil,
         sessionScriptS3Location: S3Location? = nil,
         streamView: StreamView? = nil,
         tags: [String: String]? = nil,
@@ -708,6 +751,7 @@ public struct AppStream: AWSService {
             maxUserDurationInSeconds: maxUserDurationInSeconds, 
             name: name, 
             platform: platform, 
+            rootVolumeConfig: rootVolumeConfig, 
             sessionScriptS3Location: sessionScriptS3Location, 
             streamView: streamView, 
             tags: tags, 
@@ -734,19 +778,20 @@ public struct AppStream: AWSService {
     ///
     /// Parameters:
     ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
-    ///   - appstreamAgentVersion: The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+    ///   - appstreamAgentVersion: The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     ///   - description: The description to display.
     ///   - displayName: The image builder name to display.
     ///   - domainJoinInfo: The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
     ///   - enableDefaultInternetAccess: Enables or disables default internet access for the image builder.
-    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the image builder. To assume a role, the image builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the image builder.
-    ///   - instanceType: The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+    ///   - instanceType: The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
     ///   - name: A unique name for the image builder.
+    ///   - rootVolumeConfig: The configuration for the root volume of the image builder. Use this to customize storage capacity from 200 GB up to 500 GB based on your application installation requirements.
     ///   - softwaresToInstall: The list of license included applications to install on the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
     ///   - softwaresToUninstall: The list of license included applications to uninstall from the image builder during creation. Possible values include the following:   Microsoft_Office_2021_LTSC_Professional_Plus_32Bit   Microsoft_Office_2021_LTSC_Professional_Plus_64Bit   Microsoft_Office_2024_LTSC_Professional_Plus_32Bit   Microsoft_Office_2024_LTSC_Professional_Plus_64Bit   Microsoft_Visio_2021_LTSC_Professional_32Bit   Microsoft_Visio_2021_LTSC_Professional_64Bit   Microsoft_Visio_2024_LTSC_Professional_32Bit   Microsoft_Visio_2024_LTSC_Professional_64Bit   Microsoft_Project_2021_Professional_32Bit   Microsoft_Project_2021_Professional_64Bit   Microsoft_Project_2024_Professional_32Bit   Microsoft_Project_2024_Professional_64Bit   Microsoft_Office_2021_LTSC_Standard_32Bit   Microsoft_Office_2021_LTSC_Standard_64Bit   Microsoft_Office_2024_LTSC_Standard_32Bit   Microsoft_Office_2024_LTSC_Standard_64Bit   Microsoft_Visio_2021_LTSC_Standard_32Bit   Microsoft_Visio_2021_LTSC_Standard_64Bit   Microsoft_Visio_2024_LTSC_Standard_32Bit   Microsoft_Visio_2024_LTSC_Standard_64Bit   Microsoft_Project_2021_Standard_32Bit   Microsoft_Project_2021_Standard_64Bit   Microsoft_Project_2024_Standard_32Bit   Microsoft_Project_2024_Standard_64Bit
-    ///   - tags: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    ///   - tags: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///   - vpcConfig: The VPC configuration for the image builder. You can specify only one subnet.
     ///   - logger: Logger use during operation
     @inlinable
@@ -762,6 +807,7 @@ public struct AppStream: AWSService {
         imageName: String? = nil,
         instanceType: String? = nil,
         name: String? = nil,
+        rootVolumeConfig: VolumeConfig? = nil,
         softwaresToInstall: [String]? = nil,
         softwaresToUninstall: [String]? = nil,
         tags: [String: String]? = nil,
@@ -780,6 +826,7 @@ public struct AppStream: AWSService {
             imageName: imageName, 
             instanceType: instanceType, 
             name: name, 
+            rootVolumeConfig: rootVolumeConfig, 
             softwaresToInstall: softwaresToInstall, 
             softwaresToUninstall: softwaresToUninstall, 
             tags: tags, 
@@ -820,6 +867,62 @@ public struct AppStream: AWSService {
         return try await self.createImageBuilderStreamingURL(input, logger: logger)
     }
 
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
+    @Sendable
+    @inlinable
+    public func createImportedImage(_ input: CreateImportedImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImportedImageResult {
+        try await self.client.execute(
+            operation: "CreateImportedImage", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a custom WorkSpaces Applications image by importing an EC2 AMI. This allows you to use your own customized AMI to create WorkSpaces Applications images that support additional instance types beyond the standard stream.* instances.
+    ///
+    /// Parameters:
+    ///   - agentSoftwareVersion: The version of the WorkSpaces Applications agent to use for the imported image. Choose CURRENT_LATEST to use the agent version available at the time of import, or ALWAYS_LATEST to automatically update to the latest agent version when new versions are released.
+    ///   - appCatalogConfig: Configuration for the application catalog of the imported image. This allows you to specify applications available for streaming, including their paths, icons, and launch parameters. This field contains sensitive data.
+    ///   - description: An optional description for the imported image. The description must match approved regex patterns and can be up to 256 characters.
+    ///   - displayName: An optional display name for the imported image. The display name must match approved regex patterns and can be up to 100 characters.
+    ///   - dryRun: When set to true, performs validation checks without actually creating the imported image. Use this to verify your configuration before executing the actual import operation.
+    ///   - iamRoleArn: The ARN of the IAM role that allows WorkSpaces Applications to access your AMI. The role must have permissions to modify image attributes and describe images, with a trust relationship allowing appstream.amazonaws.com to assume the role.
+    ///   - name: A unique name for the imported image. The name must be between 1 and 100 characters and can contain letters, numbers, underscores, periods, and hyphens.
+    ///   - runtimeValidationConfig: Configuration for runtime validation of the imported image. When specified, WorkSpaces Applications provisions an instance to test streaming functionality, which helps ensure the image is suitable for use.
+    ///   - sourceAmiId: The ID of the EC2 AMI to import. The AMI must meet specific requirements including Windows Server 2022 Full Base, UEFI boot mode, TPM 2.0 support, and proper drivers.
+    ///   - tags: The tags to apply to the imported image. Tags help you organize and manage your WorkSpaces Applications resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createImportedImage(
+        agentSoftwareVersion: AgentSoftwareVersion? = nil,
+        appCatalogConfig: [ApplicationConfig]? = nil,
+        description: String? = nil,
+        displayName: String? = nil,
+        dryRun: Bool? = nil,
+        iamRoleArn: String? = nil,
+        name: String? = nil,
+        runtimeValidationConfig: RuntimeValidationConfig? = nil,
+        sourceAmiId: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateImportedImageResult {
+        let input = CreateImportedImageRequest(
+            agentSoftwareVersion: agentSoftwareVersion, 
+            appCatalogConfig: appCatalogConfig, 
+            description: description, 
+            displayName: displayName, 
+            dryRun: dryRun, 
+            iamRoleArn: iamRoleArn, 
+            name: name, 
+            runtimeValidationConfig: runtimeValidationConfig, 
+            sourceAmiId: sourceAmiId, 
+            tags: tags
+        )
+        return try await self.createImportedImage(input, logger: logger)
+    }
+
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     @Sendable
     @inlinable
@@ -836,17 +939,17 @@ public struct AppStream: AWSService {
     /// Creates a stack to start streaming applications to users. A stack consists of an associated fleet, user access policies, and storage configurations.
     ///
     /// Parameters:
-    ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+    ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     ///   - applicationSettings: The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     ///   - description: The description to display.
     ///   - displayName: The stack name to display.
-    ///   - embedHostDomains: The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+    ///   - embedHostDomains: The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
     ///   - feedbackURL: The URL that users are redirected to after they click the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.
     ///   - storageConnectors: The storage connectors to enable.
     ///   - streamingExperienceSettings: The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
-    ///   - tags: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    ///   - tags: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///   - userSettings: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
     ///   - logger: Logger use during operation
     @inlinable
@@ -882,7 +985,7 @@ public struct AppStream: AWSService {
         return try await self.createStack(input, logger: logger)
     }
 
-    /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
+    /// Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     @Sendable
     @inlinable
     public func createStreamingURL(_ input: CreateStreamingURLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStreamingURLResult {
@@ -895,12 +998,12 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates a temporary URL to start an AppStream 2.0 streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
+    /// Creates a temporary URL to start an WorkSpaces Applications streaming session for the specified user. A streaming URL enables application streaming to be tested without user setup.
     ///
     /// Parameters:
     ///   - applicationId: The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant. If your fleet is enabled for the Desktop stream view, you can also choose to launch directly to the operating system desktop. To do so, specify Desktop.
     ///   - fleetName: The name of the fleet.
-    ///   - sessionContext: The session context. For more information, see Session Context in the Amazon AppStream 2.0 Administration Guide.
+    ///   - sessionContext: The session context. For more information, see Session Context in the Amazon WorkSpaces Applications Administration Guide.
     ///   - stackName: The name of the stack.
     ///   - userId: The identifier of the user.
     ///   - validity: The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
@@ -970,7 +1073,7 @@ public struct AppStream: AWSService {
         return try await self.createThemeForStack(input, logger: logger)
     }
 
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the Amazon WorkSpaces Applications Administration Guide.
     @Sendable
     @inlinable
     public func createUpdatedImage(_ input: CreateUpdatedImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUpdatedImageResult {
@@ -983,15 +1086,15 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Creates a new image with the latest Windows operating system updates, driver updates, and AppStream 2.0 agent software. For more information, see the "Update an Image by Using Managed AppStream 2.0 Image Updates" section in Administer Your AppStream 2.0 Images, in the Amazon AppStream 2.0 Administration Guide.
+    /// Creates a new image with the latest Windows operating system updates, driver updates, and WorkSpaces Applications agent software. For more information, see the "Update an Image by Using Managed WorkSpaces Applications Image Updates" section in Administer Your WorkSpaces Applications Images, in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// Parameters:
-    ///   - dryRun: Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
+    ///   - dryRun: Indicates whether to display the status of image update availability before WorkSpaces Applications initiates the process of creating a new updated image. If this value is set to true, WorkSpaces Applications displays whether image updates are available. If this value is set to false, WorkSpaces Applications initiates the process of creating a new updated image without displaying whether image updates are available.
     ///   - existingImageName: The name of the image to update.
     ///   - newImageDescription: The description to display for the new image.
     ///   - newImageDisplayName: The name to display for the new image.
     ///   - newImageName: The name of the new image. The name must be unique within the AWS account and Region.
-    ///   - newImageTags: The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    ///   - newImageTags: The tags to associate with the new image. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUpdatedImage(
@@ -1168,7 +1271,7 @@ public struct AppStream: AWSService {
         return try await self.deleteApplication(input, logger: logger)
     }
 
-    /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
     @Sendable
     @inlinable
     public func deleteDirectoryConfig(_ input: DeleteDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDirectoryConfigResult {
@@ -1181,7 +1284,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified Directory Config object from AppStream 2.0. This object includes the information required to join streaming instances to an Active Directory domain.
+    /// Deletes the specified Directory Config object from WorkSpaces Applications. This object includes the information required to join streaming instances to an Active Directory domain.
     ///
     /// Parameters:
     ///   - directoryName: The name of the directory configuration.
@@ -1680,7 +1783,7 @@ public struct AppStream: AWSService {
         return try await self.describeApplications(input, logger: logger)
     }
 
-    /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
+    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     @Sendable
     @inlinable
     public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDirectoryConfigsResult {
@@ -1693,7 +1796,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
+    /// Retrieves a list that describes one or more specified Directory Config objects for WorkSpaces Applications, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     ///
     /// Parameters:
     ///   - directoryNames: The directory names.
@@ -2150,7 +2253,7 @@ public struct AppStream: AWSService {
         return try await self.describeUsers(input, logger: logger)
     }
 
-    /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
+    /// Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
     @Sendable
     @inlinable
     public func disableUser(_ input: DisableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableUserResult {
@@ -2163,7 +2266,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Disables the specified user in the user pool. Users can't sign in to AppStream 2.0 until they are re-enabled. This action does not delete the user.
+    /// Disables the specified user in the user pool. Users can't sign in to WorkSpaces Applications until they are re-enabled. This action does not delete the user.
     ///
     /// Parameters:
     ///   - authenticationType: The authentication type for the user. You must specify USERPOOL.
@@ -2345,7 +2448,7 @@ public struct AppStream: AWSService {
         return try await self.disassociateSoftwareFromImageBuilder(input, logger: logger)
     }
 
-    /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
+    /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
     @Sendable
     @inlinable
     public func enableUser(_ input: EnableUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableUserResult {
@@ -2358,7 +2461,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Enables a user in the user pool. After being enabled, users can sign in to AppStream 2.0 and open applications from the stacks to which they are assigned.
+    /// Enables a user in the user pool. After being enabled, users can sign in to WorkSpaces Applications and open applications from the stacks to which they are assigned.
     ///
     /// Parameters:
     ///   - authenticationType: The authentication type for the user. You must specify USERPOOL.
@@ -2404,6 +2507,35 @@ public struct AppStream: AWSService {
             sessionId: sessionId
         )
         return try await self.expireSession(input, logger: logger)
+    }
+
+    /// Retrieves information about an export image task, including its current state, progress, and any error details.
+    @Sendable
+    @inlinable
+    public func getExportImageTask(_ input: GetExportImageTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetExportImageTaskResult {
+        try await self.client.execute(
+            operation: "GetExportImageTask", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about an export image task, including its current state, progress, and any error details.
+    ///
+    /// Parameters:
+    ///   - taskId: The unique identifier of the export image task to retrieve information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getExportImageTask(
+        taskId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetExportImageTaskResult {
+        let input = GetExportImageTaskRequest(
+            taskId: taskId
+        )
+        return try await self.getExportImageTask(input, logger: logger)
     }
 
     /// Retrieves the name of the fleet that is associated with the specified stack.
@@ -2508,7 +2640,42 @@ public struct AppStream: AWSService {
         return try await self.listEntitledApplications(input, logger: logger)
     }
 
-    /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
+    @Sendable
+    @inlinable
+    public func listExportImageTasks(_ input: ListExportImageTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListExportImageTasksResult {
+        try await self.client.execute(
+            operation: "ListExportImageTasks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists export image tasks, with optional filtering and pagination. Use this operation to monitor the status of multiple export operations.
+    ///
+    /// Parameters:
+    ///   - filters: Optional filters to apply when listing export image tasks. Filters help you narrow down the results based on specific criteria.
+    ///   - maxResults: The maximum number of export image tasks to return in a single request. The valid range is 1-500, with a default of 50.
+    ///   - nextToken: The pagination token from a previous request. Use this to retrieve the next page of results when there are more tasks than the MaxResults limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listExportImageTasks(
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListExportImageTasksResult {
+        let input = ListExportImageTasksRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listExportImageTasks(input, logger: logger)
+    }
+
+    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -2521,7 +2688,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Retrieves a list of all tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -2611,7 +2778,7 @@ public struct AppStream: AWSService {
     /// Starts the specified image builder.
     ///
     /// Parameters:
-    ///   - appstreamAgentVersion: The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
+    ///   - appstreamAgentVersion: The version of the WorkSpaces Applications agent to use for this image builder. To use the latest version of the WorkSpaces Applications agent, specify [LATEST].
     ///   - name: The name of the image builder.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2746,7 +2913,7 @@ public struct AppStream: AWSService {
         return try await self.stopImageBuilder(input, logger: logger)
     }
 
-    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -2759,7 +2926,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Adds or overwrites one or more tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Adds or overwrites one or more tags for the specified WorkSpaces Applications resource. You can tag WorkSpaces Applications image builders, images, fleets, and stacks. Each tag consists of a key and an optional value. If a resource already has a tag with the same key,  this operation updates its value. To list the current tags for your resources, use ListTagsForResource. To disassociate tags from your resources, use UntagResource. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -2778,7 +2945,7 @@ public struct AppStream: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -2791,7 +2958,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Disassociates one or more specified tags from the specified AppStream 2.0 resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
+    /// Disassociates one or more specified tags from the specified WorkSpaces Applications resource. To list the current tags for your resources, use ListTagsForResource. For more information about tags, see Tagging Your Resources in the Amazon WorkSpaces Applications Administration Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -2831,7 +2998,7 @@ public struct AppStream: AWSService {
     ///   - description: The description of the app block builder.
     ///   - displayName: The display name of the app block builder.
     ///   - enableDefaultInternetAccess: Enables or disables default internet access for the app block builder.
-    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the app block builder. To assume a role, the app block builder calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
     ///   - instanceType: The instance type to use when launching the app block builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - name: The unique name for the app block builder.
     ///   - platform: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid value.
@@ -2919,7 +3086,7 @@ public struct AppStream: AWSService {
         return try await self.updateApplication(input, logger: logger)
     }
 
-    /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     @Sendable
     @inlinable
     public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDirectoryConfigResult {
@@ -2932,7 +3099,7 @@ public struct AppStream: AWSService {
             logger: logger
         )
     }
-    /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
+    /// Updates the specified Directory Config object in WorkSpaces Applications. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     ///
     /// Parameters:
     ///   - certificateBasedAuthProperties: The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
@@ -3021,18 +3188,19 @@ public struct AppStream: AWSService {
     ///   - displayName: The fleet name to display.
     ///   - domainJoinInfo: The name of the directory and organizational unit (OU) to use to join the fleet to a Microsoft Active Directory domain.
     ///   - enableDefaultInternetAccess: Enables or disables default internet access for the fleet.
-    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role to apply to the fleet. To assume a role, a fleet instance calls the AWS Security Token Service (STS) AssumeRole API operation and passes the ARN of the role to use. The operation creates a new session with temporary credentials. WorkSpaces Applications retrieves the temporary credentials and creates the appstream_machine_role credential profile on the instance. For more information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running on WorkSpaces Applications Streaming Instances in the Amazon WorkSpaces Applications Administration Guide.
     ///   - idleDisconnectTimeoutInSeconds: The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the DisconnectTimeoutInSeconds time interval begins. Users are notified before they are disconnected due to inactivity. If users try to reconnect to the streaming session before the time interval specified in DisconnectTimeoutInSeconds elapses, they are connected to their previous session. Users are considered idle when they stop providing keyboard or mouse input during their streaming session. File uploads and downloads, audio in, audio out, and pixels changing do not qualify as user activity. If users continue to be idle after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.  To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable this feature, we recommend that you specify a value that corresponds exactly to a whole number of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to the nearest minute. For example, if you specify a value of 70, users are disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint between two different minutes, the value is rounded up. For example, if you specify a value of 90, users are disconnected after 2 minutes of inactivity.
     ///   - imageArn: The ARN of the public, private, or shared image to use.
     ///   - imageName: The name of the image used to create the fleet.
-    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+    ///   - instanceType: The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
     ///   - maxConcurrentSessions: The maximum number of concurrent sessions for a fleet.
     ///   - maxSessionsPerInstance: The maximum number of user sessions on an instance. This only applies to multi-session fleets.
     ///   - maxUserDurationInSeconds: The maximum amount of time that a streaming session can remain active, in seconds. If users are still connected to a streaming instance five minutes before this limit is reached, they are prompted to save any open documents before being disconnected. After this time elapses, the instance is terminated and replaced by a new instance. Specify a value between 600 and 432000.
     ///   - name: A unique name for the fleet.
     ///   - platform: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+    ///   - rootVolumeConfig: The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
     ///   - sessionScriptS3Location: The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
-    ///   - streamView: The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
+    ///   - streamView: The WorkSpaces Applications view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
     ///   - usbDeviceFilterStrings: The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
     ///   - vpcConfig: The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
     ///   - logger: Logger use during operation
@@ -3055,6 +3223,7 @@ public struct AppStream: AWSService {
         maxUserDurationInSeconds: Int? = nil,
         name: String? = nil,
         platform: PlatformType? = nil,
+        rootVolumeConfig: VolumeConfig? = nil,
         sessionScriptS3Location: S3Location? = nil,
         streamView: StreamView? = nil,
         usbDeviceFilterStrings: [String]? = nil,
@@ -3079,6 +3248,7 @@ public struct AppStream: AWSService {
             maxUserDurationInSeconds: maxUserDurationInSeconds, 
             name: name, 
             platform: platform, 
+            rootVolumeConfig: rootVolumeConfig, 
             sessionScriptS3Location: sessionScriptS3Location, 
             streamView: streamView, 
             usbDeviceFilterStrings: usbDeviceFilterStrings, 
@@ -3138,12 +3308,12 @@ public struct AppStream: AWSService {
     /// Updates the specified fields for the specified stack.
     ///
     /// Parameters:
-    ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
+    ///   - accessEndpoints: The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to WorkSpaces Applications only through the specified endpoints.
     ///   - applicationSettings: The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
     ///   - attributesToDelete: The stack attributes to delete.
     ///   - description: The description to display.
     ///   - displayName: The stack name to display.
-    ///   - embedHostDomains: The domains where AppStream 2.0 streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded AppStream 2.0 streaming sessions.
+    ///   - embedHostDomains: The domains where WorkSpaces Applications streaming sessions can be embedded in an iframe. You must approve the domains that you want to host embedded WorkSpaces Applications streaming sessions.
     ///   - feedbackURL: The URL that users are redirected to after they choose the Send Feedback link. If no URL is specified, no Send Feedback link is displayed.
     ///   - name: The name of the stack.
     ///   - redirectURL: The URL that users are redirected to after their streaming session ends.

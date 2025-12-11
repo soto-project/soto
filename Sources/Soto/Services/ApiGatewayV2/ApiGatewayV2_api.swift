@@ -499,6 +499,158 @@ public struct ApiGatewayV2: AWSService {
         return try await self.createModel(input, logger: logger)
     }
 
+    /// Creates a portal.
+    @Sendable
+    @inlinable
+    public func createPortal(_ input: CreatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortalResponse {
+        try await self.client.execute(
+            operation: "CreatePortal", 
+            path: "/v2/portals", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a portal.
+    ///
+    /// Parameters:
+    ///   - authorization: The authentication configuration for the portal.
+    ///   - endpointConfiguration: The domain configuration for the portal. Use a default domain provided by API Gateway or provide a fully-qualified domain name that you own.
+    ///   - includedPortalProductArns: The ARNs of the portal products included in the portal.
+    ///   - logoUri: The URI for the portal logo image that is displayed in the portal header.
+    ///   - portalContent: The content of the portal.
+    ///   - rumAppMonitorName: The name of the Amazon CloudWatch RUM app monitor for the portal.
+    ///   - tags: The collection of tags. Each tag element is associated with a given resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPortal(
+        authorization: Authorization? = nil,
+        endpointConfiguration: EndpointConfigurationRequest? = nil,
+        includedPortalProductArns: [String]? = nil,
+        logoUri: String? = nil,
+        portalContent: PortalContent? = nil,
+        rumAppMonitorName: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePortalResponse {
+        let input = CreatePortalRequest(
+            authorization: authorization, 
+            endpointConfiguration: endpointConfiguration, 
+            includedPortalProductArns: includedPortalProductArns, 
+            logoUri: logoUri, 
+            portalContent: portalContent, 
+            rumAppMonitorName: rumAppMonitorName, 
+            tags: tags
+        )
+        return try await self.createPortal(input, logger: logger)
+    }
+
+    /// Creates a new portal product.
+    @Sendable
+    @inlinable
+    public func createPortalProduct(_ input: CreatePortalProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePortalProductResponse {
+        try await self.client.execute(
+            operation: "CreatePortalProduct", 
+            path: "/v2/portalproducts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new portal product.
+    ///
+    /// Parameters:
+    ///   - description: A description of the portal product.
+    ///   - displayName: The name of the portal product as it appears in a published portal.
+    ///   - tags: The collection of tags. Each tag element is associated with a given resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPortalProduct(
+        description: String? = nil,
+        displayName: String? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePortalProductResponse {
+        let input = CreatePortalProductRequest(
+            description: description, 
+            displayName: displayName, 
+            tags: tags
+        )
+        return try await self.createPortalProduct(input, logger: logger)
+    }
+
+    /// Creates a new product page for a portal product.
+    @Sendable
+    @inlinable
+    public func createProductPage(_ input: CreateProductPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProductPageResponse {
+        try await self.client.execute(
+            operation: "CreateProductPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productpages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new product page for a portal product.
+    ///
+    /// Parameters:
+    ///   - displayContent: The content of the product page.
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createProductPage(
+        displayContent: DisplayContent? = nil,
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateProductPageResponse {
+        let input = CreateProductPageRequest(
+            displayContent: displayContent, 
+            portalProductId: portalProductId
+        )
+        return try await self.createProductPage(input, logger: logger)
+    }
+
+    /// Creates a product REST endpoint page for a portal product.
+    @Sendable
+    @inlinable
+    public func createProductRestEndpointPage(_ input: CreateProductRestEndpointPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProductRestEndpointPageResponse {
+        try await self.client.execute(
+            operation: "CreateProductRestEndpointPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productrestendpointpages", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a product REST endpoint page for a portal product.
+    ///
+    /// Parameters:
+    ///   - displayContent: The content of the product REST endpoint page.
+    ///   - portalProductId: The portal product identifier.
+    ///   - restEndpointIdentifier: The REST endpoint identifier.
+    ///   - tryItState: The try it state of the product REST endpoint page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createProductRestEndpointPage(
+        displayContent: EndpointDisplayContent? = nil,
+        portalProductId: String,
+        restEndpointIdentifier: RestEndpointIdentifier? = nil,
+        tryItState: TryItState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateProductRestEndpointPageResponse {
+        let input = CreateProductRestEndpointPageRequest(
+            displayContent: displayContent, 
+            portalProductId: portalProductId, 
+            restEndpointIdentifier: restEndpointIdentifier, 
+            tryItState: tryItState
+        )
+        return try await self.createProductRestEndpointPage(input, logger: logger)
+    }
+
     /// Creates a Route for an API.
     @Sendable
     @inlinable
@@ -1057,6 +1209,157 @@ public struct ApiGatewayV2: AWSService {
         return try await self.deleteModel(input, logger: logger)
     }
 
+    /// Deletes a portal.
+    @Sendable
+    @inlinable
+    public func deletePortal(_ input: DeletePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeletePortal", 
+            path: "/v2/portals/{PortalId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a portal.
+    ///
+    /// Parameters:
+    ///   - portalId: The portal identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePortal(
+        portalId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeletePortalRequest(
+            portalId: portalId
+        )
+        return try await self.deletePortal(input, logger: logger)
+    }
+
+    /// Deletes a portal product.
+    @Sendable
+    @inlinable
+    public func deletePortalProduct(_ input: DeletePortalProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeletePortalProduct", 
+            path: "/v2/portalproducts/{PortalProductId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePortalProduct(
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeletePortalProductRequest(
+            portalProductId: portalProductId
+        )
+        return try await self.deletePortalProduct(input, logger: logger)
+    }
+
+    /// Deletes the sharing policy for a portal product.
+    @Sendable
+    @inlinable
+    public func deletePortalProductSharingPolicy(_ input: DeletePortalProductSharingPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeletePortalProductSharingPolicy", 
+            path: "/v2/portalproducts/{PortalProductId}/sharingpolicy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the sharing policy for a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePortalProductSharingPolicy(
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeletePortalProductSharingPolicyRequest(
+            portalProductId: portalProductId
+        )
+        return try await self.deletePortalProductSharingPolicy(input, logger: logger)
+    }
+
+    /// Deletes a product page of a portal product.
+    @Sendable
+    @inlinable
+    public func deleteProductPage(_ input: DeleteProductPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteProductPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a product page of a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - productPageId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProductPage(
+        portalProductId: String,
+        productPageId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteProductPageRequest(
+            portalProductId: portalProductId, 
+            productPageId: productPageId
+        )
+        return try await self.deleteProductPage(input, logger: logger)
+    }
+
+    /// Deletes a product REST endpoint page.
+    @Sendable
+    @inlinable
+    public func deleteProductRestEndpointPage(_ input: DeleteProductRestEndpointPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteProductRestEndpointPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a product REST endpoint page.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - productRestEndpointPageId: The product REST endpoint identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProductRestEndpointPage(
+        portalProductId: String,
+        productRestEndpointPageId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteProductRestEndpointPageRequest(
+            portalProductId: portalProductId, 
+            productRestEndpointPageId: productRestEndpointPageId
+        )
+        return try await self.deleteProductRestEndpointPage(input, logger: logger)
+    }
+
     /// Deletes a Route.
     @Sendable
     @inlinable
@@ -1288,6 +1591,35 @@ public struct ApiGatewayV2: AWSService {
             vpcLinkId: vpcLinkId
         )
         return try await self.deleteVpcLink(input, logger: logger)
+    }
+
+    /// Deletes the publication of a portal portal.
+    @Sendable
+    @inlinable
+    public func disablePortal(_ input: DisablePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DisablePortal", 
+            path: "/v2/portals/{PortalId}/publish", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the publication of a portal portal.
+    ///
+    /// Parameters:
+    ///   - portalId: The portal identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disablePortal(
+        portalId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DisablePortalRequest(
+            portalId: portalId
+        )
+        return try await self.disablePortal(input, logger: logger)
     }
 
     @Sendable
@@ -1894,6 +2226,169 @@ public struct ApiGatewayV2: AWSService {
         return try await self.getModels(input, logger: logger)
     }
 
+    /// Gets a portal.
+    @Sendable
+    @inlinable
+    public func getPortal(_ input: GetPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalResponse {
+        try await self.client.execute(
+            operation: "GetPortal", 
+            path: "/v2/portals/{PortalId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a portal.
+    ///
+    /// Parameters:
+    ///   - portalId: The portal identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPortal(
+        portalId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPortalResponse {
+        let input = GetPortalRequest(
+            portalId: portalId
+        )
+        return try await self.getPortal(input, logger: logger)
+    }
+
+    /// Gets a portal product.
+    @Sendable
+    @inlinable
+    public func getPortalProduct(_ input: GetPortalProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalProductResponse {
+        try await self.client.execute(
+            operation: "GetPortalProduct", 
+            path: "/v2/portalproducts/{PortalProductId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - resourceOwnerAccountId: The account ID of the resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPortalProduct(
+        portalProductId: String,
+        resourceOwnerAccountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPortalProductResponse {
+        let input = GetPortalProductRequest(
+            portalProductId: portalProductId, 
+            resourceOwnerAccountId: resourceOwnerAccountId
+        )
+        return try await self.getPortalProduct(input, logger: logger)
+    }
+
+    /// Gets the sharing policy for a portal product.
+    @Sendable
+    @inlinable
+    public func getPortalProductSharingPolicy(_ input: GetPortalProductSharingPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPortalProductSharingPolicyResponse {
+        try await self.client.execute(
+            operation: "GetPortalProductSharingPolicy", 
+            path: "/v2/portalproducts/{PortalProductId}/sharingpolicy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the sharing policy for a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPortalProductSharingPolicy(
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPortalProductSharingPolicyResponse {
+        let input = GetPortalProductSharingPolicyRequest(
+            portalProductId: portalProductId
+        )
+        return try await self.getPortalProductSharingPolicy(input, logger: logger)
+    }
+
+    /// Gets a product page of a portal product.
+    @Sendable
+    @inlinable
+    public func getProductPage(_ input: GetProductPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProductPageResponse {
+        try await self.client.execute(
+            operation: "GetProductPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a product page of a portal product.
+    ///
+    /// Parameters:
+    ///   - portalProductId: The portal product identifier.
+    ///   - productPageId: The portal product identifier.
+    ///   - resourceOwnerAccountId: The account ID of the resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProductPage(
+        portalProductId: String,
+        productPageId: String,
+        resourceOwnerAccountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProductPageResponse {
+        let input = GetProductPageRequest(
+            portalProductId: portalProductId, 
+            productPageId: productPageId, 
+            resourceOwnerAccountId: resourceOwnerAccountId
+        )
+        return try await self.getProductPage(input, logger: logger)
+    }
+
+    /// Gets a product REST endpoint page.
+    @Sendable
+    @inlinable
+    public func getProductRestEndpointPage(_ input: GetProductRestEndpointPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProductRestEndpointPageResponse {
+        try await self.client.execute(
+            operation: "GetProductRestEndpointPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a product REST endpoint page.
+    ///
+    /// Parameters:
+    ///   - includeRawDisplayContent: The query parameter to include raw display content.
+    ///   - portalProductId: The portal product identifier.
+    ///   - productRestEndpointPageId: The product REST endpoint identifier.
+    ///   - resourceOwnerAccountId: The account ID of the resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProductRestEndpointPage(
+        includeRawDisplayContent: String? = nil,
+        portalProductId: String,
+        productRestEndpointPageId: String,
+        resourceOwnerAccountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProductRestEndpointPageResponse {
+        let input = GetProductRestEndpointPageRequest(
+            includeRawDisplayContent: includeRawDisplayContent, 
+            portalProductId: portalProductId, 
+            productRestEndpointPageId: productRestEndpointPageId, 
+            resourceOwnerAccountId: resourceOwnerAccountId
+        )
+        return try await self.getProductRestEndpointPage(input, logger: logger)
+    }
+
     /// Gets a Route.
     @Sendable
     @inlinable
@@ -2261,6 +2756,149 @@ public struct ApiGatewayV2: AWSService {
         return try await self.importApi(input, logger: logger)
     }
 
+    /// Lists portal products.
+    @Sendable
+    @inlinable
+    public func listPortalProducts(_ input: ListPortalProductsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortalProductsResponse {
+        try await self.client.execute(
+            operation: "ListPortalProducts", 
+            path: "/v2/portalproducts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists portal products.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - nextToken: The next page of elements from this collection. Not valid for the last element of the collection.
+    ///   - resourceOwner: The resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPortalProducts(
+        maxResults: String? = nil,
+        nextToken: String? = nil,
+        resourceOwner: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPortalProductsResponse {
+        let input = ListPortalProductsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            resourceOwner: resourceOwner
+        )
+        return try await self.listPortalProducts(input, logger: logger)
+    }
+
+    /// Lists portals.
+    @Sendable
+    @inlinable
+    public func listPortals(_ input: ListPortalsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPortalsResponse {
+        try await self.client.execute(
+            operation: "ListPortals", 
+            path: "/v2/portals", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists portals.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - nextToken: The next page of elements from this collection. Not valid for the last element of the collection.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPortals(
+        maxResults: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPortalsResponse {
+        let input = ListPortalsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPortals(input, logger: logger)
+    }
+
+    /// Lists the product pages for a portal product.
+    @Sendable
+    @inlinable
+    public func listProductPages(_ input: ListProductPagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProductPagesResponse {
+        try await self.client.execute(
+            operation: "ListProductPages", 
+            path: "/v2/portalproducts/{PortalProductId}/productpages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the product pages for a portal product.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - nextToken: The next page of elements from this collection. Not valid for the last element of the collection.
+    ///   - portalProductId: The portal product identifier.
+    ///   - resourceOwnerAccountId: The account ID of the resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProductPages(
+        maxResults: String? = nil,
+        nextToken: String? = nil,
+        portalProductId: String,
+        resourceOwnerAccountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProductPagesResponse {
+        let input = ListProductPagesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            portalProductId: portalProductId, 
+            resourceOwnerAccountId: resourceOwnerAccountId
+        )
+        return try await self.listProductPages(input, logger: logger)
+    }
+
+    /// Lists the product REST endpoint pages of a portal product.
+    @Sendable
+    @inlinable
+    public func listProductRestEndpointPages(_ input: ListProductRestEndpointPagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProductRestEndpointPagesResponse {
+        try await self.client.execute(
+            operation: "ListProductRestEndpointPages", 
+            path: "/v2/portalproducts/{PortalProductId}/productrestendpointpages", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the product REST endpoint pages of a portal product.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of elements to be returned for this resource.
+    ///   - nextToken: The next page of elements from this collection. Not valid for the last element of the collection.
+    ///   - portalProductId: The portal product identifier.
+    ///   - resourceOwnerAccountId: The account ID of the resource owner of the portal product.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProductRestEndpointPages(
+        maxResults: String? = nil,
+        nextToken: String? = nil,
+        portalProductId: String,
+        resourceOwnerAccountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProductRestEndpointPagesResponse {
+        let input = ListProductRestEndpointPagesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            portalProductId: portalProductId, 
+            resourceOwnerAccountId: resourceOwnerAccountId
+        )
+        return try await self.listProductRestEndpointPages(input, logger: logger)
+    }
+
     /// Lists routing rules.
     @Sendable
     @inlinable
@@ -2297,6 +2935,99 @@ public struct ApiGatewayV2: AWSService {
             nextToken: nextToken
         )
         return try await self.listRoutingRules(input, logger: logger)
+    }
+
+    /// Creates a portal preview.
+    @Sendable
+    @inlinable
+    public func previewPortal(_ input: PreviewPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PreviewPortalResponse {
+        try await self.client.execute(
+            operation: "PreviewPortal", 
+            path: "/v2/portals/{PortalId}/preview", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a portal preview.
+    ///
+    /// Parameters:
+    ///   - portalId: The portal identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func previewPortal(
+        portalId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PreviewPortalResponse {
+        let input = PreviewPortalRequest(
+            portalId: portalId
+        )
+        return try await self.previewPortal(input, logger: logger)
+    }
+
+    /// Publishes a portal.
+    @Sendable
+    @inlinable
+    public func publishPortal(_ input: PublishPortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishPortalResponse {
+        try await self.client.execute(
+            operation: "PublishPortal", 
+            path: "/v2/portals/{PortalId}/publish", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Publishes a portal.
+    ///
+    /// Parameters:
+    ///   - description: The description of the portal. When the portal is published, this description becomes the last published description.
+    ///   - portalId: The portal identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func publishPortal(
+        description: String? = nil,
+        portalId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PublishPortalResponse {
+        let input = PublishPortalRequest(
+            description: description, 
+            portalId: portalId
+        )
+        return try await self.publishPortal(input, logger: logger)
+    }
+
+    /// Updates the sharing policy for a portal product.
+    @Sendable
+    @inlinable
+    public func putPortalProductSharingPolicy(_ input: PutPortalProductSharingPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutPortalProductSharingPolicyResponse {
+        try await self.client.execute(
+            operation: "PutPortalProductSharingPolicy", 
+            path: "/v2/portalproducts/{PortalProductId}/sharingpolicy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the sharing policy for a portal product.
+    ///
+    /// Parameters:
+    ///   - policyDocument: The product sharing policy.
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putPortalProductSharingPolicy(
+        policyDocument: String? = nil,
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutPortalProductSharingPolicyResponse {
+        let input = PutPortalProductSharingPolicyRequest(
+            policyDocument: policyDocument, 
+            portalProductId: portalProductId
+        )
+        return try await self.putPortalProductSharingPolicy(input, logger: logger)
     }
 
     /// Updates a routing rule.
@@ -2893,6 +3624,164 @@ public struct ApiGatewayV2: AWSService {
             schema: schema
         )
         return try await self.updateModel(input, logger: logger)
+    }
+
+    /// Updates a portal.
+    @Sendable
+    @inlinable
+    public func updatePortal(_ input: UpdatePortalRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortalResponse {
+        try await self.client.execute(
+            operation: "UpdatePortal", 
+            path: "/v2/portals/{PortalId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a portal.
+    ///
+    /// Parameters:
+    ///   - authorization: The authorization of the portal.
+    ///   - endpointConfiguration: Represents an endpoint configuration.
+    ///   - includedPortalProductArns: The ARNs of the portal products included in the portal.
+    ///   - logoUri: The logo URI.
+    ///   - portalContent: Contains the content that is visible to portal consumers including the themes, display names, and description.
+    ///   - portalId: The portal identifier.
+    ///   - rumAppMonitorName: The CloudWatch RUM app monitor name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePortal(
+        authorization: Authorization? = nil,
+        endpointConfiguration: EndpointConfigurationRequest? = nil,
+        includedPortalProductArns: [String]? = nil,
+        logoUri: String? = nil,
+        portalContent: PortalContent? = nil,
+        portalId: String,
+        rumAppMonitorName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePortalResponse {
+        let input = UpdatePortalRequest(
+            authorization: authorization, 
+            endpointConfiguration: endpointConfiguration, 
+            includedPortalProductArns: includedPortalProductArns, 
+            logoUri: logoUri, 
+            portalContent: portalContent, 
+            portalId: portalId, 
+            rumAppMonitorName: rumAppMonitorName
+        )
+        return try await self.updatePortal(input, logger: logger)
+    }
+
+    /// Updates the portal product.
+    @Sendable
+    @inlinable
+    public func updatePortalProduct(_ input: UpdatePortalProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePortalProductResponse {
+        try await self.client.execute(
+            operation: "UpdatePortalProduct", 
+            path: "/v2/portalproducts/{PortalProductId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the portal product.
+    ///
+    /// Parameters:
+    ///   - description: The description.
+    ///   - displayName: The displayName.
+    ///   - displayOrder: The display order.
+    ///   - portalProductId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePortalProduct(
+        description: String? = nil,
+        displayName: String? = nil,
+        displayOrder: DisplayOrder? = nil,
+        portalProductId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePortalProductResponse {
+        let input = UpdatePortalProductRequest(
+            description: description, 
+            displayName: displayName, 
+            displayOrder: displayOrder, 
+            portalProductId: portalProductId
+        )
+        return try await self.updatePortalProduct(input, logger: logger)
+    }
+
+    /// Updates a product page of a portal product.
+    @Sendable
+    @inlinable
+    public func updateProductPage(_ input: UpdateProductPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProductPageResponse {
+        try await self.client.execute(
+            operation: "UpdateProductPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productpages/{ProductPageId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a product page of a portal product.
+    ///
+    /// Parameters:
+    ///   - displayContent: The content of the product page.
+    ///   - portalProductId: The portal product identifier.
+    ///   - productPageId: The portal product identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProductPage(
+        displayContent: DisplayContent? = nil,
+        portalProductId: String,
+        productPageId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProductPageResponse {
+        let input = UpdateProductPageRequest(
+            displayContent: displayContent, 
+            portalProductId: portalProductId, 
+            productPageId: productPageId
+        )
+        return try await self.updateProductPage(input, logger: logger)
+    }
+
+    /// Updates a product REST endpoint page.
+    @Sendable
+    @inlinable
+    public func updateProductRestEndpointPage(_ input: UpdateProductRestEndpointPageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProductRestEndpointPageResponse {
+        try await self.client.execute(
+            operation: "UpdateProductRestEndpointPage", 
+            path: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a product REST endpoint page.
+    ///
+    /// Parameters:
+    ///   - displayContent: The display content.
+    ///   - portalProductId: The portal product identifier.
+    ///   - productRestEndpointPageId: The product REST endpoint identifier.
+    ///   - tryItState: The try it state of a product REST endpoint page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProductRestEndpointPage(
+        displayContent: EndpointDisplayContent? = nil,
+        portalProductId: String,
+        productRestEndpointPageId: String,
+        tryItState: TryItState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProductRestEndpointPageResponse {
+        let input = UpdateProductRestEndpointPageRequest(
+            displayContent: displayContent, 
+            portalProductId: portalProductId, 
+            productRestEndpointPageId: productRestEndpointPageId, 
+            tryItState: tryItState
+        )
+        return try await self.updateProductRestEndpointPage(input, logger: logger)
     }
 
     /// Updates a Route.

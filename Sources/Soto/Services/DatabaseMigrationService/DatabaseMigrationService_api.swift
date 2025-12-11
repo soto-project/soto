@@ -88,6 +88,7 @@ public struct DatabaseMigrationService: AWSService {
             "us-iso-east-1": "dms.us-iso-east-1.c2s.ic.gov",
             "us-iso-west-1": "dms.us-iso-west-1.c2s.ic.gov",
             "us-isob-east-1": "dms.us-isob-east-1.sc2s.sgov.gov",
+            "us-isob-west-1": "dms.us-isob-west-1.sc2s.sgov.gov",
             "us-isof-east-1": "dms.us-isof-east-1.csp.hci.ic.gov",
             "us-isof-south-1": "dms.us-isof-south-1.csp.hci.ic.gov",
             "us-west-1": "dms-fips.us-west-1.amazonaws.com",
@@ -197,6 +198,70 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.batchStartRecommendations(input, logger: logger)
     }
 
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    @Sendable
+    @inlinable
+    public func cancelMetadataModelConversion(_ input: CancelMetadataModelConversionMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataModelConversionResponse {
+        try await self.client.execute(
+            operation: "CancelMetadataModelConversion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a single metadata model conversion operation that was started with StartMetadataModelConversion.
+    ///
+    /// Parameters:
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - requestIdentifier: The identifier for the metadata model conversion operation to cancel. This operation was initiated by StartMetadataModelConversion.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelMetadataModelConversion(
+        migrationProjectIdentifier: String,
+        requestIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelMetadataModelConversionResponse {
+        let input = CancelMetadataModelConversionMessage(
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            requestIdentifier: requestIdentifier
+        )
+        return try await self.cancelMetadataModelConversion(input, logger: logger)
+    }
+
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    @Sendable
+    @inlinable
+    public func cancelMetadataModelCreation(_ input: CancelMetadataModelCreationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelMetadataModelCreationResponse {
+        try await self.client.execute(
+            operation: "CancelMetadataModelCreation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels a single metadata model creation operation that was started with StartMetadataModelCreation.
+    ///
+    /// Parameters:
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - requestIdentifier: The identifier for the metadata model creation operation to cancel. This operation was initiated by StartMetadataModelCreation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelMetadataModelCreation(
+        migrationProjectIdentifier: String,
+        requestIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelMetadataModelCreationResponse {
+        let input = CancelMetadataModelCreationMessage(
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            requestIdentifier: requestIdentifier
+        )
+        return try await self.cancelMetadataModelCreation(input, logger: logger)
+    }
+
     /// Cancels a single premigration assessment run. This operation prevents any individual assessments from running if they haven't started running. It also attempts to cancel any individual assessments that are currently running.
     @Sendable
     @inlinable
@@ -300,7 +365,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Parameters:
     ///   - dataProviderName: A user-friendly name for the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - tags: One or more tags to be assigned to the data provider.
     ///   - virtual: Indicates whether the data provider is virtual.
@@ -2107,6 +2172,41 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeInstanceProfiles(input, logger: logger)
     }
 
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    @Sendable
+    @inlinable
+    public func describeMetadataModel(_ input: DescribeMetadataModelMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelResponse {
+        try await self.client.execute(
+            operation: "DescribeMetadataModel", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets detailed information about the specified metadata model, including its definition and corresponding converted objects in the target database if applicable.
+    ///
+    /// Parameters:
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+    ///   - selectionRules: The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMetadataModel(
+        migrationProjectIdentifier: String,
+        origin: OriginTypeValue,
+        selectionRules: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMetadataModelResponse {
+        let input = DescribeMetadataModelMessage(
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            origin: origin, 
+            selectionRules: selectionRules
+        )
+        return try await self.describeMetadataModel(input, logger: logger)
+    }
+
     /// Returns a paginated list of metadata model assessments for your account in the current region.
     @Sendable
     @inlinable
@@ -2145,6 +2245,47 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeMetadataModelAssessments(input, logger: logger)
     }
 
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    @Sendable
+    @inlinable
+    public func describeMetadataModelChildren(_ input: DescribeMetadataModelChildrenMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelChildrenResponse {
+        try await self.client.execute(
+            operation: "DescribeMetadataModelChildren", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a list of child metadata models for the specified metadata model in the database hierarchy.
+    ///
+    /// Parameters:
+    ///   - marker: Specifies the unique pagination token that indicates where the next page should start. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+    ///   - selectionRules: The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMetadataModelChildren(
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        origin: OriginTypeValue,
+        selectionRules: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMetadataModelChildrenResponse {
+        let input = DescribeMetadataModelChildrenMessage(
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            origin: origin, 
+            selectionRules: selectionRules
+        )
+        return try await self.describeMetadataModelChildren(input, logger: logger)
+    }
+
     /// Returns a paginated list of metadata model conversions for a migration project.
     @Sendable
     @inlinable
@@ -2181,6 +2322,44 @@ public struct DatabaseMigrationService: AWSService {
             migrationProjectIdentifier: migrationProjectIdentifier
         )
         return try await self.describeMetadataModelConversions(input, logger: logger)
+    }
+
+    /// Returns a paginated list of metadata model creation requests for a migration project.
+    @Sendable
+    @inlinable
+    public func describeMetadataModelCreations(_ input: DescribeMetadataModelCreationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeMetadataModelCreationsResponse {
+        try await self.client.execute(
+            operation: "DescribeMetadataModelCreations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of metadata model creation requests for a migration project.
+    ///
+    /// Parameters:
+    ///   - filters: Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+    ///   - marker: Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
+    ///   - maxRecords: The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeMetadataModelCreations(
+        filters: [Filter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeMetadataModelCreationsResponse {
+        let input = DescribeMetadataModelCreationsMessage(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        return try await self.describeMetadataModelCreations(input, logger: logger)
     }
 
     /// Returns a paginated list of metadata model exports.
@@ -2976,6 +3155,38 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.exportMetadataModelAssessment(input, logger: logger)
     }
 
+    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    @Sendable
+    @inlinable
+    public func getTargetSelectionRules(_ input: GetTargetSelectionRulesMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTargetSelectionRulesResponse {
+        try await self.client.execute(
+            operation: "GetTargetSelectionRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Converts source selection rules into their target counterparts for schema conversion operations.
+    ///
+    /// Parameters:
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - selectionRules: The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTargetSelectionRules(
+        migrationProjectIdentifier: String,
+        selectionRules: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTargetSelectionRulesResponse {
+        let input = GetTargetSelectionRulesMessage(
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            selectionRules: selectionRules
+        )
+        return try await self.getTargetSelectionRules(input, logger: logger)
+    }
+
     /// Uploads the specified certificate.
     @Sendable
     @inlinable
@@ -2995,6 +3206,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - certificateIdentifier: A customer-assigned name for the certificate. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
     ///   - certificatePem: The contents of a .pem file, which contains an X.509 certificate.
     ///   - certificateWallet: The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
+    ///   - kmsKeyId: An KMS key identifier that is used to encrypt the certificate. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     ///   - tags: The tags associated with the certificate.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3002,6 +3214,7 @@ public struct DatabaseMigrationService: AWSService {
         certificateIdentifier: String,
         certificatePem: String? = nil,
         certificateWallet: AWSBase64Data? = nil,
+        kmsKeyId: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ImportCertificateResponse {
@@ -3009,6 +3222,7 @@ public struct DatabaseMigrationService: AWSService {
             certificateIdentifier: certificateIdentifier, 
             certificatePem: certificatePem, 
             certificateWallet: certificateWallet, 
+            kmsKeyId: kmsKeyId, 
             tags: tags
         )
         return try await self.importCertificate(input, logger: logger)
@@ -3150,7 +3364,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - dataProviderIdentifier: The identifier of the data provider. Identifiers must begin with a letter  and must contain only ASCII letters, digits, and hyphens. They can't end with  a hyphen, or contain two consecutive hyphens.
     ///   - dataProviderName: The name of the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - exactSettings: If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - virtual: Indicates whether the data provider is virtual.
@@ -3995,6 +4209,44 @@ public struct DatabaseMigrationService: AWSService {
             selectionRules: selectionRules
         )
         return try await self.startMetadataModelConversion(input, logger: logger)
+    }
+
+    /// Creates source metadata model of the given type with the specified properties for schema conversion operations.  This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    @Sendable
+    @inlinable
+    public func startMetadataModelCreation(_ input: StartMetadataModelCreationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelCreationResponse {
+        try await self.client.execute(
+            operation: "StartMetadataModelCreation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates source metadata model of the given type with the specified properties for schema conversion operations.  This action supports only these directions: from SQL Server to Aurora PostgreSQL, or from SQL Server to RDS for PostgreSQL.
+    ///
+    /// Parameters:
+    ///   - metadataModelName: The name of the metadata model.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - properties: The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+    ///   - selectionRules: The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMetadataModelCreation(
+        metadataModelName: String,
+        migrationProjectIdentifier: String,
+        properties: MetadataModelProperties,
+        selectionRules: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMetadataModelCreationResponse {
+        let input = StartMetadataModelCreationMessage(
+            metadataModelName: metadataModelName, 
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            properties: properties, 
+            selectionRules: selectionRules
+        )
+        return try await self.startMetadataModelCreation(input, logger: logger)
     }
 
     /// Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3 bucket.
@@ -5221,6 +5473,49 @@ extension DatabaseMigrationService {
         return self.describeMetadataModelAssessmentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeMetadataModelChildren(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMetadataModelChildrenPaginator(
+        _ input: DescribeMetadataModelChildrenMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelChildrenMessage, DescribeMetadataModelChildrenResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelChildren,
+            inputKey: \DescribeMetadataModelChildrenMessage.marker,
+            outputKey: \DescribeMetadataModelChildrenResponse.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeMetadataModelChildren(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxRecords: The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - origin: Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+    ///   - selectionRules: The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMetadataModelChildrenPaginator(
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        origin: OriginTypeValue,
+        selectionRules: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelChildrenMessage, DescribeMetadataModelChildrenResponse> {
+        let input = DescribeMetadataModelChildrenMessage(
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier, 
+            origin: origin, 
+            selectionRules: selectionRules
+        )
+        return self.describeMetadataModelChildrenPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeMetadataModelConversions(_:logger:)``.
     ///
     /// - Parameters:
@@ -5259,6 +5554,46 @@ extension DatabaseMigrationService {
             migrationProjectIdentifier: migrationProjectIdentifier
         )
         return self.describeMetadataModelConversionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMetadataModelCreationsPaginator(
+        _ input: DescribeMetadataModelCreationsMessage,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelCreationsMessage, DescribeMetadataModelCreationsResponse> {
+        return .init(
+            input: input,
+            command: self.describeMetadataModelCreations,
+            inputKey: \DescribeMetadataModelCreationsMessage.marker,
+            outputKey: \DescribeMetadataModelCreationsResponse.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeMetadataModelCreations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+    ///   - maxRecords: The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+    ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeMetadataModelCreationsPaginator(
+        filters: [Filter]? = nil,
+        maxRecords: Int? = nil,
+        migrationProjectIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeMetadataModelCreationsMessage, DescribeMetadataModelCreationsResponse> {
+        let input = DescribeMetadataModelCreationsMessage(
+            filters: filters, 
+            maxRecords: maxRecords, 
+            migrationProjectIdentifier: migrationProjectIdentifier
+        )
+        return self.describeMetadataModelCreationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeMetadataModelExportsAsScript(_:logger:)``.
@@ -6243,9 +6578,34 @@ extension DatabaseMigrationService.DescribeMetadataModelAssessmentsMessage: AWSP
     }
 }
 
+extension DatabaseMigrationService.DescribeMetadataModelChildrenMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelChildrenMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier,
+            origin: self.origin,
+            selectionRules: self.selectionRules
+        )
+    }
+}
+
 extension DatabaseMigrationService.DescribeMetadataModelConversionsMessage: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelConversionsMessage {
+        return .init(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )
+    }
+}
+
+extension DatabaseMigrationService.DescribeMetadataModelCreationsMessage: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> DatabaseMigrationService.DescribeMetadataModelCreationsMessage {
         return .init(
             filters: self.filters,
             marker: token,

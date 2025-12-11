@@ -181,6 +181,7 @@ public struct BedrockDataAutomation: AWSService {
     ///   - projectDescription: 
     ///   - projectName: 
     ///   - projectStage: 
+    ///   - projectType: 
     ///   - standardOutputConfiguration: 
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -193,6 +194,7 @@ public struct BedrockDataAutomation: AWSService {
         projectDescription: String? = nil,
         projectName: String,
         projectStage: DataAutomationProjectStage? = nil,
+        projectType: DataAutomationProjectType? = nil,
         standardOutputConfiguration: StandardOutputConfiguration,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -205,6 +207,7 @@ public struct BedrockDataAutomation: AWSService {
             projectDescription: projectDescription, 
             projectName: projectName, 
             projectStage: projectStage, 
+            projectType: projectType, 
             standardOutputConfiguration: standardOutputConfiguration, 
             tags: tags
         )

@@ -114,6 +114,12 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionKeyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerManagedKmsKey = "CUSTOMER_MANAGED_KMS_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Index: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -133,6 +139,16 @@ extension Backup {
         case canceled = "CANCELED"
         case canceling = "CANCELING"
         case creating = "CREATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecycleDeleteAfterEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleteAfterCopy = "DELETE_AFTER_COPY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MalwareScanner: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case guardduty = "GUARDDUTY"
         public var description: String { return self.rawValue }
     }
 
@@ -215,6 +231,60 @@ extension Backup {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScanFinding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case malware = "MALWARE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanJobState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case completedWithIssues = "COMPLETED_WITH_ISSUES"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aggregateAll = "AGGREGATE_ALL"
+        case any = "ANY"
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case completedWithIssues = "COMPLETED_WITH_ISSUES"
+        case created = "CREATED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fullScan = "FULL_SCAN"
+        case incrementalScan = "INCREMENTAL_SCAN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ebs = "EBS"
+        case ec2 = "EC2"
+        case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noThreatsFound = "NO_THREATS_FOUND"
+        case threatsFound = "THREATS_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case completedWithIssues = "COMPLETED_WITH_ISSUES"
+        case created = "CREATED"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cold = "COLD"
         case deleted = "DELETED"
@@ -261,6 +331,28 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case backupOptions = "BackupOptions"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct AggregatedScanResult: AWSDecodableShape {
+        /// A Boolean value indicating whether any of the aggregated scans failed.
+        public let failedScan: Bool?
+        /// An array of findings discovered across all aggregated scans.
+        public let findings: [ScanFinding]?
+        /// The timestamp when the aggregated scan result was last computed, in Unix format and Coordinated Universal Time (UTC).
+        public let lastComputed: Date?
+
+        @inlinable
+        public init(failedScan: Bool? = nil, findings: [ScanFinding]? = nil, lastComputed: Date? = nil) {
+            self.failedScan = failedScan
+            self.findings = findings
+            self.lastComputed = lastComputed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedScan = "FailedScan"
+            case findings = "Findings"
+            case lastComputed = "LastComputed"
         }
     }
 
@@ -503,18 +595,22 @@ extension Backup {
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRule]
+        /// Contains your scanning configuration for the backup plan and includes the Malware scanner, your selected resources, and scanner role.
+        public let scanSettings: [ScanSetting]?
 
         @inlinable
-        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRule]) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRule], scanSettings: [ScanSetting]? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
+            self.scanSettings = scanSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanName = "BackupPlanName"
             case rules = "Rules"
+            case scanSettings = "ScanSettings"
         }
     }
 
@@ -525,12 +621,15 @@ extension Backup {
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public let scanSettings: [ScanSetting]?
 
         @inlinable
-        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRuleInput]) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRuleInput], scanSettings: [ScanSetting]? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
+            self.scanSettings = scanSettings
         }
 
         public func validate(name: String) throws {
@@ -540,12 +639,16 @@ extension Backup {
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
+            try self.scanSettings?.forEach {
+                try $0.validate(name: "\(name).scanSettings[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanName = "BackupPlanName"
             case rules = "Rules"
+            case scanSettings = "ScanSettings"
         }
     }
 
@@ -630,6 +733,8 @@ extension Backup {
         public let ruleId: String?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public let scanActions: [ScanAction]?
         /// A cron expression in UTC specifying when Backup initiates a backup job.  When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *). For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -638,9 +743,11 @@ extension Backup {
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let targetBackupVaultName: String
+        /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+        public let targetLogicallyAirGappedBackupVaultArn: String?
 
         @inlinable
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleId: String? = nil, ruleName: String, scanActions: [ScanAction]? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String, targetLogicallyAirGappedBackupVaultArn: String? = nil) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -649,10 +756,12 @@ extension Backup {
             self.recoveryPointTags = recoveryPointTags
             self.ruleId = ruleId
             self.ruleName = ruleName
+            self.scanActions = scanActions
             self.scheduleExpression = scheduleExpression
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
+            self.targetLogicallyAirGappedBackupVaultArn = targetLogicallyAirGappedBackupVaultArn
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -664,10 +773,12 @@ extension Backup {
             case recoveryPointTags = "RecoveryPointTags"
             case ruleId = "RuleId"
             case ruleName = "RuleName"
+            case scanActions = "ScanActions"
             case scheduleExpression = "ScheduleExpression"
             case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
             case startWindowMinutes = "StartWindowMinutes"
             case targetBackupVaultName = "TargetBackupVaultName"
+            case targetLogicallyAirGappedBackupVaultArn = "TargetLogicallyAirGappedBackupVaultArn"
         }
     }
 
@@ -686,6 +797,8 @@ extension Backup {
         public let recoveryPointTags: [String: String]?
         /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
+        /// Contains your scanning configuration for the backup rule and includes the malware scanner, and scan mode of either full or incremental.
+        public let scanActions: [ScanAction]?
         /// A CRON expression in UTC specifying when Backup initiates a backup job. When no CRON expression is provided, Backup will use the default  expression cron(0 5 ? * * *).
         public let scheduleExpression: String?
         /// The timezone in which the schedule expression is set. By default,  ScheduleExpressions are in UTC. You can modify this to a specified timezone.
@@ -694,9 +807,11 @@ extension Backup {
         public let startWindowMinutes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
         public let targetBackupVaultName: String
+        /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+        public let targetLogicallyAirGappedBackupVaultArn: String?
 
         @inlinable
-        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String) {
+        public init(completionWindowMinutes: Int64? = nil, copyActions: [CopyAction]? = nil, enableContinuousBackup: Bool? = nil, indexActions: [IndexAction]? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, ruleName: String, scanActions: [ScanAction]? = nil, scheduleExpression: String? = nil, scheduleExpressionTimezone: String? = nil, startWindowMinutes: Int64? = nil, targetBackupVaultName: String, targetLogicallyAirGappedBackupVaultArn: String? = nil) {
             self.completionWindowMinutes = completionWindowMinutes
             self.copyActions = copyActions
             self.enableContinuousBackup = enableContinuousBackup
@@ -704,10 +819,12 @@ extension Backup {
             self.lifecycle = lifecycle
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
+            self.scanActions = scanActions
             self.scheduleExpression = scheduleExpression
             self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
+            self.targetLogicallyAirGappedBackupVaultArn = targetLogicallyAirGappedBackupVaultArn
         }
 
         public func validate(name: String) throws {
@@ -726,10 +843,12 @@ extension Backup {
             case lifecycle = "Lifecycle"
             case recoveryPointTags = "RecoveryPointTags"
             case ruleName = "RuleName"
+            case scanActions = "ScanActions"
             case scheduleExpression = "ScheduleExpression"
             case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
             case startWindowMinutes = "StartWindowMinutes"
             case targetBackupVaultName = "TargetBackupVaultName"
+            case targetLogicallyAirGappedBackupVaultArn = "TargetLogicallyAirGappedBackupVaultArn"
         }
     }
 
@@ -816,6 +935,8 @@ extension Backup {
         public let creatorRequestId: String?
         /// A server-side encryption key you can specify to encrypt your backups from services that support full Backup management; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab. If you specify a key, you must specify its ARN, not its alias. If you do not specify a key, Backup creates a KMS key for you by default. To learn which Backup services support full Backup management and how Backup handles encryption for backups from services that do not yet support full Backup, see  Encryption for backups in Backup
         public let encryptionKeyArn: String?
+        /// The type of encryption key used for the backup vault. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public let encryptionKeyType: EncryptionKeyType?
         /// The date and time when Backup Vault Lock configuration becomes immutable, meaning it cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lockDate: Date?
         /// A Boolean value that indicates whether Backup Vault Lock applies to the selected backup vault. If true, Vault Lock prevents delete and update operations on the recovery points in the selected vault.
@@ -832,12 +953,13 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, encryptionKeyType: EncryptionKeyType? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, numberOfRecoveryPoints: Int64? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.lockDate = lockDate
             self.locked = locked
             self.maxRetentionDays = maxRetentionDays
@@ -853,6 +975,7 @@ extension Backup {
             case creationDate = "CreationDate"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case encryptionKeyType = "EncryptionKeyType"
             case lockDate = "LockDate"
             case locked = "Locked"
             case maxRetentionDays = "MaxRetentionDays"
@@ -1075,6 +1198,8 @@ extension Backup {
         /// Uniquely identifies a copy job.
         public let copyJobId: String?
         public let createdBy: RecoveryPointCreator?
+        /// The backup job ID that initiated this copy job. Only applicable to scheduled copy jobs and automatic copy jobs to logically air-gapped vault.
+        public let createdByBackupJobId: String?
         /// The date and time a copy job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
         /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
@@ -1114,7 +1239,7 @@ extension Backup {
         public let statusMessage: String?
 
         @inlinable
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationEncryptionKeyArn: String? = nil, destinationRecoveryPointArn: String? = nil, destinationRecoveryPointLifecycle: Lifecycle? = nil, destinationVaultLockState: String? = nil, destinationVaultType: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, messageCategory: String? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, childJobsInState: [CopyJobState: Int64]? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, copyJobId: String? = nil, createdBy: RecoveryPointCreator? = nil, createdByBackupJobId: String? = nil, creationDate: Date? = nil, destinationBackupVaultArn: String? = nil, destinationEncryptionKeyArn: String? = nil, destinationRecoveryPointArn: String? = nil, destinationRecoveryPointLifecycle: Lifecycle? = nil, destinationVaultLockState: String? = nil, destinationVaultType: String? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, messageCategory: String? = nil, numberOfChildJobs: Int64? = nil, parentJobId: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, sourceRecoveryPointArn: String? = nil, state: CopyJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.childJobsInState = childJobsInState
@@ -1122,6 +1247,7 @@ extension Backup {
             self.compositeMemberIdentifier = compositeMemberIdentifier
             self.copyJobId = copyJobId
             self.createdBy = createdBy
+            self.createdByBackupJobId = createdByBackupJobId
             self.creationDate = creationDate
             self.destinationBackupVaultArn = destinationBackupVaultArn
             self.destinationEncryptionKeyArn = destinationEncryptionKeyArn
@@ -1151,6 +1277,7 @@ extension Backup {
             case compositeMemberIdentifier = "CompositeMemberIdentifier"
             case copyJobId = "CopyJobId"
             case createdBy = "CreatedBy"
+            case createdByBackupJobId = "CreatedByBackupJobId"
             case creationDate = "CreationDate"
             case destinationBackupVaultArn = "DestinationBackupVaultArn"
             case destinationEncryptionKeyArn = "DestinationEncryptionKeyArn"
@@ -1520,16 +1647,19 @@ extension Backup {
         public let backupVaultTags: [String: String]?
         /// The ID of the creation request. This parameter is optional. If used, this parameter must contain  1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
+        /// The ARN of the customer-managed KMS key to use for encrypting the logically air-gapped backup vault. If not specified, the vault will be encrypted with an Amazon Web Services-owned key managed by Amazon Web Services Backup.
+        public let encryptionKeyArn: String?
         /// The maximum retention period that the vault retains its recovery points.
         public let maxRetentionDays: Int64
         /// This setting specifies the minimum retention period that the vault retains its recovery points. The minimum value accepted is 7 days.
         public let minRetentionDays: Int64
 
         @inlinable
-        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = CreateLogicallyAirGappedBackupVaultInput.idempotencyToken(), maxRetentionDays: Int64, minRetentionDays: Int64) {
+        public init(backupVaultName: String, backupVaultTags: [String: String]? = nil, creatorRequestId: String? = CreateLogicallyAirGappedBackupVaultInput.idempotencyToken(), encryptionKeyArn: String? = nil, maxRetentionDays: Int64, minRetentionDays: Int64) {
             self.backupVaultName = backupVaultName
             self.backupVaultTags = backupVaultTags
             self.creatorRequestId = creatorRequestId
+            self.encryptionKeyArn = encryptionKeyArn
             self.maxRetentionDays = maxRetentionDays
             self.minRetentionDays = minRetentionDays
         }
@@ -1540,6 +1670,7 @@ extension Backup {
             request.encodePath(self.backupVaultName, key: "BackupVaultName")
             try container.encodeIfPresent(self.backupVaultTags, forKey: .backupVaultTags)
             try container.encodeIfPresent(self.creatorRequestId, forKey: .creatorRequestId)
+            try container.encodeIfPresent(self.encryptionKeyArn, forKey: .encryptionKeyArn)
             try container.encode(self.maxRetentionDays, forKey: .maxRetentionDays)
             try container.encode(self.minRetentionDays, forKey: .minRetentionDays)
         }
@@ -1551,6 +1682,7 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case backupVaultTags = "BackupVaultTags"
             case creatorRequestId = "CreatorRequestId"
+            case encryptionKeyArn = "EncryptionKeyArn"
             case maxRetentionDays = "MaxRetentionDays"
             case minRetentionDays = "MinRetentionDays"
         }
@@ -1593,7 +1725,7 @@ extension Backup {
         public let reportPlanName: String
         /// The tags to assign to the report plan.
         public let reportPlanTags: [String: String]?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT  If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT   If the report template is RESOURCE_COMPLIANCE_REPORT or CONTROL_COMPLIANCE_REPORT, this API resource also describes the report coverage by Amazon Web Services Regions and frameworks.
         public let reportSetting: ReportSetting
 
         @inlinable
@@ -1786,7 +1918,7 @@ extension Backup {
         public let restoreTestingPlanArn: String
         /// The name of the restore testing plan. The name cannot be changed after creation. The name consists of only  alphanumeric characters and underscores. Maximum length is 50.
         public let restoreTestingPlanName: String
-        /// The name of the restore testing selection for the related restore testing plan.
+        /// The name of the restore testing selection for the related restore testing plan. The name cannot be changed after creation. The name consists of only  alphanumeric characters and underscores. Maximum length is 50.
         public let restoreTestingSelectionName: String
 
         @inlinable
@@ -1802,6 +1934,54 @@ extension Backup {
             case restoreTestingPlanArn = "RestoreTestingPlanArn"
             case restoreTestingPlanName = "RestoreTestingPlanName"
             case restoreTestingSelectionName = "RestoreTestingSelectionName"
+        }
+    }
+
+    public struct CreateTieringConfigurationInput: AWSEncodableShape {
+        /// This is a unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+        public let creatorRequestId: String?
+        /// A tiering configuration must contain a unique TieringConfigurationName string you create and must contain a BackupVaultName and ResourceSelection. You may optionally include a CreatorRequestId string. The TieringConfigurationName is a unique string that is the name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        public let tieringConfiguration: TieringConfigurationInputForCreate
+        /// The tags to assign to the tiering configuration.
+        public let tieringConfigurationTags: [String: String]?
+
+        @inlinable
+        public init(creatorRequestId: String? = CreateTieringConfigurationInput.idempotencyToken(), tieringConfiguration: TieringConfigurationInputForCreate, tieringConfigurationTags: [String: String]? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.tieringConfiguration = tieringConfiguration
+            self.tieringConfigurationTags = tieringConfigurationTags
+        }
+
+        public func validate(name: String) throws {
+            try self.tieringConfiguration.validate(name: "\(name).tieringConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case tieringConfiguration = "TieringConfiguration"
+            case tieringConfigurationTags = "TieringConfigurationTags"
+        }
+    }
+
+    public struct CreateTieringConfigurationOutput: AWSDecodableShape {
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let creationTime: Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the created tiering configuration.
+        public let tieringConfigurationArn: String?
+        /// This unique string is the name of the tiering configuration. The name cannot be changed after creation. The name consists of only alphanumeric characters and underscores. Maximum length is 200.
+        public let tieringConfigurationName: String?
+
+        @inlinable
+        public init(creationTime: Date? = nil, tieringConfigurationArn: String? = nil, tieringConfigurationName: String? = nil) {
+            self.creationTime = creationTime
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case tieringConfigurationArn = "TieringConfigurationArn"
+            case tieringConfigurationName = "TieringConfigurationName"
         }
     }
 
@@ -2087,6 +2267,32 @@ extension Backup {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteTieringConfigurationInput: AWSEncodableShape {
+        /// The unique name of a tiering configuration.
+        public let tieringConfigurationName: String
+
+        @inlinable
+        public init(tieringConfigurationName: String) {
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tieringConfigurationName, key: "TieringConfigurationName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tieringConfigurationName, name: "tieringConfigurationName", parent: name, pattern: "^[a-zA-Z0-9_]{1,200}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTieringConfigurationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DependencyFailureException: AWSErrorShape {
         public let code: String?
         public let context: String?
@@ -2297,6 +2503,8 @@ extension Backup {
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The type of encryption key used for the backup vault. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public let encryptionKeyType: EncryptionKeyType?
         /// Information about the latest update to the MPA approval team association for this backup vault.
         public let latestMpaApprovalTeamUpdate: LatestMpaApprovalTeamUpdate?
         /// The date and time when Backup Vault Lock configuration cannot be changed or deleted. If you applied Vault Lock to your vault without specifying a lock date, you can change any of your Vault Lock settings, or delete Vault Lock from the vault entirely, at any time. This value is in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
@@ -2321,12 +2529,13 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, latestMpaApprovalTeamUpdate: LatestMpaApprovalTeamUpdate? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, mpaApprovalTeamArn: String? = nil, mpaSessionArn: String? = nil, numberOfRecoveryPoints: Int64? = nil, sourceBackupVaultArn: String? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, creatorRequestId: String? = nil, encryptionKeyArn: String? = nil, encryptionKeyType: EncryptionKeyType? = nil, latestMpaApprovalTeamUpdate: LatestMpaApprovalTeamUpdate? = nil, lockDate: Date? = nil, locked: Bool? = nil, maxRetentionDays: Int64? = nil, minRetentionDays: Int64? = nil, mpaApprovalTeamArn: String? = nil, mpaSessionArn: String? = nil, numberOfRecoveryPoints: Int64? = nil, sourceBackupVaultArn: String? = nil, vaultState: VaultState? = nil, vaultType: VaultType? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.creatorRequestId = creatorRequestId
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.latestMpaApprovalTeamUpdate = latestMpaApprovalTeamUpdate
             self.lockDate = lockDate
             self.locked = locked
@@ -2346,6 +2555,7 @@ extension Backup {
             case creationDate = "CreationDate"
             case creatorRequestId = "CreatorRequestId"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case encryptionKeyType = "EncryptionKeyType"
             case latestMpaApprovalTeamUpdate = "LatestMpaApprovalTeamUpdate"
             case lockDate = "LockDate"
             case locked = "Locked"
@@ -2463,7 +2673,7 @@ extension Backup {
     }
 
     public struct DescribeGlobalSettingsOutput: AWSDecodableShape {
-        /// The status of the flags isCrossAccountBackupEnabled and isMpaEnabled ('Mpa' refers to multi-party approval).
+        /// The status of the flags isCrossAccountBackupEnabled, isMpaEnabled ('Mpa' refers to multi-party approval), and isDelegatedAdministratorEnabled.
         public let globalSettings: [String: String]?
         /// The date and time that the flag isCrossAccountBackupEnabled was last updated. This update is in Unix format and Coordinated Universal Time (UTC). The value of LastUpdateTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastUpdateTime: Date?
@@ -2594,6 +2804,8 @@ extension Backup {
         public let creationDate: Date?
         /// The server-side encryption key used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public let encryptionKeyType: EncryptionKeyType?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
         /// This is the current status for the backup index associated with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE can be included in a search.
@@ -2620,6 +2832,8 @@ extension Backup {
         public let resourceName: String?
         /// The type of Amazon Web Services resource to save as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceType: String?
+        /// Contains the latest scanning results against the recovery point and currently include MalwareScanner, ScanJobState, Findings, and LastScanTimestamp
+        public let scanResults: [ScanResult]?
         /// An Amazon Resource Name (ARN) that uniquely identifies the source vault where the resource was originally backed up in; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault. If the recovery is restored to the same Amazon Web Services account or Region, this value will be null.
         public let sourceBackupVaultArn: String?
         /// A status code specifying the state of the recovery point. For more information, see   Recovery point status in the Backup Developer  Guide.    CREATING status indicates that an Backup job has been  initiated for a resource. The backup process has started and is actively processing  a backup job for the associated recovery point.    AVAILABLE status indicates that the backup was successfully created  for the recovery point. The backup process has completed without any issues, and the  recovery point is now ready for use.    PARTIAL status indicates a composite recovery point has one or more  nested recovery points that were not in the backup.    EXPIRED status indicates that the recovery point has exceeded its retention period, but Backup lacks permission or is otherwise unable to delete it. To manually delete these recovery points, see  Step 3: Delete the recovery points in the Clean up resources section of Getting started.    STOPPED status occurs on a continuous backup where a user has taken some action that causes the continuous backup to be disabled. This can be caused by the removal of permissions, turning off versioning, turning off events being sent to EventBridge, or disabling the EventBridge rules that are put in place by Backup. For recovery points of Amazon S3, Amazon RDS, and Amazon Aurora resources, this status occurs when the retention period of a continuous backup rule is changed. To resolve STOPPED status, ensure that all requested permissions are in place and that versioning is enabled on the S3 bucket. Once these conditions are met, the next instance of a backup rule running will result in a new continuous recovery point being created. The recovery points with STOPPED status do not need to be deleted. For SAP HANA on Amazon EC2 STOPPED status occurs due to user action, application misconfiguration, or backup failure. To ensure that future continuous backups succeed, refer to the recovery point status and check SAP HANA for details.
@@ -2632,7 +2846,7 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
+        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, encryptionKeyType: EncryptionKeyType? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, scanResults: [ScanResult]? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, storageClass: StorageClass? = nil, vaultType: VaultType? = nil) {
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -2642,6 +2856,7 @@ extension Backup {
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
@@ -2655,6 +2870,7 @@ extension Backup {
             self.resourceArn = resourceArn
             self.resourceName = resourceName
             self.resourceType = resourceType
+            self.scanResults = scanResults
             self.sourceBackupVaultArn = sourceBackupVaultArn
             self.status = status
             self.statusMessage = statusMessage
@@ -2672,6 +2888,7 @@ extension Backup {
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case encryptionKeyType = "EncryptionKeyType"
             case iamRoleArn = "IamRoleArn"
             case indexStatus = "IndexStatus"
             case indexStatusMessage = "IndexStatusMessage"
@@ -2685,6 +2902,7 @@ extension Backup {
             case resourceArn = "ResourceArn"
             case resourceName = "ResourceName"
             case resourceType = "ResourceType"
+            case scanResults = "ScanResults"
             case sourceBackupVaultArn = "SourceBackupVaultArn"
             case status = "Status"
             case statusMessage = "StatusMessage"
@@ -2826,6 +3044,10 @@ extension Backup {
         public let expectedCompletionTimeMinutes: Int64?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This is a boolean value indicating whether the restore job is a parent (composite) restore job.
+        public let isParent: Bool?
+        /// This is the unique identifier of the parent restore job for the selected restore job.
+        public let parentJobId: String?
         /// Contains an estimated percentage that is complete of a job at the time the job status was queried.
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -2848,7 +3070,7 @@ extension Backup {
         public let validationStatusMessage: String?
 
         @inlinable
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, sourceResourceArn: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, sourceResourceArn: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -2860,6 +3082,8 @@ extension Backup {
             self.deletionStatusMessage = deletionStatusMessage
             self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.recoveryPointCreationDate = recoveryPointCreationDate
@@ -2884,6 +3108,8 @@ extension Backup {
             case deletionStatusMessage = "DeletionStatusMessage"
             case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
             case iamRoleArn = "IamRoleArn"
+            case isParent = "IsParent"
+            case parentJobId = "ParentJobId"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case recoveryPointCreationDate = "RecoveryPointCreationDate"
@@ -2894,6 +3120,113 @@ extension Backup {
             case statusMessage = "StatusMessage"
             case validationStatus = "ValidationStatus"
             case validationStatusMessage = "ValidationStatusMessage"
+        }
+    }
+
+    public struct DescribeScanJobInput: AWSEncodableShape {
+        /// Uniquely identifies a request to Backup to scan a resource.
+        public let scanJobId: String
+
+        @inlinable
+        public init(scanJobId: String) {
+            self.scanJobId = scanJobId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.scanJobId, key: "ScanJobId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeScanJobOutput: AWSDecodableShape {
+        /// Returns the account ID that owns the scan job. Pattern: ^[0-9]{12}$
+        public let accountId: String
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault
+        public let backupVaultArn: String
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are  unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+        public let backupVaultName: String
+        /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let completionDate: Date?
+        public let createdBy: ScanJobCreator
+        /// The date and time that a backup index finished creation, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationDate: Date
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String
+        /// The scanning engine used for the corresponding scan job. Currently only GUARDUTY is supported.
+        public let malwareScanner: MalwareScanner
+        /// An ARN that uniquely identifies the target recovery point for scanning.; for example,  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+        /// An ARN that uniquely identifies the source resource of the corresponding recovery point ARN.
+        public let resourceArn: String
+        /// The non-unique name of the resource that belongs to the specified backup.
+        public let resourceName: String
+        /// The type of Amazon Web Services Resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume. Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+        public let resourceType: ScanResourceType
+        /// An ARN that uniquely identifies the base recovery point for scanning. This field will only be populated when an incremental scan job has taken place.
+        public let scanBaseRecoveryPointArn: String?
+        /// The scan ID generated by Amazon GuardDuty for the corresponding Scan Job ID request from Backup.
+        public let scanId: String?
+        /// The scan job ID that uniquely identified the request to Backup.
+        public let scanJobId: String
+        /// Specifies the scan type used for the scan job.
+        public let scanMode: ScanMode
+        /// Specifies the scanner IAM role ARN used to for the scan job.
+        public let scannerRoleArn: String
+        ///  Contains the ScanResultsStatus for the scanning job and returns THREATS_FOUND or NO_THREATS_FOUND for completed jobs.
+        public let scanResult: ScanResultInfo?
+        /// The current state of a scan job.
+        public let state: ScanState
+        /// A detailed message explaining the status of the job to back up a resource.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState, statusMessage: String? = nil) {
+            self.accountId = accountId
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.completionDate = completionDate
+            self.createdBy = createdBy
+            self.creationDate = creationDate
+            self.iamRoleArn = iamRoleArn
+            self.malwareScanner = malwareScanner
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+            self.scanId = scanId
+            self.scanJobId = scanJobId
+            self.scanMode = scanMode
+            self.scannerRoleArn = scannerRoleArn
+            self.scanResult = scanResult
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case completionDate = "CompletionDate"
+            case createdBy = "CreatedBy"
+            case creationDate = "CreationDate"
+            case iamRoleArn = "IamRoleArn"
+            case malwareScanner = "MalwareScanner"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+            case scanBaseRecoveryPointArn = "ScanBaseRecoveryPointArn"
+            case scanId = "ScanId"
+            case scanJobId = "ScanJobId"
+            case scanMode = "ScanMode"
+            case scannerRoleArn = "ScannerRoleArn"
+            case scanResult = "ScanResult"
+            case state = "State"
+            case statusMessage = "StatusMessage"
         }
     }
 
@@ -3709,6 +4042,42 @@ extension Backup {
         }
     }
 
+    public struct GetTieringConfigurationInput: AWSEncodableShape {
+        /// The unique name of a tiering configuration.
+        public let tieringConfigurationName: String
+
+        @inlinable
+        public init(tieringConfigurationName: String) {
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tieringConfigurationName, key: "TieringConfigurationName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tieringConfigurationName, name: "tieringConfigurationName", parent: name, pattern: "^[a-zA-Z0-9_]{1,200}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTieringConfigurationOutput: AWSDecodableShape {
+        /// Specifies the body of a tiering configuration. Includes TieringConfigurationName.
+        public let tieringConfiguration: TieringConfiguration?
+
+        @inlinable
+        public init(tieringConfiguration: TieringConfiguration? = nil) {
+            self.tieringConfiguration = tieringConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tieringConfiguration = "TieringConfiguration"
+        }
+    }
+
     public struct IndexAction: AWSEncodableShape & AWSDecodableShape {
         /// 0 or 1 index action will be accepted for each BackupRule. Valid values:    EBS for Amazon Elastic Block Store    S3 for Amazon Simple Storage Service (Amazon S3)
         public let resourceTypes: [String]?
@@ -3960,20 +4329,24 @@ extension Backup {
     public struct Lifecycle: AWSEncodableShape & AWSDecodableShape {
         /// The number of days after creation that a recovery point is deleted. This value must be at least 90 days after the number of days specified in MoveToColdStorageAfterDays.
         public let deleteAfterDays: Int64?
+        /// The event after which a recovery point is deleted. A recovery point with both DeleteAfterDays and DeleteAfterEvent will delete after whichever condition is satisfied first. Not valid as an input.
+        public let deleteAfterEvent: LifecycleDeleteAfterEvent?
         /// The number of days after creation that a recovery point is moved to cold storage.
         public let moveToColdStorageAfterDays: Int64?
         /// If the value is true, your backup plan transitions supported resources to  archive (cold) storage tier in accordance with your lifecycle settings.
         public let optInToArchiveForSupportedResources: Bool?
 
         @inlinable
-        public init(deleteAfterDays: Int64? = nil, moveToColdStorageAfterDays: Int64? = nil, optInToArchiveForSupportedResources: Bool? = nil) {
+        public init(deleteAfterDays: Int64? = nil, deleteAfterEvent: LifecycleDeleteAfterEvent? = nil, moveToColdStorageAfterDays: Int64? = nil, optInToArchiveForSupportedResources: Bool? = nil) {
             self.deleteAfterDays = deleteAfterDays
+            self.deleteAfterEvent = deleteAfterEvent
             self.moveToColdStorageAfterDays = moveToColdStorageAfterDays
             self.optInToArchiveForSupportedResources = optInToArchiveForSupportedResources
         }
 
         private enum CodingKeys: String, CodingKey {
             case deleteAfterDays = "DeleteAfterDays"
+            case deleteAfterEvent = "DeleteAfterEvent"
             case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
             case optInToArchiveForSupportedResources = "OptInToArchiveForSupportedResources"
         }
@@ -4501,6 +4874,8 @@ extension Backup {
         public let byResourceArn: String?
         /// Returns only backup jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
+        /// Filters copy jobs by the specified source recovery point ARN.
+        public let bySourceRecoveryPointArn: String?
         /// Returns only copy jobs that are in the specified state.
         public let byState: CopyJobState?
         /// The maximum number of items to be returned.
@@ -4509,7 +4884,7 @@ extension Backup {
         public let nextToken: String?
 
         @inlinable
-        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byMessageCategory: String? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byMessageCategory: String? = nil, byParentJobId: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, bySourceRecoveryPointArn: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCompleteAfter = byCompleteAfter
             self.byCompleteBefore = byCompleteBefore
@@ -4520,6 +4895,7 @@ extension Backup {
             self.byParentJobId = byParentJobId
             self.byResourceArn = byResourceArn
             self.byResourceType = byResourceType
+            self.bySourceRecoveryPointArn = bySourceRecoveryPointArn
             self.byState = byState
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -4538,6 +4914,7 @@ extension Backup {
             request.encodeQuery(self.byParentJobId, key: "parentJobId")
             request.encodeQuery(self.byResourceArn, key: "resourceArn")
             request.encodeQuery(self.byResourceType, key: "resourceType")
+            request.encodeQuery(self.bySourceRecoveryPointArn, key: "sourceRecoveryPointArn")
             request.encodeQuery(self.byState, key: "state")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -5016,7 +5393,7 @@ extension Backup {
         public let byCreationBefore: Date?
         /// Returns only report jobs with the specified report plan name.
         public let byReportPlanName: String?
-        /// Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED
+        /// Returns only report jobs that are in the specified status. The statuses are:  CREATED | RUNNING | COMPLETED | FAILED | COMPLETED_WITH_ISSUES  Please note that only scanning jobs finish with state completed with issues.  For backup jobs this is a console interpretation of a job that finishes in  completed state and has a status message.
         public let byStatus: String?
         /// The number of desired results from 1 to 1000. Optional. If unspecified, the query will return 1 MB of data.
         public let maxResults: Int?
@@ -5307,6 +5684,8 @@ extension Backup {
         public let byCreatedAfter: Date?
         /// Returns only restore jobs that were created before the specified date.
         public let byCreatedBefore: Date?
+        /// This is a filter to list child (nested) restore jobs based on parent restore job ID.
+        public let byParentJobId: String?
         /// Include this parameter to return only restore jobs for the specified resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Redshift for Amazon Redshift    S3 for Amazon Simple Storage Service (Amazon S3)    SAP HANA on Amazon EC2 for SAP HANA databases  on Amazon Elastic Compute Cloud instances    Storage Gateway for Storage Gateway    Timestream for Amazon Timestream    VirtualMachine for VMware virtual machines
         public let byResourceType: String?
         /// This returns only restore testing jobs that match the  specified resource Amazon Resource Name (ARN).
@@ -5319,12 +5698,13 @@ extension Backup {
         public let nextToken: String?
 
         @inlinable
-        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceType: String? = nil, byRestoreTestingPlanArn: String? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byParentJobId: String? = nil, byResourceType: String? = nil, byRestoreTestingPlanArn: String? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byCompleteAfter = byCompleteAfter
             self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
+            self.byParentJobId = byParentJobId
             self.byResourceType = byResourceType
             self.byRestoreTestingPlanArn = byRestoreTestingPlanArn
             self.byStatus = byStatus
@@ -5340,6 +5720,7 @@ extension Backup {
             request.encodeQuery(self.byCompleteBefore, key: "completeBefore")
             request.encodeQuery(self.byCreatedAfter, key: "createdAfter")
             request.encodeQuery(self.byCreatedBefore, key: "createdBefore")
+            request.encodeQuery(self.byParentJobId, key: "parentJobId")
             request.encodeQuery(self.byResourceType, key: "resourceType")
             request.encodeQuery(self.byRestoreTestingPlanArn, key: "restoreTestingPlanArn")
             request.encodeQuery(self.byStatus, key: "status")
@@ -5469,6 +5850,166 @@ extension Backup {
         }
     }
 
+    public struct ListScanJobSummariesInput: AWSEncodableShape {
+        /// Returns the job count for the specified account. If the request is sent from a member account or an account not part of Amazon Web Services Organizations, jobs within requestor's account will be returned. Root, admin, and delegated administrator accounts can use the value ANY to return job counts from every account in the organization.  AGGREGATE_ALL aggregates job counts from all accounts within the authenticated organization, then returns the sum.
+        public let accountId: String?
+        /// The period for the returned results.    ONE_DAYThe daily job count for the prior 1 day.    SEVEN_DAYSThe daily job count for the prior 7 days.    FOURTEEN_DAYSThe daily job count for the prior 14 days.
+        public let aggregationPeriod: AggregationPeriod?
+        /// Returns only the scan jobs for the specified malware scanner.  Currently the only MalwareScanner is GUARDDUTY. But the field also supports ANY, and AGGREGATE_ALL.
+        public let malwareScanner: MalwareScanner?
+        /// The maximum number of items to be returned. The value is an integer. Range of accepted values is from 1 to 500.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// Returns the job count for the specified resource type. Use request  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource types and returns the sum.
+        public let resourceType: String?
+        /// Returns only the scan jobs for the specified scan results.
+        public let scanResultStatus: ScanResultStatus?
+        /// Returns only the scan jobs for the specified scanning job state.
+        public let state: ScanJobStatus?
+
+        @inlinable
+        public init(accountId: String? = nil, aggregationPeriod: AggregationPeriod? = nil, malwareScanner: MalwareScanner? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil, scanResultStatus: ScanResultStatus? = nil, state: ScanJobStatus? = nil) {
+            self.accountId = accountId
+            self.aggregationPeriod = aggregationPeriod
+            self.malwareScanner = malwareScanner
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+            self.scanResultStatus = scanResultStatus
+            self.state = state
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.accountId, key: "AccountId")
+            request.encodeQuery(self.aggregationPeriod, key: "AggregationPeriod")
+            request.encodeQuery(self.malwareScanner, key: "MalwareScanner")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            request.encodeQuery(self.resourceType, key: "ResourceType")
+            request.encodeQuery(self.scanResultStatus, key: "ScanResultStatus")
+            request.encodeQuery(self.state, key: "State")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScanJobSummariesOutput: AWSDecodableShape {
+        /// The period for the returned results.    ONE_DAYThe daily job count for the prior 1 day.    SEVEN_DAYSThe daily job count for the prior 7 days.    FOURTEEN_DAYSThe daily job count for the prior 14 days.   Valid Values: 'ONE_DAY' | 'SEVEN_DAYS' | 'FOURTEEN_DAYS'
+        public let aggregationPeriod: String?
+        /// The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// The summary information.
+        public let scanJobSummaries: [ScanJobSummary]?
+
+        @inlinable
+        public init(aggregationPeriod: String? = nil, nextToken: String? = nil, scanJobSummaries: [ScanJobSummary]? = nil) {
+            self.aggregationPeriod = aggregationPeriod
+            self.nextToken = nextToken
+            self.scanJobSummaries = scanJobSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregationPeriod = "AggregationPeriod"
+            case nextToken = "NextToken"
+            case scanJobSummaries = "ScanJobSummaries"
+        }
+    }
+
+    public struct ListScanJobsInput: AWSEncodableShape {
+        /// The account ID to list the jobs from. Returns only backup jobs associated with the specified account ID. If used from an Amazon Web Services Organizations management account, passing * returns all jobs across the organization. Pattern: ^[0-9]{12}$
+        public let byAccountId: String?
+        /// Returns only scan jobs that will be stored in the specified backup vault.  Backup vaults are identified by names that are unique to the account  used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_\.]{2,50}$
+        public let byBackupVaultName: String?
+        /// Returns only scan jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteAfter: Date?
+        /// Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteBefore: Date?
+        /// Returns only the scan jobs for the specified malware scanner. Currently only supports GUARDDUTY.
+        public let byMalwareScanner: MalwareScanner?
+        /// Returns only the scan jobs that are ran against the specified recovery point.
+        public let byRecoveryPointArn: String?
+        /// Returns only scan jobs that match the specified resource Amazon Resource Name (ARN).
+        public let byResourceArn: String?
+        /// Returns restore testing selections by the specified restore testing  plan name.    EBSfor Amazon Elastic Block Store    EC2for Amazon Elastic Compute Cloud    S3for Amazon Simple Storage Service (Amazon S3)   Pattern: ^[a-zA-Z0-9\-\_\.]{1,50}$
+        public let byResourceType: ScanResourceType?
+        /// Returns only the scan jobs for the specified scan results:    THREATS_FOUND     NO_THREATS_FOUND
+        public let byScanResultStatus: ScanResultStatus?
+        /// Returns only the scan jobs for the specified scanning job state.
+        public let byState: ScanState?
+        /// The maximum number of items to be returned. Valid Range: Minimum value of 1. Maximum value of 1000.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byMalwareScanner: MalwareScanner? = nil, byRecoveryPointArn: String? = nil, byResourceArn: String? = nil, byResourceType: ScanResourceType? = nil, byScanResultStatus: ScanResultStatus? = nil, byState: ScanState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.byAccountId = byAccountId
+            self.byBackupVaultName = byBackupVaultName
+            self.byCompleteAfter = byCompleteAfter
+            self.byCompleteBefore = byCompleteBefore
+            self.byMalwareScanner = byMalwareScanner
+            self.byRecoveryPointArn = byRecoveryPointArn
+            self.byResourceArn = byResourceArn
+            self.byResourceType = byResourceType
+            self.byScanResultStatus = byScanResultStatus
+            self.byState = byState
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.byAccountId, key: "ByAccountId")
+            request.encodeQuery(self.byBackupVaultName, key: "ByBackupVaultName")
+            request.encodeQuery(self.byCompleteAfter, key: "ByCompleteAfter")
+            request.encodeQuery(self.byCompleteBefore, key: "ByCompleteBefore")
+            request.encodeQuery(self.byMalwareScanner, key: "ByMalwareScanner")
+            request.encodeQuery(self.byRecoveryPointArn, key: "ByRecoveryPointArn")
+            request.encodeQuery(self.byResourceArn, key: "ByResourceArn")
+            request.encodeQuery(self.byResourceType, key: "ByResourceType")
+            request.encodeQuery(self.byScanResultStatus, key: "ByScanResultStatus")
+            request.encodeQuery(self.byState, key: "ByState")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListScanJobsOutput: AWSDecodableShape {
+        /// The next item following a partial list of returned items. For example, if a request is made to  return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// An array of structures containing metadata about your scan jobs returned in JSON format.
+        public let scanJobs: [ScanJob]
+
+        @inlinable
+        public init(nextToken: String? = nil, scanJobs: [ScanJob]) {
+            self.nextToken = nextToken
+            self.scanJobs = scanJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case scanJobs = "ScanJobs"
+        }
+    }
+
     public struct ListTagsInput: AWSEncodableShape {
         /// The maximum number of items to be returned.
         public let maxResults: Int?
@@ -5515,6 +6056,51 @@ extension Backup {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTieringConfigurationsInput: AWSEncodableShape {
+        /// The maximum number of items to be returned.
+        public let maxResults: Int?
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTieringConfigurationsOutput: AWSDecodableShape {
+        /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
+        public let nextToken: String?
+        /// An array of tiering configurations returned by the ListTieringConfigurations call.
+        public let tieringConfigurations: [TieringConfigurationsListMember]?
+
+        @inlinable
+        public init(nextToken: String? = nil, tieringConfigurations: [TieringConfigurationsListMember]? = nil) {
+            self.nextToken = nextToken
+            self.tieringConfigurations = tieringConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case tieringConfigurations = "TieringConfigurations"
         }
     }
 
@@ -5721,6 +6307,8 @@ extension Backup {
     }
 
     public struct RecoveryPointByBackupVault: AWSDecodableShape {
+        /// Contains the latest scanning results against the recovery point and currently include  FailedScan, Findings, LastComputed.
+        public let aggregatedScanResult: AggregatedScanResult?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
         /// An ARN that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
@@ -5739,6 +6327,8 @@ extension Backup {
         public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public let encryptionKeyType: EncryptionKeyType?
         /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
         /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
@@ -5775,7 +6365,8 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+        public init(aggregatedScanResult: AggregatedScanResult? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, calculatedLifecycle: CalculatedLifecycle? = nil, completionDate: Date? = nil, compositeMemberIdentifier: String? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, encryptionKeyType: EncryptionKeyType? = nil, iamRoleArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, initiationDate: Date? = nil, isEncrypted: Bool? = nil, isParent: Bool? = nil, lastRestoreTime: Date? = nil, lifecycle: Lifecycle? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceName: String? = nil, resourceType: String? = nil, sourceBackupVaultArn: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+            self.aggregatedScanResult = aggregatedScanResult
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
@@ -5785,6 +6376,7 @@ extension Backup {
             self.createdBy = createdBy
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.iamRoleArn = iamRoleArn
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
@@ -5805,6 +6397,7 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregatedScanResult = "AggregatedScanResult"
             case backupSizeInBytes = "BackupSizeInBytes"
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
@@ -5814,6 +6407,7 @@ extension Backup {
             case createdBy = "CreatedBy"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case encryptionKeyType = "EncryptionKeyType"
             case iamRoleArn = "IamRoleArn"
             case indexStatus = "IndexStatus"
             case indexStatusMessage = "IndexStatusMessage"
@@ -5835,6 +6429,8 @@ extension Backup {
     }
 
     public struct RecoveryPointByResource: AWSDecodableShape {
+        /// Contains the latest scanning results against the recovery point and currently include  FailedScan, Findings, LastComputed.
+        public let aggregatedScanResult: AggregatedScanResult?
         /// The size, in bytes, of a backup.
         public let backupSizeBytes: Int64?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
@@ -5843,6 +6439,8 @@ extension Backup {
         public let creationDate: Date?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
+        /// The type of encryption key used for the recovery point. Valid values are CUSTOMER_MANAGED_KMS_KEY for customer-managed keys or Amazon Web Services_OWNED_KMS_KEY for Amazon Web Services-owned keys.
+        public let encryptionKeyType: EncryptionKeyType?
         /// This is the current status for the backup index associated  with the specified recovery point. Statuses are: PENDING | ACTIVE | FAILED | DELETING  A recovery point with an index that has the status of ACTIVE  can be included in a search.
         public let indexStatus: IndexStatus?
         /// A string in the form of a detailed message explaining the status of a backup index associated with the recovery point.
@@ -5863,11 +6461,13 @@ extension Backup {
         public let vaultType: VaultType?
 
         @inlinable
-        public init(backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+        public init(aggregatedScanResult: AggregatedScanResult? = nil, backupSizeBytes: Int64? = nil, backupVaultName: String? = nil, creationDate: Date? = nil, encryptionKeyArn: String? = nil, encryptionKeyType: EncryptionKeyType? = nil, indexStatus: IndexStatus? = nil, indexStatusMessage: String? = nil, isParent: Bool? = nil, parentRecoveryPointArn: String? = nil, recoveryPointArn: String? = nil, resourceName: String? = nil, status: RecoveryPointStatus? = nil, statusMessage: String? = nil, vaultType: VaultType? = nil) {
+            self.aggregatedScanResult = aggregatedScanResult
             self.backupSizeBytes = backupSizeBytes
             self.backupVaultName = backupVaultName
             self.creationDate = creationDate
             self.encryptionKeyArn = encryptionKeyArn
+            self.encryptionKeyType = encryptionKeyType
             self.indexStatus = indexStatus
             self.indexStatusMessage = indexStatusMessage
             self.isParent = isParent
@@ -5880,10 +6480,12 @@ extension Backup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregatedScanResult = "AggregatedScanResult"
             case backupSizeBytes = "BackupSizeBytes"
             case backupVaultName = "BackupVaultName"
             case creationDate = "CreationDate"
             case encryptionKeyArn = "EncryptionKeyArn"
+            case encryptionKeyType = "EncryptionKeyType"
             case indexStatus = "IndexStatus"
             case indexStatusMessage = "IndexStatusMessage"
             case isParent = "IsParent"
@@ -6124,7 +6726,7 @@ extension Backup {
         public let organizationUnits: [String]?
         /// These are the Regions to be included in the report. Use the wildcard as the string value to include all Regions.
         public let regions: [String]?
-        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT
+        /// Identifies the report template for the report. Reports are built using a report template. The report templates are:  RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT | BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT | SCAN_JOB_REPORT
         public let reportTemplate: String
 
         @inlinable
@@ -6166,6 +6768,34 @@ extension Backup {
             case context = "Context"
             case message = "Message"
             case type = "Type"
+        }
+    }
+
+    public struct ResourceSelection: AWSEncodableShape & AWSDecodableShape {
+        /// An array of strings that either contains ARNs of the associated resources or contains a wildcard * to specify all resources. You can specify up to 100 specific resources per tiering configuration.
+        public let resources: [String]
+        /// The type of Amazon Web Services resource; for example, S3 for Amazon S3. For tiering configurations, this is currently limited to S3.
+        public let resourceType: String
+        /// The number of days after creation within a backup vault that an object can transition to the low cost warm storage tier. Must be a positive integer between 60 and 36500 days.
+        public let tieringDownSettingsInDays: Int
+
+        @inlinable
+        public init(resources: [String], resourceType: String, tieringDownSettingsInDays: Int) {
+            self.resources = resources
+            self.resourceType = resourceType
+            self.tieringDownSettingsInDays = tieringDownSettingsInDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.validate(self.tieringDownSettingsInDays, name: "tieringDownSettingsInDays", parent: name, max: 36500)
+            try self.validate(self.tieringDownSettingsInDays, name: "tieringDownSettingsInDays", parent: name, min: 60)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resources = "Resources"
+            case resourceType = "ResourceType"
+            case tieringDownSettingsInDays = "TieringDownSettingsInDays"
         }
     }
 
@@ -6274,6 +6904,10 @@ extension Backup {
         public let expectedCompletionTimeMinutes: Int64?
         /// The IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
+        /// This is a boolean value indicating whether the restore job is a parent (composite) restore job.
+        public let isParent: Bool?
+        /// This is the unique identifier of the parent restore job for the selected restore job.
+        public let parentJobId: String?
         /// Contains an estimated percentage complete of a job at the time the job status was queried.
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
@@ -6296,7 +6930,7 @@ extension Backup {
         public let validationStatusMessage: String?
 
         @inlinable
-        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, sourceResourceArn: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, completionDate: Date? = nil, createdBy: RestoreJobCreator? = nil, createdResourceArn: String? = nil, creationDate: Date? = nil, deletionStatus: RestoreDeletionStatus? = nil, deletionStatusMessage: String? = nil, expectedCompletionTimeMinutes: Int64? = nil, iamRoleArn: String? = nil, isParent: Bool? = nil, parentJobId: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, recoveryPointCreationDate: Date? = nil, resourceType: String? = nil, restoreJobId: String? = nil, sourceResourceArn: String? = nil, status: RestoreJobStatus? = nil, statusMessage: String? = nil, validationStatus: RestoreValidationStatus? = nil, validationStatusMessage: String? = nil) {
             self.accountId = accountId
             self.backupSizeInBytes = backupSizeInBytes
             self.backupVaultArn = backupVaultArn
@@ -6308,6 +6942,8 @@ extension Backup {
             self.deletionStatusMessage = deletionStatusMessage
             self.expectedCompletionTimeMinutes = expectedCompletionTimeMinutes
             self.iamRoleArn = iamRoleArn
+            self.isParent = isParent
+            self.parentJobId = parentJobId
             self.percentDone = percentDone
             self.recoveryPointArn = recoveryPointArn
             self.recoveryPointCreationDate = recoveryPointCreationDate
@@ -6332,6 +6968,8 @@ extension Backup {
             case deletionStatusMessage = "DeletionStatusMessage"
             case expectedCompletionTimeMinutes = "ExpectedCompletionTimeMinutes"
             case iamRoleArn = "IamRoleArn"
+            case isParent = "IsParent"
+            case parentJobId = "ParentJobId"
             case percentDone = "PercentDone"
             case recoveryPointArn = "RecoveryPointArn"
             case recoveryPointCreationDate = "RecoveryPointCreationDate"
@@ -6534,7 +7172,7 @@ extension Backup {
         public let protectedResourceType: String
         /// You can override certain restore metadata keys by including the parameter RestoreMetadataOverrides in the body of RestoreTestingSelection. Key values are not case sensitive. See the complete list of restore testing inferred metadata.
         public let restoreMetadataOverrides: [String: String]?
-        /// The unique name of the restore testing selection  that belongs to the related restore testing plan.
+        /// The unique name of the restore testing selection  that belongs to the related restore testing plan. The name consists of only alphanumeric characters and underscores.  Maximum length is 50.
         public let restoreTestingSelectionName: String
         /// This is amount of hours (0 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
@@ -6578,7 +7216,7 @@ extension Backup {
         public let restoreMetadataOverrides: [String: String]?
         /// The RestoreTestingPlanName is a unique string that is the name  of the restore testing plan.
         public let restoreTestingPlanName: String
-        /// The unique name of the restore testing selection that  belongs to the related restore testing plan.
+        /// The unique name of the restore testing selection that  belongs to the related restore testing plan. The name consists of only alphanumeric characters and underscores.  Maximum length is 50.
         public let restoreTestingSelectionName: String
         /// This is amount of hours (1 to 168) available to run a validation script on the data. The data will be deleted upon the completion of the validation script or the end of the specified retention period, whichever comes first.
         public let validationWindowHours: Int?
@@ -6620,7 +7258,7 @@ extension Backup {
         public let protectedResourceType: String
         /// Unique string that is the name of the restore testing plan. The name cannot be changed after creation. The name must  consist of only alphanumeric characters and underscores.  Maximum length is 50.
         public let restoreTestingPlanName: String
-        /// Unique name of a restore testing selection.
+        /// Unique name of a restore testing selection. The name consists of only alphanumeric characters and underscores.  Maximum length is 50.
         public let restoreTestingSelectionName: String
         /// This value represents the time, in hours, data is retained after  a restore test so that optional validation can be completed. Accepted value is an integer between  0 and 168 (the hourly equivalent of seven days).
         public let validationWindowHours: Int?
@@ -6705,6 +7343,254 @@ extension Backup {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ScanAction: AWSEncodableShape & AWSDecodableShape {
+        /// The malware scanner to use for the scan action. Currently only GUARDDUTY is supported.
+        public let malwareScanner: MalwareScanner?
+        /// The scanning mode to use for the scan action. Valid values: FULL_SCAN | INCREMENTAL_SCAN.
+        public let scanMode: ScanMode?
+
+        @inlinable
+        public init(malwareScanner: MalwareScanner? = nil, scanMode: ScanMode? = nil) {
+            self.malwareScanner = malwareScanner
+            self.scanMode = scanMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareScanner = "MalwareScanner"
+            case scanMode = "ScanMode"
+        }
+    }
+
+    public struct ScanJob: AWSDecodableShape {
+        /// The account ID that owns the scan job.
+        public let accountId: String
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:backup-vault:aBackupVault.
+        public let backupVaultArn: String
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created.
+        public let backupVaultName: String
+        /// The date and time that a scan job is completed, in Unix format and Coordinated Universal Time (UTC). The value of CompletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let completionDate: Date?
+        /// Contains identifying information about the creation of a scan job.
+        public let createdBy: ScanJobCreator
+        /// The date and time that a scan job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationDate: Date
+        /// Specifies the IAM role ARN used to create the scan job; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String
+        /// The scanning engine used for the scan job. Currently only GUARDDUTY is supported.
+        public let malwareScanner: MalwareScanner
+        /// An ARN that uniquely identifies the recovery point being scanned; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+        public let recoveryPointArn: String
+        /// An ARN that uniquely identifies the source resource of the recovery point being scanned.
+        public let resourceArn: String
+        /// The non-unique name of the resource that belongs to the specified backup.
+        public let resourceName: String
+        /// The type of Amazon Web Services resource being scanned; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        public let resourceType: ScanResourceType
+        /// An ARN that uniquely identifies the base recovery point for scanning. This field is populated when an incremental scan job has taken place.
+        public let scanBaseRecoveryPointArn: String?
+        /// The scan ID generated by the malware scanner for the corresponding scan job.
+        public let scanId: String?
+        /// The unique identifier that identifies the scan job request to Backup.
+        public let scanJobId: String
+        /// Specifies the scan type use for the scan job. Includes:  FULL_SCAN will scan the entire data lineage within the backup.  INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN.
+        public let scanMode: ScanMode
+        /// Specifies the scanner IAM role ARN used for the scan job.
+        public let scannerRoleArn: String
+        /// Contains the scan results information, including the status of threats found during scanning.
+        public let scanResult: ScanResultInfo?
+        /// The current state of the scan job. Valid values: CREATED | RUNNING | COMPLETED |  COMPLETED_WITH_ISSUES | FAILED | CANCELED.
+        public let state: ScanState?
+        /// A detailed message explaining the status of the scan job.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(accountId: String, backupVaultArn: String, backupVaultName: String, completionDate: Date? = nil, createdBy: ScanJobCreator, creationDate: Date, iamRoleArn: String, malwareScanner: MalwareScanner, recoveryPointArn: String, resourceArn: String, resourceName: String, resourceType: ScanResourceType, scanBaseRecoveryPointArn: String? = nil, scanId: String? = nil, scanJobId: String, scanMode: ScanMode, scannerRoleArn: String, scanResult: ScanResultInfo? = nil, state: ScanState? = nil, statusMessage: String? = nil) {
+            self.accountId = accountId
+            self.backupVaultArn = backupVaultArn
+            self.backupVaultName = backupVaultName
+            self.completionDate = completionDate
+            self.createdBy = createdBy
+            self.creationDate = creationDate
+            self.iamRoleArn = iamRoleArn
+            self.malwareScanner = malwareScanner
+            self.recoveryPointArn = recoveryPointArn
+            self.resourceArn = resourceArn
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+            self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+            self.scanId = scanId
+            self.scanJobId = scanJobId
+            self.scanMode = scanMode
+            self.scannerRoleArn = scannerRoleArn
+            self.scanResult = scanResult
+            self.state = state
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case backupVaultArn = "BackupVaultArn"
+            case backupVaultName = "BackupVaultName"
+            case completionDate = "CompletionDate"
+            case createdBy = "CreatedBy"
+            case creationDate = "CreationDate"
+            case iamRoleArn = "IamRoleArn"
+            case malwareScanner = "MalwareScanner"
+            case recoveryPointArn = "RecoveryPointArn"
+            case resourceArn = "ResourceArn"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+            case scanBaseRecoveryPointArn = "ScanBaseRecoveryPointArn"
+            case scanId = "ScanId"
+            case scanJobId = "ScanJobId"
+            case scanMode = "ScanMode"
+            case scannerRoleArn = "ScannerRoleArn"
+            case scanResult = "ScanResult"
+            case state = "State"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ScanJobCreator: AWSDecodableShape {
+        /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
+        public let backupPlanArn: String
+        /// The ID of the backup plan.
+        public let backupPlanId: String
+        /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
+        public let backupPlanVersion: String
+        /// Uniquely identifies the backup rule that initiated the scan job.
+        public let backupRuleId: String
+
+        @inlinable
+        public init(backupPlanArn: String, backupPlanId: String, backupPlanVersion: String, backupRuleId: String) {
+            self.backupPlanArn = backupPlanArn
+            self.backupPlanId = backupPlanId
+            self.backupPlanVersion = backupPlanVersion
+            self.backupRuleId = backupRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupPlanArn = "BackupPlanArn"
+            case backupPlanId = "BackupPlanId"
+            case backupPlanVersion = "BackupPlanVersion"
+            case backupRuleId = "BackupRuleId"
+        }
+    }
+
+    public struct ScanJobSummary: AWSDecodableShape {
+        /// The account ID that owns the scan jobs included in this summary.
+        public let accountId: String?
+        /// The number of scan jobs that match the specified criteria.
+        public let count: Int?
+        /// The value of time in number format of a job end time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let endTime: Date?
+        /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
+        public let malwareScanner: MalwareScanner?
+        /// The Amazon Web Services Region where the scan jobs were executed.
+        public let region: String?
+        /// The type of Amazon Web Services resource for the scan jobs included in this summary.
+        public let resourceType: String?
+        /// The scan result status for the scan jobs included in this summary. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        public let scanResultStatus: ScanResultStatus?
+        /// The value of time in number format of a job start time. This value is the time in Unix format, Coordinated Universal Time (UTC), and accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let startTime: Date?
+        /// The state of the scan jobs included in this summary. Valid values: CREATED | RUNNING | COMPLETED |  COMPLETED_WITH_ISSUES | FAILED | CANCELED.
+        public let state: ScanJobStatus?
+
+        @inlinable
+        public init(accountId: String? = nil, count: Int? = nil, endTime: Date? = nil, malwareScanner: MalwareScanner? = nil, region: String? = nil, resourceType: String? = nil, scanResultStatus: ScanResultStatus? = nil, startTime: Date? = nil, state: ScanJobStatus? = nil) {
+            self.accountId = accountId
+            self.count = count
+            self.endTime = endTime
+            self.malwareScanner = malwareScanner
+            self.region = region
+            self.resourceType = resourceType
+            self.scanResultStatus = scanResultStatus
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case count = "Count"
+            case endTime = "EndTime"
+            case malwareScanner = "MalwareScanner"
+            case region = "Region"
+            case resourceType = "ResourceType"
+            case scanResultStatus = "ScanResultStatus"
+            case startTime = "StartTime"
+            case state = "State"
+        }
+    }
+
+    public struct ScanResult: AWSDecodableShape {
+        /// An array of findings discovered during the scan.
+        public let findings: [ScanFinding]?
+        /// The timestamp of when the last scan was performed, in Unix format and Coordinated Universal Time (UTC).
+        public let lastScanTimestamp: Date?
+        /// The malware scanner used to perform the scan. Currently only GUARDDUTY is supported.
+        public let malwareScanner: MalwareScanner?
+        /// The final state of the scan job. Valid values: COMPLETED | FAILED | CANCELED.
+        public let scanJobState: ScanJobState?
+
+        @inlinable
+        public init(findings: [ScanFinding]? = nil, lastScanTimestamp: Date? = nil, malwareScanner: MalwareScanner? = nil, scanJobState: ScanJobState? = nil) {
+            self.findings = findings
+            self.lastScanTimestamp = lastScanTimestamp
+            self.malwareScanner = malwareScanner
+            self.scanJobState = scanJobState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findings = "Findings"
+            case lastScanTimestamp = "LastScanTimestamp"
+            case malwareScanner = "MalwareScanner"
+            case scanJobState = "ScanJobState"
+        }
+    }
+
+    public struct ScanResultInfo: AWSDecodableShape {
+        /// The status of the scan results. Valid values: THREATS_FOUND | NO_THREATS_FOUND.
+        public let scanResultStatus: ScanResultStatus
+
+        @inlinable
+        public init(scanResultStatus: ScanResultStatus) {
+            self.scanResultStatus = scanResultStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scanResultStatus = "ScanResultStatus"
+        }
+    }
+
+    public struct ScanSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The malware scanner to use for scanning. Currently only GUARDDUTY is supported.
+        public let malwareScanner: MalwareScanner?
+        /// An array of resource types to be scanned for malware.
+        public let resourceTypes: [String]?
+        /// The Amazon Resource Name (ARN) of the IAM role that the scanner uses to access resources; for example, arn:aws:iam::123456789012:role/ScannerRole.
+        public let scannerRoleArn: String?
+
+        @inlinable
+        public init(malwareScanner: MalwareScanner? = nil, resourceTypes: [String]? = nil, scannerRoleArn: String? = nil) {
+            self.malwareScanner = malwareScanner
+            self.resourceTypes = resourceTypes
+            self.scannerRoleArn = scannerRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.resourceTypes?.forEach {
+                try validate($0, name: "resourceTypes[]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case malwareScanner = "MalwareScanner"
+            case resourceTypes = "ResourceTypes"
+            case scannerRoleArn = "ScannerRoleArn"
+        }
+    }
+
     public struct ScheduledPlanExecutionMember: AWSDecodableShape {
         /// The timestamp when the backup is scheduled to run, in Unix format and Coordinated Universal Time (UTC). The value is accurate to milliseconds.
         public let executionTime: Date?
@@ -6764,6 +7650,8 @@ extension Backup {
         public let index: Index?
         /// The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup will transition and expire backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold.  Resource types that can transition to cold storage are listed in the Feature  availability by resource table. Backup ignores this expression for other resource types. This parameter has a maximum value of 100 years (36,500 days).
         public let lifecycle: Lifecycle?
+        /// The ARN of a logically air-gapped vault. ARN must be in the same account and Region. If provided, supported fully managed resources back up directly to logically air-gapped vault, while other supported resources create a temporary (billable) snapshot in backup vault, then copy it to logically air-gapped vault. Unsupported resources only back up to the specified backup vault.
+        public let logicallyAirGappedBackupVaultArn: String?
         /// The tags to assign to the resources.
         public let recoveryPointTags: [String: String]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
@@ -6772,7 +7660,7 @@ extension Backup {
         public let startWindowMinutes: Int64?
 
         @inlinable
-        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = StartBackupJobInput.idempotencyToken(), index: Index? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
+        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = StartBackupJobInput.idempotencyToken(), index: Index? = nil, lifecycle: Lifecycle? = nil, logicallyAirGappedBackupVaultArn: String? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
             self.backupOptions = backupOptions
             self.backupVaultName = backupVaultName
             self.completeWindowMinutes = completeWindowMinutes
@@ -6780,6 +7668,7 @@ extension Backup {
             self.idempotencyToken = idempotencyToken
             self.index = index
             self.lifecycle = lifecycle
+            self.logicallyAirGappedBackupVaultArn = logicallyAirGappedBackupVaultArn
             self.recoveryPointTags = recoveryPointTags
             self.resourceArn = resourceArn
             self.startWindowMinutes = startWindowMinutes
@@ -6801,6 +7690,7 @@ extension Backup {
             case idempotencyToken = "IdempotencyToken"
             case index = "Index"
             case lifecycle = "Lifecycle"
+            case logicallyAirGappedBackupVaultArn = "LogicallyAirGappedBackupVaultArn"
             case recoveryPointTags = "RecoveryPointTags"
             case resourceArn = "ResourceArn"
             case startWindowMinutes = "StartWindowMinutes"
@@ -6988,6 +7878,66 @@ extension Backup {
         }
     }
 
+    public struct StartScanJobInput: AWSEncodableShape {
+        /// The name of a logical container where backups are stored. Backup vaults are identified by names that  are unique to the account used to create them and the Amazon Web Services Region where they are created. Pattern: ^[a-zA-Z0-9\-\_]{2,50}$
+        public let backupVaultName: String
+        /// Specifies the IAM role ARN used to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
+        public let iamRoleArn: String
+        /// A customer-chosen string that you can use to distinguish between otherwise identical calls to StartScanJob. Retrying a successful request with the same idempotency token results in a success message with no action taken.
+        public let idempotencyToken: String?
+        /// Specifies the malware scanner used during the scan job. Currently only supports GUARDDUTY.
+        public let malwareScanner: MalwareScanner
+        /// An Amazon Resource Name (ARN) that uniquely identifies a recovery point. This is your target recovery point for a full scan.  If you are running an incremental scan, this will be your a recovery point which has been created after your base recovery point selection.
+        public let recoveryPointArn: String
+        /// An ARN that uniquely identifies the base recovery point to be used for incremental scanning.
+        public let scanBaseRecoveryPointArn: String?
+        /// Specifies the scan type use for the scan job. Includes:    FULL_SCAN will scan the entire data lineage within the backup.    INCREMENTAL_SCAN will scan the data difference between the target recovery point and base recovery point ARN.
+        public let scanMode: ScanMode
+        /// Specified the IAM scanner role ARN.
+        public let scannerRoleArn: String
+
+        @inlinable
+        public init(backupVaultName: String, iamRoleArn: String, idempotencyToken: String? = nil, malwareScanner: MalwareScanner, recoveryPointArn: String, scanBaseRecoveryPointArn: String? = nil, scanMode: ScanMode, scannerRoleArn: String) {
+            self.backupVaultName = backupVaultName
+            self.iamRoleArn = iamRoleArn
+            self.idempotencyToken = idempotencyToken
+            self.malwareScanner = malwareScanner
+            self.recoveryPointArn = recoveryPointArn
+            self.scanBaseRecoveryPointArn = scanBaseRecoveryPointArn
+            self.scanMode = scanMode
+            self.scannerRoleArn = scannerRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case iamRoleArn = "IamRoleArn"
+            case idempotencyToken = "IdempotencyToken"
+            case malwareScanner = "MalwareScanner"
+            case recoveryPointArn = "RecoveryPointArn"
+            case scanBaseRecoveryPointArn = "ScanBaseRecoveryPointArn"
+            case scanMode = "ScanMode"
+            case scannerRoleArn = "ScannerRoleArn"
+        }
+    }
+
+    public struct StartScanJobOutput: AWSDecodableShape {
+        /// The date and time that a backup job is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        public let creationDate: Date
+        /// Uniquely identifies a request to Backup to back up a resource.
+        public let scanJobId: String
+
+        @inlinable
+        public init(creationDate: Date, scanJobId: String) {
+            self.creationDate = creationDate
+            self.scanJobId = scanJobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case scanJobId = "ScanJobId"
+        }
+    }
+
     public struct StopBackupJobInput: AWSEncodableShape {
         /// Uniquely identifies a request to Backup to back up a resource.
         public let backupJobId: String
@@ -7027,6 +7977,129 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct TieringConfiguration: AWSDecodableShape {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        public let backupVaultName: String
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let creationTime: Date?
+        /// This is a unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        public let creatorRequestId: String?
+        /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let lastUpdatedTime: Date?
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        public let resourceSelection: [ResourceSelection]
+        /// An Amazon Resource Name (ARN) that uniquely identifies the tiering configuration.
+        public let tieringConfigurationArn: String?
+        /// The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        public let tieringConfigurationName: String
+
+        @inlinable
+        public init(backupVaultName: String, creationTime: Date? = nil, creatorRequestId: String? = nil, lastUpdatedTime: Date? = nil, resourceSelection: [ResourceSelection], tieringConfigurationArn: String? = nil, tieringConfigurationName: String) {
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.creatorRequestId = creatorRequestId
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceSelection = resourceSelection
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case creationTime = "CreationTime"
+            case creatorRequestId = "CreatorRequestId"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case resourceSelection = "ResourceSelection"
+            case tieringConfigurationArn = "TieringConfigurationArn"
+            case tieringConfigurationName = "TieringConfigurationName"
+        }
+    }
+
+    public struct TieringConfigurationInputForCreate: AWSEncodableShape {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        public let backupVaultName: String
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        public let resourceSelection: [ResourceSelection]
+        /// The unique name of the tiering configuration. This cannot be changed after creation, and it must consist of only alphanumeric characters and underscores.
+        public let tieringConfigurationName: String
+
+        @inlinable
+        public init(backupVaultName: String, resourceSelection: [ResourceSelection], tieringConfigurationName: String) {
+            self.backupVaultName = backupVaultName
+            self.resourceSelection = resourceSelection
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^(\\*|[a-zA-Z0-9\\-\\_]{2,50})$")
+            try self.resourceSelection.forEach {
+                try $0.validate(name: "\(name).resourceSelection[]")
+            }
+            try self.validate(self.tieringConfigurationName, name: "tieringConfigurationName", parent: name, pattern: "^[a-zA-Z0-9_]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case resourceSelection = "ResourceSelection"
+            case tieringConfigurationName = "TieringConfigurationName"
+        }
+    }
+
+    public struct TieringConfigurationInputForUpdate: AWSEncodableShape {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        public let backupVaultName: String
+        /// An array of resource selection objects that specify which resources are included in the tiering configuration and their tiering settings.
+        public let resourceSelection: [ResourceSelection]
+
+        @inlinable
+        public init(backupVaultName: String, resourceSelection: [ResourceSelection]) {
+            self.backupVaultName = backupVaultName
+            self.resourceSelection = resourceSelection
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.backupVaultName, name: "backupVaultName", parent: name, pattern: "^(\\*|[a-zA-Z0-9\\-\\_]{2,50})$")
+            try self.resourceSelection.forEach {
+                try $0.validate(name: "\(name).resourceSelection[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case resourceSelection = "ResourceSelection"
+        }
+    }
+
+    public struct TieringConfigurationsListMember: AWSDecodableShape {
+        /// The name of the backup vault where the tiering configuration applies. Use * to apply to all backup vaults.
+        public let backupVaultName: String?
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let creationTime: Date?
+        /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let lastUpdatedTime: Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the tiering configuration.
+        public let tieringConfigurationArn: String?
+        /// The unique name of the tiering configuration.
+        public let tieringConfigurationName: String?
+
+        @inlinable
+        public init(backupVaultName: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, tieringConfigurationArn: String? = nil, tieringConfigurationName: String? = nil) {
+            self.backupVaultName = backupVaultName
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupVaultName = "BackupVaultName"
+            case creationTime = "CreationTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case tieringConfigurationArn = "TieringConfigurationArn"
+            case tieringConfigurationName = "TieringConfigurationName"
         }
     }
 
@@ -7091,15 +8164,18 @@ extension Backup {
         public let backupPlanId: String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
+        /// Contains your scanning configuration for the backup plan and includes the Malware scanner, your selected resources, and scanner role.
+        public let scanSettings: [ScanSetting]?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
 
         @inlinable
-        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, versionId: String? = nil) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: Date? = nil, scanSettings: [ScanSetting]? = nil, versionId: String? = nil) {
             self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
+            self.scanSettings = scanSettings
             self.versionId = versionId
         }
 
@@ -7108,6 +8184,7 @@ extension Backup {
             case backupPlanArn = "BackupPlanArn"
             case backupPlanId = "BackupPlanId"
             case creationDate = "CreationDate"
+            case scanSettings = "ScanSettings"
             case versionId = "VersionId"
         }
     }
@@ -7180,7 +8257,7 @@ extension Backup {
     }
 
     public struct UpdateGlobalSettingsInput: AWSEncodableShape {
-        /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2.
+        /// Inputs can include: A value for isCrossAccountBackupEnabled and a Region. Example: update-global-settings --global-settings isCrossAccountBackupEnabled=false --region us-west-2. A value for Multi-party approval, styled as "Mpa": isMpaEnabled. Values can be true or false. Example: update-global-settings --global-settings isMpaEnabled=false --region us-west-2. A value for Backup Service-Linked Role creation, styled asisDelegatedAdministratorEnabled. Values can be true or false. Example: update-global-settings --global-settings isDelegatedAdministratorEnabled=false --region us-west-2.
         public let globalSettings: [String: String]?
 
         @inlinable
@@ -7515,6 +8592,61 @@ extension Backup {
             case restoreTestingPlanName = "RestoreTestingPlanName"
             case restoreTestingSelectionName = "RestoreTestingSelectionName"
             case updateTime = "UpdateTime"
+        }
+    }
+
+    public struct UpdateTieringConfigurationInput: AWSEncodableShape {
+        /// Specifies the body of a tiering configuration.
+        public let tieringConfiguration: TieringConfigurationInputForUpdate
+        /// The name of a tiering configuration to update.
+        public let tieringConfigurationName: String
+
+        @inlinable
+        public init(tieringConfiguration: TieringConfigurationInputForUpdate, tieringConfigurationName: String) {
+            self.tieringConfiguration = tieringConfiguration
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.tieringConfiguration, forKey: .tieringConfiguration)
+            request.encodePath(self.tieringConfigurationName, key: "TieringConfigurationName")
+        }
+
+        public func validate(name: String) throws {
+            try self.tieringConfiguration.validate(name: "\(name).tieringConfiguration")
+            try self.validate(self.tieringConfigurationName, name: "tieringConfigurationName", parent: name, pattern: "^[a-zA-Z0-9_]{1,200}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tieringConfiguration = "TieringConfiguration"
+        }
+    }
+
+    public struct UpdateTieringConfigurationOutput: AWSDecodableShape {
+        /// The date and time a tiering configuration was created, in Unix format and Coordinated Universal Time (UTC). The value of CreationTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let creationTime: Date?
+        /// The date and time a tiering configuration was updated, in Unix format and Coordinated Universal Time (UTC). The value of LastUpdatedTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087AM.
+        public let lastUpdatedTime: Date?
+        /// An Amazon Resource Name (ARN) that uniquely identifies the updated tiering configuration.
+        public let tieringConfigurationArn: String?
+        /// This unique string is the name of the tiering configuration.
+        public let tieringConfigurationName: String?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastUpdatedTime: Date? = nil, tieringConfigurationArn: String? = nil, tieringConfigurationName: String? = nil) {
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.tieringConfigurationArn = tieringConfigurationArn
+            self.tieringConfigurationName = tieringConfigurationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case tieringConfigurationArn = "TieringConfigurationArn"
+            case tieringConfigurationName = "TieringConfigurationName"
         }
     }
 }

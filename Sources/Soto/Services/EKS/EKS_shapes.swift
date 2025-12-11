@@ -80,10 +80,46 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ArgoCdRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case admin = "ADMIN"
+        case editor = "EDITOR"
+        case viewer = "VIEWER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthenticationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case api = "API"
         case apiAndConfigMap = "API_AND_CONFIG_MAP"
         case configMap = "CONFIG_MAP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityDeletePropagationPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case retain = "RETAIN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityIssueCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "AccessDenied"
+        case clusterUnreachable = "ClusterUnreachable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case degraded = "DEGRADED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CapabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ack = "ACK"
+        case argocd = "ARGOCD"
+        case kro = "KRO"
         public var description: String { return self.rawValue }
     }
 
@@ -305,6 +341,14 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProvisionedControlPlaneTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case standard = "standard"
+        case tier2Xl = "tier-2xl"
+        case tier4Xl = "tier-4xl"
+        case tierXl = "tier-xl"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RepairAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case noAction = "NoAction"
         case reboot = "Reboot"
@@ -316,6 +360,12 @@ extension EKS {
         case none = "NONE"
         case overwrite = "OVERWRITE"
         case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SsoIdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ssoGroup = "SSO_GROUP"
+        case ssoUser = "SSO_USER"
         public var description: String { return self.rawValue }
     }
 
@@ -357,6 +407,7 @@ extension EKS {
         case nodeRepairEnabled = "NodeRepairEnabled"
         case platformVersion = "PlatformVersion"
         case podIdentityAssociations = "PodIdentityAssociations"
+        case previousTier = "PreviousTier"
         case publicAccessCidrs = "PublicAccessCidrs"
         case releaseVersion = "ReleaseVersion"
         case remoteNetworkConfig = "RemoteNetworkConfig"
@@ -368,6 +419,7 @@ extension EKS {
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
         case updateStrategy = "UpdateStrategy"
+        case updatedTier = "UpdatedTier"
         case upgradePolicy = "UpgradePolicy"
         case version = "Version"
         case zonalShiftConfig = "ZonalShiftConfig"
@@ -389,6 +441,7 @@ extension EKS {
         case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
         case autoModeUpdate = "AutoModeUpdate"
         case configUpdate = "ConfigUpdate"
+        case controlPlaneScalingConfigUpdate = "ControlPlaneScalingConfigUpdate"
         case deletionProtectionUpdate = "DeletionProtectionUpdate"
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
         case endpointAccessUpdate = "EndpointAccessUpdate"
@@ -779,6 +832,148 @@ extension EKS {
         }
     }
 
+    public struct ArgoCdAwsIdcConfigRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity Center instance to use for authentication.
+        public let idcInstanceArn: String
+        /// The Region where your IAM Identity CenterIAM; Identity Center instance is located.
+        public let idcRegion: String?
+
+        @inlinable
+        public init(idcInstanceArn: String, idcRegion: String? = nil) {
+            self.idcInstanceArn = idcInstanceArn
+            self.idcRegion = idcRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcInstanceArn = "idcInstanceArn"
+            case idcRegion = "idcRegion"
+        }
+    }
+
+    public struct ArgoCdAwsIdcConfigResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM Identity CenterIAM; Identity Center instance used for authentication.
+        public let idcInstanceArn: String?
+        /// The Amazon Resource Name (ARN) of the managed application created in IAM Identity CenterIAM; Identity Center for this Argo CD capability. This application is automatically created and managed by Amazon EKS.
+        public let idcManagedApplicationArn: String?
+        /// The Region where the IAM Identity CenterIAM; Identity Center instance is located.
+        public let idcRegion: String?
+
+        @inlinable
+        public init(idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcRegion: String? = nil) {
+            self.idcInstanceArn = idcInstanceArn
+            self.idcManagedApplicationArn = idcManagedApplicationArn
+            self.idcRegion = idcRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idcInstanceArn = "idcInstanceArn"
+            case idcManagedApplicationArn = "idcManagedApplicationArn"
+            case idcRegion = "idcRegion"
+        }
+    }
+
+    public struct ArgoCdConfigRequest: AWSEncodableShape {
+        /// Configuration for IAM Identity CenterIAM; Identity Center integration. When configured, users can authenticate to Argo CD using their IAM Identity CenterIAM; Identity Center credentials.
+        public let awsIdc: ArgoCdAwsIdcConfigRequest
+        /// The Kubernetes namespace where Argo CD resources will be created. If not specified, the default namespace is used.
+        public let namespace: String?
+        /// Configuration for network access to the Argo CD capability's managed API server endpoint. By default, the Argo CD server is accessible via a public endpoint. You can optionally specify one or more VPC endpoint IDs to enable private connectivity from your VPCs. When VPC endpoints are configured, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+        public let networkAccess: ArgoCdNetworkAccessConfigRequest?
+        /// A list of role mappings that define which IAM Identity CenterIAM; Identity Center users or groups have which Argo CD roles. Each mapping associates an Argo CD role (ADMIN, EDITOR, or VIEWER) with one or more IAM Identity CenterIAM; Identity Center identities.
+        public let rbacRoleMappings: [ArgoCdRoleMapping]?
+
+        @inlinable
+        public init(awsIdc: ArgoCdAwsIdcConfigRequest, namespace: String? = nil, networkAccess: ArgoCdNetworkAccessConfigRequest? = nil, rbacRoleMappings: [ArgoCdRoleMapping]? = nil) {
+            self.awsIdc = awsIdc
+            self.namespace = namespace
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIdc = "awsIdc"
+            case namespace = "namespace"
+            case networkAccess = "networkAccess"
+            case rbacRoleMappings = "rbacRoleMappings"
+        }
+    }
+
+    public struct ArgoCdConfigResponse: AWSDecodableShape {
+        /// The IAM Identity CenterIAM; Identity Center integration configuration.
+        public let awsIdc: ArgoCdAwsIdcConfigResponse?
+        /// The Kubernetes namespace where Argo CD resources are monitored by your Argo CD Capability.
+        public let namespace: String?
+        /// The network access configuration for the Argo CD capability's managed API server endpoint. If VPC endpoint IDs are specified, public access is blocked and the Argo CD server is only accessible through the specified VPC endpoints.
+        public let networkAccess: ArgoCdNetworkAccessConfigResponse?
+        /// The list of role mappings that define which IAM Identity CenterIAM; Identity Center users or groups have which Argo CD roles.
+        public let rbacRoleMappings: [ArgoCdRoleMapping]?
+        /// The URL of the Argo CD server. Use this URL to access the Argo CD web interface and API.
+        public let serverUrl: String?
+
+        @inlinable
+        public init(awsIdc: ArgoCdAwsIdcConfigResponse? = nil, namespace: String? = nil, networkAccess: ArgoCdNetworkAccessConfigResponse? = nil, rbacRoleMappings: [ArgoCdRoleMapping]? = nil, serverUrl: String? = nil) {
+            self.awsIdc = awsIdc
+            self.namespace = namespace
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+            self.serverUrl = serverUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIdc = "awsIdc"
+            case namespace = "namespace"
+            case networkAccess = "networkAccess"
+            case rbacRoleMappings = "rbacRoleMappings"
+            case serverUrl = "serverUrl"
+        }
+    }
+
+    public struct ArgoCdNetworkAccessConfigRequest: AWSEncodableShape {
+        /// A list of VPC endpoint IDs to associate with the managed Argo CD API server endpoint. Each VPC endpoint provides private connectivity from a specific VPC to the Argo CD server. You can specify multiple VPC endpoint IDs to enable access from multiple VPCs.
+        public let vpceIds: [String]?
+
+        @inlinable
+        public init(vpceIds: [String]? = nil) {
+            self.vpceIds = vpceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceIds = "vpceIds"
+        }
+    }
+
+    public struct ArgoCdNetworkAccessConfigResponse: AWSDecodableShape {
+        /// The list of VPC endpoint IDs associated with the managed Argo CD API server endpoint. Each VPC endpoint provides private connectivity from a specific VPC to the Argo CD server.
+        public let vpceIds: [String]?
+
+        @inlinable
+        public init(vpceIds: [String]? = nil) {
+            self.vpceIds = vpceIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpceIds = "vpceIds"
+        }
+    }
+
+    public struct ArgoCdRoleMapping: AWSEncodableShape & AWSDecodableShape {
+        /// A list of IAM Identity CenterIAM; Identity Center identities (users or groups) that should be assigned this Argo CD role.
+        public let identities: [SsoIdentity]
+        /// The Argo CD role to assign. Valid values are:    ADMIN – Full administrative access to Argo CD.    EDITOR – Edit access to Argo CD resources.    VIEWER – Read-only access to Argo CD resources.
+        public let role: ArgoCdRole
+
+        @inlinable
+        public init(identities: [SsoIdentity], role: ArgoCdRole) {
+            self.identities = identities
+            self.role = role
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identities = "identities"
+            case role = "role"
+        }
+    }
+
     public struct AssociateAccessPolicyRequest: AWSEncodableShape {
         /// The scope for the AccessPolicy. You can scope access policies to an entire cluster or to specific Kubernetes namespaces.
         public let accessScope: AccessScope
@@ -971,7 +1166,7 @@ extension EKS {
     }
 
     public struct AutoScalingGroup: AWSDecodableShape {
-        /// The name of the Auto Scaling group associated with an Amazon EKS managed node group.
+        /// The name of the Amazon EC2 Auto Scaling group associated with an Amazon EKS managed node group.
         public let name: String?
 
         @inlinable
@@ -995,6 +1190,165 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
+        }
+    }
+
+    public struct Capability: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the capability.
+        public let arn: String?
+        /// The unique name of the capability within the cluster.
+        public let capabilityName: String?
+        /// The name of the Amazon EKS cluster that contains this capability.
+        public let clusterName: String?
+        /// The configuration settings for the capability. The structure varies depending on the capability type.
+        public let configuration: CapabilityConfigurationResponse?
+        /// The Unix epoch timestamp in seconds for when the capability was created.
+        public let createdAt: Date?
+        /// The delete propagation policy for the capability. Currently, the only supported value is RETAIN, which keeps all resources managed by the capability when the capability is deleted.
+        public let deletePropagationPolicy: CapabilityDeletePropagationPolicy?
+        /// Health information for the capability, including any issues that may be affecting its operation.
+        public let health: CapabilityHealth?
+        /// The Unix epoch timestamp in seconds for when the capability was last modified.
+        public let modifiedAt: Date?
+        /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services.
+        public let roleArn: String?
+        /// The current status of the capability. Valid values include:    CREATING – The capability is being created.    ACTIVE – The capability is running and available.    UPDATING – The capability is being updated.    DELETING – The capability is being deleted.    CREATE_FAILED – The capability creation failed.    UPDATE_FAILED – The capability update failed.    DELETE_FAILED – The capability deletion failed.
+        public let status: CapabilityStatus?
+        public let tags: [String: String]?
+        /// The type of capability. Valid values are ACK, ARGOCD, or KRO.
+        public let type: CapabilityType?
+        /// The version of the capability software that is currently running.
+        public let version: String?
+
+        @inlinable
+        public init(arn: String? = nil, capabilityName: String? = nil, clusterName: String? = nil, configuration: CapabilityConfigurationResponse? = nil, createdAt: Date? = nil, deletePropagationPolicy: CapabilityDeletePropagationPolicy? = nil, health: CapabilityHealth? = nil, modifiedAt: Date? = nil, roleArn: String? = nil, status: CapabilityStatus? = nil, tags: [String: String]? = nil, type: CapabilityType? = nil, version: String? = nil) {
+            self.arn = arn
+            self.capabilityName = capabilityName
+            self.clusterName = clusterName
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.deletePropagationPolicy = deletePropagationPolicy
+            self.health = health
+            self.modifiedAt = modifiedAt
+            self.roleArn = roleArn
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capabilityName = "capabilityName"
+            case clusterName = "clusterName"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case deletePropagationPolicy = "deletePropagationPolicy"
+            case health = "health"
+            case modifiedAt = "modifiedAt"
+            case roleArn = "roleArn"
+            case status = "status"
+            case tags = "tags"
+            case type = "type"
+            case version = "version"
+        }
+    }
+
+    public struct CapabilityConfigurationRequest: AWSEncodableShape {
+        /// Configuration settings specific to Argo CD capabilities. This field is only used when creating or updating an Argo CD capability.
+        public let argoCd: ArgoCdConfigRequest?
+
+        @inlinable
+        public init(argoCd: ArgoCdConfigRequest? = nil) {
+            self.argoCd = argoCd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case argoCd = "argoCd"
+        }
+    }
+
+    public struct CapabilityConfigurationResponse: AWSDecodableShape {
+        /// Configuration settings for an Argo CD capability, including the server URL and other Argo CD-specific settings.
+        public let argoCd: ArgoCdConfigResponse?
+
+        @inlinable
+        public init(argoCd: ArgoCdConfigResponse? = nil) {
+            self.argoCd = argoCd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case argoCd = "argoCd"
+        }
+    }
+
+    public struct CapabilityHealth: AWSDecodableShape {
+        /// A list of issues affecting the capability. If this list is empty, the capability is healthy.
+        public let issues: [CapabilityIssue]?
+
+        @inlinable
+        public init(issues: [CapabilityIssue]? = nil) {
+            self.issues = issues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case issues = "issues"
+        }
+    }
+
+    public struct CapabilityIssue: AWSDecodableShape {
+        /// A code identifying the type of issue. This can be used to programmatically handle specific issue types.
+        public let code: CapabilityIssueCode?
+        /// A human-readable message describing the issue and potential remediation steps.
+        public let message: String?
+
+        @inlinable
+        public init(code: CapabilityIssueCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct CapabilitySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the capability.
+        public let arn: String?
+        /// The unique name of the capability within the cluster.
+        public let capabilityName: String?
+        /// The Unix epoch timestamp in seconds for when the capability was created.
+        public let createdAt: Date?
+        /// The Unix epoch timestamp in seconds for when the capability was last modified.
+        public let modifiedAt: Date?
+        /// The current status of the capability.
+        public let status: CapabilityStatus?
+        /// The type of capability. Valid values are ACK, ARGOCD, or KRO.
+        public let type: CapabilityType?
+        /// The version of the capability software that is currently running.
+        public let version: String?
+
+        @inlinable
+        public init(arn: String? = nil, capabilityName: String? = nil, createdAt: Date? = nil, modifiedAt: Date? = nil, status: CapabilityStatus? = nil, type: CapabilityType? = nil, version: String? = nil) {
+            self.arn = arn
+            self.capabilityName = capabilityName
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.type = type
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case capabilityName = "capabilityName"
+            case createdAt = "createdAt"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
+            case type = "type"
+            case version = "version"
         }
     }
 
@@ -1078,6 +1432,8 @@ extension EKS {
         public let computeConfig: ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public let connectorConfig: ConnectorConfigResponse?
+        /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public let controlPlaneScalingConfig: ControlPlaneScalingConfig?
         /// The Unix epoch timestamp at object creation.
         public let createdAt: Date?
         /// The current deletion protection setting for the cluster. When true,  deletion protection is enabled and the cluster cannot be deleted until protection is  disabled. When false, the cluster can be deleted normally. This setting  only applies to clusters in an active state.
@@ -1122,13 +1478,14 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigResponse?
 
         @inlinable
-        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
+        public init(accessConfig: AccessConfigResponse? = nil, arn: String? = nil, certificateAuthority: Certificate? = nil, clientRequestToken: String? = nil, computeConfig: ComputeConfigResponse? = nil, connectorConfig: ConnectorConfigResponse? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, createdAt: Date? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, endpoint: String? = nil, health: ClusterHealth? = nil, id: String? = nil, identity: Identity? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigResponse? = nil, logging: Logging? = nil, name: String? = nil, outpostConfig: OutpostConfigResponse? = nil, platformVersion: String? = nil, remoteNetworkConfig: RemoteNetworkConfigResponse? = nil, resourcesVpcConfig: VpcConfigResponse? = nil, roleArn: String? = nil, status: ClusterStatus? = nil, storageConfig: StorageConfigResponse? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyResponse? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigResponse? = nil) {
             self.accessConfig = accessConfig
             self.arn = arn
             self.certificateAuthority = certificateAuthority
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
             self.connectorConfig = connectorConfig
+            self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.createdAt = createdAt
             self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
@@ -1159,6 +1516,7 @@ extension EKS {
             case clientRequestToken = "clientRequestToken"
             case computeConfig = "computeConfig"
             case connectorConfig = "connectorConfig"
+            case controlPlaneScalingConfig = "controlPlaneScalingConfig"
             case createdAt = "createdAt"
             case deletionProtection = "deletionProtection"
             case encryptionConfig = "encryptionConfig"
@@ -1411,6 +1769,20 @@ extension EKS {
         }
     }
 
+    public struct ControlPlaneScalingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The control plane scaling tier configuration. Available options are standard, tier-xl, tier-2xl, or tier-4xl. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public let tier: ProvisionedControlPlaneTier?
+
+        @inlinable
+        public init(tier: ProvisionedControlPlaneTier? = nil) {
+            self.tier = tier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tier = "tier"
+        }
+    }
+
     public struct CreateAccessConfigRequest: AWSEncodableShape {
         /// The desired authentication mode for the cluster. If you create a cluster by using the EKS API, Amazon Web Services SDKs, or CloudFormation, the default is CONFIG_MAP. If you create the cluster by using the Amazon Web Services Management Console, the default value is API_AND_CONFIG_MAP.
         public let authenticationMode: AuthenticationMode?
@@ -1596,6 +1968,83 @@ extension EKS {
         }
     }
 
+    public struct CreateCapabilityRequest: AWSEncodableShape {
+        /// A unique name for the capability. The name must be unique within your cluster and can contain alphanumeric characters, hyphens, and underscores.
+        public let capabilityName: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster where you want to create the capability.
+        public let clusterName: String
+        /// The configuration settings for the capability. The structure of this object varies depending on the capability type. For Argo CD capabilities, you can configure IAM Identity CenterIAM; Identity Center integration, RBAC role mappings, and network access settings.
+        public let configuration: CapabilityConfigurationRequest?
+        /// Specifies how Kubernetes resources managed by the capability should be handled when the capability is deleted. Currently, the only supported value is RETAIN which retains all Kubernetes resources managed by the capability when the capability is deleted. Because resources are retained, all Kubernetes resources created by the capability should be deleted from the cluster before deleting the capability itself. After the capability is deleted, these resources become difficult to manage because the controller is no longer available.
+        public let deletePropagationPolicy: CapabilityDeletePropagationPolicy
+        /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. This role must have a trust policy that allows the EKS service principal to assume it, and it must have the necessary permissions for the capability type you're creating. For ACK capabilities, the role needs permissions to manage the resources you want to control through Kubernetes. For Argo CD capabilities, the role needs permissions to access Git repositories and Secrets Manager. For KRO capabilities, the role needs permissions based on the resources you'll be orchestrating.
+        public let roleArn: String
+        public let tags: [String: String]?
+        /// The type of capability to create. Valid values are:    ACK – Amazon Web Services Controllers for Kubernetes (ACK), which lets you manage resources directly from Kubernetes.    ARGOCD – Argo CD for GitOps-based continuous delivery.    KRO – Kube Resource Orchestrator (KRO) for composing and managing custom Kubernetes resources.
+        public let type: CapabilityType
+
+        @inlinable
+        public init(capabilityName: String, clientRequestToken: String? = CreateCapabilityRequest.idempotencyToken(), clusterName: String, configuration: CapabilityConfigurationRequest? = nil, deletePropagationPolicy: CapabilityDeletePropagationPolicy, roleArn: String, tags: [String: String]? = nil, type: CapabilityType) {
+            self.capabilityName = capabilityName
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.configuration = configuration
+            self.deletePropagationPolicy = deletePropagationPolicy
+            self.roleArn = roleArn
+            self.tags = tags
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.capabilityName, forKey: .capabilityName)
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encode(self.deletePropagationPolicy, forKey: .deletePropagationPolicy)
+            try container.encode(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilityName = "capabilityName"
+            case clientRequestToken = "clientRequestToken"
+            case configuration = "configuration"
+            case deletePropagationPolicy = "deletePropagationPolicy"
+            case roleArn = "roleArn"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CreateCapabilityResponse: AWSDecodableShape {
+        /// An object containing information about the newly created capability, including its name, ARN, status, and configuration.
+        public let capability: Capability?
+
+        @inlinable
+        public init(capability: Capability? = nil) {
+            self.capability = capability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capability = "capability"
+        }
+    }
+
     public struct CreateClusterRequest: AWSEncodableShape {
         /// The access configuration for the cluster.
         public let accessConfig: CreateAccessConfigRequest?
@@ -1606,6 +2055,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
         public let computeConfig: ComputeConfigRequest?
+        /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public let controlPlaneScalingConfig: ControlPlaneScalingConfig?
         /// Indicates whether to enable deletion protection for the cluster. When enabled, the cluster  cannot be deleted unless deletion protection is first disabled. This helps prevent  accidental cluster deletion. Default value is false.
         public let deletionProtection: Bool?
         /// The encryption configuration for the cluster.
@@ -1639,11 +2090,12 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: CreateAccessConfigRequest? = nil, bootstrapSelfManagedAddons: Bool? = nil, clientRequestToken: String? = CreateClusterRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, encryptionConfig: [EncryptionConfig]? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, outpostConfig: OutpostConfigRequest? = nil, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest, roleArn: String, storageConfig: StorageConfigRequest? = nil, tags: [String: String]? = nil, upgradePolicy: UpgradePolicyRequest? = nil, version: String? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.bootstrapSelfManagedAddons = bootstrapSelfManagedAddons
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
+            self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.deletionProtection = deletionProtection
             self.encryptionConfig = encryptionConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
@@ -1680,6 +2132,7 @@ extension EKS {
             case bootstrapSelfManagedAddons = "bootstrapSelfManagedAddons"
             case clientRequestToken = "clientRequestToken"
             case computeConfig = "computeConfig"
+            case controlPlaneScalingConfig = "controlPlaneScalingConfig"
             case deletionProtection = "deletionProtection"
             case encryptionConfig = "encryptionConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
@@ -2147,6 +2600,42 @@ extension EKS {
         }
     }
 
+    public struct DeleteCapabilityRequest: AWSEncodableShape {
+        /// The name of the capability to delete.
+        public let capabilityName: String
+        /// The name of the Amazon EKS cluster that contains the capability you want to delete.
+        public let clusterName: String
+
+        @inlinable
+        public init(capabilityName: String, clusterName: String) {
+            self.capabilityName = capabilityName
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capabilityName, key: "capabilityName")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCapabilityResponse: AWSDecodableShape {
+        /// An object containing information about the deleted capability, including its final status and configuration.
+        public let capability: Capability?
+
+        @inlinable
+        public init(capability: Capability? = nil) {
+            self.capability = capability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capability = "capability"
+        }
+    }
+
     public struct DeleteClusterRequest: AWSEncodableShape {
         /// The name of the cluster to delete.
         public let name: String
@@ -2570,6 +3059,42 @@ extension EKS {
         }
     }
 
+    public struct DescribeCapabilityRequest: AWSEncodableShape {
+        /// The name of the capability to describe.
+        public let capabilityName: String
+        /// The name of the Amazon EKS cluster that contains the capability you want to describe.
+        public let clusterName: String
+
+        @inlinable
+        public init(capabilityName: String, clusterName: String) {
+            self.capabilityName = capabilityName
+            self.clusterName = clusterName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capabilityName, key: "capabilityName")
+            request.encodePath(self.clusterName, key: "clusterName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeCapabilityResponse: AWSDecodableShape {
+        /// An object containing detailed information about the capability, including its name, ARN, type, status, version, configuration, health status, and timestamps for when it was created and last modified.
+        public let capability: Capability?
+
+        @inlinable
+        public init(capability: Capability? = nil) {
+            self.capability = capability
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capability = "capability"
+        }
+    }
+
     public struct DescribeClusterRequest: AWSEncodableShape {
         /// The name of your cluster.
         public let name: String
@@ -2945,6 +3470,8 @@ extension EKS {
     public struct DescribeUpdateRequest: AWSEncodableShape {
         /// The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
         public let addonName: String?
+        /// The name of the capability for which you want to describe updates.
+        public let capabilityName: String?
         /// The name of the Amazon EKS cluster associated with the update.
         public let name: String
         /// The name of the Amazon EKS node group associated with the update. This parameter is required if the update is a node group update.
@@ -2953,8 +3480,9 @@ extension EKS {
         public let updateId: String
 
         @inlinable
-        public init(addonName: String? = nil, name: String, nodegroupName: String? = nil, updateId: String) {
+        public init(addonName: String? = nil, capabilityName: String? = nil, name: String, nodegroupName: String? = nil, updateId: String) {
             self.addonName = addonName
+            self.capabilityName = capabilityName
             self.name = name
             self.nodegroupName = nodegroupName
             self.updateId = updateId
@@ -2964,6 +3492,7 @@ extension EKS {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.addonName, key: "addonName")
+            request.encodeQuery(self.capabilityName, key: "capabilityName")
             request.encodePath(self.name, key: "name")
             request.encodeQuery(self.nodegroupName, key: "nodegroupName")
             request.encodePath(self.updateId, key: "updateId")
@@ -3605,7 +4134,7 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Amazon EC2 Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Amazon EC2 Auto Scaling group associated with the managed node group. You may be able to recreate an Amazon EC2 Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -3922,6 +4451,55 @@ extension EKS {
             case clusterName = "clusterName"
             case nextToken = "nextToken"
             case principalArn = "principalArn"
+        }
+    }
+
+    public struct ListCapabilitiesRequest: AWSEncodableShape {
+        /// The name of the Amazon EKS cluster for which you want to list capabilities.
+        public let clusterName: String
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(clusterName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterName = clusterName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterName, key: "clusterName")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCapabilitiesResponse: AWSDecodableShape {
+        /// A list of capability summary objects, each containing basic information about a capability including its name, ARN, type, status, version, and timestamps.
+        public let capabilities: [CapabilitySummary]?
+        /// The nextToken value to include in a future ListCapabilities request. When the results of a ListCapabilities request exceed maxResults, you can use this value to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(capabilities: [CapabilitySummary]? = nil, nextToken: String? = nil) {
+            self.capabilities = capabilities
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "capabilities"
+            case nextToken = "nextToken"
         }
     }
 
@@ -4319,6 +4897,8 @@ extension EKS {
     public struct ListUpdatesRequest: AWSEncodableShape {
         /// The names of the installed add-ons that have available updates.
         public let addonName: String?
+        /// The name of the capability for which you want to list updates.
+        public let capabilityName: String?
         /// The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
         public let maxResults: Int?
         /// The name of the Amazon EKS cluster to list updates for.
@@ -4329,8 +4909,9 @@ extension EKS {
         public let nodegroupName: String?
 
         @inlinable
-        public init(addonName: String? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
+        public init(addonName: String? = nil, capabilityName: String? = nil, maxResults: Int? = nil, name: String, nextToken: String? = nil, nodegroupName: String? = nil) {
             self.addonName = addonName
+            self.capabilityName = capabilityName
             self.maxResults = maxResults
             self.name = name
             self.nextToken = nextToken
@@ -4341,6 +4922,7 @@ extension EKS {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.addonName, key: "addonName")
+            request.encodeQuery(self.capabilityName, key: "capabilityName")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodePath(self.name, key: "name")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -5226,6 +5808,24 @@ extension EKS {
         }
     }
 
+    public struct SsoIdentity: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the IAM Identity CenterIAM; Identity Center user or group.
+        public let id: String
+        /// The type of identity. Valid values are SSO_USER or SSO_GROUP.
+        public let type: SsoIdentityType
+
+        @inlinable
+        public init(id: String, type: SsoIdentityType) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
+        }
+    }
+
     public struct StartInsightsRefreshRequest: AWSEncodableShape {
         /// The name of the cluster for the refresh insights operation.
         public let clusterName: String
@@ -5610,6 +6210,94 @@ extension EKS {
         }
     }
 
+    public struct UpdateArgoCdConfig: AWSEncodableShape {
+        /// Updated network access configuration for the Argo CD capability's managed API server endpoint. You can add or remove VPC endpoint associations to control which VPCs have private access to the Argo CD server.
+        public let networkAccess: ArgoCdNetworkAccessConfigRequest?
+        /// Updated RBAC role mappings for the Argo CD capability. You can add, update, or remove role mappings.
+        public let rbacRoleMappings: UpdateRoleMappings?
+
+        @inlinable
+        public init(networkAccess: ArgoCdNetworkAccessConfigRequest? = nil, rbacRoleMappings: UpdateRoleMappings? = nil) {
+            self.networkAccess = networkAccess
+            self.rbacRoleMappings = rbacRoleMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkAccess = "networkAccess"
+            case rbacRoleMappings = "rbacRoleMappings"
+        }
+    }
+
+    public struct UpdateCapabilityConfiguration: AWSEncodableShape {
+        /// Configuration updates specific to Argo CD capabilities.
+        public let argoCd: UpdateArgoCdConfig?
+
+        @inlinable
+        public init(argoCd: UpdateArgoCdConfig? = nil) {
+            self.argoCd = argoCd
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case argoCd = "argoCd"
+        }
+    }
+
+    public struct UpdateCapabilityRequest: AWSEncodableShape {
+        /// The name of the capability to update configuration for.
+        public let capabilityName: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation.
+        public let clientRequestToken: String?
+        /// The name of the Amazon EKS cluster that contains the capability you want to update configuration for.
+        public let clusterName: String
+        /// The updated configuration settings for the capability. You only need to specify the configuration parameters you want to change. For Argo CD capabilities, you can update RBAC role mappings and network access settings.
+        public let configuration: UpdateCapabilityConfiguration?
+        /// The updated delete propagation policy for the capability. Currently, the only supported value is RETAIN.
+        public let deletePropagationPolicy: CapabilityDeletePropagationPolicy?
+        /// The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. If you specify a new role ARN, the capability will start using the new role for all subsequent operations.
+        public let roleArn: String?
+
+        @inlinable
+        public init(capabilityName: String, clientRequestToken: String? = UpdateCapabilityRequest.idempotencyToken(), clusterName: String, configuration: UpdateCapabilityConfiguration? = nil, deletePropagationPolicy: CapabilityDeletePropagationPolicy? = nil, roleArn: String? = nil) {
+            self.capabilityName = capabilityName
+            self.clientRequestToken = clientRequestToken
+            self.clusterName = clusterName
+            self.configuration = configuration
+            self.deletePropagationPolicy = deletePropagationPolicy
+            self.roleArn = roleArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.capabilityName, key: "capabilityName")
+            try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            request.encodePath(self.clusterName, key: "clusterName")
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.deletePropagationPolicy, forKey: .deletePropagationPolicy)
+            try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case configuration = "configuration"
+            case deletePropagationPolicy = "deletePropagationPolicy"
+            case roleArn = "roleArn"
+        }
+    }
+
+    public struct UpdateCapabilityResponse: AWSDecodableShape {
+        public let update: Update?
+
+        @inlinable
+        public init(update: Update? = nil) {
+            self.update = update
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case update = "update"
+        }
+    }
+
     public struct UpdateClusterConfigRequest: AWSEncodableShape {
         /// The access configuration for the cluster.
         public let accessConfig: UpdateAccessConfigRequest?
@@ -5618,6 +6306,8 @@ extension EKS {
         public let clientRequestToken: String?
         /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
         public let computeConfig: ComputeConfigRequest?
+        /// The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
+        public let controlPlaneScalingConfig: ControlPlaneScalingConfig?
         /// Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
         public let deletionProtection: Bool?
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
@@ -5635,10 +6325,11 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, deletionProtection: Bool? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil, deletionProtection: Bool? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
+            self.controlPlaneScalingConfig = controlPlaneScalingConfig
             self.deletionProtection = deletionProtection
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
@@ -5656,6 +6347,7 @@ extension EKS {
             try container.encodeIfPresent(self.accessConfig, forKey: .accessConfig)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
             try container.encodeIfPresent(self.computeConfig, forKey: .computeConfig)
+            try container.encodeIfPresent(self.controlPlaneScalingConfig, forKey: .controlPlaneScalingConfig)
             try container.encodeIfPresent(self.deletionProtection, forKey: .deletionProtection)
             try container.encodeIfPresent(self.kubernetesNetworkConfig, forKey: .kubernetesNetworkConfig)
             try container.encodeIfPresent(self.logging, forKey: .logging)
@@ -5675,6 +6367,7 @@ extension EKS {
             case accessConfig = "accessConfig"
             case clientRequestToken = "clientRequestToken"
             case computeConfig = "computeConfig"
+            case controlPlaneScalingConfig = "controlPlaneScalingConfig"
             case deletionProtection = "deletionProtection"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
@@ -5907,7 +6600,7 @@ extension EKS {
         public let nodegroupName: String
         /// The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let releaseVersion: String?
-        /// The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
+        /// The Kubernetes version to update to. If no version is specified, then the node group will be updated to match the cluster's current Kubernetes version, and the latest available AMI for that version will be used. You can also specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
         public let version: String?
 
         @inlinable
@@ -6028,6 +6721,24 @@ extension EKS {
 
         private enum CodingKeys: String, CodingKey {
             case association = "association"
+        }
+    }
+
+    public struct UpdateRoleMappings: AWSEncodableShape {
+        /// A list of role mappings to add or update. If a mapping for the specified role already exists, it will be updated with the new identities. If it doesn't exist, a new mapping will be created.
+        public let addOrUpdateRoleMappings: [ArgoCdRoleMapping]?
+        /// A list of role mappings to remove from the RBAC configuration. Each mapping specifies an Argo CD role (ADMIN, EDITOR, or VIEWER) and the identities to remove from that role.
+        public let removeRoleMappings: [ArgoCdRoleMapping]?
+
+        @inlinable
+        public init(addOrUpdateRoleMappings: [ArgoCdRoleMapping]? = nil, removeRoleMappings: [ArgoCdRoleMapping]? = nil) {
+            self.addOrUpdateRoleMappings = addOrUpdateRoleMappings
+            self.removeRoleMappings = removeRoleMappings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addOrUpdateRoleMappings = "addOrUpdateRoleMappings"
+            case removeRoleMappings = "removeRoleMappings"
         }
     }
 

@@ -99,6 +99,12 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case number = "NUMBER"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case jsonl = "JSONL"
@@ -144,6 +150,12 @@ extension CustomerProfiles {
         case all = "ALL"
         case any = "ANY"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case categorical = "CATEGORICAL"
+        case textual = "TEXTUAL"
         public var description: String { return self.rawValue }
     }
 
@@ -327,6 +339,27 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommenderRecipeName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case frequentlyPairedItems = "frequently-paired-items"
+        case popularItems = "popular-items"
+        case recommendedForYou = "recommended-for-you"
+        case similarItems = "similar-items"
+        case trendingNow = "trending-now"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommenderStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleBasedMatchingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case inProgress = "IN_PROGRESS"
@@ -383,10 +416,22 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum Scope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case domain = "DOMAIN"
+        case profile = "PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SegmentSnapshotStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SegmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case classic = "CLASSIC"
+        case enhanced = "ENHANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -492,6 +537,16 @@ extension CustomerProfiles {
         case merge = "Merge"
         case truncate = "Truncate"
         case validate = "Validate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TrainingMetricName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case coverage = "coverage"
+        case freshness = "freshness"
+        case hit = "hit"
+        case popularity = "popularity"
+        case recall = "recall"
+        case similarity = "similarity"
         public var description: String { return self.rawValue }
     }
 
@@ -1339,6 +1394,68 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CatalogItem: AWSDecodableShape {
+        /// Supplementary information about the catalog item beyond the basic description.
+        public let additionalInformation: String?
+        /// Additional attributes or properties associated with the catalog item stored as key-value pairs.
+        public let attributes: [String: String]?
+        /// The category to which the catalog item belongs.
+        public let category: String?
+        /// The product code or SKU of the catalog item.
+        public let code: String?
+        /// The timestamp when the catalog item was created.
+        public let createdAt: Date?
+        /// A detailed description of the catalog item.
+        public let description: String?
+        /// The unique identifier for the catalog item.
+        public let id: String?
+        /// The URL link to the item's image.
+        public let imageLink: String?
+        /// The URL link to the item's detailed page or external resource.
+        public let link: String?
+        /// The display name of the catalog item.
+        public let name: String?
+        /// The price of the catalog item.
+        public let price: String?
+        /// The type classification of the catalog item.
+        public let type: String?
+        /// The timestamp when the catalog item was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(additionalInformation: String? = nil, attributes: [String: String]? = nil, category: String? = nil, code: String? = nil, createdAt: Date? = nil, description: String? = nil, id: String? = nil, imageLink: String? = nil, link: String? = nil, name: String? = nil, price: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
+            self.additionalInformation = additionalInformation
+            self.attributes = attributes
+            self.category = category
+            self.code = code
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.imageLink = imageLink
+            self.link = link
+            self.name = name
+            self.price = price
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalInformation = "AdditionalInformation"
+            case attributes = "Attributes"
+            case category = "Category"
+            case code = "Code"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case id = "Id"
+            case imageLink = "ImageLink"
+            case link = "Link"
+            case name = "Name"
+            case price = "Price"
+            case type = "Type"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct ConditionOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The relative time period over which data is included in the aggregation for this override.
         public let range: RangeOverride?
@@ -1770,6 +1887,8 @@ extension CustomerProfiles {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
+        /// Set to true to enabled data store for this domain.
+        public let dataStore: DataStoreRequest?
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
@@ -1791,7 +1910,8 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
+        public init(dataStore: DataStoreRequest? = nil, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
+            self.dataStore = dataStore
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
@@ -1804,6 +1924,7 @@ extension CustomerProfiles {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataStore, forKey: .dataStore)
             try container.encodeIfPresent(self.deadLetterQueueUrl, forKey: .deadLetterQueueUrl)
             try container.encodeIfPresent(self.defaultEncryptionKey, forKey: .defaultEncryptionKey)
             try container.encode(self.defaultExpirationDays, forKey: .defaultExpirationDays)
@@ -1834,6 +1955,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataStore = "DataStore"
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
@@ -1846,6 +1968,8 @@ extension CustomerProfiles {
     public struct CreateDomainResponse: AWSDecodableShape {
         /// The timestamp of when the domain was created.
         public let createdAt: Date
+        /// The data store.
+        public let dataStore: DataStoreResponse?
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
@@ -1869,8 +1993,9 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, dataStore: DataStoreResponse? = nil, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
+            self.dataStore = dataStore
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
@@ -1883,6 +2008,7 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case dataStore = "DataStore"
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
@@ -2383,6 +2509,87 @@ extension CustomerProfiles {
         }
     }
 
+    public struct CreateRecommenderRequest: AWSEncodableShape {
+        /// The description of the domain object type.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The recommender configuration.
+        public let recommenderConfig: RecommenderConfig?
+        /// The name of the recommender.
+        public let recommenderName: String
+        /// The name of the recommeder recipe.
+        public let recommenderRecipeName: RecommenderRecipeName
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, tags: [String: String]? = nil) {
+            self.description = description
+            self.domainName = domainName
+            self.recommenderConfig = recommenderConfig
+            self.recommenderName = recommenderName
+            self.recommenderRecipeName = recommenderRecipeName
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.recommenderConfig, forKey: .recommenderConfig)
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+            try container.encode(self.recommenderRecipeName, forKey: .recommenderRecipeName)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.recommenderConfig?.validate(name: "\(name).recommenderConfig")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case recommenderConfig = "RecommenderConfig"
+            case recommenderRecipeName = "RecommenderRecipeName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateRecommenderResponse: AWSDecodableShape {
+        /// The ARN of the recommender
+        public let recommenderArn: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(recommenderArn: String, tags: [String: String]? = nil) {
+            self.recommenderArn = recommenderArn
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderArn = "RecommenderArn"
+            case tags = "Tags"
+        }
+    }
+
     public struct CreateSegmentDefinitionRequest: AWSEncodableShape {
         /// The description of the segment definition.
         public let description: String?
@@ -2393,17 +2600,20 @@ extension CustomerProfiles {
         /// The unique name of the segment definition.
         public let segmentDefinitionName: String
         /// Specifies the base segments and dimensions for a segment definition along with their respective relationship.
-        public let segmentGroups: SegmentGroup
+        public let segmentGroups: SegmentGroup?
+        /// The segment SQL query.
+        public let segmentSqlQuery: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(description: String? = nil, displayName: String, domainName: String, segmentDefinitionName: String, segmentGroups: SegmentGroup, tags: [String: String]? = nil) {
+        public init(description: String? = nil, displayName: String, domainName: String, segmentDefinitionName: String, segmentGroups: SegmentGroup? = nil, segmentSqlQuery: String? = nil, tags: [String: String]? = nil) {
             self.description = description
             self.displayName = displayName
             self.domainName = domainName
             self.segmentDefinitionName = segmentDefinitionName
             self.segmentGroups = segmentGroups
+            self.segmentSqlQuery = segmentSqlQuery
             self.tags = tags
         }
 
@@ -2414,12 +2624,13 @@ extension CustomerProfiles {
             try container.encode(self.displayName, forKey: .displayName)
             request.encodePath(self.domainName, key: "DomainName")
             request.encodePath(self.segmentDefinitionName, key: "SegmentDefinitionName")
-            try container.encode(self.segmentGroups, forKey: .segmentGroups)
+            try container.encodeIfPresent(self.segmentGroups, forKey: .segmentGroups)
+            try container.encodeIfPresent(self.segmentSqlQuery, forKey: .segmentSqlQuery)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, max: 4000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
@@ -2429,7 +2640,9 @@ extension CustomerProfiles {
             try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, max: 64)
             try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, min: 1)
             try self.validate(self.segmentDefinitionName, name: "segmentDefinitionName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.segmentGroups.validate(name: "\(name).segmentGroups")
+            try self.segmentGroups?.validate(name: "\(name).segmentGroups")
+            try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, max: 50000)
+            try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2444,6 +2657,7 @@ extension CustomerProfiles {
             case description = "Description"
             case displayName = "DisplayName"
             case segmentGroups = "SegmentGroups"
+            case segmentSqlQuery = "SegmentSqlQuery"
             case tags = "Tags"
         }
     }
@@ -2486,30 +2700,37 @@ extension CustomerProfiles {
         /// The unique name of the domain.
         public let domainName: String
         /// The segment query for calculating a segment estimate.
-        public let segmentQuery: SegmentGroupStructure
+        public let segmentQuery: SegmentGroupStructure?
+        /// The segment SQL query.
+        public let segmentSqlQuery: String?
 
         @inlinable
-        public init(domainName: String, segmentQuery: SegmentGroupStructure) {
+        public init(domainName: String, segmentQuery: SegmentGroupStructure? = nil, segmentSqlQuery: String? = nil) {
             self.domainName = domainName
             self.segmentQuery = segmentQuery
+            self.segmentSqlQuery = segmentSqlQuery
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "DomainName")
-            try container.encode(self.segmentQuery, forKey: .segmentQuery)
+            try container.encodeIfPresent(self.segmentQuery, forKey: .segmentQuery)
+            try container.encodeIfPresent(self.segmentSqlQuery, forKey: .segmentSqlQuery)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-            try self.segmentQuery.validate(name: "\(name).segmentQuery")
+            try self.segmentQuery?.validate(name: "\(name).segmentQuery")
+            try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, max: 50000)
+            try self.validate(self.segmentSqlQuery, name: "segmentSqlQuery", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case segmentQuery = "SegmentQuery"
+            case segmentSqlQuery = "SegmentSqlQuery"
         }
     }
 
@@ -2684,6 +2905,37 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DataStoreRequest: AWSEncodableShape {
+        /// Enabled: Set to true to enabled data store for this domain.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct DataStoreResponse: AWSDecodableShape {
+        /// True if data store is enabled for this domain
+        public let enabled: Bool?
+        public let readiness: Readiness?
+
+        @inlinable
+        public init(enabled: Bool? = nil, readiness: Readiness? = nil) {
+            self.enabled = enabled
+            self.readiness = readiness
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case readiness = "Readiness"
+        }
+    }
+
     public struct DateDimension: AWSEncodableShape & AWSDecodableShape {
         /// The action to segment with.
         public let dimensionType: DateDimensionType
@@ -2785,6 +3037,41 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
         }
+    }
+
+    public struct DeleteDomainObjectTypeRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(domainName: String, objectTypeName: String) {
+            self.domainName = domainName
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainObjectTypeResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
@@ -3163,6 +3450,41 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DeleteRecommenderRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The recommender name.
+        public let recommenderName: String
+
+        @inlinable
+        public init(domainName: String, recommenderName: String) {
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteRecommenderResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSegmentDefinitionRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -3336,6 +3658,69 @@ extension CustomerProfiles {
         }
     }
 
+    public struct DomainObjectTypeField: AWSEncodableShape & AWSDecodableShape {
+        /// The content type of the field.
+        public let contentType: ContentType?
+        /// The semantic meaning of the field.
+        public let featureType: FeatureType?
+        /// The expression that defines how to extract the field value from the source object.>
+        public let source: String
+        /// The expression that defines where the field value should be placed in the standard domain object.
+        public let target: String
+
+        @inlinable
+        public init(contentType: ContentType? = nil, featureType: FeatureType? = nil, source: String, target: String) {
+            self.contentType = contentType
+            self.featureType = featureType
+            self.source = source
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.source, name: "source", parent: name, max: 1000)
+            try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, max: 1000)
+            try self.validate(self.target, name: "target", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case featureType = "FeatureType"
+            case source = "Source"
+            case target = "Target"
+        }
+    }
+
+    public struct DomainObjectTypesListItem: AWSDecodableShape {
+        /// The timestamp of when the domain object type was created.
+        public let createdAt: Date?
+        /// A description explaining the purpose and characteristics of this object type.
+        public let description: String?
+        /// The timestamp of when the domain object type was most recently edited.
+        public let lastUpdatedAt: Date?
+        /// The name that identifies the object type within the domain.
+        public let objectTypeName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case tags = "Tags"
+        }
+    }
+
     public struct DomainStats: AWSDecodableShape {
         /// The number of profiles that you are currently paying for in the domain. If you have more than 100 objects associated with a single profile, that profile counts as two profiles. If you have more than 200 objects, that profile counts as three, and so on.
         public let meteringProfileCount: Int64?
@@ -3386,6 +3771,28 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case email = "Email"
             case phone = "Phone"
+        }
+    }
+
+    public struct EventParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The type of event being tracked (e.g., 'click', 'purchase', 'view').
+        public let eventType: String
+        /// The minimum value threshold that an event must meet to be considered valid.
+        public let eventValueThreshold: Double?
+
+        @inlinable
+        public init(eventType: String, eventValueThreshold: Double? = nil) {
+            self.eventType = eventType
+            self.eventValueThreshold = eventValueThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "EventType"
+            case eventValueThreshold = "EventValueThreshold"
         }
     }
 
@@ -3558,6 +3965,28 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
             case tags = "Tags"
+        }
+    }
+
+    public struct EventsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A list of event parameters configurations that specify how different event types should be handled.
+        public let eventParametersList: [EventParameters]
+
+        @inlinable
+        public init(eventParametersList: [EventParameters]) {
+            self.eventParametersList = eventParametersList
+        }
+
+        public func validate(name: String) throws {
+            try self.eventParametersList.forEach {
+                try $0.validate(name: "\(name).eventParametersList[]")
+            }
+            try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, max: 5)
+            try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventParametersList = "EventParametersList"
         }
     }
 
@@ -4231,6 +4660,75 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetDomainObjectTypeRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(domainName: String, objectTypeName: String) {
+            self.domainName = domainName
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDomainObjectTypeResponse: AWSDecodableShape {
+        /// The timestamp of when the domain object type was created.
+        public let createdAt: Date?
+        /// The description of the domain object type.
+        public let description: String?
+        /// The customer provided KMS key used to encrypt this type of domain object.
+        public let encryptionKey: String?
+        /// A map of field names to their corresponding domain object type field definitions.
+        public let fields: [String: DomainObjectTypeField]?
+        /// The timestamp of when the domain object type was most recently edited.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, encryptionKey: String? = nil, fields: [String: DomainObjectTypeField]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.fields = fields
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case encryptionKey = "EncryptionKey"
+            case fields = "Fields"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case tags = "Tags"
+        }
+    }
+
     public struct GetDomainRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -4258,6 +4756,8 @@ extension CustomerProfiles {
     public struct GetDomainResponse: AWSDecodableShape {
         /// The timestamp of when the domain was created.
         public let createdAt: Date
+        ///  True if data store is enabled for this domain.
+        public let dataStore: DataStoreResponse?
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
@@ -4283,8 +4783,9 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, dataStore: DataStoreResponse? = nil, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, stats: DomainStats? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
+            self.dataStore = dataStore
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
@@ -4298,6 +4799,7 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case dataStore = "DataStore"
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
@@ -4590,6 +5092,8 @@ extension CustomerProfiles {
         public let objectTypeNames: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
         public let roleArn: String?
+        /// Specifies whether the integration applies to profile level data (associated with profiles) or domain level data (not associated with any specific profile). The default value is PROFILE.
+        public let scope: Scope?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -4598,7 +5102,7 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, scope: Scope? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.eventTriggerNames = eventTriggerNames
@@ -4607,6 +5111,7 @@ extension CustomerProfiles {
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
             self.roleArn = roleArn
+            self.scope = scope
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -4621,6 +5126,7 @@ extension CustomerProfiles {
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
             case roleArn = "RoleArn"
+            case scope = "Scope"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"
@@ -4687,6 +5193,121 @@ extension CustomerProfiles {
             case matchGenerationDate = "MatchGenerationDate"
             case nextToken = "NextToken"
             case potentialMatches = "PotentialMatches"
+        }
+    }
+
+    public struct GetObjectTypeAttributeStatisticsPercentiles: AWSDecodableShape {
+        /// The 25th percentile value of the attribute.
+        public let p25: Double
+        /// The 5th percentile value of the attribute.
+        public let p5: Double
+        /// The 50th percentile (median) value of the attribute.
+        public let p50: Double
+        /// The 75th percentile value of the attribute.
+        public let p75: Double
+        /// The 95th percentile value of the attribute.
+        public let p95: Double
+
+        @inlinable
+        public init(p25: Double, p5: Double, p50: Double, p75: Double, p95: Double) {
+            self.p25 = p25
+            self.p5 = p5
+            self.p50 = p50
+            self.p75 = p75
+            self.p95 = p95
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case p25 = "P25"
+            case p5 = "P5"
+            case p50 = "P50"
+            case p75 = "P75"
+            case p95 = "P95"
+        }
+    }
+
+    public struct GetObjectTypeAttributeStatisticsRequest: AWSEncodableShape {
+        /// The attribute name.
+        public let attributeName: String
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(attributeName: String, domainName: String, objectTypeName: String) {
+            self.attributeName = attributeName
+            self.domainName = domainName
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 1000)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetObjectTypeAttributeStatisticsResponse: AWSDecodableShape {
+        /// Time when this statistics was calculated.
+        public let calculatedAt: Date
+        /// The statistics.
+        public let statistics: GetObjectTypeAttributeStatisticsStats
+
+        @inlinable
+        public init(calculatedAt: Date, statistics: GetObjectTypeAttributeStatisticsStats) {
+            self.calculatedAt = calculatedAt
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case calculatedAt = "CalculatedAt"
+            case statistics = "Statistics"
+        }
+    }
+
+    public struct GetObjectTypeAttributeStatisticsStats: AWSDecodableShape {
+        /// The arithmetic mean of the attribute values.
+        public let average: Double
+        /// The maximum value found in the attribute dataset.
+        public let maximum: Double
+        /// The minimum value found in the attribute dataset.
+        public let minimum: Double
+        /// Percentile distribution statistics for the attribute values.
+        public let percentiles: GetObjectTypeAttributeStatisticsPercentiles
+        /// The standard deviation of the attribute values, measuring their spread around the mean.
+        public let standardDeviation: Double
+
+        @inlinable
+        public init(average: Double, maximum: Double, minimum: Double, percentiles: GetObjectTypeAttributeStatisticsPercentiles, standardDeviation: Double) {
+            self.average = average
+            self.maximum = maximum
+            self.minimum = minimum
+            self.percentiles = percentiles
+            self.standardDeviation = standardDeviation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case average = "Average"
+            case maximum = "Maximum"
+            case minimum = "Minimum"
+            case percentiles = "Percentiles"
+            case standardDeviation = "StandardDeviation"
         }
     }
 
@@ -4925,6 +5546,168 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetProfileRecommendationsRequest: AWSEncodableShape {
+        /// The contextual metadata used to provide dynamic runtime information to tailor recommendations.
+        public let context: [String: String]?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of recommendations to return. The default value is 10.
+        public let maxResults: Int?
+        /// The unique identifier of the profile for which to retrieve recommendations.
+        public let profileId: String
+        /// The unique name of the recommender.
+        public let recommenderName: String
+
+        @inlinable
+        public init(context: [String: String]? = nil, domainName: String, maxResults: Int? = nil, profileId: String, recommenderName: String) {
+            self.context = context
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.profileId = profileId
+            self.recommenderName = recommenderName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.context, forKey: .context)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            request.encodePath(self.profileId, key: "ProfileId")
+            try container.encode(self.recommenderName, forKey: .recommenderName)
+        }
+
+        public func validate(name: String) throws {
+            try self.context?.forEach {
+                try validate($0.key, name: "context.key", parent: name, max: 64)
+                try validate($0.key, name: "context.key", parent: name, min: 1)
+                try validate($0.key, name: "context.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "context[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.profileId, name: "profileId", parent: name, pattern: "^[a-f0-9]{32}$")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "Context"
+            case maxResults = "MaxResults"
+            case recommenderName = "RecommenderName"
+        }
+    }
+
+    public struct GetProfileRecommendationsResponse: AWSDecodableShape {
+        /// List of recommendations generated by the recommender.
+        public let recommendations: [Recommendation]?
+
+        @inlinable
+        public init(recommendations: [Recommendation]? = nil) {
+            self.recommendations = recommendations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendations = "Recommendations"
+        }
+    }
+
+    public struct GetRecommenderRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender.
+        public let recommenderName: String
+        /// The number of training metrics to retrieve for the recommender.
+        public let trainingMetricsCount: Int?
+
+        @inlinable
+        public init(domainName: String, recommenderName: String, trainingMetricsCount: Int? = nil) {
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+            self.trainingMetricsCount = trainingMetricsCount
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+            request.encodeQuery(self.trainingMetricsCount, key: "training-metrics-count")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.trainingMetricsCount, name: "trainingMetricsCount", parent: name, max: 5)
+            try self.validate(self.trainingMetricsCount, name: "trainingMetricsCount", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetRecommenderResponse: AWSDecodableShape {
+        /// The timestamp of when the recommender was created.
+        public let createdAt: Date?
+        /// A detailed description of the recommender providing information about its purpose and functionality.
+        public let description: String?
+        /// If the recommender fails, provides the reason for the failure.
+        public let failureReason: String?
+        /// The timestamp of when the recommender was edited.
+        public let lastUpdatedAt: Date?
+        /// Information about the most recent update performed on the recommender, including status and timestamp.
+        public let latestRecommenderUpdate: RecommenderUpdate?
+        /// The configuration settings for the recommender, including parameters and settings that define its behavior.
+        public let recommenderConfig: RecommenderConfig?
+        /// The name of the recommender.
+        public let recommenderName: String
+        /// The name of the recipe used by the recommender to generate recommendations.
+        public let recommenderRecipeName: RecommenderRecipeName
+        /// The current status of the recommender, indicating whether it is active, creating, updating, or in another state.
+        public let status: RecommenderStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// A set of metrics that provide information about the recommender's training performance and accuracy.
+        public let trainingMetrics: [TrainingMetrics]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String, recommenderRecipeName: RecommenderRecipeName, status: RecommenderStatus? = nil, tags: [String: String]? = nil, trainingMetrics: [TrainingMetrics]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.failureReason = failureReason
+            self.lastUpdatedAt = lastUpdatedAt
+            self.latestRecommenderUpdate = latestRecommenderUpdate
+            self.recommenderConfig = recommenderConfig
+            self.recommenderName = recommenderName
+            self.recommenderRecipeName = recommenderRecipeName
+            self.status = status
+            self.tags = tags
+            self.trainingMetrics = trainingMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case failureReason = "FailureReason"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case latestRecommenderUpdate = "LatestRecommenderUpdate"
+            case recommenderConfig = "RecommenderConfig"
+            case recommenderName = "RecommenderName"
+            case recommenderRecipeName = "RecommenderRecipeName"
+            case status = "Status"
+            case tags = "Tags"
+            case trainingMetrics = "TrainingMetrics"
+        }
+    }
+
     public struct GetSegmentDefinitionRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -4969,17 +5752,23 @@ extension CustomerProfiles {
         public let segmentDefinitionName: String?
         /// The segment criteria associated with this definition.
         public let segmentGroups: SegmentGroup?
+        /// The segment SQL query.
+        public let segmentSqlQuery: String?
+        /// The segment type. Classic : Segments created using traditional SegmentGroup structure Enhanced : Segments created using SQL queries
+        public let segmentType: SegmentType?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String, segmentDefinitionName: String? = nil, segmentGroups: SegmentGroup? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String, segmentDefinitionName: String? = nil, segmentGroups: SegmentGroup? = nil, segmentSqlQuery: String? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.segmentDefinitionArn = segmentDefinitionArn
             self.segmentDefinitionName = segmentDefinitionName
             self.segmentGroups = segmentGroups
+            self.segmentSqlQuery = segmentSqlQuery
+            self.segmentType = segmentType
             self.tags = tags
         }
 
@@ -4990,6 +5779,8 @@ extension CustomerProfiles {
             case segmentDefinitionArn = "SegmentDefinitionArn"
             case segmentDefinitionName = "SegmentDefinitionName"
             case segmentGroups = "SegmentGroups"
+            case segmentSqlQuery = "SegmentSqlQuery"
+            case segmentType = "SegmentType"
             case tags = "Tags"
         }
     }
@@ -5113,20 +5904,24 @@ extension CustomerProfiles {
     public struct GetSegmentMembershipResponse: AWSDecodableShape {
         /// An array of maps where each contains a response per profile failed for the request.
         public let failures: [ProfileQueryFailures]?
+        /// The timestamp indicating when the segment membership was last computed or updated.
+        public let lastComputedAt: Date?
         /// An array of maps where each contains a response per profile requested.
         public let profiles: [ProfileQueryResult]?
         /// The unique name of the segment definition.
         public let segmentDefinitionName: String?
 
         @inlinable
-        public init(failures: [ProfileQueryFailures]? = nil, profiles: [ProfileQueryResult]? = nil, segmentDefinitionName: String? = nil) {
+        public init(failures: [ProfileQueryFailures]? = nil, lastComputedAt: Date? = nil, profiles: [ProfileQueryResult]? = nil, segmentDefinitionName: String? = nil) {
             self.failures = failures
+            self.lastComputedAt = lastComputedAt
             self.profiles = profiles
             self.segmentDefinitionName = segmentDefinitionName
         }
 
         private enum CodingKeys: String, CodingKey {
             case failures = "Failures"
+            case lastComputedAt = "LastComputedAt"
             case profiles = "Profiles"
             case segmentDefinitionName = "SegmentDefinitionName"
         }
@@ -6093,6 +6888,60 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ListDomainObjectTypesRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of domain object types returned per page.
+        public let maxResults: Int?
+        /// The pagination token from the previous call to ListDomainObjectTypes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDomainObjectTypesResponse: AWSDecodableShape {
+        /// The list of domain object types.
+        public let items: [DomainObjectTypesListItem]?
+        /// The pagination token from the previous call to ListDomainObjectTypes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [DomainObjectTypesListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListDomainsRequest: AWSEncodableShape {
         /// The maximum number of objects returned per page.
         public let maxResults: Int?
@@ -6312,7 +7161,7 @@ extension CustomerProfiles {
         public let eventTriggerNames: [String]?
         /// Boolean that shows if the Flow that's associated with the Integration is created in Amazon Appflow, or with ObjectTypeName equals _unstructured via API/CLI in flowDefinition.
         public let isUnstructured: Bool?
-        /// The timestamp of when the domain was most recently edited.
+        /// The timestamp of when the integration was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
         public let objectTypeName: String?
@@ -6322,6 +7171,8 @@ extension CustomerProfiles {
         public let objectTypeNames: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
         public let roleArn: String?
+        /// The scope or boundary of the integration item's applicability.
+        public let scope: Scope?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -6330,7 +7181,7 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, scope: Scope? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.eventTriggerNames = eventTriggerNames
@@ -6339,6 +7190,7 @@ extension CustomerProfiles {
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
             self.roleArn = roleArn
+            self.scope = scope
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -6353,6 +7205,7 @@ extension CustomerProfiles {
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
             case roleArn = "RoleArn"
+            case scope = "Scope"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"
@@ -6432,6 +7285,91 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case attributeName = "AttributeName"
             case lastUpdatedAt = "LastUpdatedAt"
+        }
+    }
+
+    public struct ListObjectTypeAttributeValuesItem: AWSDecodableShape {
+        /// The timestamp of when the object type attribute value was most recently updated.
+        public let lastUpdatedAt: Date
+        /// The actual value of the object type attribute.
+        public let value: String
+
+        @inlinable
+        public init(lastUpdatedAt: Date, value: String) {
+            self.lastUpdatedAt = lastUpdatedAt
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdatedAt = "LastUpdatedAt"
+            case value = "Value"
+        }
+    }
+
+    public struct ListObjectTypeAttributeValuesRequest: AWSEncodableShape {
+        /// The attribute name.
+        public let attributeName: String
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of objects returned per page. Valid Range: Minimum value of 1. Maximum value of 100. If not provided default as 100.
+        public let maxResults: Int?
+        /// The pagination token from the previous call.
+        public let nextToken: String?
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+
+        @inlinable
+        public init(attributeName: String, domainName: String, maxResults: Int? = nil, nextToken: String? = nil, objectTypeName: String) {
+            self.attributeName = attributeName
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.objectTypeName = objectTypeName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.attributeName, key: "AttributeName")
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeName, name: "attributeName", parent: name, max: 1000)
+            try self.validate(self.attributeName, name: "attributeName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListObjectTypeAttributeValuesResponse: AWSDecodableShape {
+        /// A list of unique attribute values sorted on the basis of LastUpdatedAt.
+        public let items: [ListObjectTypeAttributeValuesItem]?
+        /// The pagination token from the previous call to call ListObjectTypeAttributeValues.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ListObjectTypeAttributeValuesItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -6583,7 +7521,7 @@ extension CustomerProfiles {
         public let createdAt: Date?
         /// Description of the profile object type.
         public let description: String
-        /// The timestamp of when the domain was most recently edited.
+        /// The timestamp of when the profile object type was most recently edited.
         public let lastUpdatedAt: Date?
         /// The amount of provisioned profile object max count available.
         public let maxAvailableProfileObjectCount: Int?
@@ -6833,6 +7771,107 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListRecommenderRecipesRequest: AWSEncodableShape {
+        /// The maximum number of recommender recipes to return in the response. The default value is 100.
+        public let maxResults: Int?
+        /// A token received from a previous ListRecommenderRecipes call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecommenderRecipesResponse: AWSDecodableShape {
+        /// A token to retrieve the next page of results. Null if there are no more results to retrieve.
+        public let nextToken: String?
+        /// A list of available recommender recipes and their properties.
+        public let recommenderRecipes: [RecommenderRecipe]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recommenderRecipes: [RecommenderRecipe]? = nil) {
+            self.nextToken = nextToken
+            self.recommenderRecipes = recommenderRecipes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommenderRecipes = "RecommenderRecipes"
+        }
+    }
+
+    public struct ListRecommendersRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of recommenders to return in the response. The default value is 100.
+        public let maxResults: Int?
+        /// A token received from a previous ListRecommenders call to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListRecommendersResponse: AWSDecodableShape {
+        /// A token to retrieve the next page of results. Null if there are no more results to retrieve.
+        public let nextToken: String?
+        /// A list of recommenders and their properties in the specified domain.
+        public let recommenders: [RecommenderSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, recommenders: [RecommenderSummary]? = nil) {
+            self.nextToken = nextToken
+            self.recommenders = recommenders
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case recommenders = "Recommenders"
         }
     }
 
@@ -7925,6 +8964,113 @@ extension CustomerProfiles {
         }
     }
 
+    public struct PutDomainObjectTypeRequest: AWSEncodableShape {
+        /// The description of the domain object type.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The customer provided KMS key used to encrypt this type of domain object.
+        public let encryptionKey: String?
+        /// A map of field names to their corresponding domain object type field definitions.
+        public let fields: [String: DomainObjectTypeField]
+        /// The unique name of the domain object type.
+        public let objectTypeName: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, encryptionKey: String? = nil, fields: [String: DomainObjectTypeField], objectTypeName: String, tags: [String: String]? = nil) {
+            self.description = description
+            self.domainName = domainName
+            self.encryptionKey = encryptionKey
+            self.fields = fields
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.encryptionKey, forKey: .encryptionKey)
+            try container.encode(self.fields, forKey: .fields)
+            request.encodePath(self.objectTypeName, key: "ObjectTypeName")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 10000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 255)
+            try self.fields.forEach {
+                try validate($0.key, name: "fields.key", parent: name, max: 64)
+                try validate($0.key, name: "fields.key", parent: name, min: 1)
+                try validate($0.key, name: "fields.key", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+                try $0.value.validate(name: "\(name).fields[\"\($0.key)\"]")
+            }
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case encryptionKey = "EncryptionKey"
+            case fields = "Fields"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutDomainObjectTypeResponse: AWSDecodableShape {
+        /// The timestamp of when the domain object type was created.
+        public let createdAt: Date?
+        /// The description of the domain object type.
+        public let description: String?
+        /// The customer provided KMS key used to encrypt this type of domain object.
+        public let encryptionKey: String?
+        /// A map of field names to their corresponding domain object type field definitions.
+        public let fields: [String: DomainObjectTypeField]?
+        /// The timestamp of when the domain object type was most recently edited.
+        public let lastUpdatedAt: Date?
+        /// The unique name of the domain object type.
+        public let objectTypeName: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, encryptionKey: String? = nil, fields: [String: DomainObjectTypeField]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.encryptionKey = encryptionKey
+            self.fields = fields
+            self.lastUpdatedAt = lastUpdatedAt
+            self.objectTypeName = objectTypeName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case encryptionKey = "EncryptionKey"
+            case fields = "Fields"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case objectTypeName = "ObjectTypeName"
+            case tags = "Tags"
+        }
+    }
+
     public struct PutIntegrationRequest: AWSEncodableShape {
         /// The unique name of the domain.
         public let domainName: String
@@ -7940,19 +9086,22 @@ extension CustomerProfiles {
         public let objectTypeNames: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
         public let roleArn: String?
+        /// Specifies whether the integration applies to profile level data (associated with profiles) or domain level data (not associated with any specific profile). The default value is PROFILE.
+        public let scope: Scope?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String?
 
         @inlinable
-        public init(domainName: String, eventTriggerNames: [String]? = nil, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(domainName: String, eventTriggerNames: [String]? = nil, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, scope: Scope? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
             self.eventTriggerNames = eventTriggerNames
             self.flowDefinition = flowDefinition
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
             self.roleArn = roleArn
+            self.scope = scope
             self.tags = tags
             self.uri = uri
         }
@@ -7966,6 +9115,7 @@ extension CustomerProfiles {
             try container.encodeIfPresent(self.objectTypeName, forKey: .objectTypeName)
             try container.encodeIfPresent(self.objectTypeNames, forKey: .objectTypeNames)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.scope, forKey: .scope)
             try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.uri, forKey: .uri)
         }
@@ -8012,6 +9162,7 @@ extension CustomerProfiles {
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
             case roleArn = "RoleArn"
+            case scope = "Scope"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -8036,6 +9187,8 @@ extension CustomerProfiles {
         public let objectTypeNames: [String: String]?
         /// The Amazon Resource Name (ARN) of the IAM role. The Integration uses this role to make Customer Profiles requests on your behalf.
         public let roleArn: String?
+        /// Specifies whether the integration applies to profile level data (associated with profiles) or domain level data (not associated with any specific profile). The default value is PROFILE.
+        public let scope: Scope?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
@@ -8044,7 +9197,7 @@ extension CustomerProfiles {
         public let workflowId: String?
 
         @inlinable
-        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
+        public init(createdAt: Date, domainName: String, eventTriggerNames: [String]? = nil, isUnstructured: Bool? = nil, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, roleArn: String? = nil, scope: Scope? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.eventTriggerNames = eventTriggerNames
@@ -8053,6 +9206,7 @@ extension CustomerProfiles {
             self.objectTypeName = objectTypeName
             self.objectTypeNames = objectTypeNames
             self.roleArn = roleArn
+            self.scope = scope
             self.tags = tags
             self.uri = uri
             self.workflowId = workflowId
@@ -8067,6 +9221,7 @@ extension CustomerProfiles {
             case objectTypeName = "ObjectTypeName"
             case objectTypeNames = "ObjectTypeNames"
             case roleArn = "RoleArn"
+            case scope = "Scope"
             case tags = "Tags"
             case uri = "Uri"
             case workflowId = "WorkflowId"
@@ -8381,6 +9536,146 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case progressPercentage = "ProgressPercentage"
+        }
+    }
+
+    public struct Recommendation: AWSDecodableShape {
+        /// The catalog item being recommended, including its complete details and attributes.
+        public let catalogItem: CatalogItem?
+        /// Recommendation Score between 0 and 1.
+        public let score: Double?
+
+        @inlinable
+        public init(catalogItem: CatalogItem? = nil, score: Double? = nil) {
+            self.catalogItem = catalogItem
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogItem = "CatalogItem"
+            case score = "Score"
+        }
+    }
+
+    public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for how the recommender processes and uses events.
+        public let eventsConfig: EventsConfig
+        /// How often the recommender should retrain its model with new data.
+        public let trainingFrequency: Int?
+
+        @inlinable
+        public init(eventsConfig: EventsConfig, trainingFrequency: Int? = nil) {
+            self.eventsConfig = eventsConfig
+            self.trainingFrequency = trainingFrequency
+        }
+
+        public func validate(name: String) throws {
+            try self.eventsConfig.validate(name: "\(name).eventsConfig")
+            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, max: 7)
+            try self.validate(self.trainingFrequency, name: "trainingFrequency", parent: name, min: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventsConfig = "EventsConfig"
+            case trainingFrequency = "TrainingFrequency"
+        }
+    }
+
+    public struct RecommenderRecipe: AWSDecodableShape {
+        /// A description of the recommender recipe's purpose and functionality.
+        public let description: String?
+        /// The name of the recommender recipe.
+        public let name: RecommenderRecipeName?
+
+        @inlinable
+        public init(description: String? = nil, name: RecommenderRecipeName? = nil) {
+            self.description = description
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct RecommenderSummary: AWSDecodableShape {
+        /// The timestamp when the recommender was created.
+        public let createdAt: Date?
+        /// A description of the recommender's purpose and characteristics.
+        public let description: String?
+        /// If the recommender is in a failed state, provides the reason for the failure.
+        public let failureReason: String?
+        /// The timestamp of when the recommender was edited.
+        public let lastUpdatedAt: Date?
+        /// Information about the most recent update performed on the recommender, including its status and timing.
+        public let latestRecommenderUpdate: RecommenderUpdate?
+        /// The name of the recipe used by this recommender.
+        public let recipeName: RecommenderRecipeName?
+        /// The configuration settings applied to this recommender.
+        public let recommenderConfig: RecommenderConfig?
+        /// The name of the recommender.
+        public let recommenderName: String?
+        /// The current operational status of the recommender.
+        public let status: RecommenderStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(createdAt: Date? = nil, description: String? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, latestRecommenderUpdate: RecommenderUpdate? = nil, recipeName: RecommenderRecipeName? = nil, recommenderConfig: RecommenderConfig? = nil, recommenderName: String? = nil, status: RecommenderStatus? = nil, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.failureReason = failureReason
+            self.lastUpdatedAt = lastUpdatedAt
+            self.latestRecommenderUpdate = latestRecommenderUpdate
+            self.recipeName = recipeName
+            self.recommenderConfig = recommenderConfig
+            self.recommenderName = recommenderName
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case failureReason = "FailureReason"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case latestRecommenderUpdate = "LatestRecommenderUpdate"
+            case recipeName = "RecipeName"
+            case recommenderConfig = "RecommenderConfig"
+            case recommenderName = "RecommenderName"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RecommenderUpdate: AWSDecodableShape {
+        /// The timestamp when this recommender update was initiated.
+        public let createdAt: Date?
+        /// If the update operation failed, provides the reason for the failure.
+        public let failureReason: String?
+        /// The timestamp of when the recommender was edited.
+        public let lastUpdatedAt: Date?
+        /// The updated configuration settings applied to the recommender during this update.
+        public let recommenderConfig: RecommenderConfig?
+        /// The current status of the recommender update operation.
+        public let status: RecommenderStatus?
+
+        @inlinable
+        public init(createdAt: Date? = nil, failureReason: String? = nil, lastUpdatedAt: Date? = nil, recommenderConfig: RecommenderConfig? = nil, status: RecommenderStatus? = nil) {
+            self.createdAt = createdAt
+            self.failureReason = failureReason
+            self.lastUpdatedAt = lastUpdatedAt
+            self.recommenderConfig = recommenderConfig
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case failureReason = "FailureReason"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case recommenderConfig = "RecommenderConfig"
+            case status = "Status"
         }
     }
 
@@ -8740,16 +10035,19 @@ extension CustomerProfiles {
         public let segmentDefinitionArn: String?
         /// Name of the segment definition.
         public let segmentDefinitionName: String?
+        /// The segment type. Classic : Segments created using traditional SegmentGroup structure Enhanced : Segments created using SQL queries
+        public let segmentType: SegmentType?
         /// The tags belonging to the segment definition.
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String? = nil, segmentDefinitionName: String? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date? = nil, description: String? = nil, displayName: String? = nil, segmentDefinitionArn: String? = nil, segmentDefinitionName: String? = nil, segmentType: SegmentType? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.displayName = displayName
             self.segmentDefinitionArn = segmentDefinitionArn
             self.segmentDefinitionName = segmentDefinitionName
+            self.segmentType = segmentType
             self.tags = tags
         }
 
@@ -8759,6 +10057,7 @@ extension CustomerProfiles {
             case displayName = "DisplayName"
             case segmentDefinitionArn = "SegmentDefinitionArn"
             case segmentDefinitionName = "SegmentDefinitionName"
+            case segmentType = "SegmentType"
             case tags = "Tags"
         }
     }
@@ -8921,6 +10220,41 @@ extension CustomerProfiles {
         }
     }
 
+    public struct StartRecommenderRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender to start.
+        public let recommenderName: String
+
+        @inlinable
+        public init(domainName: String, recommenderName: String) {
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartRecommenderResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct StartUploadJobRequest: AWSEncodableShape {
         /// The unique name of the domain containing the upload job to start.
         public let domainName: String
@@ -8953,6 +10287,41 @@ extension CustomerProfiles {
     }
 
     public struct StartUploadJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopRecommenderRequest: AWSEncodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The name of the recommender to stop.
+        public let recommenderName: String
+
+        @inlinable
+        public init(domainName: String, recommenderName: String) {
+            self.domainName = domainName
+            self.recommenderName = recommenderName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainName, key: "DomainName")
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StopRecommenderResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -9095,6 +10464,24 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case `operator` = "Operator"
             case value = "Value"
+        }
+    }
+
+    public struct TrainingMetrics: AWSDecodableShape {
+        /// A collection of performance metrics and statistics from the training process.
+        public let metrics: [TrainingMetricName: Double]?
+        /// The timestamp when these training metrics were recorded.
+        public let time: Date?
+
+        @inlinable
+        public init(metrics: [TrainingMetricName: Double]? = nil, time: Date? = nil) {
+            self.metrics = metrics
+            self.time = time
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metrics = "Metrics"
+            case time = "Time"
         }
     }
 
@@ -9465,6 +10852,8 @@ extension CustomerProfiles {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
+        /// Set to true to enabled data store for this domain.
+        public let dataStore: DataStoreRequest?
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications. If specified as an empty string, it will clear any existing value. You must set up a policy on the DeadLetterQueue for the SendMessage operation to enable Amazon Connect Customer Profiles to send messages to the DeadLetterQueue.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage. If specified as an empty string, it will clear any existing value.
@@ -9486,7 +10875,8 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
+        public init(dataStore: DataStoreRequest? = nil, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, matching: MatchingRequest? = nil, ruleBasedMatching: RuleBasedMatchingRequest? = nil, tags: [String: String]? = nil) {
+            self.dataStore = dataStore
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
@@ -9499,6 +10889,7 @@ extension CustomerProfiles {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dataStore, forKey: .dataStore)
             try container.encodeIfPresent(self.deadLetterQueueUrl, forKey: .deadLetterQueueUrl)
             try container.encodeIfPresent(self.defaultEncryptionKey, forKey: .defaultEncryptionKey)
             try container.encodeIfPresent(self.defaultExpirationDays, forKey: .defaultExpirationDays)
@@ -9529,6 +10920,7 @@ extension CustomerProfiles {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataStore = "DataStore"
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
@@ -9541,6 +10933,8 @@ extension CustomerProfiles {
     public struct UpdateDomainResponse: AWSDecodableShape {
         /// The timestamp of when the domain was created.
         public let createdAt: Date
+        /// The data store.
+        public let dataStore: DataStoreResponse?
         /// The URL of the SQS dead letter queue, which is used for reporting errors associated with ingesting data from third party applications.
         public let deadLetterQueueUrl: String?
         /// The default encryption key, which is an AWS managed key, is used when no specific type of encryption key is specified. It is used to encrypt all data before it is placed in permanent or semi-permanent storage.
@@ -9564,8 +10958,9 @@ extension CustomerProfiles {
         public let tags: [String: String]?
 
         @inlinable
-        public init(createdAt: Date, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
+        public init(createdAt: Date, dataStore: DataStoreResponse? = nil, deadLetterQueueUrl: String? = nil, defaultEncryptionKey: String? = nil, defaultExpirationDays: Int? = nil, domainName: String, lastUpdatedAt: Date, matching: MatchingResponse? = nil, ruleBasedMatching: RuleBasedMatchingResponse? = nil, tags: [String: String]? = nil) {
             self.createdAt = createdAt
+            self.dataStore = dataStore
             self.deadLetterQueueUrl = deadLetterQueueUrl
             self.defaultEncryptionKey = defaultEncryptionKey
             self.defaultExpirationDays = defaultExpirationDays
@@ -9578,6 +10973,7 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case dataStore = "DataStore"
             case deadLetterQueueUrl = "DeadLetterQueueUrl"
             case defaultEncryptionKey = "DefaultEncryptionKey"
             case defaultExpirationDays = "DefaultExpirationDays"
@@ -9899,6 +11295,65 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
+        }
+    }
+
+    public struct UpdateRecommenderRequest: AWSEncodableShape {
+        /// The new description to assign to the recommender.
+        public let description: String?
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The new configuration settings to apply to the recommender, including updated parameters and settings that define its behavior.
+        public let recommenderConfig: RecommenderConfig?
+        /// The name of the recommender to update.
+        public let recommenderName: String
+
+        @inlinable
+        public init(description: String? = nil, domainName: String, recommenderConfig: RecommenderConfig? = nil, recommenderName: String) {
+            self.description = description
+            self.domainName = domainName
+            self.recommenderConfig = recommenderConfig
+            self.recommenderName = recommenderName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainName, key: "DomainName")
+            try container.encodeIfPresent(self.recommenderConfig, forKey: .recommenderConfig)
+            request.encodePath(self.recommenderName, key: "RecommenderName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.recommenderConfig?.validate(name: "\(name).recommenderConfig")
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, max: 64)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, min: 1)
+            try self.validate(self.recommenderName, name: "recommenderName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case recommenderConfig = "RecommenderConfig"
+        }
+    }
+
+    public struct UpdateRecommenderResponse: AWSDecodableShape {
+        /// The name of the recommender that was updated.
+        public let recommenderName: String
+
+        @inlinable
+        public init(recommenderName: String) {
+            self.recommenderName = recommenderName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderName = "RecommenderName"
         }
     }
 

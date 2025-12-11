@@ -38,6 +38,12 @@ extension MarketplaceAgreement {
         public var description: String { return self.rawValue }
     }
 
+    public enum PaymentRequestApprovalStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoApproveOnExpiration = "AUTO_APPROVE_ON_EXPIRATION"
+        case waitForApproval = "WAIT_FOR_APPROVAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agreement = "Agreement"
         public var description: String { return self.rawValue }
@@ -87,6 +93,8 @@ extension MarketplaceAgreement {
         case usageBasedPricingTerm(UsageBasedPricingTerm)
         /// Defines the conditions that will keep an agreement created from this offer valid.
         case validityTerm(ValidityTerm)
+        /// Defines a payment model where sellers can submit variable payment requests up to a maximum charge amount, with configurable approval strategies and expiration timelines.
+        case variablePaymentTerm(VariablePaymentTerm)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -131,6 +139,9 @@ extension MarketplaceAgreement {
             case .validityTerm:
                 let value = try container.decode(ValidityTerm.self, forKey: .validityTerm)
                 self = .validityTerm(value)
+            case .variablePaymentTerm:
+                let value = try container.decode(VariablePaymentTerm.self, forKey: .variablePaymentTerm)
+                self = .variablePaymentTerm(value)
             }
         }
 
@@ -146,6 +157,7 @@ extension MarketplaceAgreement {
             case supportTerm = "supportTerm"
             case usageBasedPricingTerm = "usageBasedPricingTerm"
             case validityTerm = "validityTerm"
+            case variablePaymentTerm = "variablePaymentTerm"
         }
     }
 
@@ -189,7 +201,7 @@ extension MarketplaceAgreement {
         public let acceptor: Acceptor?
         /// The unique identifier of the agreement.
         public let agreementId: String?
-        /// The type of agreement. Values are PurchaseAgreement or VendorInsightsAgreement.
+        /// The type of agreement. Value is PurchaseAgreement.
         public let agreementType: String?
         /// The date and time when the agreement ends. The field is null for pay-as-you-go agreements, which don’t have end dates.
         public let endTime: Date?
@@ -365,7 +377,7 @@ extension MarketplaceAgreement {
         public let proposer: Proposer?
         /// The date and time when the agreement starts.
         public let startTime: Date?
-        /// The current status of the agreement. Statuses include:    ACTIVE – The terms of the agreement are active.    ARCHIVED – The agreement ended without a specified reason.    CANCELLED – The acceptor ended the agreement before the defined end date.    EXPIRED – The agreement ended on the defined end date.    RENEWED – The agreement was renewed into a new agreement (for example, an auto-renewal).    REPLACED – The agreement was replaced using an agreement replacement offer.    ROLLED_BACK (Only applicable to inactive agreement revisions) – The agreement revision has been rolled back because of an error. An earlier revision is now active.    SUPERCEDED (Only applicable to inactive agreement revisions) – The agreement revision is no longer active and another agreement revision is now active.    TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
+        /// The current status of the agreement. Statuses include:    ACTIVE – The terms of the agreement are active.    ARCHIVED – The agreement ended without a specified reason.    CANCELLED – The acceptor ended the agreement before the defined end date.    EXPIRED – The agreement ended on the defined end date.    RENEWED – The agreement was renewed into a new agreement (for example, an auto-renewal).    REPLACED – The agreement was replaced using an agreement replacement offer.    TERMINATED – The agreement ended before the defined end date because of an AWS termination (for example, a payment failure).
         public let status: AgreementStatus?
 
         @inlinable
@@ -665,17 +677,21 @@ extension MarketplaceAgreement {
     public struct ProposalSummary: AWSDecodableShape {
         /// The unique identifier of the offer in AWS Marketplace.
         public let offerId: String?
+        /// A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
+        public let offerSetId: String?
         /// The list of resources involved in the agreement.
         public let resources: [Resource]?
 
         @inlinable
-        public init(offerId: String? = nil, resources: [Resource]? = nil) {
+        public init(offerId: String? = nil, offerSetId: String? = nil, resources: [Resource]? = nil) {
             self.offerId = offerId
+            self.offerSetId = offerSetId
             self.resources = resources
         }
 
         private enum CodingKeys: String, CodingKey {
             case offerId = "offerId"
+            case offerSetId = "offerSetId"
             case resources = "resources"
         }
     }
@@ -834,13 +850,13 @@ extension MarketplaceAgreement {
     public struct SearchAgreementsInput: AWSEncodableShape {
         /// The catalog in which the agreement was created.
         public let catalog: String?
-        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, or SaaSProduct).    PartyType – The party type (either Acceptor or Proposer) of the caller. For agreements where the caller is the proposer, use the Proposer filter. For agreements where the caller is the acceptor, use the Acceptor filter.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Values include PurchaseAgreement or VendorInsightsAgreement.
+        /// The filter name and value pair used to return a specific list of results. The following filters are supported:    ResourceIdentifier – The unique identifier of the resource.    ResourceType – Type of the resource, which is the product (AmiProduct, ContainerProduct, SaaSProduct, ProfessionalServicesProduct, or MachineLearningProduct).    PartyType – The party type of the caller. For agreements where the caller is the proposer, use the Proposer filter.    AcceptorAccountId – The AWS account ID of the party accepting the agreement terms.    OfferId – The unique identifier of the offer in which the terms are registered in the agreement token.    Status – The current status of the agreement. Values include ACTIVE, ARCHIVED, CANCELLED, EXPIRED, RENEWED, REPLACED, and TERMINATED.    BeforeEndTime – A date used to filter agreements with a date before the endTime of an agreement.    AfterEndTime – A date used to filter agreements with a date after the endTime of an agreement.    AgreementType – The type of agreement. Supported value includes PurchaseAgreement.    OfferSetId – A unique identifier for the offer set containing this offer. All agreements created from offers in this set include this identifier as context.
         public let filters: [Filter]?
         /// The maximum number of agreements to return in the response.
         public let maxResults: Int?
         /// A token to specify where to start pagination.
         public let nextToken: String?
-        /// An object that contains the SortBy and SortOrder attributes.
+        /// An object that contains the SortBy and SortOrder attributes. Only EndTime is supported for SearchAgreements. The default sort is EndTime descending.
         public let sort: Sort?
 
         @inlinable
@@ -878,7 +894,7 @@ extension MarketplaceAgreement {
     }
 
     public struct SearchAgreementsOutput: AWSDecodableShape {
-        /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
+        /// A summary of the agreement, including top-level attributes (for example, the agreement ID, proposer, and acceptor).
         public let agreementViewSummaries: [AgreementViewSummary]?
         /// The token used for pagination. The field is null if there are no more results.
         public let nextToken: String?
@@ -1074,6 +1090,50 @@ extension MarketplaceAgreement {
             case agreementEndDate = "agreementEndDate"
             case agreementStartDate = "agreementStartDate"
             case type = "type"
+        }
+    }
+
+    public struct VariablePaymentTerm: AWSDecodableShape {
+        /// Additional parameters specified by the acceptor while accepting the term.
+        public let configuration: VariablePaymentTermConfiguration?
+        /// Defines the currency for the prices mentioned in the term.
+        public let currencyCode: String?
+        /// The maximum total amount that can be charged to the customer through variable payment requests under this term.
+        public let maxTotalChargeAmount: String?
+        /// Type of the term.
+        public let type: String?
+
+        @inlinable
+        public init(configuration: VariablePaymentTermConfiguration? = nil, currencyCode: String? = nil, maxTotalChargeAmount: String? = nil, type: String? = nil) {
+            self.configuration = configuration
+            self.currencyCode = currencyCode
+            self.maxTotalChargeAmount = maxTotalChargeAmount
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case currencyCode = "currencyCode"
+            case maxTotalChargeAmount = "maxTotalChargeAmount"
+            case type = "type"
+        }
+    }
+
+    public struct VariablePaymentTermConfiguration: AWSDecodableShape {
+        /// Defines the duration after which a payment request is automatically approved if no further action is taken. This only applies when the payment request approval strategy is set to AUTO_APPROVE_ON_EXPIRATION. The duration is represented in the ISO_8601 format (e.g., P10D for 10 days).
+        public let expirationDuration: String?
+        /// Defines the strategy for approving payment requests. Values include AUTO_APPROVE_ON_EXPIRATION and WAIT_FOR_APPROVAL
+        public let paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy
+
+        @inlinable
+        public init(expirationDuration: String? = nil, paymentRequestApprovalStrategy: PaymentRequestApprovalStrategy) {
+            self.expirationDuration = expirationDuration
+            self.paymentRequestApprovalStrategy = paymentRequestApprovalStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationDuration = "expirationDuration"
+            case paymentRequestApprovalStrategy = "paymentRequestApprovalStrategy"
         }
     }
 }

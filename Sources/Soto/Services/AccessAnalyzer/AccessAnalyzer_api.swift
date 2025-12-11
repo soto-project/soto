@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS AccessAnalyzer service.
 ///
-/// Identity and Access Management Access Analyzer helps you to set, verify, and refine your IAM policies by providing a suite of capabilities. Its features include findings for external and unused access, basic and custom policy checks for validating policies, and policy generation to generate fine-grained policies. To start using IAM Access Analyzer to identify external or unused access, you first need to create an analyzer.  External access analyzers help identify potential risks of accessing resources by enabling you to identify any resource policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your Amazon Web Services environment. An external principal can be another Amazon Web Services account, a root user, an IAM user or role, a federated user, an Amazon Web Services service, or an anonymous user. You can also use IAM Access Analyzer to preview public and cross-account access to your resources before deploying permissions changes.  Unused access analyzers help identify potential identity access risks by enabling you to identify unused IAM roles, unused access keys, unused console passwords, and IAM principals with unused service and action-level permissions. Beyond findings, IAM Access Analyzer provides basic and custom policy checks to validate IAM policies before deploying permissions changes. You can use policy generation to refine permissions by attaching a policy generated using access activity logged in CloudTrail logs.  This guide describes the IAM Access Analyzer operations that you can call programmatically. For general information about IAM Access Analyzer, see Identity and Access Management Access Analyzer in the IAM User Guide.
+/// Identity and Access Management Access Analyzer helps you to set, verify, and refine your IAM policies by providing a suite of capabilities. Its features include findings for external, internal, and unused access, basic and custom policy checks for validating policies, and policy generation to generate fine-grained policies. To start using IAM Access Analyzer to identify external, internal, or unused access, you first need to create an analyzer.  External access analyzers help you identify potential risks of accessing resources by enabling you to identify any resource policies that grant access to an external principal. It does this by using logic-based reasoning to analyze resource-based policies in your Amazon Web Services environment. An external principal can be another Amazon Web Services account, a root user, an IAM user or role, a federated user, an Amazon Web Services service, or an anonymous user. You can also use IAM Access Analyzer to preview public and cross-account access to your resources before deploying permissions changes.  Internal access analyzers help you identify which principals within your organization or account have access to selected resources. This analysis supports implementing the principle of least privilege by ensuring that your specified resources can only be accessed by the intended principals within your organization.  Unused access analyzers help you identify potential identity access risks by enabling you to identify unused IAM roles, unused access keys, unused console passwords, and IAM principals with unused service and action-level permissions. Beyond findings, IAM Access Analyzer provides basic and custom policy checks to validate IAM policies before deploying permissions changes. You can use policy generation to refine permissions by attaching a policy generated using access activity logged in CloudTrail logs.  This guide describes the IAM Access Analyzer operations that you can call programmatically. For general information about IAM Access Analyzer, see Using Identity and Access Management Access Analyzer in the IAM User Guide.
 public struct AccessAnalyzer: AWSService {
     // MARK: Member variables
 
@@ -560,7 +560,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.getAccessPreview(input, logger: logger)
     }
 
-    /// Retrieves information about a resource that was analyzed.
+    /// Retrieves information about a resource that was analyzed.  This action is supported only for external access analyzers.
     @Sendable
     @inlinable
     public func getAnalyzedResource(_ input: GetAnalyzedResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnalyzedResourceResponse {
@@ -573,7 +573,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a resource that was analyzed.
+    /// Retrieves information about a resource that was analyzed.  This action is supported only for external access analyzers.
     ///
     /// Parameters:
     ///   - analyzerArn: The ARN of the analyzer to retrieve information from.
@@ -653,7 +653,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.getArchiveRule(input, logger: logger)
     }
 
-    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.  GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers.
     @Sendable
     @inlinable
     public func getFinding(_ input: GetFindingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingResponse {
@@ -666,7 +666,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.
+    /// Retrieves information about the specified finding. GetFinding and GetFindingV2 both use access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:GetFinding action.  GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers.
     ///
     /// Parameters:
     ///   - analyzerArn: The ARN of the analyzer that generated the finding.
@@ -1009,7 +1009,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.listArchiveRules(input, logger: logger)
     }
 
-    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide.
+    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide.  ListFindings is supported only for external access analyzers. You must use ListFindingsV2 for internal and unused access analyzers.
     @Sendable
     @inlinable
     public func listFindings(_ input: ListFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFindingsResponse {
@@ -1022,7 +1022,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide.
+    /// Retrieves a list of findings generated by the specified analyzer. ListFindings and ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy statement. You must have permission to perform the access-analyzer:ListFindings action. To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the IAM User Guide.  ListFindings is supported only for external access analyzers. You must use ListFindingsV2 for internal and unused access analyzers.
     ///
     /// Parameters:
     ///   - analyzerArn: The ARN of the analyzer to retrieve findings from.
@@ -1190,7 +1190,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.startPolicyGeneration(input, logger: logger)
     }
 
-    /// Immediately starts a scan of the policies applied to the specified resource.
+    /// Immediately starts a scan of the policies applied to the specified resource.  This action is supported only for external access analyzers.
     @Sendable
     @inlinable
     public func startResourceScan(_ input: StartResourceScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1203,7 +1203,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Immediately starts a scan of the policies applied to the specified resource.
+    /// Immediately starts a scan of the policies applied to the specified resource.  This action is supported only for external access analyzers.
     ///
     /// Parameters:
     ///   - analyzerArn: The ARN of the analyzer to use to scan the policies applied to the specified resource.
@@ -1289,7 +1289,7 @@ public struct AccessAnalyzer: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Modifies the configuration of an existing analyzer.
+    /// Modifies the configuration of an existing analyzer.  This action is not supported for external access analyzers.
     @Sendable
     @inlinable
     public func updateAnalyzer(_ input: UpdateAnalyzerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnalyzerResponse {
@@ -1302,7 +1302,7 @@ public struct AccessAnalyzer: AWSService {
             logger: logger
         )
     }
-    /// Modifies the configuration of an existing analyzer.
+    /// Modifies the configuration of an existing analyzer.  This action is not supported for external access analyzers.
     ///
     /// Parameters:
     ///   - analyzerName: The name of the analyzer to modify.

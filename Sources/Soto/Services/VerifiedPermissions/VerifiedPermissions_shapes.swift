@@ -90,7 +90,7 @@ extension VerifiedPermissions {
         case decimal(String)
         /// An attribute value of duration type. Example: {"duration": "1h30m"}
         case duration(String)
-        /// An attribute value of type EntityIdentifier. Example: "entityIdentifier": { "entityId": "&lt;id&gt;", "entityType": "&lt;entity type&gt;"}
+        /// An attribute value of type EntityIdentifier. Example: {"entityIdentifier": { "entityId": "alice", "entityType": "User"} }
         case entityIdentifier(EntityIdentifier)
         /// An attribute value of ipaddr type. Example: {"ip": "192.168.1.100"}
         case ipaddr(String)
@@ -145,6 +145,101 @@ extension VerifiedPermissions {
                 self = .string(value)
             }
         }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .boolean(let value):
+                try container.encode(value, forKey: .boolean)
+            case .datetime(let value):
+                try container.encode(value, forKey: .datetime)
+            case .decimal(let value):
+                try container.encode(value, forKey: .decimal)
+            case .duration(let value):
+                try container.encode(value, forKey: .duration)
+            case .entityIdentifier(let value):
+                try container.encode(value, forKey: .entityIdentifier)
+            case .ipaddr(let value):
+                try container.encode(value, forKey: .ipaddr)
+            case .long(let value):
+                try container.encode(value, forKey: .long)
+            case .record(let value):
+                try container.encode(value, forKey: .record)
+            case .set(let value):
+                try container.encode(value, forKey: .set)
+            case .string(let value):
+                try container.encode(value, forKey: .string)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .datetime(let value):
+                try self.validate(value, name: "datetime", parent: name, max: 28)
+                try self.validate(value, name: "datetime", parent: name, min: 10)
+                try self.validate(value, name: "datetime", parent: name, pattern: "^\\d{4}-\\d{2}-\\d{2}(T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?(Z|[+-]\\d{4}))?$")
+            case .decimal(let value):
+                try self.validate(value, name: "decimal", parent: name, max: 23)
+                try self.validate(value, name: "decimal", parent: name, min: 3)
+                try self.validate(value, name: "decimal", parent: name, pattern: "^-?\\d{1,15}\\.\\d{1,4}$")
+            case .duration(let value):
+                try self.validate(value, name: "duration", parent: name, max: 100)
+                try self.validate(value, name: "duration", parent: name, min: 2)
+                try self.validate(value, name: "duration", parent: name, pattern: "^-?(\\d+d)?(\\d+h)?(\\d+m)?(\\d+s)?(\\d+ms)?$")
+            case .entityIdentifier(let value):
+                try value.validate(name: "\(name).entityIdentifier")
+            case .ipaddr(let value):
+                try self.validate(value, name: "ipaddr", parent: name, max: 44)
+                try self.validate(value, name: "ipaddr", parent: name, min: 1)
+                try self.validate(value, name: "ipaddr", parent: name, pattern: "^[0-9a-fA-F\\.:\\/]*$")
+            case .record(let value):
+                try value.forEach {
+                    try $0.value.validate(name: "\(name).record[\"\($0.key)\"]")
+                }
+            case .set(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).set[]")
+                }
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boolean = "boolean"
+            case datetime = "datetime"
+            case decimal = "decimal"
+            case duration = "duration"
+            case entityIdentifier = "entityIdentifier"
+            case ipaddr = "ipaddr"
+            case long = "long"
+            case record = "record"
+            case set = "set"
+            case string = "string"
+        }
+    }
+
+    public enum CedarTagValue: AWSEncodableShape, Sendable {
+        /// A Cedar tag value of Boolean type. Example: {"boolean": false}
+        case boolean(Bool)
+        /// A Cedar tag value of datetime type. Example: {"datetime": "2025-11-04T11:35:00.000+0100"}
+        case datetime(String)
+        /// A Cedar tag value of decimal type. Example: {"decimal": "-2.0"}
+        case decimal(String)
+        /// A Cedar tag value of duration type. Example: {"duration": "-1d12h"}
+        case duration(String)
+        /// A Cedar tag value of type EntityIdentifier. Example: {"entityIdentifier": { "entityId": "alice", "entityType": "User"} }
+        case entityIdentifier(EntityIdentifier)
+        /// A Cedar tag value of ipaddr type. Example: {"ip": "10.50.0.0/24"}
+        case ipaddr(String)
+        /// A Cedar tag value of Long type. Example: {"long": 0}
+        case long(Int64)
+        /// A Cedar tag value of Record type. Example: {"record": { "keyName": {} } }
+        case record([String: CedarTagValue])
+        /// A Cedar tag value of Set type. Example: {"set": [ { "string": "abc" } ] }
+        case set([CedarTagValue])
+        /// A Cedar tag value of String type. Example: {"string": "abc"}
+        case string(String)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -1660,12 +1755,15 @@ extension VerifiedPermissions {
         public let identifier: EntityIdentifier
         /// The parent entities in the hierarchy that contains the entity. A principal or resource entity can be defined with at most 99 transitive parents per authorization request.  A transitive parent is an entity in the hierarchy of entities including all direct parents, and parents of parents. For example, a user can be a member of 91 groups if one of those groups is a member of eight groups, for a total of 100: one entity, 91 entity parents, and eight parents of parents.
         public let parents: [EntityIdentifier]?
+        /// A list of cedar tags for the entity.
+        public let tags: [String: CedarTagValue]?
 
         @inlinable
-        public init(attributes: [String: AttributeValue]? = nil, identifier: EntityIdentifier, parents: [EntityIdentifier]? = nil) {
+        public init(attributes: [String: AttributeValue]? = nil, identifier: EntityIdentifier, parents: [EntityIdentifier]? = nil, tags: [String: CedarTagValue]? = nil) {
             self.attributes = attributes
             self.identifier = identifier
             self.parents = parents
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1676,12 +1774,16 @@ extension VerifiedPermissions {
             try self.parents?.forEach {
                 try $0.validate(name: "\(name).parents[]")
             }
+            try self.tags?.forEach {
+                try $0.value.validate(name: "\(name).tags[\"\($0.key)\"]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "attributes"
             case identifier = "identifier"
             case parents = "parents"
+            case tags = "tags"
         }
     }
 

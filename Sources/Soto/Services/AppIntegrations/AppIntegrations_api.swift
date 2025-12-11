@@ -96,11 +96,11 @@ public struct AppIntegrations: AWSService {
     /// Parameters:
     ///   - applicationConfig: The configuration settings for the application.
     ///   - applicationSourceConfig: The configuration for where the application should be loaded from.
+    ///   - applicationType: The type of application.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - description: The description of the application.
     ///   - iframeConfig: The iframe configuration for the application.
     ///   - initializationTimeout: The maximum time in milliseconds allowed to establish a connection with the workspace.
-    ///   - isService: Indicates whether the application is a service.
     ///   - name: The name of the application.
     ///   - namespace: The namespace of the application.
     ///   - permissions: The configuration of events or requests that the application has access to.
@@ -110,11 +110,11 @@ public struct AppIntegrations: AWSService {
     public func createApplication(
         applicationConfig: ApplicationConfig? = nil,
         applicationSourceConfig: ApplicationSourceConfig,
+        applicationType: ApplicationType? = nil,
         clientToken: String? = CreateApplicationRequest.idempotencyToken(),
         description: String? = nil,
         iframeConfig: IframeConfig? = nil,
         initializationTimeout: Int? = nil,
-        isService: Bool? = nil,
         name: String,
         namespace: String,
         permissions: [String]? = nil,
@@ -124,11 +124,11 @@ public struct AppIntegrations: AWSService {
         let input = CreateApplicationRequest(
             applicationConfig: applicationConfig, 
             applicationSourceConfig: applicationSourceConfig, 
+            applicationType: applicationType, 
             clientToken: clientToken, 
             description: description, 
             iframeConfig: iframeConfig, 
             initializationTimeout: initializationTimeout, 
-            isService: isService, 
             name: name, 
             namespace: namespace, 
             permissions: permissions, 
@@ -514,16 +514,19 @@ public struct AppIntegrations: AWSService {
     /// Lists applications in the account.
     ///
     /// Parameters:
+    ///   - applicationType: The type of application.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplications(
+        applicationType: ApplicationType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListApplicationsResponse {
         let input = ListApplicationsRequest(
+            applicationType: applicationType, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -783,11 +786,11 @@ public struct AppIntegrations: AWSService {
     /// Parameters:
     ///   - applicationConfig: The configuration settings for the application.
     ///   - applicationSourceConfig: The configuration for where the application should be loaded from.
+    ///   - applicationType: The type of application.
     ///   - arn: The Amazon Resource Name (ARN) of the Application.
     ///   - description: The description of the application.
     ///   - iframeConfig: The iframe configuration for the application.
     ///   - initializationTimeout: The maximum time in milliseconds allowed to establish a connection with the workspace.
-    ///   - isService: Indicates whether the application is a service.
     ///   - name: The name of the application.
     ///   - permissions: The configuration of events or requests that the application has access to.
     ///   - logger: Logger use during operation
@@ -795,11 +798,11 @@ public struct AppIntegrations: AWSService {
     public func updateApplication(
         applicationConfig: ApplicationConfig? = nil,
         applicationSourceConfig: ApplicationSourceConfig? = nil,
+        applicationType: ApplicationType? = nil,
         arn: String,
         description: String? = nil,
         iframeConfig: IframeConfig? = nil,
         initializationTimeout: Int? = nil,
-        isService: Bool? = nil,
         name: String? = nil,
         permissions: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -807,11 +810,11 @@ public struct AppIntegrations: AWSService {
         let input = UpdateApplicationRequest(
             applicationConfig: applicationConfig, 
             applicationSourceConfig: applicationSourceConfig, 
+            applicationType: applicationType, 
             arn: arn, 
             description: description, 
             iframeConfig: iframeConfig, 
             initializationTimeout: initializationTimeout, 
-            isService: isService, 
             name: name, 
             permissions: permissions
         )
@@ -996,14 +999,17 @@ extension AppIntegrations {
     /// Return PaginatorSequence for operation ``listApplications(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - applicationType: The type of application.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationsPaginator(
+        applicationType: ApplicationType? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListApplicationsRequest, ListApplicationsResponse> {
         let input = ListApplicationsRequest(
+            applicationType: applicationType, 
             maxResults: maxResults
         )
         return self.listApplicationsPaginator(input, logger: logger)
@@ -1167,6 +1173,7 @@ extension AppIntegrations.ListApplicationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> AppIntegrations.ListApplicationsRequest {
         return .init(
+            applicationType: self.applicationType,
             maxResults: self.maxResults,
             nextToken: token
         )

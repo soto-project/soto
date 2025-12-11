@@ -159,7 +159,7 @@ public struct CostExplorer: AWSService {
         return try await self.createAnomalySubscription(input, logger: logger)
     }
 
-    /// Creates a new Cost Category with the requested name and rules.
+    /// Creates a new cost category with the requested name and rules.
     @Sendable
     @inlinable
     public func createCostCategoryDefinition(_ input: CreateCostCategoryDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCostCategoryDefinitionResponse {
@@ -172,16 +172,16 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Creates a new Cost Category with the requested name and rules.
+    /// Creates a new cost category with the requested name and rules.
     ///
     /// Parameters:
     ///   - defaultValue: 
-    ///   - effectiveStart: The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+    ///   - effectiveStart: The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
     ///   - name: 
     ///   - resourceTags: An optional list of tags to associate with the specified  CostCategory . You can use resource tags to control access to your cost category using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
-    ///   - rules: The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
+    ///   - rules: The cost category rules used to categorize costs. For more information, see CostCategoryRule.
     ///   - ruleVersion: 
-    ///   - splitChargeRules:  The split charge rules used to allocate your charges between your Cost Category values.
+    ///   - splitChargeRules:  The split charge rules used to allocate your charges between your cost category values.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCostCategoryDefinition(
@@ -264,7 +264,7 @@ public struct CostExplorer: AWSService {
         return try await self.deleteAnomalySubscription(input, logger: logger)
     }
 
-    /// Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category.
     @Sendable
     @inlinable
     public func deleteCostCategoryDefinition(_ input: DeleteCostCategoryDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCostCategoryDefinitionResponse {
@@ -277,10 +277,10 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
+    /// Deletes a cost category. Expenses from this month going forward will no longer be categorized with this cost category.
     ///
     /// Parameters:
-    ///   - costCategoryArn: The unique identifier for your Cost Category.
+    ///   - costCategoryArn: The unique identifier for your cost category.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteCostCategoryDefinition(
@@ -293,7 +293,7 @@ public struct CostExplorer: AWSService {
         return try await self.deleteCostCategoryDefinition(input, logger: logger)
     }
 
-    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
+    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response.
     @Sendable
     @inlinable
     public func describeCostCategoryDefinition(_ input: DescribeCostCategoryDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCostCategoryDefinitionResponse {
@@ -306,11 +306,11 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a Cost Category that's defined in the account. You have the option to use EffectiveOn to return a Cost Category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response.
+    /// Returns the name, Amazon Resource Name (ARN), rules, definition, and effective dates of a cost category that's defined in the account. You have the option to use EffectiveOn to return a cost category that's active on a specific date. If there's no EffectiveOn specified, you see a Cost Category that's effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response.
     ///
     /// Parameters:
-    ///   - costCategoryArn: The unique identifier for your Cost Category.
-    ///   - effectiveOn: The date when the Cost Category was effective.
+    ///   - costCategoryArn: The unique identifier for your cost category.
+    ///   - effectiveOn: The date when the cost category was effective.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeCostCategoryDefinition(
@@ -620,7 +620,7 @@ public struct CostExplorer: AWSService {
     ///
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
-    ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     ///   - granularity: Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
     ///   - groupBy: You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
     ///   - metrics: Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
@@ -650,7 +650,7 @@ public struct CostExplorer: AWSService {
         return try await self.getCostAndUsageWithResources(input, logger: logger)
     }
 
-    /// Retrieves an array of Cost Category names and values incurred cost.  If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
+    /// Retrieves an array of cost category names and values incurred cost.  If some cost category names and values are not associated with any cost, they will not be returned by this API.
     @Sendable
     @inlinable
     public func getCostCategories(_ input: GetCostCategoriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCostCategoriesResponse {
@@ -663,7 +663,7 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves an array of Cost Category names and values incurred cost.  If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
+    /// Retrieves an array of cost category names and values incurred cost.  If some cost category names and values are not associated with any cost, they will not be returned by this API.
     ///
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
@@ -671,7 +671,7 @@ public struct CostExplorer: AWSService {
     ///   - filter: 
     ///   - maxResults: This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
     ///   - nextPageToken: If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
-    ///   - searchString: The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
+    ///   - searchString: The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter cost category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter cost category values that match the SearchString pattern.
     ///   - sortBy: The value that you sort the data by. The key represents the cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    The supported key values for the SortOrder value are ASCENDING and DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values aren't supported.
     ///   - timePeriod: 
     ///   - logger: Logger use during operation
@@ -768,7 +768,7 @@ public struct CostExplorer: AWSService {
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
-    ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
+    ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
     ///   - metric: Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST
     ///   - predictionIntervalLevel: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
     ///   - timePeriod: The period of time that you want the forecast to cover. The start date must be equal to or no later than the current date to avoid a validation error.
@@ -847,7 +847,7 @@ public struct CostExplorer: AWSService {
         return try await self.getDimensionValues(input, logger: logger)
     }
 
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation.
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation.
     @Sendable
     @inlinable
     public func getReservationCoverage(_ input: GetReservationCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReservationCoverageResponse {
@@ -860,7 +860,7 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation.
+    /// Retrieves the reservation coverage for your account, which you can use to see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache, Amazon Relational Database Service, or Amazon Redshift usage is covered by a reservation. An organization's management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data about reservation usage by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY   To determine valid values for a dimension, use the GetDimensionValues operation.
     ///
     /// Parameters:
     ///   - filter: Filters utilization data by dimensions. You can filter by the following dimensions:   AZ   CACHE_ENGINE   DATABASE_ENGINE   DEPLOYMENT_OPTION   INSTANCE_TYPE   LINKED_ACCOUNT   OPERATING_SYSTEM   PLATFORM   REGION   SERVICE   TAG   TENANCY    GetReservationCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. You can nest only one level deep. If there are multiple values for a dimension, they are OR'd together. If you don't provide a SERVICE filter, Cost Explorer defaults to EC2. Cost category is also supported.
@@ -1070,7 +1070,7 @@ public struct CostExplorer: AWSService {
         return try await self.getSavingsPlanPurchaseRecommendationDetails(input, logger: logger)
     }
 
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     @Sendable
     @inlinable
     public func getSavingsPlansCoverage(_ input: GetSavingsPlansCoverageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSavingsPlansCoverageResponse {
@@ -1083,7 +1083,7 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, Cost Categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
+    /// Retrieves the Savings Plans covered for your account. This enables you to see how much of your cost is covered by a Savings Plan. An organization’s management account can see the coverage of the associated member accounts. This supports dimensions, cost categories, and nested expressions. For any time period, you can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY    To determine valid values for a dimension, use the GetDimensionValues operation.
     ///
     /// Parameters:
     ///   - filter: Filters Savings Plans coverage data by dimensions. You can filter data for Savings Plans usage with the following dimensions:    LINKED_ACCOUNT     REGION     SERVICE     INSTANCE_FAMILY     GetSavingsPlansCoverage uses the same Expression object as the other operations, but only AND is supported among each dimension. If there are multiple values for a dimension, they are OR'd together. Cost category is also supported.
@@ -1320,7 +1320,7 @@ public struct CostExplorer: AWSService {
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
-    ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
+    ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 18 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
     ///   - metric: Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT
     ///   - predictionIntervalLevel: Amazon Web Services Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
     ///   - timePeriod: The start and end dates of the period that you want to retrieve usage forecast for. The start date is included in the period, but the end date isn't included in the period. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
@@ -1457,7 +1457,7 @@ public struct CostExplorer: AWSService {
         return try await self.listCostAllocationTags(input, logger: logger)
     }
 
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     @Sendable
     @inlinable
     public func listCostCategoryDefinitions(_ input: ListCostCategoryDefinitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCostCategoryDefinitionsResponse {
@@ -1470,26 +1470,64 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
+    /// Returns the name, Amazon Resource Name (ARN), NumberOfRules and effective dates of all cost categories defined in the account. You have the option to use EffectiveOn and SupportedResourceTypes to return a list of cost categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see cost categories that are effective on the current date. If cost category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     ///
     /// Parameters:
-    ///   - effectiveOn: The date when the Cost Category was effective.
+    ///   - effectiveOn: The date when the cost category was effective.
     ///   - maxResults: The number of entries a paginated response contains.
     ///   - nextToken: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCostCategoryDefinitions(
         effectiveOn: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        supportedResourceTypes: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCostCategoryDefinitionsResponse {
         let input = ListCostCategoryDefinitionsRequest(
             effectiveOn: effectiveOn, 
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            supportedResourceTypes: supportedResourceTypes
         )
         return try await self.listCostCategoryDefinitions(input, logger: logger)
+    }
+
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100.
+    @Sendable
+    @inlinable
+    public func listCostCategoryResourceAssociations(_ input: ListCostCategoryResourceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCostCategoryResourceAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCostCategoryResourceAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns resource associations of all cost categories defined in the account. You have the option to use CostCategoryArn to get the association for a specific cost category. ListCostCategoryResourceAssociations supports pagination. The request can have a MaxResults range up to 100.
+    ///
+    /// Parameters:
+    ///   - costCategoryArn: The unique identifier for your cost category.
+    ///   - maxResults:  The number of entries a paginated response contains.
+    ///   - nextToken:  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCostCategoryResourceAssociations(
+        costCategoryArn: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCostCategoryResourceAssociationsResponse {
+        let input = ListCostCategoryResourceAssociationsRequest(
+            costCategoryArn: costCategoryArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCostCategoryResourceAssociations(input, logger: logger)
     }
 
     /// Retrieves a list of your historical recommendation generations within the past 30 days.
@@ -1844,7 +1882,7 @@ public struct CostExplorer: AWSService {
         return try await self.updateCostAllocationTagsStatus(input, logger: logger)
     }
 
-    /// Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    /// Updates an existing cost category. Changes made to the cost category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     @Sendable
     @inlinable
     public func updateCostCategoryDefinition(_ input: UpdateCostCategoryDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCostCategoryDefinitionResponse {
@@ -1857,15 +1895,15 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
+    /// Updates an existing cost category. Changes made to the cost category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.
     ///
     /// Parameters:
-    ///   - costCategoryArn: The unique identifier for your Cost Category.
+    ///   - costCategoryArn: The unique identifier for your cost category.
     ///   - defaultValue: 
-    ///   - effectiveStart: The Cost Category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
+    ///   - effectiveStart: The cost category's effective start date. It can only be a billing start date (first day of the month). If the date isn't provided, it's the first day of the current month. Dates can't be before the previous twelve months, or in the future.
     ///   - rules: The Expression object used to categorize costs. For more information, see CostCategoryRule .
     ///   - ruleVersion: 
-    ///   - splitChargeRules:  The split charge rules used to allocate your charges between your Cost Category values.
+    ///   - splitChargeRules:  The split charge rules used to allocate your charges between your cost category values.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCostCategoryDefinition(
@@ -2325,20 +2363,60 @@ extension CostExplorer {
     /// Return PaginatorSequence for operation ``listCostCategoryDefinitions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - effectiveOn: The date when the Cost Category was effective.
+    ///   - effectiveOn: The date when the cost category was effective.
     ///   - maxResults: The number of entries a paginated response contains.
+    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCostCategoryDefinitionsPaginator(
         effectiveOn: String? = nil,
         maxResults: Int? = nil,
+        supportedResourceTypes: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCostCategoryDefinitionsRequest, ListCostCategoryDefinitionsResponse> {
         let input = ListCostCategoryDefinitionsRequest(
             effectiveOn: effectiveOn, 
-            maxResults: maxResults
+            maxResults: maxResults, 
+            supportedResourceTypes: supportedResourceTypes
         )
         return self.listCostCategoryDefinitionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCostCategoryResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCostCategoryResourceAssociationsPaginator(
+        _ input: ListCostCategoryResourceAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCostCategoryResourceAssociationsRequest, ListCostCategoryResourceAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCostCategoryResourceAssociations,
+            inputKey: \ListCostCategoryResourceAssociationsRequest.nextToken,
+            outputKey: \ListCostCategoryResourceAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCostCategoryResourceAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - costCategoryArn: The unique identifier for your cost category.
+    ///   - maxResults:  The number of entries a paginated response contains.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCostCategoryResourceAssociationsPaginator(
+        costCategoryArn: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCostCategoryResourceAssociationsRequest, ListCostCategoryResourceAssociationsResponse> {
+        let input = ListCostCategoryResourceAssociationsRequest(
+            costCategoryArn: costCategoryArn, 
+            maxResults: maxResults
+        )
+        return self.listCostCategoryResourceAssociationsPaginator(input, logger: logger)
     }
 }
 
@@ -2469,6 +2547,18 @@ extension CostExplorer.ListCostCategoryDefinitionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CostExplorer.ListCostCategoryDefinitionsRequest {
         return .init(
             effectiveOn: self.effectiveOn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            supportedResourceTypes: self.supportedResourceTypes
+        )
+    }
+}
+
+extension CostExplorer.ListCostCategoryResourceAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.ListCostCategoryResourceAssociationsRequest {
+        return .init(
+            costCategoryArn: self.costCategoryArn,
             maxResults: self.maxResults,
             nextToken: token
         )

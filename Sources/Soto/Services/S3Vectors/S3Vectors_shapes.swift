@@ -51,22 +51,28 @@ extension S3Vectors {
         public let dimension: Int
         /// The distance metric to be used for similarity search.
         public let distanceMetric: DistanceMetric
+        /// The encryption configuration for a vector index. By default, if you don't specify, all new vectors in the vector index will use the encryption configuration of the vector bucket.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The name of the vector index to create.
         public let indexName: String
         /// The metadata configuration for the vector index.
         public let metadataConfiguration: MetadataConfiguration?
+        /// An array of user-defined tags that you would like to apply to the vector index that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize, track costs, and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
+        public let tags: [String: String]?
         /// The Amazon Resource Name (ARN) of the vector bucket to create the vector index in.
         public let vectorBucketArn: String?
         /// The name of the vector bucket to create the vector index in.
         public let vectorBucketName: String?
 
         @inlinable
-        public init(dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, vectorBucketArn: String? = nil, vectorBucketName: String? = nil) {
+        public init(dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, encryptionConfiguration: EncryptionConfiguration? = nil, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, tags: [String: String]? = nil, vectorBucketArn: String? = nil, vectorBucketName: String? = nil) {
             self.dataType = dataType
             self.dimension = dimension
             self.distanceMetric = distanceMetric
+            self.encryptionConfiguration = encryptionConfiguration
             self.indexName = indexName
             self.metadataConfiguration = metadataConfiguration
+            self.tags = tags
             self.vectorBucketArn = vectorBucketArn
             self.vectorBucketName = vectorBucketName
         }
@@ -74,9 +80,18 @@ extension S3Vectors {
         public func validate(name: String) throws {
             try self.validate(self.dimension, name: "dimension", parent: name, max: 4096)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -85,43 +100,76 @@ extension S3Vectors {
             case dataType = "dataType"
             case dimension = "dimension"
             case distanceMetric = "distanceMetric"
+            case encryptionConfiguration = "encryptionConfiguration"
             case indexName = "indexName"
             case metadataConfiguration = "metadataConfiguration"
+            case tags = "tags"
             case vectorBucketArn = "vectorBucketArn"
             case vectorBucketName = "vectorBucketName"
         }
     }
 
     public struct CreateIndexOutput: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Resource Name (ARN) of the newly created vector index.
+        public let indexArn: String?
+
+        @inlinable
+        public init(indexArn: String? = nil) {
+            self.indexArn = indexArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexArn = "indexArn"
+        }
     }
 
     public struct CreateVectorBucketInput: AWSEncodableShape {
         /// The encryption configuration for the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// An array of user-defined tags that you would like to apply to the vector bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
+        public let tags: [String: String]?
         /// The name of the vector bucket to create.
         public let vectorBucketName: String
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, vectorBucketName: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, tags: [String: String]? = nil, vectorBucketName: String) {
             self.encryptionConfiguration = encryptionConfiguration
+            self.tags = tags
             self.vectorBucketName = vectorBucketName
         }
 
         public func validate(name: String) throws {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionConfiguration = "encryptionConfiguration"
+            case tags = "tags"
             case vectorBucketName = "vectorBucketName"
         }
     }
 
     public struct CreateVectorBucketOutput: AWSDecodableShape {
-        public init() {}
+        /// The Amazon Resource Name (ARN) of the newly created vector bucket.
+        public let vectorBucketArn: String?
+
+        @inlinable
+        public init(vectorBucketArn: String? = nil) {
+            self.vectorBucketArn = vectorBucketArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vectorBucketArn = "vectorBucketArn"
+        }
     }
 
     public struct DeleteIndexInput: AWSEncodableShape {
@@ -140,6 +188,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
@@ -170,6 +219,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -197,6 +247,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -230,6 +281,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.keys.forEach {
@@ -294,6 +346,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
@@ -356,6 +409,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -393,6 +447,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -442,6 +497,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.keys.forEach {
@@ -487,6 +543,8 @@ extension S3Vectors {
         public let dimension: Int
         /// The distance metric to be used for similarity search.
         public let distanceMetric: DistanceMetric
+        /// The encryption configuration for a vector index. By default, if you don't specify, all new vectors in the vector index will use the encryption configuration of the vector bucket.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the vector index.
         public let indexArn: String
         /// The name of the vector index.
@@ -497,11 +555,12 @@ extension S3Vectors {
         public let vectorBucketName: String
 
         @inlinable
-        public init(creationTime: Date, dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, indexArn: String, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, vectorBucketName: String) {
+        public init(creationTime: Date, dataType: DataType, dimension: Int, distanceMetric: DistanceMetric, encryptionConfiguration: EncryptionConfiguration? = nil, indexArn: String, indexName: String, metadataConfiguration: MetadataConfiguration? = nil, vectorBucketName: String) {
             self.creationTime = creationTime
             self.dataType = dataType
             self.dimension = dimension
             self.distanceMetric = distanceMetric
+            self.encryptionConfiguration = encryptionConfiguration
             self.indexArn = indexArn
             self.indexName = indexName
             self.metadataConfiguration = metadataConfiguration
@@ -513,6 +572,7 @@ extension S3Vectors {
             case dataType = "dataType"
             case dimension = "dimension"
             case distanceMetric = "distanceMetric"
+            case encryptionConfiguration = "encryptionConfiguration"
             case indexArn = "indexArn"
             case indexName = "indexName"
             case metadataConfiguration = "metadataConfiguration"
@@ -574,6 +634,7 @@ extension S3Vectors {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 63)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -624,6 +685,42 @@ extension S3Vectors {
             case data = "data"
             case key = "key"
             case metadata = "metadata"
+        }
+    }
+
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you want to list tags for. The tagged resource can be a vector bucket or a vector index.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// The user-defined tags that are applied to the S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tags: [String: String]
+
+        @inlinable
+        public init(tags: [String: String]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -710,6 +807,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
@@ -821,6 +919,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.vectorBucketArn, name: "vectorBucketArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, min: 3)
         }
@@ -855,6 +954,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.vectorBucketName, name: "vectorBucketName", parent: name, max: 63)
@@ -879,8 +979,6 @@ extension S3Vectors {
     }
 
     public struct QueryOutputVector: AWSDecodableShape {
-        /// The vector data associated with the vector, if requested.
-        public let data: VectorData?
         /// The measure of similarity between the vector in the response and the query vector.
         public let distance: Float?
         /// The key of the vector in the approximate nearest neighbor search.
@@ -889,15 +987,13 @@ extension S3Vectors {
         public let metadata: AWSDocument?
 
         @inlinable
-        public init(data: VectorData? = nil, distance: Float? = nil, key: String, metadata: AWSDocument? = nil) {
-            self.data = data
+        public init(distance: Float? = nil, key: String, metadata: AWSDocument? = nil) {
             self.distance = distance
             self.key = key
             self.metadata = metadata
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data = "data"
             case distance = "distance"
             case key = "key"
             case metadata = "metadata"
@@ -935,6 +1031,7 @@ extension S3Vectors {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.indexArn, name: "indexArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:s3vectors:[a-z0-9-]+:[0-9]{12}:bucket/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]/index/[a-z0-9][a-z0-9-.]{1,61}[a-z0-9]$")
             try self.validate(self.indexName, name: "indexName", parent: name, max: 63)
             try self.validate(self.indexName, name: "indexName", parent: name, min: 3)
             try self.validate(self.topK, name: "topK", parent: name, min: 1)
@@ -955,17 +1052,95 @@ extension S3Vectors {
     }
 
     public struct QueryVectorsOutput: AWSDecodableShape {
+        /// The distance metric that was used for the similarity search calculation. This is the same distance metric that was configured for the vector index when it was created.
+        public let distanceMetric: DistanceMetric?
         /// The vectors in the approximate nearest neighbor search.
         public let vectors: [QueryOutputVector]
 
         @inlinable
-        public init(vectors: [QueryOutputVector]) {
+        public init(distanceMetric: DistanceMetric? = nil, vectors: [QueryOutputVector]) {
+            self.distanceMetric = distanceMetric
             self.vectors = vectors
         }
 
         private enum CodingKeys: String, CodingKey {
+            case distanceMetric = "distanceMetric"
             case vectors = "vectors"
         }
+    }
+
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're applying tags to. The tagged resource can be a vector bucket or a vector index.
+        public let resourceArn: String
+        /// The user-defined tag that you want to add to the specified S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index.
+        public let resourceArn: String
+        /// The array of tag keys that you're removing from the S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct VectorBucket: AWSDecodableShape {
@@ -1044,6 +1219,7 @@ public struct S3VectorsErrorType: AWSErrorType {
         case kmsInvalidStateException = "KmsInvalidStateException"
         case kmsNotFoundException = "KmsNotFoundException"
         case notFoundException = "NotFoundException"
+        case requestTimeoutException = "RequestTimeoutException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyRequestsException = "TooManyRequestsException"
@@ -1084,6 +1260,8 @@ public struct S3VectorsErrorType: AWSErrorType {
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
     /// The request was rejected because the specified resource can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The request timed out. Retry your request.
+    public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
     /// Your request exceeds a service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The service is unavailable. Wait briefly and retry your request. If it continues to fail, increase your waiting time between retries.

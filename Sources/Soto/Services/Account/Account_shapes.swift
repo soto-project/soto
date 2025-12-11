@@ -32,6 +32,14 @@ extension Account {
         public var description: String { return self.rawValue }
     }
 
+    public enum AwsAccountState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case closed = "CLOSED"
+        case pendingActivation = "PENDING_ACTIVATION"
+        case suspended = "SUSPENDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrimaryEmailUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accepted = "ACCEPTED"
         case pending = "PENDING"
@@ -261,7 +269,7 @@ extension Account {
     }
 
     public struct DeleteAlternateContactRequest: AWSEncodableShape {
-        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies which of the alternate contacts to delete.
         public let alternateContactType: AlternateContactType
@@ -331,7 +339,7 @@ extension Account {
     }
 
     public struct GetAccountInformationRequest: AWSEncodableShape {
-        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
 
         @inlinable
@@ -372,7 +380,7 @@ extension Account {
     }
 
     public struct GetAlternateContactRequest: AWSEncodableShape {
-        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies which alternate contact you want to retrieve.
         public let alternateContactType: AlternateContactType
@@ -436,6 +444,42 @@ extension Account {
 
         private enum CodingKeys: String, CodingKey {
             case contactInformation = "ContactInformation"
+        }
+    }
+
+    public struct GetGovCloudAccountInformationRequest: AWSEncodableShape {
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        public let standardAccountId: String?
+
+        @inlinable
+        public init(standardAccountId: String? = nil) {
+            self.standardAccountId = standardAccountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.standardAccountId, name: "standardAccountId", parent: name, pattern: "^\\d{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case standardAccountId = "StandardAccountId"
+        }
+    }
+
+    public struct GetGovCloudAccountInformationResponse: AWSDecodableShape {
+        /// The account state of the linked GovCloud account.
+        public let accountState: AwsAccountState
+        /// The 12-digit account ID number of the linked GovCloud account.
+        public let govCloudAccountId: String
+
+        @inlinable
+        public init(accountState: AwsAccountState, govCloudAccountId: String) {
+            self.accountState = accountState
+            self.govCloudAccountId = govCloudAccountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountState = "AccountState"
+            case govCloudAccountId = "GovCloudAccountId"
         }
     }
 
@@ -585,7 +629,7 @@ extension Account {
     }
 
     public struct PutAccountNameRequest: AWSEncodableShape {
-        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// The name of the account.
         public let accountName: String
@@ -610,7 +654,7 @@ extension Account {
     }
 
     public struct PutAlternateContactRequest: AWSEncodableShape {
-        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Specifies which alternate contact you want to create or update.
         public let alternateContactType: AlternateContactType
@@ -658,7 +702,7 @@ extension Account {
     }
 
     public struct PutContactInformationRequest: AWSEncodableShape {
-        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+        /// Specifies the 12-digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you don't specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account. The specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated administrator account assigned.  The management account can't specify its own AccountId. It must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, don't specify this parameter. Instead, call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
         public let accountId: String?
         /// Contains the details of the primary contact information associated with an Amazon Web Services account.
         public let contactInformation: ContactInformation
@@ -699,6 +743,29 @@ extension Account {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
+        /// The value populated to the x-amzn-ErrorType response header by API Gateway.
+        public let errorType: String?
+        public let message: String
+
+        @inlinable
+        public init(errorType: String? = nil, message: String) {
+            self.errorType = errorType
+            self.message = message
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.errorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.message = try container.decode(String.self, forKey: .message)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct ResourceUnavailableException: AWSErrorShape {
         /// The value populated to the x-amzn-ErrorType response header by API Gateway.
         public let errorType: String?
         public let message: String
@@ -832,6 +899,7 @@ public struct AccountErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
         case tooManyRequestsException = "TooManyRequestsException"
         case validationException = "ValidationException"
     }
@@ -862,6 +930,8 @@ public struct AccountErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The operation failed because it specified a resource that can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The operation failed because it specified a resource that is not currently available.
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
     /// The operation failed because it was called too frequently and exceeded a throttle limit.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The operation failed because one of the input parameters was invalid.
@@ -874,6 +944,7 @@ extension AccountErrorType: AWSServiceErrorType {
         "ConflictException": Account.ConflictException.self,
         "InternalServerException": Account.InternalServerException.self,
         "ResourceNotFoundException": Account.ResourceNotFoundException.self,
+        "ResourceUnavailableException": Account.ResourceUnavailableException.self,
         "TooManyRequestsException": Account.TooManyRequestsException.self,
         "ValidationException": Account.ValidationException.self
     ]

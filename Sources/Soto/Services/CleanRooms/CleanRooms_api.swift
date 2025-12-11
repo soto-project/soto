@@ -225,6 +225,7 @@ public struct CleanRooms: AWSService {
     ///   - name: The name of the analysis template.
     ///   - schema: 
     ///   - source: The information in the analysis template.
+    ///   - syntheticDataParameters: The parameters for generating synthetic data when running the analysis template.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -237,6 +238,7 @@ public struct CleanRooms: AWSService {
         name: String,
         schema: AnalysisSchema? = nil,
         source: AnalysisSource,
+        syntheticDataParameters: SyntheticDataParameters? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAnalysisTemplateOutput {
@@ -249,6 +251,7 @@ public struct CleanRooms: AWSService {
             name: name, 
             schema: schema, 
             source: source, 
+            syntheticDataParameters: syntheticDataParameters, 
             tags: tags
         )
         return try await self.createAnalysisTemplate(input, logger: logger)

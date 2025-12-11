@@ -104,6 +104,11 @@ extension ControlTower {
         public var description: String { return self.rawValue }
     }
 
+    public enum RemediationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inheritanceDrift = "INHERITANCE_DRIFT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct BaselineOperation: AWSDecodableShape {
@@ -320,20 +325,25 @@ extension ControlTower {
 
     public struct CreateLandingZoneInput: AWSEncodableShape {
         /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review Launch your landing zone.
-        public let manifest: AWSDocument
+        public let manifest: AWSDocument?
+        /// Specifies the types of remediation actions to apply when creating the landing zone, such as automatic drift correction or compliance enforcement.
+        public let remediationTypes: [RemediationType]?
         /// Tags to be applied to the landing zone.
         public let tags: [String: String]?
         /// The landing zone version, for example, 3.0.
         public let version: String
 
         @inlinable
-        public init(manifest: AWSDocument, tags: [String: String]? = nil, version: String) {
+        public init(manifest: AWSDocument? = nil, remediationTypes: [RemediationType]? = nil, tags: [String: String]? = nil, version: String) {
             self.manifest = manifest
+            self.remediationTypes = remediationTypes
             self.tags = tags
             self.version = version
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.remediationTypes, name: "remediationTypes", parent: name, max: 1)
+            try self.validate(self.remediationTypes, name: "remediationTypes", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -347,6 +357,7 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case manifest = "manifest"
+            case remediationTypes = "remediationTypes"
             case tags = "tags"
             case version = "version"
         }
@@ -434,13 +445,16 @@ extension ControlTower {
 
     public struct DisableControlInput: AWSEncodableShape {
         /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see the overview page.
-        public let controlIdentifier: String
+        public let controlIdentifier: String?
+        /// The ARN of the enabled control to be disabled, which uniquely identifies the control instance on the target organizational unit.
+        public let enabledControlIdentifier: String?
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
-        public let targetIdentifier: String
+        public let targetIdentifier: String?
 
         @inlinable
-        public init(controlIdentifier: String, targetIdentifier: String) {
+        public init(controlIdentifier: String? = nil, enabledControlIdentifier: String? = nil, targetIdentifier: String? = nil) {
             self.controlIdentifier = controlIdentifier
+            self.enabledControlIdentifier = enabledControlIdentifier
             self.targetIdentifier = targetIdentifier
         }
 
@@ -448,6 +462,9 @@ extension ControlTower {
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, max: 2048)
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, min: 20)
             try self.validate(self.controlIdentifier, name: "controlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, max: 2048)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, min: 20)
+            try self.validate(self.enabledControlIdentifier, name: "enabledControlIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, max: 2048)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, min: 20)
             try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
@@ -455,6 +472,7 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case controlIdentifier = "controlIdentifier"
+            case enabledControlIdentifier = "enabledControlIdentifier"
             case targetIdentifier = "targetIdentifier"
         }
     }
@@ -476,14 +494,18 @@ extension ControlTower {
     public struct DriftStatusSummary: AWSDecodableShape {
         ///  The drift status of the enabled control. Valid values:    DRIFTED: The enabledControl deployed in this configuration doesn’t match the configuration that Amazon Web Services Control Tower expected.     IN_SYNC: The enabledControl deployed in this configuration matches the configuration that Amazon Web Services Control Tower expected.    NOT_CHECKING: Amazon Web Services Control Tower does not check drift for this enabled control. Drift is not supported for the control type.    UNKNOWN: Amazon Web Services Control Tower is not able to check the drift status for the enabled control.
         public let driftStatus: DriftStatus?
+        /// An object that categorizes the different types of drift detected for the enabled control.
+        public let types: EnabledControlDriftTypes?
 
         @inlinable
-        public init(driftStatus: DriftStatus? = nil) {
+        public init(driftStatus: DriftStatus? = nil, types: EnabledControlDriftTypes? = nil) {
             self.driftStatus = driftStatus
+            self.types = types
         }
 
         private enum CodingKeys: String, CodingKey {
             case driftStatus = "driftStatus"
+            case types = "types"
         }
     }
 
@@ -835,6 +857,8 @@ extension ControlTower {
         public let driftStatusSummary: DriftStatusSummary?
         /// Array of EnabledControlParameter objects.
         public let parameters: [EnabledControlParameterSummary]?
+        /// The ARN of the parent enabled control from which this control inherits its configuration, if applicable.
+        public let parentIdentifier: String?
         /// The deployment summary of the enabled control.
         public let statusSummary: EnablementStatusSummary?
         /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see the overview page.
@@ -843,11 +867,12 @@ extension ControlTower {
         public let targetRegions: [Region]?
 
         @inlinable
-        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, parameters: [EnabledControlParameterSummary]? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil, targetRegions: [Region]? = nil) {
+        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, parameters: [EnabledControlParameterSummary]? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil, targetRegions: [Region]? = nil) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
             self.parameters = parameters
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
             self.targetRegions = targetRegions
@@ -858,9 +883,28 @@ extension ControlTower {
             case controlIdentifier = "controlIdentifier"
             case driftStatusSummary = "driftStatusSummary"
             case parameters = "parameters"
+            case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
             case targetIdentifier = "targetIdentifier"
             case targetRegions = "targetRegions"
+        }
+    }
+
+    public struct EnabledControlDriftTypes: AWSDecodableShape {
+        /// Indicates drift related to inheritance configuration between parent and child controls.
+        public let inheritance: EnabledControlInheritanceDrift?
+        /// Indicates drift related to the underlying Amazon Web Services resources managed by the control.
+        public let resource: EnabledControlResourceDrift?
+
+        @inlinable
+        public init(inheritance: EnabledControlInheritanceDrift? = nil, resource: EnabledControlResourceDrift? = nil) {
+            self.inheritance = inheritance
+            self.resource = resource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inheritance = "inheritance"
+            case resource = "resource"
         }
     }
 
@@ -869,13 +913,22 @@ extension ControlTower {
         public let controlIdentifiers: [String]?
         /// A list of DriftStatus items.
         public let driftStatuses: [DriftStatus]?
+        /// Filters enabled controls by their inheritance drift status, allowing you to find controls with specific inheritance-related drift conditions.
+        public let inheritanceDriftStatuses: [DriftStatus]?
+        /// Filters enabled controls by their parent control identifiers, allowing you to find child controls of specific parent controls.
+        public let parentIdentifiers: [String]?
+        /// Filters enabled controls by their resource drift status, allowing you to find controls with specific resource-related drift conditions.
+        public let resourceDriftStatuses: [DriftStatus]?
         /// A list of EnablementStatus items.
         public let statuses: [EnablementStatus]?
 
         @inlinable
-        public init(controlIdentifiers: [String]? = nil, driftStatuses: [DriftStatus]? = nil, statuses: [EnablementStatus]? = nil) {
+        public init(controlIdentifiers: [String]? = nil, driftStatuses: [DriftStatus]? = nil, inheritanceDriftStatuses: [DriftStatus]? = nil, parentIdentifiers: [String]? = nil, resourceDriftStatuses: [DriftStatus]? = nil, statuses: [EnablementStatus]? = nil) {
             self.controlIdentifiers = controlIdentifiers
             self.driftStatuses = driftStatuses
+            self.inheritanceDriftStatuses = inheritanceDriftStatuses
+            self.parentIdentifiers = parentIdentifiers
+            self.resourceDriftStatuses = resourceDriftStatuses
             self.statuses = statuses
         }
 
@@ -889,6 +942,17 @@ extension ControlTower {
             try self.validate(self.controlIdentifiers, name: "controlIdentifiers", parent: name, min: 1)
             try self.validate(self.driftStatuses, name: "driftStatuses", parent: name, max: 1)
             try self.validate(self.driftStatuses, name: "driftStatuses", parent: name, min: 1)
+            try self.validate(self.inheritanceDriftStatuses, name: "inheritanceDriftStatuses", parent: name, max: 1)
+            try self.validate(self.inheritanceDriftStatuses, name: "inheritanceDriftStatuses", parent: name, min: 1)
+            try self.parentIdentifiers?.forEach {
+                try validate($0, name: "parentIdentifiers[]", parent: name, max: 2048)
+                try validate($0, name: "parentIdentifiers[]", parent: name, min: 20)
+                try validate($0, name: "parentIdentifiers[]", parent: name, pattern: "^arn:aws[0-9a-zA-Z_\\-:\\/]+$")
+            }
+            try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, max: 1)
+            try self.validate(self.parentIdentifiers, name: "parentIdentifiers", parent: name, min: 1)
+            try self.validate(self.resourceDriftStatuses, name: "resourceDriftStatuses", parent: name, max: 1)
+            try self.validate(self.resourceDriftStatuses, name: "resourceDriftStatuses", parent: name, min: 1)
             try self.validate(self.statuses, name: "statuses", parent: name, max: 1)
             try self.validate(self.statuses, name: "statuses", parent: name, min: 1)
         }
@@ -896,7 +960,24 @@ extension ControlTower {
         private enum CodingKeys: String, CodingKey {
             case controlIdentifiers = "controlIdentifiers"
             case driftStatuses = "driftStatuses"
+            case inheritanceDriftStatuses = "inheritanceDriftStatuses"
+            case parentIdentifiers = "parentIdentifiers"
+            case resourceDriftStatuses = "resourceDriftStatuses"
             case statuses = "statuses"
+        }
+    }
+
+    public struct EnabledControlInheritanceDrift: AWSDecodableShape {
+        /// The status of inheritance drift for the enabled control, indicating whether inheritance configuration matches expectations.
+        public let status: DriftStatus?
+
+        @inlinable
+        public init(status: DriftStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -936,6 +1017,20 @@ extension ControlTower {
         }
     }
 
+    public struct EnabledControlResourceDrift: AWSDecodableShape {
+        /// The status of resource drift for the enabled control, indicating whether the underlying resources match the expected configuration.
+        public let status: DriftStatus?
+
+        @inlinable
+        public init(status: DriftStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct EnabledControlSummary: AWSDecodableShape {
         /// The ARN of the enabled control.
         public let arn: String?
@@ -943,16 +1038,19 @@ extension ControlTower {
         public let controlIdentifier: String?
         /// The drift status of the enabled control.
         public let driftStatusSummary: DriftStatusSummary?
+        /// The ARN of the parent enabled control from which this control inherits its configuration, if applicable.
+        public let parentIdentifier: String?
         /// A short description of the status of the enabled control.
         public let statusSummary: EnablementStatusSummary?
         /// The ARN of the organizational unit.
         public let targetIdentifier: String?
 
         @inlinable
-        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil) {
+        public init(arn: String? = nil, controlIdentifier: String? = nil, driftStatusSummary: DriftStatusSummary? = nil, parentIdentifier: String? = nil, statusSummary: EnablementStatusSummary? = nil, targetIdentifier: String? = nil) {
             self.arn = arn
             self.controlIdentifier = controlIdentifier
             self.driftStatusSummary = driftStatusSummary
+            self.parentIdentifier = parentIdentifier
             self.statusSummary = statusSummary
             self.targetIdentifier = targetIdentifier
         }
@@ -961,6 +1059,7 @@ extension ControlTower {
             case arn = "arn"
             case controlIdentifier = "controlIdentifier"
             case driftStatusSummary = "driftStatusSummary"
+            case parentIdentifier = "parentIdentifier"
             case statusSummary = "statusSummary"
             case targetIdentifier = "targetIdentifier"
         }
@@ -1231,17 +1330,20 @@ extension ControlTower {
         public let latestAvailableVersion: String?
         /// The landing zone manifest JSON text file that specifies the landing zone configurations.
         public let manifest: AWSDocument
+        /// The types of remediation actions configured for the landing zone, such as automatic drift correction or compliance enforcement.
+        public let remediationTypes: [RemediationType]?
         /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
         public let status: LandingZoneStatus?
         /// The landing zone's current deployed version.
         public let version: String
 
         @inlinable
-        public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: AWSDocument, status: LandingZoneStatus? = nil, version: String) {
+        public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: AWSDocument, remediationTypes: [RemediationType]? = nil, status: LandingZoneStatus? = nil, version: String) {
             self.arn = arn
             self.driftStatus = driftStatus
             self.latestAvailableVersion = latestAvailableVersion
             self.manifest = manifest
+            self.remediationTypes = remediationTypes
             self.status = status
             self.version = version
         }
@@ -1251,6 +1353,7 @@ extension ControlTower {
             case driftStatus = "driftStatus"
             case latestAvailableVersion = "latestAvailableVersion"
             case manifest = "manifest"
+            case remediationTypes = "remediationTypes"
             case status = "status"
             case version = "version"
         }
@@ -1509,6 +1612,8 @@ extension ControlTower {
     public struct ListEnabledControlsInput: AWSEncodableShape {
         /// An input filter for the ListEnabledControls API that lets you select the types of control operations to view.
         public let filter: EnabledControlFilter?
+        /// A boolean value that determines whether to include enabled controls from child organizational units in the response.
+        public let includeChildren: Bool?
         /// How many results to return per API call.
         public let maxResults: Int?
         /// The token to continue the list from a previous API call with the same parameters.
@@ -1517,8 +1622,9 @@ extension ControlTower {
         public let targetIdentifier: String?
 
         @inlinable
-        public init(filter: EnabledControlFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetIdentifier: String? = nil) {
+        public init(filter: EnabledControlFilter? = nil, includeChildren: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, targetIdentifier: String? = nil) {
             self.filter = filter
+            self.includeChildren = includeChildren
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.targetIdentifier = targetIdentifier
@@ -1535,6 +1641,7 @@ extension ControlTower {
 
         private enum CodingKeys: String, CodingKey {
             case filter = "filter"
+            case includeChildren = "includeChildren"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
             case targetIdentifier = "targetIdentifier"
@@ -1991,18 +2098,23 @@ extension ControlTower {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
         /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review Launch your landing zone. The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
-        public let manifest: AWSDocument
+        public let manifest: AWSDocument?
+        /// Specifies the types of remediation actions to apply when updating the landing zone configuration.
+        public let remediationTypes: [RemediationType]?
         /// The landing zone version, for example, 3.2.
         public let version: String
 
         @inlinable
-        public init(landingZoneIdentifier: String, manifest: AWSDocument, version: String) {
+        public init(landingZoneIdentifier: String, manifest: AWSDocument? = nil, remediationTypes: [RemediationType]? = nil, version: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
             self.manifest = manifest
+            self.remediationTypes = remediationTypes
             self.version = version
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.remediationTypes, name: "remediationTypes", parent: name, max: 1)
+            try self.validate(self.remediationTypes, name: "remediationTypes", parent: name, min: 1)
             try self.validate(self.version, name: "version", parent: name, max: 10)
             try self.validate(self.version, name: "version", parent: name, min: 3)
             try self.validate(self.version, name: "version", parent: name, pattern: "^\\d+.\\d+$")
@@ -2011,6 +2123,7 @@ extension ControlTower {
         private enum CodingKeys: String, CodingKey {
             case landingZoneIdentifier = "landingZoneIdentifier"
             case manifest = "manifest"
+            case remediationTypes = "remediationTypes"
             case version = "version"
         }
     }
@@ -2070,7 +2183,7 @@ public struct ControlTowerErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request references a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The request would cause a service quota to be exceeded. The limit is 100 concurrent operations.
+    /// The request would cause a service quota to be exceeded. See Service quotas.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }

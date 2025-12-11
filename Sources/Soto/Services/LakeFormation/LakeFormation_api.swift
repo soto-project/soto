@@ -171,7 +171,7 @@ public struct LakeFormation: AWSService {
         return try await self.addLFTagsToResource(input, logger: logger)
     }
 
-    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups.  This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role.  All permissions attached to the role via the SAML federation setup will be included in the role session.   This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess.  Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies.  A typical IAM policy attached to such a role would look as follows:
+    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups.  This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role.  All permissions attached to the role via the SAML federation setup will be included in the role session.   This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would include the following actions:    glue:*Database*   glue:*Table*   glue:*Partition*   glue:*UserDefinedFunction*   lakeformation:GetDataAccess
     @Sendable
     @inlinable
     public func assumeDecoratedRoleWithSAML(_ input: AssumeDecoratedRoleWithSAMLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssumeDecoratedRoleWithSAMLResponse {
@@ -184,7 +184,7 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups.  This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role.  All permissions attached to the role via the SAML federation setup will be included in the role session.   This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess.  Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies.  A typical IAM policy attached to such a role would look as follows:
+    /// Allows a caller to assume an IAM role decorated as the SAML user specified in the SAML assertion included in the request. This decoration allows Lake Formation to enforce access policies against the SAML users and groups.  This API operation requires SAML federation setup in the caller’s account as it can only be called with valid SAML assertions. Lake Formation does not scope down the permission of the assumed role.  All permissions attached to the role via the SAML federation setup will be included in the role session.   This decorated role is expected to access data in Amazon S3 by getting temporary access from Lake Formation which is authorized via the virtual API GetDataAccess. Therefore, all SAML roles that can be assumed via AssumeDecoratedRoleWithSAML must at a minimum include lakeformation:GetDataAccess in their role policies. A typical IAM policy attached to such a role would include the following actions:    glue:*Database*   glue:*Table*   glue:*Partition*   glue:*UserDefinedFunction*   lakeformation:GetDataAccess
     ///
     /// Parameters:
     ///   - durationSeconds: The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
@@ -452,6 +452,7 @@ public struct LakeFormation: AWSService {
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
     ///   - externalFiltering: A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
     ///   - instanceArn: The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+    ///   - serviceIntegrations: A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
     ///   - shareRecipients: A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -459,6 +460,7 @@ public struct LakeFormation: AWSService {
         catalogId: String? = nil,
         externalFiltering: ExternalFilteringConfiguration? = nil,
         instanceArn: String? = nil,
+        serviceIntegrations: [ServiceIntegrationUnion]? = nil,
         shareRecipients: [DataLakePrincipal]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLakeFormationIdentityCenterConfigurationResponse {
@@ -466,6 +468,7 @@ public struct LakeFormation: AWSService {
             catalogId: catalogId, 
             externalFiltering: externalFiltering, 
             instanceArn: instanceArn, 
+            serviceIntegrations: serviceIntegrations, 
             shareRecipients: shareRecipients
         )
         return try await self.createLakeFormationIdentityCenterConfiguration(input, logger: logger)
@@ -544,7 +547,7 @@ public struct LakeFormation: AWSService {
         return try await self.deleteDataCellsFilter(input, logger: logger)
     }
 
-    /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
+    ///  Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag:    The associated LF-Tag policy becomes invalid.    Resources that had this tag assigned will no longer have the tag policy applied to them.
     @Sendable
     @inlinable
     public func deleteLFTag(_ input: DeleteLFTagRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLFTagResponse {
@@ -557,7 +560,7 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
+    ///  Deletes an LF-tag by its key name. The operation fails if the specified tag key doesn't exist. When you delete an LF-Tag:    The associated LF-Tag policy becomes invalid.    Resources that had this tag assigned will no longer have the tag policy applied to them.
     ///
     /// Parameters:
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
@@ -1551,7 +1554,7 @@ public struct LakeFormation: AWSService {
         return try await self.listLakeFormationOptIns(input, logger: logger)
     }
 
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. If both Principal and Resource parameters are provided, the response returns effective permissions rather than the explicitly granted permissions. For information about permissions, see Security and Access Control to Metadata and Data.
     @Sendable
     @inlinable
     public func listPermissions(_ input: ListPermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPermissionsResponse {
@@ -1564,11 +1567,11 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
+    /// Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. If both Principal and Resource parameters are provided, the response returns effective permissions rather than the explicitly granted permissions. For information about permissions, see Security and Access Control to Metadata and Data.
     ///
     /// Parameters:
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
-    ///   - includeRelated: Indicates that related permissions should be included in the results.
+    ///   - includeRelated: Indicates that related permissions should be included in the results when listing permissions on a table resource. Set the field to TRUE to show the cell filters on a table resource. Default is FALSE. The Principal parameter must not be specified when requesting cell filter information.
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: A continuation token, if this is not the first call to retrieve this list.
     ///   - principal: Specifies a principal to filter the permissions returned.
@@ -2134,6 +2137,7 @@ public struct LakeFormation: AWSService {
     ///   - applicationStatus: Allows to enable or disable the IAM Identity Center connection.
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, view definitions, and other control information to manage your Lake Formation environment.
     ///   - externalFiltering: A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
+    ///   - serviceIntegrations: A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
     ///   - shareRecipients: A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2141,6 +2145,7 @@ public struct LakeFormation: AWSService {
         applicationStatus: ApplicationStatus? = nil,
         catalogId: String? = nil,
         externalFiltering: ExternalFilteringConfiguration? = nil,
+        serviceIntegrations: [ServiceIntegrationUnion]? = nil,
         shareRecipients: [DataLakePrincipal]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLakeFormationIdentityCenterConfigurationResponse {
@@ -2148,6 +2153,7 @@ public struct LakeFormation: AWSService {
             applicationStatus: applicationStatus, 
             catalogId: catalogId, 
             externalFiltering: externalFiltering, 
+            serviceIntegrations: serviceIntegrations, 
             shareRecipients: shareRecipients
         )
         return try await self.updateLakeFormationIdentityCenterConfiguration(input, logger: logger)
@@ -2589,7 +2595,7 @@ extension LakeFormation {
     ///
     /// - Parameters:
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
-    ///   - includeRelated: Indicates that related permissions should be included in the results.
+    ///   - includeRelated: Indicates that related permissions should be included in the results when listing permissions on a table resource. Set the field to TRUE to show the cell filters on a table resource. Default is FALSE. The Principal parameter must not be specified when requesting cell filter information.
     ///   - maxResults: The maximum number of results to return.
     ///   - principal: Specifies a principal to filter the permissions returned.
     ///   - resource: A resource where you will get a list of the principal permissions. This operation does not support getting privileges on a table with columns. Instead, call this operation on the table, and the operation returns the table and the table w columns.

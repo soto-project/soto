@@ -31,6 +31,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum AttributeEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asset = "ASSET"
+        case listing = "LISTING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case iamIdc = "IAM_IDC"
@@ -63,6 +69,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case domain = "DOMAIN"
         case project = "PROJECT"
@@ -90,6 +102,7 @@ extension DataZone {
         case dynamodb = "DYNAMODB"
         case hyperpod = "HYPERPOD"
         case iam = "IAM"
+        case mlflow = "MLFLOW"
         case mysql = "MYSQL"
         case opensearch = "OPENSEARCH"
         case oracle = "ORACLE"
@@ -407,6 +420,7 @@ extension DataZone {
         case canceled = "CANCELED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        case partiallySucceeded = "PARTIALLY_SUCCEEDED"
         case submitted = "SUBMITTED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
@@ -414,6 +428,8 @@ extension DataZone {
 
     public enum MetadataGenerationRunType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case businessDescriptions = "BUSINESS_DESCRIPTIONS"
+        case businessGlossaryAssociations = "BUSINESS_GLOSSARY_ASSOCIATIONS"
+        case businessNames = "BUSINESS_NAMES"
         public var description: String { return self.rawValue }
     }
 
@@ -496,6 +512,12 @@ extension DataZone {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceTagSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case project = "PROJECT"
+        case projectProfile = "PROJECT_PROFILE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createListingChangeSet = "CREATE_LISTING_CHANGE_SET"
         case createSubscriptionRequest = "CREATE_SUBSCRIPTION_REQUEST"
@@ -514,7 +536,14 @@ extension DataZone {
     }
 
     public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case glossaryTermEnforcement = "GLOSSARY_TERM_ENFORCEMENT"
         case metadataFormEnforcement = "METADATA_FORM_ENFORCEMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3Permission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case read = "READ"
+        case write = "WRITE"
         public var description: String { return self.rawValue }
     }
 
@@ -913,6 +942,8 @@ extension DataZone {
         case hyperPodProperties(HyperPodPropertiesInput)
         /// The IAM properties of a connection.
         case iamProperties(IamPropertiesInput)
+        /// The MLflow properties of a connection.
+        case mlflowProperties(MlflowPropertiesInput)
         /// The Amazon Redshift properties of a connection.
         case redshiftProperties(RedshiftPropertiesInput)
         /// The Amazon S3 properties of a connection.
@@ -935,6 +966,8 @@ extension DataZone {
                 try container.encode(value, forKey: .hyperPodProperties)
             case .iamProperties(let value):
                 try container.encode(value, forKey: .iamProperties)
+            case .mlflowProperties(let value):
+                try container.encode(value, forKey: .mlflowProperties)
             case .redshiftProperties(let value):
                 try container.encode(value, forKey: .redshiftProperties)
             case .s3Properties(let value):
@@ -965,6 +998,7 @@ extension DataZone {
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
+            case mlflowProperties = "mlflowProperties"
             case redshiftProperties = "redshiftProperties"
             case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
@@ -983,6 +1017,8 @@ extension DataZone {
         case hyperPodProperties(HyperPodPropertiesOutput)
         /// The IAM properties of a connection.
         case iamProperties(IamPropertiesOutput)
+        /// The MLflow properties of a connection.
+        case mlflowProperties(MlflowPropertiesOutput)
         /// The Amazon Redshift properties of a connection.
         case redshiftProperties(RedshiftPropertiesOutput)
         /// The Amazon S3 properties of a connection.
@@ -1017,6 +1053,9 @@ extension DataZone {
             case .iamProperties:
                 let value = try container.decode(IamPropertiesOutput.self, forKey: .iamProperties)
                 self = .iamProperties(value)
+            case .mlflowProperties:
+                let value = try container.decode(MlflowPropertiesOutput.self, forKey: .mlflowProperties)
+                self = .mlflowProperties(value)
             case .redshiftProperties:
                 let value = try container.decode(RedshiftPropertiesOutput.self, forKey: .redshiftProperties)
                 self = .redshiftProperties(value)
@@ -1038,6 +1077,7 @@ extension DataZone {
             case glueProperties = "glueProperties"
             case hyperPodProperties = "hyperPodProperties"
             case iamProperties = "iamProperties"
+            case mlflowProperties = "mlflowProperties"
             case redshiftProperties = "redshiftProperties"
             case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
@@ -1054,6 +1094,8 @@ extension DataZone {
         case glueProperties(GluePropertiesPatch)
         /// The IAM properties of a connection properties patch.
         case iamProperties(IamPropertiesPatch)
+        /// The MLflow properties of a connection.
+        case mlflowProperties(MlflowPropertiesPatch)
         /// The Amazon Redshift properties of a connection properties patch.
         case redshiftProperties(RedshiftPropertiesPatch)
         /// The Amazon S3 properties of a connection properties patch.
@@ -1072,6 +1114,8 @@ extension DataZone {
                 try container.encode(value, forKey: .glueProperties)
             case .iamProperties(let value):
                 try container.encode(value, forKey: .iamProperties)
+            case .mlflowProperties(let value):
+                try container.encode(value, forKey: .mlflowProperties)
             case .redshiftProperties(let value):
                 try container.encode(value, forKey: .redshiftProperties)
             case .s3Properties(let value):
@@ -1097,6 +1141,7 @@ extension DataZone {
             case athenaProperties = "athenaProperties"
             case glueProperties = "glueProperties"
             case iamProperties = "iamProperties"
+            case mlflowProperties = "mlflowProperties"
             case redshiftProperties = "redshiftProperties"
             case s3Properties = "s3Properties"
             case sparkEmrProperties = "sparkEmrProperties"
@@ -1971,6 +2016,56 @@ extension DataZone {
         }
     }
 
+    public enum RuleDetail: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The enforcement details of a glossary term that's part of the metadata rule.
+        case glossaryTermEnforcementDetail(GlossaryTermEnforcementDetail)
+        /// The enforcement detail of the metadata form.
+        case metadataFormEnforcementDetail(MetadataFormEnforcementDetail)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .glossaryTermEnforcementDetail:
+                let value = try container.decode(GlossaryTermEnforcementDetail.self, forKey: .glossaryTermEnforcementDetail)
+                self = .glossaryTermEnforcementDetail(value)
+            case .metadataFormEnforcementDetail:
+                let value = try container.decode(MetadataFormEnforcementDetail.self, forKey: .metadataFormEnforcementDetail)
+                self = .metadataFormEnforcementDetail(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .glossaryTermEnforcementDetail(let value):
+                try container.encode(value, forKey: .glossaryTermEnforcementDetail)
+            case .metadataFormEnforcementDetail(let value):
+                try container.encode(value, forKey: .metadataFormEnforcementDetail)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .glossaryTermEnforcementDetail(let value):
+                try value.validate(name: "\(name).glossaryTermEnforcementDetail")
+            case .metadataFormEnforcementDetail(let value):
+                try value.validate(name: "\(name).metadataFormEnforcementDetail")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case glossaryTermEnforcementDetail = "glossaryTermEnforcementDetail"
+            case metadataFormEnforcementDetail = "metadataFormEnforcementDetail"
+        }
+    }
+
     public enum SearchInventoryResultItem: AWSDecodableShape, Sendable {
         /// The asset item included in the search results.
         case assetItem(AssetItem)
@@ -2144,6 +2239,81 @@ extension DataZone {
         }
     }
 
+    public enum SubscribedPrincipal: AWSDecodableShape, Sendable {
+        /// The subscribed group.
+        case group(SubscribedGroup)
+        /// The project that has the subscription grant.
+        case project(SubscribedProject)
+        /// The subscribed user.
+        case user(SubscribedUser)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .group:
+                let value = try container.decode(SubscribedGroup.self, forKey: .group)
+                self = .group(value)
+            case .project:
+                let value = try container.decode(SubscribedProject.self, forKey: .project)
+                self = .project(value)
+            case .user:
+                let value = try container.decode(SubscribedUser.self, forKey: .user)
+                self = .user(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case project = "project"
+            case user = "user"
+        }
+    }
+
+    public enum SubscribedPrincipalInput: AWSEncodableShape, Sendable {
+        /// The subscribed group.
+        case group(SubscribedGroupInput)
+        /// The project that is to be given a subscription grant.
+        case project(SubscribedProjectInput)
+        /// The subscribed user.
+        case user(SubscribedUserInput)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .group(let value):
+                try container.encode(value, forKey: .group)
+            case .project(let value):
+                try container.encode(value, forKey: .project)
+            case .user(let value):
+                try container.encode(value, forKey: .user)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .group(let value):
+                try value.validate(name: "\(name).group")
+            case .project(let value):
+                try value.validate(name: "\(name).project")
+            case .user(let value):
+                try value.validate(name: "\(name).user")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case group = "group"
+            case project = "project"
+            case user = "user"
+        }
+    }
+
     public enum UserPolicyGrantPrincipal: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The all users grant filter of the user policy grant principal.
         case allUsersGrantFilter(AllUsersGrantFilter)
@@ -2195,9 +2365,9 @@ extension DataZone {
     }
 
     public enum UserProfileDetails: AWSDecodableShape, Sendable {
-        /// The IAM details included in the user profile details.
+        /// The IAM details of the user profile.
         case iam(IamUserProfileDetails)
-        /// The single sign-on details included in the user profile details.
+        /// The SSO details of the user profile.
         case sso(SsoUserProfileDetails)
 
         public init(from decoder: Decoder) throws {
@@ -2350,6 +2520,8 @@ extension DataZone {
     }
 
     public struct AcceptSubscriptionRequestInput: AWSEncodableShape {
+        /// The asset permissions of the accept subscription request.
+        public let assetPermissions: [AssetPermission]?
         /// The asset scopes of the accept subscription request.
         public let assetScopes: [AcceptedAssetScope]?
         /// A description that specifies the reason for accepting the specified subscription request.
@@ -2360,7 +2532,8 @@ extension DataZone {
         public let identifier: String
 
         @inlinable
-        public init(assetScopes: [AcceptedAssetScope]? = nil, decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
+        public init(assetPermissions: [AssetPermission]? = nil, assetScopes: [AcceptedAssetScope]? = nil, decisionComment: String? = nil, domainIdentifier: String, identifier: String) {
+            self.assetPermissions = assetPermissions
             self.assetScopes = assetScopes
             self.decisionComment = decisionComment
             self.domainIdentifier = domainIdentifier
@@ -2370,6 +2543,7 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetPermissions, forKey: .assetPermissions)
             try container.encodeIfPresent(self.assetScopes, forKey: .assetScopes)
             try container.encodeIfPresent(self.decisionComment, forKey: .decisionComment)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
@@ -2377,6 +2551,9 @@ extension DataZone {
         }
 
         public func validate(name: String) throws {
+            try self.assetPermissions?.forEach {
+                try $0.validate(name: "\(name).assetPermissions[]")
+            }
             try self.assetScopes?.forEach {
                 try $0.validate(name: "\(name).assetScopes[]")
             }
@@ -2387,6 +2564,7 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetPermissions = "assetPermissions"
             case assetScopes = "assetScopes"
             case decisionComment = "decisionComment"
         }
@@ -3150,6 +3328,28 @@ extension DataZone {
         }
     }
 
+    public struct AssetPermission: AWSEncodableShape {
+        /// The asset ID as part of the asset permissions.
+        public let assetId: String
+        /// The details as part of the asset permissions.
+        public let permissions: Permissions
+
+        @inlinable
+        public init(assetId: String, permissions: Permissions) {
+            self.assetId = assetId
+            self.permissions = permissions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "assetId"
+            case permissions = "permissions"
+        }
+    }
+
     public struct AssetRevision: AWSDecodableShape {
         /// The timestamp of when an inventory asset revison was created.
         public let createdAt: Date?
@@ -3434,6 +3634,55 @@ extension DataZone {
         }
     }
 
+    public struct AttributeError: AWSDecodableShape {
+        /// The attribute ID as part of the attribute error.
+        public let attributeIdentifier: String
+        /// The code generated as part of the attribute error.
+        public let code: String
+        /// The message generated as part of the attribute error.
+        public let message: String
+
+        @inlinable
+        public init(attributeIdentifier: String, code: String, message: String) {
+            self.attributeIdentifier = attributeIdentifier
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeIdentifier = "attributeIdentifier"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct AttributeInput: AWSEncodableShape {
+        /// The ID of the attribute.
+        public let attributeIdentifier: String
+        /// The metadata forms as part of the attribute input.
+        public let forms: [FormInput]
+
+        @inlinable
+        public init(attributeIdentifier: String, forms: [FormInput]) {
+            self.attributeIdentifier = attributeIdentifier
+            self.forms = forms
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attributeIdentifier, name: "attributeIdentifier", parent: name, max: 256)
+            try self.validate(self.attributeIdentifier, name: "attributeIdentifier", parent: name, min: 1)
+            try self.forms.forEach {
+                try $0.validate(name: "\(name).forms[]")
+            }
+            try self.validate(self.forms, name: "forms", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeIdentifier = "attributeIdentifier"
+            case forms = "forms"
+        }
+    }
+
     public struct AuthenticationConfiguration: AWSDecodableShape {
         /// The authentication type of a connection.
         public let authenticationType: AuthenticationType?
@@ -3587,6 +3836,170 @@ extension DataZone {
         private enum CodingKeys: String, CodingKey {
             case password = "password"
             case userName = "userName"
+        }
+    }
+
+    public struct BatchGetAttributeOutput: AWSDecodableShape {
+        /// The attribute ID.
+        public let attributeIdentifier: String
+        /// The metadata forms that are part of the results of the BatchGetAttribute action.
+        public let forms: [FormOutput]?
+
+        @inlinable
+        public init(attributeIdentifier: String, forms: [FormOutput]? = nil) {
+            self.attributeIdentifier = attributeIdentifier
+            self.forms = forms
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeIdentifier = "attributeIdentifier"
+            case forms = "forms"
+        }
+    }
+
+    public struct BatchGetAttributesMetadataInput: AWSEncodableShape {
+        /// The attribute identifier.
+        public let attributeIdentifiers: [String]
+        /// The domain ID where you want to get the attribute metadata.
+        public let domainIdentifier: String
+        /// The entity ID for which you want to get attribute metadata.
+        public let entityIdentifier: String
+        /// The entity revision for which you want to get attribute metadata.
+        public let entityRevision: String?
+        /// The entity type for which you want to get attribute metadata.
+        public let entityType: AttributeEntityType
+
+        @inlinable
+        public init(attributeIdentifiers: [String], domainIdentifier: String, entityIdentifier: String, entityRevision: String? = nil, entityType: AttributeEntityType) {
+            self.attributeIdentifiers = attributeIdentifiers
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityRevision = entityRevision
+            self.entityType = entityType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.attributeIdentifiers, key: "attributeIdentifier")
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodeQuery(self.entityRevision, key: "entityRevision")
+            request.encodePath(self.entityType, key: "entityType")
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeIdentifiers.forEach {
+                try validate($0, name: "attributeIdentifiers[]", parent: name, max: 256)
+                try validate($0, name: "attributeIdentifiers[]", parent: name, min: 1)
+            }
+            try self.validate(self.attributeIdentifiers, name: "attributeIdentifiers", parent: name, max: 5)
+            try self.validate(self.attributeIdentifiers, name: "attributeIdentifiers", parent: name, min: 1)
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.entityIdentifier, name: "entityIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.entityRevision, name: "entityRevision", parent: name, max: 64)
+            try self.validate(self.entityRevision, name: "entityRevision", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct BatchGetAttributesMetadataOutput: AWSDecodableShape {
+        /// The results of the BatchGetAttributesMetadata action.
+        public let attributes: [BatchGetAttributeOutput]?
+        /// The errors generated when the BatchGetAttributesMetadata action is invoked.
+        public let errors: [AttributeError]
+
+        @inlinable
+        public init(attributes: [BatchGetAttributeOutput]? = nil, errors: [AttributeError]) {
+            self.attributes = attributes
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case errors = "errors"
+        }
+    }
+
+    public struct BatchPutAttributeOutput: AWSDecodableShape {
+        /// The attribute ID.
+        public let attributeIdentifier: String
+
+        @inlinable
+        public init(attributeIdentifier: String) {
+            self.attributeIdentifier = attributeIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeIdentifier = "attributeIdentifier"
+        }
+    }
+
+    public struct BatchPutAttributesMetadataInput: AWSEncodableShape {
+        /// The attributes of the metadata.
+        public let attributes: [AttributeInput]
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+        public let clientToken: String?
+        /// The domain ID where you want to write the attribute metadata.
+        public let domainIdentifier: String
+        /// The entity ID for which you want to write the attribute metadata.
+        public let entityIdentifier: String
+        /// The entity type for which you want to write the attribute metadata.
+        public let entityType: AttributeEntityType
+
+        @inlinable
+        public init(attributes: [AttributeInput], clientToken: String? = BatchPutAttributesMetadataInput.idempotencyToken(), domainIdentifier: String, entityIdentifier: String, entityType: AttributeEntityType) {
+            self.attributes = attributes
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.entityIdentifier = entityIdentifier
+            self.entityType = entityType
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.attributes, forKey: .attributes)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            request.encodePath(self.entityIdentifier, key: "entityIdentifier")
+            request.encodePath(self.entityType, key: "entityType")
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, max: 5)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.entityIdentifier, name: "entityIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case clientToken = "clientToken"
+        }
+    }
+
+    public struct BatchPutAttributesMetadataOutput: AWSDecodableShape {
+        /// The results of the BatchPutAttributeMetadata action.
+        public let attributes: [BatchPutAttributeOutput]?
+        /// The errors generated when the BatchPutAttributeMetadata action is invoked.
+        public let errors: [AttributeError]?
+
+        @inlinable
+        public init(attributes: [BatchPutAttributeOutput]? = nil, errors: [AttributeError]? = nil) {
+            self.attributes = attributes
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "attributes"
+            case errors = "errors"
         }
     }
 
@@ -6398,17 +6811,20 @@ extension DataZone {
         public let name: String
         /// The ID of the project profile.
         public let projectProfileId: String?
+        /// The resource tags of the project.
+        public let resourceTags: [String: String]?
         /// The user parameters of the project.
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String, projectProfileId: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, glossaryTerms: [String]? = nil, name: String, projectProfileId: String? = nil, resourceTags: [String: String]? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.domainUnitId = domainUnitId
             self.glossaryTerms = glossaryTerms
             self.name = name
             self.projectProfileId = projectProfileId
+            self.resourceTags = resourceTags
             self.userParameters = userParameters
         }
 
@@ -6421,6 +6837,7 @@ extension DataZone {
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.projectProfileId, forKey: .projectProfileId)
+            try container.encodeIfPresent(self.resourceTags, forKey: .resourceTags)
             try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
         }
 
@@ -6439,6 +6856,13 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
             try self.validate(self.projectProfileId, name: "projectProfileId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^[\\w \\.:/=+@-]+$")
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "^[\\w \\.:/=+@-]*$")
+            }
             try self.userParameters?.forEach {
                 try $0.validate(name: "\(name).userParameters[]")
             }
@@ -6450,6 +6874,7 @@ extension DataZone {
             case glossaryTerms = "glossaryTerms"
             case name = "name"
             case projectProfileId = "projectProfileId"
+            case resourceTags = "resourceTags"
             case userParameters = "userParameters"
         }
     }
@@ -6523,11 +6948,13 @@ extension DataZone {
         public let projectProfileId: String?
         /// The status of the Amazon DataZone project that was created.
         public let projectStatus: ProjectStatus?
+        /// The resource tags of the project.
+        public let resourceTags: [ResourceTag]?
         /// The user parameters of the project.
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, resourceTags: [ResourceTag]? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -6541,6 +6968,7 @@ extension DataZone {
             self.name = name
             self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.resourceTags = resourceTags
             self.userParameters = userParameters
         }
 
@@ -6558,6 +6986,7 @@ extension DataZone {
             case name = "name"
             case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case resourceTags = "resourceTags"
             case userParameters = "userParameters"
         }
     }
@@ -6577,6 +7006,8 @@ extension DataZone {
     }
 
     public struct CreateProjectProfileInput: AWSEncodableShape {
+        /// Specifies whether custom project resource tags are supported.
+        public let allowCustomProjectResourceTags: Bool?
         /// A description of a project profile.
         public let description: String?
         /// A domain ID of the project profile.
@@ -6587,27 +7018,37 @@ extension DataZone {
         public let environmentConfigurations: [EnvironmentConfiguration]?
         /// Project profile name.
         public let name: String
+        /// The resource tags of the project profile.
+        public let projectResourceTags: [ResourceTagParameter]?
+        /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+        public let projectResourceTagsDescription: String?
         /// Project profile status.
         public let status: Status?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, name: String, status: Status? = nil) {
+        public init(allowCustomProjectResourceTags: Bool? = nil, description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, name: String, projectResourceTags: [ResourceTagParameter]? = nil, projectResourceTagsDescription: String? = nil, status: Status? = nil) {
+            self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.domainUnitIdentifier = domainUnitIdentifier
             self.environmentConfigurations = environmentConfigurations
             self.name = name
+            self.projectResourceTags = projectResourceTags
+            self.projectResourceTagsDescription = projectResourceTagsDescription
             self.status = status
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowCustomProjectResourceTags, forKey: .allowCustomProjectResourceTags)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.domainUnitIdentifier, forKey: .domainUnitIdentifier)
             try container.encodeIfPresent(self.environmentConfigurations, forKey: .environmentConfigurations)
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.projectResourceTags, forKey: .projectResourceTags)
+            try container.encodeIfPresent(self.projectResourceTagsDescription, forKey: .projectResourceTagsDescription)
             try container.encodeIfPresent(self.status, forKey: .status)
         }
 
@@ -6623,18 +7064,28 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.projectResourceTags?.forEach {
+                try $0.validate(name: "\(name).projectResourceTags[]")
+            }
+            try self.validate(self.projectResourceTags, name: "projectResourceTags", parent: name, max: 25)
+            try self.validate(self.projectResourceTagsDescription, name: "projectResourceTagsDescription", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowCustomProjectResourceTags = "allowCustomProjectResourceTags"
             case description = "description"
             case domainUnitIdentifier = "domainUnitIdentifier"
             case environmentConfigurations = "environmentConfigurations"
             case name = "name"
+            case projectResourceTags = "projectResourceTags"
+            case projectResourceTagsDescription = "projectResourceTagsDescription"
             case status = "status"
         }
     }
 
     public struct CreateProjectProfileOutput: AWSDecodableShape {
+        /// Specifies whether custom project resource tags are supported.
+        public let allowCustomProjectResourceTags: Bool?
         /// A timestamp at which a project profile is created.
         public let createdAt: Date?
         /// A user who created a project profile.
@@ -6653,11 +7104,16 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// Project profile name.
         public let name: String
+        /// The resource tags of the project profile.
+        public let projectResourceTags: [ResourceTagParameter]?
+        /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+        public let projectResourceTagsDescription: String?
         /// Project profile status.
         public let status: Status?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+        public init(allowCustomProjectResourceTags: Bool? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectResourceTags: [ResourceTagParameter]? = nil, projectResourceTagsDescription: String? = nil, status: Status? = nil) {
+            self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -6667,10 +7123,13 @@ extension DataZone {
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectResourceTags = projectResourceTags
+            self.projectResourceTagsDescription = projectResourceTagsDescription
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowCustomProjectResourceTags = "allowCustomProjectResourceTags"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -6680,6 +7139,8 @@ extension DataZone {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectResourceTags = "projectResourceTags"
+            case projectResourceTagsDescription = "projectResourceTagsDescription"
             case status = "status"
         }
     }
@@ -6869,6 +7330,8 @@ extension DataZone {
         public let createdBy: String
         /// The ID of the Amazon DataZone domain in which the subscription grant is created.
         public let domainId: String
+        /// The environment ID for which subscription grant is created.
+        public let environmentId: String?
         /// The entity to which the subscription is granted.
         public let grantedEntity: GrantedEntity
         /// The ID of the subscription grant.
@@ -6885,11 +7348,12 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -6901,11 +7365,12 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -6920,6 +7385,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
+            case environmentId = "environmentId"
             case grantedEntity = "grantedEntity"
             case id = "id"
             case status = "status"
@@ -6931,6 +7397,10 @@ extension DataZone {
     }
 
     public struct CreateSubscriptionRequestInput: AWSEncodableShape {
+        /// The asset permissions of the subscription request.
+        public let assetPermissions: [AssetPermission]?
+        /// The asset scopes of the subscription request.
+        public let assetScopes: [AcceptedAssetScope]?
         /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
         public let clientToken: String?
         /// The ID of the Amazon DataZone domain in which the subscription request is created.
@@ -6945,7 +7415,9 @@ extension DataZone {
         public let subscribedPrincipals: [SubscribedPrincipalInput]
 
         @inlinable
-        public init(clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(), domainIdentifier: String, metadataForms: [FormInput]? = nil, requestReason: String, subscribedListings: [SubscribedListingInput], subscribedPrincipals: [SubscribedPrincipalInput]) {
+        public init(assetPermissions: [AssetPermission]? = nil, assetScopes: [AcceptedAssetScope]? = nil, clientToken: String? = CreateSubscriptionRequestInput.idempotencyToken(), domainIdentifier: String, metadataForms: [FormInput]? = nil, requestReason: String, subscribedListings: [SubscribedListingInput], subscribedPrincipals: [SubscribedPrincipalInput]) {
+            self.assetPermissions = assetPermissions
+            self.assetScopes = assetScopes
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
             self.metadataForms = metadataForms
@@ -6957,6 +7429,8 @@ extension DataZone {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetPermissions, forKey: .assetPermissions)
+            try container.encodeIfPresent(self.assetScopes, forKey: .assetScopes)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.metadataForms, forKey: .metadataForms)
@@ -6966,6 +7440,12 @@ extension DataZone {
         }
 
         public func validate(name: String) throws {
+            try self.assetPermissions?.forEach {
+                try $0.validate(name: "\(name).assetPermissions[]")
+            }
+            try self.assetScopes?.forEach {
+                try $0.validate(name: "\(name).assetScopes[]")
+            }
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.metadataForms?.forEach {
                 try $0.validate(name: "\(name).metadataForms[]")
@@ -6985,6 +7465,8 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetPermissions = "assetPermissions"
+            case assetScopes = "assetScopes"
             case clientToken = "clientToken"
             case metadataForms = "metadataForms"
             case requestReason = "requestReason"
@@ -7253,6 +7735,7 @@ extension DataZone {
     }
 
     public struct CreateUserProfileOutput: AWSDecodableShape {
+        /// The user profile details.
         public let details: UserProfileDetails?
         /// The identifier of the Amazon DataZone domain in which a user profile is created.
         public let domainId: String?
@@ -8681,6 +9164,8 @@ extension DataZone {
         public let createdBy: String
         /// The ID of the Amazon DataZone domain in which the subscription grant is deleted.
         public let domainId: String
+        /// The ID of the environment in which the subscription grant is deleted.
+        public let environmentId: String?
         /// The entity to which the subscription is deleted.
         public let grantedEntity: GrantedEntity
         /// The ID of the subscription grant that is deleted.
@@ -8697,11 +9182,12 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -8713,11 +9199,12 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -8732,6 +9219,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
+            case environmentId = "environmentId"
             case grantedEntity = "grantedEntity"
             case id = "id"
             case status = "status"
@@ -9167,6 +9655,24 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case userId = "userId"
+        }
+    }
+
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key to use for encryption. This field is required only when sseAlgorithm is set to aws:kms.
+        public let kmsKeyArn: String?
+        /// The server-side encryption algorithm to use. Valid values are AES256 for S3-managed encryption keys, or aws:kms for Amazon Web Services KMS-managed encryption keys. If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+        public let sseAlgorithm: String?
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, sseAlgorithm: String? = nil) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "kmsKeyArn"
+            case sseAlgorithm = "sseAlgorithm"
         }
     }
 
@@ -10372,6 +10878,62 @@ extension DataZone {
             case props = "props"
             case scope = "scope"
             case type = "type"
+        }
+    }
+
+    public struct GetDataExportConfigurationInput: AWSEncodableShape {
+        /// The ID of the domain where you want to get the data export configuration details.
+        public let domainIdentifier: String
+
+        @inlinable
+        public init(domainIdentifier: String) {
+            self.domainIdentifier = domainIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataExportConfigurationOutput: AWSDecodableShape {
+        /// The timestamp at which the data export configuration report was created.
+        public let createdAt: Date?
+        /// The encryption configuration as part of the data export configuration details.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// Specifies whether the export is enabled.
+        public let isExportEnabled: Bool?
+        /// The Amazon S3 table bucket ARN as part of the data export configuration details.
+        public let s3TableBucketArn: String?
+        /// The status of the data export configuration.
+        public let status: ConfigurationStatus?
+        /// The timestamp at which the data export configuration report was updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(createdAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, isExportEnabled: Bool? = nil, s3TableBucketArn: String? = nil, status: ConfigurationStatus? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.encryptionConfiguration = encryptionConfiguration
+            self.isExportEnabled = isExportEnabled
+            self.s3TableBucketArn = s3TableBucketArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case isExportEnabled = "isExportEnabled"
+            case s3TableBucketArn = "s3TableBucketArn"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
@@ -12063,11 +12625,14 @@ extension DataZone {
         public let domainIdentifier: String
         /// The identifier of the metadata generation run.
         public let identifier: String
+        /// The type of the metadata generation run.
+        public let type: MetadataGenerationRunType?
 
         @inlinable
-        public init(domainIdentifier: String, identifier: String) {
+        public init(domainIdentifier: String, identifier: String, type: MetadataGenerationRunType? = nil) {
             self.domainIdentifier = domainIdentifier
             self.identifier = identifier
+            self.type = type
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -12075,6 +12640,7 @@ extension DataZone {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodePath(self.identifier, key: "identifier")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -12102,9 +12668,28 @@ extension DataZone {
         public let target: MetadataGenerationRunTarget?
         /// The type of metadata generation run.
         public let type: MetadataGenerationRunType?
+        /// The types of the metadata generation run.
+        public let types: [MetadataGenerationRunType]?
+        /// The type stats included in the metadata generation run output details.
+        public let typeStats: [MetadataGenerationRunTypeStat]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, types: [MetadataGenerationRunType]? = nil, typeStats: [MetadataGenerationRunTypeStat]? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.target = target
+            self.type = nil
+            self.types = types
+            self.typeStats = typeStats
+        }
+
+        @available(*, deprecated, message: "Members type have been deprecated")
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil, types: [MetadataGenerationRunType]? = nil, typeStats: [MetadataGenerationRunTypeStat]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -12113,6 +12698,8 @@ extension DataZone {
             self.status = status
             self.target = target
             self.type = type
+            self.types = types
+            self.typeStats = typeStats
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12124,6 +12711,8 @@ extension DataZone {
             case status = "status"
             case target = "target"
             case type = "type"
+            case types = "types"
+            case typeStats = "typeStats"
         }
     }
 
@@ -12181,11 +12770,13 @@ extension DataZone {
         public let projectProfileId: String?
         /// The status of the project.
         public let projectStatus: ProjectStatus?
+        /// The resource tags of the project.
+        public let resourceTags: [ResourceTag]?
         /// The user parameters of a project.
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, resourceTags: [ResourceTag]? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -12199,6 +12790,7 @@ extension DataZone {
             self.name = name
             self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.resourceTags = resourceTags
             self.userParameters = userParameters
         }
 
@@ -12216,6 +12808,7 @@ extension DataZone {
             case name = "name"
             case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case resourceTags = "resourceTags"
             case userParameters = "userParameters"
         }
     }
@@ -12248,6 +12841,8 @@ extension DataZone {
     }
 
     public struct GetProjectProfileOutput: AWSDecodableShape {
+        /// Specifies whether custom project resource tags are supported.
+        public let allowCustomProjectResourceTags: Bool?
         /// The timestamp of when the project profile was created.
         public let createdAt: Date?
         /// The user who created the project profile.
@@ -12266,11 +12861,16 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name of the project profile.
         public let name: String
+        /// The resource tags of the project profile.
+        public let projectResourceTags: [ResourceTagParameter]?
+        /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+        public let projectResourceTagsDescription: String?
         /// The status of the project profile.
         public let status: Status?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+        public init(allowCustomProjectResourceTags: Bool? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectResourceTags: [ResourceTagParameter]? = nil, projectResourceTagsDescription: String? = nil, status: Status? = nil) {
+            self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -12280,10 +12880,13 @@ extension DataZone {
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectResourceTags = projectResourceTags
+            self.projectResourceTagsDescription = projectResourceTagsDescription
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowCustomProjectResourceTags = "allowCustomProjectResourceTags"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -12293,6 +12896,8 @@ extension DataZone {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectResourceTags = "projectResourceTags"
+            case projectResourceTagsDescription = "projectResourceTagsDescription"
             case status = "status"
         }
     }
@@ -12432,6 +13037,8 @@ extension DataZone {
         public let createdBy: String
         /// The ID of the Amazon DataZone domain in which the subscription grant exists.
         public let domainId: String
+        /// The environment ID of the subscription grant.
+        public let environmentId: String?
         /// The entity to which the subscription is granted.
         public let grantedEntity: GrantedEntity
         /// The ID of the subscription grant.
@@ -12448,11 +13055,12 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -12464,11 +13072,12 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -12483,6 +13092,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
+            case environmentId = "environmentId"
             case grantedEntity = "grantedEntity"
             case id = "id"
             case status = "status"
@@ -12873,6 +13483,7 @@ extension DataZone {
     }
 
     public struct GetUserProfileOutput: AWSDecodableShape {
+        /// The user profile details.
         public let details: UserProfileDetails?
         /// the identifier of the Amazon DataZone domain of which you want to get the user profile.
         public let domainId: String?
@@ -12970,6 +13581,28 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case matchRationale = "matchRationale"
+        }
+    }
+
+    public struct GlossaryTermEnforcementDetail: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the required glossary term.
+        public let requiredGlossaryTermIds: [String]?
+
+        @inlinable
+        public init(requiredGlossaryTermIds: [String]? = nil) {
+            self.requiredGlossaryTermIds = requiredGlossaryTermIds
+        }
+
+        public func validate(name: String) throws {
+            try self.requiredGlossaryTermIds?.forEach {
+                try validate($0, name: "requiredGlossaryTermIds[]", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            }
+            try self.validate(self.requiredGlossaryTermIds, name: "requiredGlossaryTermIds", parent: name, max: 5)
+            try self.validate(self.requiredGlossaryTermIds, name: "requiredGlossaryTermIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requiredGlossaryTermIds = "requiredGlossaryTermIds"
         }
     }
 
@@ -13530,9 +14163,9 @@ extension DataZone {
     }
 
     public struct IamUserProfileDetails: AWSDecodableShape {
-        /// The ARN of an IAM user profile in Amazon DataZone.
+        /// The ARN of the IAM user.
         public let arn: String?
-        /// Principal ID of the IAM user.
+        /// The principal ID as part of the IAM user profile details.
         public let principalId: String?
 
         @inlinable
@@ -15309,15 +15942,18 @@ extension DataZone {
         public let nextToken: String?
         /// The status of the metadata generation runs.
         public let status: MetadataGenerationRunStatus?
+        /// The target ID for which you want to list metadata generation runs.
+        public let targetIdentifier: String?
         /// The type of the metadata generation runs.
         public let type: MetadataGenerationRunType?
 
         @inlinable
-        public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: MetadataGenerationRunStatus? = nil, type: MetadataGenerationRunType? = nil) {
+        public init(domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, status: MetadataGenerationRunStatus? = nil, targetIdentifier: String? = nil, type: MetadataGenerationRunType? = nil) {
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
+            self.targetIdentifier = targetIdentifier
             self.type = type
         }
 
@@ -15328,6 +15964,7 @@ extension DataZone {
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.targetIdentifier, key: "targetIdentifier")
             request.encodeQuery(self.type, key: "type")
         }
 
@@ -15337,6 +15974,7 @@ extension DataZone {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.targetIdentifier, name: "targetIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -15794,8 +16432,12 @@ extension DataZone {
         public let maxResults: Int?
         /// When the number of subscription grants is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription grants, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionGrants to list the next set of subscription grants.
         public let nextToken: String?
+        /// The ID of the owning group.
+        public let owningGroupId: String?
         /// The ID of the owning project of the subscription grants.
         public let owningProjectId: String?
+        /// The ID of the owning user.
+        public let owningUserId: String?
         /// Specifies the way of sorting the results of this action.
         public let sortBy: SortKey?
         /// Specifies the sort order of this action.
@@ -15808,12 +16450,31 @@ extension DataZone {
         public let subscriptionTargetId: String?
 
         @inlinable
-        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
+        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
             self.domainIdentifier = domainIdentifier
             self.environmentId = environmentId
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
             self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
+            self.sortBy = nil
+            self.sortOrder = sortOrder
+            self.subscribedListingId = subscribedListingId
+            self.subscriptionId = subscriptionId
+            self.subscriptionTargetId = subscriptionTargetId
+        }
+
+        @available(*, deprecated, message: "Members sortBy have been deprecated")
+        @inlinable
+        public init(domainIdentifier: String, environmentId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, subscribedListingId: String? = nil, subscriptionId: String? = nil, subscriptionTargetId: String? = nil) {
+            self.domainIdentifier = domainIdentifier
+            self.environmentId = environmentId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
+            self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
             self.sortBy = sortBy
             self.sortOrder = sortOrder
             self.subscribedListingId = subscribedListingId
@@ -15828,7 +16489,9 @@ extension DataZone {
             request.encodeQuery(self.environmentId, key: "environmentId")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owningGroupId, key: "owningGroupId")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
+            request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
             request.encodeQuery(self.sortOrder, key: "sortOrder")
             request.encodeQuery(self.subscribedListingId, key: "subscribedListingId")
@@ -15843,7 +16506,9 @@ extension DataZone {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscriptionId, name: "subscriptionId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscriptionTargetId, name: "subscriptionTargetId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -15879,8 +16544,12 @@ extension DataZone {
         public let maxResults: Int?
         /// When the number of subscription requests is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscription requests, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptionRequests to list the next set of subscription requests.
         public let nextToken: String?
+        /// The ID of the owning group.
+        public let owningGroupId: String?
         /// The identifier of the project for the subscription requests.
         public let owningProjectId: String?
+        /// The ID of the owning user.
+        public let owningUserId: String?
         /// Specifies the way to sort the results of this action.
         public let sortBy: SortKey?
         /// Specifies the sort order for the results of this action.
@@ -15891,12 +16560,30 @@ extension DataZone {
         public let subscribedListingId: String?
 
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
             self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
+            self.sortBy = nil
+            self.sortOrder = sortOrder
+            self.status = status
+            self.subscribedListingId = subscribedListingId
+        }
+
+        @available(*, deprecated, message: "Members sortBy have been deprecated")
+        @inlinable
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionRequestStatus? = nil, subscribedListingId: String? = nil) {
+            self.approverProjectId = approverProjectId
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
+            self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
             self.sortBy = sortBy
             self.sortOrder = sortOrder
             self.status = status
@@ -15910,7 +16597,9 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owningGroupId, key: "owningGroupId")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
+            request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
             request.encodeQuery(self.sortOrder, key: "sortOrder")
             request.encodeQuery(self.status, key: "status")
@@ -15924,7 +16613,9 @@ extension DataZone {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
@@ -16023,8 +16714,12 @@ extension DataZone {
         public let maxResults: Int?
         /// When the number of subscriptions is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of subscriptions, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListSubscriptions to list the next set of subscriptions.
         public let nextToken: String?
+        /// The ID of the owning group.
+        public let owningGroupId: String?
         /// The identifier of the owning project.
         public let owningProjectId: String?
+        /// The ID of the owning user.
+        public let owningUserId: String?
         /// Specifies the way in which the results of this action are to be sorted.
         public let sortBy: SortKey?
         /// Specifies the sort order for the results of this action.
@@ -16037,12 +16732,31 @@ extension DataZone {
         public let subscriptionRequestIdentifier: String?
 
         @inlinable
-        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningProjectId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
             self.approverProjectId = approverProjectId
             self.domainIdentifier = domainIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
             self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
+            self.sortBy = nil
+            self.sortOrder = sortOrder
+            self.status = status
+            self.subscribedListingId = subscribedListingId
+            self.subscriptionRequestIdentifier = subscriptionRequestIdentifier
+        }
+
+        @available(*, deprecated, message: "Members sortBy have been deprecated")
+        @inlinable
+        public init(approverProjectId: String? = nil, domainIdentifier: String, maxResults: Int? = nil, nextToken: String? = nil, owningGroupId: String? = nil, owningProjectId: String? = nil, owningUserId: String? = nil, sortBy: SortKey? = nil, sortOrder: SortOrder? = nil, status: SubscriptionStatus? = nil, subscribedListingId: String? = nil, subscriptionRequestIdentifier: String? = nil) {
+            self.approverProjectId = approverProjectId
+            self.domainIdentifier = domainIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.owningGroupId = owningGroupId
+            self.owningProjectId = owningProjectId
+            self.owningUserId = owningUserId
             self.sortBy = sortBy
             self.sortOrder = sortOrder
             self.status = status
@@ -16057,7 +16771,9 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.owningGroupId, key: "owningGroupId")
             request.encodeQuery(self.owningProjectId, key: "owningProjectId")
+            request.encodeQuery(self.owningUserId, key: "owningUserId")
             request.encodeQuery(self.sortBy, key: "sortBy")
             request.encodeQuery(self.sortOrder, key: "sortOrder")
             request.encodeQuery(self.status, key: "status")
@@ -16072,7 +16788,9 @@ extension DataZone {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.owningGroupId, name: "owningGroupId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.owningProjectId, name: "owningProjectId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
+            try self.validate(self.owningUserId, name: "owningUserId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
             try self.validate(self.subscribedListingId, name: "subscribedListingId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.subscriptionRequestIdentifier, name: "subscriptionRequestIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
@@ -16414,9 +17132,25 @@ extension DataZone {
         public let target: MetadataGenerationRunTarget?
         /// The type of the metadata generation run.
         public let type: MetadataGenerationRunType?
+        /// The types of the metadata generation run.
+        public let types: [MetadataGenerationRunType]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, types: [MetadataGenerationRunType]? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.target = target
+            self.type = nil
+            self.types = types
+        }
+
+        @available(*, deprecated, message: "Members type have been deprecated")
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String, status: MetadataGenerationRunStatus? = nil, target: MetadataGenerationRunTarget? = nil, type: MetadataGenerationRunType? = nil, types: [MetadataGenerationRunType]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -16425,6 +17159,7 @@ extension DataZone {
             self.status = status
             self.target = target
             self.type = type
+            self.types = types
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -16436,6 +17171,7 @@ extension DataZone {
             case status = "status"
             case target = "target"
             case type = "type"
+            case types = "types"
         }
     }
 
@@ -16463,6 +17199,70 @@ extension DataZone {
             case identifier = "identifier"
             case revision = "revision"
             case type = "type"
+        }
+    }
+
+    public struct MetadataGenerationRunTypeStat: AWSDecodableShape {
+        /// The error message displayed if the action fails to run.
+        public let errorMessage: String?
+        /// The status of the metadata generation run type statistics.
+        public let status: MetadataGenerationRunStatus
+        /// The type of the metadata generation run type statistics.
+        public let type: MetadataGenerationRunType
+
+        @inlinable
+        public init(errorMessage: String? = nil, status: MetadataGenerationRunStatus, type: MetadataGenerationRunType) {
+            self.errorMessage = errorMessage
+            self.status = status
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case status = "status"
+            case type = "type"
+        }
+    }
+
+    public struct MlflowPropertiesInput: AWSEncodableShape {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public let trackingServerArn: String?
+
+        @inlinable
+        public init(trackingServerArn: String? = nil) {
+            self.trackingServerArn = trackingServerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackingServerArn = "trackingServerArn"
+        }
+    }
+
+    public struct MlflowPropertiesOutput: AWSDecodableShape {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public let trackingServerArn: String?
+
+        @inlinable
+        public init(trackingServerArn: String? = nil) {
+            self.trackingServerArn = trackingServerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackingServerArn = "trackingServerArn"
+        }
+    }
+
+    public struct MlflowPropertiesPatch: AWSEncodableShape {
+        /// The tracking server ARN as part of the MLflow properties of a connection.
+        public let trackingServerArn: String?
+
+        @inlinable
+        public init(trackingServerArn: String? = nil) {
+            self.trackingServerArn = trackingServerArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackingServerArn = "trackingServerArn"
         }
     }
 
@@ -17220,6 +18020,51 @@ extension DataZone {
             case selectionMode = "selectionMode"
             case specificProjects = "specificProjects"
         }
+    }
+
+    public struct PutDataExportConfigurationInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+        public let clientToken: String?
+        /// The domain ID where you want to create data export configuration details.
+        public let domainIdentifier: String
+        /// Specifies that the export is to be enabled as part of creating data export configuration details.
+        public let enableExport: Bool
+        /// The encryption configuration as part of creating data export configuration details. The KMS key provided here as part of encryptionConfiguration must have the required permissions as described in KMS permissions for exporting asset metadata in Amazon SageMaker Unified Studio.
+        public let encryptionConfiguration: EncryptionConfiguration?
+
+        @inlinable
+        public init(clientToken: String? = PutDataExportConfigurationInput.idempotencyToken(), domainIdentifier: String, enableExport: Bool, encryptionConfiguration: EncryptionConfiguration? = nil) {
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.enableExport = enableExport
+            self.encryptionConfiguration = encryptionConfiguration
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.enableExport, forKey: .enableExport)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case enableExport = "enableExport"
+            case encryptionConfiguration = "encryptionConfiguration"
+        }
+    }
+
+    public struct PutDataExportConfigurationOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutEnvironmentBlueprintConfigurationInput: AWSEncodableShape {
@@ -18003,6 +18848,58 @@ extension DataZone {
             case name = "name"
             case provider = "provider"
             case type = "type"
+            case value = "value"
+        }
+    }
+
+    public struct ResourceTag: AWSDecodableShape {
+        /// The key of the resource tag of the project.
+        public let key: String
+        /// The source of the resource tag of the project.
+        public let source: ResourceTagSource
+        /// The value of the resource tag of the project.
+        public let value: String
+
+        @inlinable
+        public init(key: String, source: ResourceTagSource, value: String) {
+            self.key = key
+            self.source = source
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case source = "source"
+            case value = "value"
+        }
+    }
+
+    public struct ResourceTagParameter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the value of the resource tag parameter of the project profile is editable at the project level.
+        public let isValueEditable: Bool
+        /// The key of the resource tag parameter of the project profile.
+        public let key: String
+        /// The value of the resource tag parameter key of the project profile.
+        public let value: String
+
+        @inlinable
+        public init(isValueEditable: Bool, key: String, value: String) {
+            self.isValueEditable = isValueEditable
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\w \\.:/=+@-]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\w \\.:/=+@-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isValueEditable = "isValueEditable"
+            case key = "key"
             case value = "value"
         }
     }
@@ -19143,11 +20040,11 @@ extension DataZone {
     }
 
     public struct SsoUserProfileDetails: AWSDecodableShape {
-        /// The first name included in the single sign-on details of the user profile.
+        /// The first name as part of the SSO user profile detail.
         public let firstName: String?
-        /// The last name included in the single sign-on details of the user profile.
+        /// The last name as part of the SSO user profile detail.
         public let lastName: String?
-        /// The username included in the single sign-on details of the user profile.
+        /// The username as part of the SSO user profile detail.
         public let username: String?
 
         @inlinable
@@ -19273,15 +20170,29 @@ extension DataZone {
         /// The asset for which you want to start a metadata generation run.
         public let target: MetadataGenerationRunTarget
         /// The type of the metadata generation run.
-        public let type: MetadataGenerationRunType
+        public let type: MetadataGenerationRunType?
+        /// The types of the metadata generation run.
+        public let types: [MetadataGenerationRunType]?
 
         @inlinable
-        public init(clientToken: String? = StartMetadataGenerationRunInput.idempotencyToken(), domainIdentifier: String, owningProjectIdentifier: String, target: MetadataGenerationRunTarget, type: MetadataGenerationRunType) {
+        public init(clientToken: String? = StartMetadataGenerationRunInput.idempotencyToken(), domainIdentifier: String, owningProjectIdentifier: String, target: MetadataGenerationRunTarget, types: [MetadataGenerationRunType]? = nil) {
+            self.clientToken = clientToken
+            self.domainIdentifier = domainIdentifier
+            self.owningProjectIdentifier = owningProjectIdentifier
+            self.target = target
+            self.type = nil
+            self.types = types
+        }
+
+        @available(*, deprecated, message: "Members type have been deprecated")
+        @inlinable
+        public init(clientToken: String? = StartMetadataGenerationRunInput.idempotencyToken(), domainIdentifier: String, owningProjectIdentifier: String, target: MetadataGenerationRunTarget, type: MetadataGenerationRunType? = nil, types: [MetadataGenerationRunType]? = nil) {
             self.clientToken = clientToken
             self.domainIdentifier = domainIdentifier
             self.owningProjectIdentifier = owningProjectIdentifier
             self.target = target
             self.type = type
+            self.types = types
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -19291,7 +20202,8 @@ extension DataZone {
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encode(self.owningProjectIdentifier, forKey: .owningProjectIdentifier)
             try container.encode(self.target, forKey: .target)
-            try container.encode(self.type, forKey: .type)
+            try container.encodeIfPresent(self.type, forKey: .type)
+            try container.encodeIfPresent(self.types, forKey: .types)
         }
 
         public func validate(name: String) throws {
@@ -19301,6 +20213,8 @@ extension DataZone {
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.owningProjectIdentifier, name: "owningProjectIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
             try self.target.validate(name: "\(name).target")
+            try self.validate(self.types, name: "types", parent: name, max: 2)
+            try self.validate(self.types, name: "types", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19308,6 +20222,7 @@ extension DataZone {
             case owningProjectIdentifier = "owningProjectIdentifier"
             case target = "target"
             case type = "type"
+            case types = "types"
         }
     }
 
@@ -19326,9 +20241,24 @@ extension DataZone {
         public let status: MetadataGenerationRunStatus?
         /// The type of the metadata generation run.
         public let type: MetadataGenerationRunType?
+        /// The types of the metadata generation run.
+        public let types: [MetadataGenerationRunType]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String? = nil, status: MetadataGenerationRunStatus? = nil, type: MetadataGenerationRunType? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String? = nil, status: MetadataGenerationRunStatus? = nil, types: [MetadataGenerationRunType]? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.type = nil
+            self.types = types
+        }
+
+        @available(*, deprecated, message: "Members type have been deprecated")
+        @inlinable
+        public init(createdAt: Date? = nil, createdBy: String? = nil, domainId: String, id: String, owningProjectId: String? = nil, status: MetadataGenerationRunStatus? = nil, type: MetadataGenerationRunType? = nil, types: [MetadataGenerationRunType]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
@@ -19336,6 +20266,7 @@ extension DataZone {
             self.owningProjectId = owningProjectId
             self.status = status
             self.type = type
+            self.types = types
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19346,6 +20277,7 @@ extension DataZone {
             case owningProjectId = "owningProjectId"
             case status = "status"
             case type = "type"
+            case types = "types"
         }
     }
 
@@ -19362,19 +20294,22 @@ extension DataZone {
         public let failureTimestamp: Date?
         /// The timestamp of when the subscription grant to the asset is created.
         public let grantedTimestamp: Date?
+        /// The asset permissions.
+        public let permissions: Permissions?
         /// The status of the asset for which the subscription grant is created.
         public let status: SubscriptionGrantStatus
         /// The target name of the asset for which the subscription grant is created.
         public let targetName: String?
 
         @inlinable
-        public init(assetId: String, assetRevision: String, assetScope: AssetScope? = nil, failureCause: FailureCause? = nil, failureTimestamp: Date? = nil, grantedTimestamp: Date? = nil, status: SubscriptionGrantStatus, targetName: String? = nil) {
+        public init(assetId: String, assetRevision: String, assetScope: AssetScope? = nil, failureCause: FailureCause? = nil, failureTimestamp: Date? = nil, grantedTimestamp: Date? = nil, permissions: Permissions? = nil, status: SubscriptionGrantStatus, targetName: String? = nil) {
             self.assetId = assetId
             self.assetRevision = assetRevision
             self.assetScope = assetScope
             self.failureCause = failureCause
             self.failureTimestamp = failureTimestamp
             self.grantedTimestamp = grantedTimestamp
+            self.permissions = permissions
             self.status = status
             self.targetName = targetName
         }
@@ -19386,6 +20321,7 @@ extension DataZone {
             case failureCause = "failureCause"
             case failureTimestamp = "failureTimestamp"
             case grantedTimestamp = "grantedTimestamp"
+            case permissions = "permissions"
             case status = "status"
             case targetName = "targetName"
         }
@@ -19404,15 +20340,18 @@ extension DataZone {
         public let forms: String?
         /// The glossary terms attached to the published asset for which the subscription grant is created.
         public let glossaryTerms: [DetailedGlossaryTerm]?
+        /// The asset permissions.
+        public let permissions: Permissions?
 
         @inlinable
-        public init(assetScope: AssetScope? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil) {
+        public init(assetScope: AssetScope? = nil, entityId: String? = nil, entityRevision: String? = nil, entityType: String? = nil, forms: String? = nil, glossaryTerms: [DetailedGlossaryTerm]? = nil, permissions: Permissions? = nil) {
             self.assetScope = assetScope
             self.entityId = entityId
             self.entityRevision = entityRevision
             self.entityType = entityType
             self.forms = forms
             self.glossaryTerms = glossaryTerms
+            self.permissions = permissions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19422,6 +20361,43 @@ extension DataZone {
             case entityType = "entityType"
             case forms = "forms"
             case glossaryTerms = "glossaryTerms"
+            case permissions = "permissions"
+        }
+    }
+
+    public struct SubscribedGroup: AWSDecodableShape {
+        /// The ID of the subscribed group.
+        public let id: String?
+        /// The name of the subscribed group.
+        public let name: String?
+
+        @inlinable
+        public init(id: String? = nil, name: String? = nil) {
+            self.id = id
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case name = "name"
+        }
+    }
+
+    public struct SubscribedGroupInput: AWSEncodableShape {
+        /// The ID of the subscribed group.
+        public let identifier: String?
+
+        @inlinable
+        public init(identifier: String? = nil) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
         }
     }
 
@@ -19551,6 +20527,42 @@ extension DataZone {
         }
     }
 
+    public struct SubscribedUser: AWSDecodableShape {
+        /// The subscribed user details.
+        public let details: UserProfileDetails?
+        /// The ID of the subscribed user.
+        public let id: String?
+
+        @inlinable
+        public init(details: UserProfileDetails? = nil, id: String? = nil) {
+            self.details = details
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "details"
+            case id = "id"
+        }
+    }
+
+    public struct SubscribedUserInput: AWSEncodableShape {
+        /// The ID of the subscribed user.
+        public let identifier: String?
+
+        @inlinable
+        public init(identifier: String? = nil) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
     public struct SubscriptionGrantSummary: AWSDecodableShape {
         /// The assets included in the subscription grant.
         public let assets: [SubscribedAsset]?
@@ -19560,6 +20572,8 @@ extension DataZone {
         public let createdBy: String
         /// The identifier of the Amazon DataZone domain in which a subscription grant exists.
         public let domainId: String
+        /// The environment ID of the subscription grant.
+        public let environmentId: String?
         /// The entity to which the subscription is granted.
         public let grantedEntity: GrantedEntity
         /// The identifier of the subscription grant.
@@ -19576,11 +20590,12 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -19592,11 +20607,12 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -19611,6 +20627,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
+            case environmentId = "environmentId"
             case grantedEntity = "grantedEntity"
             case id = "id"
             case status = "status"
@@ -21507,11 +22524,13 @@ extension DataZone {
         public let name: String?
         /// The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
         public let projectProfileVersion: String?
+        /// The resource tags of the project.
+        public let resourceTags: [String: String]?
         /// The user parameters of the project.
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, projectProfileVersion: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(description: String? = nil, domainIdentifier: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, projectProfileVersion: String? = nil, resourceTags: [String: String]? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.domainUnitId = domainUnitId
@@ -21520,6 +22539,7 @@ extension DataZone {
             self.identifier = identifier
             self.name = name
             self.projectProfileVersion = projectProfileVersion
+            self.resourceTags = resourceTags
             self.userParameters = userParameters
         }
 
@@ -21534,6 +22554,7 @@ extension DataZone {
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.projectProfileVersion, forKey: .projectProfileVersion)
+            try container.encodeIfPresent(self.resourceTags, forKey: .resourceTags)
             try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
         }
 
@@ -21552,6 +22573,13 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.resourceTags?.forEach {
+                try validate($0.key, name: "resourceTags.key", parent: name, max: 128)
+                try validate($0.key, name: "resourceTags.key", parent: name, min: 1)
+                try validate($0.key, name: "resourceTags.key", parent: name, pattern: "^[\\w \\.:/=+@-]+$")
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "^[\\w \\.:/=+@-]*$")
+            }
             try self.userParameters?.forEach {
                 try $0.validate(name: "\(name).userParameters[]")
             }
@@ -21564,6 +22592,7 @@ extension DataZone {
             case glossaryTerms = "glossaryTerms"
             case name = "name"
             case projectProfileVersion = "projectProfileVersion"
+            case resourceTags = "resourceTags"
             case userParameters = "userParameters"
         }
     }
@@ -21595,11 +22624,13 @@ extension DataZone {
         public let projectProfileId: String?
         /// The status of the project.
         public let projectStatus: ProjectStatus?
+        /// The resource tags of the project.
+        public let resourceTags: [ResourceTag]?
         /// The user parameters of the project.
         public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, failureReasons: [ProjectDeletionError]? = nil, glossaryTerms: [String]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectProfileId: String? = nil, projectStatus: ProjectStatus? = nil, resourceTags: [ResourceTag]? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -21613,6 +22644,7 @@ extension DataZone {
             self.name = name
             self.projectProfileId = projectProfileId
             self.projectStatus = projectStatus
+            self.resourceTags = resourceTags
             self.userParameters = userParameters
         }
 
@@ -21630,11 +22662,14 @@ extension DataZone {
             case name = "name"
             case projectProfileId = "projectProfileId"
             case projectStatus = "projectStatus"
+            case resourceTags = "resourceTags"
             case userParameters = "userParameters"
         }
     }
 
     public struct UpdateProjectProfileInput: AWSEncodableShape {
+        /// Specifies whether custom project resource tags are supported.
+        public let allowCustomProjectResourceTags: Bool?
         /// The description of a project profile.
         public let description: String?
         /// The ID of the domain where a project profile is to be updated.
@@ -21647,29 +22682,39 @@ extension DataZone {
         public let identifier: String
         /// The name of a project profile.
         public let name: String?
+        /// The resource tags of the project profile.
+        public let projectResourceTags: [ResourceTagParameter]?
+        /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+        public let projectResourceTagsDescription: String?
         /// The status of a project profile.
         public let status: Status?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, identifier: String, name: String? = nil, status: Status? = nil) {
+        public init(allowCustomProjectResourceTags: Bool? = nil, description: String? = nil, domainIdentifier: String, domainUnitIdentifier: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, identifier: String, name: String? = nil, projectResourceTags: [ResourceTagParameter]? = nil, projectResourceTagsDescription: String? = nil, status: Status? = nil) {
+            self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.domainUnitIdentifier = domainUnitIdentifier
             self.environmentConfigurations = environmentConfigurations
             self.identifier = identifier
             self.name = name
+            self.projectResourceTags = projectResourceTags
+            self.projectResourceTagsDescription = projectResourceTagsDescription
             self.status = status
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.allowCustomProjectResourceTags, forKey: .allowCustomProjectResourceTags)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.domainUnitIdentifier, forKey: .domainUnitIdentifier)
             try container.encodeIfPresent(self.environmentConfigurations, forKey: .environmentConfigurations)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.projectResourceTags, forKey: .projectResourceTags)
+            try container.encodeIfPresent(self.projectResourceTagsDescription, forKey: .projectResourceTagsDescription)
             try container.encodeIfPresent(self.status, forKey: .status)
         }
 
@@ -21686,18 +22731,28 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.projectResourceTags?.forEach {
+                try $0.validate(name: "\(name).projectResourceTags[]")
+            }
+            try self.validate(self.projectResourceTags, name: "projectResourceTags", parent: name, max: 25)
+            try self.validate(self.projectResourceTagsDescription, name: "projectResourceTagsDescription", parent: name, max: 2048)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowCustomProjectResourceTags = "allowCustomProjectResourceTags"
             case description = "description"
             case domainUnitIdentifier = "domainUnitIdentifier"
             case environmentConfigurations = "environmentConfigurations"
             case name = "name"
+            case projectResourceTags = "projectResourceTags"
+            case projectResourceTagsDescription = "projectResourceTagsDescription"
             case status = "status"
         }
     }
 
     public struct UpdateProjectProfileOutput: AWSDecodableShape {
+        /// Specifies whether custom project resource tags are supported.
+        public let allowCustomProjectResourceTags: Bool?
         /// The timestamp at which a project profile is created.
         public let createdAt: Date?
         /// The user who created a project profile.
@@ -21716,11 +22771,16 @@ extension DataZone {
         public let lastUpdatedAt: Date?
         /// The name of the project profile.
         public let name: String
+        /// The resource tags of the project profile.
+        public let projectResourceTags: [ResourceTagParameter]?
+        /// Field viewable through the UI that provides a project user with the allowed resource tag specifications.
+        public let projectResourceTagsDescription: String?
         /// The status of the project profile.
         public let status: Status?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, status: Status? = nil) {
+        public init(allowCustomProjectResourceTags: Bool? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, domainUnitId: String? = nil, environmentConfigurations: [EnvironmentConfiguration]? = nil, id: String, lastUpdatedAt: Date? = nil, name: String, projectResourceTags: [ResourceTagParameter]? = nil, projectResourceTagsDescription: String? = nil, status: Status? = nil) {
+            self.allowCustomProjectResourceTags = allowCustomProjectResourceTags
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -21730,10 +22790,13 @@ extension DataZone {
             self.id = id
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
+            self.projectResourceTags = projectResourceTags
+            self.projectResourceTagsDescription = projectResourceTagsDescription
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowCustomProjectResourceTags = "allowCustomProjectResourceTags"
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case description = "description"
@@ -21743,8 +22806,56 @@ extension DataZone {
             case id = "id"
             case lastUpdatedAt = "lastUpdatedAt"
             case name = "name"
+            case projectResourceTags = "projectResourceTags"
+            case projectResourceTagsDescription = "projectResourceTagsDescription"
             case status = "status"
         }
+    }
+
+    public struct UpdateRootDomainUnitOwnerInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+        public let clientToken: String?
+        /// The current owner of the root domain unit.
+        public let currentOwner: String
+        /// The ID of the domain where the root domain unit owner is to be updated.
+        public let domainIdentifier: String
+        /// The new owner of the root domain unit.
+        public let newOwner: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateRootDomainUnitOwnerInput.idempotencyToken(), currentOwner: String, domainIdentifier: String, newOwner: String) {
+            self.clientToken = clientToken
+            self.currentOwner = currentOwner
+            self.domainIdentifier = domainIdentifier
+            self.newOwner = newOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.currentOwner, forKey: .currentOwner)
+            request.encodePath(self.domainIdentifier, key: "domainIdentifier")
+            try container.encode(self.newOwner, forKey: .newOwner)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[\\x21-\\x7E]+$")
+            try self.validate(self.currentOwner, name: "currentOwner", parent: name, pattern: "(^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$|^[a-zA-Z_0-9+=,.@-]+$|^arn:aws:iam::\\d{12}:.+$)")
+            try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case currentOwner = "currentOwner"
+            case newOwner = "newOwner"
+        }
+    }
+
+    public struct UpdateRootDomainUnitOwnerOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateRuleInput: AWSEncodableShape {
@@ -21925,6 +23036,8 @@ extension DataZone {
         public let createdBy: String
         /// The identifier of the Amazon DataZone domain in which a subscription grant status is to be updated.
         public let domainId: String
+        /// The ID of the environment in which the subscription grant is updated.
+        public let environmentId: String?
         /// The granted entity to be updated as part of the UpdateSubscriptionGrantStatus action.
         public let grantedEntity: GrantedEntity
         /// The identifier of the subscription grant.
@@ -21941,11 +23054,12 @@ extension DataZone {
         public let updatedBy: String?
 
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -21957,11 +23071,12 @@ extension DataZone {
 
         @available(*, deprecated, message: "Members subscriptionId have been deprecated")
         @inlinable
-        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
+        public init(assets: [SubscribedAsset]? = nil, createdAt: Date, createdBy: String, domainId: String, environmentId: String? = nil, grantedEntity: GrantedEntity, id: String, status: SubscriptionGrantOverallStatus, subscriptionId: String? = nil, subscriptionTargetId: String, updatedAt: Date, updatedBy: String? = nil) {
             self.assets = assets
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.domainId = domainId
+            self.environmentId = environmentId
             self.grantedEntity = grantedEntity
             self.id = id
             self.status = status
@@ -21976,6 +23091,7 @@ extension DataZone {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case domainId = "domainId"
+            case environmentId = "environmentId"
             case grantedEntity = "grantedEntity"
             case id = "id"
             case status = "status"
@@ -22275,6 +23391,7 @@ extension DataZone {
     }
 
     public struct UpdateUserProfileOutput: AWSDecodableShape {
+        /// The results of the UpdateUserProfile action.
         public let details: UserProfileDetails?
         /// The identifier of the Amazon DataZone domain in which a user profile is updated.
         public let domainId: String?
@@ -22529,6 +23646,20 @@ extension DataZone {
         }
     }
 
+    public struct Permissions: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 details of the asset permissions.
+        public let s3: [S3Permission]?
+
+        @inlinable
+        public init(s3: [S3Permission]? = nil) {
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
+        }
+    }
+
     public struct ProjectGrantFilter: AWSEncodableShape & AWSDecodableShape {
         /// The domain unit filter of the project grant filter.
         public let domainUnitFilter: DomainUnitFilterForProject?
@@ -22579,24 +23710,6 @@ extension DataZone {
         }
     }
 
-    public struct RuleDetail: AWSEncodableShape & AWSDecodableShape {
-        /// The enforcement detail of the metadata form.
-        public let metadataFormEnforcementDetail: MetadataFormEnforcementDetail?
-
-        @inlinable
-        public init(metadataFormEnforcementDetail: MetadataFormEnforcementDetail? = nil) {
-            self.metadataFormEnforcementDetail = metadataFormEnforcementDetail
-        }
-
-        public func validate(name: String) throws {
-            try self.metadataFormEnforcementDetail?.validate(name: "\(name).metadataFormEnforcementDetail")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case metadataFormEnforcementDetail = "metadataFormEnforcementDetail"
-        }
-    }
-
     public struct RuleTarget: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the domain unit.
         public let domainUnitTarget: DomainUnitTarget?
@@ -22612,38 +23725,6 @@ extension DataZone {
 
         private enum CodingKeys: String, CodingKey {
             case domainUnitTarget = "domainUnitTarget"
-        }
-    }
-
-    public struct SubscribedPrincipal: AWSDecodableShape {
-        /// The project that has the subscription grant.
-        public let project: SubscribedProject?
-
-        @inlinable
-        public init(project: SubscribedProject? = nil) {
-            self.project = project
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case project = "project"
-        }
-    }
-
-    public struct SubscribedPrincipalInput: AWSEncodableShape {
-        /// The project that is to be given a subscription grant.
-        public let project: SubscribedProjectInput?
-
-        @inlinable
-        public init(project: SubscribedProjectInput? = nil) {
-            self.project = project
-        }
-
-        public func validate(name: String) throws {
-            try self.project?.validate(name: "\(name).project")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case project = "project"
         }
     }
 }

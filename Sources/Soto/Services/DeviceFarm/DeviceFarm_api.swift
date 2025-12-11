@@ -241,18 +241,24 @@ public struct DeviceFarm: AWSService {
     ///
     /// Parameters:
     ///   - defaultJobTimeoutMinutes: Sets the execution timeout value (in minutes) for a project. All test runs in this project use the specified execution timeout value unless overridden when scheduling a run.
+    ///   - environmentVariables:  A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file.   For more information about using test spec files, please see Custom test environments  in AWS Device Farm.
+    ///   - executionRoleArn: An IAM role to be assumed by the test host for all runs in the project.
     ///   - name: The project's name.
     ///   - vpcConfig: The VPC security groups and subnets that are attached to a project.
     ///   - logger: Logger use during operation
     @inlinable
     public func createProject(
         defaultJobTimeoutMinutes: Int? = nil,
+        environmentVariables: [EnvironmentVariable]? = nil,
+        executionRoleArn: String? = nil,
         name: String,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateProjectResult {
         let input = CreateProjectRequest(
             defaultJobTimeoutMinutes: defaultJobTimeoutMinutes, 
+            environmentVariables: environmentVariables, 
+            executionRoleArn: executionRoleArn, 
             name: name, 
             vpcConfig: vpcConfig
         )
@@ -275,48 +281,33 @@ public struct DeviceFarm: AWSService {
     /// Specifies and starts a remote access session.
     ///
     /// Parameters:
-    ///   - clientId: Unique identifier for the client. If you want access to multiple devices on the same client, you should pass the same clientId value in each call to CreateRemoteAccessSession. This identifier is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
+    ///   - appArn: The Amazon Resource Name (ARN) of the app to create the remote access session.
     ///   - configuration: The configuration information for the remote access session request.
     ///   - deviceArn: The ARN of the device for which you want to create a remote access session.
     ///   - instanceArn: The Amazon Resource Name (ARN) of the device instance for which you want to create a remote access session.
-    ///   - interactionMode: The interaction mode of the remote access session. Valid values are:   INTERACTIVE: You can interact with the iOS device by viewing, touching, and rotating the screen. You cannot run XCUITest framework-based tests in this mode.   NO_VIDEO: You are connected to the device, but cannot interact with it or view the screen. This mode has the fastest test execution speed. You can run XCUITest framework-based tests in this mode.   VIDEO_ONLY: You can view the screen, but cannot touch or rotate it. You can run XCUITest framework-based tests and watch the screen in this mode.
     ///   - name: The name of the remote access session to create.
     ///   - projectArn: The Amazon Resource Name (ARN) of the project for which you want to create a remote access session.
-    ///   - remoteDebugEnabled: Set to true if you want to access devices remotely for debugging in your remote access session. Remote debugging is no longer supported.
-    ///   - remoteRecordAppArn: The Amazon Resource Name (ARN) for the app to be recorded in the remote access session.
-    ///   - remoteRecordEnabled: Set to true to enable remote recording for the remote access session.
     ///   - skipAppResign: When set to true, for private devices, Device Farm does not sign your app again. For public devices, Device Farm always signs your apps again. For more information on how Device Farm modifies your uploads during tests, see Do you modify my app?
-    ///   - sshPublicKey: Ignored. The public key of the ssh key pair you want to use for connecting to remote devices in your remote debugging session. This key is required only if remoteDebugEnabled is set to true. Remote debugging is no longer supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func createRemoteAccessSession(
-        clientId: String? = nil,
+        appArn: String? = nil,
         configuration: CreateRemoteAccessSessionConfiguration? = nil,
         deviceArn: String,
         instanceArn: String? = nil,
-        interactionMode: InteractionMode? = nil,
         name: String? = nil,
         projectArn: String,
-        remoteDebugEnabled: Bool? = nil,
-        remoteRecordAppArn: String? = nil,
-        remoteRecordEnabled: Bool? = nil,
         skipAppResign: Bool? = nil,
-        sshPublicKey: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRemoteAccessSessionResult {
         let input = CreateRemoteAccessSessionRequest(
-            clientId: clientId, 
+            appArn: appArn, 
             configuration: configuration, 
             deviceArn: deviceArn, 
             instanceArn: instanceArn, 
-            interactionMode: interactionMode, 
             name: name, 
             projectArn: projectArn, 
-            remoteDebugEnabled: remoteDebugEnabled, 
-            remoteRecordAppArn: remoteRecordAppArn, 
-            remoteRecordEnabled: remoteRecordEnabled, 
-            skipAppResign: skipAppResign, 
-            sshPublicKey: sshPublicKey
+            skipAppResign: skipAppResign
         )
         return try await self.createRemoteAccessSession(input, logger: logger)
     }
@@ -551,7 +542,7 @@ public struct DeviceFarm: AWSService {
         return try await self.deleteNetworkProfile(input, logger: logger)
     }
 
-    /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.  You cannot undo this operation.
     @Sendable
     @inlinable
     public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProjectResult {
@@ -564,7 +555,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    /// Deletes an AWS Device Farm project, given the project ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes an AWS Device Farm project, given the project ARN. You cannot delete a project if it has an active run or session.  You cannot undo this operation.
     ///
     /// Parameters:
     ///   - arn: Represents the Amazon Resource Name (ARN) of the Device Farm project to delete.
@@ -580,7 +571,7 @@ public struct DeviceFarm: AWSService {
         return try await self.deleteProject(input, logger: logger)
     }
 
-    /// Deletes a completed remote access session and its results.
+    /// Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active.  You cannot undo this operation.
     @Sendable
     @inlinable
     public func deleteRemoteAccessSession(_ input: DeleteRemoteAccessSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRemoteAccessSessionResult {
@@ -593,7 +584,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    /// Deletes a completed remote access session and its results.
+    /// Deletes a completed remote access session and its results. You cannot delete a remote access session if it is still active.  You cannot undo this operation.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the session for which you want to delete remote access.
@@ -609,7 +600,7 @@ public struct DeviceFarm: AWSService {
         return try await self.deleteRemoteAccessSession(input, logger: logger)
     }
 
-    /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes the run, given the run ARN. You cannot delete a run if it is still active.  You cannot undo this operation.
     @Sendable
     @inlinable
     public func deleteRun(_ input: DeleteRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRunResult {
@@ -622,7 +613,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    /// Deletes the run, given the run ARN. Deleting this resource does not stop an in-progress run.
+    /// Deletes the run, given the run ARN. You cannot delete a run if it is still active.  You cannot undo this operation.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) for the run to delete.
@@ -638,7 +629,7 @@ public struct DeviceFarm: AWSService {
         return try await self.deleteRun(input, logger: logger)
     }
 
-    ///  Deletes a Selenium testing project and all content generated under it.   You cannot undo this operation.   You cannot delete a project if it has active sessions.
+    ///  Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions.  You cannot undo this operation.
     @Sendable
     @inlinable
     public func deleteTestGridProject(_ input: DeleteTestGridProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTestGridProjectResult {
@@ -651,7 +642,7 @@ public struct DeviceFarm: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a Selenium testing project and all content generated under it.   You cannot undo this operation.   You cannot delete a project if it has active sessions.
+    ///  Deletes a Selenium testing project and all content generated under it. You cannot delete a project if it has active sessions.  You cannot undo this operation.
     ///
     /// Parameters:
     ///   - projectArn: The ARN of the project to delete, from CreateTestGridProject or ListTestGridProjects.
@@ -1796,7 +1787,7 @@ public struct DeviceFarm: AWSService {
     /// List the tags for an AWS Device Farm resource.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources for which to list tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -2315,7 +2306,7 @@ public struct DeviceFarm: AWSService {
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     ///   - tags: The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters. Tag values can have a maximum length of 256 characters.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2347,7 +2338,7 @@ public struct DeviceFarm: AWSService {
     /// Deletes the specified tags from a resource.
     ///
     /// Parameters:
-    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
+    ///   - resourceARN: The Amazon Resource Name (ARN) of the resource or resources from which to delete tags. You can associate tags with the following Device Farm resources: PROJECT, TESTGRID_PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
     ///   - tagKeys: The keys of the tags to be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2566,6 +2557,8 @@ public struct DeviceFarm: AWSService {
     /// Parameters:
     ///   - arn: The Amazon Resource Name (ARN) of the project whose name to update.
     ///   - defaultJobTimeoutMinutes: The number of minutes a test run in the project executes before it times out.
+    ///   - environmentVariables:  A set of environment variables which are used by default for all runs in the project. These environment variables are applied to the test run during the execution of a test spec file.   For more information about using test spec files, please see Custom test environments  in AWS Device Farm.
+    ///   - executionRoleArn: An IAM role to be assumed by the test host for all runs in the project.
     ///   - name: A string that represents the new name of the project that you are updating.
     ///   - vpcConfig: The VPC security groups and subnets that are attached to a project.
     ///   - logger: Logger use during operation
@@ -2573,6 +2566,8 @@ public struct DeviceFarm: AWSService {
     public func updateProject(
         arn: String,
         defaultJobTimeoutMinutes: Int? = nil,
+        environmentVariables: [EnvironmentVariable]? = nil,
+        executionRoleArn: String? = nil,
         name: String? = nil,
         vpcConfig: VpcConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2580,6 +2575,8 @@ public struct DeviceFarm: AWSService {
         let input = UpdateProjectRequest(
             arn: arn, 
             defaultJobTimeoutMinutes: defaultJobTimeoutMinutes, 
+            environmentVariables: environmentVariables, 
+            executionRoleArn: executionRoleArn, 
             name: name, 
             vpcConfig: vpcConfig
         )

@@ -3041,7 +3041,7 @@ public struct SESv2: AWSService {
     public func putEmailIdentityDkimSigningAttributes(_ input: PutEmailIdentityDkimSigningAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEmailIdentityDkimSigningAttributesResponse {
         try await self.client.execute(
             operation: "PutEmailIdentityDkimSigningAttributes", 
-            path: "/v1/email/identities/{EmailIdentity}/dkim/signing", 
+            path: "/v2/email/identities/{EmailIdentity}/dkim/signing", 
             httpMethod: .PUT, 
             serviceConfig: self.config, 
             input: input, 

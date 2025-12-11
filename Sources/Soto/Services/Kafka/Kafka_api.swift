@@ -188,6 +188,7 @@ public struct Kafka: AWSService {
     ///   - loggingInfo: 
     ///   - numberOfBrokerNodes: The number of broker nodes in the cluster.
     ///   - openMonitoring: The settings for open monitoring.
+    ///   - rebalancing: Specifies if intelligent rebalancing should be turned on for the new MSK Provisioned cluster with Express brokers. By default, intelligent rebalancing status is ACTIVE for all new clusters.
     ///   - storageMode: This controls storage mode for supported storage tiers.
     ///   - tags: Create tags when creating the cluster.
     ///   - logger: Logger use during operation
@@ -203,6 +204,7 @@ public struct Kafka: AWSService {
         loggingInfo: LoggingInfo? = nil,
         numberOfBrokerNodes: Int? = nil,
         openMonitoring: OpenMonitoringInfo? = nil,
+        rebalancing: Rebalancing? = nil,
         storageMode: StorageMode? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -218,6 +220,7 @@ public struct Kafka: AWSService {
             loggingInfo: loggingInfo, 
             numberOfBrokerNodes: numberOfBrokerNodes, 
             openMonitoring: openMonitoring, 
+            rebalancing: rebalancing, 
             storageMode: storageMode, 
             tags: tags
         )
@@ -743,6 +746,76 @@ public struct Kafka: AWSService {
             replicatorArn: replicatorArn
         )
         return try await self.describeReplicator(input, logger: logger)
+    }
+
+    /// Returns topic details of this topic on a MSK cluster.
+    @Sendable
+    @inlinable
+    public func describeTopic(_ input: DescribeTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicResponse {
+        try await self.client.execute(
+            operation: "DescribeTopic", 
+            path: "/v1/clusters/{ClusterArn}/topics/{TopicName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns topic details of this topic on a MSK cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - topicName: The Kafka topic name that uniquely identifies the topic.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTopic(
+        clusterArn: String,
+        topicName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTopicResponse {
+        let input = DescribeTopicRequest(
+            clusterArn: clusterArn, 
+            topicName: topicName
+        )
+        return try await self.describeTopic(input, logger: logger)
+    }
+
+    /// Returns partition details of this topic on a MSK cluster.
+    @Sendable
+    @inlinable
+    public func describeTopicPartitions(_ input: DescribeTopicPartitionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTopicPartitionsResponse {
+        try await self.client.execute(
+            operation: "DescribeTopicPartitions", 
+            path: "/v1/clusters/{ClusterArn}/topics/{TopicName}/partitions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns partition details of this topic on a MSK cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - maxResults: The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    ///   - nextToken: The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
+    ///   - topicName: The Kafka topic name that uniquely identifies the topic.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTopicPartitions(
+        clusterArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        topicName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTopicPartitionsResponse {
+        let input = DescribeTopicPartitionsRequest(
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            topicName: topicName
+        )
+        return try await self.describeTopicPartitions(input, logger: logger)
     }
 
     /// Returns a description of this MSK VPC connection.
@@ -1272,6 +1345,44 @@ public struct Kafka: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// List topics in a MSK cluster.
+    @Sendable
+    @inlinable
+    public func listTopics(_ input: ListTopicsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTopicsResponse {
+        try await self.client.execute(
+            operation: "ListTopics", 
+            path: "/v1/clusters/{ClusterArn}/topics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List topics in a MSK cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - maxResults: The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    ///   - nextToken: The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
+    ///   - topicNameFilter: Returns topics starting with given name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTopics(
+        clusterArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        topicNameFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTopicsResponse {
+        let input = ListTopicsRequest(
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            topicNameFilter: topicNameFilter
+        )
+        return try await self.listTopics(input, logger: logger)
+    }
+
     /// Returns a list of all the VPC connections in this Region.
     @Sendable
     @inlinable
@@ -1756,6 +1867,41 @@ public struct Kafka: AWSService {
         return try await self.updateMonitoring(input, logger: logger)
     }
 
+    /// Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
+    @Sendable
+    @inlinable
+    public func updateRebalancing(_ input: UpdateRebalancingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateRebalancingResponse {
+        try await self.client.execute(
+            operation: "UpdateRebalancing", 
+            path: "/v1/clusters/{ClusterArn}/rebalancing", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster.
+    ///   - currentVersion: The current version of the cluster.
+    ///   - rebalancing: Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateRebalancing(
+        clusterArn: String,
+        currentVersion: String? = nil,
+        rebalancing: Rebalancing? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateRebalancingResponse {
+        let input = UpdateRebalancingRequest(
+            clusterArn: clusterArn, 
+            currentVersion: currentVersion, 
+            rebalancing: rebalancing
+        )
+        return try await self.updateRebalancing(input, logger: logger)
+    }
+
     /// Updates replication info of a replicator.
     @Sendable
     @inlinable
@@ -1893,6 +2039,46 @@ extension Kafka {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kafka {
+    /// Return PaginatorSequence for operation ``describeTopicPartitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeTopicPartitionsPaginator(
+        _ input: DescribeTopicPartitionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeTopicPartitionsRequest, DescribeTopicPartitionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeTopicPartitions,
+            inputKey: \DescribeTopicPartitionsRequest.nextToken,
+            outputKey: \DescribeTopicPartitionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeTopicPartitions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - maxResults: The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    ///   - topicName: The Kafka topic name that uniquely identifies the topic.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeTopicPartitionsPaginator(
+        clusterArn: String,
+        maxResults: Int? = nil,
+        topicName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeTopicPartitionsRequest, DescribeTopicPartitionsResponse> {
+        let input = DescribeTopicPartitionsRequest(
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            topicName: topicName
+        )
+        return self.describeTopicPartitionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listClientVpcConnections(_:logger:)``.
     ///
     /// - Parameters:
@@ -2297,6 +2483,46 @@ extension Kafka {
         return self.listScramSecretsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTopics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTopicsPaginator(
+        _ input: ListTopicsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTopicsRequest, ListTopicsResponse> {
+        return .init(
+            input: input,
+            command: self.listTopics,
+            inputKey: \ListTopicsRequest.nextToken,
+            outputKey: \ListTopicsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTopics(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - maxResults: The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+    ///   - topicNameFilter: Returns topics starting with given name.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTopicsPaginator(
+        clusterArn: String,
+        maxResults: Int? = nil,
+        topicNameFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTopicsRequest, ListTopicsResponse> {
+        let input = ListTopicsRequest(
+            clusterArn: clusterArn, 
+            maxResults: maxResults, 
+            topicNameFilter: topicNameFilter
+        )
+        return self.listTopicsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listVpcConnections(_:logger:)``.
     ///
     /// - Parameters:
@@ -2329,6 +2555,18 @@ extension Kafka {
             maxResults: maxResults
         )
         return self.listVpcConnectionsPaginator(input, logger: logger)
+    }
+}
+
+extension Kafka.DescribeTopicPartitionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Kafka.DescribeTopicPartitionsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            topicName: self.topicName
+        )
     }
 }
 
@@ -2448,6 +2686,18 @@ extension Kafka.ListScramSecretsRequest: AWSPaginateToken {
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListTopicsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Kafka.ListTopicsRequest {
+        return .init(
+            clusterArn: self.clusterArn,
+            maxResults: self.maxResults,
+            nextToken: token,
+            topicNameFilter: self.topicNameFilter
         )
     }
 }

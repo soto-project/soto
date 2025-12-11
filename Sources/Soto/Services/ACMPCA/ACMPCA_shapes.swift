@@ -105,6 +105,9 @@ extension ACMPCA {
         case ecPrime256V1 = "EC_prime256v1"
         case ecSecp384R1 = "EC_secp384r1"
         case ecSecp521R1 = "EC_secp521r1"
+        case mlDsa44 = "ML_DSA_44"
+        case mlDsa65 = "ML_DSA_65"
+        case mlDsa87 = "ML_DSA_87"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -149,6 +152,9 @@ extension ACMPCA {
     }
 
     public enum SigningAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mlDsa44 = "ML_DSA_44"
+        case mlDsa65 = "ML_DSA_65"
+        case mlDsa87 = "ML_DSA_87"
         case sha256withecdsa = "SHA256WITHECDSA"
         case sha256withrsa = "SHA256WITHRSA"
         case sha384withecdsa = "SHA384WITHECDSA"

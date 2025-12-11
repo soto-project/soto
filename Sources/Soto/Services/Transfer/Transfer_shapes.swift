@@ -272,6 +272,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum WebAppEndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `public` = "PUBLIC"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkflowStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case copy = "COPY"
         case custom = "CUSTOM"
@@ -971,6 +977,8 @@ extension Transfer {
     public struct CreateWebAppRequest: AWSEncodableShape {
         /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in Update your access endpoint with a custom URL.
         public let accessEndpoint: String?
+        /// The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC.
+        public let endpointDetails: WebAppEndpointDetails?
         /// You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps.
         public let identityProviderDetails: WebAppIdentityProviderDetails
         /// Key-value pairs that can be used to group and search for web apps.
@@ -981,8 +989,9 @@ extension Transfer {
         public let webAppUnits: WebAppUnits?
 
         @inlinable
-        public init(accessEndpoint: String? = nil, identityProviderDetails: WebAppIdentityProviderDetails, tags: [Tag]? = nil, webAppEndpointPolicy: WebAppEndpointPolicy? = nil, webAppUnits: WebAppUnits? = nil) {
+        public init(accessEndpoint: String? = nil, endpointDetails: WebAppEndpointDetails? = nil, identityProviderDetails: WebAppIdentityProviderDetails, tags: [Tag]? = nil, webAppEndpointPolicy: WebAppEndpointPolicy? = nil, webAppUnits: WebAppUnits? = nil) {
             self.accessEndpoint = accessEndpoint
+            self.endpointDetails = endpointDetails
             self.identityProviderDetails = identityProviderDetails
             self.tags = tags
             self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -992,6 +1001,7 @@ extension Transfer {
         public func validate(name: String) throws {
             try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, max: 1024)
             try self.validate(self.accessEndpoint, name: "accessEndpoint", parent: name, min: 1)
+            try self.endpointDetails?.validate(name: "\(name).endpointDetails")
             try self.identityProviderDetails.validate(name: "\(name).identityProviderDetails")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1003,6 +1013,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoint = "AccessEndpoint"
+            case endpointDetails = "EndpointDetails"
             case identityProviderDetails = "IdentityProviderDetails"
             case tags = "Tags"
             case webAppEndpointPolicy = "WebAppEndpointPolicy"
@@ -2582,8 +2593,12 @@ extension Transfer {
         public let accessEndpoint: String?
         /// The Amazon Resource Name (ARN) of the web app.
         public let arn: String
+        /// The endpoint configuration details for the web app, including VPC settings if the endpoint is hosted within a VPC.
+        public let describedEndpointDetails: DescribedWebAppEndpointDetails?
         /// A structure that contains the details for the identity provider used by the web app.
         public let describedIdentityProviderDetails: DescribedWebAppIdentityProviderDetails?
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints that provide network isolation.
+        public let endpointType: WebAppEndpointType?
         /// Key-value pairs that can be used to group and search for web apps. Tags are metadata attached to web apps for any purpose.
         public let tags: [Tag]?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
@@ -2596,10 +2611,12 @@ extension Transfer {
         public let webAppUnits: WebAppUnits?
 
         @inlinable
-        public init(accessEndpoint: String? = nil, arn: String, describedIdentityProviderDetails: DescribedWebAppIdentityProviderDetails? = nil, tags: [Tag]? = nil, webAppEndpoint: String? = nil, webAppEndpointPolicy: WebAppEndpointPolicy? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
+        public init(accessEndpoint: String? = nil, arn: String, describedEndpointDetails: DescribedWebAppEndpointDetails? = nil, describedIdentityProviderDetails: DescribedWebAppIdentityProviderDetails? = nil, endpointType: WebAppEndpointType? = nil, tags: [Tag]? = nil, webAppEndpoint: String? = nil, webAppEndpointPolicy: WebAppEndpointPolicy? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.describedEndpointDetails = describedEndpointDetails
             self.describedIdentityProviderDetails = describedIdentityProviderDetails
+            self.endpointType = endpointType
             self.tags = tags
             self.webAppEndpoint = webAppEndpoint
             self.webAppEndpointPolicy = webAppEndpointPolicy
@@ -2610,7 +2627,9 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case accessEndpoint = "AccessEndpoint"
             case arn = "Arn"
+            case describedEndpointDetails = "DescribedEndpointDetails"
             case describedIdentityProviderDetails = "DescribedIdentityProviderDetails"
+            case endpointType = "EndpointType"
             case tags = "Tags"
             case webAppEndpoint = "WebAppEndpoint"
             case webAppEndpointPolicy = "WebAppEndpointPolicy"
@@ -2646,6 +2665,28 @@ extension Transfer {
             case logoFile = "LogoFile"
             case title = "Title"
             case webAppId = "WebAppId"
+        }
+    }
+
+    public struct DescribedWebAppVpcConfig: AWSDecodableShape {
+        /// The list of subnet IDs within the VPC where the web app endpoint is deployed. These subnets must be in the same VPC and provide network connectivity for the endpoint.
+        public let subnetIds: [String]?
+        /// The identifier of the VPC endpoint created for the web app.
+        public let vpcEndpointId: String?
+        /// The identifier of the VPC where the web app endpoint is hosted.
+        public let vpcId: String?
+
+        @inlinable
+        public init(subnetIds: [String]? = nil, vpcEndpointId: String? = nil, vpcId: String? = nil) {
+            self.subnetIds = subnetIds
+            self.vpcEndpointId = vpcEndpointId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
+            case vpcEndpointId = "VpcEndpointId"
+            case vpcId = "VpcId"
         }
     }
 
@@ -4114,15 +4155,18 @@ extension Transfer {
         public let accessEndpoint: String?
         /// The Amazon Resource Name (ARN) for the web app.
         public let arn: String
+        /// The type of endpoint hosting the web app. Valid values are PUBLIC for publicly accessible endpoints and VPC for VPC-hosted endpoints.
+        public let endpointType: WebAppEndpointType?
         /// The WebAppEndpoint is the unique URL for your Transfer Family web app. This is the value that you use when you configure Origins on CloudFront.
         public let webAppEndpoint: String?
         /// The unique identifier for the web app.
         public let webAppId: String
 
         @inlinable
-        public init(accessEndpoint: String? = nil, arn: String, webAppEndpoint: String? = nil, webAppId: String) {
+        public init(accessEndpoint: String? = nil, arn: String, endpointType: WebAppEndpointType? = nil, webAppEndpoint: String? = nil, webAppId: String) {
             self.accessEndpoint = accessEndpoint
             self.arn = arn
+            self.endpointType = endpointType
             self.webAppEndpoint = webAppEndpoint
             self.webAppId = webAppId
         }
@@ -4130,6 +4174,7 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case accessEndpoint = "AccessEndpoint"
             case arn = "Arn"
+            case endpointType = "EndpointType"
             case webAppEndpoint = "WebAppEndpoint"
             case webAppId = "WebAppId"
         }
@@ -5688,6 +5733,8 @@ extension Transfer {
     public struct UpdateWebAppRequest: AWSEncodableShape {
         /// The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
         public let accessEndpoint: String?
+        /// The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings.
+        public let endpointDetails: UpdateWebAppEndpointDetails?
         /// Provide updated identity provider values in a WebAppIdentityProviderDetails object.
         public let identityProviderDetails: UpdateWebAppIdentityProviderDetails?
         /// Provide the identifier of the web app that you are updating.
@@ -5696,8 +5743,9 @@ extension Transfer {
         public let webAppUnits: WebAppUnits?
 
         @inlinable
-        public init(accessEndpoint: String? = nil, identityProviderDetails: UpdateWebAppIdentityProviderDetails? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
+        public init(accessEndpoint: String? = nil, endpointDetails: UpdateWebAppEndpointDetails? = nil, identityProviderDetails: UpdateWebAppIdentityProviderDetails? = nil, webAppId: String, webAppUnits: WebAppUnits? = nil) {
             self.accessEndpoint = accessEndpoint
+            self.endpointDetails = endpointDetails
             self.identityProviderDetails = identityProviderDetails
             self.webAppId = webAppId
             self.webAppUnits = webAppUnits
@@ -5715,6 +5763,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case accessEndpoint = "AccessEndpoint"
+            case endpointDetails = "EndpointDetails"
             case identityProviderDetails = "IdentityProviderDetails"
             case webAppId = "WebAppId"
             case webAppUnits = "WebAppUnits"
@@ -5732,6 +5781,20 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case webAppId = "WebAppId"
+        }
+    }
+
+    public struct UpdateWebAppVpcConfig: AWSEncodableShape {
+        /// The list of subnet IDs within the VPC where the web app endpoint should be deployed during the update operation.
+        public let subnetIds: [String]?
+
+        @inlinable
+        public init(subnetIds: [String]? = nil) {
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetIds = "SubnetIds"
         }
     }
 
@@ -5754,6 +5817,36 @@ extension Transfer {
             case serverId = "ServerId"
             case sessionId = "SessionId"
             case userName = "UserName"
+        }
+    }
+
+    public struct WebAppVpcConfig: AWSEncodableShape {
+        /// The list of security group IDs that control access to the web app endpoint. These security groups determine which sources can access the endpoint based on IP addresses and port configurations.
+        public let securityGroupIds: [String]?
+        /// The list of subnet IDs within the VPC where the web app endpoint will be deployed. These subnets must be in the same VPC specified in the VpcId parameter.
+        public let subnetIds: [String]?
+        /// The identifier of the VPC where the web app endpoint will be hosted.
+        public let vpcId: String?
+
+        @inlinable
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds?.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 20)
+                try validate($0, name: "securityGroupIds[]", parent: name, min: 11)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-f]{8,17}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "SecurityGroupIds"
+            case subnetIds = "SubnetIds"
+            case vpcId = "VpcId"
         }
     }
 
@@ -5887,6 +5980,20 @@ extension Transfer {
         }
     }
 
+    public struct DescribedWebAppEndpointDetails: AWSDecodableShape {
+        /// The VPC configuration details when the web app endpoint is hosted within a VPC. This includes the VPC ID, subnet IDs, and VPC endpoint ID.
+        public let vpc: DescribedWebAppVpcConfig?
+
+        @inlinable
+        public init(vpc: DescribedWebAppVpcConfig? = nil) {
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpc = "Vpc"
+        }
+    }
+
     public struct DescribedWebAppIdentityProviderDetails: AWSDecodableShape {
         /// Returns a structure for your identity provider details. This structure contains the instance ARN and role being used for the web app.
         public let identityCenterConfig: DescribedIdentityCenterConfig?
@@ -5919,6 +6026,20 @@ extension Transfer {
         }
     }
 
+    public struct UpdateWebAppEndpointDetails: AWSEncodableShape {
+        /// The VPC configuration details for updating a web app endpoint hosted within a VPC. This includes the subnet IDs for endpoint deployment.
+        public let vpc: UpdateWebAppVpcConfig?
+
+        @inlinable
+        public init(vpc: UpdateWebAppVpcConfig? = nil) {
+            self.vpc = vpc
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpc = "Vpc"
+        }
+    }
+
     public struct UpdateWebAppIdentityProviderDetails: AWSEncodableShape {
         /// A structure that describes the values to use for the IAM Identity Center settings when you update a web app.
         public let identityCenterConfig: UpdateWebAppIdentityCenterConfig?
@@ -5934,6 +6055,24 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case identityCenterConfig = "IdentityCenterConfig"
+        }
+    }
+
+    public struct WebAppEndpointDetails: AWSEncodableShape {
+        /// The VPC configuration for hosting the web app endpoint within a VPC.
+        public let vpc: WebAppVpcConfig?
+
+        @inlinable
+        public init(vpc: WebAppVpcConfig? = nil) {
+            self.vpc = vpc
+        }
+
+        public func validate(name: String) throws {
+            try self.vpc?.validate(name: "\(name).vpc")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpc = "Vpc"
         }
     }
 

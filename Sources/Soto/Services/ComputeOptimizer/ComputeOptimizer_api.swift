@@ -134,7 +134,7 @@ public struct ComputeOptimizer: AWSService {
     ///
     /// Parameters:
     ///   - recommendationPreferenceNames: The name of the recommendation preference to delete.
-    ///   - resourceType: The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    ///   - resourceType: The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     ///   - scope: An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -190,7 +190,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.describeRecommendationExportJobs(input, logger: logger)
     }
 
-    /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
+    /// Exports optimization recommendations for Amazon EC2 Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
     @Sendable
     @inlinable
     public func exportAutoScalingGroupRecommendations(_ input: ExportAutoScalingGroupRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportAutoScalingGroupRecommendationsResponse {
@@ -203,15 +203,15 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    /// Exports optimization recommendations for Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Auto Scaling group export job in progress per Amazon Web Services Region.
+    /// Exports optimization recommendations for Amazon EC2 Auto Scaling groups. Recommendations are exported in a comma-separated values (.csv) file, and its metadata in a JavaScript Object Notation (JSON) (.json) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see Exporting Recommendations in the Compute Optimizer User Guide. You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
     ///
     /// Parameters:
-    ///   - accountIds: The IDs of the Amazon Web Services accounts for which to export Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
+    ///   - accountIds: The IDs of the Amazon Web Services accounts for which to export Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
     ///   - fieldsToExport: The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
     ///   - fileFormat: The format of the export file. The only export file format currently supported is Csv.
-    ///   - filters: An array of objects to specify a filter that exports a more specific set of Auto Scaling group recommendations.
+    ///   - filters: An array of objects to specify a filter that exports a more specific set of Amazon EC2 Auto Scaling group recommendations.
     ///   - includeMemberAccounts: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see Compute Optimizer and Amazon Web Services Organizations trusted access in the Compute Optimizer User Guide. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
-    ///   - recommendationPreferences: An object to specify the preferences for the Auto Scaling group recommendations to export.
+    ///   - recommendationPreferences: An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to export.
     ///   - s3DestinationConfig: An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -551,7 +551,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.exportRDSDatabaseRecommendations(input, logger: logger)
     }
 
-    /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    /// Returns Amazon EC2 Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
     @Sendable
     @inlinable
     public func getAutoScalingGroupRecommendations(_ input: GetAutoScalingGroupRecommendationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAutoScalingGroupRecommendationsResponse {
@@ -564,15 +564,15 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
+    /// Returns Amazon EC2 Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide.
     ///
     /// Parameters:
-    ///   - accountIds: The ID of the Amazon Web Services account for which to return Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Auto Scaling group recommendations. Only one account ID can be specified per request.
-    ///   - autoScalingGroupArns: The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.
-    ///   - filters: An array of objects to specify a filter that returns a more specific list of Auto Scaling group recommendations.
-    ///   - maxResults: The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
-    ///   - nextToken: The token to advance to the next page of Auto Scaling group recommendations.
-    ///   - recommendationPreferences: An object to specify the preferences for the Auto Scaling group recommendations to return in the response.
+    ///   - accountIds: The ID of the Amazon Web Services account for which to return Amazon EC2 Auto Scaling group recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return Amazon EC2 Auto Scaling group recommendations. Only one account ID can be specified per request.
+    ///   - autoScalingGroupArns: The Amazon Resource Name (ARN) of the Amazon EC2 Auto Scaling groups for which to return recommendations.
+    ///   - filters: An array of objects to specify a filter that returns a more specific list of Amazon EC2 Auto Scaling group recommendations.
+    ///   - maxResults: The maximum number of Amazon EC2 Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    ///   - nextToken: The token to advance to the next page of Amazon EC2 Auto Scaling group recommendations.
+    ///   - recommendationPreferences: An object to specify the preferences for the Amazon EC2 Auto Scaling group recommendations to return in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAutoScalingGroupRecommendations(
@@ -822,7 +822,7 @@ public struct ComputeOptimizer: AWSService {
     /// Returns the recommendation preferences that are in effect for a given resource, such as enhanced infrastructure metrics. Considers all applicable preferences that you might have set at the resource, account, and organization level. When you create a recommendation preference, you can set its status to Active or Inactive. Use this action to view the recommendation preferences that are in effect, or Active.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Amazon EC2 Auto Scaling group ARNs are currently supported.
     ///   - logger: Logger use during operation
     @inlinable
     public func getEffectiveRecommendationPreferences(
@@ -1110,7 +1110,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.getRDSDatabaseRecommendations(input, logger: logger)
     }
 
-    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
+    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
     @Sendable
     @inlinable
     public func getRecommendationPreferences(_ input: GetRecommendationPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationPreferencesResponse {
@@ -1123,12 +1123,12 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
+    /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of recommendation preferences to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
     ///   - nextToken: The token to advance to the next page of recommendation preferences.
-    ///   - resourceType: The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    ///   - resourceType: The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     ///   - scope: An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1148,7 +1148,7 @@ public struct ComputeOptimizer: AWSService {
         return try await self.getRecommendationPreferences(input, logger: logger)
     }
 
-    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
+    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Amazon EC2 Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
     @Sendable
     @inlinable
     public func getRecommendationSummaries(_ input: GetRecommendationSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRecommendationSummariesResponse {
@@ -1161,7 +1161,7 @@ public struct ComputeOptimizer: AWSService {
             logger: logger
         )
     }
-    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
+    /// Returns the optimization findings for an account. It returns the number of:   Amazon EC2 instances in an account that are Underprovisioned, Overprovisioned, or Optimized.   EC2Amazon EC2 Auto Scaling groups in an account that are NotOptimized, or Optimized.   Amazon EBS volumes in an account that are NotOptimized, or Optimized.   Lambda functions in an account that are NotOptimized, or Optimized.   Amazon ECS services in an account that are Underprovisioned,  Overprovisioned, or Optimized.   Commercial software licenses in an account that are InsufficientMetrics,  NotOptimized or Optimized.   Amazon Aurora and Amazon RDS databases in an account that are Underprovisioned,  Overprovisioned, Optimized, or NotOptimized.
     ///
     /// Parameters:
     ///   - accountIds: The ID of the Amazon Web Services account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
@@ -1202,11 +1202,11 @@ public struct ComputeOptimizer: AWSService {
     ///   - enhancedInfrastructureMetrics: The status of the enhanced infrastructure metrics recommendation preference to create or update. Specify the Active status to activate the preference, or specify Inactive to deactivate the preference. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
     ///   - externalMetricsPreference: The provider of the external metrics recommendation preference to create or update. Specify a valid provider in the source field to activate the preference. To delete this preference, see the DeleteRecommendationPreferences action. This preference can only be set for the Ec2Instance resource type. For more information, see External metrics ingestion in the Compute Optimizer User Guide.
     ///   - inferredWorkloadTypes: The status of the inferred workload types recommendation preference to create or update.  The inferred workload type feature is active by default. To deactivate it, create a recommendation preference.  Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see Inferred workload types in the Compute Optimizer User Guide.
-    ///   - lookBackPeriod:  The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed.  When this preference isn't specified, we use the default value DAYS_14.  You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.     Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.   Auto Scaling group lookback preferences can only be set at the resource level.
-    ///   - preferredResources:  The preference to control which resource type values are considered when generating rightsizing recommendations.  You can specify this preference as a combination of include and exclude lists. You must specify either an  includeList or excludeList. If the preference is an empty set of resource type values,  an error occurs.   You can only set this preference for the Amazon EC2 instance and Auto Scaling group resource types.
-    ///   - resourceType: The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    ///   - lookBackPeriod:  The preference to control the number of days the utilization metrics of the Amazon Web Services resource are analyzed.  When this preference isn't specified, we use the default value DAYS_14.  You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.     Amazon EC2 instance lookback preferences can be set at the organization, account, and resource levels.   Amazon EC2 Auto Scaling group lookback preferences can only be set at the resource level.
+    ///   - preferredResources:  The preference to control which resource type values are considered when generating rightsizing recommendations.  You can specify this preference as a combination of include and exclude lists. You must specify either an  includeList or excludeList. If the preference is an empty set of resource type values,  an error occurs.   You can only set this preference for the Amazon EC2 instance and Amazon EC2 Auto Scaling group resource types.
+    ///   - resourceType: The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     ///   - savingsEstimationMode:  The status of the savings estimation mode preference to create or update.  Specify the AfterDiscounts status to activate the preference, or specify BeforeDiscounts to deactivate the preference. Only the account manager or delegated administrator of your organization can activate this preference. For more information, see  Savings estimation mode in the Compute Optimizer User Guide.
-    ///   - scope: An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
+    ///   - scope: An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Amazon EC2 Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Amazon EC2 Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Amazon EC2 Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Amazon EC2 Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Amazon EC2 Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     ///   - utilizationPreferences:  The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. When this  preference isn't specified, we use the following default values.  CPU utilization:    P99_5 for threshold    PERCENT_20 for headroom   Memory utilization:    PERCENT_20 for headroom      You can only set CPU and memory utilization preferences for the Amazon EC2 instance resource type.   The threshold setting isn’t available for memory utilization.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1424,7 +1424,7 @@ extension ComputeOptimizer {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of recommendation preferences to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
-    ///   - resourceType: The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+    ///   - resourceType: The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Amazon EC2 Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Amazon EC2 Auto Scaling group.
     ///   - scope: An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
     ///   - logger: Logger used for logging
     @inlinable

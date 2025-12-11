@@ -193,7 +193,7 @@ public struct Omics: AWSService {
         return try await self.batchDeleteReadSet(input, logger: logger)
     }
 
-    /// Cancels an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
     @Sendable
     @inlinable
     public func cancelAnnotationImportJob(_ input: CancelAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelAnnotationImportResponse {
@@ -207,7 +207,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Cancels an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels an annotation import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -253,7 +253,7 @@ public struct Omics: AWSService {
         return try await self.cancelRun(input, logger: logger)
     }
 
-    /// Cancels a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
     @Sendable
     @inlinable
     public func cancelVariantImportJob(_ input: CancelVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelVariantImportResponse {
@@ -267,7 +267,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Cancels a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Cancels a variant import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -319,7 +319,7 @@ public struct Omics: AWSService {
         return try await self.completeMultipartReadSetUpload(input, logger: logger)
     }
 
-    /// Creates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
     @Sendable
     @inlinable
     public func createAnnotationStore(_ input: CreateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnnotationStoreResponse {
@@ -333,7 +333,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates an annotation store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -697,7 +697,7 @@ public struct Omics: AWSService {
         return try await self.createShare(input, logger: logger)
     }
 
-    /// Creates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
     @Sendable
     @inlinable
     public func createVariantStore(_ input: CreateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVariantStoreResponse {
@@ -711,7 +711,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Creates a variant store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -739,7 +739,7 @@ public struct Omics: AWSService {
         return try await self.createVariantStore(input, logger: logger)
     }
 
-    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:    Workflow definition files: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format.   (Optional) Parameter template: You can create a parameter template file that defines the run parameters, or Amazon Web Services HealthOmics can generate the parameter template for you.    ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.   (Optional) Sentieon licenses: Request a Sentieon license if using the Sentieon software in a private workflow.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:    Workflow definition file: A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format. For more information, see Workflow definition files in Amazon Web Services HealthOmics.   You can use Amazon Q CLI to build and validate your workflow definition files in WDL, Nextflow, and CWL. For more information, see Example prompts for Amazon Q CLI and the Amazon Web Services HealthOmics Agentic generative AI tutorial on GitHub.      (Optional) Parameter template file: A parameter template file written in JSON. Create the file to define the run parameters, or Amazon Web Services HealthOmics generates the parameter template for you. For more information, see Parameter template files for HealthOmics workflows.     ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.    (Optional) Sentieon licenses: Request a Sentieon license to use the Sentieon software in private workflows.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
     @Sendable
     @inlinable
     public func createWorkflow(_ input: CreateWorkflowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkflowResponse {
@@ -753,7 +753,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:    Workflow definition files: Define your workflow in one or more workflow definition files, written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format.   (Optional) Parameter template: You can create a parameter template file that defines the run parameters, or Amazon Web Services HealthOmics can generate the parameter template for you.    ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.   (Optional) Sentieon licenses: Request a Sentieon license if using the Sentieon software in a private workflow.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
+    /// Creates a private workflow. Before you create a private workflow, you must create and configure these required resources:    Workflow definition file: A workflow definition file written in WDL, Nextflow, or CWL. The workflow definition specifies the inputs and outputs for runs that use the workflow. It also includes specifications for the runs and run tasks for your workflow, including compute and memory requirements. The workflow definition file must be in .zip format. For more information, see Workflow definition files in Amazon Web Services HealthOmics.   You can use Amazon Q CLI to build and validate your workflow definition files in WDL, Nextflow, and CWL. For more information, see Example prompts for Amazon Q CLI and the Amazon Web Services HealthOmics Agentic generative AI tutorial on GitHub.      (Optional) Parameter template file: A parameter template file written in JSON. Create the file to define the run parameters, or Amazon Web Services HealthOmics generates the parameter template for you. For more information, see Parameter template files for HealthOmics workflows.     ECR container images: Create container images for the workflow in a private ECR repository, or synchronize images from a supported upstream registry with your Amazon ECR private repository.    (Optional) Sentieon licenses: Request a Sentieon license to use the Sentieon software in private workflows.   For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the Amazon Web Services HealthOmics User Guide.
     ///
     /// Parameters:
     ///   - accelerators: The computational accelerator specified to run the workflow.
@@ -916,7 +916,7 @@ public struct Omics: AWSService {
         return try await self.createWorkflowVersion(input, logger: logger)
     }
 
-    /// Deletes an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
     @Sendable
     @inlinable
     public func deleteAnnotationStore(_ input: DeleteAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAnnotationStoreResponse {
@@ -930,7 +930,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Deletes an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes an annotation store.
     ///
     /// Parameters:
     ///   - force: Whether to force deletion.
@@ -1228,7 +1228,7 @@ public struct Omics: AWSService {
         return try await self.deleteShare(input, logger: logger)
     }
 
-    /// Deletes a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
     @Sendable
     @inlinable
     public func deleteVariantStore(_ input: DeleteVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVariantStoreResponse {
@@ -1242,7 +1242,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Deletes a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Deletes a variant store.
     ///
     /// Parameters:
     ///   - force: Whether to force deletion.
@@ -1324,7 +1324,7 @@ public struct Omics: AWSService {
         return try await self.deleteWorkflowVersion(input, logger: logger)
     }
 
-    /// Gets information about an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
     @Sendable
     @inlinable
     public func getAnnotationImportJob(_ input: GetAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationImportResponse {
@@ -1338,7 +1338,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -1354,7 +1354,7 @@ public struct Omics: AWSService {
         return try await self.getAnnotationImportJob(input, logger: logger)
     }
 
-    /// Gets information about an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
     @Sendable
     @inlinable
     public func getAnnotationStore(_ input: GetAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnnotationStoreResponse {
@@ -1368,7 +1368,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about an annotation store.
     ///
     /// Parameters:
     ///   - name: The store's name.
@@ -1942,7 +1942,7 @@ public struct Omics: AWSService {
         return try await self.getShare(input, logger: logger)
     }
 
-    /// Gets information about a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
     @Sendable
     @inlinable
     public func getVariantImportJob(_ input: GetVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantImportResponse {
@@ -1956,7 +1956,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant import job.
     ///
     /// Parameters:
     ///   - jobId: The job's ID.
@@ -1972,7 +1972,7 @@ public struct Omics: AWSService {
         return try await self.getVariantImportJob(input, logger: logger)
     }
 
-    /// Gets information about a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
     @Sendable
     @inlinable
     public func getVariantStore(_ input: GetVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVariantStoreResponse {
@@ -1986,7 +1986,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Gets information about a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Gets information about a variant store.
     ///
     /// Parameters:
     ///   - name: The store's name.
@@ -2083,7 +2083,7 @@ public struct Omics: AWSService {
         return try await self.getWorkflowVersion(input, logger: logger)
     }
 
-    /// Retrieves a list of annotation import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
     @Sendable
     @inlinable
     public func listAnnotationImportJobs(_ input: ListAnnotationImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationImportJobsResponse {
@@ -2097,7 +2097,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of annotation import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation import jobs.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2161,7 +2161,7 @@ public struct Omics: AWSService {
         return try await self.listAnnotationStoreVersions(input, logger: logger)
     }
 
-    /// Retrieves a list of annotation stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
     @Sendable
     @inlinable
     public func listAnnotationStores(_ input: ListAnnotationStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnnotationStoresResponse {
@@ -2175,7 +2175,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of annotation stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of annotation stores.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2806,7 +2806,7 @@ public struct Omics: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Retrieves a list of variant import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
     @Sendable
     @inlinable
     public func listVariantImportJobs(_ input: ListVariantImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantImportJobsResponse {
@@ -2820,7 +2820,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of variant import jobs.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant import jobs.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2845,7 +2845,7 @@ public struct Omics: AWSService {
         return try await self.listVariantImportJobs(input, logger: logger)
     }
 
-    /// Retrieves a list of variant stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
     @Sendable
     @inlinable
     public func listVariantStores(_ input: ListVariantStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVariantStoresResponse {
@@ -2859,7 +2859,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of variant stores.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Retrieves a list of variant stores.
     ///
     /// Parameters:
     ///   - filter: A filter to apply to the list.
@@ -2998,7 +2998,7 @@ public struct Omics: AWSService {
         return try await self.putS3AccessPolicy(input, logger: logger)
     }
 
-    /// Starts an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
     @Sendable
     @inlinable
     public func startAnnotationImportJob(_ input: StartAnnotationImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAnnotationImportResponse {
@@ -3012,7 +3012,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Starts an annotation import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts an annotation import job.
     ///
     /// Parameters:
     ///   - annotationFields: The annotation schema generated by the parsed annotation data.
@@ -3202,7 +3202,7 @@ public struct Omics: AWSService {
         return try await self.startReferenceImportJob(input, logger: logger)
     }
 
-    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required:   A service role ARN (roleArn).   The run's workflow ID (workflowId, not the uuid or runId).   An Amazon S3 location (outputUri) where the run outputs will be saved.   All required workflow parameters (parameter), which can include optional parameters from the parameter template. The run cannot include any parameters that are not defined in the parameter template. To see all possible parameters, use the GetRun API operation.    For runs with a STATIC (default) storage type, specify the required storage capacity (in gibibytes). A storage capacity value is not required for runs that use DYNAMIC storage.    StartRun can also duplicate an existing run using the run's default values. You can modify these default values and/or add other optional inputs. To duplicate a run, the following inputs are required:   A service role ARN (roleArn).   The ID of the run to duplicate (runId).   An Amazon S3 location where the run outputs will be saved (outputUri).   To learn more about the optional parameters for StartRun, see Starting a run in the Amazon Web Services HealthOmics User Guide. Use the retentionMode input to control how long the metadata for each run is stored in CloudWatch. There are two retention modes:   Specify REMOVE to automatically remove the oldest runs when you reach the maximum service retention limit for runs. It is recommended that you use the REMOVE mode to initiate major run requests so that your runs do not fail when you reach the limit.   The retentionMode is set to the RETAIN mode by default, which allows you to manually remove runs after reaching the maximum service retention limit. Under this setting, you cannot create additional runs until you remove the excess runs.   To learn more about the retention modes, see Run retention mode in the Amazon Web Services HealthOmics User Guide.
+    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required:   A service role ARN (roleArn).   The run's workflow ID (workflowId, not the uuid or runId).   An Amazon S3 location (outputUri) where the run outputs will be saved.   All required workflow parameters (parameter), which can include optional parameters from the parameter template. The run cannot include any parameters that are not defined in the parameter template. To see all possible parameters, use the GetRun API operation.    For runs with a STATIC (default) storage type, specify the required storage capacity (in gibibytes). A storage capacity value is not required for runs that use DYNAMIC storage.    StartRun can also duplicate an existing run using the run's default values. You can modify these default values and/or add other optional inputs. To duplicate a run, the following inputs are required:   A service role ARN (roleArn).   The ID of the run to duplicate (runId).   An Amazon S3 location where the run outputs will be saved (outputUri).   To learn more about the optional parameters for StartRun, see Starting a run in the Amazon Web Services HealthOmics User Guide. Use the retentionMode input to control how long the metadata for each run is stored in CloudWatch. There are two retention modes:   Specify REMOVE to automatically remove the oldest runs when you reach the maximum service retention limit for runs. It is recommended that you use the REMOVE mode to initiate major run requests so that your runs do not fail when you reach the limit.   The retentionMode is set to the RETAIN mode by default, which allows you to manually remove runs after reaching the maximum service retention limit. Under this setting, you cannot create additional runs until you remove the excess runs.   To learn more about the retention modes, see Run retention mode in the Amazon Web Services HealthOmics User Guide. You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the Amazon Web Services HealthOmics MCP server on GitHub.
     @Sendable
     @inlinable
     public func startRun(_ input: StartRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartRunResponse {
@@ -3216,7 +3216,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required:   A service role ARN (roleArn).   The run's workflow ID (workflowId, not the uuid or runId).   An Amazon S3 location (outputUri) where the run outputs will be saved.   All required workflow parameters (parameter), which can include optional parameters from the parameter template. The run cannot include any parameters that are not defined in the parameter template. To see all possible parameters, use the GetRun API operation.    For runs with a STATIC (default) storage type, specify the required storage capacity (in gibibytes). A storage capacity value is not required for runs that use DYNAMIC storage.    StartRun can also duplicate an existing run using the run's default values. You can modify these default values and/or add other optional inputs. To duplicate a run, the following inputs are required:   A service role ARN (roleArn).   The ID of the run to duplicate (runId).   An Amazon S3 location where the run outputs will be saved (outputUri).   To learn more about the optional parameters for StartRun, see Starting a run in the Amazon Web Services HealthOmics User Guide. Use the retentionMode input to control how long the metadata for each run is stored in CloudWatch. There are two retention modes:   Specify REMOVE to automatically remove the oldest runs when you reach the maximum service retention limit for runs. It is recommended that you use the REMOVE mode to initiate major run requests so that your runs do not fail when you reach the limit.   The retentionMode is set to the RETAIN mode by default, which allows you to manually remove runs after reaching the maximum service retention limit. Under this setting, you cannot create additional runs until you remove the excess runs.   To learn more about the retention modes, see Run retention mode in the Amazon Web Services HealthOmics User Guide.
+    /// Starts a new run and returns details about the run, or duplicates an existing run. A run is a single invocation of a workflow. If you provide request IDs, Amazon Web Services HealthOmics identifies duplicate requests and starts the run only once. Monitor the progress of the run by calling the GetRun API operation. To start a new run, the following inputs are required:   A service role ARN (roleArn).   The run's workflow ID (workflowId, not the uuid or runId).   An Amazon S3 location (outputUri) where the run outputs will be saved.   All required workflow parameters (parameter), which can include optional parameters from the parameter template. The run cannot include any parameters that are not defined in the parameter template. To see all possible parameters, use the GetRun API operation.    For runs with a STATIC (default) storage type, specify the required storage capacity (in gibibytes). A storage capacity value is not required for runs that use DYNAMIC storage.    StartRun can also duplicate an existing run using the run's default values. You can modify these default values and/or add other optional inputs. To duplicate a run, the following inputs are required:   A service role ARN (roleArn).   The ID of the run to duplicate (runId).   An Amazon S3 location where the run outputs will be saved (outputUri).   To learn more about the optional parameters for StartRun, see Starting a run in the Amazon Web Services HealthOmics User Guide. Use the retentionMode input to control how long the metadata for each run is stored in CloudWatch. There are two retention modes:   Specify REMOVE to automatically remove the oldest runs when you reach the maximum service retention limit for runs. It is recommended that you use the REMOVE mode to initiate major run requests so that your runs do not fail when you reach the limit.   The retentionMode is set to the RETAIN mode by default, which allows you to manually remove runs after reaching the maximum service retention limit. Under this setting, you cannot create additional runs until you remove the excess runs.   To learn more about the retention modes, see Run retention mode in the Amazon Web Services HealthOmics User Guide. You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the Amazon Web Services HealthOmics MCP server on GitHub.
     ///
     /// Parameters:
     ///   - cacheBehavior: The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
@@ -3286,7 +3286,7 @@ public struct Omics: AWSService {
         return try await self.startRun(input, logger: logger)
     }
 
-    /// Starts a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
     @Sendable
     @inlinable
     public func startVariantImportJob(_ input: StartVariantImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartVariantImportResponse {
@@ -3300,7 +3300,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Starts a variant import job.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Starts a variant import job.
     ///
     /// Parameters:
     ///   - annotationFields: The annotation schema generated by the parsed annotation data.
@@ -3394,7 +3394,7 @@ public struct Omics: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
     @Sendable
     @inlinable
     public func updateAnnotationStore(_ input: UpdateAnnotationStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnnotationStoreResponse {
@@ -3408,7 +3408,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Updates an annotation store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates an annotation store.
     ///
     /// Parameters:
     ///   - description: A description for the store.
@@ -3595,7 +3595,7 @@ public struct Omics: AWSService {
         return try await self.updateSequenceStore(input, logger: logger)
     }
 
-    /// Updates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
     @Sendable
     @inlinable
     public func updateVariantStore(_ input: UpdateVariantStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVariantStoreResponse {
@@ -3609,7 +3609,7 @@ public struct Omics: AWSService {
             logger: logger
         )
     }
-    /// Updates a variant store.
+    ///  Amazon Web Services HealthOmics variant stores and annotation stores will no longer be open to new customers starting November 7, 2025. If you would like to use variant stores or annotation stores, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see  Amazon Web Services HealthOmics variant store and annotation store availability change.  Updates a variant store.
     ///
     /// Parameters:
     ///   - description: A description for the store.

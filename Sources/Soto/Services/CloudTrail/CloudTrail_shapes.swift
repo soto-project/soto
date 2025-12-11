@@ -70,6 +70,11 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventCategoryAggregation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case data = "Data"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventDataStoreStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case enabled = "ENABLED"
@@ -113,6 +118,18 @@ extension CloudTrail {
     public enum InsightsMetricDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fillWithZeros = "FillWithZeros"
         case nonZeroData = "NonZeroData"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListInsightsDataDimensionKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eventId = "EventId"
+        case eventName = "EventName"
+        case eventSource = "EventSource"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListInsightsDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insightsEvents = "InsightsEvents"
         public var description: String { return self.rawValue }
     }
 
@@ -160,6 +177,19 @@ extension CloudTrail {
     public enum RefreshScheduleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SourceEventCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case data = "Data"
+        case management = "Management"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Template: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case apiActivity = "API_ACTIVITY"
+        case resourceAccess = "RESOURCE_ACCESS"
+        case userActions = "USER_ACTIONS"
         public var description: String { return self.rawValue }
     }
 
@@ -304,6 +334,29 @@ extension CloudTrail {
             case notEquals = "NotEquals"
             case notStartsWith = "NotStartsWith"
             case startsWith = "StartsWith"
+        }
+    }
+
+    public struct AggregationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the event category for which aggregation should be performed.
+        public let eventCategory: EventCategoryAggregation
+        /// A list of aggregation templates that can be used to configure event aggregation.
+        public let templates: [Template]
+
+        @inlinable
+        public init(eventCategory: EventCategoryAggregation, templates: [Template]) {
+            self.eventCategory = eventCategory
+            self.templates = templates
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templates, name: "templates", parent: name, max: 50)
+            try self.validate(self.templates, name: "templates", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventCategory = "EventCategory"
+            case templates = "Templates"
         }
     }
 
@@ -712,7 +765,7 @@ extension CloudTrail {
         public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is created for all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account or delegated administrator account for an organization in Organizations.
         public let isOrganizationTrail: Bool?
-        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:    alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:alias/MyAliasName     arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012     12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies the name of the trail. The name must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)
         public let name: String
@@ -1577,36 +1630,48 @@ extension CloudTrail {
     public struct GetEventConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to retrieve event configuration settings.
         public let eventDataStore: String?
+        /// The name of the trail for which you want to retrieve event configuration settings.
+        public let trailName: String?
 
         @inlinable
-        public init(eventDataStore: String? = nil) {
+        public init(eventDataStore: String? = nil, trailName: String? = nil) {
             self.eventDataStore = eventDataStore
+            self.trailName = trailName
         }
 
         private enum CodingKeys: String, CodingKey {
             case eventDataStore = "EventDataStore"
+            case trailName = "TrailName"
         }
     }
 
     public struct GetEventConfigurationResponse: AWSDecodableShape {
+        /// The list of aggregation configurations that are configured for the trail.
+        public let aggregationConfigurations: [AggregationConfiguration]?
         /// The list of context key selectors that are configured for the event data store.
         public let contextKeySelectors: [ContextKeySelector]?
         /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings are returned.
         public let eventDataStoreArn: String?
         /// The maximum allowed size for events stored in the specified event data store.
         public let maxEventSize: MaxEventSize?
+        /// The Amazon Resource Name (ARN) of the trail for which the event configuration settings are returned.
+        public let trailARN: String?
 
         @inlinable
-        public init(contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil) {
+        public init(aggregationConfigurations: [AggregationConfiguration]? = nil, contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil, trailARN: String? = nil) {
+            self.aggregationConfigurations = aggregationConfigurations
             self.contextKeySelectors = contextKeySelectors
             self.eventDataStoreArn = eventDataStoreArn
             self.maxEventSize = maxEventSize
+            self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregationConfigurations = "AggregationConfigurations"
             case contextKeySelectors = "ContextKeySelectors"
             case eventDataStoreArn = "EventDataStoreArn"
             case maxEventSize = "MaxEventSize"
+            case trailARN = "TrailARN"
         }
     }
 
@@ -1831,7 +1896,7 @@ extension CloudTrail {
         public let eventDataStoreArn: String?
         ///  The ARN of the destination event data store that logs Insights events.
         public let insightsDestination: String?
-        /// A JSON string that contains the Insight types you want to log on a trail or event data store. ApiErrorRateInsight and ApiCallRateInsight are supported as Insights types.
+        /// Contains the Insights types that are enabled on a trail or event data store. It also specifies the event categories on which a particular Insight type is enabled.  ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
         public let trailARN: String?
@@ -2235,15 +2300,19 @@ extension CloudTrail {
     }
 
     public struct InsightSelector: AWSEncodableShape & AWSDecodableShape {
-        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// Select the event category on which Insights should be enabled.    If EventCategories is not provided, the specified Insights types are enabled on management API calls by default.   If EventCategories is provided, the given event categories will overwrite the existing ones. For example,  if a trail already has Insights enabled on management events, and then a PutInsightSelectors request is made with only data events specified in EventCategories, Insights on management events will be disabled.
+        public let eventCategories: [SourceEventCategory]?
+        /// The type of Insights events to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data  API calls that result in error codes. The error is shown if the API call is unsuccessful.
         public let insightType: InsightType?
 
         @inlinable
-        public init(insightType: InsightType? = nil) {
+        public init(eventCategories: [SourceEventCategory]? = nil, insightType: InsightType? = nil) {
+            self.eventCategories = eventCategories
             self.insightType = insightType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventCategories = "EventCategories"
             case insightType = "InsightType"
         }
     }
@@ -2497,6 +2566,79 @@ extension CloudTrail {
         }
     }
 
+    public struct ListInsightsDataRequest: AWSEncodableShape {
+        /// Specifies the category of events returned. To fetch Insights events, specify InsightsEvents as the value of DataType
+        public let dataType: ListInsightsDataType
+        /// Contains a map of dimensions. Currently the map can contain only one item.
+        public let dimensions: [ListInsightsDataDimensionKey: String]?
+        /// Specifies that only events that occur before or at the specified time are returned. If the specified end time is before the specified start time, an error is returned.
+        public let endTime: Date?
+        /// The Amazon Resource Name(ARN) of the trail for which you want to retrieve Insights events.
+        public let insightSource: String
+        /// The number of events to return. Possible values are 1 through 50. The default is 50.
+        public let maxResults: Int?
+        /// The token to use to get the next page of results after a previous API call. This token must be passed in with the same parameters that were specified in the original call.  For example, if the original call specified a EventName as a dimension with PutObject as a value, the call with NextToken should include those same parameters.
+        public let nextToken: String?
+        /// Specifies that only events that occur after or at the specified time are returned. If the specified start time is after the specified end time, an error is returned.
+        public let startTime: Date?
+
+        @inlinable
+        public init(dataType: ListInsightsDataType, dimensions: [ListInsightsDataDimensionKey: String]? = nil, endTime: Date? = nil, insightSource: String, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date? = nil) {
+            self.dataType = dataType
+            self.dimensions = dimensions
+            self.endTime = endTime
+            self.insightSource = insightSource
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "dimensions[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.dimensions, name: "dimensions", parent: name, max: 1)
+            try self.validate(self.dimensions, name: "dimensions", parent: name, min: 1)
+            try self.validate(self.insightSource, name: "insightSource", parent: name, max: 256)
+            try self.validate(self.insightSource, name: "insightSource", parent: name, min: 3)
+            try self.validate(self.insightSource, name: "insightSource", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataType = "DataType"
+            case dimensions = "Dimensions"
+            case endTime = "EndTime"
+            case insightSource = "InsightSource"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListInsightsDataResponse: AWSDecodableShape {
+        /// A list of events returned based on the InsightSource, DataType or Dimensions specified. The events list is sorted by time. The most recent event is listed first.
+        public let events: [Event]?
+        /// The token to use to get the next page of results after a previous API call. If the token does not appear, there are no more results to return. The token must be passed in with the same parameters as the previous call.  For example, if the original call specified a EventName as a dimension with PutObject as a value, the call with NextToken should include those same parameters.
+        public let nextToken: String?
+
+        @inlinable
+        public init(events: [Event]? = nil, nextToken: String? = nil) {
+            self.events = events
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListInsightsMetricDataRequest: AWSEncodableShape {
         /// Type of data points to return. Valid values are NonZeroData and  FillWithZeros. The default is NonZeroData.
         public let dataType: InsightsMetricDataType?
@@ -2518,9 +2660,11 @@ extension CloudTrail {
         public let period: Int?
         /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
         public let startTime: Date?
+        /// The Amazon Resource Name(ARN) or name of the trail for which you want to retrieve Insights metrics data.  This parameter should only be provided to fetch Insights metrics data generated on trails logging data events.  This parameter is not required for Insights metric data generated on trails logging management events.
+        public let trailName: String?
 
         @inlinable
-        public init(dataType: InsightsMetricDataType? = nil, endTime: Date? = nil, errorCode: String? = nil, eventName: String, eventSource: String, insightType: InsightType, maxResults: Int? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date? = nil) {
+        public init(dataType: InsightsMetricDataType? = nil, endTime: Date? = nil, errorCode: String? = nil, eventName: String, eventSource: String, insightType: InsightType, maxResults: Int? = nil, nextToken: String? = nil, period: Int? = nil, startTime: Date? = nil, trailName: String? = nil) {
             self.dataType = dataType
             self.endTime = endTime
             self.errorCode = errorCode
@@ -2531,6 +2675,7 @@ extension CloudTrail {
             self.nextToken = nextToken
             self.period = period
             self.startTime = startTime
+            self.trailName = trailName
         }
 
         public func validate(name: String) throws {
@@ -2559,6 +2704,7 @@ extension CloudTrail {
             case nextToken = "NextToken"
             case period = "Period"
             case startTime = "StartTime"
+            case trailName = "TrailName"
         }
     }
 
@@ -2575,17 +2721,20 @@ extension CloudTrail {
         public let nextToken: String?
         /// List of timestamps at intervals corresponding to the specified time period.
         public let timestamps: [Date]?
+        /// Specifies the ARN of the trail. This is only returned when Insights is enabled on a trail logging data events.
+        public let trailARN: String?
         /// List of values representing the API call rate or error rate at each timestamp. The number of values is equal to the number of timestamps.
         public let values: [Double]?
 
         @inlinable
-        public init(errorCode: String? = nil, eventName: String? = nil, eventSource: String? = nil, insightType: InsightType? = nil, nextToken: String? = nil, timestamps: [Date]? = nil, values: [Double]? = nil) {
+        public init(errorCode: String? = nil, eventName: String? = nil, eventSource: String? = nil, insightType: InsightType? = nil, nextToken: String? = nil, timestamps: [Date]? = nil, trailARN: String? = nil, values: [Double]? = nil) {
             self.errorCode = errorCode
             self.eventName = eventName
             self.eventSource = eventSource
             self.insightType = insightType
             self.nextToken = nextToken
             self.timestamps = timestamps
+            self.trailARN = trailARN
             self.values = values
         }
 
@@ -2596,6 +2745,7 @@ extension CloudTrail {
             case insightType = "InsightType"
             case nextToken = "NextToken"
             case timestamps = "Timestamps"
+            case trailARN = "TrailARN"
             case values = "Values"
         }
     }
@@ -2899,53 +3049,73 @@ extension CloudTrail {
     }
 
     public struct PutEventConfigurationRequest: AWSEncodableShape {
+        /// The list of aggregation configurations that you want to configure for the trail.
+        public let aggregationConfigurations: [AggregationConfiguration]?
         /// A list of context key selectors that will be included to provide enriched event data.
-        public let contextKeySelectors: [ContextKeySelector]
-        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which you want to update event configuration settings.
+        public let contextKeySelectors: [ContextKeySelector]?
+        /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which event configuration settings are updated.
         public let eventDataStore: String?
         /// The maximum allowed size for events to be stored in the specified event data store. If you are using context key selectors, MaxEventSize must be set to Large.
-        public let maxEventSize: MaxEventSize
+        public let maxEventSize: MaxEventSize?
+        /// The name of the trail for which you want to update event configuration settings.
+        public let trailName: String?
 
         @inlinable
-        public init(contextKeySelectors: [ContextKeySelector], eventDataStore: String? = nil, maxEventSize: MaxEventSize) {
+        public init(aggregationConfigurations: [AggregationConfiguration]? = nil, contextKeySelectors: [ContextKeySelector]? = nil, eventDataStore: String? = nil, maxEventSize: MaxEventSize? = nil, trailName: String? = nil) {
+            self.aggregationConfigurations = aggregationConfigurations
             self.contextKeySelectors = contextKeySelectors
             self.eventDataStore = eventDataStore
             self.maxEventSize = maxEventSize
+            self.trailName = trailName
         }
 
         public func validate(name: String) throws {
-            try self.contextKeySelectors.forEach {
+            try self.aggregationConfigurations?.forEach {
+                try $0.validate(name: "\(name).aggregationConfigurations[]")
+            }
+            try self.validate(self.aggregationConfigurations, name: "aggregationConfigurations", parent: name, max: 1)
+            try self.contextKeySelectors?.forEach {
                 try $0.validate(name: "\(name).contextKeySelectors[]")
             }
             try self.validate(self.contextKeySelectors, name: "contextKeySelectors", parent: name, max: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregationConfigurations = "AggregationConfigurations"
             case contextKeySelectors = "ContextKeySelectors"
             case eventDataStore = "EventDataStore"
             case maxEventSize = "MaxEventSize"
+            case trailName = "TrailName"
         }
     }
 
     public struct PutEventConfigurationResponse: AWSDecodableShape {
+        /// A list of aggregation configurations that are configured for the trail.
+        public let aggregationConfigurations: [AggregationConfiguration]?
         /// The list of context key selectors that are configured for the event data store.
         public let contextKeySelectors: [ContextKeySelector]?
         /// The Amazon Resource Name (ARN) or ID suffix of the ARN of the event data store for which the event configuration settings were updated.
         public let eventDataStoreArn: String?
         /// The maximum allowed size for events stored in the specified event data store.
         public let maxEventSize: MaxEventSize?
+        /// The Amazon Resource Name (ARN) of the trail that has aggregation enabled.
+        public let trailARN: String?
 
         @inlinable
-        public init(contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil) {
+        public init(aggregationConfigurations: [AggregationConfiguration]? = nil, contextKeySelectors: [ContextKeySelector]? = nil, eventDataStoreArn: String? = nil, maxEventSize: MaxEventSize? = nil, trailARN: String? = nil) {
+            self.aggregationConfigurations = aggregationConfigurations
             self.contextKeySelectors = contextKeySelectors
             self.eventDataStoreArn = eventDataStoreArn
             self.maxEventSize = maxEventSize
+            self.trailARN = trailARN
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aggregationConfigurations = "AggregationConfigurations"
             case contextKeySelectors = "ContextKeySelectors"
             case eventDataStoreArn = "EventDataStoreArn"
             case maxEventSize = "MaxEventSize"
+            case trailARN = "TrailARN"
         }
     }
 
@@ -3004,7 +3174,10 @@ extension CloudTrail {
         public let eventDataStore: String?
         ///  The ARN (or ID suffix of the ARN) of the destination event data store that logs Insights events. To enable Insights on an event data store, you must provide both the  EventDataStore and InsightsDestination parameters.  You cannot use this parameter with the TrailName parameter.
         public let insightsDestination: String?
-        /// A JSON string that contains the Insights types you want to log on a trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes. The error is shown if the API call is unsuccessful.
+        /// Contains the Insights types you want to log on a specific category of events on a trail or event data store.  ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can log Insights for management events only. The ApiCallRateInsight Insights type analyzes write-only management
+        /// 	         API calls or read and write data API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management and data
+        /// 	          API calls that result in error codes. The error is shown if the API call is
+        /// 	          unsuccessful.
         public let insightSelectors: [InsightSelector]
         /// The name of the CloudTrail trail for which you want to change or add Insights selectors. You cannot use this parameter with the EventDataStore and InsightsDestination parameters.
         public let trailName: String?
@@ -3039,7 +3212,7 @@ extension CloudTrail {
         public let eventDataStoreArn: String?
         ///  The ARN of the destination event data store that logs Insights events.
         public let insightsDestination: String?
-        /// A JSON string that contains the Insights event types that you want to log on a trail or event data store. The valid Insights types are ApiErrorRateInsight and ApiCallRateInsight.
+        /// Contains the Insights types you want to log on a specific category of events in a trail or event data store.  ApiCallRateInsight and ApiErrorRateInsight are valid Insight types.The EventCategory field can specify Management or Data events or both. For event data store, you can only log Insights for management events only.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
         public let trailARN: String?
@@ -3947,7 +4120,7 @@ extension CloudTrail {
         public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is an organization trail.
         public let isOrganizationTrail: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID that encrypts the logs and digest files delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies whether log file validation is enabled.
         public let logFileValidationEnabled: Bool?
@@ -4328,7 +4501,7 @@ extension CloudTrail {
         public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is applied to all accounts in an organization in Organizations, or only for the current Amazon Web Services account. The default is false, and cannot be true unless the call is made on behalf of an Amazon Web Services account that is the management account for an organization in Organizations. If the trail is not an organization trail and this is set to true, the trail will be created in all Amazon Web Services accounts that belong to the organization. If the trail is an organization trail and this is set to false, the trail will remain in the current Amazon Web Services account but be deleted from all member accounts in the organization.  Only the management account for the organization can convert an organization trail to a non-organization trail, or convert a non-organization trail to  an organization trail.
         public let isOrganizationTrail: Bool?
-        /// Specifies the KMS key ID to use to encrypt the logs delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID to use to encrypt the logs and digest files delivered by CloudTrail. The value can be an alias name prefixed by "alias/", a fully specified ARN to an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also supports KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the Key Management Service Developer Guide. Examples:   alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:alias/MyAliasName   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012   12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies the name of the trail or trail ARN. If Name is a trail name, the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number, and end with a letter or number   Be between 3 and 128 characters   Have no adjacent periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.   Not be in IP address format (for example, 192.168.5.4)   If Name is a trail ARN, it must be in the following format.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
@@ -4380,7 +4553,7 @@ extension CloudTrail {
         public let isMultiRegionTrail: Bool?
         /// Specifies whether the trail is an organization trail.
         public let isOrganizationTrail: Bool?
-        /// Specifies the KMS key ID that encrypts the logs delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
+        /// Specifies the KMS key ID that encrypts the logs and digest files delivered by CloudTrail. The value is a fully specified ARN to a KMS key in the following format.  arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
         public let kmsKeyId: String?
         /// Specifies whether log file integrity validation is enabled.
         public let logFileValidationEnabled: Bool?
