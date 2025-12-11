@@ -491,6 +491,12 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum SyntheticDataColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case categorical = "CATEGORICAL"
+        case numerical = "NUMERICAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetProtectedJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
@@ -598,7 +604,7 @@ extension CleanRooms {
             case .artifacts(let value):
                 try value.validate(name: "\(name).artifacts")
             case .text(let value):
-                try self.validate(value, name: "text", parent: name, max: 90000)
+                try self.validate(value, name: "text", parent: name, max: 500000)
             }
         }
 
@@ -1647,13 +1653,15 @@ extension CleanRooms {
         public let source: AnalysisSource
         ///  The source metadata for the analysis template.
         public let sourceMetadata: AnalysisSourceMetadata?
+        /// The parameters used to generate synthetic data for this analysis template.
+        public let syntheticDataParameters: SyntheticDataParameters?
         /// The time that the analysis template was last updated.
         public let updateTime: Date
         /// Information about the validations performed on the analysis template.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, sourceMetadata: AnalysisSourceMetadata? = nil, syntheticDataParameters: SyntheticDataParameters? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1669,6 +1677,7 @@ extension CleanRooms {
             self.schema = schema
             self.source = source
             self.sourceMetadata = sourceMetadata
+            self.syntheticDataParameters = syntheticDataParameters
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1689,6 +1698,7 @@ extension CleanRooms {
             case schema = "schema"
             case source = "source"
             case sourceMetadata = "sourceMetadata"
+            case syntheticDataParameters = "syntheticDataParameters"
             case updateTime = "updateTime"
             case validations = "validations"
         }
@@ -1769,6 +1779,8 @@ extension CleanRooms {
         public let description: String?
         /// The identifier of the analysis template.
         public let id: String
+        /// Indicates if this analysis template summary generated synthetic data.
+        public let isSyntheticData: Bool?
         /// The Amazon Resource Name (ARN) of the member who created the analysis template.
         public let membershipArn: String
         /// The identifier for a membership resource.
@@ -1779,13 +1791,14 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, id: String, isSyntheticData: Bool? = nil, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
             self.createTime = createTime
             self.description = description
             self.id = id
+            self.isSyntheticData = isSyntheticData
             self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.name = name
@@ -1799,6 +1812,7 @@ extension CleanRooms {
             case createTime = "createTime"
             case description = "description"
             case id = "id"
+            case isSyntheticData = "isSyntheticData"
             case membershipArn = "membershipArn"
             case membershipId = "membershipId"
             case name = "name"
@@ -2322,13 +2336,15 @@ extension CleanRooms {
         public let source: AnalysisSource?
         ///  The source metadata for the collaboration analysis template.
         public let sourceMetadata: AnalysisSourceMetadata?
+        /// The synthetic data generation parameters configured for this collaboration analysis template.
+        public let syntheticDataParameters: SyntheticDataParameters?
         /// The time that the analysis template in the collaboration was last updated.
         public let updateTime: Date
         /// The validations that were performed.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource? = nil, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource? = nil, sourceMetadata: AnalysisSourceMetadata? = nil, syntheticDataParameters: SyntheticDataParameters? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -2343,6 +2359,7 @@ extension CleanRooms {
             self.schema = schema
             self.source = source
             self.sourceMetadata = sourceMetadata
+            self.syntheticDataParameters = syntheticDataParameters
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -2362,6 +2379,7 @@ extension CleanRooms {
             case schema = "schema"
             case source = "source"
             case sourceMetadata = "sourceMetadata"
+            case syntheticDataParameters = "syntheticDataParameters"
             case updateTime = "updateTime"
             case validations = "validations"
         }
@@ -2382,13 +2400,15 @@ extension CleanRooms {
         public let description: String?
         /// The identifier of the analysis template.
         public let id: String
+        /// Indicates if this collaboration analysis template uses synthetic data generation.
+        public let isSyntheticData: Bool?
         /// The name of the analysis template.
         public let name: String
         /// The time that the summary of the analysis template in the collaboration was last updated.
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, name: String, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, id: String, isSyntheticData: Bool? = nil, name: String, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationId = collaborationId
@@ -2396,6 +2416,7 @@ extension CleanRooms {
             self.creatorAccountId = creatorAccountId
             self.description = description
             self.id = id
+            self.isSyntheticData = isSyntheticData
             self.name = name
             self.updateTime = updateTime
         }
@@ -2408,6 +2429,7 @@ extension CleanRooms {
             case creatorAccountId = "creatorAccountId"
             case description = "description"
             case id = "id"
+            case isSyntheticData = "isSyntheticData"
             case name = "name"
             case updateTime = "updateTime"
         }
@@ -2910,6 +2932,28 @@ extension CleanRooms {
         }
     }
 
+    public struct ColumnClassificationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A mapping that defines the classification of data columns for synthetic data generation and specifies how each column should be handled during the privacy-preserving data synthesis process.
+        public let columnMapping: [SyntheticDataColumnProperties]
+
+        @inlinable
+        public init(columnMapping: [SyntheticDataColumnProperties]) {
+            self.columnMapping = columnMapping
+        }
+
+        public func validate(name: String) throws {
+            try self.columnMapping.forEach {
+                try $0.validate(name: "\(name).columnMapping[]")
+            }
+            try self.validate(self.columnMapping, name: "columnMapping", parent: name, max: 1000)
+            try self.validate(self.columnMapping, name: "columnMapping", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnMapping = "columnMapping"
+        }
+    }
+
     public struct ConfiguredAudienceModelAssociation: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the configured audience model association.
         public let arn: String
@@ -3023,7 +3067,7 @@ extension CleanRooms {
     }
 
     public struct ConfiguredTable: AWSDecodableShape {
-        /// The columns within the underlying Glue table that can be utilized within collaborations.
+        /// The columns within the underlying Glue table that can be used within collaborations.
         public let allowedColumns: [String]
         /// The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod
@@ -3549,11 +3593,13 @@ extension CleanRooms {
         public let schema: AnalysisSchema?
         /// The information in the analysis template.
         public let source: AnalysisSource
+        /// The parameters for generating synthetic data when running the analysis template.
+        public let syntheticDataParameters: SyntheticDataParameters?
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, schema: AnalysisSchema? = nil, source: AnalysisSource, tags: [String: String]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, errorMessageConfiguration: ErrorMessageConfiguration? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, schema: AnalysisSchema? = nil, source: AnalysisSource, syntheticDataParameters: SyntheticDataParameters? = nil, tags: [String: String]? = nil) {
             self.analysisParameters = analysisParameters
             self.description = description
             self.errorMessageConfiguration = errorMessageConfiguration
@@ -3562,6 +3608,7 @@ extension CleanRooms {
             self.name = name
             self.schema = schema
             self.source = source
+            self.syntheticDataParameters = syntheticDataParameters
             self.tags = tags
         }
 
@@ -3576,6 +3623,7 @@ extension CleanRooms {
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.schema, forKey: .schema)
             try container.encode(self.source, forKey: .source)
+            try container.encodeIfPresent(self.syntheticDataParameters, forKey: .syntheticDataParameters)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
@@ -3583,7 +3631,7 @@ extension CleanRooms {
             try self.analysisParameters?.forEach {
                 try $0.validate(name: "\(name).analysisParameters[]")
             }
-            try self.validate(self.analysisParameters, name: "analysisParameters", parent: name, max: 10)
+            try self.validate(self.analysisParameters, name: "analysisParameters", parent: name, max: 50)
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
@@ -3593,6 +3641,7 @@ extension CleanRooms {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
             try self.schema?.validate(name: "\(name).schema")
             try self.source.validate(name: "\(name).source")
+            try self.syntheticDataParameters?.validate(name: "\(name).syntheticDataParameters")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3609,6 +3658,7 @@ extension CleanRooms {
             case name = "name"
             case schema = "schema"
             case source = "source"
+            case syntheticDataParameters = "syntheticDataParameters"
             case tags = "tags"
         }
     }
@@ -3734,7 +3784,6 @@ extension CleanRooms {
             try self.members.forEach {
                 try $0.validate(name: "\(name).members[]")
             }
-            try self.validate(self.members, name: "members", parent: name, max: 9)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\s*$)[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t]*$")
@@ -4836,6 +4885,11 @@ extension CleanRooms {
             self.name = name
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case name = "name"
         }
@@ -4851,6 +4905,9 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
+            try self.columns.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
             try self.validate(self.columns, name: "columns", parent: name, max: 1)
             try self.validate(self.columns, name: "columns", parent: name, min: 1)
         }
@@ -7553,16 +7610,48 @@ extension CleanRooms {
         public let modelInference: ModelInferencePaymentConfig?
         /// The payment responsibilities accepted by the member for model training.
         public let modelTraining: ModelTrainingPaymentConfig?
+        /// The payment configuration for machine learning synthetic data generation.
+        public let syntheticDataGeneration: SyntheticDataGenerationPaymentConfig?
 
         @inlinable
-        public init(modelInference: ModelInferencePaymentConfig? = nil, modelTraining: ModelTrainingPaymentConfig? = nil) {
+        public init(modelInference: ModelInferencePaymentConfig? = nil, modelTraining: ModelTrainingPaymentConfig? = nil, syntheticDataGeneration: SyntheticDataGenerationPaymentConfig? = nil) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
+            self.syntheticDataGeneration = syntheticDataGeneration
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelInference = "modelInference"
             case modelTraining = "modelTraining"
+            case syntheticDataGeneration = "syntheticDataGeneration"
+        }
+    }
+
+    public struct MLSyntheticDataParameters: AWSEncodableShape & AWSDecodableShape {
+        /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
+        public let columnClassification: ColumnClassificationDetails
+        /// The epsilon value for differential privacy when generating synthetic data. Lower values provide stronger privacy guarantees but may reduce data utility.
+        public let epsilon: Double
+        /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
+        public let maxMembershipInferenceAttackScore: Double
+
+        @inlinable
+        public init(columnClassification: ColumnClassificationDetails, epsilon: Double, maxMembershipInferenceAttackScore: Double) {
+            self.columnClassification = columnClassification
+            self.epsilon = epsilon
+            self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
+        }
+
+        public func validate(name: String) throws {
+            try self.columnClassification.validate(name: "\(name).columnClassification")
+            try self.validate(self.maxMembershipInferenceAttackScore, name: "maxMembershipInferenceAttackScore", parent: name, max: 1.0)
+            try self.validate(self.maxMembershipInferenceAttackScore, name: "maxMembershipInferenceAttackScore", parent: name, min: 0.5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnClassification = "columnClassification"
+            case epsilon = "epsilon"
+            case maxMembershipInferenceAttackScore = "maxMembershipInferenceAttackScore"
         }
     }
 
@@ -7784,16 +7873,20 @@ extension CleanRooms {
         public let modelInference: MembershipModelInferencePaymentConfig?
         /// The payment responsibilities accepted by the member for model training.
         public let modelTraining: MembershipModelTrainingPaymentConfig?
+        /// The payment configuration for synthetic data generation for this machine learning membership.
+        public let syntheticDataGeneration: MembershipSyntheticDataGenerationPaymentConfig?
 
         @inlinable
-        public init(modelInference: MembershipModelInferencePaymentConfig? = nil, modelTraining: MembershipModelTrainingPaymentConfig? = nil) {
+        public init(modelInference: MembershipModelInferencePaymentConfig? = nil, modelTraining: MembershipModelTrainingPaymentConfig? = nil, syntheticDataGeneration: MembershipSyntheticDataGenerationPaymentConfig? = nil) {
             self.modelInference = modelInference
             self.modelTraining = modelTraining
+            self.syntheticDataGeneration = syntheticDataGeneration
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelInference = "modelInference"
             case modelTraining = "modelTraining"
+            case syntheticDataGeneration = "syntheticDataGeneration"
         }
     }
 
@@ -7970,6 +8063,20 @@ extension CleanRooms {
             case paymentConfiguration = "paymentConfiguration"
             case status = "status"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct MembershipSyntheticDataGenerationPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if this membership is responsible for paying for synthetic data generation.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
         }
     }
 
@@ -8395,10 +8502,10 @@ extension CleanRooms {
 
     public struct ProtectedJobParameters: AWSEncodableShape & AWSDecodableShape {
         ///  The ARN of the analysis template.
-        public let analysisTemplateArn: String?
+        public let analysisTemplateArn: String
 
         @inlinable
-        public init(analysisTemplateArn: String? = nil) {
+        public init(analysisTemplateArn: String) {
             self.analysisTemplateArn = analysisTemplateArn
         }
 
@@ -9399,6 +9506,7 @@ extension CleanRooms {
         }
 
         public func validate(name: String) throws {
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -9425,6 +9533,47 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case protectedQuery = "protectedQuery"
+        }
+    }
+
+    public struct SyntheticDataColumnProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the data column as it appears in the dataset.
+        public let columnName: String
+        /// The data type of the column, which determines how the synthetic data generation algorithm processes and synthesizes values for this column.
+        public let columnType: SyntheticDataColumnType
+        /// Indicates if this column contains predictive values that should be treated as target variables in machine learning models. This affects how the synthetic data generation preserves statistical relationships.
+        public let isPredictiveValue: Bool
+
+        @inlinable
+        public init(columnName: String, columnType: SyntheticDataColumnType, isPredictiveValue: Bool) {
+            self.columnName = columnName
+            self.columnType = columnType
+            self.isPredictiveValue = isPredictiveValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnName, name: "columnName", parent: name, max: 128)
+            try self.validate(self.columnName, name: "columnName", parent: name, pattern: "^[a-z0-9_](([a-z0-9_]+-)*([a-z0-9_]+))?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case columnType = "columnType"
+            case isPredictiveValue = "isPredictiveValue"
+        }
+    }
+
+    public struct SyntheticDataGenerationPaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates who is responsible for paying for synthetic data generation.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
         }
     }
 
@@ -10309,17 +10458,25 @@ extension CleanRooms {
     public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  The number of workers. SQL queries support a minimum value of 2 and a maximum value of 400.  PySpark jobs support a minimum value of 4 and a maximum value of 128.
         public let number: Int?
+        /// The configuration properties for the worker compute environment. These properties allow you to customize the compute settings for your Clean Rooms workloads.
+        public let properties: WorkerComputeConfigurationProperties?
         ///  The worker compute configuration type.
         public let type: WorkerComputeType?
 
         @inlinable
-        public init(number: Int? = nil, type: WorkerComputeType? = nil) {
+        public init(number: Int? = nil, properties: WorkerComputeConfigurationProperties? = nil, type: WorkerComputeType? = nil) {
             self.number = number
+            self.properties = properties
             self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.properties?.validate(name: "\(name).properties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case number = "number"
+            case properties = "properties"
             case type = "type"
         }
     }
@@ -10377,6 +10534,10 @@ extension CleanRooms {
         @inlinable
         public init(worker: WorkerComputeConfiguration? = nil) {
             self.worker = worker
+        }
+
+        public func validate(name: String) throws {
+            try self.worker?.validate(name: "\(name).worker")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10608,6 +10769,47 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case v1 = "v1"
+        }
+    }
+
+    public struct SyntheticDataParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The machine learning-specific parameters for synthetic data generation.
+        public let mlSyntheticDataParameters: MLSyntheticDataParameters?
+
+        @inlinable
+        public init(mlSyntheticDataParameters: MLSyntheticDataParameters? = nil) {
+            self.mlSyntheticDataParameters = mlSyntheticDataParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.mlSyntheticDataParameters?.validate(name: "\(name).mlSyntheticDataParameters")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlSyntheticDataParameters = "mlSyntheticDataParameters"
+        }
+    }
+
+    public struct WorkerComputeConfigurationProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The Spark configuration properties for SQL workloads. This map contains key-value pairs that configure Apache Spark settings to optimize performance for your data processing jobs. You can specify up to 50 Spark properties, with each key being 1-200 characters and each value being 0-500 characters. These properties allow you to adjust compute capacity for large datasets and complex workloads.
+        public let spark: [String: String]?
+
+        @inlinable
+        public init(spark: [String: String]? = nil) {
+            self.spark = spark
+        }
+
+        public func validate(name: String) throws {
+            try self.spark?.forEach {
+                try validate($0.key, name: "spark.key", parent: name, max: 200)
+                try validate($0.key, name: "spark.key", parent: name, min: 1)
+                try validate($0.value, name: "spark[\"\($0.key)\"]", parent: name, max: 500)
+            }
+            try self.validate(self.spark, name: "spark", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spark = "spark"
         }
     }
 }

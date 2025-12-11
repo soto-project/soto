@@ -41,6 +41,14 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApiStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthorizerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cognitoUserPools = "COGNITO_USER_POOLS"
         case request = "REQUEST"
@@ -99,10 +107,17 @@ extension APIGateway {
 
     public enum DomainNameStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
+        case failed = "FAILED"
         case pending = "PENDING"
         case pendingCertificateReimport = "PENDING_CERTIFICATE_REIMPORT"
         case pendingOwnershipVerification = "PENDING_OWNERSHIP_VERIFICATION"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EndpointAccessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case basic = "BASIC"
+        case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
@@ -188,6 +203,12 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResponseTransferMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case buffered = "BUFFERED"
+        case stream = "STREAM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RoutingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basePathMappingOnly = "BASE_PATH_MAPPING_ONLY"
         case routingRuleOnly = "ROUTING_RULE_ONLY"
@@ -196,6 +217,15 @@ extension APIGateway {
     }
 
     public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case securityPolicyTLS122018EDGE = "SecurityPolicy_TLS12_2018_EDGE"
+        case securityPolicyTLS12PFS2025EDGE = "SecurityPolicy_TLS12_PFS_2025_EDGE"
+        case securityPolicyTLS1312202106 = "SecurityPolicy_TLS13_1_2_2021_06"
+        case securityPolicyTLS1312FIPSPQ202509 = "SecurityPolicy_TLS13_1_2_FIPS_PQ_2025_09"
+        case securityPolicyTLS1312PFSPQ202509 = "SecurityPolicy_TLS13_1_2_PFS_PQ_2025_09"
+        case securityPolicyTLS1312PQ202509 = "SecurityPolicy_TLS13_1_2_PQ_2025_09"
+        case securityPolicyTLS1313202509 = "SecurityPolicy_TLS13_1_3_2025_09"
+        case securityPolicyTLS1313FIPS202509 = "SecurityPolicy_TLS13_1_3_FIPS_2025_09"
+        case securityPolicyTLS132025EDGE = "SecurityPolicy_TLS13_2025_EDGE"
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
         public var description: String { return self.rawValue }
@@ -869,6 +899,8 @@ extension APIGateway {
         public let certificatePrivateKey: String?
         /// The name of the DomainName resource.
         public let domainName: String
+        /// The endpoint access mode of the DomainName. Only available for DomainNames that use security policies that start with SecurityPolicy_.
+        public let endpointAccessMode: EndpointAccessMode?
         /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
@@ -882,19 +914,20 @@ extension APIGateway {
         public let regionalCertificateName: String?
         /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
         public let routingMode: RoutingMode?
-        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
         public let securityPolicy: SecurityPolicy?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointAccessMode: EndpointAccessMode? = nil, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
             self.certificateName = certificateName
             self.certificatePrivateKey = certificatePrivateKey
             self.domainName = domainName
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.mutualTlsAuthentication = mutualTlsAuthentication
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
@@ -913,6 +946,7 @@ extension APIGateway {
             case certificateName = "certificateName"
             case certificatePrivateKey = "certificatePrivateKey"
             case domainName = "domainName"
+            case endpointAccessMode = "endpointAccessMode"
             case endpointConfiguration = "endpointConfiguration"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
             case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
@@ -1037,6 +1071,8 @@ extension APIGateway {
         public let description: String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
         public let disableExecuteApiEndpoint: Bool?
+        /// The endpoint access mode of the RestApi. Only available for RestApis that use security policies that start with SecurityPolicy_.
+        public let endpointAccessMode: EndpointAccessMode?
         /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
@@ -1045,22 +1081,26 @@ extension APIGateway {
         public let name: String
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
         public let policy: String?
+        /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+        public let securityPolicy: SecurityPolicy?
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
         /// A version identifier for the API.
         public let version: String?
 
         @inlinable
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int? = nil, name: String, policy: String? = nil, tags: [String: String]? = nil, version: String? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, cloneFrom: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointAccessMode: EndpointAccessMode? = nil, endpointConfiguration: EndpointConfiguration? = nil, minimumCompressionSize: Int? = nil, name: String, policy: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil, version: String? = nil) {
             self.apiKeySource = apiKeySource
             self.binaryMediaTypes = binaryMediaTypes
             self.cloneFrom = cloneFrom
             self.description = description
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
+            self.securityPolicy = securityPolicy
             self.tags = tags
             self.version = version
         }
@@ -1071,10 +1111,12 @@ extension APIGateway {
             case cloneFrom = "cloneFrom"
             case description = "description"
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case endpointAccessMode = "endpointAccessMode"
             case endpointConfiguration = "endpointConfiguration"
             case minimumCompressionSize = "minimumCompressionSize"
             case name = "name"
             case policy = "policy"
+            case securityPolicy = "securityPolicy"
             case tags = "tags"
             case version = "version"
         }
@@ -1953,6 +1995,8 @@ extension APIGateway {
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public let domainNameStatusMessage: String?
+        /// The endpoint access mode of the DomainName.
+        public let endpointAccessMode: EndpointAccessMode?
         /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
         /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
@@ -1973,13 +2017,13 @@ extension APIGateway {
         public let regionalHostedZoneId: String?
         /// The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
         public let routingMode: RoutingMode?
-        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+        /// The Transport Layer Security (TLS) version + cipher suite for this DomainName.
         public let securityPolicy: SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameId: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, managementPolicy: String? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, domainNameId: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointAccessMode: EndpointAccessMode? = nil, endpointConfiguration: EndpointConfiguration? = nil, managementPolicy: String? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, ownershipVerificationCertificateArn: String? = nil, policy: String? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, routingMode: RoutingMode? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -1990,6 +2034,7 @@ extension APIGateway {
             self.domainNameId = domainNameId
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.managementPolicy = managementPolicy
             self.mutualTlsAuthentication = mutualTlsAuthentication
@@ -2015,6 +2060,7 @@ extension APIGateway {
             case domainNameId = "domainNameId"
             case domainNameStatus = "domainNameStatus"
             case domainNameStatusMessage = "domainNameStatusMessage"
+            case endpointAccessMode = "endpointAccessMode"
             case endpointConfiguration = "endpointConfiguration"
             case managementPolicy = "managementPolicy"
             case mutualTlsAuthentication = "mutualTlsAuthentication"
@@ -3530,12 +3576,16 @@ extension APIGateway {
         public let httpMethod: String?
         /// Specifies the integration's responses.
         public let integrationResponses: [String: IntegrationResponse]?
+        /// The ALB or NLB listener to send the request to.
+        public let integrationTarget: String?
         /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
         public let passthroughBehavior: String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
+        /// The response transfer mode of the integration.
+        public let responseTransferMode: ResponseTransferMode?
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds. You can increase the default value to longer than 29 seconds for Regional or private APIs only.
         public let timeoutInMillis: Int?
         /// Specifies the TLS configuration for an integration.
@@ -3547,7 +3597,7 @@ extension APIGateway {
         public let uri: String?
 
         @inlinable
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType? = nil, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, integrationTarget: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, responseTransferMode: ResponseTransferMode? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType? = nil, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -3556,9 +3606,11 @@ extension APIGateway {
             self.credentials = credentials
             self.httpMethod = httpMethod
             self.integrationResponses = integrationResponses
+            self.integrationTarget = integrationTarget
             self.passthroughBehavior = passthroughBehavior
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
+            self.responseTransferMode = responseTransferMode
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
             self.type = type
@@ -3574,9 +3626,11 @@ extension APIGateway {
             case credentials = "credentials"
             case httpMethod = "httpMethod"
             case integrationResponses = "integrationResponses"
+            case integrationTarget = "integrationTarget"
             case passthroughBehavior = "passthroughBehavior"
             case requestParameters = "requestParameters"
             case requestTemplates = "requestTemplates"
+            case responseTransferMode = "responseTransferMode"
             case timeoutInMillis = "timeoutInMillis"
             case tlsConfig = "tlsConfig"
             case type = "type"
@@ -3953,6 +4007,8 @@ extension APIGateway {
         public let httpMethod: String
         /// The HTTP method for the integration.
         public let integrationHttpMethod: String?
+        /// The ALB or NLB listener to send the request to.
+        public let integrationTarget: String?
         /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values:  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
         public let passthroughBehavior: String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
@@ -3961,6 +4017,8 @@ extension APIGateway {
         public let requestTemplates: [String: String]?
         /// Specifies a put integration request's resource ID.
         public let resourceId: String
+        /// The response transfer mode of the integration.
+        public let responseTransferMode: ResponseTransferMode?
         /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.  You can increase the default value to longer than 29 seconds for Regional or private APIs only.
@@ -3972,7 +4030,7 @@ extension APIGateway {
         public let uri: String?
 
         @inlinable
-        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType, uri: String? = nil) {
+        public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, integrationTarget: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, responseTransferMode: ResponseTransferMode? = nil, restApiId: String, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType, uri: String? = nil) {
             self.cacheKeyParameters = cacheKeyParameters
             self.cacheNamespace = cacheNamespace
             self.connectionId = connectionId
@@ -3981,10 +4039,12 @@ extension APIGateway {
             self.credentials = credentials
             self.httpMethod = httpMethod
             self.integrationHttpMethod = integrationHttpMethod
+            self.integrationTarget = integrationTarget
             self.passthroughBehavior = passthroughBehavior
             self.requestParameters = requestParameters
             self.requestTemplates = requestTemplates
             self.resourceId = resourceId
+            self.responseTransferMode = responseTransferMode
             self.restApiId = restApiId
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
@@ -4003,10 +4063,12 @@ extension APIGateway {
             try container.encodeIfPresent(self.credentials, forKey: .credentials)
             request.encodePath(self.httpMethod, key: "requestHttpMethod")
             try container.encodeIfPresent(self.integrationHttpMethod, forKey: .integrationHttpMethod)
+            try container.encodeIfPresent(self.integrationTarget, forKey: .integrationTarget)
             try container.encodeIfPresent(self.passthroughBehavior, forKey: .passthroughBehavior)
             try container.encodeIfPresent(self.requestParameters, forKey: .requestParameters)
             try container.encodeIfPresent(self.requestTemplates, forKey: .requestTemplates)
             request.encodePath(self.resourceId, key: "resourceId")
+            try container.encodeIfPresent(self.responseTransferMode, forKey: .responseTransferMode)
             request.encodePath(self.restApiId, key: "restApiId")
             try container.encodeIfPresent(self.timeoutInMillis, forKey: .timeoutInMillis)
             try container.encodeIfPresent(self.tlsConfig, forKey: .tlsConfig)
@@ -4022,9 +4084,11 @@ extension APIGateway {
             case contentHandling = "contentHandling"
             case credentials = "credentials"
             case integrationHttpMethod = "httpMethod"
+            case integrationTarget = "integrationTarget"
             case passthroughBehavior = "passthroughBehavior"
             case requestParameters = "requestParameters"
             case requestTemplates = "requestTemplates"
+            case responseTransferMode = "responseTransferMode"
             case timeoutInMillis = "timeoutInMillis"
             case tlsConfig = "tlsConfig"
             case type = "type"
@@ -4372,6 +4436,10 @@ extension APIGateway {
     public struct RestApi: AWSDecodableShape {
         /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public let apiKeySource: ApiKeySourceType?
+        /// The ApiStatus of the RestApi.
+        public let apiStatus: ApiStatus?
+        /// The status message of the RestApi. When the status message is UPDATING you can still invoke it.
+        public let apiStatusMessage: String?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
         /// The timestamp when the API was created.
@@ -4380,6 +4448,8 @@ extension APIGateway {
         public let description: String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
         public let disableExecuteApiEndpoint: Bool?
+        /// The endpoint access mode of the RestApi.
+        public let endpointAccessMode: EndpointAccessMode?
         /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
@@ -4392,6 +4462,8 @@ extension APIGateway {
         public let policy: String?
         /// The API's root resource ID.
         public let rootResourceId: String?
+        /// The Transport Layer Security (TLS) version + cipher suite for this RestApi.
+        public let securityPolicy: SecurityPolicy?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
         /// A version identifier for the API.
@@ -4400,18 +4472,22 @@ extension APIGateway {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiKeySource: ApiKeySourceType? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, rootResourceId: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiKeySource: ApiKeySourceType? = nil, apiStatus: ApiStatus? = nil, apiStatusMessage: String? = nil, binaryMediaTypes: [String]? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, endpointAccessMode: EndpointAccessMode? = nil, endpointConfiguration: EndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, policy: String? = nil, rootResourceId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiKeySource = apiKeySource
+            self.apiStatus = apiStatus
+            self.apiStatusMessage = apiStatusMessage
             self.binaryMediaTypes = binaryMediaTypes
             self.createdDate = createdDate
             self.description = description
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
+            self.endpointAccessMode = endpointAccessMode
             self.endpointConfiguration = endpointConfiguration
             self.id = id
             self.minimumCompressionSize = minimumCompressionSize
             self.name = name
             self.policy = policy
             self.rootResourceId = rootResourceId
+            self.securityPolicy = securityPolicy
             self.tags = tags
             self.version = version
             self.warnings = warnings
@@ -4419,16 +4495,20 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case apiKeySource = "apiKeySource"
+            case apiStatus = "apiStatus"
+            case apiStatusMessage = "apiStatusMessage"
             case binaryMediaTypes = "binaryMediaTypes"
             case createdDate = "createdDate"
             case description = "description"
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
+            case endpointAccessMode = "endpointAccessMode"
             case endpointConfiguration = "endpointConfiguration"
             case id = "id"
             case minimumCompressionSize = "minimumCompressionSize"
             case name = "name"
             case policy = "policy"
             case rootResourceId = "rootResourceId"
+            case securityPolicy = "securityPolicy"
             case tags = "tags"
             case version = "version"
             case warnings = "warnings"

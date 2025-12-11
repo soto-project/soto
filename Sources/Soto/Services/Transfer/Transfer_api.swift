@@ -426,7 +426,7 @@ public struct Transfer: AWSService {
         return try await self.createUser(input, logger: logger)
     }
 
-    /// Creates a web app based on specified parameters, and returns the ID for the new web app.
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     @Sendable
     @inlinable
     public func createWebApp(_ input: CreateWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWebAppResponse {
@@ -439,10 +439,11 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Creates a web app based on specified parameters, and returns the ID for the new web app.
+    /// Creates a web app based on specified parameters, and returns the ID for the new web app. You can configure the web app to be publicly accessible or hosted within a VPC. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     ///
     /// Parameters:
     ///   - accessEndpoint: The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value. Before you enter a custom URL for this parameter, follow the steps described in Update your access endpoint with a custom URL.
+    ///   - endpointDetails: The endpoint configuration for the web app. You can specify whether the web app endpoint is publicly accessible or hosted within a VPC.
     ///   - identityProviderDetails: You can provide a structure that contains the details for the identity provider to use with your web app. For more details about this parameter, see Configure your identity provider for Transfer Family web apps.
     ///   - tags: Key-value pairs that can be used to group and search for web apps.
     ///   - webAppEndpointPolicy:  Setting for the type of endpoint policy for the web app. The default value is STANDARD.  If you are creating the web app in an Amazon Web Services GovCloud (US) Region, you can set this parameter to FIPS.
@@ -451,6 +452,7 @@ public struct Transfer: AWSService {
     @inlinable
     public func createWebApp(
         accessEndpoint: String? = nil,
+        endpointDetails: WebAppEndpointDetails? = nil,
         identityProviderDetails: WebAppIdentityProviderDetails,
         tags: [Tag]? = nil,
         webAppEndpointPolicy: WebAppEndpointPolicy? = nil,
@@ -459,6 +461,7 @@ public struct Transfer: AWSService {
     ) async throws -> CreateWebAppResponse {
         let input = CreateWebAppRequest(
             accessEndpoint: accessEndpoint, 
+            endpointDetails: endpointDetails, 
             identityProviderDetails: identityProviderDetails, 
             tags: tags, 
             webAppEndpointPolicy: webAppEndpointPolicy, 
@@ -1176,7 +1179,7 @@ public struct Transfer: AWSService {
         return try await self.describeUser(input, logger: logger)
     }
 
-    /// Describes the web app that's identified by WebAppId.
+    /// Describes the web app that's identified by WebAppId. The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     @Sendable
     @inlinable
     public func describeWebApp(_ input: DescribeWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWebAppResponse {
@@ -1189,7 +1192,7 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Describes the web app that's identified by WebAppId.
+    /// Describes the web app that's identified by WebAppId. The response includes endpoint configuration details such as whether the web app is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     ///
     /// Parameters:
     ///   - webAppId: Provide the unique identifier for the web app.
@@ -1797,7 +1800,7 @@ public struct Transfer: AWSService {
         return try await self.listUsers(input, logger: logger)
     }
 
-    /// Lists all web apps associated with your Amazon Web Services account for your current region.
+    /// Lists all web apps associated with your Amazon Web Services account for your current region. The response includes the endpoint type for each web app, showing whether it is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     @Sendable
     @inlinable
     public func listWebApps(_ input: ListWebAppsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListWebAppsResponse {
@@ -1810,7 +1813,7 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Lists all web apps associated with your Amazon Web Services account for your current region.
+    /// Lists all web apps associated with your Amazon Web Services account for your current region. The response includes the endpoint type for each web app, showing whether it is publicly accessible or VPC hosted. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return.
@@ -2628,7 +2631,7 @@ public struct Transfer: AWSService {
         return try await self.updateUser(input, logger: logger)
     }
 
-    /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, endpoint configuration, and the web app units. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     @Sendable
     @inlinable
     public func updateWebApp(_ input: UpdateWebAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWebAppResponse {
@@ -2641,10 +2644,11 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Assigns new properties to a web app. You can modify the access point, identity provider details, and the web app units.
+    /// Assigns new properties to a web app. You can modify the access point, identity provider details, endpoint configuration, and the web app units. For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
     ///
     /// Parameters:
     ///   - accessEndpoint: The AccessEndpoint is the URL that you provide to your users for them to interact with the Transfer Family web app. You can specify a custom URL or use the default value.
+    ///   - endpointDetails: The updated endpoint configuration for the web app. You can modify the endpoint type and VPC configuration settings.
     ///   - identityProviderDetails: Provide updated identity provider values in a WebAppIdentityProviderDetails object.
     ///   - webAppId: Provide the identifier of the web app that you are updating.
     ///   - webAppUnits: A union that contains the value for number of concurrent connections or the user sessions on your web app.
@@ -2652,6 +2656,7 @@ public struct Transfer: AWSService {
     @inlinable
     public func updateWebApp(
         accessEndpoint: String? = nil,
+        endpointDetails: UpdateWebAppEndpointDetails? = nil,
         identityProviderDetails: UpdateWebAppIdentityProviderDetails? = nil,
         webAppId: String,
         webAppUnits: WebAppUnits? = nil,
@@ -2659,6 +2664,7 @@ public struct Transfer: AWSService {
     ) async throws -> UpdateWebAppResponse {
         let input = UpdateWebAppRequest(
             accessEndpoint: accessEndpoint, 
+            endpointDetails: endpointDetails, 
             identityProviderDetails: identityProviderDetails, 
             webAppId: webAppId, 
             webAppUnits: webAppUnits

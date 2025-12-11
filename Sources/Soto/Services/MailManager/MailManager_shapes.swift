@@ -449,7 +449,7 @@ extension MailManager {
         public func validate(name: String) throws {
             switch self {
             case .secretArn(let value):
-                try self.validate(value, name: "secretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+$")
+                try self.validate(value, name: "secretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+$")
             case .smtpPassword(let value):
                 try self.validate(value, name: "smtpPassword", parent: name, max: 64)
                 try self.validate(value, name: "smtpPassword", parent: name, min: 8)
@@ -681,7 +681,7 @@ extension MailManager {
         public func validate(name: String) throws {
             switch self {
             case .secretArn(let value):
-                try self.validate(value, name: "secretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+$")
+                try self.validate(value, name: "secretArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc):secretsmanager:[a-z0-9-]+:\\d{12}:secret:[a-zA-Z0-9/_+=,.@-]+$")
             default:
                 break
             }
@@ -1592,7 +1592,7 @@ extension MailManager {
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*[a-zA-Z0-9]$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-eusc):kms:[a-z0-9-]{1,20}:[0-9]{12}:(key|alias)/.+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3853,7 +3853,7 @@ extension MailManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4677,7 +4677,7 @@ extension MailManager {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
             try self.validate(self.topicArn, name: "topicArn", parent: name, max: 2048)
             try self.validate(self.topicArn, name: "topicArn", parent: name, min: 20)
-            try self.validate(self.topicArn, name: "topicArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):sns:[a-z]{2}-[a-z]+-\\d{1}:\\d{12}:[\\w\\-]{1,256}$")
+            try self.validate(self.topicArn, name: "topicArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc):sns:[a-z0-9-]+:\\d{12}:[\\w\\-]{1,256}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4937,7 +4937,7 @@ extension MailManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4991,7 +4991,7 @@ extension MailManager {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-eusc):ses:[a-z0-9-]{1,20}:[0-9]{12}:(mailmanager-|addon-).+$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

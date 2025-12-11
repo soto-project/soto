@@ -111,10 +111,11 @@ public struct ConnectCampaignsV2: AWSService {
     ///   - schedule: 
     ///   - source: 
     ///   - tags: 
+    ///   - type: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createCampaign(
-        channelSubtypeConfig: ChannelSubtypeConfig,
+        channelSubtypeConfig: ChannelSubtypeConfig? = nil,
         communicationLimitsOverride: CommunicationLimitsConfig? = nil,
         communicationTimeConfig: CommunicationTimeConfig? = nil,
         connectCampaignFlowArn: String? = nil,
@@ -123,6 +124,7 @@ public struct ConnectCampaignsV2: AWSService {
         schedule: Schedule? = nil,
         source: Source? = nil,
         tags: [String: String]? = nil,
+        type: ExternalCampaignType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCampaignResponse {
         let input = CreateCampaignRequest(
@@ -134,7 +136,8 @@ public struct ConnectCampaignsV2: AWSService {
             name: name, 
             schedule: schedule, 
             source: source, 
-            tags: tags
+            tags: tags, 
+            type: type
         )
         return try await self.createCampaign(input, logger: logger)
     }

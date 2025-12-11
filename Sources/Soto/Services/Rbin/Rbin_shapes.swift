@@ -44,6 +44,7 @@ extension Rbin {
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ebsSnapshot = "EBS_SNAPSHOT"
+        case ebsVolume = "EBS_VOLUME"
         case ec2Image = "EC2_IMAGE"
         public var description: String { return self.rawValue }
     }
@@ -105,9 +106,9 @@ extension Rbin {
         public let lockConfiguration: LockConfiguration?
         /// [Tag-level retention rules only] Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
         public let resourceTags: [ResourceTag]?
-        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
+        /// The resource type to be retained by the retention rule. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs  are supported.   To retain EBS volumes, specify EBS_VOLUME.   To retain EBS snapshots, specify EBS_SNAPSHOT    To retain EBS-backed AMIs, specify EC2_IMAGE.
         public let resourceType: ResourceType
-        /// Information about the retention period for which the retention rule is to retain resources.
+        /// Information about the retention period for which the retention rule is to  retain resources.
         public let retentionPeriod: RetentionPeriod
         /// Information about the tags to assign to the retention rule.
         public let tags: [Tag]?
@@ -272,7 +273,7 @@ extension Rbin {
         public let resourceTags: [ResourceTag]?
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
-        /// Information about the retention period for which the retention rule is to retain resources.
+        /// Information about the retention period for which the retention rule is to  retain resources.
         public let retentionPeriod: RetentionPeriod?
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let ruleArn: String?
@@ -322,7 +323,7 @@ extension Rbin {
         public let nextToken: String?
         /// [Tag-level retention rules only] Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
-        /// The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
+        /// The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only EBS volumes, EBS snapshots, and EBS-backed AMIs are supported.   To list retention rules that retain EBS volumes, specify EBS_VOLUME.   To list retention rules that retain EBS snapshots, specify EBS_SNAPSHOT.   To list retention rules that retain EBS-backed AMIs, specify EC2_IMAGE.
         public let resourceType: ResourceType
 
         @inlinable
@@ -394,7 +395,7 @@ extension Rbin {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:\\S+:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -554,7 +555,7 @@ extension Rbin {
     public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
         /// The unit of time in which the retention period is measured. Currently, only DAYS  is supported.
         public let retentionPeriodUnit: RetentionPeriodUnit
-        /// The period value for which the retention rule is to retain resources. The period is measured using  the unit specified for RetentionPeriodUnit.
+        /// The period value for which the retention rule is to retain resources, measured in days.  The supported retention periods are:   EBS volumes: 1 - 7 days   EBS snapshots and EBS-backed AMIs: 1 - 365 days
         public let retentionPeriodValue: Int
 
         @inlinable
@@ -581,7 +582,7 @@ extension Rbin {
         public let identifier: String?
         /// [Region-level retention rules only] The lock state for the retention rule.    locked - The retention rule is locked and can't be modified or deleted.    pending_unlock - The retention rule has been unlocked but it is still within  the unlock delay period. The retention rule can be modified or deleted only after the unlock  delay period has expired.    unlocked - The retention rule is unlocked and it can be modified or deleted by  any user with the required permissions.    null - The retention rule has never been locked. Once a retention rule has  been locked, it can transition between the locked and unlocked states  only; it can never transition back to null.
         public let lockState: LockState?
-        /// Information about the retention period for which the retention rule is to retain resources.
+        /// Information about the retention period for which the retention rule is to  retain resources.
         public let retentionPeriod: RetentionPeriod?
         /// The Amazon Resource Name (ARN) of the retention rule.
         public let ruleArn: String?
@@ -668,7 +669,7 @@ extension Rbin {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:\\S+:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -685,7 +686,7 @@ extension Rbin {
     }
 
     public struct UnlockDelay: AWSEncodableShape & AWSDecodableShape {
-        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can  be measure only in days.
+        /// The unit of time in which to measure the unlock delay. Currently, the unlock delay can  be measured only in days.
         public let unlockDelayUnit: UnlockDelayUnit
         /// The unlock delay period, measured in the unit specified for  UnlockDelayUnit.
         public let unlockDelayValue: Int
@@ -804,7 +805,7 @@ extension Rbin {
 
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1011)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[a-z]{1,3}){0,2}:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:\\S+:rbin:[a-z\\-0-9]{0,63}:[0-9]{12}:rule/[0-9a-zA-Z]{11}{0,1011}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -833,7 +834,7 @@ extension Rbin {
         public let resourceTags: [ResourceTag]?
         ///  This parameter is currently not supported. You can't update a retention rule's resource type  after creation.
         public let resourceType: ResourceType?
-        /// Information about the retention period for which the retention rule is to retain resources.
+        /// Information about the retention period for which the retention rule is to  retain resources.
         public let retentionPeriod: RetentionPeriod?
 
         @inlinable

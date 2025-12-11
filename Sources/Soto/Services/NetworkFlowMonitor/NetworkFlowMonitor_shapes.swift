@@ -72,6 +72,7 @@ extension NetworkFlowMonitor {
         case awsRegion = "AWS::Region"
         case awsSubnet = "AWS::EC2::Subnet"
         case awsVpc = "AWS::EC2::VPC"
+        case eksCluster = "AWS::EKS::Cluster"
         public var description: String { return self.rawValue }
     }
 
@@ -893,9 +894,9 @@ extension NetworkFlowMonitor {
     }
 
     public struct MonitorLocalResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the local resource. For a VPC or subnet, this identifier is the VPC Amazon Resource Name (ARN) or subnet ARN. For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.
+        /// The identifier of the local resource. The values you can specify are the following:   For a VPC, subnet or EKS cluster, this identifier is the VPC Amazon Resource Name (ARN), subnet ARN or cluster ARN.   For an Availability Zone, this identifier is the AZ name, for example, us-west-2b.   For a Region, this identifier is the Region name, for example, us-west-2.
         public let identifier: String
-        /// The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, or AWS::Region.
+        /// The type of the local resource. Valid values are AWS::EC2::VPC AWS::AvailabilityZone, AWS::EC2::Subnet, AWS::EKS::Cluster, or AWS::Region.
         public let type: MonitorLocalResourceType
 
         @inlinable

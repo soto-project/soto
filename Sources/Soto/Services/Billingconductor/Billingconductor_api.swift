@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Billingconductor service.
 ///
-/// Amazon Web Services Billing Conductor is a fully managed service that you can use to customize a proforma version of your billing data each month, to accurately show or chargeback your end customers. Amazon Web Services Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Amazon Web Services Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Amazon Web Services Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Amazon Web Services Billing Conductor using its API. For more information about using the Amazon Web Services Billing Conductor user interface, see the  Amazon Web Services Billing Conductor User Guide.
+/// Billing Conductor is a fully managed service that you can use to customize a pro forma version of your billing data each month, to accurately show or chargeback your end customers. Billing Conductor doesn't change the way you're billed by Amazon Web Services each month by design. Instead, it provides you with a mechanism to configure, generate, and display rates to certain customers over a given billing period. You can also analyze the difference between the rates you apply to your accounting groupings relative to your actual rates from Amazon Web Services. As a result of your Billing Conductor configuration, the payer account can also see the custom rate applied on the billing details page of the Billing console, or configure a cost and usage report per billing group. This documentation shows how you can configure Billing Conductor by using its API. For more information about using the Billing Conductor user interface, see the  Billing Conductor User Guide.
 public struct Billingconductor: AWSService {
     // MARK: Member variables
 
@@ -237,7 +237,7 @@ public struct Billingconductor: AWSService {
     ///
     /// Parameters:
     ///   - accountGrouping:  The set of accounts that will be under the billing group. The set of accounts resemble the linked accounts in a consolidated billing family.
-    ///   - clientToken:  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    ///   - clientToken: A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     ///   - computationPreference:  The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
     ///   - description: The description of the billing group.
     ///   - name:  The billing group name. The names must be unique.
@@ -287,9 +287,11 @@ public struct Billingconductor: AWSService {
     ///   - billingGroupArn:  The Amazon Resource Name (ARN) that references the billing group where the custom line item applies to.
     ///   - billingPeriodRange:  A time range for which the custom line item is effective.
     ///   - chargeDetails:  A CustomLineItemChargeDetails that describes the charge details for a custom line item.
-    ///   - clientToken:  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    ///   - clientToken: A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
+    ///   - computationRule:  Specifies how the custom line item charges are computed.
     ///   - description:  The description of the custom line item. This is shown on the Bills page in association with the charge value.
     ///   - name:  The name of the custom line item.
+    ///   - presentationDetails:  Details controlling how the custom line item charges are presented in the bill. Contains specifications for which service the charges will be shown under.
     ///   - tags:  A map that contains tag keys and tag values that are attached to a custom line item.
     ///   - logger: Logger use during operation
     @inlinable
@@ -299,8 +301,10 @@ public struct Billingconductor: AWSService {
         billingPeriodRange: CustomLineItemBillingPeriodRange? = nil,
         chargeDetails: CustomLineItemChargeDetails,
         clientToken: String? = CreateCustomLineItemInput.idempotencyToken(),
+        computationRule: ComputationRuleEnum? = nil,
         description: String,
         name: String,
+        presentationDetails: PresentationObject? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCustomLineItemOutput {
@@ -310,8 +314,10 @@ public struct Billingconductor: AWSService {
             billingPeriodRange: billingPeriodRange, 
             chargeDetails: chargeDetails, 
             clientToken: clientToken, 
+            computationRule: computationRule, 
             description: description, 
             name: name, 
+            presentationDetails: presentationDetails, 
             tags: tags
         )
         return try await self.createCustomLineItem(input, logger: logger)
@@ -333,7 +339,7 @@ public struct Billingconductor: AWSService {
     /// Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
     ///
     /// Parameters:
-    ///   - clientToken:  The token that is needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    ///   - clientToken: A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     ///   - description: The description of the pricing plan.
     ///   - name: The name of the pricing plan. The names must be unique to each pricing plan.
     ///   - pricingRuleArns:  A list of Amazon Resource Names (ARNs) that define the pricing plan parameters.
@@ -375,9 +381,9 @@ public struct Billingconductor: AWSService {
     ///
     /// Parameters:
     ///   - billingEntity:  The seller of services provided by Amazon Web Services, their affiliates, or third-party providers selling services via Amazon Web Services Marketplace.
-    ///   - clientToken:  The token that's needed to support idempotency. Idempotency isn't currently supported, but will be implemented in a future update.
+    ///   - clientToken: A unique, case-sensitive identifier that you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries complete successfully without performing any further actions.
     ///   - description:  The pricing rule description.
-    ///   - modifierPercentage:  A percentage modifier that's applied on the public pricing rates.
+    ///   - modifierPercentage: A percentage modifier that's applied on the public pricing rates. Your entry will be rounded to the nearest 2 decimal places.
     ///   - name:  The pricing rule name. The names must be unique to each pricing rule.
     ///   - operation:  Operation is the specific Amazon Web Services action covered by this line item. This describes the specific usage of the line item.  If the Scope attribute is set to SKU, this attribute indicates which operation the PricingRule is modifying. For example, a value of RunInstances:0202 indicates the operation of running an Amazon EC2 instance.
     ///   - scope:  The scope of pricing rule that indicates if it's globally applicable, or it's service-specific.
@@ -603,7 +609,7 @@ public struct Billingconductor: AWSService {
         return try await self.disassociatePricingRules(input, logger: logger)
     }
 
-    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged  amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
     @Sendable
     @inlinable
     public func getBillingGroupCostReport(_ input: GetBillingGroupCostReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingGroupCostReportOutput {
@@ -616,12 +622,12 @@ public struct Billingconductor: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged  amount (pro forma cost) by Amazon Web Service for a specific billing group.
+    /// Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
     ///
     /// Parameters:
     ///   - arn: The Amazon Resource Number (ARN) that uniquely identifies the billing group.
     ///   - billingPeriodRange: A time range for which the margin summary is effective. You can specify up to 12 months.
-    ///   - groupBy: A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Service name or the billing period.
+    ///   - groupBy: A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period.
     ///   - maxResults: The maximum number of margin summary reports to retrieve.
     ///   - nextToken: The pagination token used on subsequent calls to get reports.
     ///   - logger: Logger use during operation
@@ -1133,7 +1139,7 @@ public struct Billingconductor: AWSService {
     /// This updates an existing billing group.
     ///
     /// Parameters:
-    ///   - accountGrouping: Specifies if the billing group has automatic account
+    ///   - accountGrouping: Specifies if the billing group has automatic account association (AutoAssociate) enabled.
     ///   - arn: The Amazon Resource Name (ARN) of the billing group being updated.
     ///   - computationPreference:  The preferences and settings that will be used to compute the Amazon Web Services charges for a billing group.
     ///   - description: A description of the billing group.
@@ -1255,7 +1261,7 @@ public struct Billingconductor: AWSService {
     /// Parameters:
     ///   - arn:  The Amazon Resource Name (ARN) of the pricing rule to update.
     ///   - description:  The new description for the pricing rule.
-    ///   - modifierPercentage:  The new modifier to show pricing plan rates as a percentage.
+    ///   - modifierPercentage:  The new modifier to show pricing plan rates as a percentage. Your entry will be rounded to the nearest 2 decimal places.
     ///   - name:  The new name of the pricing rule. The name must be unique to each pricing rule.
     ///   - tiering:  The set of tiering configurations for the pricing rule.
     ///   - type:  The new pricing rule type.
@@ -1318,7 +1324,7 @@ extension Billingconductor {
     /// - Parameters:
     ///   - arn: The Amazon Resource Number (ARN) that uniquely identifies the billing group.
     ///   - billingPeriodRange: A time range for which the margin summary is effective. You can specify up to 12 months.
-    ///   - groupBy: A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Service name or the billing period.
+    ///   - groupBy: A list of strings that specify the attributes that are used to break down costs in the margin summary reports for the billing group. For example, you can view your costs by the Amazon Web Services service name or the billing period.
     ///   - maxResults: The maximum number of margin summary reports to retrieve.
     ///   - logger: Logger used for logging
     @inlinable

@@ -88,6 +88,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum RebalancingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case paused = "PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReplicationStartingPositionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case earliest = "EARLIEST"
         case latest = "LATEST"
@@ -121,6 +127,14 @@ extension Kafka {
         case none = "NONE"
         case snappy = "SNAPPY"
         case zstd = "ZSTD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TopicState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -573,6 +587,8 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// Settings for open monitoring using Prometheus.
         public let openMonitoring: OpenMonitoring?
+        /// Contains information about intelligent rebalancing for new MSK Provisioned clusters with Express brokers. By default, intelligent rebalancing status is ACTIVE.
+        public let rebalancing: Rebalancing?
         /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
         public let state: ClusterState?
         public let stateInfo: StateInfo?
@@ -586,7 +602,7 @@ extension Kafka {
         public let zookeeperConnectStringTls: String?
 
         @inlinable
-        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+        public init(activeOperationArn: String? = nil, brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterArn: String? = nil, clusterName: String? = nil, creationTime: Date? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, currentVersion: String? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, rebalancing: Rebalancing? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.activeOperationArn = activeOperationArn
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
@@ -601,6 +617,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.state = state
             self.stateInfo = stateInfo
             self.storageMode = storageMode
@@ -624,6 +641,7 @@ extension Kafka {
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
+            case rebalancing = "rebalancing"
             case state = "state"
             case stateInfo = "stateInfo"
             case storageMode = "storageMode"
@@ -1095,13 +1113,15 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// Specifies if intelligent rebalancing should be turned on for the new MSK Provisioned cluster with Express brokers. By default, intelligent rebalancing status is ACTIVE for all new clusters.
+        public let rebalancing: Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
         /// Create tags when creating the cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterName: String? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, clusterName: String? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil, tags: [String: String]? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.clusterName = clusterName
@@ -1112,6 +1132,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
             self.tags = tags
         }
@@ -1137,6 +1158,7 @@ extension Kafka {
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
+            case rebalancing = "rebalancing"
             case storageMode = "storageMode"
             case tags = "tags"
         }
@@ -1912,6 +1934,115 @@ extension Kafka {
             case serviceExecutionRoleArn = "serviceExecutionRoleArn"
             case stateInfo = "stateInfo"
             case tags = "tags"
+        }
+    }
+
+    public struct DescribeTopicPartitionsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+        public let maxResults: Int?
+        /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
+        public let nextToken: String?
+        /// The Kafka topic name that uniquely identifies the topic.
+        public let topicName: String
+
+        @inlinable
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil, topicName: String) {
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.topicName = topicName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.topicName, key: "TopicName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTopicPartitionsResponse: AWSDecodableShape {
+        /// The paginated results marker. When the result of a DescribeTopicPartitions operation is truncated, the call returns NextToken in the response.  To get another batch of configurations, provide this token in your next request.
+        public let nextToken: String?
+        /// The list of partition information for the topic.
+        public let partitions: [TopicPartitionInfo]?
+
+        @inlinable
+        public init(nextToken: String? = nil, partitions: [TopicPartitionInfo]? = nil) {
+            self.nextToken = nextToken
+            self.partitions = partitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case partitions = "partitions"
+        }
+    }
+
+    public struct DescribeTopicRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The Kafka topic name that uniquely identifies the topic.
+        public let topicName: String
+
+        @inlinable
+        public init(clusterArn: String, topicName: String) {
+            self.clusterArn = clusterArn
+            self.topicName = topicName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodePath(self.topicName, key: "TopicName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTopicResponse: AWSDecodableShape {
+        /// Topic configurations encoded as a Base64 string.
+        public let configs: String?
+        /// The partition count of the topic.
+        public let partitionCount: Int?
+        /// The replication factor of the topic.
+        public let replicationFactor: Int?
+        /// The status of the topic.
+        public let status: TopicState?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The Kafka topic name of the topic.
+        public let topicName: String?
+
+        @inlinable
+        public init(configs: String? = nil, partitionCount: Int? = nil, replicationFactor: Int? = nil, status: TopicState? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.configs = configs
+            self.partitionCount = partitionCount
+            self.replicationFactor = replicationFactor
+            self.status = status
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configs = "configs"
+            case partitionCount = "partitionCount"
+            case replicationFactor = "replicationFactor"
+            case status = "status"
+            case topicArn = "topicArn"
+            case topicName = "topicName"
         }
     }
 
@@ -2958,6 +3089,59 @@ extension Kafka {
         }
     }
 
+    public struct ListTopicsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+        public let maxResults: Int?
+        /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
+        public let nextToken: String?
+        /// Returns topics starting with given name.
+        public let topicNameFilter: String?
+
+        @inlinable
+        public init(clusterArn: String, maxResults: Int? = nil, nextToken: String? = nil, topicNameFilter: String? = nil) {
+            self.clusterArn = clusterArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.topicNameFilter = topicNameFilter
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.topicNameFilter, key: "topicNameFilter")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTopicsResponse: AWSDecodableShape {
+        /// The paginated results marker. When the result of a ListTopics operation is truncated, the call returns NextToken in the response.  To get another batch of configurations, provide this token in your next request.
+        public let nextToken: String?
+        /// List containing topics info.
+        public let topics: [TopicInfo]?
+
+        @inlinable
+        public init(nextToken: String? = nil, topics: [TopicInfo]? = nil) {
+            self.nextToken = nextToken
+            self.topics = topics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case topics = "topics"
+        }
+    }
+
     public struct ListVpcConnectionsRequest: AWSEncodableShape {
         /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
         public let maxResults: Int?
@@ -3041,11 +3225,13 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoring?
+        /// Describes the intelligent rebalancing configuration of an MSK Provisioned cluster with Express brokers.
+        public let rebalancing: Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
 
         @inlinable
-        public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, storageMode: StorageMode? = nil) {
+        public init(brokerCountUpdateInfo: BrokerCountUpdateInfo? = nil, brokerEBSVolumeInfo: [BrokerEBSVolumeInfo]? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, connectivityInfo: ConnectivityInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, instanceType: String? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoring? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil) {
             self.brokerCountUpdateInfo = brokerCountUpdateInfo
             self.brokerEBSVolumeInfo = brokerEBSVolumeInfo
             self.clientAuthentication = clientAuthentication
@@ -3058,6 +3244,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
 
@@ -3074,6 +3261,7 @@ extension Kafka {
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
+            case rebalancing = "rebalancing"
             case storageMode = "storageMode"
         }
     }
@@ -3245,6 +3433,8 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// Specifies whether or not intelligent rebalancing is turned on for a newly created MSK Provisioned cluster with Express brokers. Intelligent rebalancing performs automatic partition balancing operations when you scale your clusters up or down.  By default, intelligent rebalancing is ACTIVE for all new Express-based clusters.
+        public let rebalancing: Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
         /// The connection string to use to connect to the Apache ZooKeeper cluster.
@@ -3253,7 +3443,7 @@ extension Kafka {
         public let zookeeperConnectStringTls: String?
 
         @inlinable
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, customerActionStatus: CustomerActionStatus? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
@@ -3263,6 +3453,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
             self.zookeeperConnectString = zookeeperConnectString
             self.zookeeperConnectStringTls = zookeeperConnectStringTls
@@ -3278,6 +3469,7 @@ extension Kafka {
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
+            case rebalancing = "rebalancing"
             case storageMode = "storageMode"
             case zookeeperConnectString = "zookeeperConnectString"
             case zookeeperConnectStringTls = "zookeeperConnectStringTls"
@@ -3303,11 +3495,13 @@ extension Kafka {
         public let numberOfBrokerNodes: Int?
         /// The settings for open monitoring.
         public let openMonitoring: OpenMonitoringInfo?
+        /// Specifies if intelligent rebalancing is turned on for your MSK Provisioned cluster with Express brokers. For all new Express-based clusters that you create, intelligent rebalancing is turned on by default.
+        public let rebalancing: Rebalancing?
         /// This controls storage mode for supported storage tiers.
         public let storageMode: StorageMode?
 
         @inlinable
-        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, storageMode: StorageMode? = nil) {
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo? = nil, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int? = nil, openMonitoring: OpenMonitoringInfo? = nil, rebalancing: Rebalancing? = nil, storageMode: StorageMode? = nil) {
             self.brokerNodeGroupInfo = brokerNodeGroupInfo
             self.clientAuthentication = clientAuthentication
             self.configurationInfo = configurationInfo
@@ -3317,6 +3511,7 @@ extension Kafka {
             self.loggingInfo = loggingInfo
             self.numberOfBrokerNodes = numberOfBrokerNodes
             self.openMonitoring = openMonitoring
+            self.rebalancing = rebalancing
             self.storageMode = storageMode
         }
 
@@ -3338,6 +3533,7 @@ extension Kafka {
             case loggingInfo = "loggingInfo"
             case numberOfBrokerNodes = "numberOfBrokerNodes"
             case openMonitoring = "openMonitoring"
+            case rebalancing = "rebalancing"
             case storageMode = "storageMode"
         }
     }
@@ -3414,6 +3610,20 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case currentVersion = "currentVersion"
+        }
+    }
+
+    public struct Rebalancing: AWSEncodableShape & AWSDecodableShape {
+        /// Intelligent rebalancing status. The default intelligent rebalancing status is ACTIVE for all new Express-based clusters.
+        public let status: RebalancingStatus?
+
+        @inlinable
+        public init(status: RebalancingStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
         }
     }
 
@@ -3887,6 +4097,62 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case invalidParameter = "invalidParameter"
             case message = "message"
+        }
+    }
+
+    public struct TopicInfo: AWSDecodableShape {
+        /// Number of out-of-sync replicas for a topic.
+        public let outOfSyncReplicaCount: Int?
+        /// Partition count for a topic.
+        public let partitionCount: Int?
+        /// Replication factor for a topic.
+        public let replicationFactor: Int?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// Name for a topic.
+        public let topicName: String?
+
+        @inlinable
+        public init(outOfSyncReplicaCount: Int? = nil, partitionCount: Int? = nil, replicationFactor: Int? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.outOfSyncReplicaCount = outOfSyncReplicaCount
+            self.partitionCount = partitionCount
+            self.replicationFactor = replicationFactor
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outOfSyncReplicaCount = "outOfSyncReplicaCount"
+            case partitionCount = "partitionCount"
+            case replicationFactor = "replicationFactor"
+            case topicArn = "topicArn"
+            case topicName = "topicName"
+        }
+    }
+
+    public struct TopicPartitionInfo: AWSDecodableShape {
+        /// The list of in-sync replica broker IDs for the partition.
+        public let isr: [Int]?
+        /// The leader broker ID for the partition.
+        public let leader: Int?
+        /// The partition ID.
+        public let partition: Int?
+        /// The list of replica broker IDs for the partition.
+        public let replicas: [Int]?
+
+        @inlinable
+        public init(isr: [Int]? = nil, leader: Int? = nil, partition: Int? = nil, replicas: [Int]? = nil) {
+            self.isr = isr
+            self.leader = leader
+            self.partition = partition
+            self.replicas = replicas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isr = "isr"
+            case leader = "leader"
+            case partition = "partition"
+            case replicas = "replicas"
         }
     }
 
@@ -4431,6 +4697,53 @@ extension Kafka {
 
     public struct UpdateMonitoringResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The Amazon Resource Name (ARN) of the cluster operation.
+        public let clusterOperationArn: String?
+
+        @inlinable
+        public init(clusterArn: String? = nil, clusterOperationArn: String? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterOperationArn = clusterOperationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "clusterArn"
+            case clusterOperationArn = "clusterOperationArn"
+        }
+    }
+
+    public struct UpdateRebalancingRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String
+        /// The current version of the cluster.
+        public let currentVersion: String?
+        /// Specifies if intelligent rebalancing should be turned on for your cluster. The default intelligent rebalancing status is ACTIVE for all new MSK Provisioned clusters that you create with Express brokers.
+        public let rebalancing: Rebalancing?
+
+        @inlinable
+        public init(clusterArn: String, currentVersion: String? = nil, rebalancing: Rebalancing? = nil) {
+            self.clusterArn = clusterArn
+            self.currentVersion = currentVersion
+            self.rebalancing = rebalancing
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.currentVersion, forKey: .currentVersion)
+            try container.encodeIfPresent(self.rebalancing, forKey: .rebalancing)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion = "currentVersion"
+            case rebalancing = "rebalancing"
+        }
+    }
+
+    public struct UpdateRebalancingResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster whose intelligent rebalancing status you've updated.
         public let clusterArn: String?
         /// The Amazon Resource Name (ARN) of the cluster operation.
         public let clusterOperationArn: String?

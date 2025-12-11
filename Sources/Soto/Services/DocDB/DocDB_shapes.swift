@@ -31,6 +31,19 @@ extension DocDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum FailoverStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelling = "cancelling"
+        case failingOver = "failing-over"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlobalClusterMemberSynchronizationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case connected = "connected"
+        case pendingResync = "pending-resync"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbCluster = "db-cluster"
         case dbClusterSnapshot = "db-cluster-snapshot"
@@ -2622,6 +2635,32 @@ extension DocDB {
         }
     }
 
+    public struct FailoverState: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being demoted, and which is associated with this state.
+        public let fromDbClusterArn: String?
+        /// Indicates whether the operation is a global switchover or a global failover.  If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public let isDataLossAllowed: Bool?
+        /// The current status of the global cluster. Possible values are as follows:    pending – The service received a request to switch over or fail over the global cluster.  The global cluster's primary cluster and the specified secondary cluster are being verified before the operation starts.    failing-over – The chosen secondary cluster is being promoted to become the new primary cluster to fail over the global cluster.    cancelling – The request to switch over or fail over the global cluster was cancelled and the primary cluster and the selected secondary cluster are returning to their previous states.
+        public let status: FailoverStatus?
+        /// The Amazon Resource Name (ARN) of the Amazon DocumentDB cluster that is currently being promoted, and which is associated with this state.
+        public let toDbClusterArn: String?
+
+        @inlinable
+        public init(fromDbClusterArn: String? = nil, isDataLossAllowed: Bool? = nil, status: FailoverStatus? = nil, toDbClusterArn: String? = nil) {
+            self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
+            self.status = status
+            self.toDbClusterArn = toDbClusterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromDbClusterArn = "FromDbClusterArn"
+            case isDataLossAllowed = "IsDataLossAllowed"
+            case status = "Status"
+            case toDbClusterArn = "ToDbClusterArn"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
 
@@ -2645,6 +2684,7 @@ extension DocDB {
 
     public struct GlobalCluster: AWSDecodableShape {
         public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The default database name within the new global cluster.
         public let databaseName: String?
@@ -2654,6 +2694,8 @@ extension DocDB {
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster.  This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
+        public let failoverState: FailoverState?
         /// The Amazon Resource Name (ARN) for the global cluster.
         public let globalClusterArn: String?
         /// Contains a user-supplied global  cluster identifier. This identifier is the unique key that identifies a global cluster.
@@ -2667,19 +2709,24 @@ extension DocDB {
         public let status: String?
         /// The storage encryption setting for the global cluster.
         public let storageEncrypted: Bool?
+        /// A list of global cluster tags.
+        @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
+        public var tagList: [Tag]?
 
         @inlinable
-        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
+        public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, failoverState: FailoverState? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil) {
             self.databaseName = databaseName
             self.deletionProtection = deletionProtection
             self.engine = engine
             self.engineVersion = engineVersion
+            self.failoverState = failoverState
             self.globalClusterArn = globalClusterArn
             self.globalClusterIdentifier = globalClusterIdentifier
             self.globalClusterMembers = globalClusterMembers
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2687,12 +2734,14 @@ extension DocDB {
             case deletionProtection = "DeletionProtection"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
+            case failoverState = "FailoverState"
             case globalClusterArn = "GlobalClusterArn"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
             case globalClusterMembers = "GlobalClusterMembers"
             case globalClusterResourceId = "GlobalClusterResourceId"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case tagList = "TagList"
         }
     }
 
@@ -2704,18 +2753,22 @@ extension DocDB {
         /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Amazon DocumentDB global cluster.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var readers: [String]?
+        /// The status of synchronization of each Amazon DocumentDB cluster in the global cluster.
+        public let synchronizationStatus: GlobalClusterMemberSynchronizationStatus?
 
         @inlinable
-        public init(dbClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil) {
+        public init(dbClusterArn: String? = nil, isWriter: Bool? = nil, readers: [String]? = nil, synchronizationStatus: GlobalClusterMemberSynchronizationStatus? = nil) {
             self.dbClusterArn = dbClusterArn
             self.isWriter = isWriter
             self.readers = readers
+            self.synchronizationStatus = synchronizationStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbClusterArn = "DBClusterArn"
             case isWriter = "IsWriter"
             case readers = "Readers"
+            case synchronizationStatus = "SynchronizationStatus"
         }
     }
 

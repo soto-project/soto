@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS RedshiftServerless service.
 ///
-/// This is an interface reference for Amazon Redshift Serverless.  It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the  underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high  performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.  To learn more about Amazon Redshift Serverless, see What is Amazon Redshift Serverless?.
+/// This is an interface reference for Amazon Redshift Serverless. It contains documentation for one of the programming or command line interfaces you can use to manage Amazon Redshift Serverless.  Amazon Redshift Serverless automatically provisions data warehouse capacity and intelligently scales the underlying resources based on workload demands. Amazon Redshift Serverless adjusts capacity in seconds to deliver consistently high performance and simplified operations for even the most demanding and volatile workloads. Amazon Redshift Serverless lets you focus on using your data to acquire new insights for your business and customers.   To learn more about Amazon Redshift Serverless, see What is Amazon Redshift Serverless?.
 public struct RedshiftServerless: AWSService {
     // MARK: Member variables
 
@@ -92,7 +92,7 @@ public struct RedshiftServerless: AWSService {
 
     // MARK: API Calls
 
-    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots,  see Working with snapshots and recovery points.
+    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
     @Sendable
     @inlinable
     public func convertRecoveryPointToSnapshot(_ input: ConvertRecoveryPointToSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ConvertRecoveryPointToSnapshotResponse {
@@ -105,13 +105,13 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots,  see Working with snapshots and recovery points.
+    /// Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
     ///
     /// Parameters:
     ///   - recoveryPointId: The unique identifier of the recovery point.
     ///   - retentionPeriod: How long to retain the snapshot.
     ///   - snapshotName: The name of the snapshot.
-    ///   - tags: An array of Tag objects  to associate with the created snapshot.
+    ///   - tags: An array of Tag objects to associate with the created snapshot.
     ///   - logger: Logger use during operation
     @inlinable
     public func convertRecoveryPointToSnapshot(
@@ -181,10 +181,10 @@ public struct RedshiftServerless: AWSService {
     /// Creates an Amazon Redshift Serverless managed VPC endpoint.
     ///
     /// Parameters:
-    ///   - endpointName: The name of the VPC endpoint. An endpoint name must contain 1-30 characters.  Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter.  The name can't contain two consecutive hyphens or end with a hyphen.
+    ///   - endpointName: The name of the VPC endpoint. An endpoint name must contain 1-30 characters. Valid characters are A-Z, a-z, 0-9, and hyphen(-). The first character must be a letter. The name can't contain two consecutive hyphens or end with a hyphen.
     ///   - ownerAccount: The owner Amazon Web Services account for the Amazon Redshift Serverless workgroup.
-    ///   - subnetIds: The unique identifers of subnets from which  Amazon Redshift Serverless chooses one to deploy a VPC endpoint.
-    ///   - vpcSecurityGroupIds: The unique identifiers of the security group that defines the ports,  protocols, and sources for inbound traffic that you are authorizing into your endpoint.
+    ///   - subnetIds: The unique identifers of subnets from which Amazon Redshift Serverless chooses one to deploy a VPC endpoint.
+    ///   - vpcSecurityGroupIds: The unique identifiers of the security group that defines the ports, protocols, and sources for inbound traffic that you are authorizing into your endpoint.
     ///   - workgroupName: The name of the workgroup to associate with the VPC endpoint.
     ///   - logger: Logger use during operation
     @inlinable
@@ -222,15 +222,15 @@ public struct RedshiftServerless: AWSService {
     /// Creates a namespace in Amazon Redshift Serverless.
     ///
     /// Parameters:
-    ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+    ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     ///   - adminUsername: The username of the administrator for the first database created in the namespace.
     ///   - adminUserPassword: The password of the administrator for the first database created in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
     ///   - dbName: The name of the first database created in the namespace.
     ///   - defaultIamRoleArn: The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace.
     ///   - iamRoles: A list of IAM roles to associate with the namespace.
     ///   - kmsKeyId: The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
-    ///   - logExports: The types of logs the namespace can export.  Available export types are userlog, connectionlog, and useractivitylog.
-    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+    ///   - logExports: The types of logs the namespace can export. Available export types are userlog, connectionlog, and useractivitylog.
+    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
     ///   - namespaceName: The name of the namespace.
     ///   - redshiftIdcApplicationArn: The ARN for the Redshift application that integrates with IAM Identity Center.
     ///   - tags: A list of tag instances.
@@ -268,7 +268,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
-    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     @Sendable
     @inlinable
     public func createReservation(_ input: CreateReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReservationResponse {
@@ -281,11 +281,11 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    /// Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     ///
     /// Parameters:
     ///   - capacity: The number of Redshift Processing Units (RPUs) to reserve.
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services  SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
     ///   - offeringId: The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -303,7 +303,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.createReservation(input, logger: logger)
     }
 
-    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action.  For example, you can create a schedule of when to run the CreateSnapshot API operation.
+    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation.
     @Sendable
     @inlinable
     public func createScheduledAction(_ input: CreateScheduledActionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduledActionResponse {
@@ -316,14 +316,14 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action.  For example, you can create a schedule of when to run the CreateSnapshot API operation.
+    /// Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the CreateSnapshot API operation.
     ///
     /// Parameters:
-    ///   - enabled: Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state  of the scheduled action, see ScheduledAction.
+    ///   - enabled: Indicates whether the schedule is enabled. If false, the scheduled action does not trigger. For more information about state of the scheduled action, see ScheduledAction.
     ///   - endTime: The end time in UTC when the schedule is no longer active. After this time, the scheduled action does not trigger.
     ///   - namespaceName: The name of the namespace for which to create a scheduled action.
-    ///   - roleArn: The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
-    ///   - schedule: The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+    ///   - roleArn: The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
+    ///   - schedule: The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
     ///   - scheduledActionDescription: The description of the scheduled action.
     ///   - scheduledActionName: The name of the scheduled action.
     ///   - startTime: The start time in UTC when the schedule is active. Before this time, the scheduled action does not trigger.
@@ -356,7 +356,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.createScheduledAction(input, logger: logger)
     }
 
-    /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see   Working with snapshots and recovery points.
+    /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see  Working with snapshots and recovery points.
     @Sendable
     @inlinable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotResponse {
@@ -369,7 +369,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see   Working with snapshots and recovery points.
+    /// Creates a snapshot of all databases in a namespace. For more information about snapshots, see  Working with snapshots and recovery points.
     ///
     /// Parameters:
     ///   - namespaceName: The namespace to create a snapshot for.
@@ -490,8 +490,8 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - baseCapacity: The base data warehouse capacity of the workgroup in Redshift Processing Units (RPUs).
-    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
-    ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
+    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+    ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC instead of over the internet.
     ///   - ipAddressType: The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - namespaceName: The name of the namespace to associate with the workgroup.
@@ -501,7 +501,7 @@ public struct RedshiftServerless: AWSService {
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
     ///   - tags: A array of tag instances.
-    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
     ///   - workgroupName: The name of the created workgroup.
     ///   - logger: Logger use during operation
     @inlinable
@@ -602,7 +602,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.deleteEndpointAccess(input, logger: logger)
     }
 
-    /// Deletes a namespace from Amazon Redshift Serverless.  Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
+    /// Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
     @Sendable
     @inlinable
     public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNamespaceResponse {
@@ -615,7 +615,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Deletes a namespace from Amazon Redshift Serverless.  Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
+    /// Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
     ///
     /// Parameters:
     ///   - finalSnapshotName: The name of the snapshot to be created before the namespace is deleted.
@@ -811,7 +811,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.deleteWorkgroup(input, logger: logger)
     }
 
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources. If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     @Sendable
     @inlinable
     public func getCredentials(_ input: GetCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCredentialsResponse {
@@ -824,11 +824,11 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.  You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs  GetCredentials must have an IAM policy attached that allows access to all  necessary actions and resources. If the DbName parameter is specified, the IAM policy must  allow access to the resource dbname for the specified database name.
+    /// Returns a database user name and temporary password with temporary authorization to log in to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds. You can optionally specify a duration between 900 seconds (15 minutes) and 3600 seconds (60 minutes). The Identity and Access Management (IAM) user or role that runs GetCredentials must have an IAM policy attached that allows access to all necessary actions and resources. If the DbName parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
     ///
     /// Parameters:
     ///   - customDomainName: The custom domain name associated with the workgroup. The custom domain name or the workgroup name must be included in the request.
-    ///   - dbName: The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found  in Reserved Words   in the Amazon Redshift Database Developer Guide
+    ///   - dbName: The name of the database to get temporary authorization to log on to. Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.   Must not contain a colon ( : ) or slash ( / ).   Cannot be a reserved word. A list of reserved words can be found in Reserved Words  in the Amazon Redshift Database Developer Guide
     ///   - durationSeconds: The number of seconds until the returned temporary password expires. The minimum is 900 seconds, and the maximum is 3600 seconds.
     ///   - workgroupName: The name of the workgroup associated with the database.
     ///   - logger: Logger use during operation
@@ -910,6 +910,35 @@ public struct RedshiftServerless: AWSService {
         return try await self.getEndpointAccess(input, logger: logger)
     }
 
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
+    @Sendable
+    @inlinable
+    public func getIdentityCenterAuthToken(_ input: GetIdentityCenterAuthTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityCenterAuthTokenResponse {
+        try await self.client.execute(
+            operation: "GetIdentityCenterAuthToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns an Identity Center authentication token for accessing Amazon Redshift Serverless workgroups. The token provides secure access to data within the specified workgroups using Identity Center identity propagation. The token expires after a specified duration and must be refreshed for continued access. The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
+    ///
+    /// Parameters:
+    ///   - workgroupNames: A list of workgroup names for which to generate the Identity Center authentication token. Constraints:   Must contain between 1 and 20 workgroup names.   Each workgroup name must be a valid Amazon Redshift Serverless workgroup identifier.   All specified workgroups must have Identity Center integration enabled.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIdentityCenterAuthToken(
+        workgroupNames: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIdentityCenterAuthTokenResponse {
+        let input = GetIdentityCenterAuthTokenRequest(
+            workgroupNames: workgroupNames
+        )
+        return try await self.getIdentityCenterAuthToken(input, logger: logger)
+    }
+
     /// Returns information about a namespace in Amazon Redshift Serverless.
     @Sendable
     @inlinable
@@ -968,7 +997,7 @@ public struct RedshiftServerless: AWSService {
         return try await self.getRecoveryPoint(input, logger: logger)
     }
 
-    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     @Sendable
     @inlinable
     public func getReservation(_ input: GetReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetReservationResponse {
@@ -981,7 +1010,7 @@ public struct RedshiftServerless: AWSService {
             logger: logger
         )
     }
-    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs)  for a year at a discount from Serverless on-demand (OD) rates.
+    /// Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
     ///
     /// Parameters:
     ///   - reservationId: The ID of the reservation to retrieve.
@@ -1254,7 +1283,7 @@ public struct RedshiftServerless: AWSService {
     ///   - customDomainCertificateArn: The custom domain name’s certificate Amazon resource name (ARN).
     ///   - customDomainName: The custom domain name associated with the workgroup.
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
-    ///   - nextToken: When nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+    ///   - nextToken: When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCustomDomainAssociations(
@@ -1330,9 +1359,9 @@ public struct RedshiftServerless: AWSService {
     /// Returns information about a list of specified managed workgroups in your account.
     ///
     /// Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
-    ///   - nextToken: If your initial ListManagedWorkgroups operation returns a nextToken,  you can include the returned nextToken in following ListManagedWorkgroups  operations, which returns results in the next page.
-    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    ///   - nextToken: If your initial ListManagedWorkgroups operation returns a nextToken, you can include the returned nextToken in following ListManagedWorkgroups operations, which returns results in the next page.
+    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
     ///   - logger: Logger use during operation
     @inlinable
     public func listManagedWorkgroups(
@@ -1507,7 +1536,7 @@ public struct RedshiftServerless: AWSService {
     /// Parameters:
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. Use nextToken to display the next page of results.
     ///   - namespaceName: The name of namespace associated with the scheduled action to retrieve.
-    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listScheduledActions(
@@ -1542,7 +1571,7 @@ public struct RedshiftServerless: AWSService {
     /// Parameters:
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     ///   - namespaceName: The namespace from which to list all snapshot copy configurations.
-    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using  the returned token to retrieve the next page.
+    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listSnapshotCopyConfigurations(
@@ -1579,7 +1608,7 @@ public struct RedshiftServerless: AWSService {
     ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     ///   - namespaceArn: The Amazon Resource Name (ARN) of the namespace from which to list all snapshots.
     ///   - namespaceName: The namespace from which to list all snapshots.
-    ///   - nextToken: If nextToken is returned, there are more results available.  The value of nextToken is a unique pagination token for each page.  Make the call again using the returned token to retrieve the next page.
+    ///   - nextToken: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
     ///   - ownerAccount: The owner Amazon Web Services account of the snapshot.
     ///   - startTime: The time when the creation of the snapshot was initiated.
     ///   - logger: Logger use during operation
@@ -1622,9 +1651,9 @@ public struct RedshiftServerless: AWSService {
     /// Returns information about an array of TableRestoreStatus objects.
     ///
     /// Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number of results to  return. You can use nextToken to display the next page of results.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     ///   - namespaceName: The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
-    ///   - nextToken: If your initial ListTableRestoreStatus operation returns a nextToken,  you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
+    ///   - nextToken: If your initial ListTableRestoreStatus operation returns a nextToken, you can include the returned nextToken in following ListTableRestoreStatus operations. This will return results on the next page.
     ///   - workgroupName: The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1689,8 +1718,8 @@ public struct RedshiftServerless: AWSService {
     /// List the Amazon Redshift Serverless versions.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
-    ///   - nextToken: If your initial ListTracksRequest operation returns a  nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
+    ///   - maxResults: The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+    ///   - nextToken: If your initial ListTracksRequest operation returns a nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTracks(
@@ -1794,7 +1823,7 @@ public struct RedshiftServerless: AWSService {
     /// Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
     ///
     /// Parameters:
-    ///   - policy: The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot.  "{\"Version\": \"2012-10-17\", \"Statement\" :  [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\":  [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
+    ///   - policy: The policy to create or update. For example, the following policy grants a user authorization to restore a snapshot.  "{\"Version\": \"2012-10-17\", \"Statement\" : [{ \"Sid\": \"AllowUserRestoreFromSnapshot\", \"Principal\":{\"AWS\": [\"739247239426\"]}, \"Action\": [\"redshift-serverless:RestoreFromSnapshot\"] , \"Effect\": \"Allow\" }]}"
     ///   - resourceArn: The Amazon Resource Name (ARN) of the account to create or update a resource policy for.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1862,7 +1891,7 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.
-    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the restored  snapshot's admin credentials. If MmanageAdminPassword is false or not set,  Amazon Redshift uses the admin credentials that the namespace or cluster  had at the time the snapshot was taken.
+    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon Redshift uses the admin credentials that the namespace or cluster had at the time the snapshot was taken.
     ///   - namespaceName: The name of the namespace to restore the snapshot to.
     ///   - ownerAccount: The Amazon Web Services account that owns the snapshot.
     ///   - snapshotArn: The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
@@ -1964,7 +1993,7 @@ public struct RedshiftServerless: AWSService {
     /// Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
     ///
     /// Parameters:
-    ///   - activateCaseSensitiveIdentifier: Indicates whether name identifiers for database, schema, and table  are case sensitive. If true, the names are case sensitive. If  false, the names are not case sensitive. The default is false.
+    ///   - activateCaseSensitiveIdentifier: Indicates whether name identifiers for database, schema, and table are case sensitive. If true, the names are case sensitive. If false, the names are not case sensitive. The default is false.
     ///   - namespaceName: The namespace of the snapshot to restore from.
     ///   - newTableName: The name of the table to create from the restore operation.
     ///   - snapshotName: The name of the snapshot to restore the table from.
@@ -2135,6 +2164,50 @@ public struct RedshiftServerless: AWSService {
         return try await self.updateEndpointAccess(input, logger: logger)
     }
 
+    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    @Sendable
+    @inlinable
+    public func updateLakehouseConfiguration(_ input: UpdateLakehouseConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLakehouseConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateLakehouseConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// Parameters:
+    ///   - catalogName: The name of the Glue Data Catalog that will be associated with the namespace enabled with Amazon Redshift federated permissions. Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$
+    ///   - dryRun: A boolean value that, if true, validates the request without actually updating the lakehouse configuration. Use this to check for errors before making changes.
+    ///   - lakehouseIdcApplicationArn: The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions.
+    ///   - lakehouseIdcRegistration: Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a namespace enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+    ///   - lakehouseRegistration: Specifies whether to register or deregister the namespace with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+    ///   - namespaceName: The name of the namespace whose lakehouse configuration you want to modify.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLakehouseConfiguration(
+        catalogName: String? = nil,
+        dryRun: Bool? = nil,
+        lakehouseIdcApplicationArn: String? = nil,
+        lakehouseIdcRegistration: LakehouseIdcRegistration? = nil,
+        lakehouseRegistration: LakehouseRegistration? = nil,
+        namespaceName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLakehouseConfigurationResponse {
+        let input = UpdateLakehouseConfigurationRequest(
+            catalogName: catalogName, 
+            dryRun: dryRun, 
+            lakehouseIdcApplicationArn: lakehouseIdcApplicationArn, 
+            lakehouseIdcRegistration: lakehouseIdcRegistration, 
+            lakehouseRegistration: lakehouseRegistration, 
+            namespaceName: namespaceName
+        )
+        return try await self.updateLakehouseConfiguration(input, logger: logger)
+    }
+
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     @Sendable
     @inlinable
@@ -2151,14 +2224,14 @@ public struct RedshiftServerless: AWSService {
     /// Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both adminUsername and adminUserPassword to update either field, but you can't update both kmsKeyId and logExports in a single request.
     ///
     /// Parameters:
-    ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret.  You can only use this parameter if manageAdminPassword is true.
+    ///   - adminPasswordSecretKmsKeyId: The ID of the Key Management Service (KMS) key used to encrypt and store the namespace's admin credentials secret. You can only use this parameter if manageAdminPassword is true.
     ///   - adminUsername: The username of the administrator for the first database created in the namespace. This parameter must be updated together with adminUserPassword.
     ///   - adminUserPassword: The password of the administrator for the first database created in the namespace. This parameter must be updated together with adminUsername. You can't use adminUserPassword if manageAdminPassword is true.
     ///   - defaultIamRoleArn: The Amazon Resource Name (ARN) of the IAM role to set as a default in the namespace. This parameter must be updated together with iamRoles.
     ///   - iamRoles: A list of IAM roles to associate with the namespace. This parameter must be updated together with defaultIamRoleArn.
     ///   - kmsKeyId: The ID of the Amazon Web Services Key Management Service key used to encrypt your data.
     ///   - logExports: The types of logs the namespace can export. The export types are userlog, connectionlog, and useractivitylog.
-    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials.  You can't use adminUserPassword if manageAdminPassword is true.  If manageAdminPassword is false or not set, Amazon Redshift uses  adminUserPassword for the admin user account's password.
+    ///   - manageAdminPassword: If true, Amazon Redshift uses Secrets Manager to manage the namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword for the admin user account's password.
     ///   - namespaceName: The name of the namespace to update. You can't update the name of a namespace once it is created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2206,8 +2279,8 @@ public struct RedshiftServerless: AWSService {
     /// Parameters:
     ///   - enabled: Specifies whether to enable the scheduled action.
     ///   - endTime: The end time in UTC of the scheduled action to update.
-    ///   - roleArn: The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action.  This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf.  For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for  Amazon Redshift in the Amazon Redshift Management Guide
-    ///   - schedule: The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see  Cron Expressions in the Amazon CloudWatch Events User Guide.
+    ///   - roleArn: The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management Guide
+    ///   - schedule: The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see Cron Expressions in the Amazon CloudWatch Events User Guide.
     ///   - scheduledActionDescription: The descripion of the scheduled action to update to.
     ///   - scheduledActionName: The name of the scheduled action to update to.
     ///   - startTime: The start time in UTC of the scheduled action to update to.
@@ -2318,7 +2391,7 @@ public struct RedshiftServerless: AWSService {
     /// Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
     ///
     /// Parameters:
-    ///   - amount: The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour.  If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing.  The value must be a positive number.
+    ///   - amount: The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour. If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing. The value must be a positive number.
     ///   - breachAction: The new action that Amazon Redshift Serverless takes when the limit is reached.
     ///   - usageLimitId: The identifier of the usage limit to update.
     ///   - logger: Logger use during operation
@@ -2354,8 +2427,8 @@ public struct RedshiftServerless: AWSService {
     ///
     /// Parameters:
     ///   - baseCapacity: The new base data warehouse capacity in Redshift Processing Units (RPUs).
-    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you  define performance boundaries. For more information about query monitoring rules and available metrics, see   Query monitoring metrics for Amazon Redshift Serverless.
-    ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual  private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
+    ///   - configParameters: An array of parameters to set for advanced control over a database. The options are auto_mv, datestyle, enable_case_sensitive_identifier, enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+    ///   - enhancedVpcRouting: The value that specifies whether to turn on enhanced virtual private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic through your VPC.
     ///   - ipAddressType: The IP address type that the workgroup supports. Possible values are ipv4 and dualstack.
     ///   - maxCapacity: The maximum data-warehouse capacity Amazon Redshift Serverless uses to serve queries. The max capacity is specified in RPUs.
     ///   - port: The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
@@ -2363,7 +2436,7 @@ public struct RedshiftServerless: AWSService {
     ///   - publiclyAccessible: A value that specifies whether the workgroup can be accessible from a public network.
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
-    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide a track name, the workgroup is assigned to the current track.
     ///   - workgroupName: The name of the workgroup to update. You can't update the name of a workgroup once it is created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2517,8 +2590,8 @@ extension RedshiftServerless {
     /// Return PaginatorSequence for operation ``listManagedWorkgroups(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number  of results to return. You can use nextToken to display the next page of results.
-    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed  workgroup in the AWS Glue Data Catalog.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
+    ///   - sourceArn: The Amazon Resource Name (ARN) for the managed workgroup in the Glue Data Catalog.
     ///   - logger: Logger used for logging
     @inlinable
     public func listManagedWorkgroupsPaginator(
@@ -2825,7 +2898,7 @@ extension RedshiftServerless {
     /// Return PaginatorSequence for operation ``listTableRestoreStatus(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: An optional parameter that specifies the maximum number of results to  return. You can use nextToken to display the next page of results.
+    ///   - maxResults: An optional parameter that specifies the maximum number of results to return. You can use nextToken to display the next page of results.
     ///   - namespaceName: The namespace from which to list all of the statuses of RestoreTableFromSnapshot operations .
     ///   - workgroupName: The workgroup from which to list all of the statuses of RestoreTableFromSnapshot operations.
     ///   - logger: Logger used for logging
@@ -2865,7 +2938,7 @@ extension RedshiftServerless {
     /// Return PaginatorSequence for operation ``listTracks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
+    ///   - maxResults: The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTracksPaginator(

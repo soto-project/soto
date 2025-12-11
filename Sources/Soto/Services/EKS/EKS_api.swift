@@ -334,7 +334,57 @@ public struct EKS: AWSService {
         return try await self.createAddon(input, logger: logger)
     }
 
-    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Allowing users to access your cluster and Launching Amazon EKS nodes in the Amazon EKS User Guide.
+    /// Creates a managed capability resource for an Amazon EKS cluster. Capabilities provide fully managed capabilities to build and scale with Kubernetes. When you create a capability, Amazon EKSprovisions and manages the infrastructure required to run the capability outside of your cluster. This approach reduces operational overhead and preserves cluster resources. You can only create one Capability of each type on a given Amazon EKS cluster. Valid types are Argo CD for declarative GitOps deployment, Amazon Web Services Controllers for Kubernetes (ACK) for resource management, and Kube Resource Orchestrator (KRO) for Kubernetes custom resource orchestration. For more information, see EKS Capabilities in the Amazon EKS User Guide.
+    @Sendable
+    @inlinable
+    public func createCapability(_ input: CreateCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapabilityResponse {
+        try await self.client.execute(
+            operation: "CreateCapability", 
+            path: "/clusters/{clusterName}/capabilities", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a managed capability resource for an Amazon EKS cluster. Capabilities provide fully managed capabilities to build and scale with Kubernetes. When you create a capability, Amazon EKSprovisions and manages the infrastructure required to run the capability outside of your cluster. This approach reduces operational overhead and preserves cluster resources. You can only create one Capability of each type on a given Amazon EKS cluster. Valid types are Argo CD for declarative GitOps deployment, Amazon Web Services Controllers for Kubernetes (ACK) for resource management, and Kube Resource Orchestrator (KRO) for Kubernetes custom resource orchestration. For more information, see EKS Capabilities in the Amazon EKS User Guide.
+    ///
+    /// Parameters:
+    ///   - capabilityName: A unique name for the capability. The name must be unique within your cluster and can contain alphanumeric characters, hyphens, and underscores.
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned.
+    ///   - clusterName: The name of the Amazon EKS cluster where you want to create the capability.
+    ///   - configuration: The configuration settings for the capability. The structure of this object varies depending on the capability type. For Argo CD capabilities, you can configure IAM Identity CenterIAM; Identity Center integration, RBAC role mappings, and network access settings.
+    ///   - deletePropagationPolicy: Specifies how Kubernetes resources managed by the capability should be handled when the capability is deleted. Currently, the only supported value is RETAIN which retains all Kubernetes resources managed by the capability when the capability is deleted. Because resources are retained, all Kubernetes resources created by the capability should be deleted from the cluster before deleting the capability itself. After the capability is deleted, these resources become difficult to manage because the controller is no longer available.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. This role must have a trust policy that allows the EKS service principal to assume it, and it must have the necessary permissions for the capability type you're creating. For ACK capabilities, the role needs permissions to manage the resources you want to control through Kubernetes. For Argo CD capabilities, the role needs permissions to access Git repositories and Secrets Manager. For KRO capabilities, the role needs permissions based on the resources you'll be orchestrating.
+    ///   - tags: 
+    ///   - type: The type of capability to create. Valid values are:    ACK – Amazon Web Services Controllers for Kubernetes (ACK), which lets you manage resources directly from Kubernetes.    ARGOCD – Argo CD for GitOps-based continuous delivery.    KRO – Kube Resource Orchestrator (KRO) for composing and managing custom Kubernetes resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCapability(
+        capabilityName: String,
+        clientRequestToken: String? = CreateCapabilityRequest.idempotencyToken(),
+        clusterName: String,
+        configuration: CapabilityConfigurationRequest? = nil,
+        deletePropagationPolicy: CapabilityDeletePropagationPolicy,
+        roleArn: String,
+        tags: [String: String]? = nil,
+        type: CapabilityType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCapabilityResponse {
+        let input = CreateCapabilityRequest(
+            capabilityName: capabilityName, 
+            clientRequestToken: clientRequestToken, 
+            clusterName: clusterName, 
+            configuration: configuration, 
+            deletePropagationPolicy: deletePropagationPolicy, 
+            roleArn: roleArn, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.createCapability(input, logger: logger)
+    }
+
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an ELB Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Allowing users to access your cluster and Launching Amazon EKS nodes in the Amazon EKS User Guide.
     @Sendable
     @inlinable
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateClusterResponse {
@@ -347,13 +397,14 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an Elastic Load Balancing Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Allowing users to access your cluster and Launching Amazon EKS nodes in the Amazon EKS User Guide.
+    /// Creates an Amazon EKS control plane. The Amazon EKS control plane consists of control plane instances that run the Kubernetes software, such as etcd and the API server. The control plane runs in an account managed by Amazon Web Services, and the Kubernetes API is exposed by the Amazon EKS API server endpoint. Each Amazon EKS cluster control plane is single tenant and unique. It runs on its own set of Amazon EC2 instances. The cluster control plane is provisioned across multiple Availability Zones and fronted by an ELB Network Load Balancer. Amazon EKS also provisions elastic network interfaces in your VPC subnets to provide connectivity from the control plane instances to the nodes (for example, to support kubectl exec, logs, and proxy data flows). Amazon EKS nodes run in your Amazon Web Services account and connect to your cluster's control plane over the Kubernetes API server endpoint and a certificate file that is created for your cluster. You can use the endpointPublicAccess and endpointPrivateAccess parameters to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. The endpoint domain name and IP address family depends on the value of the ipFamily for the cluster. For more information, see Amazon EKS Cluster Endpoint Access Control in the  Amazon EKS User Guide .  You can use the logging parameter to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  In most cases, it takes several minutes to create a cluster. After you create an Amazon EKS cluster, you must configure your Kubernetes tooling to communicate with the API server and launch nodes into your cluster. For more information, see Allowing users to access your cluster and Launching Amazon EKS nodes in the Amazon EKS User Guide.
     ///
     /// Parameters:
     ///   - accessConfig: The access configuration for the cluster.
     ///   - bootstrapSelfManagedAddons: If you set this value to False when creating a cluster, the default networking add-ons will not be installed. The default networking add-ons include vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party alternative add-ons or self-manage the default networking add-ons.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - computeConfig: Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
+    ///   - controlPlaneScalingConfig: The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
     ///   - deletionProtection: Indicates whether to enable deletion protection for the cluster. When enabled, the cluster  cannot be deleted unless deletion protection is first disabled. This helps prevent  accidental cluster deletion. Default value is false.
     ///   - encryptionConfig: The encryption configuration for the cluster.
     ///   - kubernetesNetworkConfig: The Kubernetes network configuration for the cluster.
@@ -375,6 +426,7 @@ public struct EKS: AWSService {
         bootstrapSelfManagedAddons: Bool? = nil,
         clientRequestToken: String? = CreateClusterRequest.idempotencyToken(),
         computeConfig: ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil,
         deletionProtection: Bool? = nil,
         encryptionConfig: [EncryptionConfig]? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
@@ -396,6 +448,7 @@ public struct EKS: AWSService {
             bootstrapSelfManagedAddons: bootstrapSelfManagedAddons, 
             clientRequestToken: clientRequestToken, 
             computeConfig: computeConfig, 
+            controlPlaneScalingConfig: controlPlaneScalingConfig, 
             deletionProtection: deletionProtection, 
             encryptionConfig: encryptionConfig, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
@@ -508,7 +561,7 @@ public struct EKS: AWSService {
         return try await self.createFargateProfile(input, logger: logger)
     }
 
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     @Sendable
     @inlinable
     public func createNodegroup(_ input: CreateNodegroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodegroupResponse {
@@ -521,7 +574,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     ///
     /// Parameters:
     ///   - amiType: The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -706,6 +759,38 @@ public struct EKS: AWSService {
             preserve: preserve
         )
         return try await self.deleteAddon(input, logger: logger)
+    }
+
+    /// Deletes a managed capability from your Amazon EKS cluster. When you delete a capability, Amazon EKS removes the capability infrastructure but retains all resources that were managed by the capability. Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use kubectl delete or remove them through your GitOps workflow.
+    @Sendable
+    @inlinable
+    public func deleteCapability(_ input: DeleteCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapabilityResponse {
+        try await self.client.execute(
+            operation: "DeleteCapability", 
+            path: "/clusters/{clusterName}/capabilities/{capabilityName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a managed capability from your Amazon EKS cluster. When you delete a capability, Amazon EKS removes the capability infrastructure but retains all resources that were managed by the capability. Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use kubectl delete or remove them through your GitOps workflow.
+    ///
+    /// Parameters:
+    ///   - capabilityName: The name of the capability to delete.
+    ///   - clusterName: The name of the Amazon EKS cluster that contains the capability you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCapability(
+        capabilityName: String,
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCapabilityResponse {
+        let input = DeleteCapabilityRequest(
+            capabilityName: capabilityName, 
+            clusterName: clusterName
+        )
+        return try await self.deleteCapability(input, logger: logger)
     }
 
     /// Deletes an Amazon EKS cluster control plane. If you have active services in your cluster that are associated with a load balancer, you must delete those services before deleting the cluster so that the load balancers are deleted properly. Otherwise, you can have orphaned resources in your VPC that prevent you from being able to delete the VPC. For more information, see Deleting a cluster in the Amazon EKS User Guide. If you have managed node groups or Fargate profiles attached to the cluster, you must delete them first. For more information, see DeleteNodgroup and DeleteFargateProfile.
@@ -1034,6 +1119,38 @@ public struct EKS: AWSService {
         return try await self.describeAddonVersions(input, logger: logger)
     }
 
+    /// Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
+    @Sendable
+    @inlinable
+    public func describeCapability(_ input: DescribeCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapabilityResponse {
+        try await self.client.execute(
+            operation: "DescribeCapability", 
+            path: "/clusters/{clusterName}/capabilities/{capabilityName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
+    ///
+    /// Parameters:
+    ///   - capabilityName: The name of the capability to describe.
+    ///   - clusterName: The name of the Amazon EKS cluster that contains the capability you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCapability(
+        capabilityName: String,
+        clusterName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCapabilityResponse {
+        let input = DescribeCapabilityRequest(
+            capabilityName: capabilityName, 
+            clusterName: clusterName
+        )
+        return try await self.describeCapability(input, logger: logger)
+    }
+
     /// Describes an Amazon EKS cluster. The API server endpoint and certificate authority data returned by this operation are required for kubelet and kubectl to communicate with your Kubernetes API server. For more information, see Creating or updating a kubeconfig file for an Amazon EKS cluster.  The API server endpoint and certificate authority data aren't available until the cluster reaches the ACTIVE state.
     @Sendable
     @inlinable
@@ -1345,6 +1462,7 @@ public struct EKS: AWSService {
     ///
     /// Parameters:
     ///   - addonName: The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
+    ///   - capabilityName: The name of the capability for which you want to describe updates.
     ///   - name: The name of the Amazon EKS cluster associated with the update.
     ///   - nodegroupName: The name of the Amazon EKS node group associated with the update. This parameter is required if the update is a node group update.
     ///   - updateId: The ID of the update to describe.
@@ -1352,6 +1470,7 @@ public struct EKS: AWSService {
     @inlinable
     public func describeUpdate(
         addonName: String? = nil,
+        capabilityName: String? = nil,
         name: String,
         nodegroupName: String? = nil,
         updateId: String,
@@ -1359,6 +1478,7 @@ public struct EKS: AWSService {
     ) async throws -> DescribeUpdateResponse {
         let input = DescribeUpdateRequest(
             addonName: addonName, 
+            capabilityName: capabilityName, 
             name: name, 
             nodegroupName: nodegroupName, 
             updateId: updateId
@@ -1577,6 +1697,41 @@ public struct EKS: AWSService {
             principalArn: principalArn
         )
         return try await self.listAssociatedAccessPolicies(input, logger: logger)
+    }
+
+    /// Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
+    @Sendable
+    @inlinable
+    public func listCapabilities(_ input: ListCapabilitiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapabilitiesResponse {
+        try await self.client.execute(
+            operation: "ListCapabilities", 
+            path: "/clusters/{clusterName}/capabilities", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
+    ///
+    /// Parameters:
+    ///   - clusterName: The name of the Amazon EKS cluster for which you want to list capabilities.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    ///   - nextToken: The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCapabilities(
+        clusterName: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCapabilitiesResponse {
+        let input = ListCapabilitiesRequest(
+            clusterName: clusterName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listCapabilities(input, logger: logger)
     }
 
     /// Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
@@ -1879,6 +2034,7 @@ public struct EKS: AWSService {
     ///
     /// Parameters:
     ///   - addonName: The names of the installed add-ons that have available updates.
+    ///   - capabilityName: The name of the capability for which you want to list updates.
     ///   - maxResults: The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
     ///   - name: The name of the Amazon EKS cluster to list updates for.
     ///   - nextToken: The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
@@ -1887,6 +2043,7 @@ public struct EKS: AWSService {
     @inlinable
     public func listUpdates(
         addonName: String? = nil,
+        capabilityName: String? = nil,
         maxResults: Int? = nil,
         name: String,
         nextToken: String? = nil,
@@ -1895,6 +2052,7 @@ public struct EKS: AWSService {
     ) async throws -> ListUpdatesResponse {
         let input = ListUpdatesRequest(
             addonName: addonName, 
+            capabilityName: capabilityName, 
             maxResults: maxResults, 
             name: name, 
             nextToken: nextToken, 
@@ -2125,6 +2283,50 @@ public struct EKS: AWSService {
         return try await self.updateAddon(input, logger: logger)
     }
 
+    /// Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability. When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
+    @Sendable
+    @inlinable
+    public func updateCapability(_ input: UpdateCapabilityRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapabilityResponse {
+        try await self.client.execute(
+            operation: "UpdateCapability", 
+            path: "/clusters/{clusterName}/capabilities/{capabilityName}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of a managed capability in your Amazon EKS cluster. You can update the IAM role, configuration settings, and delete propagation policy for a capability. When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
+    ///
+    /// Parameters:
+    ///   - capabilityName: The name of the capability to update configuration for.
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This token is valid for 24 hours after creation.
+    ///   - clusterName: The name of the Amazon EKS cluster that contains the capability you want to update configuration for.
+    ///   - configuration: The updated configuration settings for the capability. You only need to specify the configuration parameters you want to change. For Argo CD capabilities, you can update RBAC role mappings and network access settings.
+    ///   - deletePropagationPolicy: The updated delete propagation policy for the capability. Currently, the only supported value is RETAIN.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the capability uses to interact with Amazon Web Services services. If you specify a new role ARN, the capability will start using the new role for all subsequent operations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCapability(
+        capabilityName: String,
+        clientRequestToken: String? = UpdateCapabilityRequest.idempotencyToken(),
+        clusterName: String,
+        configuration: UpdateCapabilityConfiguration? = nil,
+        deletePropagationPolicy: CapabilityDeletePropagationPolicy? = nil,
+        roleArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCapabilityResponse {
+        let input = UpdateCapabilityRequest(
+            capabilityName: capabilityName, 
+            clientRequestToken: clientRequestToken, 
+            clusterName: clusterName, 
+            configuration: configuration, 
+            deletePropagationPolicy: deletePropagationPolicy, 
+            roleArn: roleArn
+        )
+        return try await self.updateCapability(input, logger: logger)
+    }
+
     /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate. You can use this operation to do the following actions:   You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.    You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see  Cluster API server endpoint in the  Amazon EKS User Guide .   You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide .   You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.   You can also use this API operation to add, change, or remove the configuration in the cluster for EKS Hybrid Nodes. To remove the configuration, use the remoteNetworkConfig key with an object containing both subkeys with empty arrays for each. Here is an inline example: "remoteNetworkConfig": { "remoteNodeNetworks": [], "remotePodNetworks": [] }.   Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     @Sendable
     @inlinable
@@ -2144,6 +2346,7 @@ public struct EKS: AWSService {
     ///   - accessConfig: The access configuration for the cluster.
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - computeConfig: Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
+    ///   - controlPlaneScalingConfig: The control plane scaling tier configuration. For more information, see EKS Provisioned Control Plane in the Amazon EKS User Guide.
     ///   - deletionProtection: Specifies whether to enable or disable deletion protection for the cluster. When  enabled (true), the cluster cannot be deleted until deletion protection is  explicitly disabled. When disabled (false), the cluster can be deleted  normally.
     ///   - kubernetesNetworkConfig: 
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
@@ -2159,6 +2362,7 @@ public struct EKS: AWSService {
         accessConfig: UpdateAccessConfigRequest? = nil,
         clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(),
         computeConfig: ComputeConfigRequest? = nil,
+        controlPlaneScalingConfig: ControlPlaneScalingConfig? = nil,
         deletionProtection: Bool? = nil,
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
@@ -2174,6 +2378,7 @@ public struct EKS: AWSService {
             accessConfig: accessConfig, 
             clientRequestToken: clientRequestToken, 
             computeConfig: computeConfig, 
+            controlPlaneScalingConfig: controlPlaneScalingConfig, 
             deletionProtection: deletionProtection, 
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
@@ -2332,7 +2537,7 @@ public struct EKS: AWSService {
     ///   - launchTemplate: An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group.
     ///   - nodegroupName: The name of the managed node group to update.
     ///   - releaseVersion: The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
-    ///   - version: The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
+    ///   - version: The Kubernetes version to update to. If no version is specified, then the node group will be updated to match the cluster's current Kubernetes version, and the latest available AMI for that version will be used. You can also specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNodegroupVersion(
@@ -2664,6 +2869,43 @@ extension EKS {
         return self.listAssociatedAccessPoliciesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCapabilities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapabilitiesPaginator(
+        _ input: ListCapabilitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCapabilitiesRequest, ListCapabilitiesResponse> {
+        return .init(
+            input: input,
+            command: self.listCapabilities,
+            inputKey: \ListCapabilitiesRequest.nextToken,
+            outputKey: \ListCapabilitiesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCapabilities(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterName: The name of the Amazon EKS cluster for which you want to list capabilities.
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. If you don't specify a value, the default is 100 results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCapabilitiesPaginator(
+        clusterName: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCapabilitiesRequest, ListCapabilitiesResponse> {
+        let input = ListCapabilitiesRequest(
+            clusterName: clusterName, 
+            maxResults: maxResults
+        )
+        return self.listCapabilitiesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
     ///
     /// - Parameters:
@@ -2954,6 +3196,7 @@ extension EKS {
     ///
     /// - Parameters:
     ///   - addonName: The names of the installed add-ons that have available updates.
+    ///   - capabilityName: The name of the capability for which you want to list updates.
     ///   - maxResults: The maximum number of results, returned in paginated output. You receive maxResults in a single page, along with a nextToken response element. You can see the remaining results of the initial request by sending another request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, 100 results and a nextToken value, if applicable, are returned.
     ///   - name: The name of the Amazon EKS cluster to list updates for.
     ///   - nodegroupName: The name of the Amazon EKS managed node group to list updates for.
@@ -2961,6 +3204,7 @@ extension EKS {
     @inlinable
     public func listUpdatesPaginator(
         addonName: String? = nil,
+        capabilityName: String? = nil,
         maxResults: Int? = nil,
         name: String,
         nodegroupName: String? = nil,
@@ -2968,6 +3212,7 @@ extension EKS {
     ) -> AWSClient.PaginatorSequence<ListUpdatesRequest, ListUpdatesResponse> {
         let input = ListUpdatesRequest(
             addonName: addonName, 
+            capabilityName: capabilityName, 
             maxResults: maxResults, 
             name: name, 
             nodegroupName: nodegroupName
@@ -3047,6 +3292,17 @@ extension EKS.ListAssociatedAccessPoliciesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             principalArn: self.principalArn
+        )
+    }
+}
+
+extension EKS.ListCapabilitiesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EKS.ListCapabilitiesRequest {
+        return .init(
+            clusterName: self.clusterName,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -3136,6 +3392,7 @@ extension EKS.ListUpdatesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EKS.ListUpdatesRequest {
         return .init(
             addonName: self.addonName,
+            capabilityName: self.capabilityName,
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token,

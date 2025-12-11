@@ -128,6 +128,12 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceAuthorization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TransactionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aborted = "ABORTED"
         case active = "ACTIVE"
@@ -716,14 +722,17 @@ extension LakeFormation {
         public let externalFiltering: ExternalFilteringConfiguration?
         /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
         public let instanceArn: String?
+        /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+        public let serviceIntegrations: [ServiceIntegrationUnion]?
         /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
         public let shareRecipients: [DataLakePrincipal]?
 
         @inlinable
-        public init(catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
+        public init(catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, serviceIntegrations: [ServiceIntegrationUnion]? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
             self.instanceArn = instanceArn
+            self.serviceIntegrations = serviceIntegrations
             self.shareRecipients = shareRecipients
         }
 
@@ -741,6 +750,7 @@ extension LakeFormation {
             case catalogId = "CatalogId"
             case externalFiltering = "ExternalFiltering"
             case instanceArn = "InstanceArn"
+            case serviceIntegrations = "ServiceIntegrations"
             case shareRecipients = "ShareRecipients"
         }
     }
@@ -1352,16 +1362,19 @@ extension LakeFormation {
         public let instanceArn: String?
         /// The Amazon Resource Name (ARN) of the RAM share.
         public let resourceShare: String?
+        /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+        public let serviceIntegrations: [ServiceIntegrationUnion]?
         /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
         public let shareRecipients: [DataLakePrincipal]?
 
         @inlinable
-        public init(applicationArn: String? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, resourceShare: String? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
+        public init(applicationArn: String? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, instanceArn: String? = nil, resourceShare: String? = nil, serviceIntegrations: [ServiceIntegrationUnion]? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationArn = applicationArn
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
             self.instanceArn = instanceArn
             self.resourceShare = resourceShare
+            self.serviceIntegrations = serviceIntegrations
             self.shareRecipients = shareRecipients
         }
 
@@ -1371,6 +1384,7 @@ extension LakeFormation {
             case externalFiltering = "ExternalFiltering"
             case instanceArn = "InstanceArn"
             case resourceShare = "ResourceShare"
+            case serviceIntegrations = "ServiceIntegrations"
             case shareRecipients = "ShareRecipients"
         }
     }
@@ -2754,7 +2768,7 @@ extension LakeFormation {
     public struct ListPermissionsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// Indicates that related permissions should be included in the results.
+        /// Indicates that related permissions should be included in the results when listing permissions on a table resource. Set the field to TRUE to show the cell filters on a table resource. Default is FALSE. The Principal parameter must not be specified when requesting cell filter information.
         public let includeRelated: String?
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -3226,6 +3240,20 @@ extension LakeFormation {
         }
     }
 
+    public struct RedshiftConnect: AWSEncodableShape & AWSDecodableShape {
+        /// The authorization status for Redshift Connect. Valid values are ENABLED or DISABLED.
+        public let authorization: ServiceAuthorization
+
+        @inlinable
+        public init(authorization: ServiceAuthorization) {
+            self.authorization = authorization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "Authorization"
+        }
+    }
+
     public struct RegisterResourceRequest: AWSEncodableShape {
         ///  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public let hybridAccessEnabled: Bool?
@@ -3325,7 +3353,7 @@ extension LakeFormation {
         public let dataCellsFilter: DataCellsFilterResource?
         /// The location of an Amazon S3 path where permissions are granted or revoked.
         public let dataLocation: DataLocationResource?
-        /// The LF-tag key and values attached to a resource.
+        /// The LF-Tag key and values attached to a resource.
         public let lfTag: LFTagKeyResource?
         /// LF-Tag expression resource. A logical expression composed of one or more LF-Tag key:value pairs.
         public let lfTagExpression: LFTagExpressionResource?
@@ -3988,14 +4016,17 @@ extension LakeFormation {
         public let catalogId: String?
         /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
         public let externalFiltering: ExternalFilteringConfiguration?
+        /// A list of service integrations for enabling trusted identity propagation with external services such as Redshift.
+        public let serviceIntegrations: [ServiceIntegrationUnion]?
         /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation.  If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
         public let shareRecipients: [DataLakePrincipal]?
 
         @inlinable
-        public init(applicationStatus: ApplicationStatus? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
+        public init(applicationStatus: ApplicationStatus? = nil, catalogId: String? = nil, externalFiltering: ExternalFilteringConfiguration? = nil, serviceIntegrations: [ServiceIntegrationUnion]? = nil, shareRecipients: [DataLakePrincipal]? = nil) {
             self.applicationStatus = applicationStatus
             self.catalogId = catalogId
             self.externalFiltering = externalFiltering
+            self.serviceIntegrations = serviceIntegrations
             self.shareRecipients = shareRecipients
         }
 
@@ -4013,6 +4044,7 @@ extension LakeFormation {
             case applicationStatus = "ApplicationStatus"
             case catalogId = "CatalogId"
             case externalFiltering = "ExternalFiltering"
+            case serviceIntegrations = "ServiceIntegrations"
             case shareRecipients = "ShareRecipients"
         }
     }
@@ -4230,6 +4262,34 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case addObject = "AddObject"
             case deleteObject = "DeleteObject"
+        }
+    }
+
+    public struct RedshiftScopeUnion: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for Redshift Connect integration.
+        public let redshiftConnect: RedshiftConnect?
+
+        @inlinable
+        public init(redshiftConnect: RedshiftConnect? = nil) {
+            self.redshiftConnect = redshiftConnect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redshiftConnect = "RedshiftConnect"
+        }
+    }
+
+    public struct ServiceIntegrationUnion: AWSEncodableShape & AWSDecodableShape {
+        /// Redshift service integration configuration.
+        public let redshift: [RedshiftScopeUnion]?
+
+        @inlinable
+        public init(redshift: [RedshiftScopeUnion]? = nil) {
+            self.redshift = redshift
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redshift = "Redshift"
         }
     }
 }

@@ -173,6 +173,7 @@ public struct Imagebuilder: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
     ///   - data: Component data contains inline YAML document content for the component.
     ///   - description: Describes the contents of the component.
+    ///   - dryRun: Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this component. This can be either the Key ARN or the Alias ARN. For more information, see Key identifiers (KeyId)
     ///   - name: The name of the component.
     ///   - platform: The operating system platform of the component.
@@ -187,6 +188,7 @@ public struct Imagebuilder: AWSService {
         clientToken: String = CreateComponentRequest.idempotencyToken(),
         data: String? = nil,
         description: String? = nil,
+        dryRun: Bool? = nil,
         kmsKeyId: String? = nil,
         name: String,
         platform: Platform,
@@ -201,6 +203,7 @@ public struct Imagebuilder: AWSService {
             clientToken: clientToken, 
             data: data, 
             description: description, 
+            dryRun: dryRun, 
             kmsKeyId: kmsKeyId, 
             name: name, 
             platform: platform, 
@@ -231,7 +234,7 @@ public struct Imagebuilder: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
-    ///   - components: Components for build and test that are included in the container recipe.
+    ///   - components: The components included in the container recipe.
     ///   - containerType: The type of container to create.
     ///   - description: The description of the container recipe.
     ///   - dockerfileTemplateData: The Dockerfile template used to build your image as an inline data blob.
@@ -250,7 +253,7 @@ public struct Imagebuilder: AWSService {
     @inlinable
     public func createContainerRecipe(
         clientToken: String = CreateContainerRecipeRequest.idempotencyToken(),
-        components: [ComponentConfiguration],
+        components: [ComponentConfiguration]? = nil,
         containerType: ContainerType,
         description: String? = nil,
         dockerfileTemplateData: String? = nil,
@@ -511,7 +514,7 @@ public struct Imagebuilder: AWSService {
         amiTags: [String: String]? = nil,
         blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil,
         clientToken: String = CreateImageRecipeRequest.idempotencyToken(),
-        components: [ComponentConfiguration],
+        components: [ComponentConfiguration]? = nil,
         description: String? = nil,
         name: String,
         parentImage: String,
@@ -682,6 +685,7 @@ public struct Imagebuilder: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
     ///   - data: Contains the UTF-8 encoded YAML document content for the workflow.
     ///   - description: Describes the workflow.
+    ///   - dryRun: Validates the required permissions for the operation and the request parameters, without actually making the request, and provides an error response. Upon a successful request, the error response is DryRunOperationException.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) that uniquely identifies the KMS key used to encrypt this workflow resource.
     ///   - name: The name of the workflow to create.
     ///   - semanticVersion: The semantic version of this workflow resource. The semantic version syntax
@@ -695,6 +699,7 @@ public struct Imagebuilder: AWSService {
         clientToken: String = CreateWorkflowRequest.idempotencyToken(),
         data: String? = nil,
         description: String? = nil,
+        dryRun: Bool? = nil,
         kmsKeyId: String? = nil,
         name: String,
         semanticVersion: String,
@@ -708,6 +713,7 @@ public struct Imagebuilder: AWSService {
             clientToken: clientToken, 
             data: data, 
             description: description, 
+            dryRun: dryRun, 
             kmsKeyId: kmsKeyId, 
             name: name, 
             semanticVersion: semanticVersion, 
@@ -989,6 +995,50 @@ public struct Imagebuilder: AWSService {
             workflowBuildVersionArn: workflowBuildVersionArn
         )
         return try await self.deleteWorkflow(input, logger: logger)
+    }
+
+    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    @Sendable
+    @inlinable
+    public func distributeImage(_ input: DistributeImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DistributeImageResponse {
+        try await self.client.execute(
+            operation: "DistributeImage", 
+            path: "/DistributeImage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// DistributeImage distributes existing AMIs to additional regions and accounts without rebuilding the image.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - distributionConfigurationArn: The Amazon Resource Name (ARN) of the distribution configuration to use.
+    ///   - executionRole: The IAM role to use for the distribution.
+    ///   - loggingConfiguration: The logging configuration for the distribution.
+    ///   - sourceImage: The source image Amazon Resource Name (ARN) to distribute.
+    ///   - tags: The tags to apply to the distributed image.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func distributeImage(
+        clientToken: String = DistributeImageRequest.idempotencyToken(),
+        distributionConfigurationArn: String,
+        executionRole: String,
+        loggingConfiguration: ImageLoggingConfiguration? = nil,
+        sourceImage: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DistributeImageResponse {
+        let input = DistributeImageRequest(
+            clientToken: clientToken, 
+            distributionConfigurationArn: distributionConfigurationArn, 
+            executionRole: executionRole, 
+            loggingConfiguration: loggingConfiguration, 
+            sourceImage: sourceImage, 
+            tags: tags
+        )
+        return try await self.distributeImage(input, logger: logger)
     }
 
     /// Gets a component object.
@@ -2664,6 +2714,38 @@ public struct Imagebuilder: AWSService {
         return try await self.putImageRecipePolicy(input, logger: logger)
     }
 
+    /// RetryImage retries an image distribution without rebuilding the image.
+    @Sendable
+    @inlinable
+    public func retryImage(_ input: RetryImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetryImageResponse {
+        try await self.client.execute(
+            operation: "RetryImage", 
+            path: "/RetryImage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// RetryImage retries an image distribution without rebuilding the image.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - imageBuildVersionArn: The source image Amazon Resource Name (ARN) to retry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func retryImage(
+        clientToken: String = RetryImageRequest.idempotencyToken(),
+        imageBuildVersionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RetryImageResponse {
+        let input = RetryImageRequest(
+            clientToken: clientToken, 
+            imageBuildVersionArn: imageBuildVersionArn
+        )
+        return try await self.retryImage(input, logger: logger)
+    }
+
     /// Pauses or resumes image creation when the associated workflow runs a
     /// 			WaitForAction step.
     @Sendable
@@ -2764,7 +2846,7 @@ public struct Imagebuilder: AWSService {
     ///   - exclusionRules: Skip action on the image resource and associated resources if specified
     ///   - executionRole: The name or Amazon Resource Name (ARN) of the IAM role that’s used to update image state.
     ///   - includeResources: A list of image resources to update state for.
-    ///   - resourceArn: The ARN of the Image Builder resource that is updated. The state update might also
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Image Builder resource that is updated. The state update might also
     ///   - state: Indicates the lifecycle action to take for this request.
     ///   - updateAt: The timestamp that indicates when resources are updated by a lifecycle action.
     ///   - logger: Logger use during operation

@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgentCore service.
 ///
-///  Amazon Bedrock AgentCore is in preview release and is subject to change.  Welcome to the Amazon Bedrock AgentCore Data Plane API reference. Data Plane actions process and handle data or workloads within Amazon Web Services services.
+/// Welcome to the Amazon Bedrock AgentCore Data Plane API reference. Data Plane actions process and handle data or workloads within Amazon Web Services services.
 public struct BedrockAgentCore: AWSService {
     // MARK: Member variables
 
@@ -327,6 +327,41 @@ public struct BedrockAgentCore: AWSService {
             memoryRecordId: memoryRecordId
         )
         return try await self.deleteMemoryRecord(input, logger: logger)
+    }
+
+    ///  Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
+    @Sendable
+    @inlinable
+    public func evaluate(_ input: EvaluateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluateResponse {
+        try await self.client.execute(
+            operation: "Evaluate", 
+            path: "/evaluations/evaluate/{evaluatorId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
+    ///
+    /// Parameters:
+    ///   - evaluationInput:  The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
+    ///   - evaluationTarget:  The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
+    ///   - evaluatorId:  The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func evaluate(
+        evaluationInput: EvaluationInput,
+        evaluationTarget: EvaluationTarget? = nil,
+        evaluatorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EvaluateResponse {
+        let input = EvaluateRequest(
+            evaluationInput: evaluationInput, 
+            evaluationTarget: evaluationTarget, 
+            evaluatorId: evaluatorId
+        )
+        return try await self.evaluate(input, logger: logger)
     }
 
     /// Retrieves the A2A agent card associated with an AgentCore Runtime agent.
@@ -804,7 +839,7 @@ public struct BedrockAgentCore: AWSService {
     /// Lists all actors in an AgentCore Memory resource. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListActors permission.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list actors.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -915,13 +950,13 @@ public struct BedrockAgentCore: AWSService {
     /// Lists events in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListEvents permission.
     ///
     /// Parameters:
-    ///   - actorId: The identifier of the actor for which to list events. If specified, only events from this actor are returned.
+    ///   - actorId: The identifier of the actor for which to list events.
     ///   - filter: Filter criteria to apply when listing events.
     ///   - includePayloads: Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list events.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
-    ///   - sessionId: The identifier of the session for which to list events. If specified, only events from this session are returned.
+    ///   - sessionId: The identifier of the session for which to list events.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEvents(
@@ -946,6 +981,44 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listEvents(input, logger: logger)
     }
 
+    /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemoryExtractionJobs permission.
+    @Sendable
+    @inlinable
+    public func listMemoryExtractionJobs(_ input: ListMemoryExtractionJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMemoryExtractionJobsOutput {
+        try await self.client.execute(
+            operation: "ListMemoryExtractionJobs", 
+            path: "/memories/{memoryId}/extractionJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all long-term memory extraction jobs that are eligible to be started with optional filtering. To use this operation, you must have the bedrock-agentcore:ListMemoryExtractionJobs permission.
+    ///
+    /// Parameters:
+    ///   - filter: Filter criteria to apply when listing extraction jobs.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
+    ///   - memoryId: The unique identifier of the memory to list extraction jobs for.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMemoryExtractionJobs(
+        filter: ExtractionJobFilterInput? = nil,
+        maxResults: Int? = nil,
+        memoryId: String,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMemoryExtractionJobsOutput {
+        let input = ListMemoryExtractionJobsInput(
+            filter: filter, 
+            maxResults: maxResults, 
+            memoryId: memoryId, 
+            nextToken: nextToken
+        )
+        return try await self.listMemoryExtractionJobs(input, logger: logger)
+    }
+
     /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     @Sendable
     @inlinable
@@ -962,7 +1035,7 @@ public struct BedrockAgentCore: AWSService {
     /// Lists memory records in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListMemoryRecords permission.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
@@ -1003,8 +1076,8 @@ public struct BedrockAgentCore: AWSService {
     /// Lists sessions in an AgentCore Memory resource based on specified criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:ListSessions permission.
     ///
     /// Parameters:
-    ///   - actorId: The identifier of the actor for which to list sessions. If specified, only sessions involving this actor are returned.
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - actorId: The identifier of the actor for which to list sessions.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
@@ -1041,9 +1114,9 @@ public struct BedrockAgentCore: AWSService {
     /// Searches for and retrieves memory records from an AgentCore Memory resource based on specified search criteria. We recommend using pagination to ensure that the operation returns quickly and successfully. To use this operation, you must have the bedrock-agentcore:RetrieveMemoryRecords permission.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
+    ///   - namespace: The namespace to filter memory records by.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger use during operation
@@ -1155,6 +1228,41 @@ public struct BedrockAgentCore: AWSService {
             traceParent: traceParent
         )
         return try await self.startCodeInterpreterSession(input, logger: logger)
+    }
+
+    ///  Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well.  To use this operation, you must have the bedrock-agentcore:StartMemoryExtractionJob permission.
+    @Sendable
+    @inlinable
+    public func startMemoryExtractionJob(_ input: StartMemoryExtractionJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMemoryExtractionJobOutput {
+        try await self.client.execute(
+            operation: "StartMemoryExtractionJob", 
+            path: "/memories/{memoryId}/extractionJobs/start", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Starts a memory extraction job that processes events that failed extraction previously in an AgentCore Memory resource and produces structured memory records. When earlier extraction attempts have left events unprocessed, this job will pick up and extract those as well.  To use this operation, you must have the bedrock-agentcore:StartMemoryExtractionJob permission.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotent processing of the request.
+    ///   - extractionJob: Extraction job to start in this operation.
+    ///   - memoryId: The unique identifier of the memory for which to start extraction jobs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMemoryExtractionJob(
+        clientToken: String? = StartMemoryExtractionJobInput.idempotencyToken(),
+        extractionJob: ExtractionJob,
+        memoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMemoryExtractionJobOutput {
+        let input = StartMemoryExtractionJobInput(
+            clientToken: clientToken, 
+            extractionJob: extractionJob, 
+            memoryId: memoryId
+        )
+        return try await self.startMemoryExtractionJob(input, logger: logger)
     }
 
     /// Terminates an active browser session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
@@ -1350,7 +1458,7 @@ extension BedrockAgentCore {
     /// Return PaginatorSequence for operation ``listActors(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list actors.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1387,12 +1495,12 @@ extension BedrockAgentCore {
     /// Return PaginatorSequence for operation ``listEvents(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - actorId: The identifier of the actor for which to list events. If specified, only events from this actor are returned.
+    ///   - actorId: The identifier of the actor for which to list events.
     ///   - filter: Filter criteria to apply when listing events.
     ///   - includePayloads: Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list events.
-    ///   - sessionId: The identifier of the session for which to list events. If specified, only events from this session are returned.
+    ///   - sessionId: The identifier of the session for which to list events.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEventsPaginator(
@@ -1413,6 +1521,46 @@ extension BedrockAgentCore {
             sessionId: sessionId
         )
         return self.listEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMemoryExtractionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMemoryExtractionJobsPaginator(
+        _ input: ListMemoryExtractionJobsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput> {
+        return .init(
+            input: input,
+            command: self.listMemoryExtractionJobs,
+            inputKey: \ListMemoryExtractionJobsInput.nextToken,
+            outputKey: \ListMemoryExtractionJobsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMemoryExtractionJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filter: Filter criteria to apply when listing extraction jobs.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
+    ///   - memoryId: The unique identifier of the memory to list extraction jobs for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMemoryExtractionJobsPaginator(
+        filter: ExtractionJobFilterInput? = nil,
+        maxResults: Int? = nil,
+        memoryId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMemoryExtractionJobsInput, ListMemoryExtractionJobsOutput> {
+        let input = ListMemoryExtractionJobsInput(
+            filter: filter, 
+            maxResults: maxResults, 
+            memoryId: memoryId
+        )
+        return self.listMemoryExtractionJobsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMemoryRecords(_:logger:)``.
@@ -1436,7 +1584,7 @@ extension BedrockAgentCore {
     /// Return PaginatorSequence for operation ``listMemoryRecords(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
@@ -1479,8 +1627,8 @@ extension BedrockAgentCore {
     /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - actorId: The identifier of the actor for which to list sessions. If specified, only sessions involving this actor are returned.
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - actorId: The identifier of the actor for which to list sessions.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list sessions.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1519,9 +1667,9 @@ extension BedrockAgentCore {
     /// Return PaginatorSequence for operation ``retrieveMemoryRecords(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+    ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
+    ///   - namespace: The namespace to filter memory records by.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1564,6 +1712,18 @@ extension BedrockAgentCore.ListEventsInput: AWSPaginateToken {
             memoryId: self.memoryId,
             nextToken: token,
             sessionId: self.sessionId
+        )
+    }
+}
+
+extension BedrockAgentCore.ListMemoryExtractionJobsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCore.ListMemoryExtractionJobsInput {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            memoryId: self.memoryId,
+            nextToken: token
         )
     }
 }

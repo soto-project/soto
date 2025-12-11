@@ -329,6 +329,7 @@ extension DatabaseMigrationService {
         case oracleSettings(OracleDataProviderSettings)
         case postgreSqlSettings(PostgreSqlDataProviderSettings)
         case redshiftSettings(RedshiftDataProviderSettings)
+        case sybaseAseSettings(SybaseAseDataProviderSettings)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -370,6 +371,9 @@ extension DatabaseMigrationService {
             case .redshiftSettings:
                 let value = try container.decode(RedshiftDataProviderSettings.self, forKey: .redshiftSettings)
                 self = .redshiftSettings(value)
+            case .sybaseAseSettings:
+                let value = try container.decode(SybaseAseDataProviderSettings.self, forKey: .sybaseAseSettings)
+                self = .sybaseAseSettings(value)
             }
         }
 
@@ -396,6 +400,8 @@ extension DatabaseMigrationService {
                 try container.encode(value, forKey: .postgreSqlSettings)
             case .redshiftSettings(let value):
                 try container.encode(value, forKey: .redshiftSettings)
+            case .sybaseAseSettings(let value):
+                try container.encode(value, forKey: .sybaseAseSettings)
             }
         }
 
@@ -410,6 +416,7 @@ extension DatabaseMigrationService {
             case oracleSettings = "OracleSettings"
             case postgreSqlSettings = "PostgreSqlSettings"
             case redshiftSettings = "RedshiftSettings"
+            case sybaseAseSettings = "SybaseAseSettings"
         }
     }
 
@@ -559,6 +566,76 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct CancelMetadataModelConversionMessage: AWSEncodableShape {
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// The identifier for the metadata model conversion operation to cancel. This operation was initiated by StartMetadataModelConversion.
+        public let requestIdentifier: String
+
+        @inlinable
+        public init(migrationProjectIdentifier: String, requestIdentifier: String) {
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.requestIdentifier = requestIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case requestIdentifier = "RequestIdentifier"
+        }
+    }
+
+    public struct CancelMetadataModelConversionResponse: AWSDecodableShape {
+        public let request: SchemaConversionRequest?
+
+        @inlinable
+        public init(request: SchemaConversionRequest? = nil) {
+            self.request = request
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case request = "Request"
+        }
+    }
+
+    public struct CancelMetadataModelCreationMessage: AWSEncodableShape {
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// The identifier for the metadata model creation operation to cancel. This operation was initiated by StartMetadataModelCreation.
+        public let requestIdentifier: String
+
+        @inlinable
+        public init(migrationProjectIdentifier: String, requestIdentifier: String) {
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.requestIdentifier = requestIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case requestIdentifier = "RequestIdentifier"
+        }
+    }
+
+    public struct CancelMetadataModelCreationResponse: AWSDecodableShape {
+        public let request: SchemaConversionRequest?
+
+        @inlinable
+        public init(request: SchemaConversionRequest? = nil) {
+            self.request = request
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case request = "Request"
+        }
+    }
+
     public struct CancelReplicationTaskAssessmentRunMessage: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the premigration assessment run to be canceled.
         public let replicationTaskAssessmentRunArn: String
@@ -602,6 +679,8 @@ extension DatabaseMigrationService {
         public let certificateWallet: AWSBase64Data?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int?
+        /// An KMS key identifier that is used to encrypt the certificate. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        public let kmsKeyId: String?
         /// The signing algorithm for the certificate.
         public let signingAlgorithm: String?
         /// The beginning date that the certificate is valid.
@@ -610,7 +689,7 @@ extension DatabaseMigrationService {
         public let validToDate: Date?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateCreationDate: Date? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: Date? = nil, validToDate: Date? = nil) {
+        public init(certificateArn: String? = nil, certificateCreationDate: Date? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, keyLength: Int? = nil, kmsKeyId: String? = nil, signingAlgorithm: String? = nil, validFromDate: Date? = nil, validToDate: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
             self.certificateIdentifier = certificateIdentifier
@@ -618,6 +697,7 @@ extension DatabaseMigrationService {
             self.certificatePem = certificatePem
             self.certificateWallet = certificateWallet
             self.keyLength = keyLength
+            self.kmsKeyId = kmsKeyId
             self.signingAlgorithm = signingAlgorithm
             self.validFromDate = validFromDate
             self.validToDate = validToDate
@@ -631,6 +711,7 @@ extension DatabaseMigrationService {
             case certificatePem = "CertificatePem"
             case certificateWallet = "CertificateWallet"
             case keyLength = "KeyLength"
+            case kmsKeyId = "KmsKeyId"
             case signingAlgorithm = "SigningAlgorithm"
             case validFromDate = "ValidFromDate"
             case validToDate = "ValidToDate"
@@ -890,7 +971,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings
@@ -1756,7 +1837,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A description of the data provider. Descriptions can have up to 31 characters.  A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't  end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings?
@@ -3269,6 +3350,58 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DescribeMetadataModelChildrenMessage: AWSEncodableShape {
+        /// Specifies the unique pagination token that indicates where the next page should start. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        public let marker: String?
+        /// The maximum number of metadata model children to include in the response. If more items exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
+        public let maxRecords: Int?
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+        public let origin: OriginTypeValue
+        /// The JSON string that specifies which metadata model's children to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+        public let selectionRules: String
+
+        @inlinable
+        public init(marker: String? = nil, maxRecords: Int? = nil, migrationProjectIdentifier: String, origin: OriginTypeValue, selectionRules: String) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.origin = origin
+            self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case origin = "Origin"
+            case selectionRules = "SelectionRules"
+        }
+    }
+
+    public struct DescribeMetadataModelChildrenResponse: AWSDecodableShape {
+        /// Specifies the unique pagination token that makes it possible to display the next page of metadata model children. If a marker is returned, there are more metadata model children available.
+        public let marker: String?
+        /// A list of child metadata models.
+        public let metadataModelChildren: [MetadataModelReference]?
+
+        @inlinable
+        public init(marker: String? = nil, metadataModelChildren: [MetadataModelReference]? = nil) {
+            self.marker = marker
+            self.metadataModelChildren = metadataModelChildren
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case metadataModelChildren = "MetadataModelChildren"
+        }
+    }
+
     public struct DescribeMetadataModelConversionsMessage: AWSEncodableShape {
         /// Filters applied to the metadata model conversions described in the form of key-value pairs.
         public let filters: [Filter]?
@@ -3303,6 +3436,54 @@ extension DatabaseMigrationService {
         /// Specifies the unique pagination token that makes it possible to display the next page of results.  If this parameter is specified, the response includes only records beyond the marker, up to the  value specified by MaxRecords. If Marker is returned by a previous response, there are more results available.  The value of Marker is a unique pagination token for each page. To retrieve the next page,  make the call again using the returned token and keeping all other arguments unchanged.
         public let marker: String?
         /// A paginated list of metadata model conversions.
+        public let requests: [SchemaConversionRequest]?
+
+        @inlinable
+        public init(marker: String? = nil, requests: [SchemaConversionRequest]? = nil) {
+            self.marker = marker
+            self.requests = requests
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case requests = "Requests"
+        }
+    }
+
+    public struct DescribeMetadataModelCreationsMessage: AWSEncodableShape {
+        /// Filters applied to the metadata model creation requests described in the form of key-value pairs. The supported filters are request-id and status.
+        public let filters: [Filter]?
+        /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned by a previous response, there are more metadata model creation requests available.
+        public let marker: String?
+        /// The maximum number of metadata model creation requests to include in the response. If more requests exist than the specified MaxRecords value, a pagination token is provided in the response so that you can retrieve the remaining results.
+        public let maxRecords: Int?
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+
+        @inlinable
+        public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, migrationProjectIdentifier: String) {
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        }
+    }
+
+    public struct DescribeMetadataModelCreationsResponse: AWSDecodableShape {
+        /// Specifies the unique pagination token that makes it possible to display the next page of metadata model creation requests. If Marker is returned, there are more metadata model creation requests available.
+        public let marker: String?
+        /// A list of metadata model creation requests. The ExportSqlDetails field will never be populated for the DescribeMetadataModelCreations operation.
         public let requests: [SchemaConversionRequest]?
 
         @inlinable
@@ -3458,6 +3639,58 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case requests = "Requests"
+        }
+    }
+
+    public struct DescribeMetadataModelMessage: AWSEncodableShape {
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// Specifies whether to retrieve metadata from the source or target tree. Valid values: SOURCE | TARGET
+        public let origin: OriginTypeValue
+        /// The JSON string that specifies which metadata model to retrieve. Only one selection rule with "rule-action": "explicit" can be provided. For more information, see Selection Rules in the DMS User Guide.
+        public let selectionRules: String
+
+        @inlinable
+        public init(migrationProjectIdentifier: String, origin: OriginTypeValue, selectionRules: String) {
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.origin = origin
+            self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case origin = "Origin"
+            case selectionRules = "SelectionRules"
+        }
+    }
+
+    public struct DescribeMetadataModelResponse: AWSDecodableShape {
+        /// The SQL text of the metadata model. This field might not be populated for some metadata models.
+        public let definition: String?
+        /// The name of the metadata model.
+        public let metadataModelName: String?
+        /// The type of the metadata model.
+        public let metadataModelType: String?
+        /// A list of counterpart metadata models in the target. This field is populated only when Origin is SOURCE and after the object has been converted by DMS Schema Conversion.
+        public let targetMetadataModels: [MetadataModelReference]?
+
+        @inlinable
+        public init(definition: String? = nil, metadataModelName: String? = nil, metadataModelType: String? = nil, targetMetadataModels: [MetadataModelReference]? = nil) {
+            self.definition = definition
+            self.metadataModelName = metadataModelName
+            self.metadataModelType = metadataModelType
+            self.targetMetadataModels = targetMetadataModels
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case metadataModelName = "MetadataModelName"
+            case metadataModelType = "MetadataModelType"
+            case targetMetadataModels = "TargetMetadataModels"
         }
     }
 
@@ -4382,12 +4615,16 @@ extension DatabaseMigrationService {
         public let gcpMySQLSettings: GcpMySQLSettings?
         /// The settings for the IBM Db2 LUW source endpoint. For more information, see the IBMDb2Settings structure.
         public let ibmDb2Settings: IBMDb2Settings?
+        /// Indicates whether the endpoint is read-only. When set to true, this endpoint is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only endpoints through their associated zero-ETL integration.
+        public let isReadOnly: Bool?
         /// The settings for the Apache Kafka target endpoint. For more information, see the KafkaSettings structure.
         public let kafkaSettings: KafkaSettings?
         /// The settings for the Amazon Kinesis target endpoint. For more information, see the KinesisSettings structure.
         public let kinesisSettings: KinesisSettings?
         /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
+        /// Settings in JSON format for the target Lakehouse endpoint. This parameter applies to endpoints that are automatically created by DMS for a Lakehouse data warehouse as part of a zero-ETL integration.
+        public let lakehouseSettings: LakehouseSettings?
         /// The settings for the Microsoft SQL Server source and target endpoint. For more information, see the MicrosoftSQLServerSettings structure.
         public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// The settings for the MongoDB source endpoint. For more information, see the MongoDbSettings structure.
@@ -4424,7 +4661,7 @@ extension DatabaseMigrationService {
         public let username: String?
 
         @inlinable
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, ibmDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, timestreamSettings: TimestreamSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, ibmDb2Settings: IBMDb2Settings? = nil, isReadOnly: Bool? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, lakehouseSettings: LakehouseSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, timestreamSettings: TimestreamSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -4441,9 +4678,11 @@ extension DatabaseMigrationService {
             self.extraConnectionAttributes = extraConnectionAttributes
             self.gcpMySQLSettings = gcpMySQLSettings
             self.ibmDb2Settings = ibmDb2Settings
+            self.isReadOnly = isReadOnly
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
+            self.lakehouseSettings = lakehouseSettings
             self.microsoftSQLServerSettings = microsoftSQLServerSettings
             self.mongoDbSettings = mongoDbSettings
             self.mySQLSettings = mySQLSettings
@@ -4480,9 +4719,11 @@ extension DatabaseMigrationService {
             case extraConnectionAttributes = "ExtraConnectionAttributes"
             case gcpMySQLSettings = "GcpMySQLSettings"
             case ibmDb2Settings = "IBMDb2Settings"
+            case isReadOnly = "IsReadOnly"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
+            case lakehouseSettings = "LakehouseSettings"
             case microsoftSQLServerSettings = "MicrosoftSQLServerSettings"
             case mongoDbSettings = "MongoDbSettings"
             case mySQLSettings = "MySQLSettings"
@@ -4902,6 +5143,42 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct GetTargetSelectionRulesMessage: AWSEncodableShape {
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// The JSON string representing the source selection rules for conversion. Selection rules must contain only supported metadata model types. For more information, see Selection Rules in the DMS User Guide.
+        public let selectionRules: String
+
+        @inlinable
+        public init(migrationProjectIdentifier: String, selectionRules: String) {
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case selectionRules = "SelectionRules"
+        }
+    }
+
+    public struct GetTargetSelectionRulesResponse: AWSDecodableShape {
+        /// The JSON string representing the counterpart selection rules in the target.
+        public let targetSelectionRules: String?
+
+        @inlinable
+        public init(targetSelectionRules: String? = nil) {
+            self.targetSelectionRules = targetSelectionRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetSelectionRules = "TargetSelectionRules"
+        }
+    }
+
     public struct IBMDb2Settings: AWSEncodableShape & AWSDecodableShape {
         /// For ongoing replication (CDC), use CurrentLSN to specify a log sequence number (LSN) where you want the replication to start.
         public let currentLsn: String?
@@ -5051,14 +5328,17 @@ extension DatabaseMigrationService {
         public let certificatePem: String?
         /// The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
         public let certificateWallet: AWSBase64Data?
+        /// An KMS key identifier that is used to encrypt the certificate. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        public let kmsKeyId: String?
         /// The tags associated with the certificate.
         public let tags: [Tag]?
 
         @inlinable
-        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, tags: [Tag]? = nil) {
+        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, kmsKeyId: String? = nil, tags: [Tag]? = nil) {
             self.certificateIdentifier = certificateIdentifier
             self.certificatePem = certificatePem
             self.certificateWallet = certificateWallet
+            self.kmsKeyId = kmsKeyId
             self.tags = tags
         }
 
@@ -5066,6 +5346,7 @@ extension DatabaseMigrationService {
             case certificateIdentifier = "CertificateIdentifier"
             case certificatePem = "CertificatePem"
             case certificateWallet = "CertificateWallet"
+            case kmsKeyId = "KmsKeyId"
             case tags = "Tags"
         }
     }
@@ -5323,6 +5604,20 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct LakehouseSettings: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Lakehouse resource that serves as the target for this endpoint.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct Limitation: AWSDecodableShape {
         /// The identifier of the source database.
         public let databaseId: String?
@@ -5420,6 +5715,24 @@ extension DatabaseMigrationService {
             case s3Path = "S3Path"
             case serverName = "ServerName"
             case sslMode = "SslMode"
+        }
+    }
+
+    public struct MetadataModelReference: AWSDecodableShape {
+        /// The name of the metadata model.
+        public let metadataModelName: String?
+        /// The JSON string representing metadata model location.
+        public let selectionRules: String?
+
+        @inlinable
+        public init(metadataModelName: String? = nil, selectionRules: String? = nil) {
+            self.metadataModelName = metadataModelName
+            self.selectionRules = selectionRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataModelName = "MetadataModelName"
+            case selectionRules = "SelectionRules"
         }
     }
 
@@ -5697,7 +6010,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos, docdb, and sybase. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
         public let exactSettings: Bool?
@@ -7127,6 +7440,54 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct ProcessedObject: AWSDecodableShape {
+        /// The type of the data provider. This parameter can store one of the following values:  "SOURCE" or "TARGET".
+        public let endpointType: String?
+        /// The name of the database object.
+        public let name: String?
+        /// The type of the database object. For example, a table, view, procedure, and so on.
+        public let type: String?
+
+        @inlinable
+        public init(endpointType: String? = nil, name: String? = nil, type: String? = nil) {
+            self.endpointType = endpointType
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointType = "EndpointType"
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct Progress: AWSDecodableShape {
+        /// The name of the database object that the schema conversion operation currently uses.
+        public let processedObject: ProcessedObject?
+        /// The percent complete for the current step of the schema conversion operation.
+        public let progressPercent: Double?
+        /// The step of the schema conversion operation. This parameter can store one of the following values:    IN_PROGRESS – The operation is running.    LOADING_METADATA – Loads metadata from the source database.    COUNTING_OBJECTS – Determines the number of objects involved  in the operation.    ANALYZING – Analyzes the source database objects.    CONVERTING – Converts the source database objects to a format compatible  with the target database.    APPLYING – Applies the converted code to the target database.    FINISHED – The operation completed successfully.
+        public let progressStep: String?
+        /// The number of objects in this schema conversion operation.
+        public let totalObjects: Int64?
+
+        @inlinable
+        public init(processedObject: ProcessedObject? = nil, progressPercent: Double? = nil, progressStep: String? = nil, totalObjects: Int64? = nil) {
+            self.processedObject = processedObject
+            self.progressPercent = progressPercent
+            self.progressStep = progressStep
+            self.totalObjects = totalObjects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processedObject = "ProcessedObject"
+            case progressPercent = "ProgressPercent"
+            case progressStep = "ProgressStep"
+            case totalObjects = "TotalObjects"
+        }
+    }
+
     public struct ProvisionData: AWSDecodableShape {
         /// The timestamp when provisioning became available.
         public let dateNewProvisioningDataAvailable: Date?
@@ -7736,6 +8097,8 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// Error and other information about why a serverless replication failed.
         public let failureMessages: [String]?
+        /// Indicates whether the serverless replication is read-only. When set to true, this replication is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only replications through their associated zero-ETL integration.
+        public let isReadOnly: Bool?
         /// The status output of premigration assessment in describe-replications.
         public let premigrationAssessmentStatuses: [PremigrationAssessmentStatus]?
         /// Information about provisioning resources for an DMS serverless replication.
@@ -7770,11 +8133,12 @@ extension DatabaseMigrationService {
         public let targetEndpointArn: String?
 
         @inlinable
-        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, failureMessages: [String]? = nil, premigrationAssessmentStatuses: [PremigrationAssessmentStatus]? = nil, provisionData: ProvisionData? = nil, recoveryCheckpoint: String? = nil, replicationConfigArn: String? = nil, replicationConfigIdentifier: String? = nil, replicationCreateTime: Date? = nil, replicationDeprovisionTime: Date? = nil, replicationLastStopTime: Date? = nil, replicationStats: ReplicationStats? = nil, replicationType: MigrationTypeValue? = nil, replicationUpdateTime: Date? = nil, sourceEndpointArn: String? = nil, startReplicationType: String? = nil, status: String? = nil, stopReason: String? = nil, targetEndpointArn: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, failureMessages: [String]? = nil, isReadOnly: Bool? = nil, premigrationAssessmentStatuses: [PremigrationAssessmentStatus]? = nil, provisionData: ProvisionData? = nil, recoveryCheckpoint: String? = nil, replicationConfigArn: String? = nil, replicationConfigIdentifier: String? = nil, replicationCreateTime: Date? = nil, replicationDeprovisionTime: Date? = nil, replicationLastStopTime: Date? = nil, replicationStats: ReplicationStats? = nil, replicationType: MigrationTypeValue? = nil, replicationUpdateTime: Date? = nil, sourceEndpointArn: String? = nil, startReplicationType: String? = nil, status: String? = nil, stopReason: String? = nil, targetEndpointArn: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
             self.failureMessages = failureMessages
+            self.isReadOnly = isReadOnly
             self.premigrationAssessmentStatuses = premigrationAssessmentStatuses
             self.provisionData = provisionData
             self.recoveryCheckpoint = recoveryCheckpoint
@@ -7798,6 +8162,7 @@ extension DatabaseMigrationService {
             case cdcStartTime = "CdcStartTime"
             case cdcStopPosition = "CdcStopPosition"
             case failureMessages = "FailureMessages"
+            case isReadOnly = "IsReadOnly"
             case premigrationAssessmentStatuses = "PremigrationAssessmentStatuses"
             case provisionData = "ProvisionData"
             case recoveryCheckpoint = "RecoveryCheckpoint"
@@ -7820,6 +8185,8 @@ extension DatabaseMigrationService {
     public struct ReplicationConfig: AWSDecodableShape {
         /// Configuration parameters for provisioning an DMS serverless replication.
         public let computeConfig: ComputeConfig?
+        /// Indicates whether the replication configuration is read-only. When set to true, this replication configuration is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only replication configurations through their associated zero-ETL integration.
+        public let isReadOnly: Bool?
         /// The Amazon Resource Name (ARN) of this DMS Serverless replication configuration.
         public let replicationConfigArn: String?
         /// The time the serverless replication config was created.
@@ -7842,8 +8209,9 @@ extension DatabaseMigrationService {
         public let targetEndpointArn: String?
 
         @inlinable
-        public init(computeConfig: ComputeConfig? = nil, replicationConfigArn: String? = nil, replicationConfigCreateTime: Date? = nil, replicationConfigIdentifier: String? = nil, replicationConfigUpdateTime: Date? = nil, replicationSettings: String? = nil, replicationType: MigrationTypeValue? = nil, sourceEndpointArn: String? = nil, supplementalSettings: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
+        public init(computeConfig: ComputeConfig? = nil, isReadOnly: Bool? = nil, replicationConfigArn: String? = nil, replicationConfigCreateTime: Date? = nil, replicationConfigIdentifier: String? = nil, replicationConfigUpdateTime: Date? = nil, replicationSettings: String? = nil, replicationType: MigrationTypeValue? = nil, sourceEndpointArn: String? = nil, supplementalSettings: String? = nil, tableMappings: String? = nil, targetEndpointArn: String? = nil) {
             self.computeConfig = computeConfig
+            self.isReadOnly = isReadOnly
             self.replicationConfigArn = replicationConfigArn
             self.replicationConfigCreateTime = replicationConfigCreateTime
             self.replicationConfigIdentifier = replicationConfigIdentifier
@@ -7858,6 +8226,7 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case computeConfig = "ComputeConfig"
+            case isReadOnly = "IsReadOnly"
             case replicationConfigArn = "ReplicationConfigArn"
             case replicationConfigCreateTime = "ReplicationConfigCreateTime"
             case replicationConfigIdentifier = "ReplicationConfigIdentifier"
@@ -8123,6 +8492,8 @@ extension DatabaseMigrationService {
     }
 
     public struct ReplicationSubnetGroup: AWSDecodableShape {
+        /// Indicates whether the replication subnet group is read-only. When set to true, this subnet group is managed by DMS as part of a zero-ETL integration and cannot be modified or deleted directly. You can only modify or delete read-only subnet groups through their associated zero-ETL integration.
+        public let isReadOnly: Bool?
         /// A description for the replication subnet group.
         public let replicationSubnetGroupDescription: String?
         /// The identifier of the replication instance subnet group.
@@ -8137,7 +8508,8 @@ extension DatabaseMigrationService {
         public let vpcId: String?
 
         @inlinable
-        public init(replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [String]? = nil, vpcId: String? = nil) {
+        public init(isReadOnly: Bool? = nil, replicationSubnetGroupDescription: String? = nil, replicationSubnetGroupIdentifier: String? = nil, subnetGroupStatus: String? = nil, subnets: [Subnet]? = nil, supportedNetworkTypes: [String]? = nil, vpcId: String? = nil) {
+            self.isReadOnly = isReadOnly
             self.replicationSubnetGroupDescription = replicationSubnetGroupDescription
             self.replicationSubnetGroupIdentifier = replicationSubnetGroupIdentifier
             self.subnetGroupStatus = subnetGroupStatus
@@ -8147,6 +8519,7 @@ extension DatabaseMigrationService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case isReadOnly = "IsReadOnly"
             case replicationSubnetGroupDescription = "ReplicationSubnetGroupDescription"
             case replicationSubnetGroupIdentifier = "ReplicationSubnetGroupIdentifier"
             case subnetGroupStatus = "SubnetGroupStatus"
@@ -8731,16 +9104,18 @@ extension DatabaseMigrationService {
         public let exportSqlDetails: ExportSqlDetails?
         /// The migration project ARN.
         public let migrationProjectArn: String?
+        public let progress: Progress?
         /// The identifier for the schema conversion action.
         public let requestIdentifier: String?
         /// The schema conversion action status.
         public let status: String?
 
         @inlinable
-        public init(error: ErrorDetails? = nil, exportSqlDetails: ExportSqlDetails? = nil, migrationProjectArn: String? = nil, requestIdentifier: String? = nil, status: String? = nil) {
+        public init(error: ErrorDetails? = nil, exportSqlDetails: ExportSqlDetails? = nil, migrationProjectArn: String? = nil, progress: Progress? = nil, requestIdentifier: String? = nil, status: String? = nil) {
             self.error = error
             self.exportSqlDetails = exportSqlDetails
             self.migrationProjectArn = migrationProjectArn
+            self.progress = progress
             self.requestIdentifier = requestIdentifier
             self.status = status
         }
@@ -8749,6 +9124,7 @@ extension DatabaseMigrationService {
             case error = "Error"
             case exportSqlDetails = "ExportSqlDetails"
             case migrationProjectArn = "MigrationProjectArn"
+            case progress = "Progress"
             case requestIdentifier = "RequestIdentifier"
             case status = "Status"
         }
@@ -9003,6 +9379,50 @@ extension DatabaseMigrationService {
 
     public struct StartMetadataModelConversionResponse: AWSDecodableShape {
         /// The identifier for the conversion operation.
+        public let requestIdentifier: String?
+
+        @inlinable
+        public init(requestIdentifier: String? = nil) {
+            self.requestIdentifier = requestIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestIdentifier = "RequestIdentifier"
+        }
+    }
+
+    public struct StartMetadataModelCreationMessage: AWSEncodableShape {
+        /// The name of the metadata model.
+        public let metadataModelName: String
+        /// The migration project name or Amazon Resource Name (ARN).
+        public let migrationProjectIdentifier: String
+        /// The properties of metadata model in JSON format. This object is a Union. Only one member of this object can be specified or returned.
+        public let properties: MetadataModelProperties
+        /// The JSON string that specifies the location where the metadata model will be created. Selection rules must specify a single schema. For more information, see Selection Rules in the DMS User Guide.
+        public let selectionRules: String
+
+        @inlinable
+        public init(metadataModelName: String, migrationProjectIdentifier: String, properties: MetadataModelProperties, selectionRules: String) {
+            self.metadataModelName = metadataModelName
+            self.migrationProjectIdentifier = migrationProjectIdentifier
+            self.properties = properties
+            self.selectionRules = selectionRules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.migrationProjectIdentifier, name: "migrationProjectIdentifier", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataModelName = "MetadataModelName"
+            case migrationProjectIdentifier = "MigrationProjectIdentifier"
+            case properties = "Properties"
+            case selectionRules = "SelectionRules"
+        }
+    }
+
+    public struct StartMetadataModelCreationResponse: AWSDecodableShape {
+        /// The identifier for the metadata model creation operation.
         public let requestIdentifier: String?
 
         @inlinable
@@ -9363,6 +9783,20 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct StatementProperties: AWSEncodableShape {
+        /// The SQL text of the statement.
+        public let definition: String
+
+        @inlinable
+        public init(definition: String) {
+            self.definition = definition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+        }
+    }
+
     public struct StopDataMigrationMessage: AWSEncodableShape {
         /// The identifier (name or ARN) of the data migration to stop.
         public let dataMigrationIdentifier: String
@@ -9496,6 +9930,40 @@ extension DatabaseMigrationService {
             case engineName = "EngineName"
             case replicationInstanceEngineMinimumVersion = "ReplicationInstanceEngineMinimumVersion"
             case supportsCDC = "SupportsCDC"
+        }
+    }
+
+    public struct SybaseAseDataProviderSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public let certificateArn: String?
+        /// The database name on the SAP ASE data provider.
+        public let databaseName: String?
+        /// Specifies whether to encrypt the password when connecting to the Sybase ASE database. When set to true, the connection password is encrypted during transmission. Default is true.
+        public let encryptPassword: Bool?
+        /// The port value for the SAP ASE data provider.
+        public let port: Int?
+        /// The name of the SAP ASE server.
+        public let serverName: String?
+        /// The SSL mode used to connect to the SAP ASE data provider.  The default value is none.
+        public let sslMode: DmsSslModeValue?
+
+        @inlinable
+        public init(certificateArn: String? = nil, databaseName: String? = nil, encryptPassword: Bool? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.encryptPassword = encryptPassword
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case encryptPassword = "EncryptPassword"
+            case port = "Port"
+            case serverName = "ServerName"
+            case sslMode = "SslMode"
         }
     }
 
@@ -9832,6 +10300,20 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case defaultErrorDetails = "defaultErrorDetails"
+        }
+    }
+
+    public struct MetadataModelProperties: AWSEncodableShape {
+        /// The properties of the statement.
+        public let statementProperties: StatementProperties?
+
+        @inlinable
+        public init(statementProperties: StatementProperties? = nil) {
+            self.statementProperties = statementProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statementProperties = "StatementProperties"
         }
     }
 }

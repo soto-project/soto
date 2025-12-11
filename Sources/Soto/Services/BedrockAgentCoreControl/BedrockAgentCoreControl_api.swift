@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockAgentCoreControl service.
 ///
-///   is in preview release and is subject to change.  Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.
+/// Welcome to the Amazon Bedrock AgentCore Control plane API reference. Control plane actions configure, create, modify, and monitor Amazon Web Services resources.
 public struct BedrockAgentCoreControl: AWSService {
     // MARK: Member variables
 
@@ -236,6 +236,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a custom browser.
     ///
     /// Parameters:
+    ///   - browserSigning: The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
     ///   - description: The description of the browser.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the browser to access Amazon Web Services services.
@@ -246,6 +247,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createBrowser(
+        browserSigning: BrowserSigningConfigInput? = nil,
         clientToken: String? = CreateBrowserRequest.idempotencyToken(),
         description: String? = nil,
         executionRoleArn: String? = nil,
@@ -256,6 +258,7 @@ public struct BedrockAgentCoreControl: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBrowserResponse {
         let input = CreateBrowserRequest(
+            browserSigning: browserSigning, 
             clientToken: clientToken, 
             description: description, 
             executionRoleArn: executionRoleArn, 
@@ -311,6 +314,47 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createCodeInterpreter(input, logger: logger)
     }
 
+    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    @Sendable
+    @inlinable
+    public func createEvaluator(_ input: CreateEvaluatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEvaluatorResponse {
+        try await self.client.execute(
+            operation: "CreateEvaluator", 
+            path: "/evaluators/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates a custom evaluator for agent quality assessment. Custom evaluators use LLM-as-a-Judge configurations with user-defined prompts, rating scales, and model settings to evaluate agent performance at tool call, trace, or session levels.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description:  The description of the evaluator that explains its purpose and evaluation criteria.
+    ///   - evaluatorConfig:  The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    ///   - evaluatorName:  The name of the evaluator. Must be unique within your account.
+    ///   - level:  The evaluation level that determines the scope of evaluation. Valid values are TOOL_CALL for individual tool invocations, TRACE for single request-response interactions, or SESSION for entire conversation sessions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEvaluator(
+        clientToken: String? = CreateEvaluatorRequest.idempotencyToken(),
+        description: String? = nil,
+        evaluatorConfig: EvaluatorConfig,
+        evaluatorName: String,
+        level: EvaluatorLevel,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEvaluatorResponse {
+        let input = CreateEvaluatorRequest(
+            clientToken: clientToken, 
+            description: description, 
+            evaluatorConfig: evaluatorConfig, 
+            evaluatorName: evaluatorName, 
+            level: level
+        )
+        return try await self.createEvaluator(input, logger: logger)
+    }
+
     /// Creates a gateway for Amazon Bedrock Agent. A gateway serves as an integration point between your agent and external services. If you specify CUSTOM_JWT as the authorizerType, you must provide an authorizerConfiguration.
     @Sendable
     @inlinable
@@ -328,12 +372,14 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - authorizerConfiguration: The authorizer configuration for the gateway. Required if authorizerType is CUSTOM_JWT.
-    ///   - authorizerType: The type of authorizer to use for the gateway.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.
+    ///   - authorizerType: The type of authorizer to use for the gateway.    CUSTOM_JWT - Authorize with a bearer token.    AWS_IAM - Authorize with your Amazon Web Services IAM credentials.    NONE - No authorization
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
     ///   - description: The description of the gateway.
     ///   - exceptionLevel: The level of detail in error messages returned when invoking the gateway.   If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.   If the value is omitted, a generic error message is returned to the end user.
+    ///   - interceptorConfigurations: A list of configuration settings for a gateway interceptor. Gateway interceptors allow custom code to be invoked during gateway invocations.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the KMS key used to encrypt data associated with the gateway.
     ///   - name: The name of the gateway. The name must be unique within your account.
+    ///   - policyEngineConfiguration: The policy engine configuration for the gateway. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with a gateway, the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies.
     ///   - protocolConfiguration: The configuration settings for the protocol specified in the protocolType parameter.
     ///   - protocolType: The protocol type for the gateway.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the gateway to access Amazon Web Services services.
@@ -346,8 +392,10 @@ public struct BedrockAgentCoreControl: AWSService {
         clientToken: String? = CreateGatewayRequest.idempotencyToken(),
         description: String? = nil,
         exceptionLevel: ExceptionLevel? = nil,
+        interceptorConfigurations: [GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: String? = nil,
         name: String,
+        policyEngineConfiguration: GatewayPolicyEngineConfiguration? = nil,
         protocolConfiguration: GatewayProtocolConfiguration? = nil,
         protocolType: GatewayProtocolType,
         roleArn: String,
@@ -360,8 +408,10 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken, 
             description: description, 
             exceptionLevel: exceptionLevel, 
+            interceptorConfigurations: interceptorConfigurations, 
             kmsKeyArn: kmsKeyArn, 
             name: name, 
+            policyEngineConfiguration: policyEngineConfiguration, 
             protocolConfiguration: protocolConfiguration, 
             protocolType: protocolType, 
             roleArn: roleArn, 
@@ -502,6 +552,135 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createOauth2CredentialProvider(input, logger: logger)
     }
 
+    ///  Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
+    @Sendable
+    @inlinable
+    public func createOnlineEvaluationConfig(_ input: CreateOnlineEvaluationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOnlineEvaluationConfigResponse {
+        try await self.client.execute(
+            operation: "CreateOnlineEvaluationConfig", 
+            path: "/online-evaluation-configs/create", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Creates an online evaluation configuration for continuous monitoring of agent performance. Online evaluation automatically samples live traffic from CloudWatch logs at specified rates and applies evaluators to assess agent quality in production.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - dataSourceConfig:  The data source configuration that specifies CloudWatch log groups and service names to monitor for agent traces.
+    ///   - description:  The description of the online evaluation configuration that explains its monitoring purpose and scope.
+    ///   - enableOnCreate:  Whether to enable the online evaluation configuration immediately upon creation. If true, evaluation begins automatically.
+    ///   - evaluationExecutionRoleArn:  The Amazon Resource Name (ARN) of the IAM role that grants permissions to read from CloudWatch logs, write evaluation results, and invoke Amazon Bedrock models for evaluation.
+    ///   - evaluators:  The list of evaluators to apply during online evaluation. Can include both built-in evaluators and custom evaluators created with CreateEvaluator.
+    ///   - onlineEvaluationConfigName:  The name of the online evaluation configuration. Must be unique within your account.
+    ///   - rule:  The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createOnlineEvaluationConfig(
+        clientToken: String? = CreateOnlineEvaluationConfigRequest.idempotencyToken(),
+        dataSourceConfig: DataSourceConfig,
+        description: String? = nil,
+        enableOnCreate: Bool,
+        evaluationExecutionRoleArn: String,
+        evaluators: [EvaluatorReference],
+        onlineEvaluationConfigName: String,
+        rule: Rule,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateOnlineEvaluationConfigResponse {
+        let input = CreateOnlineEvaluationConfigRequest(
+            clientToken: clientToken, 
+            dataSourceConfig: dataSourceConfig, 
+            description: description, 
+            enableOnCreate: enableOnCreate, 
+            evaluationExecutionRoleArn: evaluationExecutionRoleArn, 
+            evaluators: evaluators, 
+            onlineEvaluationConfigName: onlineEvaluationConfigName, 
+            rule: rule
+        )
+        return try await self.createOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func createPolicy(_ input: CreatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyResponse {
+        try await self.client.execute(
+            operation: "CreatePolicy", 
+            path: "/policy-engines/{policyEngineId}/policies", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a policy within the AgentCore Policy system. Policies provide real-time, deterministic control over agentic interactions with AgentCore Gateway. Using the Cedar policy language, you can define fine-grained policies that specify which interactions with Gateway tools are permitted based on input parameters and OAuth claims, ensuring agents operate within defined boundaries and business rules. The policy is validated during creation against the Cedar schema generated from the Gateway's tools' input schemas, which defines the available tools, their parameters, and expected data types. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy.
+    ///   - definition: The Cedar policy statement that defines the access control rules. This contains the actual policy logic written in Cedar policy language, specifying effect (permit or forbid), principals, actions, resources, and conditions for agent behavior control.
+    ///   - description: A human-readable description of the policy's purpose and functionality (1-4,096 characters). This helps policy administrators understand the policy's intent, business rules, and operational scope. Use this field to document why the policy exists, what business requirement it addresses, and any special considerations for maintenance. Clear descriptions are essential for policy governance, auditing, and troubleshooting.
+    ///   - name: The customer-assigned immutable name for the policy. Must be unique within the account. This name is used for policy identification and cannot be changed after creation.
+    ///   - policyEngineId: The identifier of the policy engine which contains this policy. Policy engines group related policies and provide the execution context for policy evaluation.
+    ///   - validationMode: The validation mode for the policy creation. Determines how Cedar analyzer validation results are handled during policy creation. FAIL_ON_ANY_FINDINGS (default) runs the Cedar analyzer to validate the policy against the Cedar schema and tool context, failing creation if the analyzer detects any validation issues to ensure strict conformance. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows policy creation even if validation issues are detected, useful for testing or when the policy schema is evolving. Use FAIL_ON_ANY_FINDINGS for production policies to ensure correctness, and IGNORE_ALL_FINDINGS only when you understand and accept the analyzer findings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPolicy(
+        clientToken: String? = CreatePolicyRequest.idempotencyToken(),
+        definition: PolicyDefinition,
+        description: String? = nil,
+        name: String,
+        policyEngineId: String,
+        validationMode: PolicyValidationMode? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePolicyResponse {
+        let input = CreatePolicyRequest(
+            clientToken: clientToken, 
+            definition: definition, 
+            description: description, 
+            name: name, 
+            policyEngineId: policyEngineId, 
+            validationMode: validationMode
+        )
+        return try await self.createPolicy(input, logger: logger)
+    }
+
+    /// Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func createPolicyEngine(_ input: CreatePolicyEngineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePolicyEngineResponse {
+        try await self.client.execute(
+            operation: "CreatePolicyEngine", 
+            path: "/policy-engines", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new policy engine within the AgentCore Policy system. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with Gateways (each Gateway can be associated with at most one policy engine, but multiple Gateways can be associated with the same engine), the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you retry a request with the same client token, the service returns the same response without creating a duplicate policy engine.
+    ///   - description: A human-readable description of the policy engine's purpose and scope (1-4,096 characters). This helps administrators understand the policy engine's role in the overall governance strategy. Document which Gateway this engine will be associated with, what types of tools or workflows it governs, and the team or service responsible for maintaining it. Clear descriptions are essential when managing multiple policy engines across different services or environments.
+    ///   - name: The customer-assigned immutable name for the policy engine. This name identifies the policy engine and cannot be changed after creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPolicyEngine(
+        clientToken: String? = CreatePolicyEngineRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePolicyEngineResponse {
+        let input = CreatePolicyEngineRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name
+        )
+        return try await self.createPolicyEngine(input, logger: logger)
+    }
+
     /// Creates a new workload identity.
     @Sendable
     @inlinable
@@ -554,14 +733,17 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - agentRuntimeId: The unique identifier of the AgentCore Runtime to delete.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, the service ignores the request but does not return an error.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentRuntime(
         agentRuntimeId: String,
+        clientToken: String? = DeleteAgentRuntimeRequest.idempotencyToken(),
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteAgentRuntimeResponse {
         let input = DeleteAgentRuntimeRequest(
-            agentRuntimeId: agentRuntimeId
+            agentRuntimeId: agentRuntimeId, 
+            clientToken: clientToken
         )
         return try await self.deleteAgentRuntime(input, logger: logger)
     }
@@ -694,6 +876,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.deleteCodeInterpreter(input, logger: logger)
     }
 
+    ///  Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
+    @Sendable
+    @inlinable
+    public func deleteEvaluator(_ input: DeleteEvaluatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEvaluatorResponse {
+        try await self.client.execute(
+            operation: "DeleteEvaluator", 
+            path: "/evaluators/{evaluatorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes a custom evaluator. Builtin evaluators cannot be deleted. The evaluator must not be referenced by any active online evaluation configurations.
+    ///
+    /// Parameters:
+    ///   - evaluatorId:  The unique identifier of the evaluator to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEvaluator(
+        evaluatorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteEvaluatorResponse {
+        let input = DeleteEvaluatorRequest(
+            evaluatorId: evaluatorId
+        )
+        return try await self.deleteEvaluator(input, logger: logger)
+    }
+
     /// Deletes a gateway.
     @Sendable
     @inlinable
@@ -814,6 +1025,125 @@ public struct BedrockAgentCoreControl: AWSService {
             name: name
         )
         return try await self.deleteOauth2CredentialProvider(input, logger: logger)
+    }
+
+    ///  Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
+    @Sendable
+    @inlinable
+    public func deleteOnlineEvaluationConfig(_ input: DeleteOnlineEvaluationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteOnlineEvaluationConfigResponse {
+        try await self.client.execute(
+            operation: "DeleteOnlineEvaluationConfig", 
+            path: "/online-evaluation-configs/{onlineEvaluationConfigId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes an online evaluation configuration and stops any ongoing evaluation processes associated with it.
+    ///
+    /// Parameters:
+    ///   - onlineEvaluationConfigId:  The unique identifier of the online evaluation configuration to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteOnlineEvaluationConfig(
+        onlineEvaluationConfigId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteOnlineEvaluationConfigResponse {
+        let input = DeleteOnlineEvaluationConfigRequest(
+            onlineEvaluationConfigId: onlineEvaluationConfigId
+        )
+        return try await self.deleteOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func deletePolicy(_ input: DeletePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyResponse {
+        try await self.client.execute(
+            operation: "DeletePolicy", 
+            path: "/policy-engines/{policyEngineId}/policies/{policyId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing policy from the AgentCore Policy system. Once deleted, the policy can no longer be used for agent behavior control and all references to it become invalid. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to be deleted. This ensures the policy is deleted from the correct policy engine context.
+    ///   - policyId: The unique identifier of the policy to be deleted. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePolicy(
+        policyEngineId: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePolicyResponse {
+        let input = DeletePolicyRequest(
+            policyEngineId: policyEngineId, 
+            policyId: policyId
+        )
+        return try await self.deletePolicy(input, logger: logger)
+    }
+
+    /// Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func deletePolicyEngine(_ input: DeletePolicyEngineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePolicyEngineResponse {
+        try await self.client.execute(
+            operation: "DeletePolicyEngine", 
+            path: "/policy-engines/{policyEngineId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing policy engine from the AgentCore Policy system. The policy engine must not have any associated policies before deletion. Once deleted, the policy engine and all its configurations become unavailable for policy management and evaluation. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The unique identifier of the policy engine to be deleted. This must be a valid policy engine ID that exists within the account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePolicyEngine(
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePolicyEngineResponse {
+        let input = DeletePolicyEngineRequest(
+            policyEngineId: policyEngineId
+        )
+        return try await self.deletePolicyEngine(input, logger: logger)
+    }
+
+    /// Deletes the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to delete the resource policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePolicyResponse {
+        let input = DeleteResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
     /// Deletes a workload identity.
@@ -996,6 +1326,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getCodeInterpreter(input, logger: logger)
     }
 
+    ///  Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
+    @Sendable
+    @inlinable
+    public func getEvaluator(_ input: GetEvaluatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEvaluatorResponse {
+        try await self.client.execute(
+            operation: "GetEvaluator", 
+            path: "/evaluators/{evaluatorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves detailed information about an evaluator, including its configuration, status, and metadata. Works with both built-in and custom evaluators.
+    ///
+    /// Parameters:
+    ///   - evaluatorId:  The unique identifier of the evaluator to retrieve. Can be a built-in evaluator ID (e.g., Builtin.Helpfulness) or a custom evaluator ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEvaluator(
+        evaluatorId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEvaluatorResponse {
+        let input = GetEvaluatorRequest(
+            evaluatorId: evaluatorId
+        )
+        return try await self.getEvaluator(input, logger: logger)
+    }
+
     /// Retrieves information about a specific Gateway.
     @Sendable
     @inlinable
@@ -1113,6 +1472,157 @@ public struct BedrockAgentCoreControl: AWSService {
             name: name
         )
         return try await self.getOauth2CredentialProvider(input, logger: logger)
+    }
+
+    ///  Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
+    @Sendable
+    @inlinable
+    public func getOnlineEvaluationConfig(_ input: GetOnlineEvaluationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOnlineEvaluationConfigResponse {
+        try await self.client.execute(
+            operation: "GetOnlineEvaluationConfig", 
+            path: "/online-evaluation-configs/{onlineEvaluationConfigId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Retrieves detailed information about an online evaluation configuration, including its rules, data sources, evaluators, and execution status.
+    ///
+    /// Parameters:
+    ///   - onlineEvaluationConfigId:  The unique identifier of the online evaluation configuration to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getOnlineEvaluationConfig(
+        onlineEvaluationConfigId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetOnlineEvaluationConfigResponse {
+        let input = GetOnlineEvaluationConfigRequest(
+            onlineEvaluationConfigId: onlineEvaluationConfigId
+        )
+        return try await self.getOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
+    @Sendable
+    @inlinable
+    public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
+        try await self.client.execute(
+            operation: "GetPolicy", 
+            path: "/policy-engines/{policyEngineId}/policies/{policyId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific policy within the AgentCore Policy system. This operation returns the complete policy definition, metadata, and current status, allowing administrators to review and manage policy configurations.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to be retrieved.
+    ///   - policyId: The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicy(
+        policyEngineId: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyResponse {
+        let input = GetPolicyRequest(
+            policyEngineId: policyEngineId, 
+            policyId: policyId
+        )
+        return try await self.getPolicy(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
+    @Sendable
+    @inlinable
+    public func getPolicyEngine(_ input: GetPolicyEngineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyEngineResponse {
+        try await self.client.execute(
+            operation: "GetPolicyEngine", 
+            path: "/policy-engines/{policyEngineId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific policy engine within the AgentCore Policy system. This operation returns the complete policy engine configuration, metadata, and current status, allowing administrators to review and manage policy engine settings.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicyEngine(
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyEngineResponse {
+        let input = GetPolicyEngineRequest(
+            policyEngineId: policyEngineId
+        )
+        return try await self.getPolicyEngine(input, logger: logger)
+    }
+
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
+    @Sendable
+    @inlinable
+    public func getPolicyGeneration(_ input: GetPolicyGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyGenerationResponse {
+        try await self.client.execute(
+            operation: "GetPolicyGeneration", 
+            path: "/policy-engines/{policyEngineId}/policy-generations/{policyGenerationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a policy generation request within the AgentCore Policy system. Policy generation converts natural language descriptions into Cedar policy statements using AI-powered translation, enabling non-technical users to create policies.
+    ///
+    /// Parameters:
+    ///   - policyEngineId: The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation.
+    ///   - policyGenerationId: The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getPolicyGeneration(
+        policyEngineId: String,
+        policyGenerationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetPolicyGenerationResponse {
+        let input = GetPolicyGenerationRequest(
+            policyEngineId: policyEngineId, 
+            policyGenerationId: policyGenerationId
+        )
+        return try await self.getPolicyGeneration(input, logger: logger)
+    }
+
+    /// Retrieves the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource-based policy for a specified resource.  This feature is currently available only for AgentCore Runtime and Gateway.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to retrieve the resource policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
     }
 
     /// Retrieves information about a token vault.
@@ -1377,6 +1887,38 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listCodeInterpreters(input, logger: logger)
     }
 
+    ///  Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
+    @Sendable
+    @inlinable
+    public func listEvaluators(_ input: ListEvaluatorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEvaluatorsResponse {
+        try await self.client.execute(
+            operation: "ListEvaluators", 
+            path: "/evaluators", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all available evaluators, including both builtin evaluators provided by the service and custom evaluators created by the user.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of evaluators to return in a single response.
+    ///   - nextToken:  The pagination token from a previous request to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEvaluators(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEvaluatorsResponse {
+        let input = ListEvaluatorsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listEvaluators(input, logger: logger)
+    }
+
     /// Lists all targets for a specific gateway.
     @Sendable
     @inlinable
@@ -1508,6 +2050,181 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listOauth2CredentialProviders(input, logger: logger)
     }
 
+    ///  Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
+    @Sendable
+    @inlinable
+    public func listOnlineEvaluationConfigs(_ input: ListOnlineEvaluationConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOnlineEvaluationConfigsResponse {
+        try await self.client.execute(
+            operation: "ListOnlineEvaluationConfigs", 
+            path: "/online-evaluation-configs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all online evaluation configurations in the account, providing summary information about each configuration's status and settings.
+    ///
+    /// Parameters:
+    ///   - maxResults:  The maximum number of online evaluation configurations to return in a single response.
+    ///   - nextToken:  The pagination token from a previous request to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOnlineEvaluationConfigs(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOnlineEvaluationConfigsResponse {
+        let input = ListOnlineEvaluationConfigsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listOnlineEvaluationConfigs(input, logger: logger)
+    }
+
+    /// Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
+    @Sendable
+    @inlinable
+    public func listPolicies(_ input: ListPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPoliciesResponse {
+        try await self.client.execute(
+            operation: "ListPolicies", 
+            path: "/policy-engines/{policyEngineId}/policies", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of policies within the AgentCore Policy engine. This operation supports pagination and filtering to help administrators manage and discover policies across policy engines. Results can be filtered by policy engine or resource associations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policies to return in a single response. If not specified, the default is 10 policies per page, with a maximum of 100 per page.
+    ///   - nextToken: A pagination token returned from a previous ListPolicies call. Use this token to retrieve the next page of results when the response is paginated.
+    ///   - policyEngineId: The identifier of the policy engine whose policies to retrieve.
+    ///   - targetResourceScope: Optional filter to list policies that apply to a specific resource scope or resource type. This helps narrow down policy results to those relevant for particular Amazon Web Services resources, agent tools, or operational contexts within the policy engine ecosystem.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicies(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyEngineId: String,
+        targetResourceScope: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPoliciesResponse {
+        let input = ListPoliciesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyEngineId: policyEngineId, 
+            targetResourceScope: targetResourceScope
+        )
+        return try await self.listPolicies(input, logger: logger)
+    }
+
+    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
+    @Sendable
+    @inlinable
+    public func listPolicyEngines(_ input: ListPolicyEnginesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyEnginesResponse {
+        try await self.client.execute(
+            operation: "ListPolicyEngines", 
+            path: "/policy-engines", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of policy engines within the AgentCore Policy system. This operation supports pagination to help administrators discover and manage policy engines across their account. Each policy engine serves as a container for related policies.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy engines to return in a single response. If not specified, the default is 10 policy engines per page, with a maximum of 100 per page.
+    ///   - nextToken: A pagination token returned from a previous ListPolicyEngines call. Use this token to retrieve the next page of results when the response is paginated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyEngines(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyEnginesResponse {
+        let input = ListPolicyEnginesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPolicyEngines(input, logger: logger)
+    }
+
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
+    @Sendable
+    @inlinable
+    public func listPolicyGenerationAssets(_ input: ListPolicyGenerationAssetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyGenerationAssetsResponse {
+        try await self.client.execute(
+            operation: "ListPolicyGenerationAssets", 
+            path: "/policy-engines/{policyEngineId}/policy-generations/{policyGenerationId}/assets", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of generated policy assets from a policy generation request within the AgentCore Policy system. This operation returns the actual Cedar policies and related artifacts produced by the AI-powered policy generation process, allowing users to review and select from multiple generated policy options.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy generation assets to return in a single response. If not specified, the default is 10 assets per page, with a maximum of 100 per page. This helps control response size when dealing with policy generations that produce many alternative policy options.
+    ///   - nextToken: A pagination token returned from a previous ListPolicyGenerationAssets call. Use this token to retrieve the next page of assets when the response is paginated due to large numbers of generated policy options.
+    ///   - policyEngineId: The unique identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine.
+    ///   - policyGenerationId: The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call that has completed processing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyGenerationAssets(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyEngineId: String,
+        policyGenerationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyGenerationAssetsResponse {
+        let input = ListPolicyGenerationAssetsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyEngineId: policyEngineId, 
+            policyGenerationId: policyGenerationId
+        )
+        return try await self.listPolicyGenerationAssets(input, logger: logger)
+    }
+
+    /// Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
+    @Sendable
+    @inlinable
+    public func listPolicyGenerations(_ input: ListPolicyGenerationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPolicyGenerationsResponse {
+        try await self.client.execute(
+            operation: "ListPolicyGenerations", 
+            path: "/policy-engines/{policyEngineId}/policy-generations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of policy generation requests within the AgentCore Policy system. This operation supports pagination and filtering to help track and manage AI-powered policy generation operations.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of policy generations to return in a single response.
+    ///   - nextToken: A pagination token for retrieving additional policy generations when results are paginated.
+    ///   - policyEngineId: The identifier of the policy engine whose policy generations to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPolicyGenerations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPolicyGenerationsResponse {
+        let input = ListPolicyGenerationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            policyEngineId: policyEngineId
+        )
+        return try await self.listPolicyGenerations(input, logger: logger)
+    }
+
     /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
     @Sendable
     @inlinable
@@ -1569,6 +2286,38 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listWorkloadIdentities(input, logger: logger)
     }
 
+    /// Creates or updates a resource-based policy for a resource with the specified resourceArn.  This feature is currently available only for AgentCore Runtime and Gateway.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/resourcepolicy/{resourceArn}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates a resource-based policy for a resource with the specified resourceArn.  This feature is currently available only for AgentCore Runtime and Gateway.
+    ///
+    /// Parameters:
+    ///   - policy: The resource policy to create or update.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to create or update the resource policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        policy: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            policy: policy, 
+            resourceArn: resourceArn
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
     /// Sets the customer master key (CMK) for a token vault.
     @Sendable
     @inlinable
@@ -1599,6 +2348,47 @@ public struct BedrockAgentCoreControl: AWSService {
             tokenVaultId: tokenVaultId
         )
         return try await self.setTokenVaultCMK(input, logger: logger)
+    }
+
+    /// Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
+    @Sendable
+    @inlinable
+    public func startPolicyGeneration(_ input: StartPolicyGenerationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPolicyGenerationResponse {
+        try await self.client.execute(
+            operation: "StartPolicyGeneration", 
+            path: "/policy-engines/{policyEngineId}/policy-generations", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates the AI-powered generation of Cedar policies from natural language descriptions within the AgentCore Policy system. This feature enables both technical and non-technical users to create policies by describing their authorization requirements in plain English, which is then automatically translated into formal Cedar policy statements. The generation process analyzes the natural language input along with the Gateway's tool context to produce validated policy options. Generated policy assets are automatically deleted after 7 days, so you should review and create policies from the generated assets within this timeframe. Once created, policies are permanent and not subject to this expiration. Generated policies should be reviewed and tested in log-only mode before deploying to production. Use this when you want to describe policy intent naturally rather than learning Cedar syntax, though generated policies may require refinement for complex scenarios.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure the idempotency of the request. The AWS SDK automatically generates this token, so you don't need to provide it in most cases. If you retry a request with the same client token, the service returns the same response without starting a duplicate generation.
+    ///   - content: The natural language description of the desired policy behavior. This content is processed by AI to generate corresponding Cedar policy statements that match the described intent.
+    ///   - name: A customer-assigned name for the policy generation request. This helps track and identify generation operations, especially when running multiple generations simultaneously.
+    ///   - policyEngineId: The identifier of the policy engine that provides the context for policy generation. This engine's schema and tool context are used to ensure generated policies are valid and applicable.
+    ///   - resource: The resource information that provides context for policy generation. This helps the AI understand the target resources and generate appropriate access control rules.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startPolicyGeneration(
+        clientToken: String? = StartPolicyGenerationRequest.idempotencyToken(),
+        content: Content,
+        name: String,
+        policyEngineId: String,
+        resource: Resource,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartPolicyGenerationResponse {
+        let input = StartPolicyGenerationRequest(
+            clientToken: clientToken, 
+            content: content, 
+            name: name, 
+            policyEngineId: policyEngineId, 
+            resource: resource
+        )
+        return try await self.startPolicyGeneration(input, logger: logger)
     }
 
     /// The gateway targets.
@@ -1829,6 +2619,47 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.updateApiKeyCredentialProvider(input, logger: logger)
     }
 
+    ///  Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
+    @Sendable
+    @inlinable
+    public func updateEvaluator(_ input: UpdateEvaluatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEvaluatorResponse {
+        try await self.client.execute(
+            operation: "UpdateEvaluator", 
+            path: "/evaluators/{evaluatorId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates a custom evaluator's configuration, description, or evaluation level. Built-in evaluators cannot be updated. The evaluator must not be locked for modification.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - description:  The updated description of the evaluator.
+    ///   - evaluatorConfig:  The updated configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
+    ///   - evaluatorId:  The unique identifier of the evaluator to update.
+    ///   - level:  The updated evaluation level (TOOL_CALL, TRACE, or SESSION) that determines the scope of evaluation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEvaluator(
+        clientToken: String? = UpdateEvaluatorRequest.idempotencyToken(),
+        description: String? = nil,
+        evaluatorConfig: EvaluatorConfig? = nil,
+        evaluatorId: String,
+        level: EvaluatorLevel? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEvaluatorResponse {
+        let input = UpdateEvaluatorRequest(
+            clientToken: clientToken, 
+            description: description, 
+            evaluatorConfig: evaluatorConfig, 
+            evaluatorId: evaluatorId, 
+            level: level
+        )
+        return try await self.updateEvaluator(input, logger: logger)
+    }
+
     /// Updates an existing gateway.
     @Sendable
     @inlinable
@@ -1850,8 +2681,10 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - description: The updated description for the gateway.
     ///   - exceptionLevel: The level of detail in error messages returned when invoking the gateway.   If the value is DEBUG, granular exception messages are returned to help a user debug the gateway.   If the value is omitted, a generic error message is returned to the end user.
     ///   - gatewayIdentifier: The identifier of the gateway to update.
+    ///   - interceptorConfigurations: The updated interceptor configurations for the gateway.
     ///   - kmsKeyArn: The updated ARN of the KMS key used to encrypt the gateway.
     ///   - name: The name of the gateway. This name must be the same as the one when the gateway was created.
+    ///   - policyEngineConfiguration: The updated policy engine configuration for the gateway. A policy engine is a collection of policies that evaluates and authorizes agent tool calls. When associated with a gateway, the policy engine intercepts all agent requests and determines whether to allow or deny each action based on the defined policies.
     ///   - protocolConfiguration: 
     ///   - protocolType: The updated protocol type for the gateway.
     ///   - roleArn: The updated IAM role ARN that provides permissions for the gateway.
@@ -1863,8 +2696,10 @@ public struct BedrockAgentCoreControl: AWSService {
         description: String? = nil,
         exceptionLevel: ExceptionLevel? = nil,
         gatewayIdentifier: String,
+        interceptorConfigurations: [GatewayInterceptorConfiguration]? = nil,
         kmsKeyArn: String? = nil,
         name: String,
+        policyEngineConfiguration: GatewayPolicyEngineConfiguration? = nil,
         protocolConfiguration: GatewayProtocolConfiguration? = nil,
         protocolType: GatewayProtocolType,
         roleArn: String,
@@ -1876,8 +2711,10 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             exceptionLevel: exceptionLevel, 
             gatewayIdentifier: gatewayIdentifier, 
+            interceptorConfigurations: interceptorConfigurations, 
             kmsKeyArn: kmsKeyArn, 
             name: name, 
+            policyEngineConfiguration: policyEngineConfiguration, 
             protocolConfiguration: protocolConfiguration, 
             protocolType: protocolType, 
             roleArn: roleArn
@@ -2006,6 +2843,129 @@ public struct BedrockAgentCoreControl: AWSService {
             oauth2ProviderConfigInput: oauth2ProviderConfigInput
         )
         return try await self.updateOauth2CredentialProvider(input, logger: logger)
+    }
+
+    ///  Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
+    @Sendable
+    @inlinable
+    public func updateOnlineEvaluationConfig(_ input: UpdateOnlineEvaluationConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOnlineEvaluationConfigResponse {
+        try await self.client.execute(
+            operation: "UpdateOnlineEvaluationConfig", 
+            path: "/online-evaluation-configs/{onlineEvaluationConfigId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates an online evaluation configuration's settings, including rules, data sources, evaluators, and execution status. Changes take effect immediately for ongoing evaluations.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If you don't specify this field, a value is randomly generated for you. If this token matches a previous request, the service ignores the request, but doesn't return an error. For more information, see Ensuring idempotency.
+    ///   - dataSourceConfig:  The updated data source configuration specifying CloudWatch log groups and service names to monitor.
+    ///   - description:  The updated description of the online evaluation configuration.
+    ///   - evaluationExecutionRoleArn:  The updated Amazon Resource Name (ARN) of the IAM role used for evaluation execution.
+    ///   - evaluators:  The updated list of evaluators to apply during online evaluation.
+    ///   - executionStatus:  The updated execution status to enable or disable the online evaluation.
+    ///   - onlineEvaluationConfigId:  The unique identifier of the online evaluation configuration to update.
+    ///   - rule:  The updated evaluation rule containing sampling configuration, filters, and session settings.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateOnlineEvaluationConfig(
+        clientToken: String? = UpdateOnlineEvaluationConfigRequest.idempotencyToken(),
+        dataSourceConfig: DataSourceConfig? = nil,
+        description: String? = nil,
+        evaluationExecutionRoleArn: String? = nil,
+        evaluators: [EvaluatorReference]? = nil,
+        executionStatus: OnlineEvaluationExecutionStatus? = nil,
+        onlineEvaluationConfigId: String,
+        rule: Rule? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateOnlineEvaluationConfigResponse {
+        let input = UpdateOnlineEvaluationConfigRequest(
+            clientToken: clientToken, 
+            dataSourceConfig: dataSourceConfig, 
+            description: description, 
+            evaluationExecutionRoleArn: evaluationExecutionRoleArn, 
+            evaluators: evaluators, 
+            executionStatus: executionStatus, 
+            onlineEvaluationConfigId: onlineEvaluationConfigId, 
+            rule: rule
+        )
+        return try await self.updateOnlineEvaluationConfig(input, logger: logger)
+    }
+
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func updatePolicy(_ input: UpdatePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePolicyResponse {
+        try await self.client.execute(
+            operation: "UpdatePolicy", 
+            path: "/policy-engines/{policyEngineId}/policies/{policyId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing policy within the AgentCore Policy system. This operation allows modification of the policy description and definition while maintaining the policy's identity. The updated policy is validated against the Cedar schema before being applied. This is an asynchronous operation. Use the GetPolicy operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - definition: The new Cedar policy statement that defines the access control rules. This replaces the existing policy definition with new logic while maintaining the policy's identity.
+    ///   - description: The new human-readable description for the policy. This optional field allows updating the policy's documentation while keeping the same policy logic.
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to be updated. This ensures the policy is updated within the correct policy engine context.
+    ///   - policyId: The unique identifier of the policy to be updated. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - validationMode: The validation mode for the policy update. Determines how Cedar analyzer validation results are handled during policy updates. FAIL_ON_ANY_FINDINGS runs the Cedar analyzer and fails the update if validation issues are detected, ensuring the policy conforms to the Cedar schema and tool context. IGNORE_ALL_FINDINGS runs the Cedar analyzer but allows updates despite validation warnings. Use FAIL_ON_ANY_FINDINGS to ensure policy correctness during updates, especially when modifying policy logic or conditions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePolicy(
+        definition: PolicyDefinition,
+        description: String? = nil,
+        policyEngineId: String,
+        policyId: String,
+        validationMode: PolicyValidationMode? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePolicyResponse {
+        let input = UpdatePolicyRequest(
+            definition: definition, 
+            description: description, 
+            policyEngineId: policyEngineId, 
+            policyId: policyId, 
+            validationMode: validationMode
+        )
+        return try await self.updatePolicy(input, logger: logger)
+    }
+
+    /// Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    @Sendable
+    @inlinable
+    public func updatePolicyEngine(_ input: UpdatePolicyEngineRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePolicyEngineResponse {
+        try await self.client.execute(
+            operation: "UpdatePolicyEngine", 
+            path: "/policy-engines/{policyEngineId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing policy engine within the AgentCore Policy system. This operation allows modification of the policy engine description while maintaining its identity. This is an asynchronous operation. Use the GetPolicyEngine operation to poll the status field to track completion.
+    ///
+    /// Parameters:
+    ///   - description: The new description for the policy engine.
+    ///   - policyEngineId: The unique identifier of the policy engine to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updatePolicyEngine(
+        description: String? = nil,
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdatePolicyEngineResponse {
+        let input = UpdatePolicyEngineRequest(
+            description: description, 
+            policyEngineId: policyEngineId
+        )
+        return try await self.updatePolicyEngine(input, logger: logger)
     }
 
     /// Updates an existing workload identity.
@@ -2270,6 +3230,40 @@ extension BedrockAgentCoreControl {
         return self.listCodeInterpretersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listEvaluators(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEvaluatorsPaginator(
+        _ input: ListEvaluatorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEvaluatorsRequest, ListEvaluatorsResponse> {
+        return .init(
+            input: input,
+            command: self.listEvaluators,
+            inputKey: \ListEvaluatorsRequest.nextToken,
+            outputKey: \ListEvaluatorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEvaluators(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of evaluators to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEvaluatorsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEvaluatorsRequest, ListEvaluatorsResponse> {
+        let input = ListEvaluatorsRequest(
+            maxResults: maxResults
+        )
+        return self.listEvaluatorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listGatewayTargets(_:logger:)``.
     ///
     /// - Parameters:
@@ -2409,6 +3403,191 @@ extension BedrockAgentCoreControl {
         return self.listOauth2CredentialProvidersPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listOnlineEvaluationConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOnlineEvaluationConfigsPaginator(
+        _ input: ListOnlineEvaluationConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOnlineEvaluationConfigsRequest, ListOnlineEvaluationConfigsResponse> {
+        return .init(
+            input: input,
+            command: self.listOnlineEvaluationConfigs,
+            inputKey: \ListOnlineEvaluationConfigsRequest.nextToken,
+            outputKey: \ListOnlineEvaluationConfigsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOnlineEvaluationConfigs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults:  The maximum number of online evaluation configurations to return in a single response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOnlineEvaluationConfigsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOnlineEvaluationConfigsRequest, ListOnlineEvaluationConfigsResponse> {
+        let input = ListOnlineEvaluationConfigsRequest(
+            maxResults: maxResults
+        )
+        return self.listOnlineEvaluationConfigsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPoliciesPaginator(
+        _ input: ListPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPoliciesRequest, ListPoliciesResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicies,
+            inputKey: \ListPoliciesRequest.nextToken,
+            outputKey: \ListPoliciesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policies to return in a single response. If not specified, the default is 10 policies per page, with a maximum of 100 per page.
+    ///   - policyEngineId: The identifier of the policy engine whose policies to retrieve.
+    ///   - targetResourceScope: Optional filter to list policies that apply to a specific resource scope or resource type. This helps narrow down policy results to those relevant for particular Amazon Web Services resources, agent tools, or operational contexts within the policy engine ecosystem.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPoliciesPaginator(
+        maxResults: Int? = nil,
+        policyEngineId: String,
+        targetResourceScope: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPoliciesRequest, ListPoliciesResponse> {
+        let input = ListPoliciesRequest(
+            maxResults: maxResults, 
+            policyEngineId: policyEngineId, 
+            targetResourceScope: targetResourceScope
+        )
+        return self.listPoliciesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicyEngines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyEnginesPaginator(
+        _ input: ListPolicyEnginesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyEnginesRequest, ListPolicyEnginesResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyEngines,
+            inputKey: \ListPolicyEnginesRequest.nextToken,
+            outputKey: \ListPolicyEnginesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyEngines(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy engines to return in a single response. If not specified, the default is 10 policy engines per page, with a maximum of 100 per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyEnginesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyEnginesRequest, ListPolicyEnginesResponse> {
+        let input = ListPolicyEnginesRequest(
+            maxResults: maxResults
+        )
+        return self.listPolicyEnginesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicyGenerationAssets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationAssetsPaginator(
+        _ input: ListPolicyGenerationAssetsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationAssetsRequest, ListPolicyGenerationAssetsResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyGenerationAssets,
+            inputKey: \ListPolicyGenerationAssetsRequest.nextToken,
+            outputKey: \ListPolicyGenerationAssetsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyGenerationAssets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy generation assets to return in a single response. If not specified, the default is 10 assets per page, with a maximum of 100 per page. This helps control response size when dealing with policy generations that produce many alternative policy options.
+    ///   - policyEngineId: The unique identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and ensures assets are retrieved from the correct policy engine.
+    ///   - policyGenerationId: The unique identifier of the policy generation request whose assets are to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call that has completed processing.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationAssetsPaginator(
+        maxResults: Int? = nil,
+        policyEngineId: String,
+        policyGenerationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationAssetsRequest, ListPolicyGenerationAssetsResponse> {
+        let input = ListPolicyGenerationAssetsRequest(
+            maxResults: maxResults, 
+            policyEngineId: policyEngineId, 
+            policyGenerationId: policyGenerationId
+        )
+        return self.listPolicyGenerationAssetsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listPolicyGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationsPaginator(
+        _ input: ListPolicyGenerationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationsRequest, ListPolicyGenerationsResponse> {
+        return .init(
+            input: input,
+            command: self.listPolicyGenerations,
+            inputKey: \ListPolicyGenerationsRequest.nextToken,
+            outputKey: \ListPolicyGenerationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listPolicyGenerations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of policy generations to return in a single response.
+    ///   - policyEngineId: The identifier of the policy engine whose policy generations to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listPolicyGenerationsPaginator(
+        maxResults: Int? = nil,
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListPolicyGenerationsRequest, ListPolicyGenerationsResponse> {
+        let input = ListPolicyGenerationsRequest(
+            maxResults: maxResults, 
+            policyEngineId: policyEngineId
+        )
+        return self.listPolicyGenerationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listWorkloadIdentities(_:logger:)``.
     ///
     /// - Parameters:
@@ -2508,6 +3687,16 @@ extension BedrockAgentCoreControl.ListCodeInterpretersRequest: AWSPaginateToken 
     }
 }
 
+extension BedrockAgentCoreControl.ListEvaluatorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListEvaluatorsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListGatewayTargetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListGatewayTargetsRequest {
@@ -2545,6 +3734,61 @@ extension BedrockAgentCoreControl.ListOauth2CredentialProvidersRequest: AWSPagin
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListOnlineEvaluationConfigsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListOnlineEvaluationConfigsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPoliciesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPoliciesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyEngineId: self.policyEngineId,
+            targetResourceScope: self.targetResourceScope
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPolicyEnginesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyEnginesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPolicyGenerationAssetsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyGenerationAssetsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyEngineId: self.policyEngineId,
+            policyGenerationId: self.policyGenerationId
+        )
+    }
+}
+
+extension BedrockAgentCoreControl.ListPolicyGenerationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListPolicyGenerationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyEngineId: self.policyEngineId
         )
     }
 }
@@ -2598,5 +3842,212 @@ extension BedrockAgentCoreControl {
             memoryId: memoryId
         )
         try await self.waitUntilMemoryCreated(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyActive(
+        _ input: GetPolicyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetPolicyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(2),
+            maxDelayTime: .seconds(120),
+            command: self.getPolicy
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to be retrieved.
+    ///   - policyId: The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyActive(
+        policyEngineId: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetPolicyRequest(
+            policyEngineId: policyEngineId, 
+            policyId: policyId
+        )
+        try await self.waitUntilPolicyActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyDeleted(
+        _ input: GetPolicyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetPolicyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "DELETING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(2),
+            maxDelayTime: .seconds(120),
+            command: self.getPolicy
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getPolicy(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - policyEngineId: The identifier of the policy engine that manages the policy to be retrieved.
+    ///   - policyId: The unique identifier of the policy to be retrieved. This must be a valid policy ID that exists within the specified policy engine.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyDeleted(
+        policyEngineId: String,
+        policyId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetPolicyRequest(
+            policyEngineId: policyEngineId, 
+            policyId: policyId
+        )
+        try await self.waitUntilPolicyDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getPolicyEngine(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyEngineActive(
+        _ input: GetPolicyEngineRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetPolicyEngineRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "ACTIVE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "CREATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "UPDATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(2),
+            maxDelayTime: .seconds(120),
+            command: self.getPolicyEngine
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getPolicyEngine(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - policyEngineId: The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyEngineActive(
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetPolicyEngineRequest(
+            policyEngineId: policyEngineId
+        )
+        try await self.waitUntilPolicyEngineActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getPolicyEngine(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyEngineDeleted(
+        _ input: GetPolicyEngineRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetPolicyEngineRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "DELETING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(2),
+            maxDelayTime: .seconds(120),
+            command: self.getPolicyEngine
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getPolicyEngine(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - policyEngineId: The unique identifier of the policy engine to be retrieved. This must be a valid policy engine ID that exists within the account.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyEngineDeleted(
+        policyEngineId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetPolicyEngineRequest(
+            policyEngineId: policyEngineId
+        )
+        try await self.waitUntilPolicyEngineDeleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getPolicyGeneration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyGenerationCompleted(
+        _ input: GetPolicyGenerationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetPolicyGenerationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "GENERATED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("status", expected: "GENERATING")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "GENERATE_FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("status", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(2),
+            maxDelayTime: .seconds(120),
+            command: self.getPolicyGeneration
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getPolicyGeneration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - policyEngineId: The identifier of the policy engine associated with the policy generation request. This provides the context for the generation operation and schema validation.
+    ///   - policyGenerationId: The unique identifier of the policy generation request to be retrieved. This must be a valid generation ID from a previous StartPolicyGeneration call.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilPolicyGenerationCompleted(
+        policyEngineId: String,
+        policyGenerationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetPolicyGenerationRequest(
+            policyEngineId: policyEngineId, 
+            policyGenerationId: policyGenerationId
+        )
+        try await self.waitUntilPolicyGenerationCompleted(input, logger: logger)
     }
 }

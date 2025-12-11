@@ -143,6 +143,56 @@ public struct Amp: AWSService {
         return try await self.createAlertManagerDefinition(input, logger: logger)
     }
 
+    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
+    @Sendable
+    @inlinable
+    public func createAnomalyDetector(_ input: CreateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAnomalyDetectorResponse {
+        try await self.client.execute(
+            operation: "CreateAnomalyDetector", 
+            path: "/workspaces/{workspaceId}/anomalydetectors", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
+    ///
+    /// Parameters:
+    ///   - alias: A user-friendly name for the anomaly detector.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - configuration: The algorithm configuration for the anomaly detector.
+    ///   - evaluationIntervalInSeconds: The frequency, in seconds, at which the anomaly detector evaluates metrics. The default value is 60 seconds.
+    ///   - labels: The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+    ///   - missingDataAction: Specifies the action to take when data is missing during evaluation.
+    ///   - tags: The metadata to apply to the anomaly detector to assist with categorization and organization.
+    ///   - workspaceId: The identifier of the workspace where the anomaly detector will be created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAnomalyDetector(
+        alias: String,
+        clientToken: String? = CreateAnomalyDetectorRequest.idempotencyToken(),
+        configuration: AnomalyDetectorConfiguration,
+        evaluationIntervalInSeconds: Int? = nil,
+        labels: [String: String]? = nil,
+        missingDataAction: AnomalyDetectorMissingDataAction? = nil,
+        tags: [String: String]? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAnomalyDetectorResponse {
+        let input = CreateAnomalyDetectorRequest(
+            alias: alias, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            evaluationIntervalInSeconds: evaluationIntervalInSeconds, 
+            labels: labels, 
+            missingDataAction: missingDataAction, 
+            tags: tags, 
+            workspaceId: workspaceId
+        )
+        return try await self.createAnomalyDetector(input, logger: logger)
+    }
+
     /// The CreateLoggingConfiguration operation creates rules and alerting logging configuration for the workspace. Use this operation to set the CloudWatch log group to which the logs will be published to.  These logging configurations are only for rules and alerting logs.
     @Sendable
     @inlinable
@@ -213,7 +263,7 @@ public struct Amp: AWSService {
         return try await self.createQueryLoggingConfiguration(input, logger: logger)
     }
 
-    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
+    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.  The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes.  Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     @Sendable
     @inlinable
     public func createRuleGroupsNamespace(_ input: CreateRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRuleGroupsNamespaceResponse {
@@ -226,7 +276,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
+    /// The CreateRuleGroupsNamespace operation creates a rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.  The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes.  Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use PutRuleGroupsNamespace.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -254,7 +304,7 @@ public struct Amp: AWSService {
         return try await self.createRuleGroupsNamespace(input, logger: logger)
     }
 
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     @Sendable
     @inlinable
     public func createScraper(_ input: CreateScraperRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScraperResponse {
@@ -267,7 +317,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources within an Amazon EKS cluster, and sends them to your Amazon Managed Service for Prometheus workspace. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your cluster. You must configure this role with a policy that allows it to scrape metrics from your cluster. For more information, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to the Amazon EKS cluster within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
+    /// The CreateScraper operation creates a scraper to collect metrics. A scraper pulls metrics from Prometheus-compatible sources and sends them to your Amazon Managed Service for Prometheus workspace. You can configure scrapers to collect metrics from Amazon EKS clusters, Amazon MSK clusters, or from VPC-based sources that support DNS-based service discovery. Scrapers are flexible, and can be configured to control what metrics are collected, the frequency of collection, what transformations are applied to the metrics, and more. An IAM role will be created for you that Amazon Managed Service for Prometheus uses to access the metrics in your source. You must configure this role with a policy that allows it to scrape metrics from your source. For Amazon EKS sources, see Configuring your Amazon EKS cluster in the Amazon Managed Service for Prometheus User Guide. The scrapeConfiguration parameter contains the base-64 encoded YAML configuration for the scraper. When creating a scraper, the service creates a Network Interface in each Availability Zone that are passed into CreateScraper through subnets. These network interfaces are used to connect to your source within the VPC for scraping metrics.  For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the Amazon Managed Service for Prometheus User Guide.
     ///
     /// Parameters:
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
@@ -275,7 +325,7 @@ public struct Amp: AWSService {
     ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
     ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
-    ///   - source: The Amazon EKS cluster from which the scraper will collect metrics.
+    ///   - source: The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
     ///   - tags: (Optional) The list of tag keys and values to associate with the scraper.
     ///   - logger: Logger use during operation
     @inlinable
@@ -369,6 +419,41 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.deleteAlertManagerDefinition(input, logger: logger)
+    }
+
+    /// Removes an anomaly detector from a workspace. This operation is idempotent.
+    @Sendable
+    @inlinable
+    public func deleteAnomalyDetector(_ input: DeleteAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAnomalyDetector", 
+            path: "/workspaces/{workspaceId}/anomalydetectors/{anomalyDetectorId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes an anomaly detector from a workspace. This operation is idempotent.
+    ///
+    /// Parameters:
+    ///   - anomalyDetectorId: The identifier of the anomaly detector to delete.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detector to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAnomalyDetector(
+        anomalyDetectorId: String,
+        clientToken: String? = DeleteAnomalyDetectorRequest.idempotencyToken(),
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAnomalyDetectorRequest(
+            anomalyDetectorId: anomalyDetectorId, 
+            clientToken: clientToken, 
+            workspaceId: workspaceId
+        )
+        return try await self.deleteAnomalyDetector(input, logger: logger)
     }
 
     /// Deletes the rules and alerting logging configuration for a workspace.  These logging configurations are only for rules and alerting logs.
@@ -628,6 +713,38 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.describeAlertManagerDefinition(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific anomaly detector, including its status and configuration.
+    @Sendable
+    @inlinable
+    public func describeAnomalyDetector(_ input: DescribeAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAnomalyDetectorResponse {
+        try await self.client.execute(
+            operation: "DescribeAnomalyDetector", 
+            path: "/workspaces/{workspaceId}/anomalydetectors/{anomalyDetectorId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific anomaly detector, including its status and configuration.
+    ///
+    /// Parameters:
+    ///   - anomalyDetectorId: The identifier of the anomaly detector to describe.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detector.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeAnomalyDetector(
+        anomalyDetectorId: String,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeAnomalyDetectorResponse {
+        let input = DescribeAnomalyDetectorRequest(
+            anomalyDetectorId: anomalyDetectorId, 
+            workspaceId: workspaceId
+        )
+        return try await self.describeAnomalyDetector(input, logger: logger)
     }
 
     /// Returns complete information about the current rules and alerting logging configuration of the workspace.  These logging configurations are only for rules and alerting logs.
@@ -891,6 +1008,44 @@ public struct Amp: AWSService {
         return try await self.getDefaultScraperConfiguration(input, logger: logger)
     }
 
+    /// Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
+    @Sendable
+    @inlinable
+    public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnomalyDetectorsResponse {
+        try await self.client.execute(
+            operation: "ListAnomalyDetectors", 
+            path: "/workspaces/{workspaceId}/anomalydetectors", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
+    ///
+    /// Parameters:
+    ///   - alias: Filters the results to anomaly detectors with the specified alias.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 1000.
+    ///   - nextToken: The pagination token to continue retrieving results.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detectors to list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAnomalyDetectors(
+        alias: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAnomalyDetectorsResponse {
+        let input = ListAnomalyDetectorsRequest(
+            alias: alias, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workspaceId: workspaceId
+        )
+        return try await self.listAnomalyDetectors(input, logger: logger)
+    }
+
     /// Returns a list of rule groups namespaces in a workspace.
     @Sendable
     @inlinable
@@ -1063,6 +1218,53 @@ public struct Amp: AWSService {
         return try await self.putAlertManagerDefinition(input, logger: logger)
     }
 
+    /// When you call PutAnomalyDetector, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
+    @Sendable
+    @inlinable
+    public func putAnomalyDetector(_ input: PutAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAnomalyDetectorResponse {
+        try await self.client.execute(
+            operation: "PutAnomalyDetector", 
+            path: "/workspaces/{workspaceId}/anomalydetectors/{anomalyDetectorId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// When you call PutAnomalyDetector, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
+    ///
+    /// Parameters:
+    ///   - anomalyDetectorId: The identifier of the anomaly detector to update.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - configuration: The algorithm configuration for the anomaly detector.
+    ///   - evaluationIntervalInSeconds: The frequency, in seconds, at which the anomaly detector evaluates metrics.
+    ///   - labels: The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+    ///   - missingDataAction: Specifies the action to take when data is missing during evaluation.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detector to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAnomalyDetector(
+        anomalyDetectorId: String,
+        clientToken: String? = PutAnomalyDetectorRequest.idempotencyToken(),
+        configuration: AnomalyDetectorConfiguration,
+        evaluationIntervalInSeconds: Int? = nil,
+        labels: [String: String]? = nil,
+        missingDataAction: AnomalyDetectorMissingDataAction? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAnomalyDetectorResponse {
+        let input = PutAnomalyDetectorRequest(
+            anomalyDetectorId: anomalyDetectorId, 
+            clientToken: clientToken, 
+            configuration: configuration, 
+            evaluationIntervalInSeconds: evaluationIntervalInSeconds, 
+            labels: labels, 
+            missingDataAction: missingDataAction, 
+            workspaceId: workspaceId
+        )
+        return try await self.putAnomalyDetector(input, logger: logger)
+    }
+
     /// Creates or updates a resource-based policy for an Amazon Managed Service for Prometheus workspace. Use resource-based policies to grant permissions to other AWS accounts or services to access your workspace. Only Prometheus-compatible APIs can be used for workspace sharing. You can add non-Prometheus-compatible APIs to the policy, but they will be ignored. For more information, see Prometheus-compatible APIs in the Amazon Managed Service for Prometheus User Guide. If your workspace uses customer-managed KMS keys for encryption, you must grant the principals in your resource-based policy access to those KMS keys. You can do this by creating KMS grants. For more information, see CreateGrant in the AWS Key Management Service API Reference and Encryption at rest in the Amazon Managed Service for Prometheus User Guide. For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the Amazon Managed Service for Prometheus User Guide.
     @Sendable
     @inlinable
@@ -1101,7 +1303,7 @@ public struct Amp: AWSService {
         return try await self.putResourcePolicy(input, logger: logger)
     }
 
-    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
+    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.  The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes.  Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     @Sendable
     @inlinable
     public func putRuleGroupsNamespace(_ input: PutRuleGroupsNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutRuleGroupsNamespaceResponse {
@@ -1114,7 +1316,7 @@ public struct Amp: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces. Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
+    /// Updates an existing rule groups namespace within a workspace. A rule groups namespace is associated with exactly one rules file. A workspace can have multiple rule groups namespaces.  The combined length of a rule group namespace and a rule group name cannot exceed 721 UTF-8 bytes.  Use this operation only to update existing rule groups namespaces. To create a new rule groups namespace, use CreateRuleGroupsNamespace. You can't use this operation to add tags to an existing rule groups namespace. Instead, use TagResource.
     ///
     /// Parameters:
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
@@ -1439,6 +1641,46 @@ extension Amp {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Amp {
+    /// Return PaginatorSequence for operation ``listAnomalyDetectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnomalyDetectorsPaginator(
+        _ input: ListAnomalyDetectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnomalyDetectorsRequest, ListAnomalyDetectorsResponse> {
+        return .init(
+            input: input,
+            command: self.listAnomalyDetectors,
+            inputKey: \ListAnomalyDetectorsRequest.nextToken,
+            outputKey: \ListAnomalyDetectorsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAnomalyDetectors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - alias: Filters the results to anomaly detectors with the specified alias.
+    ///   - maxResults: The maximum number of results to return in a single call. Valid range is 1 to 1000.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detectors to list.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnomalyDetectorsPaginator(
+        alias: String? = nil,
+        maxResults: Int? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAnomalyDetectorsRequest, ListAnomalyDetectorsResponse> {
+        let input = ListAnomalyDetectorsRequest(
+            alias: alias, 
+            maxResults: maxResults, 
+            workspaceId: workspaceId
+        )
+        return self.listAnomalyDetectorsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRuleGroupsNamespaces(_:logger:)``.
     ///
     /// - Parameters:
@@ -1554,6 +1796,18 @@ extension Amp {
     }
 }
 
+extension Amp.ListAnomalyDetectorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Amp.ListAnomalyDetectorsRequest {
+        return .init(
+            alias: self.alias,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workspaceId: self.workspaceId
+        )
+    }
+}
+
 extension Amp.ListRuleGroupsNamespacesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Amp.ListRuleGroupsNamespacesRequest {
@@ -1592,6 +1846,85 @@ extension Amp.ListWorkspacesRequest: AWSPaginateToken {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Amp {
+    /// Waiter for operation ``describeAnomalyDetector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAnomalyDetectorActive(
+        _ input: DescribeAnomalyDetectorRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAnomalyDetectorRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("anomalyDetector.status.statusCode", expected: "ACTIVE")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("anomalyDetector.status.statusCode", expected: "CREATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("anomalyDetector.status.statusCode", expected: "UPDATING")),
+            ],
+            command: self.describeAnomalyDetector
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAnomalyDetector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - anomalyDetectorId: The identifier of the anomaly detector to describe.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detector.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAnomalyDetectorActive(
+        anomalyDetectorId: String,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAnomalyDetectorRequest(
+            anomalyDetectorId: anomalyDetectorId, 
+            workspaceId: workspaceId
+        )
+        try await self.waitUntilAnomalyDetectorActive(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeAnomalyDetector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAnomalyDetectorDeleted(
+        _ input: DescribeAnomalyDetectorRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeAnomalyDetectorRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("anomalyDetector.status.statusCode", expected: "DELETING")),
+            ],
+            command: self.describeAnomalyDetector
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeAnomalyDetector(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - anomalyDetectorId: The identifier of the anomaly detector to describe.
+    ///   - workspaceId: The identifier of the workspace containing the anomaly detector.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAnomalyDetectorDeleted(
+        anomalyDetectorId: String,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeAnomalyDetectorRequest(
+            anomalyDetectorId: anomalyDetectorId, 
+            workspaceId: workspaceId
+        )
+        try await self.waitUntilAnomalyDetectorDeleted(input, logger: logger)
+    }
+
     /// Waiter for operation ``describeScraper(_:logger:)``.
     ///
     /// - Parameters:

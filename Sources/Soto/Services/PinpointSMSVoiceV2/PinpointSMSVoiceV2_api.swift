@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS PinpointSMSVoiceV2 service.
 ///
-/// Welcome to the AWS End User Messaging SMS and Voice, version 2 API Reference. This guide provides information about AWS End User Messaging SMS and Voice, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The AWS End User Messaging SMS and Voice, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. AWS End User Messaging SMS and Voice, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to AWS End User Messaging SMS and Voice, it's also helpful to review the  AWS End User Messaging SMS User Guide. The AWS End User Messaging SMS User Guide  provides tutorials, code samples, and procedures that demonstrate how to use AWS End User Messaging SMS and Voice features programmatically and how to integrate functionality into mobile apps and other types of applications. The guide also provides key information, such as AWS End User Messaging SMS and Voice integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The AWS End User Messaging SMS and Voice version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
+/// Welcome to the End User MessagingSMS, version 2 API Reference. This guide provides information about End User MessagingSMS, version 2 API resources, including supported HTTP methods, parameters, and schemas. Amazon Pinpoint is an Amazon Web Services service that you can use to engage with your recipients across multiple messaging channels. The End User MessagingSMS, version 2 API provides programmatic access to options that are unique to the SMS and voice channels. End User MessagingSMS, version 2 resources such as phone numbers, sender IDs, and opt-out lists can be used by the Amazon Pinpoint API. If you're new to End User MessagingSMS, it's also helpful to review the  End User MessagingSMS User Guide, where you'll find tutorials, code samples, and procedures that demonstrate how to use End User MessagingSMS features programmatically and how to integrate functionality into mobile apps and other types of applications. The guide also provides key information, such as End User MessagingSMS integration with other Amazon Web Services services, and the quotas that apply to use of the service.  Regional availability  The End User MessagingSMS version 2 API Reference is available in several Amazon Web Services Regions and it provides an endpoint for each of these Regions. For a list of all the Regions and endpoints where the API is currently available, see Amazon Web Services Service Endpoints and Amazon Pinpoint endpoints and quotas in the Amazon Web Services General Reference. To learn more about Amazon Web Services Regions, see Managing Amazon Web Services Regions in the Amazon Web Services General Reference. In each Region, Amazon Web Services maintains multiple Availability Zones. These Availability Zones are physically isolated from each other, but are united by private, low-latency, high-throughput, and highly redundant network connections. These Availability Zones enable us to provide very high levels of availability and redundancy, while also minimizing latency. To learn more about the number of Availability Zones that are available in each Region, see Amazon Web Services Global Infrastructure.
 public struct PinpointSMSVoiceV2: AWSService {
     // MARK: Member variables
 
@@ -153,8 +153,8 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the origination identity.
-    ///   - originationIdentity: The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - poolId: The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use, such as PhoneNumberId, PhoneNumberArn, SenderId, or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The pool to update with the new Identity. This value can be either the PoolId or PoolArn, and you can find these values using DescribePools.  If you are using a shared End User MessagingSMS; resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func associateOriginationIdentity(
@@ -203,6 +203,35 @@ public struct PinpointSMSVoiceV2: AWSService {
             protectConfigurationId: protectConfigurationId
         )
         return try await self.associateProtectConfiguration(input, logger: logger)
+    }
+
+    /// Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
+    @Sendable
+    @inlinable
+    public func carrierLookup(_ input: CarrierLookupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CarrierLookupResult {
+        try await self.client.execute(
+            operation: "CarrierLookup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a destination phone number, including whether the number type and whether it is valid, the carrier, and more.
+    ///
+    /// Parameters:
+    ///   - phoneNumber: The phone number that you want to retrieve information about. You can provide the phone number in various formats including special characters such as parentheses, brackets, spaces, hyphens, periods, and commas. The service automatically converts the input to E164 format for processing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func carrierLookup(
+        phoneNumber: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CarrierLookupResult {
+        let input = CarrierLookupRequest(
+            phoneNumber: phoneNumber
+        )
+        return try await self.carrierLookup(input, logger: logger)
     }
 
     /// Creates a new configuration set. After you create the configuration set, you can add one or more event destinations to it. A configuration set is a set of rules that you apply to the SMS and voice messages that you send. When you send a message, you can optionally specify a single configuration set.
@@ -261,7 +290,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - configurationSetName: Either the name of the configuration set or the configuration set ARN to apply event logging to. The ConfigurateSetName and ConfigurationSetArn can be found using the DescribeConfigurationSets action.
     ///   - eventDestinationName: The name that identifies the event destination.
     ///   - kinesisFirehoseDestination: An object that contains information about an event destination for logging to Amazon Data Firehose.
-    ///   - matchingEventTypes: An array of event types that determine which events to log. If "ALL" is used, then AWS End User Messaging SMS and Voice logs every event type.  The TEXT_SENT event type is not supported.
+    ///   - matchingEventTypes: An array of event types that determine which events to log. If "ALL" is used, then End User MessagingSMS logs every event type.  The TEXT_SENT event type is not supported.
     ///   - snsDestination: An object that contains information about an event destination for logging to Amazon SNS.
     ///   - logger: Logger use during operation
     @inlinable
@@ -287,7 +316,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.createEventDestination(input, logger: logger)
     }
 
-    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the AWS End User Messaging SMS User Guide.
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func createOptOutList(_ input: CreateOptOutListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateOptOutListResult {
@@ -300,7 +329,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the AWS End User Messaging SMS User Guide.
+    /// Creates a new opt-out list. If the opt-out list name already exists, an error is returned. An opt-out list is a list of phone numbers that are opted out, meaning you can't send SMS or voice messages to them. If end user replies with the keyword "STOP," an entry for the phone number is added to the opt-out list. In addition to STOP, your recipients can use any supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out keywords, see  SMS opt out  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -342,7 +371,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the pool can't be deleted. You can change this value using the UpdatePool action.
     ///   - isoCountryCode: The new two-character code, in ISO 3166-1 alpha-2 format, for the country or region of the new pool.
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive. After the pool is created the MessageType can't be changed.
-    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn, and use DescribeSenderIds can be used to get the values for SenderId and SenderIdArn. After the pool is created you can add more origination identities to the pool by using AssociateOriginationIdentity.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - tags: An array of tags (key and value pairs) associated with the pool.
     ///   - logger: Logger use during operation
     @inlinable
@@ -715,7 +744,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteEventDestination(input, logger: logger)
     }
 
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
     @Sendable
     @inlinable
     public func deleteKeyword(_ input: DeleteKeywordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKeywordResult {
@@ -728,11 +757,11 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
+    /// Deletes an existing keyword from an origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. Keywords "HELP" and "STOP" can't be deleted or modified.
     ///
     /// Parameters:
     ///   - keyword: The keyword to delete.
-    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, PoolId or PoolArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn and DescribePools to find the values of PoolId and PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteKeyword(
@@ -789,7 +818,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an existing opt-out list. All opted out phone numbers in the opt-out list are deleted. If the specified opt-out list name doesn't exist or is in-use by an origination phone number or pool, an error is returned.
     ///
     /// Parameters:
-    ///   - optOutListName: The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListName: The OptOutListName or OptOutListArn of the OptOutList to delete. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteOptOutList(
@@ -819,7 +848,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - optedOutNumber: The phone number, in E.164 format, to remove from the OptOutList.
-    ///   - optOutListName: The OptOutListName or OptOutListArn to remove the phone number from.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListName: The OptOutListName or OptOutListArn to remove the phone number from.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteOptedOutNumber(
@@ -850,7 +879,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Deletes an existing pool. Deleting a pool disassociates all origination identities from that pool. If the pool status isn't active or if deletion protection is enabled, an error is returned. A pool is a collection of phone numbers and SenderIds. A pool can include one or more phone numbers and SenderIds that are associated with your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - poolId: The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn .  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The PoolId or PoolArn of the pool to delete. You can use DescribePools to find the values for PoolId and PoolArn .  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func deletePool(
@@ -1014,7 +1043,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteRegistrationFieldValue(input, logger: logger)
     }
 
-    /// Deletes the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Deletes the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     @Sendable
     @inlinable
     public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResult {
@@ -1027,10 +1056,10 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Deletes the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource you're deleting the resource-based policy from.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the End User MessagingSMS resource you're deleting the resource-based policy from.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteResourcePolicy(
@@ -1043,7 +1072,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteResourcePolicy(input, logger: logger)
     }
 
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func deleteTextMessageSpendLimitOverride(_ input: DeleteTextMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTextMessageSpendLimitOverrideResult {
@@ -1056,7 +1085,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Deletes an account-level monthly spending limit override for sending text messages. Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1098,7 +1127,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.deleteVerifiedDestinationNumber(input, logger: logger)
     }
 
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func deleteVoiceMessageSpendLimitOverride(_ input: DeleteVoiceMessageSpendLimitOverrideRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVoiceMessageSpendLimitOverrideResult {
@@ -1111,7 +1140,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Deletes an account level monthly spend limit override for sending voice messages. Deleting a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1156,7 +1185,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeAccountAttributes(input, logger: logger)
     }
 
-    /// Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Describes the current End User MessagingSMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func describeAccountLimits(_ input: DescribeAccountLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAccountLimitsResult {
@@ -1169,7 +1198,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas  in the AWS End User Messaging SMS User Guide.
+    /// Describes the current End User MessagingSMS SMS Voice V2 resource quotas for your account. The description for a quota includes the quota name, current usage toward that quota, and the quota's maximum value. When you establish an Amazon Web Services account, the account has initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers, and pools that you can create in a given Region. For more information see Quotas  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per each request.
@@ -1226,7 +1255,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeConfigurationSets(input, logger: logger)
     }
 
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     @Sendable
     @inlinable
     public func describeKeywords(_ input: DescribeKeywordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeKeywordsResult {
@@ -1239,14 +1268,14 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Describes the specified keywords or all keywords on your origination phone number or pool. A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
     /// Parameters:
     ///   - filters: An array of keyword filters to filter the results.
     ///   - keywords: An array of keywords to search for.
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
-    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeKeywords(
@@ -1285,7 +1314,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
-    ///   - optOutListNames: The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListNames: The OptOutLists to show the details of. This is an array of strings that can be either the OptOutListName or OptOutListArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - owner: Use SELF to filter the list of Opt-Out List to ones your account owns or use SHARED to filter on Opt-Out List shared with your account. The Owner and OptOutListNames parameters can't be used at the same time.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1325,7 +1354,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     ///   - optedOutNumbers: An array of phone numbers to search for in the OptOutList. If you specify an opted out number that isn't valid, an exception is returned.
-    ///   - optOutListName: The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListName: The OptOutListName or OptOutListArn of the OptOutList. You can use DescribeOptOutLists to find the values for OptOutListName and OptOutListArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeOptedOutNumbers(
@@ -1366,7 +1395,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     ///   - owner: Use SELF to filter the list of phone numbers to ones your account owns or use SHARED to filter on phone numbers shared with your account. The Owner and PhoneNumberIds parameters can't be used at the same time.
-    ///   - phoneNumberIds: The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - phoneNumberIds: The unique identifier of phone numbers to find information about. This is an array of strings that can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describePhoneNumbers(
@@ -1407,7 +1436,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     ///   - owner: Use SELF to filter the list of Pools to ones your account owns or use SHARED to filter on Pools shared with your account. The Owner and PoolIds parameters can't be used at the same time.
-    ///   - poolIds: The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolIds: The unique identifier of pools to find. This is an array of strings that can be either the PoolId or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describePools(
@@ -1764,7 +1793,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
     ///   - owner: Use SELF to filter the list of Sender Ids to ones your account owns or use SHARED to filter on Sender Ids shared with your account. The Owner and SenderIds parameters can't be used at the same time.
-    ///   - senderIds: An array of SenderIdAndCountry objects to search for.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - senderIds: An array of SenderIdAndCountry objects to search for.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func describeSenderIds(
@@ -1785,7 +1814,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.describeSenderIds(input, logger: logger)
     }
 
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging SMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func describeSpendLimits(_ input: DescribeSpendLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSpendLimitsResult {
@@ -1798,7 +1827,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging SMS User Guide.
+    /// Describes the current monthly spend limits for sending voice and text messages. When you establish an Amazon Web Services account, the account has initial monthly spend limit in a given Region. For more information on increasing your monthly spend limit, see  Requesting increases to your monthly SMS, MMS, or Voice spending quota  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return per each request.
@@ -1876,8 +1905,8 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
     ///   - isoCountryCode: The two-character code, in ISO 3166-1 alpha-2 format, for the country or region.
-    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - poolId: The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers find the values for PhoneNumberId and PhoneNumberArn, or use DescribeSenderIds to get the values for SenderId and SenderIdArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The unique identifier for the pool to disassociate with the origination identity. This value can be either the PoolId or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateOriginationIdentity(
@@ -1989,7 +2018,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.getProtectConfigurationCountryRuleSet(input, logger: logger)
     }
 
-    /// Retrieves the JSON text of the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Retrieves the JSON text of the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     @Sendable
     @inlinable
     public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResult {
@@ -2002,10 +2031,10 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the JSON text of the resource-based policy document attached to the AWS End User Messaging SMS and Voice resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
+    /// Retrieves the JSON text of the resource-based policy document attached to the End User MessagingSMS resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource attached to the resource-based policy.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the End User MessagingSMS resource attached to the resource-based policy.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourcePolicy(
@@ -2037,7 +2066,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - filters: An array of PoolOriginationIdentitiesFilter objects to filter the results..
     ///   - maxResults: The maximum number of results to return per each request.
     ///   - nextToken: The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
-    ///   - poolId: The unique identifier for the pool. This value can be either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The unique identifier for the pool. This value can be either the PoolId or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func listPoolOriginationIdentities(
@@ -2161,7 +2190,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     @Sendable
     @inlinable
     public func putKeyword(_ input: PutKeywordRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutKeywordResult {
@@ -2174,13 +2203,13 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
+    /// Creates or updates a keyword configuration on an origination phone number or pool.  A keyword is a word that you can search for on a particular phone number or pool. It is also a specific word or phrase that an end user can send to your number to elicit a response, such as an informational message or a special offer. When your number receives a message that begins with a keyword, End User MessagingSMS responds with a customizable message. If you specify a keyword that isn't valid, an error is returned.
     ///
     /// Parameters:
     ///   - keyword: The new keyword to add.
     ///   - keywordAction: The action to perform for the new keyword when it is received.   AUTOMATIC_RESPONSE: A message is sent to the recipient.   OPT_OUT: Keeps the recipient from receiving future messages.   OPT_IN: The recipient wants to receive future messages.
     ///   - keywordMessage: The message associated with the keyword.
-    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use such as a PhoneNumberId, PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers get the values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the values for SenderId and SenderIdArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func putKeyword(
@@ -2248,7 +2277,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - optedOutNumber: The phone number to add to the OptOutList in E.164 format.
-    ///   - optOutListName: The OptOutListName or OptOutListArn to add the phone number to.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListName: The OptOutListName or OptOutListArn to add the phone number to.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func putOptedOutNumber(
@@ -2345,7 +2374,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.putRegistrationFieldValue(input, logger: logger)
     }
 
-    /// Attaches a resource-based policy to a AWS End User Messaging SMS and Voice resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the AWS End User Messaging SMS User Guide.
+    /// Attaches a resource-based policy to a End User MessagingSMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResult {
@@ -2358,11 +2387,11 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Attaches a resource-based policy to a AWS End User Messaging SMS and Voice resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the AWS End User Messaging SMS User Guide.
+    /// Attaches a resource-based policy to a End User MessagingSMS resource(phone number, sender Id, phone poll, or opt-out list) that is used for sharing the resource. A shared resource can be a Pool, Opt-out list, Sender Id, or Phone number. For more information about resource-based policies, see Working with shared resources in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - policy: The JSON formatted resource-based policy to attach.
-    ///   - resourceArn: The Amazon Resource Name (ARN) of the AWS End User Messaging SMS and Voice resource to attach the resource-based policy to.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the End User MessagingSMS resource to attach the resource-based policy to.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourcePolicy(
@@ -2393,7 +2422,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Releases an existing origination phone number in your account. Once released, a phone number is no longer available for sending messages. If the origination phone number has deletion protection enabled or is associated with a pool, an error is returned.
     ///
     /// Parameters:
-    ///   - phoneNumberId: The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - phoneNumberId: The PhoneNumberId or PhoneNumberArn of the phone number to release. You can use DescribePhoneNumbers to get the values for PhoneNumberId and PhoneNumberArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - logger: Logger use during operation
     @inlinable
     public func releasePhoneNumber(
@@ -2438,7 +2467,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.releaseSenderId(input, logger: logger)
     }
 
-    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the AWS End User Messaging SMS User Guide.
+    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func requestPhoneNumber(_ input: RequestPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RequestPhoneNumberResult {
@@ -2451,7 +2480,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the AWS End User Messaging SMS User Guide.
+    /// Request an origination phone number for use in your account. For more information on phone number request see Request a phone number in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, a randomly generated token is used for the request to ensure idempotency.
@@ -2461,10 +2490,10 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - messageType: The type of message. Valid values are TRANSACTIONAL for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
     ///   - numberCapabilities: Indicates if the phone number will be used for text messages, voice messages, or both.
     ///   - numberType: The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
-    ///   - optOutListName: The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - poolId: The pool to associated with the phone number. You can use the PoolId or PoolArn.   If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - optOutListName: The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The pool to associated with the phone number. You can use the PoolId or PoolArn.   If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - registrationId: Use this field to attach your phone number for an external registration process.
-    ///   - tags: An array of tags (key and value pairs) associate with the requested phone number.
+    ///   - tags: An array of tags (key and value pairs) to associate with the requested phone number.
     ///   - logger: Logger use during operation
     @inlinable
     public func requestPhoneNumber(
@@ -2561,7 +2590,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - context: You can specify custom data in this field. If you do, that data is logged to the event destination.
     ///   - destinationCountryParameters: This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India.
     ///   - languageCode: Choose the language to use for the message.
-    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - verificationChannel: Choose to send the verification code as an SMS or voice message.
     ///   - verifiedDestinationNumberId: The unique identifier for the verified destination phone number.
     ///   - logger: Logger use during operation
@@ -2612,7 +2641,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - mediaUrls: An array of URLs to each media file to send.  The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket, Uploading objects in the Amazon S3 User Guide, and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide.
     ///   - messageBody: The text body of the message.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
-    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier of the protect configuration to use.
     ///   - timeToLive: How long the media message is valid for. By default this is 72 hours.
     ///   - logger: Logger use during operation
@@ -2647,7 +2676,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.sendMediaMessage(input, logger: logger)
     }
 
-    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the AWS End User Messaging SMS User Guide.
+    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func sendTextMessage(_ input: SendTextMessageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendTextMessageResult {
@@ -2660,20 +2689,20 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the AWS End User Messaging SMS User Guide.
+    /// Creates a new text message and sends it to a recipient's phone number. SendTextMessage only sends an SMS message to one recipient each time it is invoked. SMS throughput limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the destination country of your messages, as well as the type of phone number (origination number) that you use to send the message. For more information about MPS, see Message Parts per Second (MPS) limits in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set to use. This can be either the ConfigurationSetName or ConfigurationSetArn.
     ///   - context: You can specify custom data in this field. If you do, that data is logged to the event destination.
     ///   - destinationCountryParameters: This field is used for any country-specific registration requirements. Currently, this setting is only used when you send messages to recipients in India using a sender ID. For more information see Special requirements for sending SMS messages to recipients in India.     IN_ENTITY_ID The entity ID or Principal Entity (PE) ID that you received after completing the sender ID registration process.    IN_TEMPLATE_ID The template ID that you received after completing the sender ID registration process.  Make sure that the Template ID that you specify matches your message template exactly. If your message doesn't match the template that you provided during the registration process, the mobile carriers might reject your message.
     ///   - destinationPhoneNumber: The destination phone number in E.164 format.
-    ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see Message Parts per Second (MPS) limits in the AWS End User Messaging SMS User Guide..
+    ///   - dryRun: When set to true, the message is checked and validated, but isn't sent to the end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS) limit when using DryRun is five. If your origination identity has a lower MPS limit then the lower MPS limit is used. For more information about MPS limits, see Message Parts per Second (MPS) limits in the End User MessagingSMS User Guide..
     ///   - keyword: When you register a short code in the US, you must specify a program name. If you don’t have a US short code, omit this attribute.
     ///   - maxPrice: The maximum amount that you want to spend, in US dollars, per each text message. If the calculated amount to send the text message is greater than MaxPrice, the message is not sent and an error is returned.
     ///   - messageBody: The body of the text message.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
     ///   - messageType: The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
-    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - timeToLive: How long the text message is valid for, in seconds. By default this is 72 hours. If the messages isn't handed off before the TTL expires we stop attempting to hand off the message and return TTL_EXPIRED event.
     ///   - logger: Logger use during operation
@@ -2736,7 +2765,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///   - messageBody: The text to convert to a voice message.
     ///   - messageBodyTextType: Specifies if the MessageBody field contains text or speech synthesis markup language (SSML).   TEXT: This is the default value. When used the maximum character limit is 3000.   SSML: When used the maximum character limit is 6000 including SSML tagging.
     ///   - messageFeedbackEnabled: Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
-    ///   - originationIdentity: The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
+    ///   - originationIdentity: The origination identity to use for the voice call. This can be the PhoneNumber, PhoneNumberId, PhoneNumberArn, PoolId, or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - timeToLive: How long the voice message is valid for. By default this is 72 hours.
     ///   - voiceId: The voice for the Amazon Polly service to use. By default this is set to "MATTHEW".
@@ -3015,7 +3044,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.submitRegistrationVersion(input, logger: logger)
     }
 
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResult {
@@ -3028,7 +3057,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Adds or overwrites only the specified tags for the specified resource. When you specify an existing tag key, the value is overwritten with the new value. Each tag consists of a key and an optional value. Tag keys must be unique per resource. For more information about tags, see Tags  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -3047,7 +3076,7 @@ public struct PinpointSMSVoiceV2: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes the association of the specified tags from a resource. For more information on tags see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Removes the association of the specified tags from a resource. For more information on tags see Tags  in the End User MessagingSMS User Guide.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResult {
@@ -3060,7 +3089,7 @@ public struct PinpointSMSVoiceV2: AWSService {
             logger: logger
         )
     }
-    /// Removes the association of the specified tags from a resource. For more information on tags see Tags  in the AWS End User Messaging SMS User Guide.
+    /// Removes the association of the specified tags from a resource. For more information on tags see Tags  in the End User MessagingSMS User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource.
@@ -3144,9 +3173,9 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Parameters:
     ///   - deletionProtectionEnabled: By default this is set to false. When set to true the phone number can't be deleted.
     ///   - internationalSendingEnabled: By default this is set to false. When set to true the international sending of phone number is Enabled.
-    ///   - optOutListName: The OptOutList to add the phone number to. Valid values for this field can be either the OutOutListName or OutOutListArn.
-    ///   - phoneNumberId: The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - selfManagedOptOutsEnabled: By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    ///   - optOutListName: The OptOutList to add the phone number to. You can use either the opt out list name or the opt out list ARN.
+    ///   - phoneNumberId: The unique identifier of the phone number. Valid values for this field can be either the PhoneNumberId or PhoneNumberArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - selfManagedOptOutsEnabled: By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User MessagingSMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     ///   - twoWayChannelArn: The Amazon Resource Name (ARN) of the two way channel.
     ///   - twoWayChannelRole: An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
     ///   - twoWayEnabled: By default this is set to false. When set to true you can receive incoming text messages from your end recipients.
@@ -3193,9 +3222,9 @@ public struct PinpointSMSVoiceV2: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtectionEnabled: When set to true the pool can't be deleted.
-    ///   - optOutListName: The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - poolId: The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
-    ///   - selfManagedOptOutsEnabled: By default this is set to false. When an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End User Messaging SMS and Voice automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
+    ///   - optOutListName: The OptOutList to associate with the pool. Valid values are either OptOutListName or OptOutListArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - poolId: The unique identifier of the pool to update. Valid values are either the PoolId or PoolArn.  If you are using a shared End User MessagingSMS resource then you must use the full Amazon Resource Name(ARN).
+    ///   - selfManagedOptOutsEnabled: By default this is set to false. When set to false and an end recipient sends a message that begins with HELP or STOP to one of your dedicated numbers, End User MessagingSMS automatically replies with a customizable message and adds the end recipient to the OptOutList. When set to true you're responsible for responding to HELP and STOP requests. You're also responsible for tracking and honoring opt-out requests.
     ///   - sharedRoutesEnabled: Indicates whether shared routes are enabled for the pool.
     ///   - twoWayChannelArn: The Amazon Resource Name (ARN) of the two way channel.
     ///   - twoWayChannelRole: An optional IAM Role Arn for a service to assume, to be able to post inbound SMS messages.
@@ -3274,7 +3303,7 @@ public struct PinpointSMSVoiceV2: AWSService {
     /// Update a country rule set to ALLOW, BLOCK, MONITOR, or FILTER messages to be sent to the specified destination counties. You can update one or multiple countries at a time. The updates are only applied to the specified NumberCapability type.
     ///
     /// Parameters:
-    ///   - countryRuleSetUpdates: A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
+    ///   - countryRuleSetUpdates: A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the End User MessagingSMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
     ///   - numberCapability: The number capability to apply the CountryRuleSetUpdates updates to.
     ///   - protectConfigurationId: The unique identifier for the protect configuration.
     ///   - logger: Logger use during operation

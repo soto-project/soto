@@ -80,6 +80,17 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum IamRoleStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associating = "ASSOCIATING"
+        case connected = "CONNECTED"
+        case disassociating = "DISASSOCIATING"
+        case disconnected = "DISCONNECTED"
+        case failed = "FAILED"
+        case partiallyConnected = "PARTIALLY_CONNECTED"
+        case unknown = "UNKNOWN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IormLifecycleState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bootstrapping = "BOOTSTRAPPING"
         case disabled = "DISABLED"
@@ -175,6 +186,11 @@ extension Odb {
         public var description: String { return self.rawValue }
     }
 
+    public enum SupportedAwsIntegration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kmsTde = "KmsTde"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cannotParse = "cannotParse"
         case fieldValidationFailed = "fieldValidationFailed"
@@ -205,6 +221,40 @@ extension Odb {
     }
 
     public struct AcceptMarketplaceRegistrationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct AssociateIamRoleToResourceInput: AWSEncodableShape {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association.
+        public let awsIntegration: SupportedAwsIntegration
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the resource.
+        public let iamRoleArn: String
+        /// The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let resourceArn: String
+
+        @inlinable
+        public init(awsIntegration: SupportedAwsIntegration, iamRoleArn: String, resourceArn: String) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIntegration = "awsIntegration"
+            case iamRoleArn = "iamRoleArn"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct AssociateIamRoleToResourceOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -285,6 +335,8 @@ extension Odb {
         public let cloudAutonomousVmClusterArn: String?
         /// The unique identifier of the Autonomous VM cluster.
         public let cloudAutonomousVmClusterId: String
+        /// The Amazon Resource Name (ARN) of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
+        public let cloudExadataInfrastructureArn: String?
         /// The unique identifier of the Cloud Exadata Infrastructure containing this Autonomous VM cluster.
         public let cloudExadataInfrastructureId: String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -317,7 +369,7 @@ extension Odb {
         public let hostname: String?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public let isMtlsEnabledVmCluster: Bool?
-        /// The Oracle license model that applies to the Autonomous VM cluster. Valid values are LICENSE_INCLUDED or BRING_YOUR_OWN_LICENSE.
+        /// The Oracle license model that applies to the Autonomous VM cluster.
         public let licenseModel: LicenseModel?
         /// The scheduling details for the maintenance window. Patching and system updates take place during the maintenance window.
         public let maintenanceWindow: MaintenanceWindow?
@@ -337,6 +389,8 @@ extension Odb {
         public let ociResourceAnchorName: String?
         /// The URL for accessing the OCI console page for this Autonomous VM cluster.
         public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public let odbNetworkArn: String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public let odbNetworkId: String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -371,7 +425,7 @@ extension Odb {
         public let totalContainerDatabases: Int?
 
         @inlinable
-        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
+        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
             self.autonomousDataStoragePercentage = autonomousDataStoragePercentage
             self.autonomousDataStorageSizeInTBs = autonomousDataStorageSizeInTBs
             self.availableAutonomousDataStorageSizeInTBs = availableAutonomousDataStorageSizeInTBs
@@ -379,6 +433,7 @@ extension Odb {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -405,6 +460,7 @@ extension Odb {
             self.ocid = ocid
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -431,6 +487,7 @@ extension Odb {
             case availableCpus = "availableCpus"
             case cloudAutonomousVmClusterArn = "cloudAutonomousVmClusterArn"
             case cloudAutonomousVmClusterId = "cloudAutonomousVmClusterId"
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
             case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case computeModel = "computeModel"
             case cpuCoreCount = "cpuCoreCount"
@@ -457,6 +514,7 @@ extension Odb {
             case ocid = "ocid"
             case ociResourceAnchorName = "ociResourceAnchorName"
             case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
             case odbNetworkId = "odbNetworkId"
             case percentProgress = "percentProgress"
             case provisionableAutonomousContainerDatabases = "provisionableAutonomousContainerDatabases"
@@ -509,6 +567,8 @@ extension Odb {
         public let cloudAutonomousVmClusterArn: String?
         /// The unique identifier of the Autonomous VM cluster.
         public let cloudAutonomousVmClusterId: String
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure containing this Autonomous VM cluster.
+        public let cloudExadataInfrastructureArn: String?
         /// The unique identifier of the Exadata infrastructure containing this Autonomous VM cluster.
         public let cloudExadataInfrastructureId: String?
         /// The compute model of the Autonomous VM cluster: ECPU or OCPU.
@@ -561,6 +621,8 @@ extension Odb {
         public let ociResourceAnchorName: String?
         /// The URL for accessing the OCI console page for this Autonomous VM cluster.
         public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this Autonomous VM cluster.
+        public let odbNetworkArn: String?
         /// The unique identifier of the ODB network associated with this Autonomous VM cluster.
         public let odbNetworkId: String?
         /// The progress of the current operation on the Autonomous VM cluster, as a percentage.
@@ -595,7 +657,7 @@ extension Odb {
         public let totalContainerDatabases: Int?
 
         @inlinable
-        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
+        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
             self.autonomousDataStoragePercentage = autonomousDataStoragePercentage
             self.autonomousDataStorageSizeInTBs = autonomousDataStorageSizeInTBs
             self.availableAutonomousDataStorageSizeInTBs = availableAutonomousDataStorageSizeInTBs
@@ -603,6 +665,7 @@ extension Odb {
             self.availableCpus = availableCpus
             self.cloudAutonomousVmClusterArn = cloudAutonomousVmClusterArn
             self.cloudAutonomousVmClusterId = cloudAutonomousVmClusterId
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.computeModel = computeModel
             self.cpuCoreCount = cpuCoreCount
@@ -629,6 +692,7 @@ extension Odb {
             self.ocid = ocid
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.provisionableAutonomousContainerDatabases = provisionableAutonomousContainerDatabases
@@ -655,6 +719,7 @@ extension Odb {
             case availableCpus = "availableCpus"
             case cloudAutonomousVmClusterArn = "cloudAutonomousVmClusterArn"
             case cloudAutonomousVmClusterId = "cloudAutonomousVmClusterId"
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
             case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case computeModel = "computeModel"
             case cpuCoreCount = "cpuCoreCount"
@@ -681,6 +746,7 @@ extension Odb {
             case ocid = "ocid"
             case ociResourceAnchorName = "ociResourceAnchorName"
             case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
             case odbNetworkId = "odbNetworkId"
             case percentProgress = "percentProgress"
             case provisionableAutonomousContainerDatabases = "provisionableAutonomousContainerDatabases"
@@ -1063,6 +1129,8 @@ extension Odb {
     }
 
     public struct CloudVmCluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public let cloudExadataInfrastructureArn: String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public let cloudExadataInfrastructureId: String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -1095,6 +1163,8 @@ extension Odb {
         public let giVersion: String?
         /// The host name for the VM cluster.
         public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the VM cluster.
+        public let iamRoles: [IamRole]?
         /// The ExadataIormConfig cache details for the VM cluster.
         public let iormConfigCache: ExadataIormConfig?
         /// Indicates whether database backups to local Exadata storage is enabled for the VM cluster.
@@ -1117,6 +1187,8 @@ extension Odb {
         public let ociResourceAnchorName: String?
         /// The HTTPS link to the VM cluster in OCI.
         public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public let odbNetworkArn: String?
         /// The unique identifier of the ODB network for the VM cluster.
         public let odbNetworkId: String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -1145,7 +1217,8 @@ extension Odb {
         public let vipIds: [String]?
 
         @inlinable
-        public init(cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -1162,6 +1235,7 @@ extension Odb {
             self.domain = domain
             self.giVersion = giVersion
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.iormConfigCache = iormConfigCache
             self.isLocalBackupEnabled = isLocalBackupEnabled
             self.isSparseDiskgroupEnabled = isSparseDiskgroupEnabled
@@ -1173,6 +1247,7 @@ extension Odb {
             self.ocid = ocid
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -1189,6 +1264,7 @@ extension Odb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
             case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case cloudVmClusterArn = "cloudVmClusterArn"
             case cloudVmClusterId = "cloudVmClusterId"
@@ -1205,6 +1281,7 @@ extension Odb {
             case domain = "domain"
             case giVersion = "giVersion"
             case hostname = "hostname"
+            case iamRoles = "iamRoles"
             case iormConfigCache = "iormConfigCache"
             case isLocalBackupEnabled = "isLocalBackupEnabled"
             case isSparseDiskgroupEnabled = "isSparseDiskgroupEnabled"
@@ -1216,6 +1293,7 @@ extension Odb {
             case ocid = "ocid"
             case ociResourceAnchorName = "ociResourceAnchorName"
             case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
             case odbNetworkId = "odbNetworkId"
             case percentProgress = "percentProgress"
             case scanDnsName = "scanDnsName"
@@ -1233,6 +1311,8 @@ extension Odb {
     }
 
     public struct CloudVmClusterSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Exadata infrastructure that this VM cluster belongs to.
+        public let cloudExadataInfrastructureArn: String?
         /// The unique identifier of the Exadata infrastructure that this VM cluster belongs to.
         public let cloudExadataInfrastructureId: String?
         /// The Amazon Resource Name (ARN) of the VM cluster.
@@ -1264,6 +1344,8 @@ extension Odb {
         public let giVersion: String?
         /// The host name for the VM cluster.
         public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the VM cluster in the summary information.
+        public let iamRoles: [IamRole]?
         public let iormConfigCache: ExadataIormConfig?
         /// Indicates whether database backups to local Exadata storage is enabled for the VM cluster.
         public let isLocalBackupEnabled: Bool?
@@ -1285,6 +1367,8 @@ extension Odb {
         public let ociResourceAnchorName: String?
         /// The HTTPS link to the VM cluster in OCI.
         public let ociUrl: String?
+        /// The Amazon Resource Name (ARN) of the ODB network associated with this VM cluster.
+        public let odbNetworkArn: String?
         /// The unique identifier of the ODB network for the VM cluster.
         public let odbNetworkId: String?
         /// The amount of progress made on the current operation on the VM cluster, expressed as a percentage.
@@ -1313,7 +1397,8 @@ extension Odb {
         public let vipIds: [String]?
 
         @inlinable
-        public init(cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+        public init(cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, cloudVmClusterArn: String? = nil, cloudVmClusterId: String, clusterName: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, createdAt: Date? = nil, dataCollectionOptions: DataCollectionOptions? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, diskRedundancy: DiskRedundancy? = nil, displayName: String? = nil, domain: String? = nil, giVersion: String? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, iormConfigCache: ExadataIormConfig? = nil, isLocalBackupEnabled: Bool? = nil, isSparseDiskgroupEnabled: Bool? = nil, lastUpdateHistoryEntryId: String? = nil, licenseModel: LicenseModel? = nil, listenerPort: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, scanDnsName: String? = nil, scanDnsRecordId: String? = nil, scanIpIds: [String]? = nil, shape: String? = nil, sshPublicKeys: [String]? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, storageSizeInGBs: Int? = nil, systemVersion: String? = nil, timeZone: String? = nil, vipIds: [String]? = nil) {
+            self.cloudExadataInfrastructureArn = cloudExadataInfrastructureArn
             self.cloudExadataInfrastructureId = cloudExadataInfrastructureId
             self.cloudVmClusterArn = cloudVmClusterArn
             self.cloudVmClusterId = cloudVmClusterId
@@ -1330,6 +1415,7 @@ extension Odb {
             self.domain = domain
             self.giVersion = giVersion
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.iormConfigCache = iormConfigCache
             self.isLocalBackupEnabled = isLocalBackupEnabled
             self.isSparseDiskgroupEnabled = isSparseDiskgroupEnabled
@@ -1341,6 +1427,7 @@ extension Odb {
             self.ocid = ocid
             self.ociResourceAnchorName = ociResourceAnchorName
             self.ociUrl = ociUrl
+            self.odbNetworkArn = odbNetworkArn
             self.odbNetworkId = odbNetworkId
             self.percentProgress = percentProgress
             self.scanDnsName = scanDnsName
@@ -1357,6 +1444,7 @@ extension Odb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudExadataInfrastructureArn = "cloudExadataInfrastructureArn"
             case cloudExadataInfrastructureId = "cloudExadataInfrastructureId"
             case cloudVmClusterArn = "cloudVmClusterArn"
             case cloudVmClusterId = "cloudVmClusterId"
@@ -1373,6 +1461,7 @@ extension Odb {
             case domain = "domain"
             case giVersion = "giVersion"
             case hostname = "hostname"
+            case iamRoles = "iamRoles"
             case iormConfigCache = "iormConfigCache"
             case isLocalBackupEnabled = "isLocalBackupEnabled"
             case isSparseDiskgroupEnabled = "isSparseDiskgroupEnabled"
@@ -1384,6 +1473,7 @@ extension Odb {
             case ocid = "ocid"
             case ociResourceAnchorName = "ociResourceAnchorName"
             case ociUrl = "ociUrl"
+            case odbNetworkArn = "odbNetworkArn"
             case odbNetworkId = "odbNetworkId"
             case percentProgress = "percentProgress"
             case scanDnsName = "scanDnsName"
@@ -1803,44 +1893,65 @@ extension Odb {
         public let clientSubnetCidr: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
         public let clientToken: String?
+        /// The cross-Region Amazon S3 restore sources to enable for the ODB network.
+        public let crossRegionS3RestoreSourcesToEnable: [String]?
         /// The domain name to use for the resources in the ODB network.
         public let customDomainName: String?
         /// The DNS prefix to the default DNS domain name. The default DNS domain name is oraclevcn.com.
         public let defaultDnsPrefix: String?
         /// A user-friendly name for the ODB network.
         public let displayName: String
+        /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+        public let kmsAccess: Access?
+        /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
+        public let kmsPolicyDocument: String?
         /// Specifies the configuration for Amazon S3 access from the ODB network.
         public let s3Access: Access?
         /// Specifies the endpoint policy for Amazon S3 access from the ODB network.
         public let s3PolicyDocument: String?
+        /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+        public let stsAccess: Access?
+        /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
+        public let stsPolicyDocument: String?
         /// The list of resource tags to apply to the ODB network.
         public let tags: [String: String]?
         /// Specifies the configuration for Zero-ETL access from the ODB network.
         public let zeroEtlAccess: Access?
 
         @inlinable
-        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String, clientToken: String? = CreateOdbNetworkInput.idempotencyToken(), customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String, s3Access: Access? = nil, s3PolicyDocument: String? = nil, tags: [String: String]? = nil, zeroEtlAccess: Access? = nil) {
+        public init(availabilityZone: String? = nil, availabilityZoneId: String? = nil, backupSubnetCidr: String? = nil, clientSubnetCidr: String, clientToken: String? = CreateOdbNetworkInput.idempotencyToken(), crossRegionS3RestoreSourcesToEnable: [String]? = nil, customDomainName: String? = nil, defaultDnsPrefix: String? = nil, displayName: String, kmsAccess: Access? = nil, kmsPolicyDocument: String? = nil, s3Access: Access? = nil, s3PolicyDocument: String? = nil, stsAccess: Access? = nil, stsPolicyDocument: String? = nil, tags: [String: String]? = nil, zeroEtlAccess: Access? = nil) {
             self.availabilityZone = availabilityZone
             self.availabilityZoneId = availabilityZoneId
             self.backupSubnetCidr = backupSubnetCidr
             self.clientSubnetCidr = clientSubnetCidr
             self.clientToken = clientToken
+            self.crossRegionS3RestoreSourcesToEnable = crossRegionS3RestoreSourcesToEnable
             self.customDomainName = customDomainName
             self.defaultDnsPrefix = defaultDnsPrefix
             self.displayName = displayName
+            self.kmsAccess = kmsAccess
+            self.kmsPolicyDocument = kmsPolicyDocument
             self.s3Access = s3Access
             self.s3PolicyDocument = s3PolicyDocument
+            self.stsAccess = stsAccess
+            self.stsPolicyDocument = stsPolicyDocument
             self.tags = tags
             self.zeroEtlAccess = zeroEtlAccess
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9_\\/.=-]+$")
+            try self.validate(self.crossRegionS3RestoreSourcesToEnable, name: "crossRegionS3RestoreSourcesToEnable", parent: name, max: 1024)
+            try self.validate(self.crossRegionS3RestoreSourcesToEnable, name: "crossRegionS3RestoreSourcesToEnable", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.kmsPolicyDocument, name: "kmsPolicyDocument", parent: name, max: 20480)
+            try self.validate(self.kmsPolicyDocument, name: "kmsPolicyDocument", parent: name, min: 3)
             try self.validate(self.s3PolicyDocument, name: "s3PolicyDocument", parent: name, max: 20480)
             try self.validate(self.s3PolicyDocument, name: "s3PolicyDocument", parent: name, min: 3)
+            try self.validate(self.stsPolicyDocument, name: "stsPolicyDocument", parent: name, max: 20480)
+            try self.validate(self.stsPolicyDocument, name: "stsPolicyDocument", parent: name, min: 3)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1856,11 +1967,16 @@ extension Odb {
             case backupSubnetCidr = "backupSubnetCidr"
             case clientSubnetCidr = "clientSubnetCidr"
             case clientToken = "clientToken"
+            case crossRegionS3RestoreSourcesToEnable = "crossRegionS3RestoreSourcesToEnable"
             case customDomainName = "customDomainName"
             case defaultDnsPrefix = "defaultDnsPrefix"
             case displayName = "displayName"
+            case kmsAccess = "kmsAccess"
+            case kmsPolicyDocument = "kmsPolicyDocument"
             case s3Access = "s3Access"
             case s3PolicyDocument = "s3PolicyDocument"
+            case stsAccess = "stsAccess"
+            case stsPolicyDocument = "stsPolicyDocument"
             case tags = "tags"
             case zeroEtlAccess = "zeroEtlAccess"
         }
@@ -1956,7 +2072,7 @@ extension Odb {
         public let displayName: String?
         /// The unique identifier of the ODB peering connection.
         public let odbPeeringConnectionId: String
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public let status: ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public let statusReason: String?
@@ -1974,6 +2090,28 @@ extension Odb {
             case odbPeeringConnectionId = "odbPeeringConnectionId"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct CrossRegionS3RestoreSourcesAccess: AWSDecodableShape {
+        /// The IPv4 addresses allowed for cross-Region Amazon S3 restore access.
+        public let ipv4Addresses: [String]?
+        /// The Amazon Web Services Region for cross-Region Amazon S3 restore access.
+        public let region: String?
+        /// The current status of the cross-Region Amazon S3 restore access configuration.
+        public let status: ManagedResourceStatus?
+
+        @inlinable
+        public init(ipv4Addresses: [String]? = nil, region: String? = nil, status: ManagedResourceStatus? = nil) {
+            self.ipv4Addresses = ipv4Addresses
+            self.region = region
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv4Addresses = "ipv4Addresses"
+            case region = "region"
+            case status = "status"
         }
     }
 
@@ -2742,6 +2880,40 @@ extension Odb {
         public init() {}
     }
 
+    public struct DisassociateIamRoleFromResourceInput: AWSEncodableShape {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation.
+        public let awsIntegration: SupportedAwsIntegration
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource.
+        public let iamRoleArn: String
+        /// The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let resourceArn: String
+
+        @inlinable
+        public init(awsIntegration: SupportedAwsIntegration, iamRoleArn: String, resourceArn: String) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, max: 2048)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, min: 20)
+            try self.validate(self.iamRoleArn, name: "iamRoleArn", parent: name, pattern: "^arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{12}:role/.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIntegration = "awsIntegration"
+            case iamRoleArn = "iamRoleArn"
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct DisassociateIamRoleFromResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ExadataIormConfig: AWSDecodableShape {
         /// An array of IORM settings for all the database in the Exadata DB system.
         public let dbPlans: [DbIormConfig]?
@@ -3026,18 +3198,22 @@ extension Odb {
         public let existingTenancyActivationLink: String?
         /// A new OCI tenancy activation link for your Amazon Web Services account.
         public let newTenancyActivationLink: String?
+        /// The Oracle Cloud Infrastructure (OCI) identity domain information in the onboarding status response.
+        public let ociIdentityDomain: OciIdentityDomain?
         public let status: OciOnboardingStatus?
 
         @inlinable
-        public init(existingTenancyActivationLink: String? = nil, newTenancyActivationLink: String? = nil, status: OciOnboardingStatus? = nil) {
+        public init(existingTenancyActivationLink: String? = nil, newTenancyActivationLink: String? = nil, ociIdentityDomain: OciIdentityDomain? = nil, status: OciOnboardingStatus? = nil) {
             self.existingTenancyActivationLink = existingTenancyActivationLink
             self.newTenancyActivationLink = newTenancyActivationLink
+            self.ociIdentityDomain = ociIdentityDomain
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case existingTenancyActivationLink = "existingTenancyActivationLink"
             case newTenancyActivationLink = "newTenancyActivationLink"
+            case ociIdentityDomain = "ociIdentityDomain"
             case status = "status"
         }
     }
@@ -3131,8 +3307,44 @@ extension Odb {
         }
     }
 
+    public struct IamRole: AWSDecodableShape {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let awsIntegration: SupportedAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let iamRoleArn: String?
+        /// The current status of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public let status: IamRoleStatus?
+        /// Additional information about the current status of the Amazon Web Services Identity and Access Management (IAM) service role, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(awsIntegration: SupportedAwsIntegration? = nil, iamRoleArn: String? = nil, status: IamRoleStatus? = nil, statusReason: String? = nil) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsIntegration = "awsIntegration"
+            case iamRoleArn = "iamRoleArn"
+            case status = "status"
+            case statusReason = "statusReason"
+        }
+    }
+
     public struct InitializeServiceInput: AWSEncodableShape {
-        public init() {}
+        /// The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
+        public let ociIdentityDomain: Bool?
+
+        @inlinable
+        public init(ociIdentityDomain: Bool? = nil) {
+            self.ociIdentityDomain = ociIdentityDomain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ociIdentityDomain = "ociIdentityDomain"
+        }
     }
 
     public struct InitializeServiceOutput: AWSDecodableShape {
@@ -3159,6 +3371,32 @@ extension Odb {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct KmsAccess: AWSDecodableShape {
+        /// The domain name for Amazon Web Services Key Management Service (KMS) access configuration.
+        public let domainName: String?
+        /// The IPv4 addresses allowed for Amazon Web Services Key Management Service (KMS) access.
+        public let ipv4Addresses: [String]?
+        /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage.
+        public let kmsPolicyDocument: String?
+        /// The current status of the Amazon Web Services Key Management Service (KMS) access configuration.
+        public let status: ManagedResourceStatus?
+
+        @inlinable
+        public init(domainName: String? = nil, ipv4Addresses: [String]? = nil, kmsPolicyDocument: String? = nil, status: ManagedResourceStatus? = nil) {
+            self.domainName = domainName
+            self.ipv4Addresses = ipv4Addresses
+            self.kmsPolicyDocument = kmsPolicyDocument
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case ipv4Addresses = "ipv4Addresses"
+            case kmsPolicyDocument = "kmsPolicyDocument"
+            case status = "status"
         }
     }
 
@@ -3783,7 +4021,7 @@ extension Odb {
     public struct ManagedS3BackupAccess: AWSDecodableShape {
         /// The IPv4 addresses for the managed Amazon S3 backup access.
         public let ipv4Addresses: [String]?
-        /// The status of the managed Amazon S3 backup access. Valid Values: enabled | disabled
+        /// The status of the managed Amazon S3 backup access.
         public let status: ManagedResourceStatus?
 
         @inlinable
@@ -3799,6 +4037,10 @@ extension Odb {
     }
 
     public struct ManagedServices: AWSDecodableShape {
+        /// The access configuration for the cross-Region Amazon S3 database restore source.
+        public let crossRegionS3RestoreSourcesAccess: [CrossRegionS3RestoreSourcesAccess]?
+        /// The Amazon Web Services Key Management Service (KMS) access configuration.
+        public let kmsAccess: KmsAccess?
         /// The managed Amazon S3 backup access configuration.
         public let managedS3BackupAccess: ManagedS3BackupAccess?
         /// The IPv4 CIDR blocks for the managed services.
@@ -3811,27 +4053,35 @@ extension Odb {
         public let serviceNetworkArn: String?
         /// The service network endpoint configuration.
         public let serviceNetworkEndpoint: ServiceNetworkEndpoint?
+        /// The Amazon Web Services Security Token Service (STS) access configuration.
+        public let stsAccess: StsAccess?
         /// The Zero-ETL access configuration.
         public let zeroEtlAccess: ZeroEtlAccess?
 
         @inlinable
-        public init(managedS3BackupAccess: ManagedS3BackupAccess? = nil, managedServicesIpv4Cidrs: [String]? = nil, resourceGatewayArn: String? = nil, s3Access: S3Access? = nil, serviceNetworkArn: String? = nil, serviceNetworkEndpoint: ServiceNetworkEndpoint? = nil, zeroEtlAccess: ZeroEtlAccess? = nil) {
+        public init(crossRegionS3RestoreSourcesAccess: [CrossRegionS3RestoreSourcesAccess]? = nil, kmsAccess: KmsAccess? = nil, managedS3BackupAccess: ManagedS3BackupAccess? = nil, managedServicesIpv4Cidrs: [String]? = nil, resourceGatewayArn: String? = nil, s3Access: S3Access? = nil, serviceNetworkArn: String? = nil, serviceNetworkEndpoint: ServiceNetworkEndpoint? = nil, stsAccess: StsAccess? = nil, zeroEtlAccess: ZeroEtlAccess? = nil) {
+            self.crossRegionS3RestoreSourcesAccess = crossRegionS3RestoreSourcesAccess
+            self.kmsAccess = kmsAccess
             self.managedS3BackupAccess = managedS3BackupAccess
             self.managedServicesIpv4Cidrs = managedServicesIpv4Cidrs
             self.resourceGatewayArn = resourceGatewayArn
             self.s3Access = s3Access
             self.serviceNetworkArn = serviceNetworkArn
             self.serviceNetworkEndpoint = serviceNetworkEndpoint
+            self.stsAccess = stsAccess
             self.zeroEtlAccess = zeroEtlAccess
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossRegionS3RestoreSourcesAccess = "crossRegionS3RestoreSourcesAccess"
+            case kmsAccess = "kmsAccess"
             case managedS3BackupAccess = "managedS3BackupAccess"
             case managedServicesIpv4Cidrs = "managedServicesIpv4Cidrs"
             case resourceGatewayArn = "resourceGatewayArn"
             case s3Access = "s3Access"
             case serviceNetworkArn = "serviceNetworkArn"
             case serviceNetworkEndpoint = "serviceNetworkEndpoint"
+            case stsAccess = "stsAccess"
             case zeroEtlAccess = "zeroEtlAccess"
         }
     }
@@ -3865,6 +4115,40 @@ extension Odb {
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case ociDnsListenerIp = "ociDnsListenerIp"
+        }
+    }
+
+    public struct OciIdentityDomain: AWSDecodableShape {
+        /// The Amazon Web Services CloudFormation URL for setting up the account integration with the OCI identity domain.
+        public let accountSetupCloudFormationUrl: String?
+        /// The unique identifier of the OCI identity domain.
+        public let ociIdentityDomainId: String?
+        /// The resource URL for accessing the OCI identity domain.
+        public let ociIdentityDomainResourceUrl: String?
+        /// The URL of the OCI identity domain.
+        public let ociIdentityDomainUrl: String?
+        /// The current status of the OCI identity domain.
+        public let status: ResourceStatus?
+        /// Additional information about the current status of the OCI identity domain, if applicable.
+        public let statusReason: String?
+
+        @inlinable
+        public init(accountSetupCloudFormationUrl: String? = nil, ociIdentityDomainId: String? = nil, ociIdentityDomainResourceUrl: String? = nil, ociIdentityDomainUrl: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil) {
+            self.accountSetupCloudFormationUrl = accountSetupCloudFormationUrl
+            self.ociIdentityDomainId = ociIdentityDomainId
+            self.ociIdentityDomainResourceUrl = ociIdentityDomainResourceUrl
+            self.ociIdentityDomainUrl = ociIdentityDomainUrl
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountSetupCloudFormationUrl = "accountSetupCloudFormationUrl"
+            case ociIdentityDomainId = "ociIdentityDomainId"
+            case ociIdentityDomainResourceUrl = "ociIdentityDomainResourceUrl"
+            case ociIdentityDomainUrl = "ociIdentityDomainUrl"
+            case status = "status"
+            case statusReason = "statusReason"
         }
     }
 
@@ -4075,7 +4359,7 @@ extension Odb {
         public let peerNetworkCidrs: [String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public let percentProgress: Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public let status: ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public let statusReason: String?
@@ -4129,7 +4413,7 @@ extension Odb {
         public let peerNetworkCidrs: [String]?
         /// The percentage progress of the ODB peering connection creation or deletion.
         public let percentProgress: Float?
-        /// The status of the ODB peering connection. Valid Values: provisioning | active | terminating | terminated | failed
+        /// The status of the ODB peering connection.
         public let status: ResourceStatus?
         /// The reason for the current status of the ODB peering connection.
         public let statusReason: String?
@@ -4245,7 +4529,7 @@ extension Odb {
         public let ipv4Addresses: [String]?
         /// The endpoint policy for the Amazon S3 access.
         public let s3PolicyDocument: String?
-        /// The status of the Amazon S3 access. Valid Values: enabled | disabled
+        /// The status of the Amazon S3 access.
         public let status: ManagedResourceStatus?
 
         @inlinable
@@ -4267,7 +4551,7 @@ extension Odb {
     public struct ServiceNetworkEndpoint: AWSDecodableShape {
         /// The identifier of the VPC endpoint.
         public let vpcEndpointId: String?
-        /// The type of the VPC endpoint. Valid Values: Interface | Gateway
+        /// The type of the VPC endpoint.
         public let vpcEndpointType: VpcEndpointType?
 
         @inlinable
@@ -4410,6 +4694,32 @@ extension Odb {
             case dbNodeId = "dbNodeId"
             case status = "status"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct StsAccess: AWSDecodableShape {
+        /// The domain name for Amazon Web Services Security Token Service (STS) access configuration.
+        public let domainName: String?
+        /// The IPv4 addresses allowed for Amazon Web Services Security Token Service (STS) access.
+        public let ipv4Addresses: [String]?
+        /// The current status of the Amazon Web Services Security Token Service (STS) access configuration.
+        public let status: ManagedResourceStatus?
+        /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage.
+        public let stsPolicyDocument: String?
+
+        @inlinable
+        public init(domainName: String? = nil, ipv4Addresses: [String]? = nil, status: ManagedResourceStatus? = nil, stsPolicyDocument: String? = nil) {
+            self.domainName = domainName
+            self.ipv4Addresses = ipv4Addresses
+            self.status = status
+            self.stsPolicyDocument = stsPolicyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "domainName"
+            case ipv4Addresses = "ipv4Addresses"
+            case status = "status"
+            case stsPolicyDocument = "stsPolicyDocument"
         }
     }
 
@@ -4589,8 +4899,16 @@ extension Odb {
     }
 
     public struct UpdateOdbNetworkInput: AWSEncodableShape {
+        /// The cross-Region Amazon S3 restore sources to disable for the ODB network.
+        public let crossRegionS3RestoreSourcesToDisable: [String]?
+        /// The cross-Region Amazon S3 restore sources to enable for the ODB network.
+        public let crossRegionS3RestoreSourcesToEnable: [String]?
         /// The new user-friendly name of the ODB network.
         public let displayName: String?
+        /// The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+        public let kmsAccess: Access?
+        /// The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
+        public let kmsPolicyDocument: String?
         /// The unique identifier of the ODB network to update.
         public let odbNetworkId: String
         /// The list of CIDR ranges from the peered VPC that allow access to the ODB network.
@@ -4601,36 +4919,58 @@ extension Odb {
         public let s3Access: Access?
         /// Specifies the updated endpoint policy for Amazon S3 access from the ODB network.
         public let s3PolicyDocument: String?
+        /// The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+        public let stsAccess: Access?
+        /// The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
+        public let stsPolicyDocument: String?
         /// Specifies the updated configuration for Zero-ETL access from the ODB network.
         public let zeroEtlAccess: Access?
 
         @inlinable
-        public init(displayName: String? = nil, odbNetworkId: String, peeredCidrsToBeAdded: [String]? = nil, peeredCidrsToBeRemoved: [String]? = nil, s3Access: Access? = nil, s3PolicyDocument: String? = nil, zeroEtlAccess: Access? = nil) {
+        public init(crossRegionS3RestoreSourcesToDisable: [String]? = nil, crossRegionS3RestoreSourcesToEnable: [String]? = nil, displayName: String? = nil, kmsAccess: Access? = nil, kmsPolicyDocument: String? = nil, odbNetworkId: String, peeredCidrsToBeAdded: [String]? = nil, peeredCidrsToBeRemoved: [String]? = nil, s3Access: Access? = nil, s3PolicyDocument: String? = nil, stsAccess: Access? = nil, stsPolicyDocument: String? = nil, zeroEtlAccess: Access? = nil) {
+            self.crossRegionS3RestoreSourcesToDisable = crossRegionS3RestoreSourcesToDisable
+            self.crossRegionS3RestoreSourcesToEnable = crossRegionS3RestoreSourcesToEnable
             self.displayName = displayName
+            self.kmsAccess = kmsAccess
+            self.kmsPolicyDocument = kmsPolicyDocument
             self.odbNetworkId = odbNetworkId
             self.peeredCidrsToBeAdded = peeredCidrsToBeAdded
             self.peeredCidrsToBeRemoved = peeredCidrsToBeRemoved
             self.s3Access = s3Access
             self.s3PolicyDocument = s3PolicyDocument
+            self.stsAccess = stsAccess
+            self.stsPolicyDocument = stsPolicyDocument
             self.zeroEtlAccess = zeroEtlAccess
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.crossRegionS3RestoreSourcesToDisable, forKey: .crossRegionS3RestoreSourcesToDisable)
+            try container.encodeIfPresent(self.crossRegionS3RestoreSourcesToEnable, forKey: .crossRegionS3RestoreSourcesToEnable)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.kmsAccess, forKey: .kmsAccess)
+            try container.encodeIfPresent(self.kmsPolicyDocument, forKey: .kmsPolicyDocument)
             request.encodePath(self.odbNetworkId, key: "odbNetworkId")
             try container.encodeIfPresent(self.peeredCidrsToBeAdded, forKey: .peeredCidrsToBeAdded)
             try container.encodeIfPresent(self.peeredCidrsToBeRemoved, forKey: .peeredCidrsToBeRemoved)
             try container.encodeIfPresent(self.s3Access, forKey: .s3Access)
             try container.encodeIfPresent(self.s3PolicyDocument, forKey: .s3PolicyDocument)
+            try container.encodeIfPresent(self.stsAccess, forKey: .stsAccess)
+            try container.encodeIfPresent(self.stsPolicyDocument, forKey: .stsPolicyDocument)
             try container.encodeIfPresent(self.zeroEtlAccess, forKey: .zeroEtlAccess)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.crossRegionS3RestoreSourcesToDisable, name: "crossRegionS3RestoreSourcesToDisable", parent: name, max: 1024)
+            try self.validate(self.crossRegionS3RestoreSourcesToDisable, name: "crossRegionS3RestoreSourcesToDisable", parent: name, min: 1)
+            try self.validate(self.crossRegionS3RestoreSourcesToEnable, name: "crossRegionS3RestoreSourcesToEnable", parent: name, max: 1024)
+            try self.validate(self.crossRegionS3RestoreSourcesToEnable, name: "crossRegionS3RestoreSourcesToEnable", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
             try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z_](?!.*--)[a-zA-Z0-9_-]*$")
+            try self.validate(self.kmsPolicyDocument, name: "kmsPolicyDocument", parent: name, max: 20480)
+            try self.validate(self.kmsPolicyDocument, name: "kmsPolicyDocument", parent: name, min: 3)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, max: 2048)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, min: 6)
             try self.validate(self.odbNetworkId, name: "odbNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
@@ -4640,14 +4980,22 @@ extension Odb {
             try self.validate(self.peeredCidrsToBeRemoved, name: "peeredCidrsToBeRemoved", parent: name, min: 1)
             try self.validate(self.s3PolicyDocument, name: "s3PolicyDocument", parent: name, max: 20480)
             try self.validate(self.s3PolicyDocument, name: "s3PolicyDocument", parent: name, min: 3)
+            try self.validate(self.stsPolicyDocument, name: "stsPolicyDocument", parent: name, max: 20480)
+            try self.validate(self.stsPolicyDocument, name: "stsPolicyDocument", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case crossRegionS3RestoreSourcesToDisable = "crossRegionS3RestoreSourcesToDisable"
+            case crossRegionS3RestoreSourcesToEnable = "crossRegionS3RestoreSourcesToEnable"
             case displayName = "displayName"
+            case kmsAccess = "kmsAccess"
+            case kmsPolicyDocument = "kmsPolicyDocument"
             case peeredCidrsToBeAdded = "peeredCidrsToBeAdded"
             case peeredCidrsToBeRemoved = "peeredCidrsToBeRemoved"
             case s3Access = "s3Access"
             case s3PolicyDocument = "s3PolicyDocument"
+            case stsAccess = "stsAccess"
+            case stsPolicyDocument = "stsPolicyDocument"
             case zeroEtlAccess = "zeroEtlAccess"
         }
     }
@@ -4799,7 +5147,7 @@ extension Odb {
     public struct ZeroEtlAccess: AWSDecodableShape {
         /// The CIDR block for the Zero-ETL access.
         public let cidr: String?
-        /// The status of the Zero-ETL access. Valid Values: enabled | disabled
+        /// The status of the Zero-ETL access.
         public let status: ManagedResourceStatus?
 
         @inlinable

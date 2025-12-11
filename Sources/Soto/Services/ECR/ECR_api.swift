@@ -426,9 +426,9 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
-    ///   - imageScanningConfiguration: The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+    ///   - imageScanningConfiguration:  The imageScanningConfiguration parameter is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration.  The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
     ///   - imageTagMutability: The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
-    ///   - imageTagMutabilityExclusionFilters: Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
+    ///   - imageTagMutabilityExclusionFilters: A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting.
     ///   - registryId: The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
     ///   - tags: The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -477,7 +477,7 @@ public struct ECR: AWSService {
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: The encryption configuration to use for repositories created using the template.
     ///   - imageTagMutability: The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
-    ///   - imageTagMutabilityExclusionFilters: Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
+    ///   - imageTagMutabilityExclusionFilters: A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
     ///   - lifecyclePolicy: The lifecycle policy to use for repositories created using the template.
     ///   - prefix: The repository namespace prefix to associate with the template. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with prod/team/. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/. When using a pull through cache rule, the repository prefix you specify during rule creation is what you should specify as your repository creation template prefix as well.
     ///   - repositoryPolicy: The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
@@ -698,6 +698,61 @@ public struct ECR: AWSService {
         return try await self.deleteRepositoryPolicy(input, logger: logger)
     }
 
+    /// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  Deleting the signing configuration does not affect existing image signatures.
+    @Sendable
+    @inlinable
+    public func deleteSigningConfiguration(_ input: DeleteSigningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSigningConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteSigningConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the registry's signing configuration. Images pushed after deletion of the signing configuration will no longer be automatically signed. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  Deleting the signing configuration does not affect existing image signatures.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSigningConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSigningConfigurationResponse {
+        let input = DeleteSigningConfigurationRequest(
+        )
+        return try await self.deleteSigningConfiguration(input, logger: logger)
+    }
+
+    /// Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
+    @Sendable
+    @inlinable
+    public func deregisterPullTimeUpdateExclusion(_ input: DeregisterPullTimeUpdateExclusionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterPullTimeUpdateExclusionResponse {
+        try await self.client.execute(
+            operation: "DeregisterPullTimeUpdateExclusion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a principal from the pull time update exclusion list for a registry. Once removed, Amazon ECR will resume updating the pull time if the specified principal pulls an image.
+    ///
+    /// Parameters:
+    ///   - principalArn: The ARN of the IAM principal to remove from the pull time update exclusion list.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterPullTimeUpdateExclusion(
+        principalArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterPullTimeUpdateExclusionResponse {
+        let input = DeregisterPullTimeUpdateExclusionRequest(
+            principalArn: principalArn
+        )
+        return try await self.deregisterPullTimeUpdateExclusion(input, logger: logger)
+    }
+
     /// Returns the replication status for a specified image.
     @Sendable
     @inlinable
@@ -772,6 +827,41 @@ public struct ECR: AWSService {
             repositoryName: repositoryName
         )
         return try await self.describeImageScanFindings(input, logger: logger)
+    }
+
+    /// Returns the signing status for a specified image. If the image matched signing rules that reference different signing profiles, a status is returned for each profile. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
+    @Sendable
+    @inlinable
+    public func describeImageSigningStatus(_ input: DescribeImageSigningStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageSigningStatusResponse {
+        try await self.client.execute(
+            operation: "DescribeImageSigningStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the signing status for a specified image. If the image matched signing rules that reference different signing profiles, a status is returned for each profile. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
+    ///
+    /// Parameters:
+    ///   - imageId: An object containing identifying information for an image.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+    ///   - repositoryName: The name of the repository that contains the image.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeImageSigningStatus(
+        imageId: ImageIdentifier,
+        registryId: String? = nil,
+        repositoryName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeImageSigningStatusResponse {
+        let input = DescribeImageSigningStatusRequest(
+            imageId: imageId, 
+            registryId: registryId, 
+            repositoryName: repositoryName
+        )
+        return try await self.describeImageSigningStatus(input, logger: logger)
     }
 
     /// Returns metadata about the images in a repository.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.   The new version of Amazon ECR Basic Scanning doesn't use the ImageDetail$imageScanFindingsSummary and ImageDetail$imageScanStatus attributes from the API response to return scan results. Use the DescribeImageScanFindings API instead. For more information about Amazon Web Services native basic scanning, see  Scan images for software vulnerabilities in Amazon ECR.
@@ -1205,6 +1295,32 @@ public struct ECR: AWSService {
         return try await self.getRepositoryPolicy(input, logger: logger)
     }
 
+    /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
+    @Sendable
+    @inlinable
+    public func getSigningConfiguration(_ input: GetSigningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSigningConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetSigningConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the registry's signing configuration, which defines rules for automatically signing images using Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSigningConfiguration(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSigningConfigurationResponse {
+        let input = GetSigningConfigurationRequest(
+        )
+        return try await self.getSigningConfiguration(input, logger: logger)
+    }
+
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once per image layer that has not already been uploaded. Whether or not an image layer has been uploaded is determined by the BatchCheckLayerAvailability API action.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     @Sendable
     @inlinable
@@ -1235,6 +1351,50 @@ public struct ECR: AWSService {
             repositoryName: repositoryName
         )
         return try await self.initiateLayerUpload(input, logger: logger)
+    }
+
+    /// Lists the artifacts associated with a specified subject image.
+    @Sendable
+    @inlinable
+    public func listImageReferrers(_ input: ListImageReferrersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListImageReferrersResponse {
+        try await self.client.execute(
+            operation: "ListImageReferrers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the artifacts associated with a specified subject image.
+    ///
+    /// Parameters:
+    ///   - filter: The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
+    ///   - maxResults: The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed.
+    ///   - repositoryName: The name of the repository that contains the subject image.
+    ///   - subjectId: An object containing the image digest of the subject image for which to retrieve associated artifacts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listImageReferrers(
+        filter: ListImageReferrersFilter? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        registryId: String? = nil,
+        repositoryName: String,
+        subjectId: SubjectIdentifier,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListImageReferrersResponse {
+        let input = ListImageReferrersRequest(
+            filter: filter, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            registryId: registryId, 
+            repositoryName: repositoryName, 
+            subjectId: subjectId
+        )
+        return try await self.listImageReferrers(input, logger: logger)
     }
 
     /// Lists all the image IDs for the specified repository. You can filter images based on whether or not they are tagged by using the tagStatus filter and specifying either TAGGED, UNTAGGED or ANY. For example, you can filter your results to return only UNTAGGED images and then pipe that result to a BatchDeleteImage operation to delete them. Or, you can filter your results to return only TAGGED images to list all of the tags in your repository.
@@ -1276,6 +1436,38 @@ public struct ECR: AWSService {
             repositoryName: repositoryName
         )
         return try await self.listImages(input, logger: logger)
+    }
+
+    /// Lists the IAM principals that are excluded from having their image pull times recorded.
+    @Sendable
+    @inlinable
+    public func listPullTimeUpdateExclusions(_ input: ListPullTimeUpdateExclusionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListPullTimeUpdateExclusionsResponse {
+        try await self.client.execute(
+            operation: "ListPullTimeUpdateExclusions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the IAM principals that are excluded from having their image pull times recorded.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parameter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 results and a nextToken value, if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated ListPullTimeUpdateExclusions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listPullTimeUpdateExclusions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListPullTimeUpdateExclusionsResponse {
+        let input = ListPullTimeUpdateExclusionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listPullTimeUpdateExclusions(input, logger: logger)
     }
 
     /// List the tags for an Amazon ECR resource.
@@ -1358,7 +1550,7 @@ public struct ECR: AWSService {
     ///   - imageDigest: The image digest of the image manifest corresponding to the image.
     ///   - imageManifest: The image manifest corresponding to the image to be uploaded.
     ///   - imageManifestMediaType: The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
-    ///   - imageTag: The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+    ///   - imageTag: The tag to associate with the image. This parameter is optional.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository in which to put the image.
     ///   - logger: Logger use during operation
@@ -1435,7 +1627,7 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - imageTagMutability: The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
-    ///   - imageTagMutabilityExclusionFilters: Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    ///   - imageTagMutabilityExclusionFilters: A list of filters that specify which image tags should be excluded from the image tag mutability setting being applied.
     ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
     ///   - repositoryName: The name of the repository in which to update the image tag mutability settings.
     ///   - logger: Logger use during operation
@@ -1579,6 +1771,64 @@ public struct ECR: AWSService {
             replicationConfiguration: replicationConfiguration
         )
         return try await self.putReplicationConfiguration(input, logger: logger)
+    }
+
+    /// Creates or updates the registry's signing configuration, which defines rules for automatically signing images with Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  To successfully generate a signature, the IAM principal pushing images must have permission to sign payloads with the Amazon Web Services Signer signing profile referenced in the signing configuration.
+    @Sendable
+    @inlinable
+    public func putSigningConfiguration(_ input: PutSigningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutSigningConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutSigningConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the registry's signing configuration, which defines rules for automatically signing images with Amazon Web Services Signer. For more information, see Managed signing in the Amazon Elastic Container Registry User Guide.  To successfully generate a signature, the IAM principal pushing images must have permission to sign payloads with the Amazon Web Services Signer signing profile referenced in the signing configuration.
+    ///
+    /// Parameters:
+    ///   - signingConfiguration: The signing configuration to assign to the registry.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putSigningConfiguration(
+        signingConfiguration: SigningConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutSigningConfigurationResponse {
+        let input = PutSigningConfigurationRequest(
+            signingConfiguration: signingConfiguration
+        )
+        return try await self.putSigningConfiguration(input, logger: logger)
+    }
+
+    /// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
+    @Sendable
+    @inlinable
+    public func registerPullTimeUpdateExclusion(_ input: RegisterPullTimeUpdateExclusionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterPullTimeUpdateExclusionResponse {
+        try await self.client.execute(
+            operation: "RegisterPullTimeUpdateExclusion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds an IAM principal to the pull time update exclusion list for a registry. Amazon ECR will not record the pull time if an excluded principal pulls an image.
+    ///
+    /// Parameters:
+    ///   - principalArn: The ARN of the IAM principal to exclude from having image pull times recorded.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerPullTimeUpdateExclusion(
+        principalArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterPullTimeUpdateExclusionResponse {
+        let input = RegisterPullTimeUpdateExclusionRequest(
+            principalArn: principalArn
+        )
+        return try await self.registerPullTimeUpdateExclusion(input, logger: logger)
     }
 
     /// Applies a repository policy to the specified repository to control access permissions. For more information, see Amazon ECR Repository policies in the Amazon Elastic Container Registry User Guide.
@@ -1753,6 +2003,44 @@ public struct ECR: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
+    @Sendable
+    @inlinable
+    public func updateImageStorageClass(_ input: UpdateImageStorageClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImageStorageClassResponse {
+        try await self.client.execute(
+            operation: "UpdateImageStorageClass", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Transitions an image between storage classes. You can transition images from Amazon ECR standard storage class to Amazon ECR archival storage class for long-term storage, or restore archived images back to Amazon ECR standard.
+    ///
+    /// Parameters:
+    ///   - imageId: 
+    ///   - registryId: The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed.
+    ///   - repositoryName: The name of the repository that contains the image to transition.
+    ///   - targetStorageClass: The target storage class for the image.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateImageStorageClass(
+        imageId: ImageIdentifier,
+        registryId: String? = nil,
+        repositoryName: String,
+        targetStorageClass: TargetStorageClass,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateImageStorageClassResponse {
+        let input = UpdateImageStorageClassRequest(
+            imageId: imageId, 
+            registryId: registryId, 
+            repositoryName: repositoryName, 
+            targetStorageClass: targetStorageClass
+        )
+        return try await self.updateImageStorageClass(input, logger: logger)
+    }
+
     /// Updates an existing pull through cache rule.
     @Sendable
     @inlinable
@@ -1812,7 +2100,7 @@ public struct ECR: AWSService {
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: 
     ///   - imageTagMutability: Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
-    ///   - imageTagMutabilityExclusionFilters: Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+    ///   - imageTagMutabilityExclusionFilters: A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
     ///   - lifecyclePolicy: Updates the lifecycle policy associated with the specified repository creation template.
     ///   - prefix: The repository namespace prefix that matches an existing repository creation template in the registry. All repositories created using this namespace prefix will have the settings defined in this template applied. For example, a prefix of prod would apply to all repositories beginning with prod/. This includes a repository named prod/team1 as well as a repository named prod/repository1. To apply a template to all repositories in your registry that don't have an associated creation template, you can use ROOT as the prefix.
     ///   - repositoryPolicy: Updates the repository policy created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.

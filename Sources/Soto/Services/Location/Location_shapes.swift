@@ -154,6 +154,33 @@ extension Location {
 
     // MARK: Shapes
 
+    public struct AndroidApp: AWSEncodableShape & AWSDecodableShape {
+        /// 20 byte SHA-1 certificate fingerprint associated with the Android app signing certificate.
+        public let certificateFingerprint: String
+        /// Unique package name for an Android app.
+        public let package: String
+
+        @inlinable
+        public init(certificateFingerprint: String, package: String) {
+            self.certificateFingerprint = certificateFingerprint
+            self.package = package
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateFingerprint, name: "certificateFingerprint", parent: name, max: 59)
+            try self.validate(self.certificateFingerprint, name: "certificateFingerprint", parent: name, min: 59)
+            try self.validate(self.certificateFingerprint, name: "certificateFingerprint", parent: name, pattern: "^([A-Fa-f0-9]{2}:){19}[A-Fa-f0-9]{2}$")
+            try self.validate(self.package, name: "package", parent: name, max: 255)
+            try self.validate(self.package, name: "package", parent: name, min: 1)
+            try self.validate(self.package, name: "package", parent: name, pattern: "^([A-Za-z][A-Za-z\\d_]*\\.)+[A-Za-z][A-Za-z\\d_]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateFingerprint = "CertificateFingerprint"
+            case package = "Package"
+        }
+    }
+
     public struct ApiKeyFilter: AWSEncodableShape {
         /// Filter on Active or Expired API keys.
         public let keyStatus: Status?
@@ -169,16 +196,22 @@ extension Location {
     }
 
     public struct ApiKeyRestrictions: AWSEncodableShape & AWSDecodableShape {
-        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.    Map actions     geo:GetMap* - Allows all actions needed for map rendering.    geo-maps:GetTile - Allows retrieving map tiles.    geo-maps:GetStaticMap - Allows retrieving static map images.    geo-maps:* - Allows all actions related to map functionalities.      Place actions     geo:SearchPlaceIndexForText - Allows geocoding.    geo:SearchPlaceIndexForPosition - Allows reverse geocoding.    geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.    GetPlace - Allows finding a place by place ID.    geo-places:Geocode - Allows geocoding using place information.    geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates.    geo-places:SearchNearby - Allows searching for places near a location.    geo-places:SearchText - Allows searching for places based on text input.    geo-places:Autocomplete - Allows auto-completion of place names based on text input.    geo-places:Suggest - Allows generating suggestions for places based on partial input.    geo-places:GetPlace - Allows finding a place by its ID.    geo-places:* - Allows all actions related to place services.      Route actions     geo:CalculateRoute - Allows point to point routing.    geo:CalculateRouteMatrix - Allows calculating a matrix of routes.    geo-routes:CalculateRoutes - Allows calculating multiple routes between points.    geo-routes:CalculateRouteMatrix - Allows calculating a matrix of routes between points.    geo-routes:CalculateIsolines - Allows calculating isolines for a given area.    geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route.    geo-routes:SnapToRoads - Allows snapping a route to the nearest roads.    geo-routes:* - Allows all actions related to routing functionalities.      You must use these strings exactly. For example, to provide access to map  rendering, the only valid action is geo:GetMap* as an input to  the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
+        /// A list of allowed actions that an API key resource grants permissions to perform. You must have at least one action for each type of resource. For example, if you have a place resource, you must include at least one place action. The following are valid values for the actions.    Map actions     geo:GetMap* - Allows all actions needed for map rendering.    geo-maps:GetTile - Allows retrieving map tiles.    geo-maps:GetStaticMap - Allows retrieving static map images.    geo-maps:* - Allows all actions related to map functionalities.      Place actions     geo:SearchPlaceIndexForText - Allows geocoding.    geo:SearchPlaceIndexForPosition - Allows reverse geocoding.    geo:SearchPlaceIndexForSuggestions - Allows generating suggestions from text.    GetPlace - Allows finding a place by place ID.    geo-places:Geocode - Allows geocoding using place information.    geo-places:ReverseGeocode - Allows reverse geocoding from location coordinates.    geo-places:SearchNearby - Allows searching for places near a location.    geo-places:SearchText - Allows searching for places based on text input.    geo-places:Autocomplete - Allows auto-completion of place names based on text input.    geo-places:Suggest - Allows generating suggestions for places based on partial input.    geo-places:GetPlace - Allows finding a place by its ID.    geo-places:* - Allows all actions related to place services.      Route actions     geo:CalculateRoute - Allows point to point routing.    geo:CalculateRouteMatrix - Allows calculating a matrix of routes.    geo-routes:CalculateRoutes - Allows calculating multiple routes between points.    geo-routes:CalculateRouteMatrix - Allows calculating a matrix of routes between points.    geo-routes:CalculateIsolines - Allows calculating isolines for a given area.    geo-routes:OptimizeWaypoints - Allows optimizing the order of waypoints in a route.    geo-routes:SnapToRoads - Allows snapping a route to the nearest roads.    geo-routes:* - Allows all actions related to routing functionalities.      You must use these strings exactly. For example, to provide access to map rendering, the only valid action is geo:GetMap* as an input to the list. ["geo:GetMap*"] is valid but ["geo:GetMapTile"] is not. Similarly, you cannot use ["geo:SearchPlaceIndexFor*"] - you must list each of the Place actions separately.
         public let allowActions: [String]
+        /// An optional list of allowed Android applications for which requests must originate from. Requests using this API key from other sources will not be allowed.
+        public let allowAndroidApps: [AndroidApp]?
+        /// An optional list of allowed Apple applications for which requests must originate from. Requests using this API key from other sources will not be allowed.
+        public let allowAppleApps: [AppleApp]?
         /// An optional list of allowed HTTP referers for which requests must originate from. Requests using this API key from other domains will not be allowed. Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9) or any symbols in this list $\-._+!*`(),;/?:@=&amp;    May contain a percent (%) if followed by 2 hexadecimal digits (A-F, a-f, 0-9); this is used for URL encoding purposes.   May contain wildcard characters question mark (?) and asterisk (*). Question mark (?) will replace any single character (including hexadecimal digits). Asterisk (*) will replace any multiple characters (including multiple hexadecimal digits).   No spaces allowed. For example, https://example.com.
         public let allowReferers: [String]?
-        /// A list of allowed resource ARNs that a API key bearer can perform actions on.   The ARN must be the correct ARN for a map, place, or route ARN. You may  include wildcards in the resource-id to match multiple resources of the  same type.   The resources must be in the same partition,  region, and account-id as the key that is being  created.   Other than wildcards, you must include the full ARN, including the  arn, partition, service, region, account-id and resource-id delimited by colons (:).   No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.   For more information about ARN format, see Amazon Resource Names (ARNs).
+        /// A list of allowed resource ARNs that a API key bearer can perform actions on.   The ARN must be the correct ARN for a map, place, or route ARN. You may include wildcards in the resource-id to match multiple resources of the same type.   The resources must be in the same partition, region, and account-id as the key that is being created.   Other than wildcards, you must include the full ARN, including the arn, partition, service, region, account-id and resource-id delimited by colons (:).   No spaces allowed, even with wildcards. For example, arn:aws:geo:region:account-id:map/ExampleMap*.   For more information about ARN format, see Amazon Resource Names (ARNs).
         public let allowResources: [String]
 
         @inlinable
-        public init(allowActions: [String], allowReferers: [String]? = nil, allowResources: [String]) {
+        public init(allowActions: [String], allowAndroidApps: [AndroidApp]? = nil, allowAppleApps: [AppleApp]? = nil, allowReferers: [String]? = nil, allowResources: [String]) {
             self.allowActions = allowActions
+            self.allowAndroidApps = allowAndroidApps
+            self.allowAppleApps = allowAppleApps
             self.allowReferers = allowReferers
             self.allowResources = allowResources
         }
@@ -189,9 +222,15 @@ extension Location {
                 try validate($0, name: "allowActions[]", parent: name, min: 5)
                 try validate($0, name: "allowActions[]", parent: name, pattern: "^(geo|geo-routes|geo-places|geo-maps):\\w*\\*?$")
             }
+            try self.allowAndroidApps?.forEach {
+                try $0.validate(name: "\(name).allowAndroidApps[]")
+            }
+            try self.allowAppleApps?.forEach {
+                try $0.validate(name: "\(name).allowAppleApps[]")
+            }
             try self.allowReferers?.forEach {
                 try validate($0, name: "allowReferers[]", parent: name, max: 253)
-                try validate($0, name: "allowReferers[]", parent: name, pattern: "^([$\\-._+!*\\x{60}(),;/?:@=&\\w]|%([0-9a-fA-F?]{2}|[0-9a-fA-F?]?[*]))+$")
+                try validate($0, name: "allowReferers[]", parent: name, pattern: "^([\\w!$&()*+,./:;=?@\\x{60}-]|%([\\dA-Fa-f]{2}|[\\dA-Fa-f]?\\*))+$")
             }
             try self.allowResources.forEach {
                 try validate($0, name: "allowResources[]", parent: name, max: 1600)
@@ -201,8 +240,30 @@ extension Location {
 
         private enum CodingKeys: String, CodingKey {
             case allowActions = "AllowActions"
+            case allowAndroidApps = "AllowAndroidApps"
+            case allowAppleApps = "AllowAppleApps"
             case allowReferers = "AllowReferers"
             case allowResources = "AllowResources"
+        }
+    }
+
+    public struct AppleApp: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the app across all Apple platforms (iOS, macOS, tvOS, watchOS, etc.)
+        public let bundleId: String
+
+        @inlinable
+        public init(bundleId: String) {
+            self.bundleId = bundleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bundleId, name: "bundleId", parent: name, max: 155)
+            try self.validate(self.bundleId, name: "bundleId", parent: name, min: 1)
+            try self.validate(self.bundleId, name: "bundleId", parent: name, pattern: "^[A-Za-z0-9\\-]+(\\.[A-Za-z0-9\\-]+)+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bundleId = "BundleId"
         }
     }
 
@@ -501,7 +562,7 @@ extension Location {
     public struct BatchGetDevicePositionResponse: AWSDecodableShape {
         /// Contains device position details such as the device ID, position, and timestamps for when the position was received and sampled.
         public let devicePositions: [DevicePosition]
-        /// Contains  error details for each device that failed to send its position to the tracker resource.
+        /// Contains error details for each device that failed to send its position to the tracker resource.
         public let errors: [BatchGetDevicePositionError]
 
         @inlinable
@@ -714,7 +775,7 @@ extension Location {
     }
 
     public struct BatchUpdateDevicePositionResponse: AWSDecodableShape {
-        /// Contains  error details for each device that failed to update its position.
+        /// Contains error details for each device that failed to update its position.
         public let errors: [BatchUpdateDevicePositionError]
 
         @inlinable
@@ -761,7 +822,7 @@ extension Location {
         public let destinationPositions: [[Double]]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.     Bicycle or Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more information about using Grab as a data provider, see GrabMaps in the Amazon Location Service Developer Guide.  Default Value: Car
         public let travelMode: TravelMode?
@@ -877,7 +938,7 @@ extension Location {
     }
 
     public struct CalculateRouteRequest: AWSEncodableShape {
-        /// Specifies the desired time of arrival. Uses the given time to calculate the route.  Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.  ArrivalTime is not supported Esri.
+        /// Specifies the desired time of arrival. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.  ArrivalTime is not supported Esri.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var arrivalTime: Date?
         /// The name of the route calculator resource that you want to use to calculate the route.
@@ -891,17 +952,17 @@ extension Location {
         /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.   In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
         @OptionalCustomCoding<ISO8601DateCoder>
         public var departureTime: Date?
-        /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude].   For example, [-122.339, 47.615]     If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road.   Valid Values: [-180 to 180,-90 to 90]
+        /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude].    For example, [-122.339, 47.615]     If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road.   Valid Values: [-180 to 180,-90 to 90]
         public let destinationPosition: [Double]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
         /// Set to include the geometry details in the result for each path between a pair of positions. Default Value: false  Valid Values: false | true
         public let includeLegGeometry: Bool?
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// Specifies the distance to optimize for when calculating a route.
         public let optimizeFor: OptimizationMode?
-        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck,  Walking, Bicycle or Motorcycle as options for  the TravelMode.   Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Developer Guide.  The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking, Bicycle or Motorcycle as options for the TravelMode.   Bicycle and Motorcycle are only valid when using Grab as a data provider, and only within Southeast Asia.  Truck is not available for Grab. For more details on the using Grab for routing, including areas of coverage, see GrabMaps in the Amazon Location Service Developer Guide.  The TravelMode you specify also determines how you specify route preferences:    If traveling by Car use the CarModeOptions parameter.   If traveling by Truck use the TruckModeOptions parameter.   Default Value: Car
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
@@ -1073,7 +1134,7 @@ extension Location {
     public struct Circle: AWSEncodableShape & AWSDecodableShape {
         /// A single point geometry, specifying the center of the circle, using WGS 84 coordinates, in the form [longitude, latitude].
         public let center: [Double]
-        /// The radius of the circle in meters. Must be greater than zero and no  larger than 100,000 (100 kilometers).
+        /// The radius of the circle in meters. Must be greater than zero and no larger than 100,000 (100 kilometers).
         public let radius: Double
 
         @inlinable
@@ -1257,15 +1318,15 @@ extension Location {
     }
 
     public struct CreateMapRequest: AWSEncodableShape {
-        /// Specifies the MapConfiguration, including the map style, for the  map resource that you create. The map style defines the look of maps and the data  provider for your map resource.
+        /// Specifies the MapConfiguration, including the map style, for the map resource that you create. The map style defines the look of maps and the data provider for your map resource.
         public let configuration: MapConfiguration
         /// An optional description for the map resource.
         public let description: String?
         /// The name for the map resource. Requirements:   Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be a unique map resource name.    No spaces allowed. For example, ExampleMap.
         public let mapName: String
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
-        /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length:  256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
+        /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
         @inlinable
@@ -1336,7 +1397,7 @@ extension Location {
     }
 
     public struct CreatePlaceIndexRequest: AWSEncodableShape {
-        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast  Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service developer guide.
+        /// Specifies the geospatial data provider for the new place index.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on geocoding coverage.    Grab – Grab provides place index functionality for Southeast Asia. For additional information about GrabMaps' coverage, see GrabMaps countries and areas covered.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE details on goecoding coverage.  If you specify HERE Technologies (Here) as the data provider, you may not store results for locations in Japan. For more information, see the Amazon Web Services service terms for Amazon Location Service.    For additional information , see Data providers on the Amazon Location Service developer guide.
         public let dataSource: String
         /// Specifies the data storage option requesting Places.
         public let dataSourceConfiguration: DataSourceConfiguration?
@@ -1499,15 +1560,15 @@ extension Location {
     public struct CreateTrackerRequest: AWSEncodableShape {
         /// An optional description for the tracker resource.
         public let description: String?
-        /// Whether to enable position UPDATE events from this tracker to be sent to  EventBridge.  You do not need enable this feature to get ENTER and  EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+        /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge.  You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
         public let eventBridgeEnabled: Bool?
-        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default.  This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to  true when creating or updating a Tracker.
+        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default. This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when creating or updating a Tracker.
         public let kmsKeyEnableGeospatialQueries: Bool?
-        /// A key identifier for an  Amazon Web Services  KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
+        /// A key identifier for an Amazon Web Services KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
-        /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations.    This field is optional. If not specified, the default value is TimeBased.
+        /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations.    This field is optional. If not specified, the default value is TimeBased.
         public let positionFiltering: PositionFiltering?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// This parameter is no longer used.
         public let pricingPlanDataSource: String?
@@ -2230,7 +2291,7 @@ extension Location {
         public let description: String
         /// Whether UPDATE events from this tracker in EventBridge are enabled. If set to true these events will be sent to EventBridge.
         public let eventBridgeEnabled: Bool?
-        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default.  This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to  true when creating or updating a Tracker.
+        /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer managed key, then the Bounding Polygon Queries feature will be disabled by default. This is because by using this feature, a representation of your device positions will not be encrypted using the your KMS managed key. The exact device position, however; is still encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when creating or updating a Tracker.
         public let kmsKeyEnableGeospatialQueries: Bool?
         /// A key identifier for an Amazon Web Services KMS customer managed key assigned to the Amazon Location resource.
         public let kmsKeyId: String?
@@ -2850,11 +2911,11 @@ extension Location {
     }
 
     public struct GetMapGlyphsRequest: AWSEncodableShape {
-        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira  GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite –  Fira GO Italic | Fira GO Map |  Fira GO Map Bold | Noto Sans CJK JP Bold |  Noto Sans CJK JP Light |  Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark –  Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark –  Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold |  Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic |  Amazon Ember Condensed RC Regular,Noto Sans Regular |  Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic  Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic  Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic  Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans  for glyphs unsupported by Amazon Ember.
+        /// A comma-separated list of fonts to load glyphs from in order of preference. For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:    VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular | Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans Regular | Noto Sans Bold | Noto Serif Regular | Roboto Condensed Light Italic    VectorEsriStreets – Arial Regular | Arial Italic | Arial Bold    VectorEsriNavigation – Arial Regular | Arial Italic | Arial Bold    Valid font stacks for HERE Technologies styles:   VectorHereContrast – Fira GO Regular | Fira GO Bold    VectorHereExplore, VectorHereExploreTruck, HybridHereExploreSatellite – Fira GO Italic | Fira GO Map | Fira GO Map Bold | Noto Sans CJK JP Bold | Noto Sans CJK JP Light | Noto Sans CJK JP Regular    Valid font stacks for GrabMaps styles:   VectorGrabStandardLight, VectorGrabStandardDark – Noto Sans Regular | Noto Sans Medium | Noto Sans Bold    Valid font stacks for Open Data styles:   VectorOpenDataStandardLight, VectorOpenDataStandardDark, VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular | Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular | Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for glyphs unsupported by Amazon Ember.
         public let fontStack: String
         /// A Unicode range of characters to download glyphs for. Each response will contain 256 characters. For example, 0–255 includes all characters from range U+0000 to 00FF. Must be aligned to multiples of 256.
         public let fontUnicodeRange: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The map resource associated with the glyph ﬁle.
         public let mapName: String
@@ -2916,7 +2977,7 @@ extension Location {
     public struct GetMapSpritesRequest: AWSEncodableShape {
         /// The name of the sprite ﬁle. Use the following ﬁle names for the sprite sheet:    sprites.png     sprites@2x.png for high pixel density displays   For the JSON document containing image offsets. Use the following ﬁle names:    sprites.json     sprites@2x.json for high pixel density displays
         public let fileName: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The map resource associated with the sprite ﬁle.
         public let mapName: String
@@ -2974,7 +3035,7 @@ extension Location {
     }
 
     public struct GetMapStyleDescriptorRequest: AWSEncodableShape {
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The map resource to retrieve the style descriptor from.
         public let mapName: String
@@ -3030,7 +3091,7 @@ extension Location {
     }
 
     public struct GetMapTileRequest: AWSEncodableShape {
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The map resource to retrieve the map tiles from.
         public let mapName: String
@@ -3100,7 +3161,7 @@ extension Location {
     public struct GetPlaceRequest: AWSEncodableShape {
         /// The name of the place index resource that you want to use for the search.
         public let indexName: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
@@ -4152,12 +4213,11 @@ extension Location {
     }
 
     public struct MapConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style.
-        /// Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
         public let customLayers: [String]?
-        /// Specifies the political view for the style. Leave unset to not use a political  view, or, for styles that support specific political views, you can choose a view,  such as IND for the Indian view. Default is unset.  Not all map resources or styles support political view styles. See  Political  views  for more information.
+        /// Specifies the political view for the style. Leave unset to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view. Default is unset.  Not all map resources or styles support political view styles. See Political views for more information.
         public let politicalView: String?
-        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a  high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from  VectorHereBerlin.  VectorHereBerlin has been deprecated, but will continue to work in  applications that use it.     VectorHereExplore – A default HERE map style containing a  neutral, global map and its features including roads, buildings, landmarks,  and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck  restrictions and attributes (e.g. width / height / HAZMAT) symbolized with  highlighted segments and icons on top of HERE Explore to support use cases  within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road  network, street names, and city labels over satellite imagery. This style  will automatically retrieve both raster and vector tiles, and your charges  will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the  map that you see. This means that more tiles are retrieved than when using  either vector or raster tiles alone. Your charges will include all tiles  retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light  map style provides a basemap with detailed land use coloring,  area names, roads, landmarks, and points of interest covering  Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark  map style provides a dark variation of the standard basemap  covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available  in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light  map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads,  minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world  suitable for website and mobile application use. The map includes highways  major roads, minor roads, railways, water features, cities, parks,  landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data  Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data  Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
+        /// Specifies the map style selected from an available data provider. Valid Esri map styles:    VectorEsriDarkGrayCanvas – The Esri Dark Gray Canvas map style. A vector basemap with a dark gray, neutral background with minimal colors, labels, and features that's designed to draw attention to your thematic content.     RasterEsriImagery – The Esri Imagery map style. A raster basemap that provides one meter or better satellite and aerial imagery in many parts of the world and lower resolution satellite imagery worldwide.     VectorEsriLightGrayCanvas – The Esri Light Gray Canvas map style, which provides a detailed vector basemap with a light gray, neutral background style with minimal colors, labels, and features that's designed to draw attention to your thematic content.     VectorEsriTopographic – The Esri Light map style, which provides a detailed vector basemap with a classic Esri map style.    VectorEsriStreets – The Esri Street Map style, which provides a detailed vector basemap for the world symbolized with a classic Esri street map style. The vector tile layer is similar in content and style to the World Street Map raster map.    VectorEsriNavigation – The Esri Navigation map style, which provides a detailed basemap for the world symbolized with a custom navigation map style that's designed for use during the day in mobile devices.   Valid HERE Technologies map styles:    VectorHereContrast – The HERE Contrast (Berlin) map style is a high contrast detailed base map of the world that blends 3D and 2D rendering.  The VectorHereContrast style has been renamed from VectorHereBerlin. VectorHereBerlin has been deprecated, but will continue to work in applications that use it.     VectorHereExplore – A default HERE map style containing a neutral, global map and its features including roads, buildings, landmarks, and water features. It also now includes a fully designed map of Japan.    VectorHereExploreTruck – A global map containing truck restrictions and attributes (e.g. width / height / HAZMAT) symbolized with highlighted segments and icons on top of HERE Explore to support use cases within transport and logistics.    RasterHereExploreSatellite – A global map containing high resolution satellite imagery.    HybridHereExploreSatellite – A global map displaying the road network, street names, and city labels over satellite imagery. This style will automatically retrieve both raster and vector tiles, and your charges will be based on total tiles retrieved.  Hybrid styles use both vector and raster tiles when rendering the map that you see. This means that more tiles are retrieved than when using either vector or raster tiles alone. Your charges will include all tiles retrieved.    Valid GrabMaps map styles:    VectorGrabStandardLight – The Grab Standard Light map style provides a basemap with detailed land use coloring, area names, roads, landmarks, and points of interest covering Southeast Asia.    VectorGrabStandardDark – The Grab Standard Dark map style provides a dark variation of the standard basemap covering Southeast Asia.    Grab provides maps only for countries in Southeast Asia, and is only available in the Asia Pacific (Singapore) Region (ap-southeast-1). For more information, see GrabMaps countries and area covered.  Valid Open Data map styles:    VectorOpenDataStandardLight – The Open Data Standard Light map style provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataStandardDark – Open Data Standard Dark is a dark-themed map style that provides a detailed basemap for the world suitable for website and mobile application use. The map includes highways major roads, minor roads, railways, water features, cities, parks, landmarks, building footprints, and administrative boundaries.    VectorOpenDataVisualizationLight – The Open Data Visualization Light map style is a light-themed style with muted colors and fewer features that aids in understanding overlaid data.    VectorOpenDataVisualizationDark – The Open Data Visualization Dark map style is a dark-themed style with muted colors and fewer features that aids in understanding overlaid data.
         public let style: String
 
         @inlinable
@@ -4190,10 +4250,9 @@ extension Location {
     }
 
     public struct MapConfigurationUpdate: AWSEncodableShape {
-        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style.
-        /// Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
+        /// Specifies the custom layers for the style. Leave unset to not enable any custom layer, or, for styles that support custom layers, you can enable layer(s), such as POI layer for the VectorEsriNavigation style. Default is unset.  Not all map resources or styles support custom layers. See Custom Layers for more information.
         public let customLayers: [String]?
-        /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a  view, such as IND for the Indian view.  Not all map resources or styles support political view styles. See  Political  views  for more information.
+        /// Specifies the political view for the style. Set to an empty string to not use a political view, or, for styles that support specific political views, you can choose a view, such as IND for the Indian view.  Not all map resources or styles support political view styles. See Political views for more information.
         public let politicalView: String?
 
         @inlinable
@@ -4222,7 +4281,7 @@ extension Location {
     public struct Place: AWSDecodableShape {
         /// The numerical portion of an address, such as a building number.
         public let addressNumber: String?
-        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
+        /// The Amazon Location categories that describe this Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer guide.
         public let categories: [String]?
         /// A country/region specified using ISO 3166 3-digit country/region code. For example, CAN.
         public let country: String?
@@ -4241,7 +4300,7 @@ extension Location {
         public let region: String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public let street: String?
-        /// An area that's part of a larger municipality. For example, Blissville   is a submunicipality in the Queen County in New York.  This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
+        /// An area that's part of a larger municipality. For example, Blissville  is a submunicipality in the Queen County in New York.  This property supported by Esri and OpenData. The Esri property is district, and the OpenData property is borough.
         public let subMunicipality: String?
         /// A county, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
@@ -4249,7 +4308,7 @@ extension Location {
         public let supplementalCategories: [String]?
         /// The time zone in which the Place is located. Returned only when using HERE or Grab as the selected partner.
         public let timeZone: TimeZone?
-        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri or Grab as a data provider. Is  not returned for SearchPlaceIndexForPosition.
+        /// For addresses with multiple units, the unit identifier. Can include numbers and letters, for example 3B or Unit 123.  Returned only for a place index that uses Esri or Grab as a data provider. Is not returned for SearchPlaceIndexForPosition.
         public let unitNumber: String?
         /// For addresses with a UnitNumber, the type of unit. For example, Apartment.  Returned only for a place index that uses Esri as a data provider.
         public let unitType: String?
@@ -4455,9 +4514,9 @@ extension Location {
     }
 
     public struct SearchForSuggestionsResult: AWSDecodableShape {
-        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
+        /// The Amazon Location categories that describe the Place. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer guide.
         public let categories: [String]?
-        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex  resource as the SearchPlaceIndexForSuggestions that generated the Place  ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
+        /// The unique identifier of the Place. You can use this with the GetPlace operation to find the place again later, or to get full information for the Place. The GetPlace request must use the same PlaceIndex resource as the SearchPlaceIndexForSuggestions that generated the Place ID.  For SearchPlaceIndexForSuggestions operations, the PlaceId is returned by place indexes that use Esri, Grab, or HERE as data providers.
         public let placeId: String?
         /// Categories from the data provider that describe the Place that are not mapped to any Amazon Location categories.
         public let supplementalCategories: [String]?
@@ -4509,13 +4568,13 @@ extension Location {
     public struct SearchPlaceIndexForPositionRequest: AWSEncodableShape {
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request. Default value: 50
         public let maxResults: Int?
-        /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
+        /// Specifies the longitude and latitude of the position to query.  This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
         @inlinable
@@ -4602,17 +4661,17 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForSuggestionsRequest: AWSEncodableShape {
-        /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position.  If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
-        /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box.  If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
-        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
+        /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer guide.
         public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en. The results found will most likely be returned as Athens, Greece. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα, Ελλάδα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
@@ -4745,17 +4804,17 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForTextRequest: AWSEncodableShape {
-        /// An optional parameter that indicates a preference for places that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that indicates a preference for places that are closer to a specified position.  If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
-        /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that limits the search results by returning only places that are within the provided bounding box.  If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
-        /// A list of one or more Amazon Location categories to filter the returned places. If you  include more than one category, the results will include results that match  any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer  guide.
+        /// A list of one or more Amazon Location categories to filter the returned places. If you include more than one category, the results will include results that match any of the categories listed. For more information about using categories, including a list of Amazon Location categories, see Categories and filtering, in the Amazon Location Service developer guide.
         public let filterCategories: [String]?
         /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The optional API key to authorize  the request.
+        /// The optional API key to authorize the request.
         public let key: String?
         /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
@@ -5236,7 +5295,7 @@ extension Location {
         public let description: String?
         /// The name of the map resource to update.
         public let mapName: String
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
         @inlinable
@@ -5446,13 +5505,13 @@ extension Location {
     public struct UpdateTrackerRequest: AWSEncodableShape {
         /// Updates the description for the tracker resource.
         public let description: String?
-        /// Whether to enable position UPDATE events from this tracker to be sent to  EventBridge.  You do not need enable this feature to get ENTER and  EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
+        /// Whether to enable position UPDATE events from this tracker to be sent to EventBridge.  You do not need enable this feature to get ENTER and EXIT events for geofences with this tracker. Those events are always sent to EventBridge.
         public let eventBridgeEnabled: Bool?
         /// Enables GeospatialQueries for a tracker that uses a Amazon Web Services KMS customer managed key. This parameter is only used if you are using a KMS customer managed key.
         public let kmsKeyEnableGeospatialQueries: Bool?
-        /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections,  but not every location update is stored. If your update frequency is more often than 30 seconds,  only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are  ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise  when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
+        /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
         public let positionFiltering: PositionFiltering?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// This parameter is no longer used.
         public let pricingPlanDataSource: String?

@@ -275,6 +275,14 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum InputImageFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gif = "gif"
+        case jpeg = "jpeg"
+        case png = "png"
+        case webp = "webp"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case text = "TEXT"
         public var description: String { return self.rawValue }
@@ -286,6 +294,12 @@ extension BedrockAgentRuntime {
         case agentCollaborator = "AGENT_COLLABORATOR"
         case finish = "FINISH"
         case knowledgeBase = "KNOWLEDGE_BASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KnowledgeBaseQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case image = "IMAGE"
+        case text = "TEXT"
         public var description: String { return self.rawValue }
     }
 
@@ -421,9 +435,11 @@ extension BedrockAgentRuntime {
     }
 
     public enum RetrievalResultContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audio = "AUDIO"
         case image = "IMAGE"
         case row = "ROW"
         case text = "TEXT"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
@@ -2049,6 +2065,24 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case citations = "citations"
+        }
+    }
+
+    public struct AudioSegment: AWSDecodableShape {
+        /// The S3 URI where this specific audio segment is stored in the multimodal storage destination.
+        public let s3Uri: String
+        /// The text transcription of the audio segment content.
+        public let transcription: String?
+
+        @inlinable
+        public init(s3Uri: String, transcription: String? = nil) {
+            self.s3Uri = s3Uri
+            self.transcription = transcription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+            case transcription = "transcription"
         }
     }
 
@@ -4692,6 +4726,29 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct InputImage: AWSEncodableShape {
+        /// The format of the input image. Supported formats include png, gif, jpeg, and webp.
+        public let format: InputImageFormat
+        /// The base64-encoded image data for inline image content. Maximum size is 5MB.
+        public let inlineContent: AWSBase64Data
+
+        @inlinable
+        public init(format: InputImageFormat, inlineContent: AWSBase64Data) {
+            self.format = format
+            self.inlineContent = inlineContent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inlineContent, name: "inlineContent", parent: name, max: 10485760)
+            try self.validate(self.inlineContent, name: "inlineContent", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case inlineContent = "inlineContent"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         public let message: String?
         /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
@@ -5298,16 +5355,28 @@ extension BedrockAgentRuntime {
     }
 
     public struct KnowledgeBaseQuery: AWSEncodableShape {
+        /// An image to include in the knowledge base query for multimodal retrieval.
+        public let image: InputImage?
         /// The text of the query made to the knowledge base.
-        public let text: String
+        public let text: String?
+        /// The type of query being performed.
+        public let type: KnowledgeBaseQueryType?
 
         @inlinable
-        public init(text: String) {
+        public init(image: InputImage? = nil, text: String? = nil, type: KnowledgeBaseQueryType? = nil) {
+            self.image = image
             self.text = text
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.image?.validate(name: "\(name).image")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case image = "image"
             case text = "text"
+            case type = "type"
         }
     }
 
@@ -6971,7 +7040,7 @@ extension BedrockAgentRuntime {
     public struct RerankResult: AWSDecodableShape {
         /// Contains information about the document.
         public let document: RerankDocument?
-        /// The ranking of the document. The lower a number, the higher the document is ranked.
+        /// The original index of the document from the input sources array.
         public let index: Int
         /// The relevance score of the document.
         public let relevanceScore: Float
@@ -7072,6 +7141,8 @@ extension BedrockAgentRuntime {
     }
 
     public struct RetrievalResultContent: AWSDecodableShape {
+        /// Audio segment information when the retrieval result contains audio content.
+        public let audio: AudioSegment?
         /// A data URI with base64-encoded content from the data source. The URI is in the following format: returned in the following format: data:image/jpeg;base64,${base64-encoded string}.
         public let byteContent: String?
         /// Specifies information about the rows with the cells to return in retrieval.
@@ -7080,20 +7151,26 @@ extension BedrockAgentRuntime {
         public let text: String?
         /// The type of content in the retrieval result.
         public let type: RetrievalResultContentType?
+        /// Video segment information when the retrieval result contains video content.
+        public let video: VideoSegment?
 
         @inlinable
-        public init(byteContent: String? = nil, row: [RetrievalResultContentColumn]? = nil, text: String? = nil, type: RetrievalResultContentType? = nil) {
+        public init(audio: AudioSegment? = nil, byteContent: String? = nil, row: [RetrievalResultContentColumn]? = nil, text: String? = nil, type: RetrievalResultContentType? = nil, video: VideoSegment? = nil) {
+            self.audio = audio
             self.byteContent = byteContent
             self.row = row
             self.text = text
             self.type = type
+            self.video = video
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audio = "audio"
             case byteContent = "byteContent"
             case row = "row"
             case text = "text"
             case type = "type"
+            case video = "video"
         }
     }
 
@@ -7291,7 +7368,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct RetrieveAndGenerateInput: AWSEncodableShape {
-        /// The query made to the knowledge base.
+        /// The query made to the knowledge base, in characters.
         public let text: String
 
         @inlinable
@@ -7507,6 +7584,7 @@ extension BedrockAgentRuntime {
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S*$")
             try self.retrievalConfiguration?.validate(name: "\(name).retrievalConfiguration")
+            try self.retrievalQuery.validate(name: "\(name).retrievalQuery")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8410,6 +8488,24 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case bedrockRerankingConfiguration = "bedrockRerankingConfiguration"
             case type = "type"
+        }
+    }
+
+    public struct VideoSegment: AWSDecodableShape {
+        /// The S3 URI where this specific video segment is stored in the multimodal storage destination.
+        public let s3Uri: String
+        /// A text summary describing the content of the video segment.
+        public let summary: String?
+
+        @inlinable
+        public init(s3Uri: String, summary: String? = nil) {
+            self.s3Uri = s3Uri
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+            case summary = "summary"
         }
     }
 

@@ -25,6 +25,16 @@ import Foundation
 extension ObservabilityAdmin {
     // MARK: Enums
 
+    public enum Action: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allow = "ALLOW"
+        case block = "BLOCK"
+        case captcha = "CAPTCHA"
+        case challenge = "CHALLENGE"
+        case count = "COUNT"
+        case excludedAsCount = "EXCLUDED_AS_COUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CentralizationFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case destinationAccountNotInOrganization = "DESTINATION_ACCOUNT_NOT_IN_ORGANIZATION"
         case internalServerError = "INTERNAL_SERVER_ERROR"
@@ -55,10 +65,54 @@ extension ObservabilityAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drop = "DROP"
+        case keep = "KEEP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case meetsAll = "MEETS_ALL"
+        case meetsAny = "MEETS_ANY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case deleting = "DELETING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case application = "APPLICATION_LOGS"
+        case usage = "USAGE_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "json"
+        case plain = "plain"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case json = "JSON"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsBedrockAgentcoreBrowser = "AWS::BedrockAgentCore::Browser"
+        case awsBedrockAgentcoreCodeInterpreter = "AWS::BedrockAgentCore::CodeInterpreter"
+        case awsBedrockAgentcoreRuntime = "AWS::BedrockAgentCore::Runtime"
+        case awsCloudtrail = "AWS::CloudTrail"
         case awsEc2Instance = "AWS::EC2::Instance"
         case awsEc2Vpc = "AWS::EC2::VPC"
+        case awsEksCluster = "AWS::EKS::Cluster"
+        case awsElbLoadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsLamdbaFunction = "AWS::Lambda::Function"
+        case awsRoute53ResolverResolverEndpoint = "AWS::Route53Resolver::ResolverEndpoint"
+        case awsWafV2WebAcl = "AWS::WAFv2::WebACL"
         public var description: String { return self.rawValue }
     }
 
@@ -66,6 +120,12 @@ extension ObservabilityAdmin {
         case healthy = "Healthy"
         case provisioning = "Provisioning"
         case unhealthy = "Unhealthy"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sseKms = "aws:kms"
+        case sseS3 = "AES256"
         public var description: String { return self.rawValue }
     }
 
@@ -87,6 +147,27 @@ extension ObservabilityAdmin {
         public var description: String { return self.rawValue }
     }
 
+    public enum TelemetryPipelineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TelemetrySourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eksApiLogs = "EKS_API_LOGS"
+        case eksAuditLogs = "EKS_AUDIT_LOGS"
+        case eksAuthenticatorLogs = "EKS_AUTHENTICATOR_LOGS"
+        case eksControllerManagerLogs = "EKS_CONTROLLER_MANAGER_LOGS"
+        case eksSchedulerLogs = "EKS_SCHEDULER_LOGS"
+        case route53ResolverQueryLogs = "ROUTE53_RESOLVER_QUERY_LOGS"
+        case vpcFlowLogs = "VPC_FLOW_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TelemetryState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -98,6 +179,11 @@ extension ObservabilityAdmin {
         case logs = "Logs"
         case metrics = "Metrics"
         case traces = "Traces"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WAFLogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wafLogs = "WAF_LOGS"
         public var description: String { return self.rawValue }
     }
 
@@ -123,6 +209,76 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct ActionCondition: AWSEncodableShape & AWSDecodableShape {
+        ///  The WAF action to match against (ALLOW, BLOCK, COUNT, CAPTCHA, CHALLENGE, EXCLUDED_AS_COUNT).
+        public let action: Action?
+
+        @inlinable
+        public init(action: Action? = nil) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
+    public struct AdvancedEventSelector: AWSEncodableShape & AWSDecodableShape {
+        /// Contains all selector statements in an advanced event selector.
+        public let fieldSelectors: [AdvancedFieldSelector]
+        /// An optional, descriptive name for an advanced event selector, such as "Log data events for only two S3 buckets".
+        public let name: String?
+
+        @inlinable
+        public init(fieldSelectors: [AdvancedFieldSelector], name: String? = nil) {
+            self.fieldSelectors = fieldSelectors
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldSelectors = "FieldSelectors"
+            case name = "Name"
+        }
+    }
+
+    public struct AdvancedFieldSelector: AWSEncodableShape & AWSDecodableShape {
+        ///  Matches if the field value ends with the specified value.
+        public let endsWith: [String]?
+        ///  Matches if the field value equals the specified value.
+        public let equals: [String]?
+        ///  The name of the field to use for selection.
+        public let field: String
+        ///  Matches if the field value does not end with the specified value.
+        public let notEndsWith: [String]?
+        ///  Matches if the field value does not equal the specified value.
+        public let notEquals: [String]?
+        ///  Matches if the field value does not start with the specified value.
+        public let notStartsWith: [String]?
+        ///  Matches if the field value starts with the specified value.
+        public let startsWith: [String]?
+
+        @inlinable
+        public init(endsWith: [String]? = nil, equals: [String]? = nil, field: String, notEndsWith: [String]? = nil, notEquals: [String]? = nil, notStartsWith: [String]? = nil, startsWith: [String]? = nil) {
+            self.endsWith = endsWith
+            self.equals = equals
+            self.field = field
+            self.notEndsWith = notEndsWith
+            self.notEquals = notEquals
+            self.notStartsWith = notStartsWith
+            self.startsWith = startsWith
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endsWith = "EndsWith"
+            case equals = "Equals"
+            case field = "Field"
+            case notEndsWith = "NotEndsWith"
+            case notEquals = "NotEquals"
+            case notStartsWith = "NotStartsWith"
+            case startsWith = "StartsWith"
         }
     }
 
@@ -261,6 +417,89 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct CloudtrailParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The advanced event selectors to use for filtering Amazon Web Services CloudTrail events.
+        public let advancedEventSelectors: [AdvancedEventSelector]
+
+        @inlinable
+        public init(advancedEventSelectors: [AdvancedEventSelector]) {
+            self.advancedEventSelectors = advancedEventSelectors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+        }
+    }
+
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
+        ///  Matches log records based on the WAF rule action taken (ALLOW, BLOCK, COUNT, etc.).
+        public let actionCondition: ActionCondition?
+        ///  Matches log records based on WAF rule labels applied to the request.
+        public let labelNameCondition: LabelNameCondition?
+
+        @inlinable
+        public init(actionCondition: ActionCondition? = nil, labelNameCondition: LabelNameCondition? = nil) {
+            self.actionCondition = actionCondition
+            self.labelNameCondition = labelNameCondition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionCondition = "ActionCondition"
+            case labelNameCondition = "LabelNameCondition"
+        }
+    }
+
+    public struct ConfigurationSummary: AWSDecodableShape {
+        /// The list of data sources that provide telemetry data to the pipeline.
+        public let dataSources: [DataSource]?
+        /// The total number of processors configured in the pipeline.
+        public let processorCount: Int?
+        /// The list of processors configured in the pipeline for data transformation.
+        public let processors: [String]?
+        /// The list of destinations where processed data is sent.
+        public let sinks: [String]?
+        /// The list of data sources configured in the pipeline.
+        public let sources: [Source]?
+
+        @inlinable
+        public init(dataSources: [DataSource]? = nil, processorCount: Int? = nil, processors: [String]? = nil, sinks: [String]? = nil, sources: [Source]? = nil) {
+            self.dataSources = dataSources
+            self.processorCount = processorCount
+            self.processors = processors
+            self.sinks = sinks
+            self.sources = sources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSources = "DataSources"
+            case processorCount = "ProcessorCount"
+            case processors = "Processors"
+            case sinks = "Sinks"
+            case sources = "Sources"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        ///  The identifier of the resource which is in conflict with the requested operation.
+        public let resourceId: String?
+        ///  The type of the resource which is in conflict with the requested operation.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct CreateCentralizationRuleForOrganizationInput: AWSEncodableShape {
         /// The configuration details for the organization-wide centralization rule, including the source configuration and the destination configuration to centralize telemetry data across the organization.
         public let rule: CentralizationRule
@@ -310,6 +549,110 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct CreateS3TableIntegrationInput: AWSEncodableShape {
+        /// The encryption configuration for the S3 Table integration, including the encryption algorithm and KMS key settings.
+        public let encryption: Encryption
+        /// The Amazon Resource Name (ARN) of the IAM role that grants permissions for the S3 Table integration to access necessary resources.
+        public let roleArn: String
+        /// The key-value pairs to associate with the S3 Table integration resource for categorization and management purposes.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(encryption: Encryption, roleArn: String, tags: [String: String]? = nil) {
+            self.encryption = encryption
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.encryption.validate(name: "\(name).encryption")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1011)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryption = "Encryption"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateS3TableIntegrationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created S3 Table integration.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct CreateTelemetryPipelineInput: AWSEncodableShape {
+        /// The configuration that defines how the telemetry pipeline processes data, including sources, processors, and destinations. For more information about pipeline components, see the Amazon CloudWatch User Guide
+        public let configuration: TelemetryPipelineConfiguration
+        /// The name of the telemetry pipeline to create. The name must be unique within your account.
+        public let name: String
+        /// The key-value pairs to associate with the telemetry pipeline resource for categorization and management purposes.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(configuration: TelemetryPipelineConfiguration, name: String, tags: [String: String]? = nil) {
+            self.configuration = configuration
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.name, name: "name", parent: name, max: 28)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-z][a-z0-9\\-]+")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateTelemetryPipelineOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the created telemetry pipeline.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -417,6 +760,24 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct DataSource: AWSDecodableShape {
+        /// The name of the data source. For CloudWatch Logs sources, this corresponds to the data_source_name from the log event metadata. For third-party sources, this is either the configured data_source_name or defaults to the plugin name if not specified.
+        public let name: String?
+        /// The type of the data source. For CloudWatch Logs sources, this corresponds to the data_source_type from the log event metadata. For third-party sources, this field is empty.
+        public let type: String?
+
+        @inlinable
+        public init(name: String? = nil, type: String? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
     public struct DeleteCentralizationRuleForOrganizationInput: AWSEncodableShape {
         /// The identifier (name or ARN) of the organization centralization rule to delete.
         public let ruleIdentifier: String
@@ -434,6 +795,49 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case ruleIdentifier = "RuleIdentifier"
         }
+    }
+
+    public struct DeleteS3TableIntegrationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Table integration to delete.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1011)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct DeleteTelemetryPipelineInput: AWSEncodableShape {
+        /// The ARN of the telemetry pipeline to delete.
+        public let pipelineIdentifier: String
+
+        @inlinable
+        public init(pipelineIdentifier: String) {
+            self.pipelineIdentifier = pipelineIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, max: 512)
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineIdentifier = "PipelineIdentifier"
+        }
+    }
+
+    public struct DeleteTelemetryPipelineOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteTelemetryRuleForOrganizationInput: AWSEncodableShape {
@@ -494,6 +898,100 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case backupConfiguration = "BackupConfiguration"
             case logsEncryptionConfiguration = "LogsEncryptionConfiguration"
+        }
+    }
+
+    public struct ELBLoadBalancerLoggingParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The delimiter character used to separate fields in ELB access log entries when using plain text format.
+        public let fieldDelimiter: String?
+        ///  The format for ELB access log entries (plain text or JSON format).
+        public let outputFormat: OutputFormat?
+
+        @inlinable
+        public init(fieldDelimiter: String? = nil, outputFormat: OutputFormat? = nil) {
+            self.fieldDelimiter = fieldDelimiter
+            self.outputFormat = outputFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDelimiter = "FieldDelimiter"
+            case outputFormat = "OutputFormat"
+        }
+    }
+
+    public struct Encryption: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the KMS key used for encryption when using customer-managed keys.
+        public let kmsKeyArn: String?
+        /// The server-side encryption algorithm used for encrypting data in the S3 Table integration.
+        public let sseAlgorithm: SSEAlgorithm
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, sseAlgorithm: SSEAlgorithm) {
+            self.kmsKeyArn = kmsKeyArn
+            self.sseAlgorithm = sseAlgorithm
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 1011)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 1)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "KmsKeyArn"
+            case sseAlgorithm = "SseAlgorithm"
+        }
+    }
+
+    public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
+        ///  Redacts the HTTP method from WAF logs.
+        public let method: String?
+        ///  Redacts the entire query string from WAF logs.
+        public let queryString: String?
+        ///  Redacts a specific header field by name from WAF logs.
+        public let singleHeader: SingleHeader?
+        ///  Redacts the URI path from WAF logs.
+        public let uriPath: String?
+
+        @inlinable
+        public init(method: String? = nil, queryString: String? = nil, singleHeader: SingleHeader? = nil, uriPath: String? = nil) {
+            self.method = method
+            self.queryString = queryString
+            self.singleHeader = singleHeader
+            self.uriPath = uriPath
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case method = "Method"
+            case queryString = "QueryString"
+            case singleHeader = "SingleHeader"
+            case uriPath = "UriPath"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        ///  The action to take for log records matching this filter (KEEP or DROP).
+        public let behavior: FilterBehavior?
+        ///  The list of conditions that determine if a log record matches this filter.
+        public let conditions: [Condition]?
+        ///  Whether the log record must meet all conditions (MEETS_ALL) or any condition (MEETS_ANY) to match this filter.
+        public let requirement: FilterRequirement?
+
+        @inlinable
+        public init(behavior: FilterBehavior? = nil, conditions: [Condition]? = nil, requirement: FilterRequirement? = nil) {
+            self.behavior = behavior
+            self.conditions = conditions
+            self.requirement = requirement
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "Behavior"
+            case conditions = "Conditions"
+            case requirement = "Requirement"
         }
     }
 
@@ -562,8 +1060,62 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct GetS3TableIntegrationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Table integration to retrieve.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 1011)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws([a-z0-9\\-]+)?:([a-zA-Z0-9\\-]+):([a-z0-9\\-]+)?:([0-9]{12})?:(.+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct GetS3TableIntegrationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Table integration.
+        public let arn: String?
+        /// The timestamp when the S3 Table integration was created.
+        public let createdTimeStamp: Int64?
+        /// The Amazon Resource Name (ARN) of the S3 bucket used as the destination for the table data.
+        public let destinationTableBucketArn: String?
+        /// The encryption configuration for the S3 Table integration.
+        public let encryption: Encryption?
+        /// The Amazon Resource Name (ARN) of the IAM role used by the S3 Table integration.
+        public let roleArn: String?
+        /// The current status of the S3 Table integration.
+        public let status: IntegrationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, createdTimeStamp: Int64? = nil, destinationTableBucketArn: String? = nil, encryption: Encryption? = nil, roleArn: String? = nil, status: IntegrationStatus? = nil) {
+            self.arn = arn
+            self.createdTimeStamp = createdTimeStamp
+            self.destinationTableBucketArn = destinationTableBucketArn
+            self.encryption = encryption
+            self.roleArn = roleArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case destinationTableBucketArn = "DestinationTableBucketArn"
+            case encryption = "Encryption"
+            case roleArn = "RoleArn"
+            case status = "Status"
+        }
+    }
+
     public struct GetTelemetryEnrichmentStatusOutput: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view used for resource tags for telemetry, if the feature is enabled.
+        ///  The Amazon Resource Name (ARN) of the Resource Explorer managed view used for resource tags for telemetry, if the feature is enabled.
         public let awsResourceExplorerManagedViewArn: String?
         ///  The current status of the resource tags for telemetry feature (Running, Stopped, or Impaired).
         public let status: TelemetryEnrichmentStatus?
@@ -613,6 +1165,39 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case failureReason = "FailureReason"
             case status = "Status"
+        }
+    }
+
+    public struct GetTelemetryPipelineInput: AWSEncodableShape {
+        /// The identifier (name or ARN) of the telemetry pipeline to retrieve.
+        public let pipelineIdentifier: String
+
+        @inlinable
+        public init(pipelineIdentifier: String) {
+            self.pipelineIdentifier = pipelineIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, max: 512)
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipelineIdentifier = "PipelineIdentifier"
+        }
+    }
+
+    public struct GetTelemetryPipelineOutput: AWSDecodableShape {
+        /// The complete telemetry pipeline resource information, including configuration, status, and metadata.
+        public let pipeline: TelemetryPipeline?
+
+        @inlinable
+        public init(pipeline: TelemetryPipeline? = nil) {
+            self.pipeline = pipeline
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pipeline = "Pipeline"
         }
     }
 
@@ -714,15 +1299,36 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct IntegrationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the S3 Table integration.
+        public let arn: String?
+        /// The current status of the S3 Table integration.
+        public let status: IntegrationStatus?
+
+        @inlinable
+        public init(arn: String? = nil, status: IntegrationStatus? = nil) {
+            self.arn = arn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case status = "Status"
+        }
+    }
+
     public struct InternalServerException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
         public let message: String?
+        /// The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil, message: String? = nil, retryAfterSeconds: Int? = nil) {
             self.amznErrorType = amznErrorType
             self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
         }
 
         public init(from decoder: Decoder) throws {
@@ -730,10 +1336,25 @@ extension ObservabilityAdmin {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
             self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+        }
+    }
+
+    public struct LabelNameCondition: AWSEncodableShape & AWSDecodableShape {
+        ///  The label name to match, supporting alphanumeric characters, underscores, hyphens, and colons.
+        public let labelName: String?
+
+        @inlinable
+        public init(labelName: String? = nil) {
+            self.labelName = labelName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelName = "LabelName"
         }
     }
 
@@ -937,6 +1558,47 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct ListS3TableIntegrationsInput: AWSEncodableShape {
+        /// The maximum number of S3 Table integrations to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next set of results. A previous call generates this token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListS3TableIntegrationsOutput: AWSDecodableShape {
+        /// A list of S3 Table integration summaries containing key information about each integration.
+        public let integrationSummaries: [IntegrationSummary]?
+        /// A token to resume pagination of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(integrationSummaries: [IntegrationSummary]? = nil, nextToken: String? = nil) {
+            self.integrationSummaries = integrationSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationSummaries = "IntegrationSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceInput: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the telemetry rule resource whose tags you want to list.
         public let resourceARN: String
@@ -968,6 +1630,47 @@ extension ObservabilityAdmin {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ListTelemetryPipelinesInput: AWSEncodableShape {
+        /// The maximum number of telemetry pipelines to return in a single call.
+        public let maxResults: Int?
+        /// The token for the next set of results. A previous call generates this token.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTelemetryPipelinesOutput: AWSDecodableShape {
+        /// A token to resume pagination of results.
+        public let nextToken: String?
+        /// A list of telemetry pipeline summaries containing key information about each pipeline.
+        public let pipelineSummaries: [TelemetryPipelineSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, pipelineSummaries: [TelemetryPipelineSummary]? = nil) {
+            self.nextToken = nextToken
+            self.pipelineSummaries = pipelineSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pipelineSummaries = "PipelineSummaries"
         }
     }
 
@@ -1080,8 +1783,47 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct LogDeliveryParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The type of log that the source is sending.
+        public let logTypes: [LogType]?
+
+        @inlinable
+        public init(logTypes: [LogType]? = nil) {
+            self.logTypes = logTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logTypes = "LogTypes"
+        }
+    }
+
+    public struct LoggingFilter: AWSEncodableShape & AWSDecodableShape {
+        ///  The default action (KEEP or DROP) for log records that don't match any filter conditions.
+        public let defaultBehavior: FilterBehavior?
+        ///  A list of filter conditions that determine log record handling behavior.
+        public let filters: [Filter]?
+
+        @inlinable
+        public init(defaultBehavior: FilterBehavior? = nil, filters: [Filter]? = nil) {
+            self.defaultBehavior = defaultBehavior
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultBehavior = "DefaultBehavior"
+            case filters = "Filters"
+        }
+    }
+
     public struct LogsBackupConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// KMS Key arn belonging to the primary destination account and backup region, to encrypt newly created central log groups in the backup destination.
+        /// KMS Key ARN belonging to the primary destination account and backup region, to encrypt newly created central log groups in the backup destination.
         public let kmsKeyArn: String?
         /// Logs specific backup destination region within the primary destination account to which log data should be centralized.
         public let region: String
@@ -1110,7 +1852,7 @@ extension ObservabilityAdmin {
         public let encryptionConflictResolutionStrategy: EncryptionConflictResolutionStrategy?
         /// Configuration that determines the encryption strategy of the destination log groups. CUSTOMER_MANAGED uses the configured KmsKeyArn to encrypt newly created destination log groups.
         public let encryptionStrategy: EncryptionStrategy
-        /// KMS Key arn belonging to the primary destination account and region, to encrypt newly created central log groups in the primary destination.
+        /// KMS Key ARN belonging to the primary destination account and region, to encrypt newly created central log groups in the primary destination.
         public let kmsKeyArn: String?
 
         @inlinable
@@ -1133,15 +1875,98 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct PipelineOutput: AWSDecodableShape {
+        /// Any error that occurred during the pipeline test operation for this record.
+        public let error: PipelineOutputError?
+        /// The processed record output from the pipeline test operation.
+        public let record: Record?
+
+        @inlinable
+        public init(error: PipelineOutputError? = nil, record: Record? = nil) {
+            self.error = error
+            self.record = record
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case record = "Record"
+        }
+    }
+
+    public struct PipelineOutputError: AWSDecodableShape {
+        /// The detailed error message describing what went wrong during the pipeline test operation for this record.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
+    public struct Record: AWSEncodableShape & AWSDecodableShape {
+        /// The data content of the test record used for pipeline validation.
+        public let data: String?
+        /// The type of the test record, indicating the format or category of the data.
+        public let type: RecordFormat?
+
+        @inlinable
+        public init(data: String? = nil, type: RecordFormat? = nil) {
+            self.data = data
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case type = "Type"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        ///  The identifier of the resource which could not be found.
+        public let resourceId: String?
+        ///  The type of the resource which could not be found.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSErrorShape {
         ///  The name of the exception.
         public let amznErrorType: String?
         public let message: String?
+        ///  The code for the exceeded service quota.
+        public let quotaCode: String?
+        ///  The identifier of the resource which exceeds the service quota.
+        public let resourceId: String?
+        ///  The type of the resource which exceeds the service quota.
+        public let resourceType: String?
+        ///  The code for the service of the exceeded quota.
+        public let serviceCode: String?
 
         @inlinable
-        public init(amznErrorType: String? = nil, message: String? = nil) {
+        public init(amznErrorType: String? = nil, message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
             self.amznErrorType = amznErrorType
             self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
         }
 
         public init(from decoder: Decoder) throws {
@@ -1149,10 +1974,46 @@ extension ObservabilityAdmin {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
             self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.resourceId = try container.decodeIfPresent(String.self, forKey: .resourceId)
+            self.resourceType = try container.decodeIfPresent(String.self, forKey: .resourceType)
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
+    public struct SingleHeader: AWSEncodableShape & AWSDecodableShape {
+        ///  The name value, limited to 64 characters.
+        public let name: String?
+
+        @inlinable
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct Source: AWSDecodableShape {
+        /// The plugin name of the source, such as cloudwatch_logs or s3.
+        public let type: String?
+
+        @inlinable
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
         }
     }
 
@@ -1180,7 +2041,7 @@ extension ObservabilityAdmin {
     }
 
     public struct StartTelemetryEnrichmentOutput: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the Amazon Web Services Resource Explorer managed view created for resource tags for telemetry.
+        ///  The Amazon Resource Name (ARN) of the Resource Explorer managed view created for resource tags for telemetry.
         public let awsResourceExplorerManagedViewArn: String?
         ///  The status of the resource tags for telemetry feature after the start operation (Running, Stopped, or Impaired).
         public let status: TelemetryEnrichmentStatus?
@@ -1249,11 +2110,11 @@ extension ObservabilityAdmin {
         public let accountIdentifier: String?
         ///  The timestamp of the last change to the telemetry configuration for the resource. For example, 1728679196318.
         public let lastUpdateTimeStamp: Int64?
-        ///  The identifier of the resource, for example i-0b22a22eec53b9321.
+        ///  The identifier of the resource, for example for Amazon VPC, it would be vpc-1a2b3c4d5e6f1a2b3.
         public let resourceIdentifier: String?
         ///  Tags associated with the resource, for example { Name: "ExampleInstance", Environment: "Development" }.
         public let resourceTags: [String: String]?
-        ///  The type of resource, for example Amazon Web Services::EC2::Instance.
+        ///  The type of resource, for example Amazon Web Services::EC2::Instance, or Amazon Web Services::EKS::Cluster, etc.
         public let resourceType: ResourceType?
         ///  The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public let telemetryConfigurationState: [TelemetryType: TelemetryState]?
@@ -1279,54 +2140,187 @@ extension ObservabilityAdmin {
     }
 
     public struct TelemetryDestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  Configuration parameters specific to Amazon Web Services CloudTrail when CloudTrail is the source type.
+        public let cloudtrailParameters: CloudtrailParameters?
         ///  The pattern used to generate the destination path or name, supporting macros like &lt;resourceId&gt; and &lt;accountId&gt;.
         public let destinationPattern: String?
         ///  The type of destination for the telemetry data (e.g., "Amazon CloudWatch Logs", "S3").
         public let destinationType: DestinationType?
+        ///  Configuration parameters specific to ELB load balancer logging when ELB is the resource type.
+        public let elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters?
+        /// Configuration parameters specific to Amazon Bedrock AgentCore logging when Amazon Bedrock AgentCore is the resource type.
+        public let logDeliveryParameters: LogDeliveryParameters?
         ///  The number of days to retain the telemetry data in the destination.
         public let retentionInDays: Int?
         ///  Configuration parameters specific to VPC Flow Logs when VPC is the resource type.
         public let vpcFlowLogParameters: VPCFlowLogParameters?
+        ///  Configuration parameters specific to WAF logging when WAF is the resource type.
+        public let wafLoggingParameters: WAFLoggingParameters?
 
         @inlinable
-        public init(destinationPattern: String? = nil, destinationType: DestinationType? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil) {
+        public init(cloudtrailParameters: CloudtrailParameters? = nil, destinationPattern: String? = nil, destinationType: DestinationType? = nil, elbLoadBalancerLoggingParameters: ELBLoadBalancerLoggingParameters? = nil, logDeliveryParameters: LogDeliveryParameters? = nil, retentionInDays: Int? = nil, vpcFlowLogParameters: VPCFlowLogParameters? = nil, wafLoggingParameters: WAFLoggingParameters? = nil) {
+            self.cloudtrailParameters = cloudtrailParameters
             self.destinationPattern = destinationPattern
             self.destinationType = destinationType
+            self.elbLoadBalancerLoggingParameters = elbLoadBalancerLoggingParameters
+            self.logDeliveryParameters = logDeliveryParameters
             self.retentionInDays = retentionInDays
             self.vpcFlowLogParameters = vpcFlowLogParameters
+            self.wafLoggingParameters = wafLoggingParameters
         }
 
         public func validate(name: String) throws {
             try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, max: 3653)
             try self.validate(self.retentionInDays, name: "retentionInDays", parent: name, min: 1)
+            try self.wafLoggingParameters?.validate(name: "\(name).wafLoggingParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cloudtrailParameters = "CloudtrailParameters"
             case destinationPattern = "DestinationPattern"
             case destinationType = "DestinationType"
+            case elbLoadBalancerLoggingParameters = "ELBLoadBalancerLoggingParameters"
+            case logDeliveryParameters = "LogDeliveryParameters"
             case retentionInDays = "RetentionInDays"
             case vpcFlowLogParameters = "VPCFlowLogParameters"
+            case wafLoggingParameters = "WAFLoggingParameters"
+        }
+    }
+
+    public struct TelemetryPipeline: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the telemetry pipeline.
+        public let arn: String?
+        /// The configuration that defines how the telemetry pipeline processes data.
+        public let configuration: TelemetryPipelineConfiguration?
+        /// The timestamp when the telemetry pipeline was created.
+        public let createdTimeStamp: Int64?
+        /// The timestamp when the telemetry pipeline was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        /// The name of the telemetry pipeline.
+        public let name: String?
+        /// The current status of the telemetry pipeline.
+        public let status: TelemetryPipelineStatus?
+        /// Additional information about the pipeline status, including reasons for failure states.
+        public let statusReason: TelemetryPipelineStatusReason?
+        /// The key-value pairs associated with the telemetry pipeline resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, configuration: TelemetryPipelineConfiguration? = nil, createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, name: String? = nil, status: TelemetryPipelineStatus? = nil, statusReason: TelemetryPipelineStatusReason? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.configuration = configuration
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.name = name
+            self.status = status
+            self.statusReason = statusReason
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case configuration = "Configuration"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case name = "Name"
+            case status = "Status"
+            case statusReason = "StatusReason"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TelemetryPipelineConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The pipeline configuration body that defines the data processing rules and transformations.
+        public let body: String
+
+        @inlinable
+        public init(body: String) {
+            self.body = body
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 24000)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+        }
+    }
+
+    public struct TelemetryPipelineStatusReason: AWSDecodableShape {
+        /// A description of the pipeline status reason, providing additional context about the current state.
+        public let description: String?
+
+        @inlinable
+        public init(description: String? = nil) {
+            self.description = description
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+        }
+    }
+
+    public struct TelemetryPipelineSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the telemetry pipeline.
+        public let arn: String?
+        /// A summary of the pipeline configuration components.
+        public let configurationSummary: ConfigurationSummary?
+        /// The timestamp when the telemetry pipeline was created.
+        public let createdTimeStamp: Int64?
+        /// The timestamp when the telemetry pipeline was last updated.
+        public let lastUpdateTimeStamp: Int64?
+        /// The name of the telemetry pipeline.
+        public let name: String?
+        /// The current status of the telemetry pipeline.
+        public let status: TelemetryPipelineStatus?
+        /// The key-value pairs associated with the telemetry pipeline resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(arn: String? = nil, configurationSummary: ConfigurationSummary? = nil, createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, name: String? = nil, status: TelemetryPipelineStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.configurationSummary = configurationSummary
+            self.createdTimeStamp = createdTimeStamp
+            self.lastUpdateTimeStamp = lastUpdateTimeStamp
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case configurationSummary = "ConfigurationSummary"
+            case createdTimeStamp = "CreatedTimeStamp"
+            case lastUpdateTimeStamp = "LastUpdateTimeStamp"
+            case name = "Name"
+            case status = "Status"
+            case tags = "Tags"
         }
     }
 
     public struct TelemetryRule: AWSEncodableShape & AWSDecodableShape {
         ///  Configuration specifying where and how the telemetry data should be delivered.
         public let destinationConfiguration: TelemetryDestinationConfiguration?
-        ///  The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC").
+        ///  The type of Amazon Web Services resource to configure telemetry for (e.g., "AWS::EC2::VPC", "AWS::EKS::Cluster", "AWS::WAFv2::WebACL").
         public let resourceType: ResourceType?
         ///  The organizational scope to which the rule applies, specified using accounts or organizational units.
         public let scope: String?
         ///  Criteria for selecting which resources the rule applies to, such as resource tags.
         public let selectionCriteria: String?
+        ///  The specific telemetry source types to configure for the resource, such as VPC_FLOW_LOGS or EKS_AUDIT_LOGS. TelemetrySourceTypes must be correlated with the specific resource type.
+        public let telemetrySourceTypes: [TelemetrySourceType]?
         ///  The type of telemetry to collect (Logs, Metrics, or Traces).
         public let telemetryType: TelemetryType
 
         @inlinable
-        public init(destinationConfiguration: TelemetryDestinationConfiguration? = nil, resourceType: ResourceType? = nil, scope: String? = nil, selectionCriteria: String? = nil, telemetryType: TelemetryType) {
+        public init(destinationConfiguration: TelemetryDestinationConfiguration? = nil, resourceType: ResourceType? = nil, scope: String? = nil, selectionCriteria: String? = nil, telemetrySourceTypes: [TelemetrySourceType]? = nil, telemetryType: TelemetryType) {
             self.destinationConfiguration = destinationConfiguration
             self.resourceType = resourceType
             self.scope = scope
             self.selectionCriteria = selectionCriteria
+            self.telemetrySourceTypes = telemetrySourceTypes
             self.telemetryType = telemetryType
         }
 
@@ -1339,6 +2333,7 @@ extension ObservabilityAdmin {
             case resourceType = "ResourceType"
             case scope = "Scope"
             case selectionCriteria = "SelectionCriteria"
+            case telemetrySourceTypes = "TelemetrySourceTypes"
             case telemetryType = "TelemetryType"
         }
     }
@@ -1354,16 +2349,19 @@ extension ObservabilityAdmin {
         public let ruleArn: String?
         ///  The name of the telemetry rule.
         public let ruleName: String?
+        ///  The types of telemetry sources configured for this rule, such as VPC Flow Logs or EKS audit logs. TelemetrySourceTypes must be correlated with the specific resource type.
+        public let telemetrySourceTypes: [TelemetrySourceType]?
         ///  The type of telemetry (Logs, Metrics, or Traces) the rule configures.
         public let telemetryType: TelemetryType?
 
         @inlinable
-        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, resourceType: ResourceType? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetryType: TelemetryType? = nil) {
+        public init(createdTimeStamp: Int64? = nil, lastUpdateTimeStamp: Int64? = nil, resourceType: ResourceType? = nil, ruleArn: String? = nil, ruleName: String? = nil, telemetrySourceTypes: [TelemetrySourceType]? = nil, telemetryType: TelemetryType? = nil) {
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
             self.resourceType = resourceType
             self.ruleArn = ruleArn
             self.ruleName = ruleName
+            self.telemetrySourceTypes = telemetrySourceTypes
             self.telemetryType = telemetryType
         }
 
@@ -1373,7 +2371,44 @@ extension ObservabilityAdmin {
             case resourceType = "ResourceType"
             case ruleArn = "RuleArn"
             case ruleName = "RuleName"
+            case telemetrySourceTypes = "TelemetrySourceTypes"
             case telemetryType = "TelemetryType"
+        }
+    }
+
+    public struct TestTelemetryPipelineInput: AWSEncodableShape {
+        /// The pipeline configuration to test with the provided sample records.
+        public let configuration: TelemetryPipelineConfiguration
+        /// The sample records to process through the pipeline configuration for testing purposes.
+        public let records: [Record]
+
+        @inlinable
+        public init(configuration: TelemetryPipelineConfiguration, records: [Record]) {
+            self.configuration = configuration
+            self.records = records
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case records = "Records"
+        }
+    }
+
+    public struct TestTelemetryPipelineOutput: AWSDecodableShape {
+        /// The results of processing the test records through the pipeline configuration, including any outputs or errors.
+        public let results: [PipelineOutput]?
+
+        @inlinable
+        public init(results: [PipelineOutput]? = nil) {
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
         }
     }
 
@@ -1444,6 +2479,34 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case ruleArn = "RuleArn"
         }
+    }
+
+    public struct UpdateTelemetryPipelineInput: AWSEncodableShape {
+        /// The new configuration for the telemetry pipeline, including updated sources, processors, and destinations.
+        public let configuration: TelemetryPipelineConfiguration
+        /// The ARN of the telemetry pipeline to update.
+        public let pipelineIdentifier: String
+
+        @inlinable
+        public init(configuration: TelemetryPipelineConfiguration, pipelineIdentifier: String) {
+            self.configuration = configuration
+            self.pipelineIdentifier = pipelineIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, max: 512)
+            try self.validate(self.pipelineIdentifier, name: "pipelineIdentifier", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case pipelineIdentifier = "PipelineIdentifier"
+        }
+    }
+
+    public struct UpdateTelemetryPipelineOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateTelemetryRuleForOrganizationInput: AWSEncodableShape {
@@ -1543,6 +2606,104 @@ extension ObservabilityAdmin {
             case trafficType = "TrafficType"
         }
     }
+
+    public struct ValidateTelemetryPipelineConfigurationInput: AWSEncodableShape {
+        /// The pipeline configuration to validate for syntax and compatibility.
+        public let configuration: TelemetryPipelineConfiguration
+
+        @inlinable
+        public init(configuration: TelemetryPipelineConfiguration) {
+            self.configuration = configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+        }
+    }
+
+    public struct ValidateTelemetryPipelineConfigurationOutput: AWSDecodableShape {
+        /// A list of validation errors found in the pipeline configuration, if any.
+        public let errors: [ValidationError]?
+
+        @inlinable
+        public init(errors: [ValidationError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
+    public struct ValidationError: AWSDecodableShape {
+        /// A mapping of field names to specific validation issues within the configuration.
+        public let fieldMap: [String: String]?
+        /// The error message describing the validation issue.
+        public let message: String?
+        /// The reason code or category for the validation error.
+        public let reason: String?
+
+        @inlinable
+        public init(fieldMap: [String: String]? = nil, message: String? = nil, reason: String? = nil) {
+            self.fieldMap = fieldMap
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldMap = "FieldMap"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        ///  The errors in the input which caused the exception.
+        public let errors: [ValidationError]?
+        public let message: String?
+
+        @inlinable
+        public init(errors: [ValidationError]? = nil, message: String? = nil) {
+            self.errors = errors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case message = "Message"
+        }
+    }
+
+    public struct WAFLoggingParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  A filter configuration that determines which WAF log records to include or exclude.
+        public let loggingFilter: LoggingFilter?
+        ///  The type of WAF logs to collect (currently supports WAF_LOGS).
+        public let logType: WAFLogType?
+        ///  The fields to redact from WAF logs to protect sensitive information.
+        public let redactedFields: [FieldToMatch]?
+
+        @inlinable
+        public init(loggingFilter: LoggingFilter? = nil, logType: WAFLogType? = nil, redactedFields: [FieldToMatch]? = nil) {
+            self.loggingFilter = loggingFilter
+            self.logType = logType
+            self.redactedFields = redactedFields
+        }
+
+        public func validate(name: String) throws {
+            try self.loggingFilter?.validate(name: "\(name).loggingFilter")
+            try self.validate(self.redactedFields, name: "redactedFields", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loggingFilter = "LoggingFilter"
+            case logType = "LogType"
+            case redactedFields = "RedactedFields"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1553,6 +2714,7 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidStateException = "InvalidStateException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tooManyRequestsException = "TooManyRequestsException"
@@ -1583,6 +2745,8 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     ///  Indicates the request has failed to process because of an unknown server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  The requested operation cannot be completed on the specified resource in the current state.
+    public static var invalidStateException: Self { .init(.invalidStateException) }
     ///  The specified resource (such as a telemetry rule) could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  The requested operation would exceed the allowed quota for the specified resource type.
@@ -1596,8 +2760,11 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
 extension ObservabilityAdminErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "AccessDeniedException": ObservabilityAdmin.AccessDeniedException.self,
+        "ConflictException": ObservabilityAdmin.ConflictException.self,
         "InternalServerException": ObservabilityAdmin.InternalServerException.self,
-        "ServiceQuotaExceededException": ObservabilityAdmin.ServiceQuotaExceededException.self
+        "ResourceNotFoundException": ObservabilityAdmin.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": ObservabilityAdmin.ServiceQuotaExceededException.self,
+        "ValidationException": ObservabilityAdmin.ValidationException.self
     ]
 }
 

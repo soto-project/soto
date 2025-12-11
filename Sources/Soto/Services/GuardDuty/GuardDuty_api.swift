@@ -429,6 +429,7 @@ public struct GuardDuty: AWSService {
     ///   - destinationProperties: The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
     ///   - destinationType: The type of resource for the publishing destination. Currently only Amazon S3 buckets are supported.
     ///   - detectorId: The ID of the GuardDuty detector associated with the publishing destination. To find the detectorId in the current Region, see the
+    ///   - tags: The tags to be added to a new publishing destination resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPublishingDestination(
@@ -436,13 +437,15 @@ public struct GuardDuty: AWSService {
         destinationProperties: DestinationProperties? = nil,
         destinationType: DestinationType? = nil,
         detectorId: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePublishingDestinationResponse {
         let input = CreatePublishingDestinationRequest(
             clientToken: clientToken, 
             destinationProperties: destinationProperties, 
             destinationType: destinationType, 
-            detectorId: detectorId
+            detectorId: detectorId, 
+            tags: tags
         )
         return try await self.createPublishingDestination(input, logger: logger)
     }
@@ -1515,6 +1518,35 @@ public struct GuardDuty: AWSService {
         return try await self.getMalwareProtectionPlan(input, logger: logger)
     }
 
+    /// Retrieves the detailed information for a specific malware scan. Each member account can view the malware scan details for their own account. An administrator can view malware scan details for all accounts in the organization. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    @Sendable
+    @inlinable
+    public func getMalwareScan(_ input: GetMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMalwareScanResponse {
+        try await self.client.execute(
+            operation: "GetMalwareScan", 
+            path: "/malware-scan/{ScanId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the detailed information for a specific malware scan. Each member account can view the malware scan details for their own account. An administrator can view malware scan details for all accounts in the organization. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
+    ///
+    /// Parameters:
+    ///   - scanId: A unique identifier that gets generated when you invoke the API without any error. Each malware scan has  a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMalwareScan(
+        scanId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMalwareScanResponse {
+        let input = GetMalwareScanRequest(
+            scanId: scanId
+        )
+        return try await self.getMalwareScan(input, logger: logger)
+    }
+
     /// Returns the details of the malware scan settings. There might be regional differences because some data sources might not be  available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more  information, see Regions and endpoints.
     @Sendable
     @inlinable
@@ -2107,6 +2139,44 @@ public struct GuardDuty: AWSService {
         return try await self.listMalwareProtectionPlans(input, logger: logger)
     }
 
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all of its members' accounts.
+    @Sendable
+    @inlinable
+    public func listMalwareScans(_ input: ListMalwareScansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMalwareScansResponse {
+        try await self.client.execute(
+            operation: "ListMalwareScans", 
+            path: "/malware-scan", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of malware scans. Each member account can view the malware scans for their own accounts. An administrator can view the malware scans for all of its members' accounts.
+    ///
+    /// Parameters:
+    ///   - filterCriteria: Represents the criteria used to filter the malware scan entries.
+    ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
+    ///   - nextToken: You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing results.
+    ///   - sortCriteria: Represents the criteria used for sorting malware scan entries.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMalwareScans(
+        filterCriteria: ListMalwareScansFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortCriteria: SortCriteria? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMalwareScansResponse {
+        let input = ListMalwareScansRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortCriteria: sortCriteria
+        )
+        return try await self.listMalwareScans(input, logger: logger)
+    }
+
     /// Lists details about all member accounts for the current GuardDuty administrator account.
     @Sendable
     @inlinable
@@ -2346,7 +2416,36 @@ public struct GuardDuty: AWSService {
         return try await self.listTrustedEntitySets(input, logger: logger)
     }
 
-    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see DescribeMalwareScans.
+    /// Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buckets that have Malware Protection for S3 enabled. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
+    @Sendable
+    @inlinable
+    public func sendObjectMalwareScan(_ input: SendObjectMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendObjectMalwareScanResponse {
+        try await self.client.execute(
+            operation: "SendObjectMalwareScan", 
+            path: "/object-malware-scan/send", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates a malware scan for a specific S3 object. This API allows you to perform on-demand malware scanning of individual objects in S3 buckets that have Malware Protection for S3 enabled. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
+    ///
+    /// Parameters:
+    ///   - s3Object: The S3 object information for the object you want to scan. The bucket must have a Malware Protection plan configured to use this API.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendObjectMalwareScan(
+        s3Object: S3ObjectForSendObjectMalwareScan? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendObjectMalwareScanResponse {
+        let input = SendObjectMalwareScanRequest(
+            s3Object: s3Object
+        )
+        return try await self.sendObjectMalwareScan(input, logger: logger)
+    }
+
+    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account if the resourceArn belongs to an EC2 instance. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see ListMalwareScans and GetMalwareScan. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
     @Sendable
     @inlinable
     public func startMalwareScan(_ input: StartMalwareScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMalwareScanResponse {
@@ -2359,18 +2458,24 @@ public struct GuardDuty: AWSService {
             logger: logger
         )
     }
-    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see DescribeMalwareScans.
+    /// Initiates the malware scan. Invoking this API will automatically create the Service-linked role in  the corresponding account if the resourceArn belongs to an EC2 instance. When the malware scan starts, you can use the associated scan ID to track the status of the scan. For more information, see ListMalwareScans and GetMalwareScan. When you use this API, the Amazon Web Services service terms for GuardDuty Malware Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
     ///
     /// Parameters:
+    ///   - clientToken: The idempotency token for the create request.
     ///   - resourceArn: Amazon Resource Name (ARN) of the resource for which you invoked the API.
+    ///   - scanConfiguration: Contains information about the configuration to be used for the malware scan.
     ///   - logger: Logger use during operation
     @inlinable
     public func startMalwareScan(
+        clientToken: String? = StartMalwareScanRequest.idempotencyToken(),
         resourceArn: String? = nil,
+        scanConfiguration: StartMalwareScanConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartMalwareScanResponse {
         let input = StartMalwareScanRequest(
-            resourceArn: resourceArn
+            clientToken: clientToken, 
+            resourceArn: resourceArn, 
+            scanConfiguration: scanConfiguration
         )
         return try await self.startMalwareScan(input, logger: logger)
     }
@@ -3377,6 +3482,46 @@ extension GuardDuty {
         return self.listInvitationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMalwareScans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMalwareScansPaginator(
+        _ input: ListMalwareScansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMalwareScansRequest, ListMalwareScansResponse> {
+        return .init(
+            input: input,
+            command: self.listMalwareScans,
+            inputKey: \ListMalwareScansRequest.nextToken,
+            outputKey: \ListMalwareScansResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMalwareScans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filterCriteria: Represents the criteria used to filter the malware scan entries.
+    ///   - maxResults: You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
+    ///   - sortCriteria: Represents the criteria used for sorting malware scan entries.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMalwareScansPaginator(
+        filterCriteria: ListMalwareScansFilterCriteria? = nil,
+        maxResults: Int? = nil,
+        sortCriteria: SortCriteria? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMalwareScansRequest, ListMalwareScansResponse> {
+        let input = ListMalwareScansRequest(
+            filterCriteria: filterCriteria, 
+            maxResults: maxResults, 
+            sortCriteria: sortCriteria
+        )
+        return self.listMalwareScansPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMembers(_:logger:)``.
     ///
     /// - Parameters:
@@ -3702,6 +3847,18 @@ extension GuardDuty.ListInvitationsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension GuardDuty.ListMalwareScansRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> GuardDuty.ListMalwareScansRequest {
+        return .init(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortCriteria: self.sortCriteria
         )
     }
 }

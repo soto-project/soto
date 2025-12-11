@@ -140,6 +140,7 @@ public struct MedicalImaging: AWSService {
     ///   - datastoreName: The data store name.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) assigned to the Key Management Service (KMS) key for accessing encrypted data.
     ///   - lambdaAuthorizerArn: The ARN of the authorizer's Lambda function.
+    ///   - losslessStorageFormat: The lossless storage format for the datastore.
     ///   - tags: The tags provided when creating a data store.
     ///   - logger: Logger use during operation
     @inlinable
@@ -148,6 +149,7 @@ public struct MedicalImaging: AWSService {
         datastoreName: String? = nil,
         kmsKeyArn: String? = nil,
         lambdaAuthorizerArn: String? = nil,
+        losslessStorageFormat: LosslessStorageFormat? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDatastoreResponse {
@@ -156,6 +158,7 @@ public struct MedicalImaging: AWSService {
             datastoreName: datastoreName, 
             kmsKeyArn: kmsKeyArn, 
             lambdaAuthorizerArn: lambdaAuthorizerArn, 
+            losslessStorageFormat: losslessStorageFormat, 
             tags: tags
         )
         return try await self.createDatastore(input, logger: logger)

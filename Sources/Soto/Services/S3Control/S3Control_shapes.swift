@@ -593,6 +593,8 @@ extension S3Control {
         public let advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics?
         /// A container element for S3 Storage Lens advanced data-protection metrics.
         public let advancedDataProtectionMetrics: AdvancedDataProtectionMetrics?
+        /// A container element for S3 Storage Lens advanced performance metrics.
+        public let advancedPerformanceMetrics: AdvancedPerformanceMetrics?
         /// A container element for the S3 Storage Lens bucket-level configuration.
         public let bucketLevel: BucketLevel
         /// A container element for detailed status code metrics.
@@ -601,10 +603,11 @@ extension S3Control {
         public let storageLensGroupLevel: StorageLensGroupLevel?
 
         @inlinable
-        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, storageLensGroupLevel: StorageLensGroupLevel? = nil) {
+        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, advancedPerformanceMetrics: AdvancedPerformanceMetrics? = nil, bucketLevel: BucketLevel, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, storageLensGroupLevel: StorageLensGroupLevel? = nil) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.advancedPerformanceMetrics = advancedPerformanceMetrics
             self.bucketLevel = bucketLevel
             self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.storageLensGroupLevel = storageLensGroupLevel
@@ -619,6 +622,7 @@ extension S3Control {
             case activityMetrics = "ActivityMetrics"
             case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
             case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
+            case advancedPerformanceMetrics = "AdvancedPerformanceMetrics"
             case bucketLevel = "BucketLevel"
             case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
             case storageLensGroupLevel = "StorageLensGroupLevel"
@@ -655,6 +659,20 @@ extension S3Control {
 
     public struct AdvancedDataProtectionMetrics: AWSEncodableShape & AWSDecodableShape {
         /// A container that indicates whether advanced data-protection metrics are enabled.
+        public let isEnabled: Bool?
+
+        @inlinable
+        public init(isEnabled: Bool? = nil) {
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEnabled = "IsEnabled"
+        }
+    }
+
+    public struct AdvancedPerformanceMetrics: AWSEncodableShape & AWSDecodableShape {
+        /// A container that indicates whether S3 Storage Lens advanced performance metrics are enabled.
         public let isEnabled: Bool?
 
         @inlinable
@@ -832,16 +850,19 @@ extension S3Control {
         public let advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics?
         /// A container for bucket-level advanced data-protection metrics for S3 Storage Lens.
         public let advancedDataProtectionMetrics: AdvancedDataProtectionMetrics?
+        /// A container for bucket-level advanced performance metrics for S3 Storage Lens.
+        public let advancedPerformanceMetrics: AdvancedPerformanceMetrics?
         /// A container for bucket-level detailed status code metrics for S3 Storage Lens.
         public let detailedStatusCodesMetrics: DetailedStatusCodesMetrics?
         /// A container for the prefix-level metrics for S3 Storage Lens.
         public let prefixLevel: PrefixLevel?
 
         @inlinable
-        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, prefixLevel: PrefixLevel? = nil) {
+        public init(activityMetrics: ActivityMetrics? = nil, advancedCostOptimizationMetrics: AdvancedCostOptimizationMetrics? = nil, advancedDataProtectionMetrics: AdvancedDataProtectionMetrics? = nil, advancedPerformanceMetrics: AdvancedPerformanceMetrics? = nil, detailedStatusCodesMetrics: DetailedStatusCodesMetrics? = nil, prefixLevel: PrefixLevel? = nil) {
             self.activityMetrics = activityMetrics
             self.advancedCostOptimizationMetrics = advancedCostOptimizationMetrics
             self.advancedDataProtectionMetrics = advancedDataProtectionMetrics
+            self.advancedPerformanceMetrics = advancedPerformanceMetrics
             self.detailedStatusCodesMetrics = detailedStatusCodesMetrics
             self.prefixLevel = prefixLevel
         }
@@ -854,6 +875,7 @@ extension S3Control {
             case activityMetrics = "ActivityMetrics"
             case advancedCostOptimizationMetrics = "AdvancedCostOptimizationMetrics"
             case advancedDataProtectionMetrics = "AdvancedDataProtectionMetrics"
+            case advancedPerformanceMetrics = "AdvancedPerformanceMetrics"
             case detailedStatusCodesMetrics = "DetailedStatusCodesMetrics"
             case prefixLevel = "PrefixLevel"
         }
@@ -1232,7 +1254,7 @@ extension S3Control {
         public let accountId: String
         /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
         public let bucket: String
-        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
+        /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
         public let bucketAccountId: String?
         /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
         public let name: String
@@ -1240,7 +1262,7 @@ extension S3Control {
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
         /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is only supported for access points attached to directory buckets.
         public let scope: Scope?
-        /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see Using tags with Amazon S3. For information about tagging access points, see Using tags for attribute-based access control (ABAC).    You must have the s3:TagResource permission to create an access point with tags for a general purpose bucket.    You must have the s3express:TagResource permission to create an access point with tags for a directory bucket.
+        /// An array of tags that you can apply to an access point. Tags are key-value pairs of metadata used to control access to your access points. For more information about tags, see Using tags with Amazon S3. For information about tagging access points, see Using tags for attribute-based access control (ABAC).
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
@@ -1678,7 +1700,7 @@ extension S3Control {
     }
 
     public struct DSSEKMSFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter  to return objects that are encrypted by the specified key. For best performance,  we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or  MatchAnyStorageClass.  You must provide the full KMS Key ARN. You can't use an alias name or alias ARN.  For more information, see   KMS keys in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, use keys in the same Region as the S3 Batch Operations job.
         public let kmsKeyArn: String?
 
         @inlinable
@@ -4348,7 +4370,7 @@ extension S3Control {
         public let eligibleForReplication: Bool?
         /// If provided, the generated manifest includes only source bucket objects whose object keys match the string constraints specified for MatchAnyPrefix, MatchAnySuffix, and MatchAnySubstring.
         public let keyNameConstraint: KeyNameConstraint?
-        /// If provided, the generated object list includes  only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE).  If you select SSE-KMS or DSSE-KMS, you can optionally further filter your results by specifying a specific KMS Key ARN.  If you select SSE-KMS, you can also optionally further filter your results by Bucket Key enabled status.
+        /// If provided, the generated object list includes only source bucket objects with the indicated server-side encryption type (SSE-S3, SSE-KMS, DSSE-KMS, SSE-C, or NOT-SSE).
         @OptionalCustomCoding<ArrayCoder<_MatchAnyObjectEncryptionEncoding, ObjectEncryptionFilter>>
         public var matchAnyObjectEncryption: [ObjectEncryptionFilter]?
         /// If provided, the generated manifest includes only source bucket objects that are stored with the specified storage class.
@@ -4530,7 +4552,7 @@ extension S3Control {
     }
 
     public struct JobReport: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.   Directory buckets - Directory buckets aren't supported as a location for Batch Operations to store job completion reports.
+        /// The Amazon Resource Name (ARN) for the bucket where specified job-completion report will be stored.   Directory buckets - Directory buckets aren't supported  as a location for Batch Operations to store job completion reports.
         public let bucket: String?
         /// Indicates whether the specified job will generate a job-completion report.
         public let enabled: Bool
@@ -4724,7 +4746,7 @@ extension S3Control {
         public let id: String?
         /// The noncurrent version expiration of the lifecycle rule.
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
-        ///  Specifies the transition rule for the lifecycle rule that describes when non-current objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
+        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.   This is not supported by Amazon S3 on Outposts buckets.
         @OptionalCustomCoding<ArrayCoder<_NoncurrentVersionTransitionsEncoding, NoncurrentVersionTransition>>
         public var noncurrentVersionTransitions: [NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
@@ -5752,9 +5774,9 @@ extension S3Control {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        ///  The Amazon Web Services account ID of the resource owner.
+        /// The Amazon Web Services account ID of the resource owner.
         public let accountId: String
-        ///  The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+        /// The Amazon Resource Name (ARN) of the S3 resource that you want to list tags for. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
 
         @inlinable
@@ -5784,7 +5806,7 @@ extension S3Control {
     public struct ListTagsForResourceResult: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        ///  The Amazon Web Services resource tags that are associated with the resource.
+        /// The Amazon Web Services resource tags that are associated with the resource.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
@@ -5817,9 +5839,9 @@ extension S3Control {
     }
 
     public struct MatchObjectSize: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 5 TB.
+        ///  Specifies the minimum object size in Bytes. The value must be a positive number, greater than 0 and less than 50 TB.
         public let bytesGreaterThan: Int64?
-        /// Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 5 TB.
+        ///  Specifies the maximum object size in Bytes. The value must be a positive number, greater than the minimum object size and less than 50 TB.
         public let bytesLessThan: Int64?
 
         @inlinable
@@ -7216,7 +7238,7 @@ extension S3Control {
     public struct S3ComputeObjectChecksumOperation: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the algorithm that you want Amazon S3 to use to create the checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumAlgorithm: ComputeObjectChecksumAlgorithm?
-        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object's checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumType: ComputeObjectChecksumType?
 
         @inlinable
@@ -7246,7 +7268,7 @@ extension S3Control {
         public let modifiedSinceConstraint: Date?
         /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public let newObjectMetadata: S3ObjectMetadata?
-        /// Specifies a list of tags to add to the destination objects after they are copied. If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets. If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field to prevent copying the source object tags to the directory bucket.
+        /// Specifies a list of tags to add to the destination objects after they are copied.  If NewObjectTagging is not specified, the tags of the source objects are copied to destination objects by default.   Directory buckets - Tags aren't supported by directory buckets.  If your source objects have tags and your destination bucket is a directory bucket, specify an empty tag set in the NewObjectTagging field  to prevent copying the source object tags to the directory bucket.
         @OptionalCustomCoding<StandardArrayCoder<S3Tag>>
         public var newObjectTagging: [S3Tag]?
         /// The legal hold status to be applied to all objects in the Batch Operations job.  This functionality is not supported by directory buckets.
@@ -7267,7 +7289,7 @@ extension S3Control {
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix that you want the objects to be copied into. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix property to Folder1.
         public let targetKeyPrefix: String?
-        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone.   Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise, you get an HTTP 400 Bad Request error with the error code InvalidRequest.
+        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone.   Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
@@ -7432,7 +7454,7 @@ extension S3Control {
         public let filter: JobManifestGeneratorFilter?
         /// Specifies the location the generated manifest will be written to. Manifests can't be written to directory buckets. For more information, see Directory buckets.
         public let manifestOutputLocation: S3ManifestOutputLocation?
-        /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported as the source buckets used by S3JobManifestGenerator to generate the job manifest.
+        /// The ARN of the source bucket used by the ManifestGenerator.   Directory buckets - Directory buckets aren't supported  as the source buckets used by S3JobManifestGenerator to generate the job manifest.
         public let sourceBucket: String
 
         @inlinable
@@ -7464,7 +7486,7 @@ extension S3Control {
     }
 
     public struct S3ManifestOutputLocation: AWSEncodableShape & AWSDecodableShape {
-        /// The bucket ARN the generated manifest should be written to.   Directory buckets - Directory buckets aren't supported as the buckets to store the generated manifest.
+        /// The bucket ARN the generated manifest should be written to.   Directory buckets - Directory buckets aren't supported  as the buckets to store the generated manifest.
         public let bucket: String
         /// The Account ID that owns the bucket the generated manifest is written to.
         public let expectedManifestBucketOwner: String?
@@ -7766,9 +7788,9 @@ extension S3Control {
     }
 
     public struct SSEKMSFilter: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption  using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status.  For more information, see Reducing the cost of SSE-KMS with Amazon S3 Bucket Keys in the Amazon S3 User Guide.
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services Key Management Service (Amazon Web Services KMS) keys (SSE-KMS). If specified, will filter SSE-KMS encrypted objects by S3 Bucket Key status.
         public let bucketKeyEnabled: Bool?
-        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter  to return objects that are encrypted by the specified key. For best performance,  we recommend using the KMSKeyArn filter in conjunction with other object metadata filters, like MatchAnyPrefix, CreatedAfter, or  MatchAnyStorageClass.  You must provide the full KMS Key ARN. You can't use an alias name or alias ARN.  For more information, see   KMS keys in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key to use for the filter to return objects that are encrypted by the specified key. For best performance, use keys in the same Region as the S3 Batch Operations job.
         public let kmsKeyArn: String?
 
         @inlinable
@@ -7915,24 +7937,30 @@ extension S3Control {
         public let dataExport: StorageLensDataExport?
         /// A container for what is excluded in this configuration. This container can only be valid if there is no Include container submitted, and it's not empty.
         public let exclude: Exclude?
+        /// A container that configures your S3 Storage Lens expanded prefixes metrics report.
+        public let expandedPrefixesDataExport: StorageLensExpandedPrefixesDataExport?
         /// A container for the Amazon S3 Storage Lens configuration ID.
         public let id: String
         /// A container for what is included in this configuration. This container can only be valid if there is no Exclude container submitted, and it's not empty.
         public let include: Include?
         /// A container for whether the S3 Storage Lens configuration is enabled.
         public let isEnabled: Bool
+        /// A container for all prefix delimiters that are used for object keys in this S3 Storage Lens configuration. The prefix delimiters determine how S3 Storage Lens counts prefix depth, by separating the hierarchical levels in object keys.    If either a prefix delimiter or existing delimiter is undefined, Amazon S3 uses the delimiter that’s defined.   If both the prefix delimiter and existing delimiter are undefined, S3 uses / as the default delimiter.   When custom delimiters are used, both the prefix delimiter and existing delimiter must specify the same special character. Otherwise, your request results in an error.
+        public let prefixDelimiter: String?
         /// The Amazon Resource Name (ARN) of the S3 Storage Lens configuration. This property is read-only and follows the following format:  arn:aws:s3:us-east-1:example-account-id:storage-lens/your-dashboard-name
         public let storageLensArn: String?
 
         @inlinable
-        public init(accountLevel: AccountLevel, awsOrg: StorageLensAwsOrg? = nil, dataExport: StorageLensDataExport? = nil, exclude: Exclude? = nil, id: String, include: Include? = nil, isEnabled: Bool, storageLensArn: String? = nil) {
+        public init(accountLevel: AccountLevel, awsOrg: StorageLensAwsOrg? = nil, dataExport: StorageLensDataExport? = nil, exclude: Exclude? = nil, expandedPrefixesDataExport: StorageLensExpandedPrefixesDataExport? = nil, id: String, include: Include? = nil, isEnabled: Bool, prefixDelimiter: String? = nil, storageLensArn: String? = nil) {
             self.accountLevel = accountLevel
             self.awsOrg = awsOrg
             self.dataExport = dataExport
             self.exclude = exclude
+            self.expandedPrefixesDataExport = expandedPrefixesDataExport
             self.id = id
             self.include = include
             self.isEnabled = isEnabled
+            self.prefixDelimiter = prefixDelimiter
             self.storageLensArn = storageLensArn
         }
 
@@ -7941,10 +7969,12 @@ extension S3Control {
             try self.awsOrg?.validate(name: "\(name).awsOrg")
             try self.dataExport?.validate(name: "\(name).dataExport")
             try self.exclude?.validate(name: "\(name).exclude")
+            try self.expandedPrefixesDataExport?.validate(name: "\(name).expandedPrefixesDataExport")
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]+$")
             try self.include?.validate(name: "\(name).include")
+            try self.validate(self.prefixDelimiter, name: "prefixDelimiter", parent: name, max: 1)
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, max: 1024)
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, min: 1)
             try self.validate(self.storageLensArn, name: "storageLensArn", parent: name, pattern: "^arn:[a-z\\-]+:s3:[a-z0-9\\-]+:\\d{12}:storage\\-lens\\/")
@@ -7955,9 +7985,11 @@ extension S3Control {
             case awsOrg = "AwsOrg"
             case dataExport = "DataExport"
             case exclude = "Exclude"
+            case expandedPrefixesDataExport = "ExpandedPrefixesDataExport"
             case id = "Id"
             case include = "Include"
             case isEnabled = "IsEnabled"
+            case prefixDelimiter = "PrefixDelimiter"
             case storageLensArn = "StorageLensArn"
         }
     }
@@ -7967,11 +7999,14 @@ extension S3Control {
         public let cloudWatchMetrics: CloudWatchMetrics?
         /// A container for the bucket where the S3 Storage Lens metrics export will be located.  This bucket must be located in the same Region as the storage lens configuration.
         public let s3BucketDestination: S3BucketDestination?
+        /// A container for configuring S3 Storage Lens data exports to read-only S3 table buckets.
+        public let storageLensTableDestination: StorageLensTableDestination?
 
         @inlinable
-        public init(cloudWatchMetrics: CloudWatchMetrics? = nil, s3BucketDestination: S3BucketDestination? = nil) {
+        public init(cloudWatchMetrics: CloudWatchMetrics? = nil, s3BucketDestination: S3BucketDestination? = nil, storageLensTableDestination: StorageLensTableDestination? = nil) {
             self.cloudWatchMetrics = cloudWatchMetrics
             self.s3BucketDestination = s3BucketDestination
+            self.storageLensTableDestination = storageLensTableDestination
         }
 
         public func validate(name: String) throws {
@@ -7981,6 +8016,7 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMetrics = "CloudWatchMetrics"
             case s3BucketDestination = "S3BucketDestination"
+            case storageLensTableDestination = "StorageLensTableDestination"
         }
     }
 
@@ -7997,6 +8033,27 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case ssekms = "SSE-KMS"
             case sses3 = "SSE-S3"
+        }
+    }
+
+    public struct StorageLensExpandedPrefixesDataExport: AWSEncodableShape & AWSDecodableShape {
+        public let s3BucketDestination: S3BucketDestination?
+        /// A container for the bucket where the S3 Storage Lens metric export files are located. At least one export destination must be specified.
+        public let storageLensTableDestination: StorageLensTableDestination?
+
+        @inlinable
+        public init(s3BucketDestination: S3BucketDestination? = nil, storageLensTableDestination: StorageLensTableDestination? = nil) {
+            self.s3BucketDestination = s3BucketDestination
+            self.storageLensTableDestination = storageLensTableDestination
+        }
+
+        public func validate(name: String) throws {
+            try self.s3BucketDestination?.validate(name: "\(name).s3BucketDestination")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketDestination = "S3BucketDestination"
+            case storageLensTableDestination = "StorageLensTableDestination"
         }
     }
 
@@ -8190,15 +8247,15 @@ extension S3Control {
         ///  Filters objects that match any of the specified prefixes.
         @OptionalCustomCoding<ArrayCoder<_MatchAnyPrefixEncoding, String>>
         public var matchAnyPrefix: [String]?
-        ///  Filters objects that match any of the specified suffixes.
+        /// Filters objects that match any of the specified suffixes.
         @OptionalCustomCoding<ArrayCoder<_MatchAnySuffixEncoding, String>>
         public var matchAnySuffix: [String]?
-        ///  Filters objects that match any of the specified S3 object tags.
+        /// Filters objects that match any of the specified S3 object tags.
         @OptionalCustomCoding<ArrayCoder<_MatchAnyTagEncoding, S3Tag>>
         public var matchAnyTag: [S3Tag]?
-        ///  Filters objects that match the specified object age range.
+        /// Filters objects that match the specified object age range.
         public let matchObjectAge: MatchObjectAge?
-        ///  Filters objects that match the specified object size range.
+        /// Filters objects that match the specified object size range.
         public let matchObjectSize: MatchObjectSize?
 
         @inlinable
@@ -8222,6 +8279,23 @@ extension S3Control {
             case matchAnyTag = "MatchAnyTag"
             case matchObjectAge = "MatchObjectAge"
             case matchObjectSize = "MatchObjectSize"
+        }
+    }
+
+    public struct StorageLensTableDestination: AWSEncodableShape & AWSDecodableShape {
+        public let encryption: StorageLensDataExportEncryption?
+        /// A container that indicates whether the export to read-only S3 table buckets is enabled for your S3 Storage Lens configuration. When set to true, Storage Lens reports are automatically exported to tables in addition to other configured destinations.
+        public let isEnabled: Bool
+
+        @inlinable
+        public init(encryption: StorageLensDataExportEncryption? = nil, isEnabled: Bool) {
+            self.encryption = encryption
+            self.isEnabled = isEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryption = "Encryption"
+            case isEnabled = "IsEnabled"
         }
     }
 
@@ -8329,7 +8403,7 @@ extension S3Control {
         public let accountId: String
         /// The Amazon Resource Name (ARN) of the S3 resource that you're applying tags to. The tagged resource can be a directory bucket, S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
         public let resourceArn: String
-        ///  The Amazon Web Services resource tags that you want to add to the specified S3 resource.
+        /// The Amazon Web Services resource tags that you want to add to the specified S3 resource.
         @CustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]
 
@@ -8458,7 +8532,7 @@ extension S3Control {
 
     public struct UpdateAccessGrantsLocationRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumRequired]
-        /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.  If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
+        /// The ID of the registered location that you are updating. S3 Access Grants assigns this ID when you register the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   The ID of the registered location to which you are granting access. S3 Access Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID default to the default location s3:// and assigns an auto-generated ID to other locations that you register.   If you are passing the default location, you cannot create an access grant for the entire default location. You must also specify a bucket or a bucket and prefix in the Subprefix field.
         public let accessGrantsLocationId: String
         /// The Amazon Web Services account ID of the S3 Access Grants instance.
         public let accountId: String

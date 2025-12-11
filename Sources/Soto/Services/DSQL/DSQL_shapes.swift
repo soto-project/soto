@@ -104,6 +104,8 @@ extension DSQL {
     }
 
     public struct CreateClusterInput: AWSEncodableShape {
+        /// An optional field that controls whether to bypass the lockout prevention check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+        public let bypassPolicyLockoutSafetyCheck: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you don't specify a client token, the Amazon Web Services SDK automatically generates one.
         public let clientToken: String?
         /// If enabled, you can't delete your cluster. You must first disable this property before you can delete your cluster.
@@ -112,15 +114,19 @@ extension DSQL {
         public let kmsEncryptionKey: String?
         /// The configuration settings when creating a multi-Region cluster, including the witness region and linked cluster properties.
         public let multiRegionProperties: MultiRegionProperties?
+        /// An optional resource-based policy document in JSON format that defines access permissions for the cluster.
+        public let policy: String?
         /// A map of key and value pairs to use to tag your cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, kmsEncryptionKey: String? = nil, multiRegionProperties: MultiRegionProperties? = nil, tags: [String: String]? = nil) {
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, clientToken: String? = CreateClusterInput.idempotencyToken(), deletionProtectionEnabled: Bool? = nil, kmsEncryptionKey: String? = nil, multiRegionProperties: MultiRegionProperties? = nil, policy: String? = nil, tags: [String: String]? = nil) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
             self.clientToken = clientToken
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.kmsEncryptionKey = kmsEncryptionKey
             self.multiRegionProperties = multiRegionProperties
+            self.policy = policy
             self.tags = tags
         }
 
@@ -132,6 +138,8 @@ extension DSQL {
             try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, min: 1)
             try self.validate(self.kmsEncryptionKey, name: "kmsEncryptionKey", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
             try self.multiRegionProperties?.validate(name: "\(name).multiRegionProperties")
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -143,10 +151,12 @@ extension DSQL {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "bypassPolicyLockoutSafetyCheck"
             case clientToken = "clientToken"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
             case kmsEncryptionKey = "kmsEncryptionKey"
             case multiRegionProperties = "multiRegionProperties"
+            case policy = "policy"
             case tags = "tags"
         }
     }
@@ -154,12 +164,14 @@ extension DSQL {
     public struct CreateClusterOutput: AWSDecodableShape {
         /// The ARN of the created cluster.
         public let arn: String
-        /// The time of when  created the cluster.
+        /// The time of when created the cluster.
         public let creationTime: Date
         /// Whether deletion protection is enabled on this cluster.
         public let deletionProtectionEnabled: Bool
         /// The encryption configuration for the cluster that was specified during the creation process, including the KMS key identifier and encryption state.
         public let encryptionDetails: EncryptionDetails?
+        /// The connection endpoint for the created cluster.
+        public let endpoint: String?
         /// The ID of the created cluster.
         public let identifier: String
         /// The multi-Region cluster configuration details that were set during cluster creation
@@ -168,11 +180,12 @@ extension DSQL {
         public let status: ClusterStatus
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus) {
+        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, endpoint: String? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus) {
             self.arn = arn
             self.creationTime = creationTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.encryptionDetails = encryptionDetails
+            self.endpoint = endpoint
             self.identifier = identifier
             self.multiRegionProperties = multiRegionProperties
             self.status = status
@@ -183,6 +196,7 @@ extension DSQL {
             case creationTime = "creationTime"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
             case encryptionDetails = "encryptionDetails"
+            case endpoint = "endpoint"
             case identifier = "identifier"
             case multiRegionProperties = "multiRegionProperties"
             case status = "status"
@@ -244,6 +258,51 @@ extension DSQL {
         }
     }
 
+    public struct DeleteClusterPolicyInput: AWSEncodableShape {
+        public let clientToken: String?
+        /// The expected version of the policy to delete. This parameter ensures that you're deleting the correct version of the policy and helps prevent accidental deletions.
+        public let expectedPolicyVersion: String?
+        public let identifier: String
+
+        @inlinable
+        public init(clientToken: String? = DeleteClusterPolicyInput.idempotencyToken(), expectedPolicyVersion: String? = nil, identifier: String) {
+            self.clientToken = clientToken
+            self.expectedPolicyVersion = expectedPolicyVersion
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "client-token")
+            request.encodeQuery(self.expectedPolicyVersion, key: "expected-policy-version")
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteClusterPolicyOutput: AWSDecodableShape {
+        /// The version of the policy that was deleted.
+        public let policyVersion: String
+
+        @inlinable
+        public init(policyVersion: String) {
+            self.policyVersion = policyVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyVersion = "policyVersion"
+        }
+    }
+
     public struct EncryptionDetails: AWSDecodableShape {
         /// The status of encryption for the cluster.
         public let encryptionStatus: EncryptionStatus
@@ -297,6 +356,8 @@ extension DSQL {
         public let deletionProtectionEnabled: Bool
         /// The current encryption configuration details for the cluster.
         public let encryptionDetails: EncryptionDetails?
+        /// The connection endpoint for the cluster.
+        public let endpoint: String?
         /// The ID of the retrieved cluster.
         public let identifier: String
         /// Returns the current multi-Region cluster configuration, including witness region and linked cluster information.
@@ -306,11 +367,12 @@ extension DSQL {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus, tags: [String: String]? = nil) {
+        public init(arn: String, creationTime: Date, deletionProtectionEnabled: Bool, encryptionDetails: EncryptionDetails? = nil, endpoint: String? = nil, identifier: String, multiRegionProperties: MultiRegionProperties? = nil, status: ClusterStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.encryptionDetails = encryptionDetails
+            self.endpoint = endpoint
             self.identifier = identifier
             self.multiRegionProperties = multiRegionProperties
             self.status = status
@@ -322,10 +384,51 @@ extension DSQL {
             case creationTime = "creationTime"
             case deletionProtectionEnabled = "deletionProtectionEnabled"
             case encryptionDetails = "encryptionDetails"
+            case endpoint = "endpoint"
             case identifier = "identifier"
             case multiRegionProperties = "multiRegionProperties"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct GetClusterPolicyInput: AWSEncodableShape {
+        /// The ID of the cluster to retrieve the policy from.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetClusterPolicyOutput: AWSDecodableShape {
+        /// The resource-based policy document attached to the cluster, returned as a JSON string.
+        public let policy: String
+        /// The version of the policy document. This version number is incremented each time the policy is updated.
+        public let policyVersion: String
+
+        @inlinable
+        public init(policy: String, policyVersion: String) {
+            self.policy = policy
+            self.policyVersion = policyVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case policyVersion = "policyVersion"
         }
     }
 
@@ -352,15 +455,19 @@ extension DSQL {
     }
 
     public struct GetVpcEndpointServiceNameOutput: AWSDecodableShape {
+        /// The VPC connection endpoint for the cluster.
+        public let clusterVpcEndpoint: String?
         /// The VPC endpoint service name.
         public let serviceName: String
 
         @inlinable
-        public init(serviceName: String) {
+        public init(clusterVpcEndpoint: String? = nil, serviceName: String) {
+            self.clusterVpcEndpoint = clusterVpcEndpoint
             self.serviceName = serviceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterVpcEndpoint = "clusterVpcEndpoint"
             case serviceName = "serviceName"
         }
     }
@@ -472,9 +579,9 @@ extension DSQL {
     }
 
     public struct MultiRegionProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The set of linked clusters that form the multi-Region cluster configuration. Each linked cluster represents a database instance in a different  Region.
+        /// The set of peered clusters that form the multi-Region cluster configuration. Each peered cluster represents a database instance in a different Region.
         public let clusters: [String]?
-        /// The  that serves as the witness region for a multi-Region cluster. The witness region helps maintain cluster consistency and quorum.
+        /// The Region that serves as the witness region for a multi-Region cluster. The witness Region helps maintain cluster consistency and quorum.
         public let witnessRegion: String?
 
         @inlinable
@@ -493,6 +600,66 @@ extension DSQL {
         private enum CodingKeys: String, CodingKey {
             case clusters = "clusters"
             case witnessRegion = "witnessRegion"
+        }
+    }
+
+    public struct PutClusterPolicyInput: AWSEncodableShape {
+        /// A flag that allows you to bypass the policy lockout safety check. When set to true, this parameter allows you to apply a policy that might lock you out of the cluster. Use with caution.
+        public let bypassPolicyLockoutSafetyCheck: Bool?
+        public let clientToken: String?
+        /// The expected version of the current policy. This parameter ensures that you're updating the correct version of the policy and helps prevent concurrent modification conflicts.
+        public let expectedPolicyVersion: String?
+        public let identifier: String
+        /// The resource-based policy document to attach to the cluster. This should be a valid JSON policy document that defines permissions and conditions.
+        public let policy: String
+
+        @inlinable
+        public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, clientToken: String? = PutClusterPolicyInput.idempotencyToken(), expectedPolicyVersion: String? = nil, identifier: String, policy: String) {
+            self.bypassPolicyLockoutSafetyCheck = bypassPolicyLockoutSafetyCheck
+            self.clientToken = clientToken
+            self.expectedPolicyVersion = expectedPolicyVersion
+            self.identifier = identifier
+            self.policy = policy
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.bypassPolicyLockoutSafetyCheck, forKey: .bypassPolicyLockoutSafetyCheck)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.expectedPolicyVersion, forKey: .expectedPolicyVersion)
+            request.encodePath(self.identifier, key: "identifier")
+            try container.encode(self.policy, forKey: .policy)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bypassPolicyLockoutSafetyCheck = "bypassPolicyLockoutSafetyCheck"
+            case clientToken = "clientToken"
+            case expectedPolicyVersion = "expectedPolicyVersion"
+            case policy = "policy"
+        }
+    }
+
+    public struct PutClusterPolicyOutput: AWSDecodableShape {
+        /// The version of the policy after it has been updated or created.
+        public let policyVersion: String
+
+        @inlinable
+        public init(policyVersion: String) {
+            self.policyVersion = policyVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyVersion = "policyVersion"
         }
     }
 

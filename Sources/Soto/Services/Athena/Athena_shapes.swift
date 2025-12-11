@@ -614,6 +614,70 @@ extension Athena {
         }
     }
 
+    public struct Classification: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the configuration classification.
+        public let name: String?
+        /// A set of properties specified within a configuration classification.
+        public let properties: [String: String]?
+
+        @inlinable
+        public init(name: String? = nil, properties: [String: String]? = nil) {
+            self.name = name
+            self.properties = properties
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.properties?.forEach {
+                try validate($0.key, name: "properties.key", parent: name, max: 255)
+                try validate($0.key, name: "properties.key", parent: name, min: 1)
+                try validate($0.key, name: "properties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+                try validate($0.value, name: "properties[\"\($0.key)\"]", parent: name, max: 51200)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case properties = "Properties"
+        }
+    }
+
+    public struct CloudWatchLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables CloudWatch logging.
+        public let enabled: Bool
+        /// The name of the log group in Amazon CloudWatch Logs where you want to publish  your logs.
+        public let logGroup: String?
+        /// Prefix for the CloudWatch log stream name.
+        public let logStreamNamePrefix: String?
+        /// The types of logs that you want to publish to CloudWatch.
+        public let logTypes: [String: [String]]?
+
+        @inlinable
+        public init(enabled: Bool, logGroup: String? = nil, logStreamNamePrefix: String? = nil, logTypes: [String: [String]]? = nil) {
+            self.enabled = enabled
+            self.logGroup = logGroup
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroup, name: "logGroup", parent: name, max: 512)
+            try self.validate(self.logGroup, name: "logGroup", parent: name, min: 1)
+            try self.validate(self.logGroup, name: "logGroup", parent: name, pattern: "^[a-zA-Z0-9._/-]+$")
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 512)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, min: 1)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "^[^:*]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case logGroup = "LogGroup"
+            case logStreamNamePrefix = "LogStreamNamePrefix"
+            case logTypes = "LogTypes"
+        }
+    }
+
     public struct Column: AWSDecodableShape {
         /// Optional information about the column.
         public let comment: String?
@@ -1320,18 +1384,21 @@ extension Athena {
     public struct EngineConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the StartSessionRequest$NotebookVersion field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public let additionalConfigs: [String: String]?
+        /// The configuration classifications that can be specified for the engine.
+        public let classifications: [Classification]?
         /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1.
         public let coordinatorDpuSize: Int?
         /// The default number of DPUs to use for executors. An executor is the smallest unit of compute that a notebook session can request from Athena. The default is 1.
         public let defaultExecutorDpuSize: Int?
         /// The maximum number of DPUs that can run concurrently.
-        public let maxConcurrentDpus: Int
+        public let maxConcurrentDpus: Int?
         /// Specifies custom jar files and Spark properties for use cases like cluster encryption, table formats, and general Spark tuning.
         public let sparkProperties: [String: String]?
 
         @inlinable
-        public init(additionalConfigs: [String: String]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int, sparkProperties: [String: String]? = nil) {
+        public init(additionalConfigs: [String: String]? = nil, classifications: [Classification]? = nil, coordinatorDpuSize: Int? = nil, defaultExecutorDpuSize: Int? = nil, maxConcurrentDpus: Int? = nil, sparkProperties: [String: String]? = nil) {
             self.additionalConfigs = additionalConfigs
+            self.classifications = classifications
             self.coordinatorDpuSize = coordinatorDpuSize
             self.defaultExecutorDpuSize = defaultExecutorDpuSize
             self.maxConcurrentDpus = maxConcurrentDpus
@@ -1344,6 +1411,9 @@ extension Athena {
                 try validate($0.key, name: "additionalConfigs.key", parent: name, min: 1)
                 try validate($0.key, name: "additionalConfigs.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
                 try validate($0.value, name: "additionalConfigs[\"\($0.key)\"]", parent: name, max: 51200)
+            }
+            try self.classifications?.forEach {
+                try $0.validate(name: "\(name).classifications[]")
             }
             try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, max: 1)
             try self.validate(self.coordinatorDpuSize, name: "coordinatorDpuSize", parent: name, min: 1)
@@ -1361,6 +1431,7 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case additionalConfigs = "AdditionalConfigs"
+            case classifications = "Classifications"
             case coordinatorDpuSize = "CoordinatorDpuSize"
             case defaultExecutorDpuSize = "DefaultExecutorDpuSize"
             case maxConcurrentDpus = "MaxConcurrentDpus"
@@ -1997,6 +2068,80 @@ extension Athena {
         }
     }
 
+    public struct GetResourceDashboardRequest: AWSEncodableShape {
+        /// The The Amazon Resource Name (ARN) for a session.
+        public let resourceARN: String
+
+        @inlinable
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "ResourceARN"
+        }
+    }
+
+    public struct GetResourceDashboardResponse: AWSDecodableShape {
+        /// The Live UI/Persistence UI url for a session.
+        public let url: String
+
+        @inlinable
+        public init(url: String) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+        }
+    }
+
+    public struct GetSessionEndpointRequest: AWSEncodableShape {
+        /// The session ID.
+        public let sessionId: String
+
+        @inlinable
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 256)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetSessionEndpointResponse: AWSDecodableShape {
+        /// Authentication token for the connection
+        public let authToken: String
+        /// Expiration time of the auth token.
+        public let authTokenExpirationTime: Date
+        /// The endpoint for connecting to the session.
+        public let endpointUrl: String
+
+        @inlinable
+        public init(authToken: String, authTokenExpirationTime: Date, endpointUrl: String) {
+            self.authToken = authToken
+            self.authTokenExpirationTime = authTokenExpirationTime
+            self.endpointUrl = endpointUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authToken = "AuthToken"
+            case authTokenExpirationTime = "AuthTokenExpirationTime"
+            case endpointUrl = "EndpointUrl"
+        }
+    }
+
     public struct GetSessionRequest: AWSEncodableShape {
         /// The session ID.
         public let sessionId: String
@@ -2023,6 +2168,7 @@ extension Athena {
         public let engineConfiguration: EngineConfiguration?
         /// The engine version used by the session (for example, PySpark engine version 3). You can get a list of engine versions by calling ListEngineVersions.
         public let engineVersion: String?
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The notebook version.
         public let notebookVersion: String?
         /// Contains the workgroup configuration information used by the session.
@@ -2037,10 +2183,11 @@ extension Athena {
         public let workGroup: String?
 
         @inlinable
-        public init(description: String? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: String? = nil, notebookVersion: String? = nil, sessionConfiguration: SessionConfiguration? = nil, sessionId: String? = nil, statistics: SessionStatistics? = nil, status: SessionStatus? = nil, workGroup: String? = nil) {
+        public init(description: String? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: String? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, notebookVersion: String? = nil, sessionConfiguration: SessionConfiguration? = nil, sessionId: String? = nil, statistics: SessionStatistics? = nil, status: SessionStatus? = nil, workGroup: String? = nil) {
             self.description = description
             self.engineConfiguration = engineConfiguration
             self.engineVersion = engineVersion
+            self.monitoringConfiguration = monitoringConfiguration
             self.notebookVersion = notebookVersion
             self.sessionConfiguration = sessionConfiguration
             self.sessionId = sessionId
@@ -2053,6 +2200,7 @@ extension Athena {
             case description = "Description"
             case engineConfiguration = "EngineConfiguration"
             case engineVersion = "EngineVersion"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case notebookVersion = "NotebookVersion"
             case sessionConfiguration = "SessionConfiguration"
             case sessionId = "SessionId"
@@ -3078,6 +3226,30 @@ extension Athena {
         }
     }
 
+    public struct ManagedLoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables mamanged log persistence.
+        public let enabled: Bool
+        /// The KMS key ARN to encrypt the logs stored in managed log persistence.
+        public let kmsKey: String?
+
+        @inlinable
+        public init(enabled: Bool, kmsKey: String? = nil) {
+            self.enabled = enabled
+            self.kmsKey = kmsKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case kmsKey = "KmsKey"
+        }
+    }
+
     public struct ManagedQueryResultsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// If set to true, allows you to store query results in Athena owned storage. If set to false, workgroup member stores query results in location specified under ResultConfiguration$OutputLocation. The default is false. A workgroup cannot have the ResultConfiguration$OutputLocation parameter when you set this field to true.
         public let enabled: Bool
@@ -3143,6 +3315,34 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKey = "KmsKey"
+        }
+    }
+
+    public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for delivering logs to Amazon CloudWatch log groups.
+        public let cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration?
+        /// Configuration settings for managed log persistence.
+        public let managedLoggingConfiguration: ManagedLoggingConfiguration?
+        /// Configuration settings for delivering logs to Amazon S3 buckets.
+        public let s3LoggingConfiguration: S3LoggingConfiguration?
+
+        @inlinable
+        public init(cloudWatchLoggingConfiguration: CloudWatchLoggingConfiguration? = nil, managedLoggingConfiguration: ManagedLoggingConfiguration? = nil, s3LoggingConfiguration: S3LoggingConfiguration? = nil) {
+            self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
+            self.managedLoggingConfiguration = managedLoggingConfiguration
+            self.s3LoggingConfiguration = s3LoggingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLoggingConfiguration?.validate(name: "\(name).cloudWatchLoggingConfiguration")
+            try self.managedLoggingConfiguration?.validate(name: "\(name).managedLoggingConfiguration")
+            try self.s3LoggingConfiguration?.validate(name: "\(name).s3LoggingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLoggingConfiguration = "CloudWatchLoggingConfiguration"
+            case managedLoggingConfiguration = "ManagedLoggingConfiguration"
+            case s3LoggingConfiguration = "S3LoggingConfiguration"
         }
     }
 
@@ -3330,7 +3530,7 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
         /// Specifies the query result reuse behavior that was used for the query.
         public let resultReuseConfiguration: ResultReuseConfiguration?
-        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, or DESCRIBE TABLE.
+        /// The type of query statement that was run. DDL indicates DDL query statements. DML indicates DML (Data Manipulation Language) query statements, such as CREATE TABLE AS SELECT. UTILITY indicates query statements other than DDL and DML, such as SHOW CREATE TABLE, EXPLAIN, DESCRIBE, or SHOW TABLES.
         public let statementType: StatementType?
         /// Query execution statistics, such as the amount of data scanned, the amount of time that the query took to process, and the type of statement that was run.
         public let statistics: QueryExecutionStatistics?
@@ -3408,6 +3608,8 @@ extension Athena {
         public let dataManifestLocation: String?
         /// The number of bytes in the data that was queried.
         public let dataScannedInBytes: Int64?
+        /// The number of Data Processing Units (DPUs) that Athena used to run the query.
+        public let dpuCount: Double?
         /// The number of milliseconds that the query took to execute.
         public let engineExecutionTimeInMillis: Int64?
         /// The number of milliseconds that Athena took to plan the query processing flow. This includes the time spent retrieving table partitions from the data source. Note that because the query engine performs the query planning, query planning time is a subset of engine processing time.
@@ -3424,9 +3626,10 @@ extension Athena {
         public let totalExecutionTimeInMillis: Int64?
 
         @inlinable
-        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
+        public init(dataManifestLocation: String? = nil, dataScannedInBytes: Int64? = nil, dpuCount: Double? = nil, engineExecutionTimeInMillis: Int64? = nil, queryPlanningTimeInMillis: Int64? = nil, queryQueueTimeInMillis: Int64? = nil, resultReuseInformation: ResultReuseInformation? = nil, servicePreProcessingTimeInMillis: Int64? = nil, serviceProcessingTimeInMillis: Int64? = nil, totalExecutionTimeInMillis: Int64? = nil) {
             self.dataManifestLocation = dataManifestLocation
             self.dataScannedInBytes = dataScannedInBytes
+            self.dpuCount = dpuCount
             self.engineExecutionTimeInMillis = engineExecutionTimeInMillis
             self.queryPlanningTimeInMillis = queryPlanningTimeInMillis
             self.queryQueueTimeInMillis = queryQueueTimeInMillis
@@ -3439,6 +3642,7 @@ extension Athena {
         private enum CodingKeys: String, CodingKey {
             case dataManifestLocation = "DataManifestLocation"
             case dataScannedInBytes = "DataScannedInBytes"
+            case dpuCount = "DpuCount"
             case engineExecutionTimeInMillis = "EngineExecutionTimeInMillis"
             case queryPlanningTimeInMillis = "QueryPlanningTimeInMillis"
             case queryQueueTimeInMillis = "QueryQueueTimeInMillis"
@@ -3454,7 +3658,7 @@ extension Athena {
         public let athenaError: AthenaError?
         /// The date and time that the query completed.
         public let completionDateTime: Date?
-        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution.  Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from RUNNING or FAILED to QUEUED.
+        /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution.  For queries that experience certain transient errors, the state transitions from RUNNING back to QUEUED. The FAILED state is always terminal with no automatic retry.
         public let state: QueryExecutionState?
         /// Further detail about the status of the query.
         public let stateChangeReason: String?
@@ -3851,20 +4055,53 @@ extension Athena {
         }
     }
 
+    public struct S3LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables S3 log delivery.
+        public let enabled: Bool
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public let kmsKey: String?
+        /// The Amazon S3 destination URI for log publishing.
+        public let logLocation: String?
+
+        @inlinable
+        public init(enabled: Bool, kmsKey: String? = nil, logLocation: String? = nil) {
+            self.enabled = enabled
+            self.kmsKey = kmsKey
+            self.logLocation = logLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:key/?[a-zA-Z_0-9+=,.@\\-_/]+$|^arn:aws[a-z\\-]*:kms:([a-z0-9\\-]+):\\d{12}:alias/?[a-zA-Z_0-9+=,.@\\-_/]+$|^alias/[a-zA-Z0-9/_-]+$|[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.logLocation, name: "logLocation", parent: name, max: 1024)
+            try self.validate(self.logLocation, name: "logLocation", parent: name, pattern: "^s3://[a-z0-9][a-z0-9\\-]*[a-z0-9](/.*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case kmsKey = "KmsKey"
+            case logLocation = "LogLocation"
+        }
+    }
+
     public struct SessionConfiguration: AWSDecodableShape {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public let executionRole: String?
         /// The idle timeout in seconds for the session.
         public let idleTimeoutSeconds: Int64?
+        /// The idle timeout in seconds for the session.
+        public let sessionIdleTimeoutInMinutes: Int?
         /// The Amazon S3 location that stores information for the notebook.
         public let workingDirectory: String?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, executionRole: String? = nil, idleTimeoutSeconds: Int64? = nil, workingDirectory: String? = nil) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, executionRole: String? = nil, idleTimeoutSeconds: Int64? = nil, sessionIdleTimeoutInMinutes: Int? = nil, workingDirectory: String? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.executionRole = executionRole
             self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
             self.workingDirectory = workingDirectory
         }
 
@@ -3872,6 +4109,7 @@ extension Athena {
             case encryptionConfiguration = "EncryptionConfiguration"
             case executionRole = "ExecutionRole"
             case idleTimeoutSeconds = "IdleTimeoutSeconds"
+            case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
             case workingDirectory = "WorkingDirectory"
         }
     }
@@ -4026,6 +4264,7 @@ extension Athena {
     public struct StartQueryExecutionInput: AWSEncodableShape {
         /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
+        public let engineConfiguration: EngineConfiguration?
         /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
         public let executionParameters: [String]?
         /// The database within which the query executes.
@@ -4040,8 +4279,9 @@ extension Athena {
         public let workGroup: String?
 
         @inlinable
-        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, workGroup: String? = nil) {
+        public init(clientRequestToken: String? = StartQueryExecutionInput.idempotencyToken(), engineConfiguration: EngineConfiguration? = nil, executionParameters: [String]? = nil, queryExecutionContext: QueryExecutionContext? = nil, queryString: String, resultConfiguration: ResultConfiguration? = nil, resultReuseConfiguration: ResultReuseConfiguration? = nil, workGroup: String? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.engineConfiguration = engineConfiguration
             self.executionParameters = executionParameters
             self.queryExecutionContext = queryExecutionContext
             self.queryString = queryString
@@ -4053,6 +4293,7 @@ extension Athena {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.engineConfiguration?.validate(name: "\(name).engineConfiguration")
             try self.executionParameters?.forEach {
                 try validate($0, name: "executionParameters[]", parent: name, max: 1024)
                 try validate($0, name: "executionParameters[]", parent: name, min: 1)
@@ -4068,6 +4309,7 @@ extension Athena {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case engineConfiguration = "EngineConfiguration"
             case executionParameters = "ExecutionParameters"
             case queryExecutionContext = "QueryExecutionContext"
             case queryString = "QueryString"
@@ -4094,24 +4336,36 @@ extension Athena {
     public struct StartSessionRequest: AWSEncodableShape {
         /// A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned.  This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
         public let clientRequestToken: String?
+        /// Copies the tags from the Workgroup to the Session when.
+        public let copyWorkGroupTags: Bool?
         /// The session description.
         public let description: String?
         /// Contains engine data processing unit (DPU) configuration settings and parameter mappings.
         public let engineConfiguration: EngineConfiguration
+        /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
+        public let executionRole: String?
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The notebook version. This value is supplied automatically for notebook sessions in the Athena console and is not required for programmatic session access. The only valid notebook version is Athena notebook version 1. If you specify a value for NotebookVersion, you must also specify a value for NotebookId. See EngineConfiguration$AdditionalConfigs.
         public let notebookVersion: String?
         /// The idle timeout in minutes for the session.
         public let sessionIdleTimeoutInMinutes: Int?
+        /// A list of comma separated tags to add to the session that is created.
+        public let tags: [Tag]?
         /// The workgroup to which the session belongs.
         public let workGroup: String
 
         @inlinable
-        public init(clientRequestToken: String? = nil, description: String? = nil, engineConfiguration: EngineConfiguration, notebookVersion: String? = nil, sessionIdleTimeoutInMinutes: Int? = nil, workGroup: String) {
+        public init(clientRequestToken: String? = nil, copyWorkGroupTags: Bool? = nil, description: String? = nil, engineConfiguration: EngineConfiguration, executionRole: String? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, notebookVersion: String? = nil, sessionIdleTimeoutInMinutes: Int? = nil, tags: [Tag]? = nil, workGroup: String) {
             self.clientRequestToken = clientRequestToken
+            self.copyWorkGroupTags = copyWorkGroupTags
             self.description = description
             self.engineConfiguration = engineConfiguration
+            self.executionRole = executionRole
+            self.monitoringConfiguration = monitoringConfiguration
             self.notebookVersion = notebookVersion
             self.sessionIdleTimeoutInMinutes = sessionIdleTimeoutInMinutes
+            self.tags = tags
             self.workGroup = workGroup
         }
 
@@ -4121,19 +4375,30 @@ extension Athena {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.engineConfiguration.validate(name: "\(name).engineConfiguration")
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.validate(self.notebookVersion, name: "notebookVersion", parent: name, max: 128)
             try self.validate(self.notebookVersion, name: "notebookVersion", parent: name, min: 1)
             try self.validate(self.sessionIdleTimeoutInMinutes, name: "sessionIdleTimeoutInMinutes", parent: name, max: 480)
             try self.validate(self.sessionIdleTimeoutInMinutes, name: "sessionIdleTimeoutInMinutes", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case copyWorkGroupTags = "CopyWorkGroupTags"
             case description = "Description"
             case engineConfiguration = "EngineConfiguration"
+            case executionRole = "ExecutionRole"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case notebookVersion = "NotebookVersion"
             case sessionIdleTimeoutInMinutes = "SessionIdleTimeoutInMinutes"
+            case tags = "Tags"
             case workGroup = "WorkGroup"
         }
     }
@@ -4770,8 +5035,9 @@ extension Athena {
         public let customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration?
         /// Enforces a minimal level of encryption for the workgroup for query and calculation results that are written to Amazon S3. When enabled, workgroup users can set encryption only to the minimum level set by the administrator or higher when they submit queries. The EnforceWorkGroupConfiguration setting takes precedence over the EnableMinimumEncryptionConfiguration flag. This means that if EnforceWorkGroupConfiguration is true, the EnableMinimumEncryptionConfiguration flag is ignored, and the workgroup configuration for encryption is used.
         public let enableMinimumEncryptionConfiguration: Bool?
-        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
+        /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. This property is not required for Apache Spark enabled workgroups. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
+        public let engineConfiguration: EngineConfiguration?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and IAM Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and IAM Identity Center enabled workgroups. The property is required for IAM Identity Center enabled workgroups.
@@ -4780,6 +5046,8 @@ extension Athena {
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         ///  The configuration for storing results in Athena owned storage, which includes whether this feature is enabled; whether encryption configuration, if any, is used for encrypting query results.
         public let managedQueryResultsConfiguration: ManagedQueryResultsConfiguration?
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// Indicates that the Amazon CloudWatch metrics are enabled for the workgroup.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4790,16 +5058,18 @@ extension Athena {
         public let resultConfiguration: ResultConfiguration?
 
         @inlinable
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, managedQueryResultsConfiguration: ManagedQueryResultsConfiguration? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, requesterPaysEnabled: Bool? = nil, resultConfiguration: ResultConfiguration? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineConfiguration = engineConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.identityCenterConfiguration = identityCenterConfiguration
             self.managedQueryResultsConfiguration = managedQueryResultsConfiguration
+            self.monitoringConfiguration = monitoringConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.requesterPaysEnabled = requesterPaysEnabled
@@ -4811,12 +5081,14 @@ extension Athena {
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10000000)
             try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
+            try self.engineConfiguration?.validate(name: "\(name).engineConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.managedQueryResultsConfiguration?.validate(name: "\(name).managedQueryResultsConfiguration")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
         }
 
@@ -4826,10 +5098,12 @@ extension Athena {
             case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
             case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case engineConfiguration = "EngineConfiguration"
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"
             case identityCenterConfiguration = "IdentityCenterConfiguration"
             case managedQueryResultsConfiguration = "ManagedQueryResultsConfiguration"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
             case requesterPaysEnabled = "RequesterPaysEnabled"
@@ -4847,12 +5121,15 @@ extension Athena {
         public let enableMinimumEncryptionConfiguration: Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see Workgroup Settings Override Client-Side Settings.
         public let enforceWorkGroupConfiguration: Bool?
+        public let engineConfiguration: EngineConfiguration?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public let engineVersion: EngineVersion?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
         public let executionRole: String?
         /// Updates configuration information for managed query results in the workgroup.
         public let managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates?
+        /// Contains the configuration settings for managed log persistence, delivering logs to Amazon S3 buckets,  Amazon CloudWatch log groups etc.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// Indicates whether this workgroup enables publishing metrics to Amazon CloudWatch.
         public let publishCloudWatchMetricsEnabled: Bool?
         /// Specifies whether Amazon S3 access grants are enabled for query results.
@@ -4867,15 +5144,17 @@ extension Athena {
         public let resultConfigurationUpdates: ResultConfigurationUpdates?
 
         @inlinable
-        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
+        public init(additionalConfiguration: String? = nil, bytesScannedCutoffPerQuery: Int64? = nil, customerContentEncryptionConfiguration: CustomerContentEncryptionConfiguration? = nil, enableMinimumEncryptionConfiguration: Bool? = nil, enforceWorkGroupConfiguration: Bool? = nil, engineConfiguration: EngineConfiguration? = nil, engineVersion: EngineVersion? = nil, executionRole: String? = nil, managedQueryResultsConfigurationUpdates: ManagedQueryResultsConfigurationUpdates? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, publishCloudWatchMetricsEnabled: Bool? = nil, queryResultsS3AccessGrantsConfiguration: QueryResultsS3AccessGrantsConfiguration? = nil, removeBytesScannedCutoffPerQuery: Bool? = nil, removeCustomerContentEncryptionConfiguration: Bool? = nil, requesterPaysEnabled: Bool? = nil, resultConfigurationUpdates: ResultConfigurationUpdates? = nil) {
             self.additionalConfiguration = additionalConfiguration
             self.bytesScannedCutoffPerQuery = bytesScannedCutoffPerQuery
             self.customerContentEncryptionConfiguration = customerContentEncryptionConfiguration
             self.enableMinimumEncryptionConfiguration = enableMinimumEncryptionConfiguration
             self.enforceWorkGroupConfiguration = enforceWorkGroupConfiguration
+            self.engineConfiguration = engineConfiguration
             self.engineVersion = engineVersion
             self.executionRole = executionRole
             self.managedQueryResultsConfigurationUpdates = managedQueryResultsConfigurationUpdates
+            self.monitoringConfiguration = monitoringConfiguration
             self.publishCloudWatchMetricsEnabled = publishCloudWatchMetricsEnabled
             self.queryResultsS3AccessGrantsConfiguration = queryResultsS3AccessGrantsConfiguration
             self.removeBytesScannedCutoffPerQuery = removeBytesScannedCutoffPerQuery
@@ -4889,11 +5168,13 @@ extension Athena {
             try self.validate(self.additionalConfiguration, name: "additionalConfiguration", parent: name, min: 1)
             try self.validate(self.bytesScannedCutoffPerQuery, name: "bytesScannedCutoffPerQuery", parent: name, min: 10000000)
             try self.customerContentEncryptionConfiguration?.validate(name: "\(name).customerContentEncryptionConfiguration")
+            try self.engineConfiguration?.validate(name: "\(name).engineConfiguration")
             try self.engineVersion?.validate(name: "\(name).engineVersion")
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.managedQueryResultsConfigurationUpdates?.validate(name: "\(name).managedQueryResultsConfigurationUpdates")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.resultConfigurationUpdates?.validate(name: "\(name).resultConfigurationUpdates")
         }
 
@@ -4903,9 +5184,11 @@ extension Athena {
             case customerContentEncryptionConfiguration = "CustomerContentEncryptionConfiguration"
             case enableMinimumEncryptionConfiguration = "EnableMinimumEncryptionConfiguration"
             case enforceWorkGroupConfiguration = "EnforceWorkGroupConfiguration"
+            case engineConfiguration = "EngineConfiguration"
             case engineVersion = "EngineVersion"
             case executionRole = "ExecutionRole"
             case managedQueryResultsConfigurationUpdates = "ManagedQueryResultsConfigurationUpdates"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case publishCloudWatchMetricsEnabled = "PublishCloudWatchMetricsEnabled"
             case queryResultsS3AccessGrantsConfiguration = "QueryResultsS3AccessGrantsConfiguration"
             case removeBytesScannedCutoffPerQuery = "RemoveBytesScannedCutoffPerQuery"

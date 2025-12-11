@@ -25,6 +25,13 @@ import Foundation
 extension RUM {
     // MARK: Enums
 
+    public enum AppMonitorPlatform: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case android = "Android"
+        case web = "Web"
+        case iOS = "iOS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomEventsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -67,7 +74,7 @@ extension RUM {
         public let appMonitorConfiguration: AppMonitorConfiguration?
         /// The date and time that this app monitor was created.
         public let created: String?
-        /// Specifies whether this app monitor allows the web client to define and send custom events. For more information about custom events, see  Send custom events.
+        /// Specifies whether this app monitor allows the web client to define and send custom events. For more information about custom events, see Send custom events.
         public let customEvents: CustomEvents?
         /// A structure that contains information about whether this app monitor stores a copy of the telemetry data that RUM collects using CloudWatch Logs.
         public let dataStorage: DataStorage?
@@ -83,13 +90,15 @@ extension RUM {
         public let lastModified: String?
         /// The name of the app monitor.
         public let name: String?
+        /// The platform type for this app monitor. Valid values are Web for web applications , Android for Android applications, and iOS for IOS applications.
+        public let platform: AppMonitorPlatform?
         /// The current state of the app monitor.
         public let state: StateEnum?
         /// The list of tag keys and values associated with this app monitor.
         public let tags: [String: String]?
 
         @inlinable
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, platform: AppMonitorPlatform? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
             self.customEvents = customEvents
@@ -100,6 +109,7 @@ extension RUM {
             self.id = id
             self.lastModified = lastModified
             self.name = name
+            self.platform = platform
             self.state = state
             self.tags = tags
         }
@@ -115,6 +125,7 @@ extension RUM {
             case id = "Id"
             case lastModified = "LastModified"
             case name = "Name"
+            case platform = "Platform"
             case state = "State"
             case tags = "Tags"
         }
@@ -129,9 +140,9 @@ extension RUM {
         public let excludedPages: [String]?
         /// A list of pages in your application that are to be displayed with a "favorite" icon in the CloudWatch RUM console.
         public let favoritePages: [String]?
-        /// The ARN of the guest IAM role that is attached to the Amazon Cognito identity pool  that is used to authorize the sending of data to RUM.  It is possible that an app monitor does not have a value for GuestRoleArn. For example,  this can happen when you use the console to create an app monitor and you allow CloudWatch RUM to  create a new identity pool for Authorization. In this case, GuestRoleArn is not present in the  GetAppMonitor response because it is not stored by the service. If this issue affects you, you can take one of the following steps:   Use the Cloud Development Kit (CDK) to create an identity pool and the associated IAM role, and use that for your app monitor.   Make a separate GetIdentityPoolRoles call to Amazon Cognito to retrieve  the GuestRoleArn.
+        /// The ARN of the guest IAM role that is attached to the Amazon Cognito identity pool that is used to authorize the sending of data to RUM.  It is possible that an app monitor does not have a value for GuestRoleArn. For example, this can happen when you use the console to create an app monitor and you allow CloudWatch RUM to create a new identity pool for Authorization. In this case, GuestRoleArn is not present in the GetAppMonitor response because it is not stored by the service. If this issue affects you, you can take one of the following steps:   Use the Cloud Development Kit (CDK) to create an identity pool and the associated IAM role, and use that for your app monitor.   Make a separate GetIdentityPoolRoles call to Amazon Cognito to retrieve the GuestRoleArn.
         public let guestRoleArn: String?
-        /// The ID of the Amazon Cognito identity pool  that is used to authorize the sending of data to RUM.
+        /// The ID of the Amazon Cognito identity pool that is used to authorize the sending of data to RUM.
         public let identityPoolId: String?
         /// If this app monitor is to collect data from only certain pages in your application, this structure lists those pages.  You can't include both ExcludedPages and IncludedPages in the same operation.
         public let includedPages: [String]?
@@ -219,15 +230,18 @@ extension RUM {
         public let lastModified: String?
         /// The name of this app monitor.
         public let name: String?
+        /// The platform type for this app monitor. Valid values are Web for web applications, Android for Android applications, and iOS for IOS applications.
+        public let platform: AppMonitorPlatform?
         /// The current state of this app monitor.
         public let state: StateEnum?
 
         @inlinable
-        public init(created: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil) {
+        public init(created: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, platform: AppMonitorPlatform? = nil, state: StateEnum? = nil) {
             self.created = created
             self.id = id
             self.lastModified = lastModified
             self.name = name
+            self.platform = platform
             self.state = state
         }
 
@@ -236,6 +250,7 @@ extension RUM {
             case id = "Id"
             case lastModified = "LastModified"
             case name = "Name"
+            case platform = "Platform"
             case state = "State"
         }
     }
@@ -267,7 +282,7 @@ extension RUM {
         public let appMonitorName: String
         /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the Amazon Resource Name (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
         public let destination: MetricDestination
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experiment as a valid destination. For more information, see PutRumMetricsDestination.
         public let destinationArn: String?
         /// An array of structures which define the metrics that you want to send.
         public let metricDefinitions: [MetricDefinitionRequest]
@@ -350,9 +365,9 @@ extension RUM {
     public struct BatchDeleteRumMetricDefinitionsRequest: AWSEncodableShape {
         /// The name of the CloudWatch RUM app monitor that is sending these metrics.
         public let appMonitorName: String
-        /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
+        /// Defines the destination where you want to stop sending the specified metrics. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment.
         public let destination: MetricDestination
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter.  This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter.  This parameter specifies the ARN of the Evidently experiment that was receiving the metrics that are being deleted.
         public let destinationArn: String?
         /// An array of structures which define the metrics that you want to stop sending.
         public let metricDefinitionIds: [String]
@@ -410,11 +425,11 @@ extension RUM {
     public struct BatchGetRumMetricDefinitionsRequest: AWSEncodableShape {
         /// The name of the CloudWatch RUM app monitor that is sending the metrics.
         public let appMonitorName: String
-        /// The type of destination that you want to view metrics for. Valid values are CloudWatch  and Evidently.
+        /// The type of destination that you want to view metrics for. Valid values are CloudWatch and Evidently.
         public let destination: MetricDestination
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination.
         public let destinationArn: String?
-        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
@@ -454,7 +469,7 @@ extension RUM {
     public struct BatchGetRumMetricDefinitionsResponse: AWSDecodableShape {
         /// An array of structures that display information about the metrics that are sent by the specified app monitor to the specified destination.
         public let metricDefinitions: [MetricDefinition]?
-        /// A token that you can use in a subsequent operation to  retrieve the next set of results.
+        /// A token that you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -491,11 +506,11 @@ extension RUM {
     }
 
     public struct CreateAppMonitorRequest: AWSEncodableShape {
-        /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
+        /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
         public let appMonitorConfiguration: AppMonitorConfiguration?
-        /// Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see  Send custom events.
+        /// Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see Send custom events.
         public let customEvents: CustomEvents?
-        /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
+        /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
         public let cwLogEnabled: Bool?
         ///  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
         public let deobfuscationConfiguration: DeobfuscationConfiguration?
@@ -505,11 +520,13 @@ extension RUM {
         public let domainList: [String]?
         /// A name for the app monitor.
         public let name: String
+        /// The platform type for the app monitor. Valid values are Web for web applications, Android for Android applications, and iOS for IOS applications. If you omit this parameter, the default is Web.
+        public let platform: AppMonitorPlatform?
         /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         @inlinable
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, name: String, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, name: String, platform: AppMonitorPlatform? = nil, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.customEvents = customEvents
             self.cwLogEnabled = cwLogEnabled
@@ -517,6 +534,7 @@ extension RUM {
             self.domain = domain
             self.domainList = domainList
             self.name = name
+            self.platform = platform
             self.tags = tags
         }
 
@@ -552,6 +570,7 @@ extension RUM {
             case domain = "Domain"
             case domainList = "DomainList"
             case name = "Name"
+            case platform = "Platform"
             case tags = "Tags"
         }
     }
@@ -647,7 +666,7 @@ extension RUM {
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
         /// The app monitor that you want to remove the resource policy from.
         public let name: String
-        /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation.  If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
+        /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation. If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
         public let policyRevisionId: String?
 
         @inlinable
@@ -693,7 +712,7 @@ extension RUM {
         public let appMonitorName: String
         /// The type of destination to delete. Valid values are CloudWatch and Evidently.
         public let destination: MetricDestination
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that corresponds to the destination to delete.
         public let destinationArn: String?
 
         @inlinable
@@ -927,7 +946,7 @@ extension RUM {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,62}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -937,7 +956,7 @@ extension RUM {
     }
 
     public struct ListAppMonitorsRequest: AWSEncodableShape {
-        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100.
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100.
         public let maxResults: Int?
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
@@ -984,7 +1003,7 @@ extension RUM {
     public struct ListRumMetricsDestinationsRequest: AWSEncodableShape {
         /// The name of the app monitor associated with the destinations that you want to retrieve.
         public let appMonitorName: String
-        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can  specify is 100. To retrieve the remaining results, make another call with the returned  NextToken value.
+        /// The maximum number of results to return in one operation. The default is 50. The maximum that you can specify is 100. To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
         /// Use the token returned by the previous operation to request the next page of results.
         public let nextToken: String?
@@ -1016,9 +1035,9 @@ extension RUM {
     }
 
     public struct ListRumMetricsDestinationsResponse: AWSDecodableShape {
-        /// The list of CloudWatch RUM extended metrics destinations associated with the app monitor that  you specified.
+        /// The list of CloudWatch RUM extended metrics destinations associated with the app monitor that you specified.
         public let destinations: [MetricDestinationSummary]?
-        /// A token that you can use in a subsequent operation to  retrieve the next set of results.
+        /// A token that you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -1112,13 +1131,13 @@ extension RUM {
     }
 
     public struct MetricDefinitionRequest: AWSEncodableShape & AWSDecodableShape {
-        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. For extended metrics, valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"    For both extended metrics and custom metrics,  all dimensions listed in this field must also be included in EventPattern.
+        /// Use this field only if you are sending the metric to CloudWatch. This field is a map of field paths to dimension names. It defines the dimensions to associate with this metric in CloudWatch. For extended metrics, valid values for the entries in this field are the following:    "metadata.pageId": "PageId"     "metadata.browserName": "BrowserName"     "metadata.deviceType": "DeviceType"     "metadata.osName": "OSName"     "metadata.countryCode": "CountryCode"     "event_details.fileType": "FileType"     For both extended metrics and custom metrics, all dimensions listed in this field must also be included in EventPattern.
         public let dimensionKeys: [String: String]?
         /// The pattern that defines the metric, specified as a JSON object. RUM checks events that happen in a user's session against the pattern, and events that match the pattern are sent to the metric destination. When you define extended metrics, the metric definition is not valid if EventPattern is omitted. Example event patterns:    '{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Firefox" ] }, "event_details": { "duration": [{ "numeric": [ "&lt;", 2000 ] }] } }'     '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] }, "event_details": { "duration": [{ "numeric": [ "&gt;=", 2000, "&lt;", 8000 ] }] } }'    If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
         public let eventPattern: String?
-        /// The name for the metric that is defined in this structure. For custom metrics, you can specify  any name that you like. For extended metrics, valid values are the following:    PerformanceNavigationDuration     PerformanceResourceDuration      NavigationSatisfiedTransaction     NavigationToleratedTransaction     NavigationFrustratedTransaction     WebVitalsCumulativeLayoutShift     WebVitalsFirstInputDelay     WebVitalsLargestContentfulPaint     JsErrorCount     HttpErrorCount     SessionCount
+        /// The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For extended metrics, valid values are the following:    PerformanceNavigationDuration     PerformanceResourceDuration      NavigationSatisfiedTransaction     NavigationToleratedTransaction     NavigationFrustratedTransaction     WebVitalsCumulativeLayoutShift     WebVitalsFirstInputDelay     WebVitalsLargestContentfulPaint     JsErrorCount     HttpErrorCount     SessionCount
         public let name: String
-        /// If this structure is for a custom metric instead of an extended metrics, use this parameter to define the  metric namespace for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace.
+        /// If this structure is for a custom metric instead of an extended metrics, use this parameter to define the metric namespace for that custom metric. Do not specify this parameter if this structure is for an extended metric. You cannot use any string that starts with AWS/ for your namespace.
         public let namespace: String?
         /// The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit.
         public let unitLabel: String?
@@ -1191,7 +1210,7 @@ extension RUM {
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation.
         public let name: String
-        /// The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax  for this policy, see Using resource-based policies with CloudWatch RUM.
+        /// The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax for this policy, see Using resource-based policies with CloudWatch RUM.
         public let policyDocument: String
         /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID.
         public let policyRevisionId: String?
@@ -1244,7 +1263,7 @@ extension RUM {
     }
 
     public struct PutRumEventsRequest: AWSEncodableShape {
-        /// If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy.  For more information, see Using resource-based policies with CloudWatch RUM.
+        /// If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy. For more information, see Using resource-based policies with CloudWatch RUM.
         public let alias: String?
         /// A structure that contains information about the app monitor that collected this telemetry information.
         public let appMonitorDetails: AppMonitorDetails
@@ -1302,11 +1321,11 @@ extension RUM {
     public struct PutRumMetricsDestinationRequest: AWSEncodableShape {
         /// The name of the CloudWatch RUM app monitor that will send the metrics.
         public let appMonitorName: String
-        /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to  be the destination and an IAM role that has permission to write to the experiment.
+        /// Defines the destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that is to be the destination and an IAM role that has permission to write to the experiment.
         public let destination: MetricDestination
         /// Use this parameter only if Destination is Evidently. This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics.
         public let destinationArn: String?
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently  experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has PassRole permissions attached to it, to allow the role to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole permissions.
         public let iamRoleArn: String?
 
         @inlinable
@@ -1347,7 +1366,7 @@ extension RUM {
     }
 
     public struct QueryFilter: AWSEncodableShape {
-        /// The name of a key to search for.  The filter returns only the events that match the Name and Values that you specify.  Valid values for Name are Browser | Device | Country | Page | OS | EventType | Invert
+        /// The name of a key to search for. The filter returns only the events that match the Name and Values that you specify.  Valid values for Name are Browser | Device | Country | Page | OS | EventType | Invert
         public let name: String?
         /// The values of the Name that are to be be included in the returned results.
         public let values: [String]?
@@ -1489,7 +1508,7 @@ extension RUM {
     public struct TimeRange: AWSEncodableShape {
         /// The beginning of the time range to retrieve performance events from.
         public let after: Int64
-        /// The end of the time range to retrieve performance events from. If you omit this, the time  range extends to the time that this operation is performed.
+        /// The end of the time range to retrieve performance events from. If you omit this, the time range extends to the time that this operation is performed.
         public let before: Int64?
 
         @inlinable
@@ -1541,11 +1560,11 @@ extension RUM {
     }
 
     public struct UpdateAppMonitorRequest: AWSEncodableShape {
-        /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services.
+        /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see Authorize your application to send data to Amazon Web Services.
         public let appMonitorConfiguration: AppMonitorConfiguration?
-        /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see  Send custom events.
+        /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see Send custom events.
         public let customEvents: CustomEvents?
-        /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
+        /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
         public let cwLogEnabled: Bool?
         ///  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
         public let deobfuscationConfiguration: DeobfuscationConfiguration?
@@ -1614,9 +1633,9 @@ extension RUM {
     public struct UpdateRumMetricDefinitionRequest: AWSEncodableShape {
         /// The name of the CloudWatch RUM app monitor that sends these metrics.
         public let appMonitorName: String
-        /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment  that will receive the metrics and an IAM role that has permission to write to the experiment.
+        /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
         public let destination: MetricDestination
-        /// This parameter is required if Destination is Evidently. If Destination is  CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this  experiment as a valid destination. For more information, see PutRumMetricsDestination.
+        /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experiment as a valid destination. For more information, see PutRumMetricsDestination.
         public let destinationArn: String?
         /// A structure that contains the new definition that you want to use for this metric.
         public let metricDefinition: MetricDefinitionRequest
@@ -1668,7 +1687,7 @@ extension RUM {
     public struct UserDetails: AWSEncodableShape {
         /// The session ID that the performance events are from.
         public let sessionId: String?
-        /// The ID of the user for this user session. This ID is generated by RUM and does not include any  personally identifiable information about the user.
+        /// The ID of the user for this user session. This ID is generated by RUM and does not include any personally identifiable information about the user.
         public let userId: String?
 
         @inlinable

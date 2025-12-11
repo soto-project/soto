@@ -356,10 +356,12 @@ public struct Mgn: AWSService {
     ///   - copyPrivateIp: Copy private Ip.
     ///   - copyTags: Copy tags.
     ///   - enableMapAutoTagging: Enable map auto tagging.
+    ///   - enableParametersEncryption: Enable parameters encryption.
     ///   - largeVolumeConf: Large volume config.
     ///   - launchDisposition: Launch disposition.
     ///   - licensing: 
     ///   - mapAutoTaggingMpeID: Launch configuration template map auto tagging MPE ID.
+    ///   - parametersEncryptionKey: Parameters encryption key.
     ///   - postLaunchActions: Launch configuration template post launch actions.
     ///   - smallVolumeConf: Small volume config.
     ///   - smallVolumeMaxSize: Small volume maximum size.
@@ -373,10 +375,12 @@ public struct Mgn: AWSService {
         copyPrivateIp: Bool? = nil,
         copyTags: Bool? = nil,
         enableMapAutoTagging: Bool? = nil,
+        enableParametersEncryption: Bool? = nil,
         largeVolumeConf: LaunchTemplateDiskConf? = nil,
         launchDisposition: LaunchDisposition? = nil,
         licensing: Licensing? = nil,
         mapAutoTaggingMpeID: String? = nil,
+        parametersEncryptionKey: String? = nil,
         postLaunchActions: PostLaunchActions? = nil,
         smallVolumeConf: LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Int64? = nil,
@@ -390,10 +394,12 @@ public struct Mgn: AWSService {
             copyPrivateIp: copyPrivateIp, 
             copyTags: copyTags, 
             enableMapAutoTagging: enableMapAutoTagging, 
+            enableParametersEncryption: enableParametersEncryption, 
             largeVolumeConf: largeVolumeConf, 
             launchDisposition: launchDisposition, 
             licensing: licensing, 
             mapAutoTaggingMpeID: mapAutoTaggingMpeID, 
+            parametersEncryptionKey: parametersEncryptionKey, 
             postLaunchActions: postLaunchActions, 
             smallVolumeConf: smallVolumeConf, 
             smallVolumeMaxSize: smallVolumeMaxSize, 
@@ -422,10 +428,11 @@ public struct Mgn: AWSService {
     ///   - associateDefaultSecurityGroup: Request to associate the default Application Migration Service Security group with the Replication Settings template.
     ///   - bandwidthThrottling: Request to configure bandwidth throttling during Replication Settings template creation.
     ///   - createPublicIP: Request to create Public IP during Replication Settings template creation.
-    ///   - dataPlaneRouting: Request to configure  data plane routing during Replication Settings template creation.
+    ///   - dataPlaneRouting: Request to configure data plane routing during Replication Settings template creation.
     ///   - defaultLargeStagingDiskType: Request to configure the default large staging disk EBS volume type during Replication Settings template creation.
     ///   - ebsEncryption: Request to configure EBS encryption during Replication Settings template creation.
     ///   - ebsEncryptionKeyArn: Request to configure an EBS encryption key during Replication Settings template creation.
+    ///   - internetProtocol: Request to configure the internet protocol to IPv4 or IPv6.
     ///   - replicationServerInstanceType: Request to configure the Replication Server instance type during Replication Settings template creation.
     ///   - replicationServersSecurityGroupsIDs: Request to configure the Replication Server Security group ID during Replication Settings template creation.
     ///   - stagingAreaSubnetId: Request to configure the Staging Area subnet ID during Replication Settings template creation.
@@ -443,6 +450,7 @@ public struct Mgn: AWSService {
         defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType,
         ebsEncryption: ReplicationConfigurationEbsEncryption,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         replicationServerInstanceType: String,
         replicationServersSecurityGroupsIDs: [String],
         stagingAreaSubnetId: String,
@@ -460,6 +468,7 @@ public struct Mgn: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             replicationServerInstanceType: replicationServerInstanceType, 
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
             stagingAreaSubnetId: stagingAreaSubnetId, 
@@ -1969,18 +1978,21 @@ public struct Mgn: AWSService {
     ///   - s3Bucket: Start export request s3 bucket.
     ///   - s3BucketOwner: Start export request s3 bucket owner.
     ///   - s3Key: Start export request s3key.
+    ///   - tags: Start import request tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func startExport(
         s3Bucket: String,
         s3BucketOwner: String? = nil,
         s3Key: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartExportResponse {
         let input = StartExportRequest(
             s3Bucket: s3Bucket, 
             s3BucketOwner: s3BucketOwner, 
-            s3Key: s3Key
+            s3Key: s3Key, 
+            tags: tags
         )
         return try await self.startExport(input, logger: logger)
     }
@@ -2003,21 +2015,24 @@ public struct Mgn: AWSService {
     /// Parameters:
     ///   - clientToken: Start import request client token.
     ///   - s3BucketSource: Start import request s3 bucket source.
+    ///   - tags: Start import request tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func startImport(
         clientToken: String? = StartImportRequest.idempotencyToken(),
         s3BucketSource: S3BucketSource,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartImportResponse {
         let input = StartImportRequest(
             clientToken: clientToken, 
-            s3BucketSource: s3BucketSource
+            s3BucketSource: s3BucketSource, 
+            tags: tags
         )
         return try await self.startImport(input, logger: logger)
     }
 
-    /// Starts replication for SNAPSHOT_SHIPPING agents.
+    /// Start replication for source server irrespective of its replication type.
     @Sendable
     @inlinable
     public func startReplication(_ input: StartReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
@@ -2030,7 +2045,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Starts replication for SNAPSHOT_SHIPPING agents.
+    /// Start replication for source server irrespective of its replication type.
     ///
     /// Parameters:
     ///   - accountID: Account ID on which to start replication.
@@ -2435,11 +2450,13 @@ public struct Mgn: AWSService {
     ///   - copyPrivateIp: Copy private Ip.
     ///   - copyTags: Copy tags.
     ///   - enableMapAutoTagging: Enable map auto tagging.
+    ///   - enableParametersEncryption: Enable parameters encryption.
     ///   - largeVolumeConf: Large volume config.
     ///   - launchConfigurationTemplateID: Launch Configuration Template ID.
     ///   - launchDisposition: Launch disposition.
     ///   - licensing: 
     ///   - mapAutoTaggingMpeID: Launch configuration template map auto tagging MPE ID.
+    ///   - parametersEncryptionKey: Parameters encryption key.
     ///   - postLaunchActions: Post Launch Action to execute on the Test or Cutover instance.
     ///   - smallVolumeConf: Small volume config.
     ///   - smallVolumeMaxSize: Small volume maximum size.
@@ -2452,11 +2469,13 @@ public struct Mgn: AWSService {
         copyPrivateIp: Bool? = nil,
         copyTags: Bool? = nil,
         enableMapAutoTagging: Bool? = nil,
+        enableParametersEncryption: Bool? = nil,
         largeVolumeConf: LaunchTemplateDiskConf? = nil,
         launchConfigurationTemplateID: String,
         launchDisposition: LaunchDisposition? = nil,
         licensing: Licensing? = nil,
         mapAutoTaggingMpeID: String? = nil,
+        parametersEncryptionKey: String? = nil,
         postLaunchActions: PostLaunchActions? = nil,
         smallVolumeConf: LaunchTemplateDiskConf? = nil,
         smallVolumeMaxSize: Int64? = nil,
@@ -2469,11 +2488,13 @@ public struct Mgn: AWSService {
             copyPrivateIp: copyPrivateIp, 
             copyTags: copyTags, 
             enableMapAutoTagging: enableMapAutoTagging, 
+            enableParametersEncryption: enableParametersEncryption, 
             largeVolumeConf: largeVolumeConf, 
             launchConfigurationTemplateID: launchConfigurationTemplateID, 
             launchDisposition: launchDisposition, 
             licensing: licensing, 
             mapAutoTaggingMpeID: mapAutoTaggingMpeID, 
+            parametersEncryptionKey: parametersEncryptionKey, 
             postLaunchActions: postLaunchActions, 
             smallVolumeConf: smallVolumeConf, 
             smallVolumeMaxSize: smallVolumeMaxSize, 
@@ -2506,6 +2527,7 @@ public struct Mgn: AWSService {
     ///   - defaultLargeStagingDiskType: Update replication configuration use default large Staging Disk type request.
     ///   - ebsEncryption: Update replication configuration EBS encryption request.
     ///   - ebsEncryptionKeyArn: Update replication configuration EBS encryption key ARN request.
+    ///   - internetProtocol: Update replication configuration internet protocol.
     ///   - name: Update replication configuration name request.
     ///   - replicatedDisks: Update replication configuration replicated disks request.
     ///   - replicationServerInstanceType: Update replication configuration Replication Server instance type request.
@@ -2526,6 +2548,7 @@ public struct Mgn: AWSService {
         defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         name: String? = nil,
         replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil,
         replicationServerInstanceType: String? = nil,
@@ -2546,6 +2569,7 @@ public struct Mgn: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             name: name, 
             replicatedDisks: replicatedDisks, 
             replicationServerInstanceType: replicationServerInstanceType, 
@@ -2583,6 +2607,7 @@ public struct Mgn: AWSService {
     ///   - defaultLargeStagingDiskType: Update replication configuration template use default large Staging Disk type request.
     ///   - ebsEncryption: Update replication configuration template EBS encryption request.
     ///   - ebsEncryptionKeyArn: Update replication configuration template EBS encryption key ARN request.
+    ///   - internetProtocol: Update replication configuration template internet protocol request.
     ///   - replicationConfigurationTemplateID: Update replication configuration template template ID request.
     ///   - replicationServerInstanceType: Update replication configuration template Replication Server instance type request.
     ///   - replicationServersSecurityGroupsIDs: Update replication configuration template Replication Server Security groups IDs request.
@@ -2601,6 +2626,7 @@ public struct Mgn: AWSService {
         defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil,
         ebsEncryption: ReplicationConfigurationEbsEncryption? = nil,
         ebsEncryptionKeyArn: String? = nil,
+        internetProtocol: InternetProtocol? = nil,
         replicationConfigurationTemplateID: String,
         replicationServerInstanceType: String? = nil,
         replicationServersSecurityGroupsIDs: [String]? = nil,
@@ -2619,6 +2645,7 @@ public struct Mgn: AWSService {
             defaultLargeStagingDiskType: defaultLargeStagingDiskType, 
             ebsEncryption: ebsEncryption, 
             ebsEncryptionKeyArn: ebsEncryptionKeyArn, 
+            internetProtocol: internetProtocol, 
             replicationConfigurationTemplateID: replicationConfigurationTemplateID, 
             replicationServerInstanceType: replicationServerInstanceType, 
             replicationServersSecurityGroupsIDs: replicationServersSecurityGroupsIDs, 
@@ -2665,7 +2692,7 @@ public struct Mgn: AWSService {
         return try await self.updateSourceServer(input, logger: logger)
     }
 
-    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
+    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.  SNAPSHOT_SHIPPING should be used for agentless replication.
     @Sendable
     @inlinable
     public func updateSourceServerReplicationType(_ input: UpdateSourceServerReplicationTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SourceServer {
@@ -2678,7 +2705,7 @@ public struct Mgn: AWSService {
             logger: logger
         )
     }
-    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.
+    /// Allows you to change between the AGENT_BASED replication type and the SNAPSHOT_SHIPPING replication type.  SNAPSHOT_SHIPPING should be used for agentless replication.
     ///
     /// Parameters:
     ///   - accountID: Account ID on which to update replication type.

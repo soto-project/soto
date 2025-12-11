@@ -25,22 +25,17 @@ import Foundation
 /// Service object for interacting with AWS Signer service.
 ///
 /// AWS Signer is a fully managed code-signing service to help you ensure the trust and
-/// 			integrity of your code.
-/// 		       Signer supports the following applications:
-/// 		       With code signing for AWS Lambda, you can sign AWS
+/// 			integrity of your code.  Signer supports the following applications: With code signing for AWS Lambda, you can sign AWS
 /// 				Lambda deployment packages. Integrated support is provided for Amazon S3, Amazon
 /// 				CloudWatch, and AWS CloudTrail. In order
 /// 			to sign code, you create a signing profile and then use Signer to sign Lambda zip
-/// 			files in S3.
-/// 		       With code signing for IoT, you can sign code for any IoT device that is supported by AWS.
+/// 			files in S3.  With code signing for IoT, you can sign code for any IoT device that is supported by AWS.
 /// 			IoT code signing is available for Amazon FreeRTOS and AWS IoT Device Management, and is integrated with AWS Certificate Manager (ACM). In order to sign code, you import a third-party code-signing
-/// 			certificate using ACM, and use that to sign updates in Amazon FreeRTOS and AWS IoT Device Management.
-/// 		       With Signer and the Notation CLI from the Notary
+/// 			certificate using ACM, and use that to sign updates in Amazon FreeRTOS and AWS IoT Device Management.  With Signer and the Notation CLI from the Notary
 /// 				Project, you can sign container images stored in a container registry such
 /// 			as Amazon Elastic Container Registry (ECR). The signatures are stored in the registry
 /// 			alongside the images, where they are available for verifying image authenticity and
-/// 			integrity.
-/// 		       For more information about Signer, see the AWS Signer Developer
+/// 			integrity. For more information about Signer, see the AWS Signer Developer
 /// 			Guide.
 public struct Signer: AWSService {
     // MARK: Member variables
@@ -157,7 +152,7 @@ public struct Signer: AWSService {
     /// Adds cross-account permissions to a signing profile.
     ///
     /// Parameters:
-    ///   - action: For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide.
+    ///   - action: For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide. You can designate the following actions to an account.    signer:StartSigningJob. This action isn't supported for container image workflows. For details, see StartSigningJob.    signer:SignPayload. This action isn't supported for AWS Lambda workflows. For details, see SignPayload     signer:GetSigningProfile. For details, see GetSigningProfile.    signer:RevokeSignature. For details, see RevokeSignature.
     ///   - principal: The AWS principal receiving cross-account permissions. This may be an IAM role or another
     ///   - profileName: The human-readable name of the signing profile.
     ///   - profileVersion: The version of the signing profile.
@@ -187,8 +182,7 @@ public struct Signer: AWSService {
 
     /// Changes the state of an ACTIVE signing profile to CANCELED.
     /// 			A canceled profile is still viewable with the ListSigningProfiles
-    /// 			operation, but it cannot perform new signing jobs, and is deleted two years after
-    /// 			cancelation.
+    /// 				operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
     @Sendable
     @inlinable
     public func cancelSigningProfile(_ input: CancelSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -203,8 +197,7 @@ public struct Signer: AWSService {
     }
     /// Changes the state of an ACTIVE signing profile to CANCELED.
     /// 			A canceled profile is still viewable with the ListSigningProfiles
-    /// 			operation, but it cannot perform new signing jobs, and is deleted two years after
-    /// 			cancelation.
+    /// 				operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
     ///
     /// Parameters:
     ///   - profileName: The name of the signing profile to be canceled.
@@ -264,7 +257,7 @@ public struct Signer: AWSService {
             httpMethod: .GET, 
             serviceConfig: self.config, 
             input: input, 
-            hostPrefix: "verification.", 
+            hostPrefix: "data-", 
             logger: logger
         )
     }
@@ -272,7 +265,7 @@ public struct Signer: AWSService {
     /// 			and signing certificate.
     ///
     /// Parameters:
-    ///   - certificateHashes: A list of composite signed hashes that identify certificates.
+    ///   - certificateHashes: A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the
     ///   - jobArn: The ARN of a signing job.
     ///   - platformId: The ID of a signing platform.
     ///   - profileVersionArn: The version of a signing profile.
@@ -717,7 +710,9 @@ public struct Signer: AWSService {
 
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures
     /// 			generated using the signing profile after an effective start date are no longer
-    /// 			valid.
+    /// 			valid. A revoked profile is still viewable with the ListSigningProfiles
+    /// 				operation, but it cannot perform new signing jobs. See Data Retention
+    /// 					for more information on scheduled deletion of a revoked signing profile.
     @Sendable
     @inlinable
     public func revokeSigningProfile(_ input: RevokeSigningProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -732,7 +727,9 @@ public struct Signer: AWSService {
     }
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures
     /// 			generated using the signing profile after an effective start date are no longer
-    /// 			valid.
+    /// 			valid. A revoked profile is still viewable with the ListSigningProfiles
+    /// 				operation, but it cannot perform new signing jobs. See Data Retention
+    /// 					for more information on scheduled deletion of a revoked signing profile.
     ///
     /// Parameters:
     ///   - effectiveTime: A timestamp for when revocation of a Signing Profile should become effective.
@@ -796,27 +793,11 @@ public struct Signer: AWSService {
     }
 
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
-    /// 			viewable by the ListSigningJobs operation for two years after they are
-    /// 			performed. Note the following requirements:
-    ///
-    /// 				            You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
-    /// 						Amazon S3 Getting Started Guide.
-    ///
-    /// 				           Your S3 source bucket must be version enabled.
-    ///
-    /// 				           You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
-    /// 					write your signed code.
-    ///
-    /// 				           You specify the name of the source and destination buckets when calling the
-    /// 						StartSigningJob operation.
-    ///
-    /// 				           You must ensure the S3 buckets are from the same Region as the signing profile. Cross-Region signing isn't supported.
-    ///
-    /// 				           You must also specify a request token that identifies your request to Signer.
-    ///
-    /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
-    /// 			StartSigningJob.
-    /// 		       For a Java example that shows how to use this action, see StartSigningJob.
+    /// 			viewable by the ListSigningJobs operation. Note the following requirements:    You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
+    /// 						Amazon S3 Getting Started Guide.    Your S3 source bucket must be version enabled.   You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
+    /// 					write your signed code.   You specify the name of the source and destination buckets when calling the
+    /// 						StartSigningJob operation.   You must ensure the S3 buckets are from the same Region as the signing profile. Cross-Region signing isn't supported.   You must also specify a request token that identifies your request to Signer.   You can call the DescribeSigningJob and the ListSigningJobs actions after you call
+    /// 			StartSigningJob. For a Java example that shows how to use this action, see StartSigningJob.
     @Sendable
     @inlinable
     public func startSigningJob(_ input: StartSigningJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSigningJobResponse {
@@ -830,27 +811,11 @@ public struct Signer: AWSService {
         )
     }
     /// Initiates a signing job to be performed on the code provided. Signing jobs are
-    /// 			viewable by the ListSigningJobs operation for two years after they are
-    /// 			performed. Note the following requirements:
-    ///
-    /// 				            You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
-    /// 						Amazon S3 Getting Started Guide.
-    ///
-    /// 				           Your S3 source bucket must be version enabled.
-    ///
-    /// 				           You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
-    /// 					write your signed code.
-    ///
-    /// 				           You specify the name of the source and destination buckets when calling the
-    /// 						StartSigningJob operation.
-    ///
-    /// 				           You must ensure the S3 buckets are from the same Region as the signing profile. Cross-Region signing isn't supported.
-    ///
-    /// 				           You must also specify a request token that identifies your request to Signer.
-    ///
-    /// 		       You can call the DescribeSigningJob and the ListSigningJobs actions after you call
-    /// 			StartSigningJob.
-    /// 		       For a Java example that shows how to use this action, see StartSigningJob.
+    /// 			viewable by the ListSigningJobs operation. Note the following requirements:    You must create an Amazon S3 source bucket. For more information, see Creating a Bucket in the
+    /// 						Amazon S3 Getting Started Guide.    Your S3 source bucket must be version enabled.   You must create an S3 destination bucket. AWS Signer uses your S3 destination bucket to
+    /// 					write your signed code.   You specify the name of the source and destination buckets when calling the
+    /// 						StartSigningJob operation.   You must ensure the S3 buckets are from the same Region as the signing profile. Cross-Region signing isn't supported.   You must also specify a request token that identifies your request to Signer.   You can call the DescribeSigningJob and the ListSigningJobs actions after you call
+    /// 			StartSigningJob. For a Java example that shows how to use this action, see StartSigningJob.
     ///
     /// Parameters:
     ///   - clientRequestToken: String that identifies the signing request. All calls after the first that use this

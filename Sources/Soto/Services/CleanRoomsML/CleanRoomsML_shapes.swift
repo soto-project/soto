@@ -360,6 +360,11 @@ extension CleanRoomsML {
         public var description: String { return self.rawValue }
     }
 
+    public enum MembershipInferenceAttackVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case distanceToClosestRecordV1 = "DISTANCE_TO_CLOSEST_RECORD_V1"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case publishFailed = "PUBLISH_FAILED"
         case publishSucceeded = "PUBLISH_SUCCEEDED"
@@ -395,6 +400,12 @@ extension CleanRoomsML {
     public enum SharedAudienceMetrics: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "ALL"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyntheticDataColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case categorical = "CATEGORICAL"
+        case numerical = "NUMERICAL"
         public var description: String { return self.rawValue }
     }
 
@@ -1137,6 +1148,20 @@ extension CleanRoomsML {
             case trainedModelArn = "trainedModelArn"
             case updateTime = "updateTime"
             case versionIdentifier = "versionIdentifier"
+        }
+    }
+
+    public struct ColumnClassificationDetails: AWSDecodableShape {
+        /// A mapping that defines the classification of data columns for synthetic data generation and specifies how each column should be handled during the privacy-preserving data synthesis process.
+        public let columnMapping: [SyntheticDataColumnProperties]
+
+        @inlinable
+        public init(columnMapping: [SyntheticDataColumnProperties]) {
+            self.columnMapping = columnMapping
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnMapping = "columnMapping"
         }
     }
 
@@ -1976,6 +2001,20 @@ extension CleanRoomsML {
         }
     }
 
+    public struct DataPrivacyScores: AWSDecodableShape {
+        /// Scores that evaluate the vulnerability of the synthetic data to membership inference attacks, which attempt to determine whether a specific individual was a member of the original dataset.
+        public let membershipInferenceAttackScores: [MembershipInferenceAttackScore]
+
+        @inlinable
+        public init(membershipInferenceAttackScores: [MembershipInferenceAttackScore]) {
+            self.membershipInferenceAttackScores = membershipInferenceAttackScores
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case membershipInferenceAttackScores = "membershipInferenceAttackScores"
+        }
+    }
+
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
         /// A GlueDataSource object that defines the catalog ID, database name, and table name for the training data.
         public let glueDataSource: GlueDataSource
@@ -2639,11 +2678,13 @@ extension CleanRoomsML {
         /// The status of the ML input channel.
         public let status: MLInputChannelStatus
         public let statusDetails: StatusDetails?
+        /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+        public let syntheticDataConfiguration: SyntheticDataConfiguration?
         /// The most recent time at which the ML input channel was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, creatorAccountId: String, description: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, retentionInDays: Int, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -2657,6 +2698,7 @@ extension CleanRoomsML {
             self.retentionInDays = retentionInDays
             self.status = status
             self.statusDetails = statusDetails
+            self.syntheticDataConfiguration = syntheticDataConfiguration
             self.updateTime = updateTime
         }
 
@@ -2674,6 +2716,7 @@ extension CleanRoomsML {
             case retentionInDays = "retentionInDays"
             case status = "status"
             case statusDetails = "statusDetails"
+            case syntheticDataConfiguration = "syntheticDataConfiguration"
             case updateTime = "updateTime"
         }
     }
@@ -3211,13 +3254,15 @@ extension CleanRoomsML {
         /// The status of the ML input channel.
         public let status: MLInputChannelStatus
         public let statusDetails: StatusDetails?
+        /// The synthetic data configuration for this ML input channel, including parameters for generating privacy-preserving synthetic data and evaluation scores for measuring the privacy of the generated data.
+        public let syntheticDataConfiguration: SyntheticDataConfiguration?
         /// The optional metadata that you applied to the resource to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [String: String]?
         /// The most recent time at which the ML input channel was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(collaborationIdentifier: String, configuredModelAlgorithmAssociations: [String], createTime: Date, description: String? = nil, inputChannel: InputChannel, kmsKeyArn: String? = nil, membershipIdentifier: String, mlInputChannelArn: String, name: String, numberOfFiles: Double? = nil, numberOfRecords: Int64? = nil, privacyBudgets: PrivacyBudgets? = nil, protectedQueryIdentifier: String? = nil, retentionInDays: Int, sizeInGb: Double? = nil, status: MLInputChannelStatus, statusDetails: StatusDetails? = nil, syntheticDataConfiguration: SyntheticDataConfiguration? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.collaborationIdentifier = collaborationIdentifier
             self.configuredModelAlgorithmAssociations = configuredModelAlgorithmAssociations
             self.createTime = createTime
@@ -3235,6 +3280,7 @@ extension CleanRoomsML {
             self.sizeInGb = sizeInGb
             self.status = status
             self.statusDetails = statusDetails
+            self.syntheticDataConfiguration = syntheticDataConfiguration
             self.tags = tags
             self.updateTime = updateTime
         }
@@ -3257,6 +3303,7 @@ extension CleanRoomsML {
             case sizeInGb = "sizeInGb"
             case status = "status"
             case statusDetails = "statusDetails"
+            case syntheticDataConfiguration = "syntheticDataConfiguration"
             case tags = "tags"
             case updateTime = "updateTime"
         }
@@ -4888,6 +4935,46 @@ extension CleanRoomsML {
         }
     }
 
+    public struct MLSyntheticDataParameters: AWSDecodableShape {
+        /// Classification details for data columns that specify how each column should be treated during synthetic data generation.
+        public let columnClassification: ColumnClassificationDetails
+        /// The epsilon value for differential privacy, which controls the privacy-utility tradeoff in synthetic data generation. Lower values provide stronger privacy guarantees but may reduce data utility.
+        public let epsilon: Double
+        /// The maximum acceptable score for membership inference attack vulnerability. Synthetic data generation fails if the score for the resulting data exceeds this threshold.
+        public let maxMembershipInferenceAttackScore: Double
+
+        @inlinable
+        public init(columnClassification: ColumnClassificationDetails, epsilon: Double, maxMembershipInferenceAttackScore: Double) {
+            self.columnClassification = columnClassification
+            self.epsilon = epsilon
+            self.maxMembershipInferenceAttackScore = maxMembershipInferenceAttackScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnClassification = "columnClassification"
+            case epsilon = "epsilon"
+            case maxMembershipInferenceAttackScore = "maxMembershipInferenceAttackScore"
+        }
+    }
+
+    public struct MembershipInferenceAttackScore: AWSDecodableShape {
+        /// The version of the membership inference attack, which consists of the attack type and its version number, used to generate this privacy score.
+        public let attackVersion: MembershipInferenceAttackVersion
+        /// The numerical score representing the vulnerability to membership inference attacks.
+        public let score: Double
+
+        @inlinable
+        public init(attackVersion: MembershipInferenceAttackVersion, score: Double) {
+            self.attackVersion = attackVersion
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attackVersion = "attackVersion"
+            case score = "score"
+        }
+    }
+
     public struct MetricDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The name of the model metric.
         public let name: String
@@ -5583,6 +5670,60 @@ extension CleanRoomsML {
 
         private enum CodingKeys: String, CodingKey {
             case maxRuntimeInSeconds = "maxRuntimeInSeconds"
+        }
+    }
+
+    public struct SyntheticDataColumnProperties: AWSDecodableShape {
+        /// The name of the data column as it appears in the dataset.
+        public let columnName: String
+        /// The data type of the column, which determines how the synthetic data generation algorithm processes and synthesizes values for this column.
+        public let columnType: SyntheticDataColumnType
+        /// Indicates if this column contains predictive values that should be treated as target variables in machine learning models. This affects how the synthetic data generation preserves statistical relationships.
+        public let isPredictiveValue: Bool
+
+        @inlinable
+        public init(columnName: String, columnType: SyntheticDataColumnType, isPredictiveValue: Bool) {
+            self.columnName = columnName
+            self.columnType = columnType
+            self.isPredictiveValue = isPredictiveValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "columnName"
+            case columnType = "columnType"
+            case isPredictiveValue = "isPredictiveValue"
+        }
+    }
+
+    public struct SyntheticDataConfiguration: AWSDecodableShape {
+        /// Evaluation scores that assess the quality and privacy characteristics of the generated synthetic data, providing metrics on data utility and privacy preservation.
+        public let syntheticDataEvaluationScores: SyntheticDataEvaluationScores?
+        /// The parameters that control how synthetic data is generated, including privacy settings, column classifications, and other configuration options that affect the data synthesis process.
+        public let syntheticDataParameters: MLSyntheticDataParameters
+
+        @inlinable
+        public init(syntheticDataEvaluationScores: SyntheticDataEvaluationScores? = nil, syntheticDataParameters: MLSyntheticDataParameters) {
+            self.syntheticDataEvaluationScores = syntheticDataEvaluationScores
+            self.syntheticDataParameters = syntheticDataParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syntheticDataEvaluationScores = "syntheticDataEvaluationScores"
+            case syntheticDataParameters = "syntheticDataParameters"
+        }
+    }
+
+    public struct SyntheticDataEvaluationScores: AWSDecodableShape {
+        /// Privacy-specific evaluation scores that measure how well the synthetic data protects individual privacy, including assessments of potential privacy risks such as membership inference attacks.
+        public let dataPrivacyScores: DataPrivacyScores
+
+        @inlinable
+        public init(dataPrivacyScores: DataPrivacyScores) {
+            self.dataPrivacyScores = dataPrivacyScores
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPrivacyScores = "dataPrivacyScores"
         }
     }
 

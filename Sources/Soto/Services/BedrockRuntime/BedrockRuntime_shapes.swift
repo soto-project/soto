@@ -32,6 +32,25 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aac = "aac"
+        case flac = "flac"
+        case m4a = "m4a"
+        case mka = "mka"
+        case mkv = "mkv"
+        case mp3 = "mp3"
+        case mp4 = "mp4"
+        case mpeg = "mpeg"
+        case mpga = "mpga"
+        case ogg = "ogg"
+        case opus = "opus"
+        case pcm = "pcm"
+        case wav = "wav"
+        case webm = "webm"
+        case xAac = "x-aac"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CachePointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "default"
         public var description: String { return self.rawValue }
@@ -149,9 +168,22 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailOrigin: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountEnforced = "ACCOUNT_ENFORCED"
+        case organizationEnforced = "ORGANIZATION_ENFORCED"
+        case request = "REQUEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailOutputScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case full = "FULL"
         case interventions = "INTERVENTIONS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailOwnership: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case _self = "SELF"
+        case crossAccount = "CROSS_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -241,6 +273,14 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceTierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        case flex = "flex"
+        case priority = "priority"
+        case reserved = "reserved"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortAsyncInvocationBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case submissionTime = "SubmissionTime"
         public var description: String { return self.rawValue }
@@ -256,6 +296,8 @@ extension BedrockRuntime {
         case contentFiltered = "content_filtered"
         case endTurn = "end_turn"
         case guardrailIntervened = "guardrail_intervened"
+        case malformedModelOutput = "malformed_model_output"
+        case malformedToolUse = "malformed_tool_use"
         case maxTokens = "max_tokens"
         case modelContextWindowExceeded = "model_context_window_exceeded"
         case stopSequence = "stop_sequence"
@@ -266,6 +308,11 @@ extension BedrockRuntime {
     public enum ToolResultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "error"
         case success = "success"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToolUseType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case serverToolUse = "server_tool_use"
         public var description: String { return self.rawValue }
     }
 
@@ -289,6 +336,56 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Audio data encoded in base64.
+        case bytes(AWSBase64Data)
+        /// A reference to audio data stored in an Amazon S3 bucket. To see which models support S3 uploads, see Supported models and features for Converse.
+        case s3Location(S3Location)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .bytes:
+                let value = try container.decode(AWSBase64Data.self, forKey: .bytes)
+                self = .bytes(value)
+            case .s3Location:
+                let value = try container.decode(S3Location.self, forKey: .s3Location)
+                self = .s3Location(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .bytes(let value):
+                try container.encode(value, forKey: .bytes)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .s3Location(let value):
+                try value.validate(name: "\(name).s3Location")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+            case s3Location = "s3Location"
+        }
+    }
+
     public enum CitationLocation: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The character-level location within the document where the cited content is found.
         case documentChar(DocumentCharLocation)
@@ -296,6 +393,10 @@ extension BedrockRuntime {
         case documentChunk(DocumentChunkLocation)
         /// The page-level location within the document where the cited content is found.
         case documentPage(DocumentPageLocation)
+        /// The search result location where the cited content is found, including the search result index and block positions within the content array.
+        case searchResultLocation(SearchResultLocation)
+        /// The web URL that was cited for this reference.
+        case web(WebLocation)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -316,6 +417,12 @@ extension BedrockRuntime {
             case .documentPage:
                 let value = try container.decode(DocumentPageLocation.self, forKey: .documentPage)
                 self = .documentPage(value)
+            case .searchResultLocation:
+                let value = try container.decode(SearchResultLocation.self, forKey: .searchResultLocation)
+                self = .searchResultLocation(value)
+            case .web:
+                let value = try container.decode(WebLocation.self, forKey: .web)
+                self = .web(value)
             }
         }
 
@@ -328,6 +435,10 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .documentChunk)
             case .documentPage(let value):
                 try container.encode(value, forKey: .documentPage)
+            case .searchResultLocation(let value):
+                try container.encode(value, forKey: .searchResultLocation)
+            case .web(let value):
+                try container.encode(value, forKey: .web)
             }
         }
 
@@ -335,10 +446,14 @@ extension BedrockRuntime {
             case documentChar = "documentChar"
             case documentChunk = "documentChunk"
             case documentPage = "documentPage"
+            case searchResultLocation = "searchResultLocation"
+            case web = "web"
         }
     }
 
     public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// An audio content block containing audio data in the conversation.
+        case audio(AudioBlock)
         /// CachePoint to include in the message.
         case cachePoint(CachePointBlock)
         /// A content block that contains both generated text and associated citation information, providing traceability between the response and source documents.
@@ -351,6 +466,8 @@ extension BedrockRuntime {
         case image(ImageBlock)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningContent(ReasoningContentBlock)
+        /// Search result to include in the message.
+        case searchResult(SearchResultBlock)
         /// Text to include in the message.
         case text(String)
         /// The result for a tool request that a model makes.
@@ -370,6 +487,9 @@ extension BedrockRuntime {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .audio:
+                let value = try container.decode(AudioBlock.self, forKey: .audio)
+                self = .audio(value)
             case .cachePoint:
                 let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
                 self = .cachePoint(value)
@@ -388,6 +508,9 @@ extension BedrockRuntime {
             case .reasoningContent:
                 let value = try container.decode(ReasoningContentBlock.self, forKey: .reasoningContent)
                 self = .reasoningContent(value)
+            case .searchResult:
+                let value = try container.decode(SearchResultBlock.self, forKey: .searchResult)
+                self = .searchResult(value)
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
                 self = .text(value)
@@ -406,6 +529,8 @@ extension BedrockRuntime {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .audio(let value):
+                try container.encode(value, forKey: .audio)
             case .cachePoint(let value):
                 try container.encode(value, forKey: .cachePoint)
             case .citationsContent(let value):
@@ -418,6 +543,8 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .image)
             case .reasoningContent(let value):
                 try container.encode(value, forKey: .reasoningContent)
+            case .searchResult(let value):
+                try container.encode(value, forKey: .searchResult)
             case .text(let value):
                 try container.encode(value, forKey: .text)
             case .toolResult(let value):
@@ -431,6 +558,8 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             switch self {
+            case .audio(let value):
+                try value.validate(name: "\(name).audio")
             case .document(let value):
                 try value.validate(name: "\(name).document")
             case .image(let value):
@@ -447,12 +576,14 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audio = "audio"
             case cachePoint = "cachePoint"
             case citationsContent = "citationsContent"
             case document = "document"
             case guardContent = "guardContent"
             case image = "image"
             case reasoningContent = "reasoningContent"
+            case searchResult = "searchResult"
             case text = "text"
             case toolResult = "toolResult"
             case toolUse = "toolUse"
@@ -463,10 +594,14 @@ extension BedrockRuntime {
     public enum ContentBlockDelta: AWSDecodableShape, Sendable {
         /// Incremental citation information that is streamed as part of the response generation process.
         case citation(CitationsDelta)
+        /// A streaming delta event containing incremental image data.
+        case image(ImageBlockDelta)
         /// Contains content regarding the reasoning that is carried out by the model. Reasoning refers to a Chain of Thought (CoT) that the model generates to enhance the accuracy of its final response.
         case reasoningContent(ReasoningContentBlockDelta)
         /// The content text.
         case text(String)
+        /// An incremental update that contains the results from a tool call.
+        case toolResult([ToolResultBlockDelta])
         /// Information about a tool that the model is requesting to use.
         case toolUse(ToolUseBlockDelta)
 
@@ -483,12 +618,18 @@ extension BedrockRuntime {
             case .citation:
                 let value = try container.decode(CitationsDelta.self, forKey: .citation)
                 self = .citation(value)
+            case .image:
+                let value = try container.decode(ImageBlockDelta.self, forKey: .image)
+                self = .image(value)
             case .reasoningContent:
                 let value = try container.decode(ReasoningContentBlockDelta.self, forKey: .reasoningContent)
                 self = .reasoningContent(value)
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
                 self = .text(value)
+            case .toolResult:
+                let value = try container.decode([ToolResultBlockDelta].self, forKey: .toolResult)
+                self = .toolResult(value)
             case .toolUse:
                 let value = try container.decode(ToolUseBlockDelta.self, forKey: .toolUse)
                 self = .toolUse(value)
@@ -497,8 +638,47 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case citation = "citation"
+            case image = "image"
             case reasoningContent = "reasoningContent"
             case text = "text"
+            case toolResult = "toolResult"
+            case toolUse = "toolUse"
+        }
+    }
+
+    public enum ContentBlockStart: AWSDecodableShape, Sendable {
+        /// The initial event indicating the start of a streaming image block.
+        case image(ImageBlockStart)
+        /// The
+        case toolResult(ToolResultBlockStart)
+        /// Information about a tool that the model is requesting to use.
+        case toolUse(ToolUseBlockStart)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .image:
+                let value = try container.decode(ImageBlockStart.self, forKey: .image)
+                self = .image(value)
+            case .toolResult:
+                let value = try container.decode(ToolResultBlockStart.self, forKey: .toolResult)
+                self = .toolResult(value)
+            case .toolUse:
+                let value = try container.decode(ToolUseBlockStart.self, forKey: .toolUse)
+                self = .toolUse(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "image"
+            case toolResult = "toolResult"
             case toolUse = "toolUse"
         }
     }
@@ -522,9 +702,9 @@ extension BedrockRuntime {
         case modelStreamErrorException(ModelStreamErrorException)
         /// The service isn't currently available. For troubleshooting this error, see ServiceUnavailable in the Amazon Bedrock User Guide
         case serviceUnavailableException(ServiceUnavailableException)
-        /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide
+        /// Your request was denied due to exceeding the account quotas for Amazon Bedrock. For troubleshooting this error, see ThrottlingException in the Amazon Bedrock User Guide.
         case throttlingException(ThrottlingException)
-        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see ValidationError in the Amazon Bedrock User Guide
+        /// The input fails to satisfy the constraints specified by Amazon Bedrock. For troubleshooting this error, see ValidationError in the Amazon Bedrock User Guide.
         case validationException(ValidationException)
 
         public init(from decoder: Decoder) throws {
@@ -1098,6 +1278,8 @@ extension BedrockRuntime {
     public enum Tool: AWSEncodableShape, Sendable {
         /// CachePoint to include in the tool configuration.
         case cachePoint(CachePointBlock)
+        /// Specifies the system-defined tool that you want use.
+        case systemTool(SystemTool)
         /// The specfication for the tool.
         case toolSpec(ToolSpecification)
 
@@ -1106,6 +1288,8 @@ extension BedrockRuntime {
             switch self {
             case .cachePoint(let value):
                 try container.encode(value, forKey: .cachePoint)
+            case .systemTool(let value):
+                try container.encode(value, forKey: .systemTool)
             case .toolSpec(let value):
                 try container.encode(value, forKey: .toolSpec)
             }
@@ -1113,6 +1297,8 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             switch self {
+            case .systemTool(let value):
+                try value.validate(name: "\(name).systemTool")
             case .toolSpec(let value):
                 try value.validate(name: "\(name).toolSpec")
             default:
@@ -1122,6 +1308,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case cachePoint = "cachePoint"
+            case systemTool = "systemTool"
             case toolSpec = "toolSpec"
         }
     }
@@ -1131,7 +1318,7 @@ extension BedrockRuntime {
         case any(AnyToolChoice)
         /// (Default). The Model automatically decides if a tool should be called or whether to generate text instead.
         case auto(AutoToolChoice)
-        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 models.
+        /// The Model must request the specified tool. Only supported by Anthropic Claude 3 and Amazon Nova models.
         case tool(SpecificToolChoice)
 
         public func encode(to encoder: Encoder) throws {
@@ -1162,13 +1349,46 @@ extension BedrockRuntime {
         }
     }
 
+    public enum ToolResultBlockDelta: AWSDecodableShape, Sendable {
+        /// The JSON schema for the tool result content block. see JSON Schema Reference.
+        case json(AWSDocument)
+        /// The reasoning the model used to return the output.
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .json:
+                let value = try container.decode(AWSDocument.self, forKey: .json)
+                self = .json(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case json = "json"
+            case text = "text"
+        }
+    }
+
     public enum ToolResultContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A tool result that is a document.
         case document(DocumentBlock)
-        /// A tool result that is an image.  This field is only supported by Anthropic Claude 3 models.
+        /// A tool result that is an image.   This field is only supported by Amazon Nova and Anthropic Claude 3 and 4 models.
         case image(ImageBlock)
         /// A tool result that is JSON format data.
         case json(AWSDocument)
+        /// A tool result that is a search result.
+        case searchResult(SearchResultBlock)
         /// A tool result that is text.
         case text(String)
         /// A tool result that is video.
@@ -1193,6 +1413,9 @@ extension BedrockRuntime {
             case .json:
                 let value = try container.decode(AWSDocument.self, forKey: .json)
                 self = .json(value)
+            case .searchResult:
+                let value = try container.decode(SearchResultBlock.self, forKey: .searchResult)
+                self = .searchResult(value)
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
                 self = .text(value)
@@ -1211,6 +1434,8 @@ extension BedrockRuntime {
                 try container.encode(value, forKey: .image)
             case .json(let value):
                 try container.encode(value, forKey: .json)
+            case .searchResult(let value):
+                try container.encode(value, forKey: .searchResult)
             case .text(let value):
                 try container.encode(value, forKey: .text)
             case .video(let value):
@@ -1235,6 +1460,7 @@ extension BedrockRuntime {
             case document = "document"
             case image = "image"
             case json = "json"
+            case searchResult = "searchResult"
             case text = "text"
             case video = "video"
         }
@@ -1296,6 +1522,36 @@ extension BedrockRuntime {
         public init() {}
     }
 
+    public struct AppliedGuardrailDetails: AWSDecodableShape {
+        /// The ARN of the guardrail that was applied.
+        public let guardrailArn: String?
+        /// The unique ID of the guardrail that was applied.
+        public let guardrailId: String?
+        /// The origin of how the guardrail was applied. This can be either requested at the API level or enforced at the account or organization level as a default guardrail.
+        public let guardrailOrigin: [GuardrailOrigin]?
+        /// The ownership type of the guardrail, indicating whether it is owned by the requesting account or is a cross-account guardrail shared from another AWS account.
+        public let guardrailOwnership: GuardrailOwnership?
+        /// The version of the guardrail that was applied.
+        public let guardrailVersion: String?
+
+        @inlinable
+        public init(guardrailArn: String? = nil, guardrailId: String? = nil, guardrailOrigin: [GuardrailOrigin]? = nil, guardrailOwnership: GuardrailOwnership? = nil, guardrailVersion: String? = nil) {
+            self.guardrailArn = guardrailArn
+            self.guardrailId = guardrailId
+            self.guardrailOrigin = guardrailOrigin
+            self.guardrailOwnership = guardrailOwnership
+            self.guardrailVersion = guardrailVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case guardrailArn = "guardrailArn"
+            case guardrailId = "guardrailId"
+            case guardrailOrigin = "guardrailOrigin"
+            case guardrailOwnership = "guardrailOwnership"
+            case guardrailVersion = "guardrailVersion"
+        }
+    }
+
     public struct ApplyGuardrailRequest: AWSEncodableShape {
         /// The content details used in the request to apply the guardrail.
         public let content: [GuardrailContentBlock]
@@ -1329,8 +1585,8 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
-            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
-            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(|([1-9][0-9]{0,7})|(DRAFT))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1455,6 +1711,32 @@ extension BedrockRuntime {
         }
     }
 
+    public struct AudioBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Error information if the audio block could not be processed or contains invalid data.
+        public let error: ErrorBlock?
+        /// The format of the audio data, such as MP3, WAV, FLAC, or other supported audio formats.
+        public let format: AudioFormat
+        /// The source of the audio data, which can be provided as raw bytes or an S3 location.
+        public let source: AudioSource
+
+        @inlinable
+        public init(error: ErrorBlock? = nil, format: AudioFormat, source: AudioSource) {
+            self.error = error
+            self.format = format
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case format = "format"
+            case source = "source"
+        }
+    }
+
     public struct AutoToolChoice: AWSEncodableShape {
         public init() {}
     }
@@ -1508,20 +1790,24 @@ extension BedrockRuntime {
     public struct Citation: AWSEncodableShape & AWSDecodableShape {
         /// The precise location within the source document where the cited content can be found, including character positions, page numbers, or chunk identifiers.
         public let location: CitationLocation?
+        /// The source from the original search result that provided the cited content.
+        public let source: String?
         /// The specific content from the source document that was referenced or cited in the generated response.
         public let sourceContent: [CitationSourceContent]?
         /// The title or identifier of the source document being cited.
         public let title: String?
 
         @inlinable
-        public init(location: CitationLocation? = nil, sourceContent: [CitationSourceContent]? = nil, title: String? = nil) {
+        public init(location: CitationLocation? = nil, source: String? = nil, sourceContent: [CitationSourceContent]? = nil, title: String? = nil) {
             self.location = location
+            self.source = source
             self.sourceContent = sourceContent
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
             case location = "location"
+            case source = "source"
             case sourceContent = "sourceContent"
             case title = "title"
         }
@@ -1542,7 +1828,7 @@ extension BedrockRuntime {
     }
 
     public struct CitationsConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies whether document citations should be included in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
+        /// Specifies whether citations from the selected document should be used in the model's response. When set to true, the model can generate citations that reference the source documents used to inform the response.
         public let enabled: Bool
 
         @inlinable
@@ -1576,20 +1862,24 @@ extension BedrockRuntime {
     public struct CitationsDelta: AWSDecodableShape {
         /// Specifies the precise location within a source document where cited content can be found. This can include character-level positions, page numbers, or document chunks depending on the document type and indexing method.
         public let location: CitationLocation?
+        /// The source from the original search result that provided the cited content.
+        public let source: String?
         /// The specific content from the source document that was referenced or cited in the generated response.
         public let sourceContent: [CitationSourceContentDelta]?
         /// The title or identifier of the source document being cited.
         public let title: String?
 
         @inlinable
-        public init(location: CitationLocation? = nil, sourceContent: [CitationSourceContentDelta]? = nil, title: String? = nil) {
+        public init(location: CitationLocation? = nil, source: String? = nil, sourceContent: [CitationSourceContentDelta]? = nil, title: String? = nil) {
             self.location = location
+            self.source = source
             self.sourceContent = sourceContent
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
             case location = "location"
+            case source = "source"
             case sourceContent = "sourceContent"
             case title = "title"
         }
@@ -1678,13 +1968,15 @@ extension BedrockRuntime {
         public let promptVariables: [String: PromptVariableValues]?
         /// Key-value pairs that you can use to filter invocation logs.
         public let requestMetadata: [String: String]?
+        /// Specifies the processing tier configuration used for serving the request.
+        public let serviceTier: ServiceTier?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
         /// Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
@@ -1694,6 +1986,7 @@ extension BedrockRuntime {
             self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
             self.requestMetadata = requestMetadata
+            self.serviceTier = serviceTier
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -1710,6 +2003,7 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
+            try container.encodeIfPresent(self.serviceTier, forKey: .serviceTier)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -1741,6 +2035,7 @@ extension BedrockRuntime {
             case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
             case requestMetadata = "requestMetadata"
+            case serviceTier = "serviceTier"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -1755,6 +2050,8 @@ extension BedrockRuntime {
         public let output: ConverseOutput
         /// Model performance settings for the request.
         public let performanceConfig: PerformanceConfiguration?
+        /// Specifies the processing tier configuration used for serving the request.
+        public let serviceTier: ServiceTier?
         /// The reason why the model stopped generating output.
         public let stopReason: StopReason
         /// A trace object that contains information about the Guardrail behavior.
@@ -1763,11 +2060,12 @@ extension BedrockRuntime {
         public let usage: TokenUsage
 
         @inlinable
-        public init(additionalModelResponseFields: AWSDocument? = nil, metrics: ConverseMetrics, output: ConverseOutput, performanceConfig: PerformanceConfiguration? = nil, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
+        public init(additionalModelResponseFields: AWSDocument? = nil, metrics: ConverseMetrics, output: ConverseOutput, performanceConfig: PerformanceConfiguration? = nil, serviceTier: ServiceTier? = nil, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
             self.additionalModelResponseFields = additionalModelResponseFields
             self.metrics = metrics
             self.output = output
             self.performanceConfig = performanceConfig
+            self.serviceTier = serviceTier
             self.stopReason = stopReason
             self.trace = trace
             self.usage = usage
@@ -1778,6 +2076,7 @@ extension BedrockRuntime {
             case metrics = "metrics"
             case output = "output"
             case performanceConfig = "performanceConfig"
+            case serviceTier = "serviceTier"
             case stopReason = "stopReason"
             case trace = "trace"
             case usage = "usage"
@@ -1789,15 +2088,18 @@ extension BedrockRuntime {
         public let metrics: ConverseStreamMetrics
         /// Model performance configuration metadata for the conversation stream event.
         public let performanceConfig: PerformanceConfiguration?
+        /// Specifies the processing tier configuration used for serving the request.
+        public let serviceTier: ServiceTier?
         /// The trace object in the response from ConverseStream that contains information about the guardrail behavior.
         public let trace: ConverseStreamTrace?
         /// Usage information for the conversation stream event.
         public let usage: TokenUsage
 
         @inlinable
-        public init(metrics: ConverseStreamMetrics, performanceConfig: PerformanceConfiguration? = nil, trace: ConverseStreamTrace? = nil, usage: TokenUsage) {
+        public init(metrics: ConverseStreamMetrics, performanceConfig: PerformanceConfiguration? = nil, serviceTier: ServiceTier? = nil, trace: ConverseStreamTrace? = nil, usage: TokenUsage) {
             self.metrics = metrics
             self.performanceConfig = performanceConfig
+            self.serviceTier = serviceTier
             self.trace = trace
             self.usage = usage
         }
@@ -1805,6 +2107,7 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case metrics = "metrics"
             case performanceConfig = "performanceConfig"
+            case serviceTier = "serviceTier"
             case trace = "trace"
             case usage = "usage"
         }
@@ -1843,13 +2146,15 @@ extension BedrockRuntime {
         public let promptVariables: [String: PromptVariableValues]?
         /// Key-value pairs that you can use to filter invocation logs.
         public let requestMetadata: [String: String]?
+        /// Specifies the processing tier configuration used for serving the request.
+        public let serviceTier: ServiceTier?
         /// A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
         public let system: [SystemContentBlock]?
         /// Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see Supported models and model features.
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, serviceTier: ServiceTier? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
@@ -1859,6 +2164,7 @@ extension BedrockRuntime {
             self.performanceConfig = performanceConfig
             self.promptVariables = promptVariables
             self.requestMetadata = requestMetadata
+            self.serviceTier = serviceTier
             self.system = system
             self.toolConfig = toolConfig
         }
@@ -1875,6 +2181,7 @@ extension BedrockRuntime {
             try container.encodeIfPresent(self.performanceConfig, forKey: .performanceConfig)
             try container.encodeIfPresent(self.promptVariables, forKey: .promptVariables)
             try container.encodeIfPresent(self.requestMetadata, forKey: .requestMetadata)
+            try container.encodeIfPresent(self.serviceTier, forKey: .serviceTier)
             try container.encodeIfPresent(self.system, forKey: .system)
             try container.encodeIfPresent(self.toolConfig, forKey: .toolConfig)
         }
@@ -1906,6 +2213,7 @@ extension BedrockRuntime {
             case performanceConfig = "performanceConfig"
             case promptVariables = "promptVariables"
             case requestMetadata = "requestMetadata"
+            case serviceTier = "serviceTier"
             case system = "system"
             case toolConfig = "toolConfig"
         }
@@ -1948,15 +2256,21 @@ extension BedrockRuntime {
     }
 
     public struct ConverseTokensRequest: AWSEncodableShape {
+        /// The additionalModelRequestFields of Converse input request to count tokens for. Use this field when you want to pass additional parameters that the model supports.
+        public let additionalModelRequestFields: AWSDocument?
         /// An array of messages to count tokens for.
         public let messages: [Message]?
         /// The system content blocks to count tokens for. System content provides instructions or context to the model about how it should behave or respond. The token count will include any system content provided.
         public let system: [SystemContentBlock]?
+        /// The toolConfig of Converse input request to count tokens for. Configuration information for the tools that the model can use when generating a response.
+        public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(messages: [Message]? = nil, system: [SystemContentBlock]? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, messages: [Message]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.messages = messages
             self.system = system
+            self.toolConfig = toolConfig
         }
 
         public func validate(name: String) throws {
@@ -1966,11 +2280,14 @@ extension BedrockRuntime {
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
+            try self.toolConfig?.validate(name: "\(name).toolConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
             case messages = "messages"
             case system = "system"
+            case toolConfig = "toolConfig"
         }
     }
 
@@ -2137,6 +2454,20 @@ extension BedrockRuntime {
         }
     }
 
+    public struct ErrorBlock: AWSEncodableShape & AWSDecodableShape {
+        /// A human-readable error message describing what went wrong during content processing.
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct GetAsyncInvokeRequest: AWSEncodableShape {
         /// The invocation's ARN.
         public let invocationArn: String
@@ -2211,6 +2542,7 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailAssessment: AWSDecodableShape {
+        public let appliedGuardrailDetails: AppliedGuardrailDetails?
         /// The automated reasoning policy assessment results, including logical validation findings for the input content.
         public let automatedReasoningPolicy: GuardrailAutomatedReasoningPolicyAssessment?
         /// The content policy.
@@ -2227,7 +2559,8 @@ extension BedrockRuntime {
         public let wordPolicy: GuardrailWordPolicyAssessment?
 
         @inlinable
-        public init(automatedReasoningPolicy: GuardrailAutomatedReasoningPolicyAssessment? = nil, contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, invocationMetrics: GuardrailInvocationMetrics? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+        public init(appliedGuardrailDetails: AppliedGuardrailDetails? = nil, automatedReasoningPolicy: GuardrailAutomatedReasoningPolicyAssessment? = nil, contentPolicy: GuardrailContentPolicyAssessment? = nil, contextualGroundingPolicy: GuardrailContextualGroundingPolicyAssessment? = nil, invocationMetrics: GuardrailInvocationMetrics? = nil, sensitiveInformationPolicy: GuardrailSensitiveInformationPolicyAssessment? = nil, topicPolicy: GuardrailTopicPolicyAssessment? = nil, wordPolicy: GuardrailWordPolicyAssessment? = nil) {
+            self.appliedGuardrailDetails = appliedGuardrailDetails
             self.automatedReasoningPolicy = automatedReasoningPolicy
             self.contentPolicy = contentPolicy
             self.contextualGroundingPolicy = contextualGroundingPolicy
@@ -2238,6 +2571,7 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appliedGuardrailDetails = "appliedGuardrailDetails"
             case automatedReasoningPolicy = "automatedReasoningPolicy"
             case contentPolicy = "contentPolicy"
             case contextualGroundingPolicy = "contextualGroundingPolicy"
@@ -2516,14 +2850,14 @@ extension BedrockRuntime {
 
     public struct GuardrailConfiguration: AWSEncodableShape {
         /// The identifier for the guardrail.
-        public let guardrailIdentifier: String
+        public let guardrailIdentifier: String?
         /// The version of the guardrail.
-        public let guardrailVersion: String
+        public let guardrailVersion: String?
         /// The trace behavior for the guardrail.
         public let trace: GuardrailTrace?
 
         @inlinable
-        public init(guardrailIdentifier: String, guardrailVersion: String, trace: GuardrailTrace? = nil) {
+        public init(guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, trace: GuardrailTrace? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.trace = trace
@@ -2531,8 +2865,8 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
-            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
-            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(|([1-9][0-9]{0,7})|(DRAFT))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2880,16 +3214,16 @@ extension BedrockRuntime {
 
     public struct GuardrailStreamConfiguration: AWSEncodableShape {
         /// The identifier for the guardrail.
-        public let guardrailIdentifier: String
+        public let guardrailIdentifier: String?
         /// The version of the guardrail.
-        public let guardrailVersion: String
+        public let guardrailVersion: String?
         /// The processing mode.  The processing mode. For more information, see Configure streaming response behavior in the Amazon Bedrock User Guide.
         public let streamProcessingMode: GuardrailStreamProcessingMode?
         /// The trace behavior for the guardrail.
         public let trace: GuardrailTrace?
 
         @inlinable
-        public init(guardrailIdentifier: String, guardrailVersion: String, streamProcessingMode: GuardrailStreamProcessingMode? = nil, trace: GuardrailTrace? = nil) {
+        public init(guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, streamProcessingMode: GuardrailStreamProcessingMode? = nil, trace: GuardrailTrace? = nil) {
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
             self.streamProcessingMode = streamProcessingMode
@@ -2898,8 +3232,8 @@ extension BedrockRuntime {
 
         public func validate(name: String) throws {
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
-            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
-            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(|([1-9][0-9]{0,7})|(DRAFT))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3077,13 +3411,16 @@ extension BedrockRuntime {
     }
 
     public struct ImageBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Error information if the image block could not be processed or contains invalid data.
+        public let error: ErrorBlock?
         /// The format of the image.
         public let format: ImageFormat
         /// The source for the image.
         public let source: ImageSource
 
         @inlinable
-        public init(format: ImageFormat, source: ImageSource) {
+        public init(error: ErrorBlock? = nil, format: ImageFormat, source: ImageSource) {
+            self.error = error
             self.format = format
             self.source = source
         }
@@ -3093,8 +3430,41 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case error = "error"
             case format = "format"
             case source = "source"
+        }
+    }
+
+    public struct ImageBlockDelta: AWSDecodableShape {
+        /// Error information if this image delta could not be processed.
+        public let error: ErrorBlock?
+        /// The incremental image source data for this delta event.
+        public let source: ImageSource?
+
+        @inlinable
+        public init(error: ErrorBlock? = nil, source: ImageSource? = nil) {
+            self.error = error
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "error"
+            case source = "source"
+        }
+    }
+
+    public struct ImageBlockStart: AWSDecodableShape {
+        /// The format of the image data that will be streamed in subsequent delta events.
+        public let format: ImageFormat
+
+        @inlinable
+        public init(format: ImageFormat) {
+            self.format = format
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
         }
     }
 
@@ -3158,11 +3528,13 @@ extension BedrockRuntime {
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Specifies the processing tier type used for serving the request.
+        public let serviceTier: ServiceTierType?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -3170,6 +3542,7 @@ extension BedrockRuntime {
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
             self.performanceConfigLatency = performanceConfigLatency
+            self.serviceTier = serviceTier
             self.trace = trace
         }
 
@@ -3183,14 +3556,15 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
             request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            request.encodeHeader(self.serviceTier, key: "X-Amzn-Bedrock-Service-Tier")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.body, name: "body", parent: name, max: 25000000)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
-            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
-            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(|([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deployment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(default-)?prompt-router/[a-zA-Z0-9-:.]+$)$")
@@ -3207,12 +3581,15 @@ extension BedrockRuntime {
         public let contentType: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Specifies the processing tier type used for serving the request.
+        public let serviceTier: ServiceTierType?
 
         @inlinable
-        public init(body: AWSHTTPBody, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil) {
+        public init(body: AWSHTTPBody, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil) {
             self.body = body
             self.contentType = contentType
             self.performanceConfigLatency = performanceConfigLatency
+            self.serviceTier = serviceTier
         }
 
         public init(from decoder: Decoder) throws {
@@ -3221,6 +3598,7 @@ extension BedrockRuntime {
             self.body = try container.decode(AWSHTTPBody.self)
             self.contentType = try response.decodeHeader(String.self, key: "Content-Type")
             self.performanceConfigLatency = try response.decodeHeaderIfPresent(PerformanceConfigLatency.self, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            self.serviceTier = try response.decodeHeaderIfPresent(ServiceTierType.self, key: "X-Amzn-Bedrock-Service-Tier")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3305,11 +3683,13 @@ extension BedrockRuntime {
         public let modelId: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Specifies the processing tier type used for serving the request.
+        public let serviceTier: ServiceTierType?
         /// Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
         public let trace: Trace?
 
         @inlinable
-        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, trace: Trace? = nil) {
+        public init(accept: String? = nil, body: AWSHTTPBody? = nil, contentType: String? = nil, guardrailIdentifier: String? = nil, guardrailVersion: String? = nil, modelId: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil, trace: Trace? = nil) {
             self.accept = accept
             self.body = body
             self.contentType = contentType
@@ -3317,6 +3697,7 @@ extension BedrockRuntime {
             self.guardrailVersion = guardrailVersion
             self.modelId = modelId
             self.performanceConfigLatency = performanceConfigLatency
+            self.serviceTier = serviceTier
             self.trace = trace
         }
 
@@ -3330,14 +3711,15 @@ extension BedrockRuntime {
             request.encodeHeader(self.guardrailVersion, key: "X-Amzn-Bedrock-GuardrailVersion")
             request.encodePath(self.modelId, key: "modelId")
             request.encodeHeader(self.performanceConfigLatency, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            request.encodeHeader(self.serviceTier, key: "X-Amzn-Bedrock-Service-Tier")
             request.encodeHeader(self.trace, key: "X-Amzn-Bedrock-Trace")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.body, name: "body", parent: name, max: 25000000)
             try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, max: 2048)
-            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
-            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(([1-9][0-9]{0,7})|(DRAFT))$")
+            try self.validate(self.guardrailIdentifier, name: "guardrailIdentifier", parent: name, pattern: "^(|([a-z0-9]+)|(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:guardrail/[a-z0-9]+))$")
+            try self.validate(self.guardrailVersion, name: "guardrailVersion", parent: name, pattern: "^(|([1-9][0-9]{0,7})|(DRAFT))$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
             try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:custom-model-deployment/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(default-)?prompt-router/[a-zA-Z0-9-:.]+$)$")
@@ -3354,12 +3736,15 @@ extension BedrockRuntime {
         public let contentType: String
         /// Model performance settings for the request.
         public let performanceConfigLatency: PerformanceConfigLatency?
+        /// Specifies the processing tier type used for serving the request.
+        public let serviceTier: ServiceTierType?
 
         @inlinable
-        public init(body: AWSEventStream<ResponseStream>, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil) {
+        public init(body: AWSEventStream<ResponseStream>, contentType: String, performanceConfigLatency: PerformanceConfigLatency? = nil, serviceTier: ServiceTierType? = nil) {
             self.body = body
             self.contentType = contentType
             self.performanceConfigLatency = performanceConfigLatency
+            self.serviceTier = serviceTier
         }
 
         public init(from decoder: Decoder) throws {
@@ -3368,6 +3753,7 @@ extension BedrockRuntime {
             self.body = try container.decode(AWSEventStream<ResponseStream>.self)
             self.contentType = try response.decodeHeader(String.self, key: "X-Amzn-Bedrock-Content-Type")
             self.performanceConfigLatency = try response.decodeHeaderIfPresent(PerformanceConfigLatency.self, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+            self.serviceTier = try response.decodeHeaderIfPresent(ServiceTierType.self, key: "X-Amzn-Bedrock-Service-Tier")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3639,6 +4025,82 @@ extension BedrockRuntime {
         }
     }
 
+    public struct SearchResultBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration setting for citations
+        public let citations: CitationsConfig?
+        /// An array of search result content block.
+        public let content: [SearchResultContentBlock]
+        /// The source URL or identifier for the content.
+        public let source: String
+        /// A descriptive title for the search result.
+        public let title: String
+
+        @inlinable
+        public init(citations: CitationsConfig? = nil, content: [SearchResultContentBlock], source: String, title: String) {
+            self.citations = citations
+            self.content = content
+            self.source = source
+            self.title = title
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case citations = "citations"
+            case content = "content"
+            case source = "source"
+            case title = "title"
+        }
+    }
+
+    public struct SearchResultContentBlock: AWSEncodableShape & AWSDecodableShape {
+        /// The actual text content
+        public let text: String
+
+        @inlinable
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "text"
+        }
+    }
+
+    public struct SearchResultLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The ending position in the content array where the cited content ends.
+        public let end: Int?
+        /// The index of the search result content block where the cited content is found.
+        public let searchResultIndex: Int?
+        /// The starting position in the content array where the cited content begins.
+        public let start: Int?
+
+        @inlinable
+        public init(end: Int? = nil, searchResultIndex: Int? = nil, start: Int? = nil) {
+            self.end = end
+            self.searchResultIndex = searchResultIndex
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "end"
+            case searchResultIndex = "searchResultIndex"
+            case start = "start"
+        }
+    }
+
+    public struct ServiceTier: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the processing tier type used for serving the request.
+        public let type: ServiceTierType
+
+        @inlinable
+        public init(type: ServiceTierType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct ServiceUnavailableException: AWSDecodableShape {
         public let message: String?
 
@@ -3727,6 +4189,26 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case invocationArn = "invocationArn"
+        }
+    }
+
+    public struct SystemTool: AWSEncodableShape {
+        /// The name of the system-defined tool that you want to call.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
         }
     }
 
@@ -3827,16 +4309,19 @@ extension BedrockRuntime {
     public struct ToolResultBlock: AWSEncodableShape & AWSDecodableShape {
         /// The content for tool result content block.
         public let content: [ToolResultContentBlock]
-        /// The status for the tool result content block.  This field is only supported Anthropic Claude 3 models.
+        /// The status for the tool result content block.  This field is only supported by Amazon Nova and Anthropic Claude 3 and 4 models.
         public let status: ToolResultStatus?
         /// The ID of the tool request that this is the result for.
         public let toolUseId: String
+        /// The type for the tool result content block.
+        public let type: String?
 
         @inlinable
-        public init(content: [ToolResultContentBlock], status: ToolResultStatus? = nil, toolUseId: String) {
+        public init(content: [ToolResultContentBlock], status: ToolResultStatus? = nil, toolUseId: String, type: String? = nil) {
             self.content = content
             self.status = status
             self.toolUseId = toolUseId
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3852,6 +4337,29 @@ extension BedrockRuntime {
             case content = "content"
             case status = "status"
             case toolUseId = "toolUseId"
+            case type = "type"
+        }
+    }
+
+    public struct ToolResultBlockStart: AWSDecodableShape {
+        /// The status of the tool result block.
+        public let status: ToolResultStatus?
+        /// The ID of the tool that was used to generate this tool result block.
+        public let toolUseId: String
+        /// The type for the tool that was used to generate this tool result block.
+        public let type: String?
+
+        @inlinable
+        public init(status: ToolResultStatus? = nil, toolUseId: String, type: String? = nil) {
+            self.status = status
+            self.toolUseId = toolUseId
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case toolUseId = "toolUseId"
+            case type = "type"
         }
     }
 
@@ -3891,12 +4399,15 @@ extension BedrockRuntime {
         public let name: String
         /// The ID for the tool request.
         public let toolUseId: String
+        /// The type for the tool request.
+        public let type: ToolUseType?
 
         @inlinable
-        public init(input: AWSDocument, name: String, toolUseId: String) {
+        public init(input: AWSDocument, name: String, toolUseId: String, type: ToolUseType? = nil) {
             self.input = input
             self.name = name
             self.toolUseId = toolUseId
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3912,6 +4423,7 @@ extension BedrockRuntime {
             case input = "input"
             case name = "name"
             case toolUseId = "toolUseId"
+            case type = "type"
         }
     }
 
@@ -3934,16 +4446,20 @@ extension BedrockRuntime {
         public let name: String
         /// The ID for the tool request.
         public let toolUseId: String
+        /// The type for the tool request.
+        public let type: ToolUseType?
 
         @inlinable
-        public init(name: String, toolUseId: String) {
+        public init(name: String, toolUseId: String, type: ToolUseType? = nil) {
             self.name = name
             self.toolUseId = toolUseId
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case toolUseId = "toolUseId"
+            case type = "type"
         }
     }
 
@@ -3979,6 +4495,24 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case format = "format"
             case source = "source"
+        }
+    }
+
+    public struct WebLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The domain that was cited when performing a web search.
+        public let domain: String?
+        /// The URL that was cited when performing a web search.
+        public let url: String?
+
+        @inlinable
+        public init(domain: String? = nil, url: String? = nil) {
+            self.domain = domain
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "domain"
+            case url = "url"
         }
     }
 
@@ -4025,20 +4559,6 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case text = "text"
-        }
-    }
-
-    public struct ContentBlockStart: AWSDecodableShape {
-        /// Information about a tool that the model is requesting to use.
-        public let toolUse: ToolUseBlockStart?
-
-        @inlinable
-        public init(toolUse: ToolUseBlockStart? = nil) {
-            self.toolUse = toolUse
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toolUse = "toolUse"
         }
     }
 

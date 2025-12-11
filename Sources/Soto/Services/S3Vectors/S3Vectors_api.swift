@@ -78,7 +78,7 @@ public struct S3Vectors: AWSService {
 
     // MARK: API Calls
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:CreateIndex permission to use this operation.
+    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:CreateIndex permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
     @Sendable
     @inlinable
     public func createIndex(_ input: CreateIndexInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateIndexOutput {
@@ -91,14 +91,16 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:CreateIndex permission to use this operation.
+    /// Creates a vector index within a vector bucket. To specify the vector bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:CreateIndex permission to use this operation. You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
     ///
     /// Parameters:
     ///   - dataType: The data type of the vectors to be inserted into the vector index.
     ///   - dimension: The dimensions of the vectors to be inserted into the vector index.
     ///   - distanceMetric: The distance metric to be used for similarity search.
+    ///   - encryptionConfiguration: The encryption configuration for a vector index. By default, if you don't specify, all new vectors in the vector index will use the encryption configuration of the vector bucket.
     ///   - indexName: The name of the vector index to create.
     ///   - metadataConfiguration: The metadata configuration for the vector index.
+    ///   - tags: An array of user-defined tags that you would like to apply to the vector index that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize, track costs, and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateIndex permission to create a vector index with tags.
     ///   - vectorBucketArn: The Amazon Resource Name (ARN) of the vector bucket to create the vector index in.
     ///   - vectorBucketName: The name of the vector bucket to create the vector index in.
     ///   - logger: Logger use during operation
@@ -107,8 +109,10 @@ public struct S3Vectors: AWSService {
         dataType: DataType,
         dimension: Int,
         distanceMetric: DistanceMetric,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         indexName: String,
         metadataConfiguration: MetadataConfiguration? = nil,
+        tags: [String: String]? = nil,
         vectorBucketArn: String? = nil,
         vectorBucketName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -117,15 +121,17 @@ public struct S3Vectors: AWSService {
             dataType: dataType, 
             dimension: dimension, 
             distanceMetric: distanceMetric, 
+            encryptionConfiguration: encryptionConfiguration, 
             indexName: indexName, 
             metadataConfiguration: metadataConfiguration, 
+            tags: tags, 
             vectorBucketArn: vectorBucketArn, 
             vectorBucketName: vectorBucketName
         )
         return try await self.createIndex(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.   Permissions  You must have the s3vectors:CreateVectorBucket permission to use this operation.
+    /// Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.   Permissions  You must have the s3vectors:CreateVectorBucket permission to use this operation.  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
     @Sendable
     @inlinable
     public func createVectorBucket(_ input: CreateVectorBucketInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateVectorBucketOutput {
@@ -138,26 +144,29 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.   Permissions  You must have the s3vectors:CreateVectorBucket permission to use this operation.
+    /// Creates a vector bucket in the Amazon Web Services Region that you want your bucket to be in.   Permissions  You must have the s3vectors:CreateVectorBucket permission to use this operation.  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration for the vector bucket. By default, if you don't specify, all new vectors in Amazon S3 vector buckets use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256.
+    ///   - tags: An array of user-defined tags that you would like to apply to the vector bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3vectors:TagResource permission in addition to s3vectors:CreateVectorBucket permission to create a vector bucket with tags.
     ///   - vectorBucketName: The name of the vector bucket to create.
     ///   - logger: Logger use during operation
     @inlinable
     public func createVectorBucket(
         encryptionConfiguration: EncryptionConfiguration? = nil,
+        tags: [String: String]? = nil,
         vectorBucketName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateVectorBucketOutput {
         let input = CreateVectorBucketInput(
             encryptionConfiguration: encryptionConfiguration, 
+            tags: tags, 
             vectorBucketName: vectorBucketName
         )
         return try await self.createVectorBucket(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteIndex permission to use this operation.
+    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteIndex permission to use this operation.
     @Sendable
     @inlinable
     public func deleteIndex(_ input: DeleteIndexInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIndexOutput {
@@ -170,7 +179,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteIndex permission to use this operation.
+    /// Deletes a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteIndex permission to use this operation.
     ///
     /// Parameters:
     ///   - indexArn: The ARN of the vector index to delete.
@@ -192,7 +201,7 @@ public struct S3Vectors: AWSService {
         return try await self.deleteIndex(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectorBucket permission to use this operation.
+    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectorBucket permission to use this operation.
     @Sendable
     @inlinable
     public func deleteVectorBucket(_ input: DeleteVectorBucketInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVectorBucketOutput {
@@ -205,7 +214,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectorBucket permission to use this operation.
+    /// Deletes a vector bucket. All vector indexes in the vector bucket must be deleted before the vector bucket can be deleted. To perform this operation, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectorBucket permission to use this operation.
     ///
     /// Parameters:
     ///   - vectorBucketArn: The ARN of the vector bucket to delete.
@@ -224,7 +233,7 @@ public struct S3Vectors: AWSService {
         return try await self.deleteVectorBucket(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
+    /// Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func deleteVectorBucketPolicy(_ input: DeleteVectorBucketPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVectorBucketPolicyOutput {
@@ -237,7 +246,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
+    /// Deletes a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).  Permissions  You must have the s3vectors:DeleteVectorBucketPolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - vectorBucketArn: The ARN of the vector bucket to delete the policy from.
@@ -256,7 +265,7 @@ public struct S3Vectors: AWSService {
         return try await self.deleteVectorBucketPolicy(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectors permission to use this operation.
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectors permission to use this operation.
     @Sendable
     @inlinable
     public func deleteVectors(_ input: DeleteVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteVectorsOutput {
@@ -269,7 +278,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectors permission to use this operation.
+    /// Deletes one or more vectors in a vector index. To specify the vector index, you can either use both the vector bucket name and vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:DeleteVectors permission to use this operation.
     ///
     /// Parameters:
     ///   - indexArn: The ARN of the vector index that contains a vector you want to delete.
@@ -294,7 +303,7 @@ public struct S3Vectors: AWSService {
         return try await self.deleteVectors(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetIndex permission to use this operation.
+    /// Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetIndex permission to use this operation.
     @Sendable
     @inlinable
     public func getIndex(_ input: GetIndexInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIndexOutput {
@@ -307,7 +316,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetIndex permission to use this operation.
+    /// Returns vector index attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetIndex permission to use this operation.
     ///
     /// Parameters:
     ///   - indexArn: The ARN of the vector index.
@@ -329,7 +338,7 @@ public struct S3Vectors: AWSService {
         return try await self.getIndex(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucket permission to use this operation.
+    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucket permission to use this operation.
     @Sendable
     @inlinable
     public func getVectorBucket(_ input: GetVectorBucketInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVectorBucketOutput {
@@ -342,7 +351,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucket permission to use this operation.
+    /// Returns vector bucket attributes. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucket permission to use this operation.
     ///
     /// Parameters:
     ///   - vectorBucketArn: The ARN of the vector bucket to retrieve information about.
@@ -361,7 +370,7 @@ public struct S3Vectors: AWSService {
         return try await self.getVectorBucket(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
+    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func getVectorBucketPolicy(_ input: GetVectorBucketPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVectorBucketPolicyOutput {
@@ -374,7 +383,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
+    /// Gets details about a vector bucket policy. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectorBucketPolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - vectorBucketArn: The ARN of the vector bucket.
@@ -393,7 +402,7 @@ public struct S3Vectors: AWSService {
         return try await self.getVectorBucketPolicy(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectors permission to use this operation.
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectors permission to use this operation.
     @Sendable
     @inlinable
     public func getVectors(_ input: GetVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVectorsOutput {
@@ -406,7 +415,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectors permission to use this operation.
+    /// Returns vector attributes. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:GetVectors permission to use this operation.
     ///
     /// Parameters:
     ///   - indexArn: The ARN of the vector index.
@@ -437,7 +446,7 @@ public struct S3Vectors: AWSService {
         return try await self.getVectors(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:ListIndexes permission to use this operation.
+    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:ListIndexes permission to use this operation.
     @Sendable
     @inlinable
     public func listIndexes(_ input: ListIndexesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIndexesOutput {
@@ -450,7 +459,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:ListIndexes permission to use this operation.
+    /// Returns a list of all the vector indexes within the specified vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:ListIndexes permission to use this operation.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to be returned in the response.
@@ -478,7 +487,36 @@ public struct S3Vectors: AWSService {
         return try await self.listIndexes(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns a list of all the vector buckets that are owned by the authenticated sender of the request.  Permissions  You must have the s3vectors:ListVectorBuckets permission to use this operation.
+    /// Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:ListTagsForResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceOutput {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all of the tags applied to a specified Amazon S3 Vectors resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:ListTagsForResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you want to list tags for. The tagged resource can be a vector bucket or a vector index.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceOutput {
+        let input = ListTagsForResourceInput(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Returns a list of all the vector buckets that are owned by the authenticated sender of the request.  Permissions  You must have the s3vectors:ListVectorBuckets permission to use this operation.
     @Sendable
     @inlinable
     public func listVectorBuckets(_ input: ListVectorBucketsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVectorBucketsOutput {
@@ -491,7 +529,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Returns a list of all the vector buckets that are owned by the authenticated sender of the request.  Permissions  You must have the s3vectors:ListVectorBuckets permission to use this operation.
+    /// Returns a list of all the vector buckets that are owned by the authenticated sender of the request.  Permissions  You must have the s3vectors:ListVectorBuckets permission to use this operation.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of vector buckets to be returned in the response.
@@ -513,7 +551,7 @@ public struct S3Vectors: AWSService {
         return try await self.listVectorBuckets(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters.  Permissions  You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..   If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
+    /// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters.  Permissions  You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..   If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
     @Sendable
     @inlinable
     public func listVectors(_ input: ListVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVectorsOutput {
@@ -526,7 +564,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters.  Permissions  You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..   If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
+    /// List vectors in the specified vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   ListVectors operations proceed sequentially; however, for faster performance on a large number of vectors in a vector index, applications can request a parallel ListVectors operation by providing the segmentCount and segmentIndex parameters.  Permissions  You must have the s3vectors:ListVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:ListVectors permission, you can list vector keys when returnData and returnMetadata are both set to false or not specified..   If you set returnData or returnMetadata to true, you must have both s3vectors:ListVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request vector data or metadata without the s3vectors:GetVectors permission.
     ///
     /// Parameters:
     ///   - indexArn: The Amazon resource Name (ARN) of the vector index.
@@ -566,7 +604,7 @@ public struct S3Vectors: AWSService {
         return try await self.listVectors(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func putVectorBucketPolicy(_ input: PutVectorBucketPolicyInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVectorBucketPolicyOutput {
@@ -579,7 +617,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
+    /// Creates a bucket policy for a vector bucket. To specify the bucket, you must use either the vector bucket name or the vector bucket Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:PutVectorBucketPolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - policy: The JSON that defines the policy. For more information about bucket policies for S3 Vectors, see Managing vector bucket policies in the Amazon S3 User Guide.
@@ -601,7 +639,7 @@ public struct S3Vectors: AWSService {
         return try await self.putVectorBucketPolicy(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).  For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide.  When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values.   Permissions  You must have the s3vectors:PutVectors permission to use this operation.
+    /// Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).  For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide.  When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values.   Permissions  You must have the s3vectors:PutVectors permission to use this operation.
     @Sendable
     @inlinable
     public func putVectors(_ input: PutVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutVectorsOutput {
@@ -614,7 +652,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).  For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide.  When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values.   Permissions  You must have the s3vectors:PutVectors permission to use this operation.
+    /// Adds one or more vectors to a vector index. To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).  For more information about limits, see Limitations and restrictions in the Amazon S3 User Guide.  When inserting vector data into your vector index, you must provide the vector data as float32 (32-bit floating point) values. If you pass higher-precision values to an Amazon Web Services SDK, S3 Vectors converts the values to 32-bit floating point before storing them, and GetVectors, ListVectors, and QueryVectors operations return the float32 values. Different Amazon Web Services SDKs may have different default numeric types, so ensure your vectors are properly formatted as float32 values regardless of which SDK you're using. For example, in Python, use numpy.float32 or explicitly cast your values.   Permissions  You must have the s3vectors:PutVectors permission to use this operation.
     ///
     /// Parameters:
     ///   - indexArn: The ARN of the vector index where you want to write vectors.
@@ -639,7 +677,7 @@ public struct S3Vectors: AWSService {
         return try await self.putVectors(input, logger: logger)
     }
 
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
     @Sendable
     @inlinable
     public func queryVectors(_ input: QueryVectorsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> QueryVectorsOutput {
@@ -652,7 +690,7 @@ public struct S3Vectors: AWSService {
             logger: logger
         )
     }
-    ///  Amazon S3 Vectors is in preview release for Amazon S3 and is subject to change.  Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
+    /// Performs an approximate nearest neighbor search query in a vector index using a query vector. By default, it returns the keys of approximate nearest neighbors. You can optionally include the computed distance (between the query vector and each vector in the response), the vector data, and metadata of each vector in the response.  To specify the vector index, you can either use both the vector bucket name and the vector index name, or use the vector index Amazon Resource Name (ARN).   Permissions  You must have the s3vectors:QueryVectors permission to use this operation. Additional permissions are required based on the request parameters you specify:   With only s3vectors:QueryVectors permission, you can retrieve vector keys of approximate nearest neighbors and computed distances between these vectors. This permission is sufficient only when you don't set any metadata filters and don't request vector data or metadata (by keeping the returnMetadata parameter set to false or not specified).   If you specify a metadata filter or set returnMetadata to true, you must have both s3vectors:QueryVectors and s3vectors:GetVectors permissions. The request fails with a 403 Forbidden error if you request metadata filtering, vector data, or metadata without the s3vectors:GetVectors permission.
     ///
     /// Parameters:
     ///   - filter: Metadata filter to apply during the query. For more information about metadata keys, see Metadata filtering in the Amazon S3 User Guide.
@@ -687,6 +725,70 @@ public struct S3Vectors: AWSService {
             vectorBucketName: vectorBucketName
         )
         return try await self.queryVectors(input, logger: logger)
+    }
+
+    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource.  For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:TagResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceOutput {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Applies one or more user-defined tags to an Amazon S3 Vectors resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each resource.  For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:TagResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're applying tags to. The tagged resource can be a vector bucket or a vector index.
+    ///   - tags: The user-defined tag that you want to add to the specified S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceOutput {
+        let input = TagResourceInput(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceOutput {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the specified user-defined tags from an Amazon S3 Vectors resource. You can pass one or more tag keys.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For vector buckets and vector indexes, you must have the s3vectors:UntagResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Vectors resource that you're removing tags from. The tagged resource can be a vector bucket or a vector index.
+    ///   - tagKeys: The array of tag keys that you're removing from the S3 Vectors resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceOutput {
+        let input = UntagResourceInput(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
     }
 }
 

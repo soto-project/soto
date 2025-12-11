@@ -27,6 +27,7 @@ extension SavingsPlans {
 
     public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cny = "CNY"
+        case eur = "EUR"
         case usd = "USD"
         public var description: String { return self.rawValue }
     }
@@ -51,10 +52,19 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanProductType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dms = "DMS"
+        case docdb = "DocDB"
+        case dsql = "DSQL"
+        case dynamodb = "DynamoDB"
         case ec2 = "EC2"
+        case elasticache = "ElastiCache"
         case fargate = "Fargate"
+        case keyspaces = "Keyspaces"
         case lambda = "Lambda"
+        case neptune = "Neptune"
+        case rds = "RDS"
         case sagemaker = "SageMaker"
+        case timestream = "Timestream"
         public var description: String { return self.rawValue }
     }
 
@@ -90,18 +100,39 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aurora = "AuroraDSQL"
+        case dms = "AWSDatabaseMigrationSvc"
+        case docdb = "AmazonDocDB"
+        case dynamodb = "AmazonDynamoDB"
         case ec2 = "AmazonEC2"
+        case elasticache = "AmazonElastiCache"
         case fargate = "AmazonECS"
         case fargateEks = "AmazonEKS"
         case lambda = "AWSLambda"
+        case mcs = "AmazonMCS"
+        case neptune = "AmazonNeptune"
+        case rds = "AmazonRDS"
         case sagemaker = "AmazonSageMaker"
+        case timestream = "AmazonTimestream"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case acuHr = "ACU-Hr"
+        case dcuHr = "DCU-Hr"
+        case dpu = "DPU"
+        case elastiCacheProcessingUnit = "ElastiCacheProcessingUnit"
+        case gbHours = "GB-Hours"
         case hours = "Hrs"
         case lambdaGbSecond = "Lambda-GB-Second"
+        case ncuHr = "NCU-hr"
+        case readCapacityUnitHrs = "ReadCapacityUnit-Hrs"
+        case readRequestUnits = "ReadRequestUnits"
+        case replicatedWriteCapacityUnitHrs = "ReplicatedWriteCapacityUnit-Hrs"
+        case replicatedWriteRequestUnits = "ReplicatedWriteRequestUnits"
         case request = "Request"
+        case writeCapacityUnitHrs = "WriteCapacityUnit-Hrs"
+        case writeRequestUnits = "WriteRequestUnits"
         public var description: String { return self.rawValue }
     }
 
@@ -119,6 +150,7 @@ extension SavingsPlans {
 
     public enum SavingsPlanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case compute = "Compute"
+        case database = "Database"
         case ec2Instance = "EC2Instance"
         case sagemaker = "SageMaker"
         public var description: String { return self.rawValue }
@@ -128,6 +160,7 @@ extension SavingsPlans {
         case commitment = "commitment"
         case ec2InstanceFamily = "ec2-instance-family"
         case end = "end"
+        case instanceFamily = "instance-family"
         case paymentOption = "payment-option"
         case region = "region"
         case savingsPlanType = "savings-plan-type"
@@ -642,7 +675,7 @@ extension SavingsPlans {
         public let recurringPaymentAmount: String?
         /// The Amazon Web Services Region.
         public let region: String?
-        /// The time until when a return for the Savings Plan can be requested. If the Savings Plan is not returnable, the field reflects the Savings Plan start time.
+        /// The time until when a return for the Savings Plan can be requested. If the Savings Plan is not returnable, the field reflects the Savings Plans start time.
         public let returnableUntil: String?
         /// The Amazon Resource Name (ARN) of the Savings Plan.
         public let savingsPlanArn: String?

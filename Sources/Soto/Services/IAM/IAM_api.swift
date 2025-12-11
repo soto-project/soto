@@ -108,6 +108,35 @@ public struct IAM: AWSService {
 
     // MARK: API Calls
 
+    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The SendDelegationToken API has to be explicitly called to send the delegation token.  At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential.  An accepted request may be rejected before the exchange token is sent to the partner.
+    @Sendable
+    @inlinable
+    public func acceptDelegationRequest(_ input: AcceptDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AcceptDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Accepts a delegation request, granting the requested temporary access. Once the delegation request is accepted, it is eligible to send the exchange token to the partner. The SendDelegationToken API has to be explicitly called to send the delegation token.  At the time of acceptance, IAM records the details and the state of the identity that called this API. This is the identity that gets mapped to the delegated credential.  An accepted request may be rejected before the exchange token is sent to the partner.
+    ///
+    /// Parameters:
+    ///   - delegationRequestId: The unique identifier of the delegation request to accept.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func acceptDelegationRequest(
+        delegationRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AcceptDelegationRequestRequest(
+            delegationRequestId: delegationRequestId
+        )
+        return try await self.acceptDelegationRequest(input, logger: logger)
+    }
+
     /// Adds a new client ID (also known as audience) to the list of client IDs already registered for the specified IAM OpenID Connect (OIDC) provider resource. This operation is idempotent; it does not fail or return an error if you add an existing client ID to the provider.
     @Sendable
     @inlinable
@@ -202,6 +231,35 @@ public struct IAM: AWSService {
             userName: userName
         )
         return try await self.addUserToGroup(input, logger: logger)
+    }
+
+    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request.  If the partner that created the delegation request has not specified the owner account during creation, any caller from any account can call the AssociateDelegationRequest API for the delegation request. Once this API call is successful, the ARN of the current calling identity will be stored as the ownerId and the Amazon Web Services account ID of the current calling identity will be stored as the ownerAccount of the request.   For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func associateDelegationRequest(_ input: AssociateDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AssociateDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a delegation request with the current identity. If the partner that created the delegation request has specified the owner account during creation, only an identity from that owner account can call the AssociateDelegationRequest API for the specified delegation request. Once the AssociateDelegationRequest API call is successful, the ARN of the current calling identity will be stored as the ownerId of the request.  If the partner that created the delegation request has not specified the owner account during creation, any caller from any account can call the AssociateDelegationRequest API for the delegation request. Once this API call is successful, the ARN of the current calling identity will be stored as the ownerId and the Amazon Web Services account ID of the current calling identity will be stored as the ownerAccount of the request.   For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - delegationRequestId: The unique identifier of the delegation request to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDelegationRequest(
+        delegationRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AssociateDelegationRequestRequest(
+            delegationRequestId: delegationRequestId
+        )
+        return try await self.associateDelegationRequest(input, logger: logger)
     }
 
     /// Attaches the specified managed policy to the specified IAM group. You use this operation to attach a managed policy to a group. To embed an inline policy in a group, use  PutGroupPolicy . As a best practice, you can validate your IAM policies.  To learn more, see Validating IAM policies  in the IAM User Guide. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
@@ -388,6 +446,59 @@ public struct IAM: AWSService {
             accountAlias: accountAlias
         )
         return try await self.createAccountAlias(input, logger: logger)
+    }
+
+    /// Creates an IAM delegation request for temporary access delegation. This API is not available for general use. In order to use this API, a caller first need to go through an onboarding process described in the partner onboarding documentation.
+    @Sendable
+    @inlinable
+    public func createDelegationRequest(_ input: CreateDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDelegationRequestResponse {
+        try await self.client.execute(
+            operation: "CreateDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an IAM delegation request for temporary access delegation. This API is not available for general use. In order to use this API, a caller first need to go through an onboarding process described in the partner onboarding documentation.
+    ///
+    /// Parameters:
+    ///   - description: A description of the delegation request.
+    ///   - notificationChannel: The notification channel for updates about the delegation request. At this time,only SNS topic ARNs are accepted for notification. This topic ARN must have a resource policy granting SNS:Publish permission to the IAM service principal (iam.amazonaws.com). See partner onboarding documentation for more details.
+    ///   - onlySendByOwner: Specifies whether the delegation token should only be sent by the owner. This flag prevents any party other than the owner from calling SendDelegationToken API for this delegation request. This behavior becomes useful when the delegation request owner needs to be present for subsequent partner interactions, but the delegation request was sent to a more privileged user for approval due to the owner lacking sufficient delegation permissions.
+    ///   - ownerAccountId: The Amazon Web Services account ID this delegation request is targeted to. If the account ID is not known, this parameter can be omitted, resulting in a request that can be associated by any account. If the account ID passed, then the created delegation request can only be associated with an identity of that target account.
+    ///   - permissions: The permissions to be delegated in this delegation request.
+    ///   - redirectUrl: The URL to redirect to after the delegation request is processed. This URL is used by the IAM console to show a link to the customer to re-load the partner workflow.
+    ///   - requestMessage: A message explaining the reason for the delegation request. Requesters can utilize this field to add a custom note to the delegation request. This field is different from the description such that this is to be utilized for a custom messaging on a case-by-case basis. For example, if the current delegation request is in response to a previous request being rejected, this explanation can be added to the request via this field.
+    ///   - requestorWorkflowId: The workflow ID associated with the requestor. This is the unique identifier on the partner side that  can be used to track the progress of the request. IAM maintains a uniqueness check on this workflow id for each request - if a workflow id for an existing request is passed, this API call will fail.
+    ///   - sessionDuration: The duration for which the delegated session should remain active, in seconds. The active time window for the session starts when the customer calls the SendDelegationToken API.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDelegationRequest(
+        description: String,
+        notificationChannel: String,
+        onlySendByOwner: Bool? = nil,
+        ownerAccountId: String? = nil,
+        permissions: DelegationPermission,
+        redirectUrl: String? = nil,
+        requestMessage: String? = nil,
+        requestorWorkflowId: String,
+        sessionDuration: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDelegationRequestResponse {
+        let input = CreateDelegationRequestRequest(
+            description: description, 
+            notificationChannel: notificationChannel, 
+            onlySendByOwner: onlySendByOwner, 
+            ownerAccountId: ownerAccountId, 
+            permissions: permissions, 
+            redirectUrl: redirectUrl, 
+            requestMessage: requestMessage, 
+            requestorWorkflowId: requestorWorkflowId, 
+            sessionDuration: sessionDuration
+        )
+        return try await self.createDelegationRequest(input, logger: logger)
     }
 
     /// Creates a new group. For information about the number of groups you can create, see IAM and STS quotas in the IAM User Guide.
@@ -1692,6 +1803,19 @@ public struct IAM: AWSService {
         return try await self.disableOrganizationsRootSessions(input, logger: logger)
     }
 
+    /// Disables the outbound identity federation feature for your Amazon Web Services account. When disabled, IAM principals in the account cannot  use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for authentication with external services. This operation  does not affect tokens that were issued before the feature was disabled.
+    @Sendable
+    @inlinable
+    public func disableOutboundWebIdentityFederation(logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DisableOutboundWebIdentityFederation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     /// Enables the specified MFA device and associates it with the specified IAM user. When enabled, the MFA device is required for every subsequent login by the IAM user associated with the device.
     @Sendable
     @inlinable
@@ -1782,6 +1906,19 @@ public struct IAM: AWSService {
         return try await self.enableOrganizationsRootSessions(input, logger: logger)
     }
 
+    /// Enables the outbound identity federation feature for your Amazon Web Services account. When enabled, IAM principals in your account  can use the GetWebIdentityToken API to obtain JSON Web Tokens (JWTs) for secure authentication with external services.  This operation also generates a unique issuer URL for your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func enableOutboundWebIdentityFederation(logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOutboundWebIdentityFederationResponse {
+        try await self.client.execute(
+            operation: "EnableOutboundWebIdentityFederation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
+    }
+
     ///  Generates a credential report for the Amazon Web Services account. For more information about the credential report, see Getting credential reports in the IAM User Guide.
     @Sendable
     @inlinable
@@ -1795,7 +1932,7 @@ public struct IAM: AWSService {
         )
     }
 
-    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and Organizations permissions. For more information, see Refining permissions using service last accessed data in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see Reducing permissions using service last accessed data in the IAM User Guide.  The data includes all attempts to access Amazon Web Services, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  This operation returns a JobId. Use this parameter in the  GetOrganizationsAccessReport operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the  GetOrganizationsAccessReport operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional Organizations policy ID. The type of entity that you specify determines the data returned in the report.    Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the management account, because the management account is not limited by SCPs.    OU – When you specify an organizational unit (OU) as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the OU and its parents. For each service, the report includes data for all accounts in the OU or its children. This data excludes the management account, because the management account is not limited by SCPs.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. For each service, the report includes data for only the management account.    Account – When you specify another account as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the account and its parents. For each service, the report includes data for only the specified account.   To generate a service last accessed data report for policies, specify an entity path and the optional Organizations policy ID. The type of entity that you specify determines the data returned for each service.    Root – When you specify the root entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in your organization to which the SCP applies. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to any entities in the organization, then the report will return a list of services with no data.    OU – When you specify an OU entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in the OU or its children to which the SCP applies. This means that other accounts outside the OU that are affected by the SCP might not be included in the data. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to the OU or one of its children, the report will return a list of services with no data.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each service, the report includes data for only the management account.    Account – When you specify another account entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for only the specified account. This means that other accounts in the organization that are affected by the SCP might not be included in the data. If the SCP is not attached to the account, the report will return a list of services with no data.    Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service last accessed data, see Reducing policy scope by viewing user activity in the IAM User Guide.
+    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and Organizations permissions. For more information, see Refining permissions using service last accessed data in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see Reducing permissions using service last accessed data in the IAM User Guide.  The data includes all attempts to access Amazon Web Services, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  This operation returns a JobId. Use this parameter in the  GetOrganizationsAccessReport operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the  GetOrganizationsAccessReport operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional Organizations policy ID. The type of entity that you specify determines the data returned in the report.    Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the management account, because the management account is not limited by SCPs.    OU – When you specify an organizational unit (OU) as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the OU and its parents. For each service, the report includes data for all accounts in the OU or its children. This data excludes the management account, because the management account is not limited by SCPs.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. For each service, the report includes data for only the management account.    Account – When you specify another account as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the account and its parents. For each service, the report includes data for only the specified account.   To generate a service last accessed data report for policies, specify an entity path and the optional Organizations policy ID. The type of entity that you specify determines the data returned for each service.    Root – When you specify the root entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in your organization to which the SCP applies. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to any entities in the organization, then the report will return a list of services with no data.    OU – When you specify an OU entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in the OU or its children to which the SCP applies. This means that other accounts outside the OU that are affected by the SCP might not be included in the data. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to the OU or one of its children, the report will return a list of services with no data.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each service, the report includes data for only the management account.    Account – When you specify another account entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for only the specified account. This means that other accounts in the organization that are affected by the SCP might not be included in the data. If the SCP is not attached to the account, the report will return a list of services with no data.    Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service last accessed data, see Reducing policy scope by viewing user activity in the IAM User Guide.
     @Sendable
     @inlinable
     public func generateOrganizationsAccessReport(_ input: GenerateOrganizationsAccessReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateOrganizationsAccessReportResponse {
@@ -1808,7 +1945,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and Organizations permissions. For more information, see Refining permissions using service last accessed data in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see Reducing permissions using service last accessed data in the IAM User Guide.  The data includes all attempts to access Amazon Web Services, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  This operation returns a JobId. Use this parameter in the  GetOrganizationsAccessReport operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the  GetOrganizationsAccessReport operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional Organizations policy ID. The type of entity that you specify determines the data returned in the report.    Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the management account, because the management account is not limited by SCPs.    OU – When you specify an organizational unit (OU) as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the OU and its parents. For each service, the report includes data for all accounts in the OU or its children. This data excludes the management account, because the management account is not limited by SCPs.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. For each service, the report includes data for only the management account.    Account – When you specify another account as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the account and its parents. For each service, the report includes data for only the specified account.   To generate a service last accessed data report for policies, specify an entity path and the optional Organizations policy ID. The type of entity that you specify determines the data returned for each service.    Root – When you specify the root entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in your organization to which the SCP applies. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to any entities in the organization, then the report will return a list of services with no data.    OU – When you specify an OU entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in the OU or its children to which the SCP applies. This means that other accounts outside the OU that are affected by the SCP might not be included in the data. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to the OU or one of its children, the report will return a list of services with no data.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each service, the report includes data for only the management account.    Account – When you specify another account entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for only the specified account. This means that other accounts in the organization that are affected by the SCP might not be included in the data. If the SCP is not attached to the account, the report will return a list of services with no data.    Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service last accessed data, see Reducing policy scope by viewing user activity in the IAM User Guide.
+    /// Generates a report for service last accessed data for Organizations. You can generate a report for any entities (organization root, organizational unit, or account) or policies in your organization. To call this operation, you must be signed in using your Organizations management account credentials. You can use your long-term IAM user or root user credentials, or temporary credentials from assuming an IAM role. SCPs must be enabled for your organization root. You must have the required IAM and Organizations permissions. For more information, see Refining permissions using service last accessed data in the IAM User Guide. You can generate a service last accessed data report for entities by specifying only the entity's path. This data includes a list of services that are allowed by any service control policies (SCPs) that apply to the entity. You can generate a service last accessed data report for a policy by specifying an entity's path and an optional Organizations policy ID. This data includes a list of services that are allowed by the specified SCP. For each service in both report types, the data includes the most recent account activity that the policy allows to account principals in the entity or the entity's children. For important information about the data, reporting period, permissions required, troubleshooting, and supported Regions see Reducing permissions using service last accessed data in the IAM User Guide.  The data includes all attempts to access Amazon Web Services, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that an account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  This operation returns a JobId. Use this parameter in the  GetOrganizationsAccessReport operation to check the status of the report generation. To check the status of this request, use the JobId parameter in the  GetOrganizationsAccessReport operation and test the JobStatus response parameter. When the job is complete, you can retrieve the report. To generate a service last accessed data report for entities, specify an entity path without specifying the optional Organizations policy ID. The type of entity that you specify determines the data returned in the report.    Root – When you specify the organizations root as the entity, the resulting report lists all of the services allowed by SCPs that are attached to your root. For each service, the report includes data for all accounts in your organization except the management account, because the management account is not limited by SCPs.    OU – When you specify an organizational unit (OU) as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the OU and its parents. For each service, the report includes data for all accounts in the OU or its children. This data excludes the management account, because the management account is not limited by SCPs.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. For each service, the report includes data for only the management account.    Account – When you specify another account as the entity, the resulting report lists all of the services allowed by SCPs that are attached to the account and its parents. For each service, the report includes data for only the specified account.   To generate a service last accessed data report for policies, specify an entity path and the optional Organizations policy ID. The type of entity that you specify determines the data returned for each service.    Root – When you specify the root entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in your organization to which the SCP applies. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to any entities in the organization, then the report will return a list of services with no data.    OU – When you specify an OU entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for all accounts in the OU or its children to which the SCP applies. This means that other accounts outside the OU that are affected by the SCP might not be included in the data. This data excludes the management account, because the management account is not limited by SCPs. If the SCP is not attached to the OU or one of its children, the report will return a list of services with no data.    management account – When you specify the management account, the resulting report lists all Amazon Web Services services, because the management account is not limited by SCPs. If you specify a policy ID in the CLI or API, the policy is ignored. For each service, the report includes data for only the management account.    Account – When you specify another account entity and a policy ID, the resulting report lists all of the services that are allowed by the specified SCP. For each service, the report includes data for only the specified account. This means that other accounts in the organization that are affected by the SCP might not be included in the data. If the SCP is not attached to the account, the report will return a list of services with no data.    Service last accessed data does not use other policy types when determining whether a principal could access a service. These other policy types include identity-based policies, resource-based policies, access control lists, IAM permissions boundaries, and STS assume role policies. It only applies SCP logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service last accessed data, see Reducing policy scope by viewing user activity in the IAM User Guide.
     ///
     /// Parameters:
     ///   - entityPath: The path of the Organizations entity (root, OU, or account). You can build an entity path using the known structure of your organization. For example, assume that your account ID is 123456789012 and its parent OU ID is ou-rge0-awsabcde. The organization root ID is r-f6g7h8i9j0example and your organization ID is o-a1b2c3d4e5. Your entity path is o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-rge0-awsabcde/123456789012.
@@ -1827,7 +1964,7 @@ public struct IAM: AWSService {
         return try await self.generateOrganizationsAccessReport(input, logger: logger)
     }
 
-    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked. For more information about services and actions for which action last accessed information is displayed, see IAM action last accessed information services and actions.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
+    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked. For more information about services and actions for which action last accessed information is displayed, see IAM action last accessed information services and actions.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
     @Sendable
     @inlinable
     public func generateServiceLastAccessedDetails(_ input: GenerateServiceLastAccessedDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateServiceLastAccessedDetailsResponse {
@@ -1840,7 +1977,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked. For more information about services and actions for which action last accessed information is displayed, see IAM action last accessed information services and actions.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
+    /// Generates a report that includes details about when an IAM resource (user, group, role, or policy) was last used in an attempt to access Amazon Web Services services. Recent activity usually appears within four hours. IAM reports activity for at least the last 400 days, or less if your Region began supporting this feature within the last year. For more information, see Regions where data is tracked. For more information about services and actions for which action last accessed information is displayed, see IAM action last accessed information services and actions.  The service last accessed data includes all attempts to access an Amazon Web Services API, not just the successful ones. This includes all attempts that were made using the Amazon Web Services Management Console, the Amazon Web Services API through any of the SDKs, or any of the command line tools. An unexpected entry in the service last accessed data does not mean that your account has been compromised, because the request might have been denied. Refer to your CloudTrail logs as the authoritative source for information about all API calls and whether they were successful or denied access. For more information, see Logging IAM events with CloudTrail in the IAM User Guide.  The GenerateServiceLastAccessedDetails operation returns a JobId. Use this parameter in the following operations to retrieve the following details from your report:     GetServiceLastAccessedDetails – Use this operation for users, groups, roles, or policies to list every Amazon Web Services service that the resource could access using permissions policies. For each service, the response includes information about the most recent access attempt. The JobId returned by GenerateServiceLastAccessedDetail must be used by the same role within a session, or by the same user when used to call GetServiceLastAccessedDetail.    GetServiceLastAccessedDetailsWithEntities – Use this operation for groups and policies to list information about the associated entities (users or roles) that attempted to access a specific Amazon Web Services service.    To check the status of the GenerateServiceLastAccessedDetails request, use the JobId parameter in the same operations and test the JobStatus response parameter. For additional information about the permissions policies that allow an identity (user, group, or role) to access specific services, use the ListPoliciesGrantingServiceAccess operation.  Service last accessed data does not use other policy types when determining whether a resource could access a service. These other policy types include resource-based policies, access control lists, Organizations policies, IAM permissions boundaries, and STS assume role policies. It only applies permissions policy logic. For more about the evaluation of policy types, see Evaluating policies in the IAM User Guide.  For more information about service and action last accessed data, see Reducing permissions using service last accessed data in the IAM User Guide.
     ///
     /// Parameters:
     ///   - arn: The ARN of the IAM resource (user, group, role, or managed policy) used to generate information about when the resource was last used in an attempt to access an Amazon Web Services service.
@@ -2023,6 +2160,38 @@ public struct IAM: AWSService {
         )
     }
 
+    /// Retrieves information about a specific delegation request.  If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func getDelegationRequest(_ input: GetDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDelegationRequestResponse {
+        try await self.client.execute(
+            operation: "GetDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific delegation request.  If a delegation request has no owner or owner account, GetDelegationRequest for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetDelegationRequest for the delegation request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - delegationPermissionCheck: Specifies whether to perform a permission check for the delegation request. If set to true, the GetDelegationRequest API call will start a permission check process. This process calculates whether the caller has sufficient permissions to cover the asks from this delegation request. Setting this parameter to true does not guarantee an answer in the response. See the PermissionCheckStatus and the PermissionCheckResult response attributes for further details.
+    ///   - delegationRequestId: The unique identifier of the delegation request to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDelegationRequest(
+        delegationPermissionCheck: Bool? = nil,
+        delegationRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDelegationRequestResponse {
+        let input = GetDelegationRequestRequest(
+            delegationPermissionCheck: delegationPermissionCheck, 
+            delegationRequestId: delegationRequestId
+        )
+        return try await self.getDelegationRequest(input, logger: logger)
+    }
+
     ///  Returns a list of IAM users that are in the specified IAM group. You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     @inlinable
@@ -2088,6 +2257,38 @@ public struct IAM: AWSService {
             policyName: policyName
         )
         return try await self.getGroupPolicy(input, logger: logger)
+    }
+
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request  This method uses a Large Language Model (LLM) to generate the summary.  If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrieve a summary of that request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, read default permissions granted to delegation requests. These rules are identical to GetDelegationRequest API behavior, such that a party who has permissions to call GetDelegationRequest for a given delegation request will always be able to retrieve the human readable summary for that request.
+    @Sendable
+    @inlinable
+    public func getHumanReadableSummary(_ input: GetHumanReadableSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHumanReadableSummaryResponse {
+        try await self.client.execute(
+            operation: "GetHumanReadableSummary", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a human readable summary for a given entity. At this time, the only supported entity type is delegation-request  This method uses a Large Language Model (LLM) to generate the summary.  If a delegation request has no owner or owner account, GetHumanReadableSummary for that delegation request can be called by any account. If the owner account is assigned but there is no owner id, only identities within that owner account can call GetHumanReadableSummary for the delegation request to retrieve a summary of that request. Once the delegation request is fully owned, the owner of the request gets a default permission to get that delegation request. For more details, read default permissions granted to delegation requests. These rules are identical to GetDelegationRequest API behavior, such that a party who has permissions to call GetDelegationRequest for a given delegation request will always be able to retrieve the human readable summary for that request.
+    ///
+    /// Parameters:
+    ///   - entityArn: Arn of the entity to be summarized. At this time, the only supported entity type is delegation-request
+    ///   - locale: A string representing the locale to use for the summary generation. The supported locale strings are based on the  Supported languages of the Amazon Web Services Management Console .
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getHumanReadableSummary(
+        entityArn: String,
+        locale: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetHumanReadableSummaryResponse {
+        let input = GetHumanReadableSummaryRequest(
+            entityArn: entityArn, 
+            locale: locale
+        )
+        return try await self.getHumanReadableSummary(input, logger: logger)
     }
 
     ///  Retrieves information about the specified instance profile, including the instance profile's path, GUID, ARN, and role. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
@@ -2245,6 +2446,19 @@ public struct IAM: AWSService {
             sortKey: sortKey
         )
         return try await self.getOrganizationsAccessReport(input, logger: logger)
+    }
+
+    /// Retrieves the configuration information for the outbound identity federation feature in your Amazon Web Services account. The response includes the unique issuer URL for your  Amazon Web Services account and the current enabled/disabled status of the feature. Use this operation to obtain the issuer URL that you need to configure trust relationships with external services.
+    @Sendable
+    @inlinable
+    public func getOutboundWebIdentityFederationInfo(logger: Logger = AWSClient.loggingDisabled) async throws -> GetOutboundWebIdentityFederationInfoResponse {
+        try await self.client.execute(
+            operation: "GetOutboundWebIdentityFederationInfo", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            logger: logger
+        )
     }
 
     /// Retrieves information about the specified managed policy, including the policy's default version and the total number of IAM users, groups, and roles to which the policy is attached. To retrieve the list of the specific users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy. This operation returns metadata about the policy. To retrieve the actual policy document for a specific version of the policy, use GetPolicyVersion. This operation retrieves information about managed policies. To retrieve information about an inline policy that is embedded with an IAM user, group, or role, use GetUserPolicy, GetGroupPolicy, or GetRolePolicy. For more information about policies, see Managed policies and inline policies in the IAM User Guide.
@@ -2516,7 +2730,7 @@ public struct IAM: AWSService {
     ///   - jobId: The ID of the request generated by the GenerateServiceLastAccessedDetails operation.
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
-    ///   - serviceNamespace: The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
+    ///   - serviceNamespace: The service namespace for an Amazon Web Services service. Provide the service namespace to learn when the IAM entity last attempted to access the specified service. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceLastAccessedDetailsWithEntities(
@@ -2806,6 +3020,41 @@ public struct IAM: AWSService {
         return try await self.listAttachedUserPolicies(input, logger: logger)
     }
 
+    /// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a specific account, it will not be part of the ListDelegationRequests output for that account.  For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func listDelegationRequests(_ input: ListDelegationRequestsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDelegationRequestsResponse {
+        try await self.client.execute(
+            operation: "ListDelegationRequests", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists delegation requests based on the specified criteria. If a delegation request has no owner, even if it is assigned to a specific account, it will not be part of the ListDelegationRequests output for that account.  For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - marker: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
+    ///   - maxItems: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true.  If you do not include this parameter, the number of items defaults to 100. Note that IAM may return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
+    ///   - ownerId: The owner ID to filter delegation requests by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDelegationRequests(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        ownerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDelegationRequestsResponse {
+        let input = ListDelegationRequestsRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            ownerId: ownerId
+        )
+        return try await self.listDelegationRequests(input, logger: logger)
+    }
+
     /// Lists all IAM users, groups, and roles that the specified managed policy is attached to. You can use the optional EntityFilter parameter to limit the results to a particular type of entity (users, groups, or roles). For example, to list only the roles that are attached to the specified policy, set EntityFilter to Role. You can paginate the results using the MaxItems and Marker parameters.
     @Sendable
     @inlinable
@@ -2827,7 +3076,7 @@ public struct IAM: AWSService {
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - pathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
     ///   - policyArn: The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEntitiesForPolicy(
@@ -3237,7 +3486,7 @@ public struct IAM: AWSService {
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - onlyAttached: A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
     ///   - pathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
-    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
     ///   - scope: The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3279,7 +3528,7 @@ public struct IAM: AWSService {
     /// Parameters:
     ///   - arn: The ARN of the IAM identity (user, group, or role) whose policies you want to list.
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
-    ///   - serviceNamespaces: The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
+    ///   - serviceNamespaces: The service namespace for the Amazon Web Services services whose policies you want to list. To learn the service namespace for a service, see Actions, resources, and condition keys for Amazon Web Services services in the IAM User Guide. Choose the name of the service to view details for that service. In the first paragraph, find the service prefix. For example, (service prefix: a4b). For more information about service namespaces, see Amazon Web Services service namespaces in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPoliciesGrantingServiceAccess(
@@ -4022,6 +4271,38 @@ public struct IAM: AWSService {
         return try await self.putUserPolicy(input, logger: logger)
     }
 
+    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter.  For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func rejectDelegationRequest(_ input: RejectDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "RejectDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Rejects a delegation request, denying the requested temporary access. Once a request is rejected, it cannot be accepted or updated later. Rejected requests expire after 7 days. When rejecting a request, an optional explanation can be added using the Notes request parameter.  For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - delegationRequestId: The unique identifier of the delegation request to reject.
+    ///   - notes: Optional notes explaining the reason for rejecting the delegation request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rejectDelegationRequest(
+        delegationRequestId: String,
+        notes: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = RejectDelegationRequestRequest(
+            delegationRequestId: delegationRequestId, 
+            notes: notes
+        )
+        return try await self.rejectDelegationRequest(input, logger: logger)
+    }
+
     /// Removes the specified client ID (also known as audience) from the list of client IDs registered for the specified IAM OpenID Connect (OIDC) provider resource object. This operation is idempotent; it does not fail or return an error if you try to remove a client ID that does not exist.
     @Sendable
     @inlinable
@@ -4186,6 +4467,35 @@ public struct IAM: AWSService {
             userName: userName
         )
         return try await self.resyncMFADevice(input, logger: logger)
+    }
+
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called.  For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func sendDelegationToken(_ input: SendDelegationTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "SendDelegationToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends the exchange token for an accepted delegation request. The exchange token is sent to the partner via an asynchronous notification channel, established by the partner. The delegation request must be in the ACCEPTED state when calling this API. After the SendDelegationToken API call is successful, the request transitions to a FINALIZED state and cannot be rolled back. However, a user may reject an accepted request before the SendDelegationToken API is called.  For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - delegationRequestId: The unique identifier of the delegation request for which to send the token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendDelegationToken(
+        delegationRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = SendDelegationTokenRequest(
+            delegationRequestId: delegationRequestId
+        )
+        return try await self.sendDelegationToken(input, logger: logger)
     }
 
     /// Sets the specified version of the specified policy as the policy's default (operative) version. This operation affects all users, groups, and roles that the policy is attached to. To list the users, groups, and roles that the policy is attached to, use ListEntitiesForPolicy. For information about managed policies, see Managed policies and inline policies in the IAM User Guide.
@@ -5002,6 +5312,38 @@ public struct IAM: AWSService {
         return try await self.updateAssumeRolePolicy(input, logger: logger)
     }
 
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state.  Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see  Managing Permissions for Delegation Requests.
+    @Sendable
+    @inlinable
+    public func updateDelegationRequest(_ input: UpdateDelegationRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateDelegationRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing delegation request with additional information. When the delegation request is updated, it reaches the PENDING_APPROVAL state.  Once a delegation request has an owner, that owner gets a default permission to update the delegation request. For more details, see  Managing Permissions for Delegation Requests.
+    ///
+    /// Parameters:
+    ///   - delegationRequestId: The unique identifier of the delegation request to update.
+    ///   - notes: Additional notes or comments to add to the delegation request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDelegationRequest(
+        delegationRequestId: String,
+        notes: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateDelegationRequestRequest(
+            delegationRequestId: delegationRequestId, 
+            notes: notes
+        )
+        return try await self.updateDelegationRequest(input, logger: logger)
+    }
+
     /// Updates the name and/or the path of the specified IAM group.  You should understand the implications of changing a group's path or name. For more information, see Renaming users and groups in the IAM User Guide.   The person making the request (the principal), must have permission to change the role group with the old name and the new name. For example, to change the group named Managers to MGRs, the principal must have a policy that allows them to update both groups. If the principal has permission to update the Managers group, but not the MGRs group, then the update fails. For more information about permissions, see Access management.
     @Sendable
     @inlinable
@@ -5799,7 +6141,7 @@ extension IAM {
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - pathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
     ///   - policyArn: The Amazon Resource Name (ARN) of the IAM policy for which you want the versions. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEntitiesForPolicyPaginator(
@@ -6177,7 +6519,7 @@ extension IAM {
     ///   - maxItems: Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
     ///   - onlyAttached: A flag to filter the results to only the attached policies. When OnlyAttached is true, the returned list contains only the policies that are attached to an IAM user, group, or role. When OnlyAttached is false, or when the parameter is not included, all policies are returned.
     ///   - pathPrefix: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting  of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! (\u0021) through the DEL character (\u007F), including  most punctuation characters, digits, and upper and lowercased letters.
-    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
+    ///   - policyUsageFilter: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned.
     ///   - scope: The scope to use for filtering the results. To list only Amazon Web Services managed policies, set Scope to AWS. To list only the customer managed policies in your Amazon Web Services account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
     ///   - logger: Logger used for logging
     @inlinable

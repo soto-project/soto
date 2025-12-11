@@ -261,6 +261,7 @@ public struct FSx: AWSService {
     /// Parameters:
     ///   - clientRequestToken: 
     ///   - name: The name you want to assign to this S3 access point.
+    ///   - ontapConfiguration: 
     ///   - openZFSConfiguration: Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
     ///   - s3AccessPoint: Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC.  For more information, see Creating access points restricted to a virtual private cloud.
     ///   - type: The type of S3 access point you want to create. Only OpenZFS is supported.
@@ -269,6 +270,7 @@ public struct FSx: AWSService {
     public func createAndAttachS3AccessPoint(
         clientRequestToken: String? = CreateAndAttachS3AccessPointRequest.idempotencyToken(),
         name: String? = nil,
+        ontapConfiguration: CreateAndAttachS3AccessPointOntapConfiguration? = nil,
         openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil,
         s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration? = nil,
         type: S3AccessPointAttachmentType? = nil,
@@ -277,6 +279,7 @@ public struct FSx: AWSService {
         let input = CreateAndAttachS3AccessPointRequest(
             clientRequestToken: clientRequestToken, 
             name: name, 
+            ontapConfiguration: ontapConfiguration, 
             openZFSConfiguration: openZFSConfiguration, 
             s3AccessPoint: s3AccessPoint, 
             type: type

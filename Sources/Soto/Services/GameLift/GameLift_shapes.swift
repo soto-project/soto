@@ -1018,6 +1018,7 @@ extension GameLift {
         case amazonLinux2023 = "AMAZON_LINUX_2023"
         case windows2012 = "WINDOWS_2012"
         case windows2016 = "WINDOWS_2016"
+        case windows2022 = "WINDOWS_2022"
         public var description: String { return self.rawValue }
     }
 
@@ -1384,7 +1385,7 @@ extension GameLift {
         public let computeArn: String?
         /// A descriptive label for the compute resource. For instances in a managed EC2 fleet, the compute name is the same value as the InstanceId ID.
         public let computeName: String?
-        /// Current status of the compute. A compute must have an ACTIVE status to host game sessions.
+        /// Current status of the compute. A compute must have an ACTIVE status to host game sessions. Valid values include PENDING, ACTIVE, TERMINATING, and IMPAIRED.  While the ComputeStatus enum type is valid for Container based servers, the result may also include other non-enumerated string values such as "Active" for fleets which are not Container-based.
         public let computeStatus: ComputeStatus?
         /// A set of attributes for each container in the compute.
         public let containerAttributes: [ContainerAttribute]?

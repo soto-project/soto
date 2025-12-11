@@ -987,7 +987,7 @@ extension AppSync {
 
     public struct CreateApiRequest: AWSEncodableShape {
         /// The Event API configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
-        public let eventConfig: EventConfig?
+        public let eventConfig: EventConfig
         /// The name for the Api.
         public let name: String
         /// The owner contact information for the Api.
@@ -995,7 +995,7 @@ extension AppSync {
         public let tags: [String: String]?
 
         @inlinable
-        public init(eventConfig: EventConfig? = nil, name: String, ownerContact: String? = nil, tags: [String: String]? = nil) {
+        public init(eventConfig: EventConfig, name: String, ownerContact: String? = nil, tags: [String: String]? = nil) {
             self.eventConfig = eventConfig
             self.name = name
             self.ownerContact = ownerContact
@@ -1003,7 +1003,7 @@ extension AppSync {
         }
 
         public func validate(name: String) throws {
-            try self.eventConfig?.validate(name: "\(name).eventConfig")
+            try self.eventConfig.validate(name: "\(name).eventConfig")
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\-\\ ]+$")
@@ -4899,14 +4899,14 @@ extension AppSync {
         /// The Api ID.
         public let apiId: String
         /// The new event configuration. This includes the default authorization configuration for connecting, publishing, and subscribing to an Event API.
-        public let eventConfig: EventConfig?
+        public let eventConfig: EventConfig
         /// The name of the Api.
         public let name: String
         /// The owner contact information for the Api.
         public let ownerContact: String?
 
         @inlinable
-        public init(apiId: String, eventConfig: EventConfig? = nil, name: String, ownerContact: String? = nil) {
+        public init(apiId: String, eventConfig: EventConfig, name: String, ownerContact: String? = nil) {
             self.apiId = apiId
             self.eventConfig = eventConfig
             self.name = name
@@ -4917,13 +4917,13 @@ extension AppSync {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.apiId, key: "apiId")
-            try container.encodeIfPresent(self.eventConfig, forKey: .eventConfig)
+            try container.encode(self.eventConfig, forKey: .eventConfig)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.ownerContact, forKey: .ownerContact)
         }
 
         public func validate(name: String) throws {
-            try self.eventConfig?.validate(name: "\(name).eventConfig")
+            try self.eventConfig.validate(name: "\(name).eventConfig")
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_\\-\\ ]+$")

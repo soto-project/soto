@@ -25,6 +25,12 @@ import Foundation
 extension SageMaker {
     // MARK: Enums
 
+    public enum AccountDefaultStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ActionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
         case failed = "Failed"
@@ -38,6 +44,11 @@ extension SageMaker {
     public enum ActivationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActiveClusterOperationName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case scaling = "Scaling"
         public var description: String { return self.rawValue }
     }
 
@@ -522,6 +533,22 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchRebootClusterNodesErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instanceIdInUse = "InstanceIdInUse"
+        case instanceIdNotFound = "InstanceIdNotFound"
+        case internalServerError = "InternalServerError"
+        case invalidInstanceStatus = "InvalidInstanceStatus"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchReplaceClusterNodesErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case instanceIdInUse = "InstanceIdInUse"
+        case instanceIdNotFound = "InstanceIdNotFound"
+        case internalServerError = "InternalServerError"
+        case invalidInstanceStatus = "InvalidInstanceStatus"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multiRecord = "MultiRecord"
         case singleRecord = "SingleRecord"
@@ -684,6 +711,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterCapacityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "OnDemand"
+        case spot = "Spot"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ClusterConfigMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disable = "Disable"
         case enable = "Enable"
@@ -793,6 +826,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP54Xlarge = "ml.p5.4xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
@@ -821,7 +855,15 @@ extension SageMaker {
         case mlT3Xlarge = "ml.t3.xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
+        case mlTrn23Xlarge = "ml.trn2.3xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterKubernetesTaintEffect: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noExecute = "NoExecute"
+        case noSchedule = "NoSchedule"
+        case preferNoSchedule = "PreferNoSchedule"
         public var description: String { return self.rawValue }
     }
 
@@ -916,6 +958,14 @@ extension SageMaker {
     public enum CrossAccountFilterOption: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crossAccount = "CrossAccount"
         case sameAccount = "SameAccount"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomizationTechnique: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dpo = "DPO"
+        case rlaif = "RLAIF"
+        case rlvr = "RLVR"
+        case sft = "SFT"
         public var description: String { return self.rawValue }
     }
 
@@ -1044,6 +1094,13 @@ extension SageMaker {
         case systemUpdating = "SystemUpdating"
         case updateRollbackFailed = "UpdateRollbackFailed"
         case updating = "Updating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EvaluationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case benchmarkEvaluation = "BenchmarkEvaluation"
+        case customScorerEvaluation = "CustomScorerEvaluation"
+        case llmajEvaluation = "LLMAJEvaluation"
         public var description: String { return self.rawValue }
     }
 
@@ -1181,6 +1238,8 @@ extension SageMaker {
         case deleting = "Deleting"
         case importFailed = "ImportFailed"
         case importing = "Importing"
+        case pendingDelete = "PendingDelete"
+        case pendingImport = "PendingImport"
         public var description: String { return self.rawValue }
     }
 
@@ -1192,6 +1251,8 @@ extension SageMaker {
     }
 
     public enum HubContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataSet = "DataSet"
+        case jsonDoc = "JsonDoc"
         case model = "Model"
         case modelReference = "ModelReference"
         case notebook = "Notebook"
@@ -1683,10 +1744,67 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum MIGProfileType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mig1G10Gb = "mig-1g.10gb"
+        case mig1G18Gb = "mig-1g.18gb"
+        case mig1G20Gb = "mig-1g.20gb"
+        case mig1G23Gb = "mig-1g.23gb"
+        case mig1G35Gb = "mig-1g.35gb"
+        case mig1G45Gb = "mig-1g.45gb"
+        case mig1G47Gb = "mig-1g.47gb"
+        case mig1G5Gb = "mig-1g.5gb"
+        case mig2G10Gb = "mig-2g.10gb"
+        case mig2G20Gb = "mig-2g.20gb"
+        case mig2G35Gb = "mig-2g.35gb"
+        case mig2G45Gb = "mig-2g.45gb"
+        case mig2G47Gb = "mig-2g.47gb"
+        case mig3G20Gb = "mig-3g.20gb"
+        case mig3G40Gb = "mig-3g.40gb"
+        case mig3G71Gb = "mig-3g.71gb"
+        case mig3G90Gb = "mig-3g.90gb"
+        case mig3G93Gb = "mig-3g.93gb"
+        case mig4G20Gb = "mig-4g.20gb"
+        case mig4G40Gb = "mig-4g.40gb"
+        case mig4G71Gb = "mig-4g.71gb"
+        case mig4G90Gb = "mig-4g.90gb"
+        case mig4G93Gb = "mig-4g.93gb"
+        case mig7G141Gb = "mig-7g.141gb"
+        case mig7G180Gb = "mig-7g.180gb"
+        case mig7G186Gb = "mig-7g.186gb"
+        case mig7G40Gb = "mig-7g.40gb"
+        case mig7G80Gb = "mig-7g.80gb"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaintenanceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case maintenanceComplete = "MaintenanceComplete"
+        case maintenanceFailed = "MaintenanceFailed"
+        case maintenanceInProgress = "MaintenanceInProgress"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ManagedInstanceScalingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
         public var description: String { return self.rawValue }
+    }
+
+    public enum MetricPublishFrequencyInSeconds: Int, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Metrics publishing at 10 seconds frequency
+        case freq10S = 10
+        /// Metrics publishing at 120 seconds frequency
+        case freq120S = 120
+        /// Metrics publishing at 180 seconds frequency
+        case freq180S = 180
+        /// Metrics publishing at 240 seconds frequency
+        case freq240S = 240
+        /// Metrics publishing at 300 seconds frequency
+        case freq300S = 300
+        /// Metrics publishing at 30 seconds frequency
+        case freq30S = 30
+        /// Metrics publishing at 60 seconds frequency
+        case freq60S = 60
+        public var description: String { return "\(self.rawValue)" }
     }
 
     public enum MetricSetSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
@@ -1700,9 +1818,11 @@ extension SageMaker {
         case autoMl = "AutoMl"
         case comet = "Comet"
         case dataWrangler = "DataWrangler"
+        case datasets = "Datasets"
         case deepchecksLlmEvaluation = "DeepchecksLLMEvaluation"
         case emrClusters = "EmrClusters"
         case endpoints = "Endpoints"
+        case evaluators = "Evaluators"
         case experiments = "Experiments"
         case featureStore = "FeatureStore"
         case fiddler = "Fiddler"
@@ -1716,7 +1836,21 @@ extension SageMaker {
         case performanceEvaluation = "PerformanceEvaluation"
         case pipelines = "Pipelines"
         case projects = "Projects"
+        case runningInstances = "RunningInstances"
         case training = "Training"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MlflowAppStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createFailed = "CreateFailed"
+        case created = "Created"
+        case creating = "Creating"
+        case deleteFailed = "DeleteFailed"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case updateFailed = "UpdateFailed"
+        case updated = "Updated"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -1823,6 +1957,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelPackageRegistrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case logged = "Logged"
+        case registered = "Registered"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelPackageSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationTime = "CreationTime"
         case name = "Name"
@@ -1845,9 +1985,26 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ModelRegistrationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoModelRegistrationDisabled = "AutoModelRegistrationDisabled"
+        case autoModelRegistrationEnabled = "AutoModelRegistrationEnabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ModelSortKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationTime = "CreationTime"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelSpeculativeDecodingS3DataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case manifestFile = "ManifestFile"
+        case s3Prefix = "S3Prefix"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ModelSpeculativeDecodingTechnique: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case eagle = "EAGLE"
         public var description: String { return self.rawValue }
     }
 
@@ -2033,6 +2190,8 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP5E48Xlarge = "ml.p5e.48xlarge"
+        case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlTrn12Xlarge = "ml.trn1.2xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn1N32Xlarge = "ml.trn1n.32xlarge"
@@ -2090,6 +2249,11 @@ extension SageMaker {
         case deepchecksLlmEvaluation = "deepchecks-llm-evaluation"
         case fiddler = "fiddler"
         case lakeraGuard = "lakera-guard"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Peft: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lora = "LORA"
         public var description: String { return self.rawValue }
     }
 
@@ -2814,6 +2978,7 @@ extension SageMaker {
     }
 
     public enum SageMakerResourceName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case endpoint = "endpoint"
         case hyperpodCluster = "hyperpod-cluster"
         case trainingJob = "training-job"
         public var description: String { return self.rawValue }
@@ -2876,6 +3041,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServerlessJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case evaluation = "Evaluation"
+        case fineTuning = "FineTuning"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SharingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `private` = "Private"
         case shared = "Shared"
@@ -2885,6 +3056,16 @@ extension SageMaker {
     public enum SkipModelValidation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case all = "All"
         case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SoftwareUpdateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "Failed"
+        case inProgress = "InProgress"
+        case pending = "Pending"
+        case rollbackComplete = "RollbackComplete"
+        case rollbackInProgress = "RollbackInProgress"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
@@ -2944,6 +3125,13 @@ extension SageMaker {
     public enum SortLineageGroupsBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creationTime = "CreationTime"
         case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortMlflowAppBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case creationTime = "CreationTime"
+        case name = "Name"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
@@ -3371,6 +3559,7 @@ extension SageMaker {
 
     public enum TrainingJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completed = "Completed"
+        case deleting = "Deleting"
         case failed = "Failed"
         case inProgress = "InProgress"
         case stopped = "Stopped"
@@ -3453,6 +3642,14 @@ extension SageMaker {
         case mlG54Xlarge = "ml.g5.4xlarge"
         case mlG58Xlarge = "ml.g5.8xlarge"
         case mlG5Xlarge = "ml.g5.xlarge"
+        case mlG612Xlarge = "ml.g6.12xlarge"
+        case mlG616Xlarge = "ml.g6.16xlarge"
+        case mlG624Xlarge = "ml.g6.24xlarge"
+        case mlG62Xlarge = "ml.g6.2xlarge"
+        case mlG648Xlarge = "ml.g6.48xlarge"
+        case mlG64Xlarge = "ml.g6.4xlarge"
+        case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6Xlarge = "ml.g6.xlarge"
         case mlInf224Xlarge = "ml.inf2.24xlarge"
         case mlInf248Xlarge = "ml.inf2.48xlarge"
         case mlInf28Xlarge = "ml.inf2.8xlarge"
@@ -3934,6 +4131,8 @@ extension SageMaker {
         case modelQuantizationConfig(ModelQuantizationConfig)
         /// Settings for the model sharding technique that's applied by a model optimization job.
         case modelShardingConfig(ModelShardingConfig)
+        /// Settings for the model speculative decoding technique that's applied by a model optimization job.
+        case modelSpeculativeDecodingConfig(ModelSpeculativeDecodingConfig)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -3954,6 +4153,9 @@ extension SageMaker {
             case .modelShardingConfig:
                 let value = try container.decode(ModelShardingConfig.self, forKey: .modelShardingConfig)
                 self = .modelShardingConfig(value)
+            case .modelSpeculativeDecodingConfig:
+                let value = try container.decode(ModelSpeculativeDecodingConfig.self, forKey: .modelSpeculativeDecodingConfig)
+                self = .modelSpeculativeDecodingConfig(value)
             }
         }
 
@@ -3966,6 +4168,8 @@ extension SageMaker {
                 try container.encode(value, forKey: .modelQuantizationConfig)
             case .modelShardingConfig(let value):
                 try container.encode(value, forKey: .modelShardingConfig)
+            case .modelSpeculativeDecodingConfig(let value):
+                try container.encode(value, forKey: .modelSpeculativeDecodingConfig)
             }
         }
 
@@ -3977,6 +4181,8 @@ extension SageMaker {
                 try value.validate(name: "\(name).modelQuantizationConfig")
             case .modelShardingConfig(let value):
                 try value.validate(name: "\(name).modelShardingConfig")
+            case .modelSpeculativeDecodingConfig(let value):
+                try value.validate(name: "\(name).modelSpeculativeDecodingConfig")
             }
         }
 
@@ -3984,6 +4190,7 @@ extension SageMaker {
             case modelCompilationConfig = "ModelCompilationConfig"
             case modelQuantizationConfig = "ModelQuantizationConfig"
             case modelShardingConfig = "ModelShardingConfig"
+            case modelSpeculativeDecodingConfig = "ModelSpeculativeDecodingConfig"
         }
     }
 
@@ -4039,6 +4246,24 @@ extension SageMaker {
     }
 
     // MARK: Shapes
+
+    public struct AcceleratorPartitionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The number of accelerator partitions to allocate with the specified partition type. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the accelerator partition count you provide.
+        public let count: Int?
+        /// The Multi-Instance GPU (MIG) profile type that defines the partition configuration. The profile specifies the compute and memory allocation for each partition instance. The available profile types depend on the instance type specified in the compute quota configuration.
+        public let type: MIGProfileType?
+
+        @inlinable
+        public init(count: Int? = nil, type: MIGProfileType? = nil) {
+            self.count = count
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case type = "Type"
+        }
+    }
 
     public struct ActionSource: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the source.
@@ -4906,6 +5131,24 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case trialArn = "TrialArn"
             case trialComponentArn = "TrialComponentArn"
+        }
+    }
+
+    public struct AssociationInfo: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the AssociationInfo destination.
+        public let destinationArn: String?
+        ///  The Amazon Resource Name (ARN) of the AssociationInfo source.
+        public let sourceArn: String?
+
+        @inlinable
+        public init(destinationArn: String? = nil, sourceArn: String? = nil) {
+            self.destinationArn = destinationArn
+            self.sourceArn = sourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case sourceArn = "SourceArn"
         }
     }
 
@@ -5808,6 +6051,55 @@ extension SageMaker {
         }
     }
 
+    public struct AvailableUpgrade: AWSDecodableShape {
+        /// A list of release notes describing the changes and improvements included in the available upgrade version.
+        public let releaseNotes: [String]?
+        /// The semantic version number of the available upgrade for the SageMaker Partner AI App.
+        public let version: String?
+
+        @inlinable
+        public init(releaseNotes: [String]? = nil, version: String? = nil) {
+            self.releaseNotes = releaseNotes
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case releaseNotes = "ReleaseNotes"
+            case version = "Version"
+        }
+    }
+
+    public struct BaseModel: AWSEncodableShape & AWSDecodableShape {
+        ///  The hub content name of the base model.
+        public let hubContentName: String?
+        ///  The hub content version of the base model.
+        public let hubContentVersion: String?
+        ///  The recipe name of the base model.
+        public let recipeName: String?
+
+        @inlinable
+        public init(hubContentName: String? = nil, hubContentVersion: String? = nil, recipeName: String? = nil) {
+            self.hubContentName = hubContentName
+            self.hubContentVersion = hubContentVersion
+            self.recipeName = recipeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
+            try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, min: 5)
+            try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, pattern: "^\\d{1,4}.\\d{1,4}.\\d{1,4}$")
+            try self.validate(self.recipeName, name: "recipeName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hubContentName = "HubContentName"
+            case hubContentVersion = "HubContentVersion"
+            case recipeName = "RecipeName"
+        }
+    }
+
     public struct BatchAddClusterNodesError: AWSDecodableShape {
         /// The error code associated with the failure. Possible values include InstanceGroupNotFound and InvalidInstanceGroupState.
         public let errorCode: BatchAddClusterNodesErrorCode
@@ -6053,7 +6345,7 @@ extension SageMaker {
             try self.modelPackageArnList?.forEach {
                 try validate($0, name: "modelPackageArnList[]", parent: name, max: 2048)
                 try validate($0, name: "modelPackageArnList[]", parent: name, min: 1)
-                try validate($0, name: "modelPackageArnList[]", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+                try validate($0, name: "modelPackageArnList[]", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             }
             try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, max: 100)
             try self.validate(self.modelPackageArnList, name: "modelPackageArnList", parent: name, min: 1)
@@ -6094,19 +6386,22 @@ extension SageMaker {
         public let modelPackageDescription: String?
         /// The group name for the model package
         public let modelPackageGroupName: String?
+        ///  The package registration type of the model package summary.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The status of the mortgage package.
         public let modelPackageStatus: ModelPackageStatus?
         /// The version number of a versioned model.
         public let modelPackageVersion: Int?
 
         @inlinable
-        public init(creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
+        public init(creationTime: Date? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
             self.inferenceSpecification = inferenceSpecification
             self.modelApprovalStatus = modelApprovalStatus
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.modelPackageStatus = modelPackageStatus
             self.modelPackageVersion = modelPackageVersion
         }
@@ -6118,8 +6413,231 @@ extension SageMaker {
             case modelPackageArn = "ModelPackageArn"
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageVersion = "ModelPackageVersion"
+        }
+    }
+
+    public struct BatchRebootClusterNodeLogicalIdsError: AWSDecodableShape {
+        /// The error code associated with the error encountered when rebooting a node by logical node ID. Possible values:    InstanceIdNotFound: The node does not exist in the specified cluster.    InvalidInstanceStatus: The node is in a state that does not allow rebooting. Wait for the node to finish any ongoing changes before retrying.    InstanceIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.    InternalServerError: An internal error occurred while processing this node.
+        public let errorCode: BatchRebootClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when rebooting a node by logical node ID.
+        public let message: String?
+        /// The logical node ID of the node that encountered an error during the reboot operation.
+        public let nodeLogicalId: String?
+
+        @inlinable
+        public init(errorCode: BatchRebootClusterNodesErrorCode? = nil, message: String? = nil, nodeLogicalId: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.nodeLogicalId = nodeLogicalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case nodeLogicalId = "NodeLogicalId"
+        }
+    }
+
+    public struct BatchRebootClusterNodesError: AWSDecodableShape {
+        /// The error code associated with the error encountered when rebooting a node. Possible values:    InstanceIdNotFound: The instance does not exist in the specified cluster.    InvalidInstanceStatus: The instance is in a state that does not allow rebooting. Wait for the instance to finish any ongoing changes before retrying.    InstanceIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.    InternalServerError: An internal error occurred while processing this node.
+        public let errorCode: BatchRebootClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when rebooting a node.
+        public let message: String?
+        /// The EC2 instance ID of the node that encountered an error during the reboot operation.
+        public let nodeId: String?
+
+        @inlinable
+        public init(errorCode: BatchRebootClusterNodesErrorCode? = nil, message: String? = nil, nodeId: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.nodeId = nodeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case nodeId = "NodeId"
+        }
+    }
+
+    public struct BatchRebootClusterNodesRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to reboot.
+        public let clusterName: String?
+        /// A list of EC2 instance IDs to reboot using soft recovery. You can specify between 1 and 25 instance IDs.    Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.   Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0).
+        public let nodeIds: [String]?
+        /// A list of logical node IDs to reboot using soft recovery. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.    This parameter is only supported for clusters using Continuous as the NodeProvisioningMode. For clusters using the default provisioning mode, use NodeIds instead.   Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.
+        public let nodeLogicalIds: [String]?
+
+        @inlinable
+        public init(clusterName: String? = nil, nodeIds: [String]? = nil, nodeLogicalIds: [String]? = nil) {
+            self.clusterName = clusterName
+            self.nodeIds = nodeIds
+            self.nodeLogicalIds = nodeLogicalIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.nodeIds?.forEach {
+                try validate($0, name: "nodeIds[]", parent: name, max: 256)
+                try validate($0, name: "nodeIds[]", parent: name, min: 1)
+                try validate($0, name: "nodeIds[]", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+            }
+            try self.validate(self.nodeIds, name: "nodeIds", parent: name, max: 3000)
+            try self.validate(self.nodeIds, name: "nodeIds", parent: name, min: 1)
+            try self.nodeLogicalIds?.forEach {
+                try validate($0, name: "nodeLogicalIds[]", parent: name, max: 128)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, min: 1)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]$")
+            }
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, max: 99)
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "ClusterName"
+            case nodeIds = "NodeIds"
+            case nodeLogicalIds = "NodeLogicalIds"
+        }
+    }
+
+    public struct BatchRebootClusterNodesResponse: AWSDecodableShape {
+        /// A list of errors encountered for EC2 instance IDs that could not be rebooted. Each error includes the instance ID, an error code, and a descriptive message.
+        public let failed: [BatchRebootClusterNodesError]?
+        /// A list of errors encountered for logical node IDs that could not be rebooted. Each error includes the logical node ID, an error code, and a descriptive message. This field is only present when NodeLogicalIds were provided in the request.
+        public let failedNodeLogicalIds: [BatchRebootClusterNodeLogicalIdsError]?
+        /// A list of EC2 instance IDs for which the reboot operation was successfully initiated.
+        public let successful: [String]?
+        /// A list of logical node IDs for which the reboot operation was successfully initiated. This field is only present when NodeLogicalIds were provided in the request.
+        public let successfulNodeLogicalIds: [String]?
+
+        @inlinable
+        public init(failed: [BatchRebootClusterNodesError]? = nil, failedNodeLogicalIds: [BatchRebootClusterNodeLogicalIdsError]? = nil, successful: [String]? = nil, successfulNodeLogicalIds: [String]? = nil) {
+            self.failed = failed
+            self.failedNodeLogicalIds = failedNodeLogicalIds
+            self.successful = successful
+            self.successfulNodeLogicalIds = successfulNodeLogicalIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case failedNodeLogicalIds = "FailedNodeLogicalIds"
+            case successful = "Successful"
+            case successfulNodeLogicalIds = "SuccessfulNodeLogicalIds"
+        }
+    }
+
+    public struct BatchReplaceClusterNodeLogicalIdsError: AWSDecodableShape {
+        /// The error code associated with the error encountered when replacing a node by logical node ID. Possible values:    InstanceIdNotFound: The node does not exist in the specified cluster.    InvalidInstanceStatus: The node is in a state that does not allow replacement. Wait for the node to finish any ongoing changes before retrying.    InstanceIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.    InternalServerError: An internal error occurred while processing this node.
+        public let errorCode: BatchReplaceClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when replacing a node by logical node ID.
+        public let message: String?
+        /// The logical node ID of the node that encountered an error during the replacement operation.
+        public let nodeLogicalId: String?
+
+        @inlinable
+        public init(errorCode: BatchReplaceClusterNodesErrorCode? = nil, message: String? = nil, nodeLogicalId: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.nodeLogicalId = nodeLogicalId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case nodeLogicalId = "NodeLogicalId"
+        }
+    }
+
+    public struct BatchReplaceClusterNodesError: AWSDecodableShape {
+        /// The error code associated with the error encountered when replacing a node. Possible values:    InstanceIdNotFound: The instance does not exist in the specified cluster.    InvalidInstanceStatus: The instance is in a state that does not allow replacement. Wait for the instance to finish any ongoing changes before retrying.    InstanceIdInUse: Another operation is already in progress for this node. Wait for the operation to complete before retrying.    InternalServerError: An internal error occurred while processing this node.
+        public let errorCode: BatchReplaceClusterNodesErrorCode?
+        /// A human-readable message describing the error encountered when replacing a node.
+        public let message: String?
+        /// The EC2 instance ID of the node that encountered an error during the replacement operation.
+        public let nodeId: String?
+
+        @inlinable
+        public init(errorCode: BatchReplaceClusterNodesErrorCode? = nil, message: String? = nil, nodeId: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.nodeId = nodeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case nodeId = "NodeId"
+        }
+    }
+
+    public struct BatchReplaceClusterNodesRequest: AWSEncodableShape {
+        /// The name or Amazon Resource Name (ARN) of the SageMaker HyperPod cluster containing the nodes to replace.
+        public let clusterName: String?
+        /// A list of EC2 instance IDs to replace with new hardware. You can specify between 1 and 25 instance IDs.  Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.     Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.   Each instance ID must follow the pattern i- followed by 17 hexadecimal characters (for example, i-0123456789abcdef0).   For SageMaker HyperPod clusters using the Slurm workload manager, you cannot replace instances that are configured as Slurm controller nodes.
+        public let nodeIds: [String]?
+        /// A list of logical node IDs to replace with new hardware. You can specify between 1 and 25 logical node IDs. The NodeLogicalId is a unique identifier that persists throughout the node's lifecycle and can be used to track nodes that are still being provisioned and don't yet have an EC2 instance ID assigned.    Replace operations destroy all instance volumes (root and secondary). Ensure you have backed up any important data before proceeding.   This parameter is only supported for clusters using Continuous as the NodeProvisioningMode. For clusters using the default provisioning mode, use NodeIds instead.   Either NodeIds or NodeLogicalIds must be provided (or both), but at least one is required.
+        public let nodeLogicalIds: [String]?
+
+        @inlinable
+        public init(clusterName: String? = nil, nodeIds: [String]? = nil, nodeLogicalIds: [String]? = nil) {
+            self.clusterName = clusterName
+            self.nodeIds = nodeIds
+            self.nodeLogicalIds = nodeLogicalIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.nodeIds?.forEach {
+                try validate($0, name: "nodeIds[]", parent: name, max: 256)
+                try validate($0, name: "nodeIds[]", parent: name, min: 1)
+                try validate($0, name: "nodeIds[]", parent: name, pattern: "^i-[a-f0-9]{8}(?:[a-f0-9]{9})?$")
+            }
+            try self.validate(self.nodeIds, name: "nodeIds", parent: name, max: 3000)
+            try self.validate(self.nodeIds, name: "nodeIds", parent: name, min: 1)
+            try self.nodeLogicalIds?.forEach {
+                try validate($0, name: "nodeLogicalIds[]", parent: name, max: 128)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, min: 1)
+                try validate($0, name: "nodeLogicalIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9]$")
+            }
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, max: 99)
+            try self.validate(self.nodeLogicalIds, name: "nodeLogicalIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "ClusterName"
+            case nodeIds = "NodeIds"
+            case nodeLogicalIds = "NodeLogicalIds"
+        }
+    }
+
+    public struct BatchReplaceClusterNodesResponse: AWSDecodableShape {
+        /// A list of errors encountered for EC2 instance IDs that could not be replaced. Each error includes the instance ID, an error code, and a descriptive message.
+        public let failed: [BatchReplaceClusterNodesError]?
+        /// A list of errors encountered for logical node IDs that could not be replaced. Each error includes the logical node ID, an error code, and a descriptive message. This field is only present when NodeLogicalIds were provided in the request.
+        public let failedNodeLogicalIds: [BatchReplaceClusterNodeLogicalIdsError]?
+        /// A list of EC2 instance IDs for which the replacement operation was successfully initiated.
+        public let successful: [String]?
+        /// A list of logical node IDs for which the replacement operation was successfully initiated. This field is only present when NodeLogicalIds were provided in the request.
+        public let successfulNodeLogicalIds: [String]?
+
+        @inlinable
+        public init(failed: [BatchReplaceClusterNodesError]? = nil, failedNodeLogicalIds: [BatchReplaceClusterNodeLogicalIdsError]? = nil, successful: [String]? = nil, successfulNodeLogicalIds: [String]? = nil) {
+            self.failed = failed
+            self.failedNodeLogicalIds = failedNodeLogicalIds
+            self.successful = successful
+            self.successfulNodeLogicalIds = successfulNodeLogicalIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "Failed"
+            case failedNodeLogicalIds = "FailedNodeLogicalIds"
+            case successful = "Successful"
+            case successfulNodeLogicalIds = "SuccessfulNodeLogicalIds"
         }
     }
 
@@ -6192,6 +6710,62 @@ extension SageMaker {
             case s3DataDistributionType = "S3DataDistributionType"
             case s3InputMode = "S3InputMode"
             case startTimeOffset = "StartTimeOffset"
+        }
+    }
+
+    public struct BedrockCustomModelDeploymentMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the metadata for the Amazon Bedrock custom model deployment.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct BedrockCustomModelMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock custom model metadata.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct BedrockModelImportMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock model import metadata.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct BedrockProvisionedModelThroughputMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock provisioned model throughput metadata.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -7221,6 +7795,24 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterCapacityRequirements: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration options specific to On-Demand instances.
+        public let onDemand: ClusterOnDemandOptions?
+        /// Configuration options specific to Spot instances.
+        public let spot: ClusterSpotOptions?
+
+        @inlinable
+        public init(onDemand: ClusterOnDemandOptions? = nil, spot: ClusterSpotOptions? = nil) {
+            self.onDemand = onDemand
+            self.spot = spot
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onDemand = "OnDemand"
+            case spot = "Spot"
+        }
+    }
+
     public struct ClusterEbsVolumeConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether the configuration is for the cluster's root or secondary Amazon EBS volume. You can specify two ClusterEbsVolumeConfig fields to configure both the root and secondary volumes. Set the value to True if you'd like to provide your own customer managed Amazon Web Services KMS key to encrypt the root volume. When True:   The configuration is applied to the root volume.   You can't specify the VolumeSizeInGB field. The size of the root volume is determined for you.   You must specify a KMS key ID for VolumeKmsKeyId to encrypt the root volume with your own KMS key instead of an Amazon Web Services owned KMS key.   Otherwise, by default, the value is False, and the following applies:   The configuration is applied to the secondary volume, while the root volume is encrypted with an Amazon Web Services owned key.   You must specify the VolumeSizeInGB field.   You can optionally specify the VolumeKmsKeyId to encrypt the secondary volume with your own KMS key instead of an Amazon Web Services owned KMS key.
         public let rootVolume: Bool?
@@ -7339,6 +7931,11 @@ extension SageMaker {
     }
 
     public struct ClusterInstanceGroupDetails: AWSDecodableShape {
+        /// A map indicating active operations currently in progress for the instance group of a SageMaker HyperPod cluster. When there is a scaling operation in progress, this map contains a key Scaling with value 1.
+        public let activeOperations: [ActiveClusterOperationName: Int]?
+        public let activeSoftwareUpdateConfig: DeploymentConfiguration?
+        /// The instance capacity requirements for the instance group.
+        public let capacityRequirements: ClusterCapacityRequirements?
         /// The number of instances that are currently in the instance group of a SageMaker HyperPod cluster.
         public let currentCount: Int?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the instance group.
@@ -7353,18 +7950,26 @@ extension SageMaker {
         public let instanceStorageConfigs: [ClusterInstanceStorageConfig]?
         /// The instance type of the instance group of a SageMaker HyperPod cluster.
         public let instanceType: ClusterInstanceType?
+        /// The Kubernetes configuration for the instance group that contains labels and taints to be applied for the nodes in this instance group.
+        public let kubernetesConfig: ClusterKubernetesConfigDetails?
         /// Details of LifeCycle configuration for the instance group.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// The minimum number of instances that must be available in the instance group of a SageMaker HyperPod cluster before it transitions to InService status.
+        public let minCount: Int?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public let overrideVpcConfig: VpcConfig?
         /// The configuration object of the schedule that SageMaker follows when updating the AMI.
         public let scheduledUpdateConfig: ScheduledUpdateConfig?
+        /// Status of the last software udpate request. Status transitions follow these possible sequences:   Pending -&gt; InProgress -&gt; Succeeded   Pending -&gt; InProgress -&gt; RollbackInProgress -&gt; RollbackComplete   Pending -&gt; InProgress -&gt; RollbackInProgress -&gt; Failed
+        public let softwareUpdateStatus: SoftwareUpdateStatus?
         /// The current status of the cluster instance group.    InService: The instance group is active and healthy.    Creating: The instance group is being provisioned.    Updating: The instance group is being updated.    Failed: The instance group has failed to provision or is no longer healthy.    Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.    Deleting: The instance group is being deleted.
         public let status: InstanceGroupStatus?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
         public let targetCount: Int?
+        /// Represents the number of running nodes using the desired Image ID.    During software update operations: This count shows the number of nodes running on the desired Image ID. If a rollback occurs, the current image ID and desired image ID (both included in the describe cluster response) swap values. The TargetStateCount then shows the number of nodes running on the newly designated desired image ID (which was previously the current image ID).    During simultaneous scaling and software update operations: This count shows the number of instances running on the desired image ID, including any new instances created as part of the scaling request. New nodes are always created using the desired image ID, so TargetStateCount reflects the total count of nodes running on the desired image ID, even during rollback scenarios.
+        public let targetStateCount: Int?
         /// The number you specified to TreadsPerCore in CreateCluster for enabling or disabling multithreading. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
         /// The Amazon Resource Name (ARN); of the training plan associated with this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
@@ -7373,7 +7978,10 @@ extension SageMaker {
         public let trainingPlanStatus: String?
 
         @inlinable
-        public init(currentCount: Int? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
+        public init(activeOperations: [ActiveClusterOperationName: Int]? = nil, activeSoftwareUpdateConfig: DeploymentConfiguration? = nil, capacityRequirements: ClusterCapacityRequirements? = nil, currentCount: Int? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfigDetails? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, softwareUpdateStatus: SoftwareUpdateStatus? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, targetStateCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
+            self.activeOperations = activeOperations
+            self.activeSoftwareUpdateConfig = activeSoftwareUpdateConfig
+            self.capacityRequirements = capacityRequirements
             self.currentCount = currentCount
             self.currentImageId = currentImageId
             self.desiredImageId = desiredImageId
@@ -7381,18 +7989,25 @@ extension SageMaker {
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
+            self.kubernetesConfig = kubernetesConfig
             self.lifeCycleConfig = lifeCycleConfig
+            self.minCount = minCount
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.softwareUpdateStatus = softwareUpdateStatus
             self.status = status
             self.targetCount = targetCount
+            self.targetStateCount = targetStateCount
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
             self.trainingPlanStatus = trainingPlanStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeOperations = "ActiveOperations"
+            case activeSoftwareUpdateConfig = "ActiveSoftwareUpdateConfig"
+            case capacityRequirements = "CapacityRequirements"
             case currentCount = "CurrentCount"
             case currentImageId = "CurrentImageId"
             case desiredImageId = "DesiredImageId"
@@ -7400,12 +8015,16 @@ extension SageMaker {
             case instanceGroupName = "InstanceGroupName"
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
+            case kubernetesConfig = "KubernetesConfig"
             case lifeCycleConfig = "LifeCycleConfig"
+            case minCount = "MinCount"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
             case scheduledUpdateConfig = "ScheduledUpdateConfig"
+            case softwareUpdateStatus = "SoftwareUpdateStatus"
             case status = "Status"
             case targetCount = "TargetCount"
+            case targetStateCount = "TargetStateCount"
             case threadsPerCore = "ThreadsPerCore"
             case trainingPlanArn = "TrainingPlanArn"
             case trainingPlanStatus = "TrainingPlanStatus"
@@ -7413,6 +8032,8 @@ extension SageMaker {
     }
 
     public struct ClusterInstanceGroupSpecification: AWSEncodableShape {
+        /// Specifies the capacity requirements for the instance group.
+        public let capacityRequirements: ClusterCapacityRequirements?
         /// Specifies an IAM execution role to be assumed by the instance group.
         public let executionRole: String?
         /// When configuring your HyperPod cluster, you can specify an image ID using one of the following options:    HyperPodPublicAmiId: Use a HyperPod public AMI    CustomAmiId: Use your custom AMI    default: Use the default latest system image   If you choose to use a custom AMI (CustomAmiId), ensure it meets the following requirements:   Encryption: The custom AMI must be unencrypted.   Ownership: The custom AMI must be owned by the same Amazon Web Services account that is creating the HyperPod cluster.   Volume support: Only the primary AMI snapshot volume is supported; additional AMI volumes are not supported.   When updating the instance group's AMI through the UpdateClusterSoftware operation, if an instance group uses a custom AMI, you must provide an ImageId or use the default as input. Note that if you don't specify an instance group in your UpdateClusterSoftware request, then all of the instance groups are patched with the specified image.
@@ -7425,8 +8046,12 @@ extension SageMaker {
         public let instanceStorageConfigs: [ClusterInstanceStorageConfig]?
         /// Specifies the instance type of the instance group.
         public let instanceType: ClusterInstanceType?
+        /// Specifies the Kubernetes configuration for the instance group. You describe what you want the labels and taints to look like, and the cluster works to reconcile the actual state with the declared state for nodes in this instance group.
+        public let kubernetesConfig: ClusterKubernetesConfig?
         /// Specifies the LifeCycle configuration for the instance group.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// Defines the minimum number of instances required for an instance group to become InService. If this threshold isn't met within 3 hours, the instance group rolls back to its previous state - zero instances for new instance groups, or previous settings for existing instance groups. MinInstanceCount only affects the initial transition to InService and does not guarantee maintaining this minimum afterward.
+        public let minInstanceCount: Int?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see Setting up SageMaker HyperPod clusters across multiple AZs.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
@@ -7439,14 +8064,17 @@ extension SageMaker {
         public let trainingPlanArn: String?
 
         @inlinable
-        public init(executionRole: String? = nil, imageId: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
+        public init(capacityRequirements: ClusterCapacityRequirements? = nil, executionRole: String? = nil, imageId: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfig? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minInstanceCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
+            self.capacityRequirements = capacityRequirements
             self.executionRole = executionRole
             self.imageId = imageId
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
+            self.kubernetesConfig = kubernetesConfig
             self.lifeCycleConfig = lifeCycleConfig
+            self.minInstanceCount = minInstanceCount
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.scheduledUpdateConfig = scheduledUpdateConfig
@@ -7470,7 +8098,10 @@ extension SageMaker {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
             try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 2)
+            try self.kubernetesConfig?.validate(name: "\(name).kubernetesConfig")
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
+            try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, max: 6758)
+            try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, min: 0)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
@@ -7483,13 +8114,16 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityRequirements = "CapacityRequirements"
             case executionRole = "ExecutionRole"
             case imageId = "ImageId"
             case instanceCount = "InstanceCount"
             case instanceGroupName = "InstanceGroupName"
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
+            case kubernetesConfig = "KubernetesConfig"
             case lifeCycleConfig = "LifeCycleConfig"
+            case minInstanceCount = "MinInstanceCount"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
             case scheduledUpdateConfig = "ScheduledUpdateConfig"
@@ -7531,6 +8165,123 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case status = "Status"
+        }
+    }
+
+    public struct ClusterKubernetesConfig: AWSEncodableShape {
+        /// Key-value pairs of labels to be applied to cluster nodes.
+        public let labels: [String: String]?
+        /// List of taints to be applied to cluster nodes.
+        public let taints: [ClusterKubernetesTaint]?
+
+        @inlinable
+        public init(labels: [String: String]? = nil, taints: [ClusterKubernetesTaint]? = nil) {
+            self.labels = labels
+            self.taints = taints
+        }
+
+        public func validate(name: String) throws {
+            try self.labels?.forEach {
+                try validate($0.key, name: "labels.key", parent: name, max: 317)
+                try validate($0.key, name: "labels.key", parent: name, min: 1)
+                try validate($0.key, name: "labels.key", parent: name, pattern: "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$")
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 63)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, pattern: "^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$")
+            }
+            try self.validate(self.labels, name: "labels", parent: name, max: 50)
+            try self.taints?.forEach {
+                try $0.validate(name: "\(name).taints[]")
+            }
+            try self.validate(self.taints, name: "taints", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case taints = "Taints"
+        }
+    }
+
+    public struct ClusterKubernetesConfigDetails: AWSDecodableShape {
+        /// The current labels applied to cluster nodes of an instance group.
+        public let currentLabels: [String: String]?
+        /// The current taints applied to cluster nodes of an instance group.
+        public let currentTaints: [ClusterKubernetesTaint]?
+        /// The desired labels to be applied to cluster nodes of an instance group.
+        public let desiredLabels: [String: String]?
+        /// The desired taints to be applied to cluster nodes of an instance group.
+        public let desiredTaints: [ClusterKubernetesTaint]?
+
+        @inlinable
+        public init(currentLabels: [String: String]? = nil, currentTaints: [ClusterKubernetesTaint]? = nil, desiredLabels: [String: String]? = nil, desiredTaints: [ClusterKubernetesTaint]? = nil) {
+            self.currentLabels = currentLabels
+            self.currentTaints = currentTaints
+            self.desiredLabels = desiredLabels
+            self.desiredTaints = desiredTaints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentLabels = "CurrentLabels"
+            case currentTaints = "CurrentTaints"
+            case desiredLabels = "DesiredLabels"
+            case desiredTaints = "DesiredTaints"
+        }
+    }
+
+    public struct ClusterKubernetesConfigNodeDetails: AWSDecodableShape {
+        /// The current labels applied to the cluster node.
+        public let currentLabels: [String: String]?
+        /// The current taints applied to the cluster node.
+        public let currentTaints: [ClusterKubernetesTaint]?
+        /// The desired labels to be applied to the cluster node.
+        public let desiredLabels: [String: String]?
+        /// The desired taints to be applied to the cluster node.
+        public let desiredTaints: [ClusterKubernetesTaint]?
+
+        @inlinable
+        public init(currentLabels: [String: String]? = nil, currentTaints: [ClusterKubernetesTaint]? = nil, desiredLabels: [String: String]? = nil, desiredTaints: [ClusterKubernetesTaint]? = nil) {
+            self.currentLabels = currentLabels
+            self.currentTaints = currentTaints
+            self.desiredLabels = desiredLabels
+            self.desiredTaints = desiredTaints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentLabels = "CurrentLabels"
+            case currentTaints = "CurrentTaints"
+            case desiredLabels = "DesiredLabels"
+            case desiredTaints = "DesiredTaints"
+        }
+    }
+
+    public struct ClusterKubernetesTaint: AWSEncodableShape & AWSDecodableShape {
+        /// The effect of the taint. Valid values are NoSchedule, PreferNoSchedule, and NoExecute.
+        public let effect: ClusterKubernetesTaintEffect
+        /// The key of the taint.
+        public let key: String
+        /// The value of the taint.
+        public let value: String?
+
+        @inlinable
+        public init(effect: ClusterKubernetesTaintEffect, key: String, value: String? = nil) {
+            self.effect = effect
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 317)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?[A-Za-z0-9]([-A-Za-z0-9_.]*[A-Za-z0-9])?$")
+            try self.validate(self.value, name: "value", parent: name, max: 63)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case effect = "Effect"
+            case key = "Key"
+            case value = "Value"
         }
     }
 
@@ -7583,6 +8334,8 @@ extension SageMaker {
     }
 
     public struct ClusterNodeDetails: AWSDecodableShape {
+        /// The capacity type of the node. Valid values are OnDemand and Spot. When set to OnDemand, the node is launched as an On-Demand instance. When set to Spot, the node is launched as a Spot instance.
+        public let capacityType: ClusterCapacityType?
         /// The ID of the Amazon Machine Image (AMI) currently in use by the node.
         public let currentImageId: String?
         /// The ID of the Amazon Machine Image (AMI) desired for the node.
@@ -7597,6 +8350,8 @@ extension SageMaker {
         public let instanceStorageConfigs: [ClusterInstanceStorageConfig]?
         /// The type of the instance.
         public let instanceType: ClusterInstanceType?
+        /// The Kubernetes configuration applied to this node, showing both the current and desired state of labels and taints. The cluster works to reconcile the actual state with the declared state.
+        public let kubernetesConfig: ClusterKubernetesConfigNodeDetails?
         /// The time when the cluster was last updated.
         public let lastSoftwareUpdateTime: Date?
         /// The time when the instance is launched.
@@ -7621,7 +8376,8 @@ extension SageMaker {
         public let ultraServerInfo: UltraServerInfo?
 
         @inlinable
-        public init(currentImageId: String? = nil, desiredImageId: String? = nil, instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, nodeLogicalId: String? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil, ultraServerInfo: UltraServerInfo? = nil) {
+        public init(capacityType: ClusterCapacityType? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfigNodeDetails? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, nodeLogicalId: String? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil, ultraServerInfo: UltraServerInfo? = nil) {
+            self.capacityType = capacityType
             self.currentImageId = currentImageId
             self.desiredImageId = desiredImageId
             self.instanceGroupName = instanceGroupName
@@ -7629,6 +8385,7 @@ extension SageMaker {
             self.instanceStatus = instanceStatus
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
+            self.kubernetesConfig = kubernetesConfig
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
@@ -7643,6 +8400,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityType = "CapacityType"
             case currentImageId = "CurrentImageId"
             case desiredImageId = "DesiredImageId"
             case instanceGroupName = "InstanceGroupName"
@@ -7650,6 +8408,7 @@ extension SageMaker {
             case instanceStatus = "InstanceStatus"
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
+            case kubernetesConfig = "KubernetesConfig"
             case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
             case lifeCycleConfig = "LifeCycleConfig"
@@ -7679,11 +8438,13 @@ extension SageMaker {
         public let launchTime: Date?
         /// A unique identifier for the node that persists throughout its lifecycle, from provisioning request to termination. This identifier can be used to track the node even before it has an assigned InstanceId. This field is only included when IncludeNodeLogicalIds is set to True in the ListClusterNodes request.
         public let nodeLogicalId: String?
+        /// The private DNS hostname of the SageMaker HyperPod cluster node.
+        public let privateDnsHostname: String?
         /// Contains information about the UltraServer.
         public let ultraServerInfo: UltraServerInfo?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, nodeLogicalId: String? = nil, ultraServerInfo: UltraServerInfo? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, nodeLogicalId: String? = nil, privateDnsHostname: String? = nil, ultraServerInfo: UltraServerInfo? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -7691,6 +8452,7 @@ extension SageMaker {
             self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.nodeLogicalId = nodeLogicalId
+            self.privateDnsHostname = privateDnsHostname
             self.ultraServerInfo = ultraServerInfo
         }
 
@@ -7702,8 +8464,13 @@ extension SageMaker {
             case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
             case nodeLogicalId = "NodeLogicalId"
+            case privateDnsHostname = "PrivateDnsHostname"
             case ultraServerInfo = "UltraServerInfo"
         }
+    }
+
+    public struct ClusterOnDemandOptions: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct ClusterOrchestrator: AWSEncodableShape & AWSDecodableShape {
@@ -7925,6 +8692,10 @@ extension SageMaker {
             case name = "Name"
             case status = "Status"
         }
+    }
+
+    public struct ClusterSpotOptions: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct ClusterSummary: AWSDecodableShape {
@@ -8272,6 +9043,8 @@ extension SageMaker {
     }
 
     public struct ComputeQuotaResourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The accelerator partition configuration for fractional GPU allocation.
+        public let acceleratorPartition: AcceleratorPartitionConfig?
         /// The number of accelerators to allocate. If you don't specify a value for vCPU and MemoryInGiB, SageMaker AI automatically allocates ratio-based values for those parameters based on the number of accelerators you provide. For example, if you allocate 16 out of 32 total accelerators, SageMaker AI uses the ratio of 0.5 and allocates values to vCPU and MemoryInGiB.
         public let accelerators: Int?
         /// The number of instances to add to the instance group of a SageMaker HyperPod cluster.
@@ -8284,7 +9057,8 @@ extension SageMaker {
         public let vCpu: Float?
 
         @inlinable
-        public init(accelerators: Int? = nil, count: Int? = nil, instanceType: ClusterInstanceType? = nil, memoryInGiB: Float? = nil, vCpu: Float? = nil) {
+        public init(acceleratorPartition: AcceleratorPartitionConfig? = nil, accelerators: Int? = nil, count: Int? = nil, instanceType: ClusterInstanceType? = nil, memoryInGiB: Float? = nil, vCpu: Float? = nil) {
+            self.acceleratorPartition = acceleratorPartition
             self.accelerators = accelerators
             self.count = count
             self.instanceType = instanceType
@@ -8304,6 +9078,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acceleratorPartition = "AcceleratorPartition"
             case accelerators = "Accelerators"
             case count = "Count"
             case instanceType = "InstanceType"
@@ -9422,7 +10197,7 @@ extension SageMaker {
             try self.inputConfig?.validate(name: "\(name).inputConfig")
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
@@ -10031,6 +10806,8 @@ extension SageMaker {
         public let explainerConfig: ExplainerConfig?
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
         public let kmsKeyId: String?
+        /// The configuration parameters for utilization metrics.
+        public let metricsConfig: MetricsConfig?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants. If you use this field, you can only specify one variant for ProductionVariants and one variant for ShadowProductionVariants.
@@ -10040,7 +10817,7 @@ extension SageMaker {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, metricsConfig: MetricsConfig? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, tags: [Tag]? = nil, vpcConfig: VpcConfig? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.dataCaptureConfig = dataCaptureConfig
             self.enableNetworkIsolation = enableNetworkIsolation
@@ -10048,6 +10825,7 @@ extension SageMaker {
             self.executionRoleArn = executionRoleArn
             self.explainerConfig = explainerConfig
             self.kmsKeyId = kmsKeyId
+            self.metricsConfig = metricsConfig
             self.productionVariants = productionVariants
             self.shadowProductionVariants = shadowProductionVariants
             self.tags = tags
@@ -10090,6 +10868,7 @@ extension SageMaker {
             case executionRoleArn = "ExecutionRoleArn"
             case explainerConfig = "ExplainerConfig"
             case kmsKeyId = "KmsKeyId"
+            case metricsConfig = "MetricsConfig"
             case productionVariants = "ProductionVariants"
             case shadowProductionVariants = "ShadowProductionVariants"
             case tags = "Tags"
@@ -11166,6 +11945,83 @@ extension SageMaker {
         }
     }
 
+    public struct CreateMlflowAppRequest: AWSEncodableShape {
+        /// Indicates whether this MLflow app is the default for the entire account.
+        public let accountDefaultStatus: AccountDefaultStatus?
+        /// The S3 URI for a general purpose bucket to use as the MLflow App artifact store.
+        public let artifactStoreUri: String?
+        /// List of SageMaker domain IDs for which this MLflow App is used as the default.
+        public let defaultDomainIdList: [String]?
+        /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationDisabled.
+        public let modelRegistrationMode: ModelRegistrationMode?
+        /// A string identifying the MLflow app name. This string is not part of the tracking server ARN.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3. The role should have the AmazonS3FullAccess permission.
+        public let roleArn: String?
+        /// Tags consisting of key-value pairs used to manage metadata for the MLflow App.
+        public let tags: [Tag]?
+        /// The day and time of the week in Coordinated Universal Time (UTC) 24-hour standard time that weekly maintenance updates are scheduled. For example: TUE:03:30.
+        public let weeklyMaintenanceWindowStart: String?
+
+        @inlinable
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, artifactStoreUri: String? = nil, defaultDomainIdList: [String]? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, tags: [Tag]? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+            self.accountDefaultStatus = accountDefaultStatus
+            self.artifactStoreUri = artifactStoreUri
+            self.defaultDomainIdList = defaultDomainIdList
+            self.modelRegistrationMode = modelRegistrationMode
+            self.name = name
+            self.roleArn = roleArn
+            self.tags = tags
+            self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, max: 1024)
+            try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.defaultDomainIdList?.forEach {
+                try validate($0, name: "defaultDomainIdList[]", parent: name, max: 63)
+                try validate($0, name: "defaultDomainIdList[]", parent: name, pattern: "^d-(-*[a-z0-9]){1,61}$")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
+            try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\\d|2[0-3]):([0-5]\\d)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefaultStatus = "AccountDefaultStatus"
+            case artifactStoreUri = "ArtifactStoreUri"
+            case defaultDomainIdList = "DefaultDomainIdList"
+            case modelRegistrationMode = "ModelRegistrationMode"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+            case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
+        }
+    }
+
+    public struct CreateMlflowAppResponse: AWSDecodableShape {
+        /// The ARN of the MLflow App.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct CreateMlflowTrackingServerRequest: AWSEncodableShape {
         /// The S3 URI for a general purpose bucket to use as the MLflow Tracking Server artifact store.
         public let artifactStoreUri: String?
@@ -11662,6 +12518,8 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen). This parameter is required for unversioned models. It is not applicable to versioned models.
         public let modelPackageName: String?
+        ///  The package registration type of the model package input.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The Amazon Simple Storage Service (Amazon S3) path where the sample payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). This archive can hold multiple files that are all equally used in the load test. Each file in the archive must satisfy the size constraints of the InvokeEndpoint call.
         public let samplePayloadUrl: String?
         /// The KMS Key ID (KMSKeyId) used for encryption of model package information.
@@ -11680,7 +12538,7 @@ extension SageMaker {
         public let validationSpecification: ModelPackageValidationSpecification?
 
         @inlinable
-        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, certifyForMarketplace: Bool? = nil, clientToken: String? = CreateModelPackageInput.idempotencyToken(), customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.certifyForMarketplace = certifyForMarketplace
             self.clientToken = clientToken
@@ -11696,6 +12554,7 @@ extension SageMaker {
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.samplePayloadUrl = samplePayloadUrl
             self.securityConfig = securityConfig
             self.skipModelValidation = skipModelValidation
@@ -11768,6 +12627,7 @@ extension SageMaker {
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case samplePayloadUrl = "SamplePayloadUrl"
             case securityConfig = "SecurityConfig"
             case skipModelValidation = "SkipModelValidation"
@@ -11942,7 +12802,7 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the new notebook instance.
         public let notebookInstanceName: String?
-        /// The platform identifier of the notebook instance runtime environment.
+        /// The platform identifier of the notebook instance runtime environment. The default value is notebook-al2-v2.
         public let platformIdentifier: String?
         ///  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
@@ -12110,6 +12970,8 @@ extension SageMaker {
     public struct CreateOptimizationJobRequest: AWSEncodableShape {
         /// The type of instance that hosts the optimized model that you create with the optimization job.
         public let deploymentInstanceType: OptimizationJobDeploymentInstanceType?
+        /// The maximum number of instances to use for the optimization job.
+        public let maxInstanceCount: Int?
         /// The location of the source model to optimize with an optimization job.
         public let modelSource: OptimizationJobModelSource?
         /// Settings for each of the optimization techniques that the job applies.
@@ -12129,8 +12991,9 @@ extension SageMaker {
         public let vpcConfig: OptimizationVpcConfig?
 
         @inlinable
-        public init(deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobName: String? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
+        public init(deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, maxInstanceCount: Int? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobName: String? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
             self.deploymentInstanceType = deploymentInstanceType
+            self.maxInstanceCount = maxInstanceCount
             self.modelSource = modelSource
             self.optimizationConfigs = optimizationConfigs
             self.optimizationEnvironment = optimizationEnvironment
@@ -12143,6 +13006,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.maxInstanceCount, name: "maxInstanceCount", parent: name, min: 1)
             try self.modelSource?.validate(name: "\(name).modelSource")
             try self.optimizationConfigs?.forEach {
                 try $0.validate(name: "\(name).optimizationConfigs[]")
@@ -12171,6 +13035,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case deploymentInstanceType = "DeploymentInstanceType"
+            case maxInstanceCount = "MaxInstanceCount"
             case modelSource = "ModelSource"
             case optimizationConfigs = "OptimizationConfigs"
             case optimizationEnvironment = "OptimizationEnvironment"
@@ -12250,6 +13115,8 @@ extension SageMaker {
         public let authType: PartnerAppAuthType?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
+        /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available. Default is FALSE.
+        public let enableAutoMinorVersionUpgrade: Bool?
         /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
         public let enableIamSessionBasedIdentity: Bool?
         /// The ARN of the IAM role that the partner application uses.
@@ -12268,10 +13135,11 @@ extension SageMaker {
         public let type: PartnerAppType?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
             self.applicationConfig = applicationConfig
             self.authType = authType
             self.clientToken = clientToken
+            self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.executionRoleArn = executionRoleArn
             self.kmsKeyId = kmsKeyId
@@ -12308,6 +13176,7 @@ extension SageMaker {
             case applicationConfig = "ApplicationConfig"
             case authType = "AuthType"
             case clientToken = "ClientToken"
+            case enableAutoMinorVersionUpgrade = "EnableAutoMinorVersionUpgrade"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case executionRoleArn = "ExecutionRoleArn"
             case kmsKeyId = "KmsKeyId"
@@ -12468,6 +13337,52 @@ extension SageMaker {
 
     public struct CreatePresignedDomainUrlResponse: AWSDecodableShape {
         /// The presigned URL.
+        public let authorizedUrl: String?
+
+        @inlinable
+        public init(authorizedUrl: String? = nil) {
+            self.authorizedUrl = authorizedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedUrl = "AuthorizedUrl"
+        }
+    }
+
+    public struct CreatePresignedMlflowAppUrlRequest: AWSEncodableShape {
+        /// The ARN of the MLflow App to connect to your MLflow UI.
+        public let arn: String?
+        /// The duration in seconds that your presigned URL is valid. The presigned URL can be used only once.
+        public let expiresInSeconds: Int?
+        /// The duration in seconds that your presigned URL is valid. The presigned URL can be used only once.
+        public let sessionExpirationDurationInSeconds: Int?
+
+        @inlinable
+        public init(arn: String? = nil, expiresInSeconds: Int? = nil, sessionExpirationDurationInSeconds: Int? = nil) {
+            self.arn = arn
+            self.expiresInSeconds = expiresInSeconds
+            self.sessionExpirationDurationInSeconds = sessionExpirationDurationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:mlflow-app/")
+            try self.validate(self.expiresInSeconds, name: "expiresInSeconds", parent: name, max: 300)
+            try self.validate(self.expiresInSeconds, name: "expiresInSeconds", parent: name, min: 5)
+            try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, max: 43200)
+            try self.validate(self.sessionExpirationDurationInSeconds, name: "sessionExpirationDurationInSeconds", parent: name, min: 1800)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case expiresInSeconds = "ExpiresInSeconds"
+            case sessionExpirationDurationInSeconds = "SessionExpirationDurationInSeconds"
+        }
+    }
+
+    public struct CreatePresignedMlflowAppUrlResponse: AWSDecodableShape {
+        /// A presigned URL with an authorization token.
         public let authorizedUrl: String?
 
         @inlinable
@@ -12888,6 +13803,10 @@ extension SageMaker {
         public let infraCheckConfig: InfraCheckConfig?
         /// An array of Channel objects. Each channel is a named input source. InputDataConfig describes the input data and its location.  Algorithms can accept input data from one or more channels. For example, an algorithm might have two channels of input data, training_data and validation_data. The configuration for each channel provides the S3, EFS, or FSx location where the input data is stored. It also provides information about the stored data: the MIME type, compression method, and whether the data is wrapped in RecordIO format.  Depending on the input mode that the algorithm supports, SageMaker either copies input data files from an S3 bucket to a local directory in the Docker container, or makes it available as input streams. For example, if you specify an EFS location, input data files are available as input streams. They do not need to be downloaded. Your input must be in the same Amazon Web Services region as your training job.
         public let inputDataConfig: [Channel]?
+        ///  The MLflow configuration using SageMaker managed MLflow.
+        public let mlflowConfig: MlflowConfig?
+        ///  The configuration for the model package.
+        public let modelPackageConfig: ModelPackageConfig?
         /// Specifies the path to the S3 location where you want to store model artifacts. SageMaker creates subfolders for the artifacts.
         public let outputDataConfig: OutputDataConfig?
         public let profilerConfig: ProfilerConfig?
@@ -12901,6 +13820,8 @@ extension SageMaker {
         public let retryStrategy: RetryStrategy?
         /// The Amazon Resource Name (ARN) of an IAM role that SageMaker can assume to perform tasks on your behalf.  During model training, SageMaker needs your permission to read input data from an S3 bucket, download a Docker image that contains training code, write model artifacts to an S3 bucket, write logs to Amazon CloudWatch Logs, and publish metrics to Amazon CloudWatch. You grant permissions for all of these tasks to an IAM role. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
+        ///  The configuration for serverless training jobs.
+        public let serverlessJobConfig: ServerlessJobConfig?
         /// Contains information about attribute-based access control (ABAC) for the training job.
         public let sessionChainingConfig: SessionChainingConfig?
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
@@ -12914,7 +13835,7 @@ extension SageMaker {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, sessionChainingConfig: SessionChainingConfig? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, checkpointConfig: CheckpointConfig? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, mlflowConfig: MlflowConfig? = nil, modelPackageConfig: ModelPackageConfig? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, serverlessJobConfig: ServerlessJobConfig? = nil, sessionChainingConfig: SessionChainingConfig? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingJobName: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.checkpointConfig = checkpointConfig
             self.debugHookConfig = debugHookConfig
@@ -12927,6 +13848,8 @@ extension SageMaker {
             self.hyperParameters = hyperParameters
             self.infraCheckConfig = infraCheckConfig
             self.inputDataConfig = inputDataConfig
+            self.mlflowConfig = mlflowConfig
+            self.modelPackageConfig = modelPackageConfig
             self.outputDataConfig = outputDataConfig
             self.profilerConfig = profilerConfig
             self.profilerRuleConfigurations = profilerRuleConfigurations
@@ -12934,6 +13857,7 @@ extension SageMaker {
             self.resourceConfig = resourceConfig
             self.retryStrategy = retryStrategy
             self.roleArn = roleArn
+            self.serverlessJobConfig = serverlessJobConfig
             self.sessionChainingConfig = sessionChainingConfig
             self.stoppingCondition = stoppingCondition
             self.tags = tags
@@ -12970,6 +13894,8 @@ extension SageMaker {
             }
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, max: 20)
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, min: 1)
+            try self.mlflowConfig?.validate(name: "\(name).mlflowConfig")
+            try self.modelPackageConfig?.validate(name: "\(name).modelPackageConfig")
             try self.outputDataConfig?.validate(name: "\(name).outputDataConfig")
             try self.profilerConfig?.validate(name: "\(name).profilerConfig")
             try self.profilerRuleConfigurations?.forEach {
@@ -12981,6 +13907,7 @@ extension SageMaker {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.serverlessJobConfig?.validate(name: "\(name).serverlessJobConfig")
             try self.stoppingCondition?.validate(name: "\(name).stoppingCondition")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -13006,6 +13933,8 @@ extension SageMaker {
             case hyperParameters = "HyperParameters"
             case infraCheckConfig = "InfraCheckConfig"
             case inputDataConfig = "InputDataConfig"
+            case mlflowConfig = "MlflowConfig"
+            case modelPackageConfig = "ModelPackageConfig"
             case outputDataConfig = "OutputDataConfig"
             case profilerConfig = "ProfilerConfig"
             case profilerRuleConfigurations = "ProfilerRuleConfigurations"
@@ -13013,6 +13942,7 @@ extension SageMaker {
             case resourceConfig = "ResourceConfig"
             case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
+            case serverlessJobConfig = "ServerlessJobConfig"
             case sessionChainingConfig = "SessionChainingConfig"
             case stoppingCondition = "StoppingCondition"
             case tags = "Tags"
@@ -13882,23 +14812,28 @@ extension SageMaker {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The dataset resource that's associated with a channel.
+        public let datasetSource: DatasetSource?
         /// The file system that is associated with a channel.
         public let fileSystemDataSource: FileSystemDataSource?
         /// The S3 location of the data source that is associated with a channel.
         public let s3DataSource: S3DataSource?
 
         @inlinable
-        public init(fileSystemDataSource: FileSystemDataSource? = nil, s3DataSource: S3DataSource? = nil) {
+        public init(datasetSource: DatasetSource? = nil, fileSystemDataSource: FileSystemDataSource? = nil, s3DataSource: S3DataSource? = nil) {
+            self.datasetSource = datasetSource
             self.fileSystemDataSource = fileSystemDataSource
             self.s3DataSource = s3DataSource
         }
 
         public func validate(name: String) throws {
+            try self.datasetSource?.validate(name: "\(name).datasetSource")
             try self.fileSystemDataSource?.validate(name: "\(name).fileSystemDataSource")
             try self.s3DataSource?.validate(name: "\(name).s3DataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case datasetSource = "DatasetSource"
             case fileSystemDataSource = "FileSystemDataSource"
             case s3DataSource = "S3DataSource"
         }
@@ -13936,6 +14871,25 @@ extension SageMaker {
             case inputMode = "InputMode"
             case localPath = "LocalPath"
             case redshiftDatasetDefinition = "RedshiftDatasetDefinition"
+        }
+    }
+
+    public struct DatasetSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the dataset resource.
+        public let datasetArn: String
+
+        @inlinable
+        public init(datasetArn: String) {
+            self.datasetArn = datasetArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, max: 2048)
+            try self.validate(self.datasetArn, name: "datasetArn", parent: name, pattern: "^(arn:[a-z0-9-\\.]{1,63}:sagemaker:\\w+(?:-\\w+)+:(\\d{12}|aws):hub-content\\/)[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}\\/DataSet\\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}(\\/\\d{1,4}.\\d{1,4}.\\d{1,4})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetArn = "DatasetArn"
         }
     }
 
@@ -14976,6 +15930,40 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteMlflowAppRequest: AWSEncodableShape {
+        /// The ARN of the MLflow App to delete.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:mlflow-app/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct DeleteMlflowAppResponse: AWSDecodableShape {
+        /// The ARN of the deleted MLflow App.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct DeleteMlflowTrackingServerRequest: AWSEncodableShape {
         /// The name of the the tracking server to delete.
         public let trackingServerName: String?
@@ -15328,6 +16316,26 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteProcessingJobRequest: AWSEncodableShape {
+        /// The name of the processing job to delete.
+        public let processingJobName: String?
+
+        @inlinable
+        public init(processingJobName: String? = nil) {
+            self.processingJobName = processingJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, max: 63)
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, min: 1)
+            try self.validate(self.processingJobName, name: "processingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case processingJobName = "ProcessingJobName"
+        }
+    }
+
     public struct DeleteProjectInput: AWSEncodableShape {
         /// The name of the project to delete.
         public let projectName: String?
@@ -15424,6 +16432,26 @@ extension SageMaker {
 
     public struct DeleteTagsOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteTrainingJobRequest: AWSEncodableShape {
+        /// The name of the training job to delete.
+        public let trainingJobName: String?
+
+        @inlinable
+        public init(trainingJobName: String? = nil) {
+            self.trainingJobName = trainingJobName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, max: 63)
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, min: 1)
+            try self.validate(self.trainingJobName, name: "trainingJobName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trainingJobName = "TrainingJobName"
+        }
     }
 
     public struct DeleteTrialComponentRequest: AWSEncodableShape {
@@ -17549,6 +18577,8 @@ extension SageMaker {
         public let explainerConfig: ExplainerConfig?
         /// Amazon Web Services KMS key ID Amazon SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
+        /// The configuration parameters for utilization metrics.
+        public let metricsConfig: MetricsConfig?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
         public let productionVariants: [ProductionVariant]?
         /// An array of ProductionVariant objects, one for each model that you want to host at this endpoint in shadow mode with production traffic replicated from the model specified on ProductionVariants.
@@ -17556,7 +18586,7 @@ extension SageMaker {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigArn: String? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfig? = nil, enableNetworkIsolation: Bool? = nil, endpointConfigArn: String? = nil, endpointConfigName: String? = nil, executionRoleArn: String? = nil, explainerConfig: ExplainerConfig? = nil, kmsKeyId: String? = nil, metricsConfig: MetricsConfig? = nil, productionVariants: [ProductionVariant]? = nil, shadowProductionVariants: [ProductionVariant]? = nil, vpcConfig: VpcConfig? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -17566,6 +18596,7 @@ extension SageMaker {
             self.executionRoleArn = executionRoleArn
             self.explainerConfig = explainerConfig
             self.kmsKeyId = kmsKeyId
+            self.metricsConfig = metricsConfig
             self.productionVariants = productionVariants
             self.shadowProductionVariants = shadowProductionVariants
             self.vpcConfig = vpcConfig
@@ -17581,6 +18612,7 @@ extension SageMaker {
             case executionRoleArn = "ExecutionRoleArn"
             case explainerConfig = "ExplainerConfig"
             case kmsKeyId = "KmsKeyId"
+            case metricsConfig = "MetricsConfig"
             case productionVariants = "ProductionVariants"
             case shadowProductionVariants = "ShadowProductionVariants"
             case vpcConfig = "VpcConfig"
@@ -17628,6 +18660,8 @@ extension SageMaker {
         public let lastDeploymentConfig: DeploymentConfig?
         /// A timestamp that shows when the endpoint was last modified.
         public let lastModifiedTime: Date?
+        /// The configuration parameters for utilization metrics.
+        public let metricsConfig: MetricsConfig?
         /// Returns the summary of an in-progress deployment. This field is only returned when the endpoint is creating or updating with a new endpoint configuration.
         public let pendingDeploymentSummary: PendingDeploymentSummary?
         /// An array of ProductionVariantSummary objects, one for each model hosted behind this endpoint.
@@ -17636,7 +18670,7 @@ extension SageMaker {
         public let shadowProductionVariants: [ProductionVariantSummary]?
 
         @inlinable
-        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, explainerConfig: ExplainerConfig? = nil, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date? = nil, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil) {
+        public init(asyncInferenceConfig: AsyncInferenceConfig? = nil, creationTime: Date? = nil, dataCaptureConfig: DataCaptureConfigSummary? = nil, endpointArn: String? = nil, endpointConfigName: String? = nil, endpointName: String? = nil, endpointStatus: EndpointStatus? = nil, explainerConfig: ExplainerConfig? = nil, failureReason: String? = nil, lastDeploymentConfig: DeploymentConfig? = nil, lastModifiedTime: Date? = nil, metricsConfig: MetricsConfig? = nil, pendingDeploymentSummary: PendingDeploymentSummary? = nil, productionVariants: [ProductionVariantSummary]? = nil, shadowProductionVariants: [ProductionVariantSummary]? = nil) {
             self.asyncInferenceConfig = asyncInferenceConfig
             self.creationTime = creationTime
             self.dataCaptureConfig = dataCaptureConfig
@@ -17648,6 +18682,7 @@ extension SageMaker {
             self.failureReason = failureReason
             self.lastDeploymentConfig = lastDeploymentConfig
             self.lastModifiedTime = lastModifiedTime
+            self.metricsConfig = metricsConfig
             self.pendingDeploymentSummary = pendingDeploymentSummary
             self.productionVariants = productionVariants
             self.shadowProductionVariants = shadowProductionVariants
@@ -17665,6 +18700,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastDeploymentConfig = "LastDeploymentConfig"
             case lastModifiedTime = "LastModifiedTime"
+            case metricsConfig = "MetricsConfig"
             case pendingDeploymentSummary = "PendingDeploymentSummary"
             case productionVariants = "ProductionVariants"
             case shadowProductionVariants = "ShadowProductionVariants"
@@ -18917,6 +19953,94 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeMlflowAppRequest: AWSEncodableShape {
+        /// The ARN of the MLflow App for which to get information.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:mlflow-app/")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
+    public struct DescribeMlflowAppResponse: AWSDecodableShape {
+        /// Indicates whether this MLflow app is the default for the entire account.
+        public let accountDefaultStatus: AccountDefaultStatus?
+        /// The ARN of the MLflow App.
+        public let arn: String?
+        /// The S3 URI of the general purpose bucket used as the MLflow App artifact store.
+        public let artifactStoreUri: String?
+        public let createdBy: UserContext?
+        /// The timestamp when the MLflow App was created.
+        public let creationTime: Date?
+        /// List of SageMaker Domain IDs for which this MLflow App is the default.
+        public let defaultDomainIdList: [String]?
+        public let lastModifiedBy: UserContext?
+        /// The timestamp when the MLflow App was last modified.
+        public let lastModifiedTime: Date?
+        /// Current maintenance status of the MLflow App.
+        public let maintenanceStatus: MaintenanceStatus?
+        /// The MLflow version used.
+        public let mlflowVersion: String?
+        /// Whether automatic registration of new MLflow models to the SageMaker Model Registry is enabled.
+        public let modelRegistrationMode: ModelRegistrationMode?
+        /// The name of the MLflow App.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) for an IAM role in your account that the MLflow App uses to access the artifact store in Amazon S3.
+        public let roleArn: String?
+        /// The current creation status of the described MLflow App.
+        public let status: MlflowAppStatus?
+        /// The day and time of the week when weekly maintenance occurs.
+        public let weeklyMaintenanceWindowStart: String?
+
+        @inlinable
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, arn: String? = nil, artifactStoreUri: String? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, defaultDomainIdList: [String]? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, maintenanceStatus: MaintenanceStatus? = nil, mlflowVersion: String? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, roleArn: String? = nil, status: MlflowAppStatus? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+            self.accountDefaultStatus = accountDefaultStatus
+            self.arn = arn
+            self.artifactStoreUri = artifactStoreUri
+            self.createdBy = createdBy
+            self.creationTime = creationTime
+            self.defaultDomainIdList = defaultDomainIdList
+            self.lastModifiedBy = lastModifiedBy
+            self.lastModifiedTime = lastModifiedTime
+            self.maintenanceStatus = maintenanceStatus
+            self.mlflowVersion = mlflowVersion
+            self.modelRegistrationMode = modelRegistrationMode
+            self.name = name
+            self.roleArn = roleArn
+            self.status = status
+            self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefaultStatus = "AccountDefaultStatus"
+            case arn = "Arn"
+            case artifactStoreUri = "ArtifactStoreUri"
+            case createdBy = "CreatedBy"
+            case creationTime = "CreationTime"
+            case defaultDomainIdList = "DefaultDomainIdList"
+            case lastModifiedBy = "LastModifiedBy"
+            case lastModifiedTime = "LastModifiedTime"
+            case maintenanceStatus = "MaintenanceStatus"
+            case mlflowVersion = "MlflowVersion"
+            case modelRegistrationMode = "ModelRegistrationMode"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case status = "Status"
+            case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
+        }
+    }
+
     public struct DescribeMlflowTrackingServerRequest: AWSEncodableShape {
         /// The name of the MLflow Tracking Server to describe.
         public let trackingServerName: String?
@@ -19476,6 +20600,8 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The name of the model package being described.
         public let modelPackageName: String?
+        ///  The package registration type of the model package output.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The current status of the model package.
         public let modelPackageStatus: ModelPackageStatus?
         /// Details about the current status of the model package.
@@ -19498,7 +20624,7 @@ extension SageMaker {
         public let validationSpecification: ModelPackageValidationSpecification?
 
         @inlinable
-        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
@@ -19519,6 +20645,7 @@ extension SageMaker {
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.modelPackageStatus = modelPackageStatus
             self.modelPackageStatusDetails = modelPackageStatusDetails
             self.modelPackageVersion = modelPackageVersion
@@ -19552,6 +20679,7 @@ extension SageMaker {
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageStatusDetails = "ModelPackageStatusDetails"
             case modelPackageVersion = "ModelPackageVersion"
@@ -19909,6 +21037,8 @@ extension SageMaker {
         public let failureReason: String?
         /// The time when the optimization job was last updated.
         public let lastModifiedTime: Date?
+        /// The maximum number of instances to use for the optimization job.
+        public let maxInstanceCount: Int?
         /// The location of the source model to optimize with an optimization job.
         public let modelSource: OptimizationJobModelSource?
         /// Settings for each of the optimization techniques that the job applies.
@@ -19936,11 +21066,12 @@ extension SageMaker {
         public let vpcConfig: OptimizationVpcConfig?
 
         @inlinable
-        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEndTime: Date? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationOutput: OptimizationOutput? = nil, optimizationStartTime: Date? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
+        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, failureReason: String? = nil, lastModifiedTime: Date? = nil, maxInstanceCount: Int? = nil, modelSource: OptimizationJobModelSource? = nil, optimizationConfigs: [OptimizationConfig]? = nil, optimizationEndTime: Date? = nil, optimizationEnvironment: [String: String]? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationOutput: OptimizationOutput? = nil, optimizationStartTime: Date? = nil, outputConfig: OptimizationJobOutputConfig? = nil, roleArn: String? = nil, stoppingCondition: StoppingCondition? = nil, vpcConfig: OptimizationVpcConfig? = nil) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
             self.failureReason = failureReason
             self.lastModifiedTime = lastModifiedTime
+            self.maxInstanceCount = maxInstanceCount
             self.modelSource = modelSource
             self.optimizationConfigs = optimizationConfigs
             self.optimizationEndTime = optimizationEndTime
@@ -19961,6 +21092,7 @@ extension SageMaker {
             case deploymentInstanceType = "DeploymentInstanceType"
             case failureReason = "FailureReason"
             case lastModifiedTime = "LastModifiedTime"
+            case maxInstanceCount = "MaxInstanceCount"
             case modelSource = "ModelSource"
             case optimizationConfigs = "OptimizationConfigs"
             case optimizationEndTime = "OptimizationEndTime"
@@ -19980,10 +21112,13 @@ extension SageMaker {
     public struct DescribePartnerAppRequest: AWSEncodableShape {
         /// The ARN of the SageMaker Partner AI App to describe.
         public let arn: String?
+        /// When set to TRUE, the response includes available upgrade information for the SageMaker Partner AI App. Default is FALSE.
+        public let includeAvailableUpgrade: Bool?
 
         @inlinable
-        public init(arn: String? = nil) {
+        public init(arn: String? = nil, includeAvailableUpgrade: Bool? = nil) {
             self.arn = arn
+            self.includeAvailableUpgrade = includeAvailableUpgrade
         }
 
         public func validate(name: String) throws {
@@ -19994,6 +21129,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case includeAvailableUpgrade = "IncludeAvailableUpgrade"
         }
     }
 
@@ -20004,10 +21140,16 @@ extension SageMaker {
         public let arn: String?
         /// The authorization type that users use to access the SageMaker Partner AI App.
         public let authType: PartnerAppAuthType?
+        /// A map of available minor version upgrades for the SageMaker Partner AI App. The key is the semantic version number, and the value is a list of release notes for that version. A null value indicates no upgrades are available.
+        public let availableUpgrade: AvailableUpgrade?
         /// The URL of the SageMaker Partner AI App that the Application SDK uses to support in-app calls for the user.
         public let baseUrl: String?
         /// The time that the SageMaker Partner AI App was created.
         public let creationTime: Date?
+        /// The end-of-life date for the current version of the SageMaker Partner AI App.
+        public let currentVersionEolDate: Date?
+        /// Indicates whether the SageMaker Partner AI App is configured for automatic minor version upgrades during scheduled maintenance windows.
+        public let enableAutoMinorVersionUpgrade: Bool?
         /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
         public let enableIamSessionBasedIdentity: Bool?
         /// This is an error field object that contains the error code and the reason for an operation failure.
@@ -20032,12 +21174,15 @@ extension SageMaker {
         public let version: String?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, baseUrl: String? = nil, creationTime: Date? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, availableUpgrade: AvailableUpgrade? = nil, baseUrl: String? = nil, creationTime: Date? = nil, currentVersionEolDate: Date? = nil, enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
             self.applicationConfig = applicationConfig
             self.arn = arn
             self.authType = authType
+            self.availableUpgrade = availableUpgrade
             self.baseUrl = baseUrl
             self.creationTime = creationTime
+            self.currentVersionEolDate = currentVersionEolDate
+            self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.error = error
             self.executionRoleArn = executionRoleArn
@@ -20055,8 +21200,11 @@ extension SageMaker {
             case applicationConfig = "ApplicationConfig"
             case arn = "Arn"
             case authType = "AuthType"
+            case availableUpgrade = "AvailableUpgrade"
             case baseUrl = "BaseUrl"
             case creationTime = "CreationTime"
+            case currentVersionEolDate = "CurrentVersionEolDate"
+            case enableAutoMinorVersionUpgrade = "EnableAutoMinorVersionUpgrade"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case error = "Error"
             case executionRoleArn = "ExecutionRoleArn"
@@ -20136,6 +21284,8 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// The time when the pipeline execution was modified last.
         public let lastModifiedTime: Date?
+        ///  The MLflow configuration of the pipeline execution.
+        public let mLflowConfig: MLflowConfiguration?
         /// The parallelism configuration applied to the pipeline.
         public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline.
@@ -20155,12 +21305,13 @@ extension SageMaker {
         public let selectiveExecutionConfig: SelectiveExecutionConfig?
 
         @inlinable
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineVersionId: Int64? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, mLflowConfig: MLflowConfiguration? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineVersionId: Int64? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.mLflowConfig = mLflowConfig
             self.parallelismConfiguration = parallelismConfiguration
             self.pipelineArn = pipelineArn
             self.pipelineExecutionArn = pipelineExecutionArn
@@ -20178,6 +21329,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case mLflowConfig = "MLflowConfig"
             case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineArn = "PipelineArn"
             case pipelineExecutionArn = "PipelineExecutionArn"
@@ -20755,6 +21907,8 @@ extension SageMaker {
         public let autoMLJobArn: String?
         /// The billable time in seconds. Billable time refers to the absolute wall-clock time. Multiply BillableTimeInSeconds by the number of instances (InstanceCount) in your training cluster to get the total compute time SageMaker bills you if you run distributed training. The formula is as follows: BillableTimeInSeconds * InstanceCount . You can calculate the savings from using managed spot training using the formula (1 - BillableTimeInSeconds / TrainingTimeInSeconds) * 100. For example, if BillableTimeInSeconds is 100 and TrainingTimeInSeconds is 500, the savings is 80%.
         public let billableTimeInSeconds: Int?
+        ///  The billable token count for eligible serverless training jobs.
+        public let billableTokenCount: Int64?
         public let checkpointConfig: CheckpointConfig?
         /// A timestamp that indicates when the training job was created.
         public let creationTime: Date?
@@ -20786,10 +21940,18 @@ extension SageMaker {
         public let labelingJobArn: String?
         /// A timestamp that indicates when the status of the training job was last modified.
         public let lastModifiedTime: Date?
+        ///  The MLflow configuration using SageMaker managed MLflow.
+        public let mlflowConfig: MlflowConfig?
+        ///  The MLflow details of this job.
+        public let mlflowDetails: MlflowDetails?
         /// Information about the Amazon S3 location that is configured for storing model artifacts.
         public let modelArtifacts: ModelArtifacts?
+        ///  The configuration for the model package.
+        public let modelPackageConfig: ModelPackageConfig?
         /// The S3 path where model artifacts that you configured when creating the job are stored. SageMaker creates subfolders for model artifacts.
         public let outputDataConfig: OutputDataConfig?
+        ///  The Amazon Resource Name (ARN) of the output model package containing model weights or checkpoints.
+        public let outputModelPackageArn: String?
         public let profilerConfig: ProfilerConfig?
         /// Configuration information for Amazon SageMaker Debugger rules for profiling system and framework metrics.
         public let profilerRuleConfigurations: [ProfilerRuleConfiguration]?
@@ -20797,6 +21959,8 @@ extension SageMaker {
         public let profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]?
         /// Profiling status of a training job.
         public let profilingStatus: ProfilingStatus?
+        ///  The Serverless training job progress information.
+        public let progressInfo: TrainingProgressInfo?
         /// Configuration for remote debugging. To learn more about the remote debugging functionality of SageMaker, see Access a training container through Amazon Web Services Systems Manager (SSM) for remote debugging.
         public let remoteDebugConfig: RemoteDebugConfig?
         /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
@@ -20805,10 +21969,12 @@ extension SageMaker {
         public let retryStrategy: RetryStrategy?
         /// The Amazon Web Services Identity and Access Management (IAM) role configured for the training job.
         public let roleArn: String?
-        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
+        ///  Provides detailed information about the state of the training job. For detailed information on the secondary status of the training job, see StatusMessage under SecondaryStatusTransition. SageMaker provides primary statuses and secondary statuses that apply to each of them:  InProgress     Starting - Starting the training job.    Pending - The training job is waiting for compute capacity or compute resource provision.    Downloading - An optional stage for algorithms that support File training input mode. It indicates that data is being downloaded to the ML storage volumes.    Training - Training is in progress.    Interrupted - The job stopped because the managed spot training instances were interrupted.     Uploading - Training is complete and the model artifacts are being uploaded to the S3 location.    Completed     Completed - The training job has completed.    Failed     Failed - The training job has failed. The reason for the failure is returned in the FailureReason field of DescribeTrainingJobResponse.    Stopped     MaxRuntimeExceeded - The job stopped because it exceeded the maximum allowed runtime.    MaxWaitTimeExceeded - The job stopped because it exceeded the maximum allowed wait time.    Stopped - The training job has stopped.    Stopping     Stopping - Stopping the training job.      Valid values for SecondaryStatus are subject to change.   We no longer support the following secondary statuses:    LaunchingMLInstances     PreparingTraining     DownloadingTrainingImage
         public let secondaryStatus: SecondaryStatus?
         /// A history of all of the secondary statuses that the training job has transitioned through.
         public let secondaryStatusTransitions: [SecondaryStatusTransition]?
+        ///  The configuration for serverless training jobs.
+        public let serverlessJobConfig: ServerlessJobConfig?
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
@@ -20832,10 +21998,11 @@ extension SageMaker {
         public let warmPoolStatus: WarmPoolStatus?
 
         @inlinable
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil, warmPoolStatus: WarmPoolStatus? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, billableTokenCount: Int64? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, infraCheckConfig: InfraCheckConfig? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, mlflowConfig: MlflowConfig? = nil, mlflowDetails: MlflowDetails? = nil, modelArtifacts: ModelArtifacts? = nil, modelPackageConfig: ModelPackageConfig? = nil, outputDataConfig: OutputDataConfig? = nil, outputModelPackageArn: String? = nil, profilerConfig: ProfilerConfig? = nil, profilerRuleConfigurations: [ProfilerRuleConfiguration]? = nil, profilerRuleEvaluationStatuses: [ProfilerRuleEvaluationStatus]? = nil, profilingStatus: ProfilingStatus? = nil, progressInfo: TrainingProgressInfo? = nil, remoteDebugConfig: RemoteDebugConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, serverlessJobConfig: ServerlessJobConfig? = nil, stoppingCondition: StoppingCondition? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil, warmPoolStatus: WarmPoolStatus? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
+            self.billableTokenCount = billableTokenCount
             self.checkpointConfig = checkpointConfig
             self.creationTime = creationTime
             self.debugHookConfig = debugHookConfig
@@ -20853,18 +22020,24 @@ extension SageMaker {
             self.inputDataConfig = inputDataConfig
             self.labelingJobArn = labelingJobArn
             self.lastModifiedTime = lastModifiedTime
+            self.mlflowConfig = mlflowConfig
+            self.mlflowDetails = mlflowDetails
             self.modelArtifacts = modelArtifacts
+            self.modelPackageConfig = modelPackageConfig
             self.outputDataConfig = outputDataConfig
+            self.outputModelPackageArn = outputModelPackageArn
             self.profilerConfig = profilerConfig
             self.profilerRuleConfigurations = profilerRuleConfigurations
             self.profilerRuleEvaluationStatuses = profilerRuleEvaluationStatuses
             self.profilingStatus = profilingStatus
+            self.progressInfo = progressInfo
             self.remoteDebugConfig = remoteDebugConfig
             self.resourceConfig = resourceConfig
             self.retryStrategy = retryStrategy
             self.roleArn = roleArn
             self.secondaryStatus = secondaryStatus
             self.secondaryStatusTransitions = secondaryStatusTransitions
+            self.serverlessJobConfig = serverlessJobConfig
             self.stoppingCondition = stoppingCondition
             self.tensorBoardOutputConfig = tensorBoardOutputConfig
             self.trainingEndTime = trainingEndTime
@@ -20882,6 +22055,7 @@ extension SageMaker {
             case algorithmSpecification = "AlgorithmSpecification"
             case autoMLJobArn = "AutoMLJobArn"
             case billableTimeInSeconds = "BillableTimeInSeconds"
+            case billableTokenCount = "BillableTokenCount"
             case checkpointConfig = "CheckpointConfig"
             case creationTime = "CreationTime"
             case debugHookConfig = "DebugHookConfig"
@@ -20899,18 +22073,24 @@ extension SageMaker {
             case inputDataConfig = "InputDataConfig"
             case labelingJobArn = "LabelingJobArn"
             case lastModifiedTime = "LastModifiedTime"
+            case mlflowConfig = "MlflowConfig"
+            case mlflowDetails = "MlflowDetails"
             case modelArtifacts = "ModelArtifacts"
+            case modelPackageConfig = "ModelPackageConfig"
             case outputDataConfig = "OutputDataConfig"
+            case outputModelPackageArn = "OutputModelPackageArn"
             case profilerConfig = "ProfilerConfig"
             case profilerRuleConfigurations = "ProfilerRuleConfigurations"
             case profilerRuleEvaluationStatuses = "ProfilerRuleEvaluationStatuses"
             case profilingStatus = "ProfilingStatus"
+            case progressInfo = "ProgressInfo"
             case remoteDebugConfig = "RemoteDebugConfig"
             case resourceConfig = "ResourceConfig"
             case retryStrategy = "RetryStrategy"
             case roleArn = "RoleArn"
             case secondaryStatus = "SecondaryStatus"
             case secondaryStatusTransitions = "SecondaryStatusTransitions"
+            case serverlessJobConfig = "ServerlessJobConfig"
             case stoppingCondition = "StoppingCondition"
             case tensorBoardOutputConfig = "TensorBoardOutputConfig"
             case trainingEndTime = "TrainingEndTime"
@@ -20968,7 +22148,7 @@ extension SageMaker {
         public let status: TrainingPlanStatus?
         /// A message providing additional information about the current status of the training plan.
         public let statusMessage: String?
-        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
         public let targetResources: [SageMakerResourceName]?
         /// The total number of instances reserved in this training plan.
         public let totalInstanceCount: Int?
@@ -25514,14 +26694,14 @@ extension SageMaker {
             try self.validate(self.hubContentDescription, name: "hubContentDescription", parent: name, pattern: ".*")
             try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, max: 255)
             try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, pattern: ".*")
-            try self.validate(self.hubContentDocument, name: "hubContentDocument", parent: name, max: 65535)
+            try self.validate(self.hubContentDocument, name: "hubContentDocument", parent: name, max: 170391)
             try self.validate(self.hubContentDocument, name: "hubContentDocument", parent: name, pattern: ".*")
-            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, max: 65535)
+            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, max: 170391)
             try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
             try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.hubContentSearchKeywords?.forEach {
                 try validate($0, name: "hubContentSearchKeywords[]", parent: name, max: 255)
-                try validate($0, name: "hubContentSearchKeywords[]", parent: name, pattern: "^[^A-Z]*$")
+                try validate($0, name: "hubContentSearchKeywords[]", parent: name, pattern: ".*")
             }
             try self.validate(self.hubContentSearchKeywords, name: "hubContentSearchKeywords", parent: name, max: 50)
             try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
@@ -25680,6 +26860,34 @@ extension SageMaker {
         }
     }
 
+    public struct InferenceComponentDataCacheConfig: AWSEncodableShape {
+        /// Sets whether the endpoint that hosts the inference component caches the model artifacts and container image. With caching enabled, the endpoint caches this data in each instance that it provisions for the inference component. That way, the inference component deploys faster during the auto scaling process. If caching isn't enabled, the inference component takes longer to deploy because of the time it spends downloading the data.
+        public let enableCaching: Bool?
+
+        @inlinable
+        public init(enableCaching: Bool? = nil) {
+            self.enableCaching = enableCaching
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableCaching = "EnableCaching"
+        }
+    }
+
+    public struct InferenceComponentDataCacheConfigSummary: AWSDecodableShape {
+        /// Indicates whether the inference component caches model artifacts as part of the auto scaling process.
+        public let enableCaching: Bool?
+
+        @inlinable
+        public init(enableCaching: Bool? = nil) {
+            self.enableCaching = enableCaching
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableCaching = "EnableCaching"
+        }
+    }
+
     public struct InferenceComponentDeploymentConfig: AWSEncodableShape & AWSDecodableShape {
         public let autoRollbackConfiguration: AutoRollbackConfig?
         /// Specifies a rolling deployment strategy for updating a SageMaker AI endpoint.
@@ -25699,6 +26907,20 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case autoRollbackConfiguration = "AutoRollbackConfiguration"
             case rollingUpdatePolicy = "RollingUpdatePolicy"
+        }
+    }
+
+    public struct InferenceComponentMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the inference component metadata.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
         }
     }
 
@@ -25780,16 +27002,19 @@ extension SageMaker {
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public let container: InferenceComponentContainerSpecification?
+        /// Settings that affect how the inference component caches data.
+        public let dataCacheConfig: InferenceComponentDataCacheConfig?
         /// The name of an existing SageMaker AI model object in your account that you want to deploy with the inference component.
         public let modelName: String?
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
 
         @inlinable
-        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecification? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecification? = nil, dataCacheConfig: InferenceComponentDataCacheConfig? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
+            self.dataCacheConfig = dataCacheConfig
             self.modelName = modelName
             self.startupParameters = startupParameters
         }
@@ -25808,6 +27033,7 @@ extension SageMaker {
             case baseInferenceComponentName = "BaseInferenceComponentName"
             case computeResourceRequirements = "ComputeResourceRequirements"
             case container = "Container"
+            case dataCacheConfig = "DataCacheConfig"
             case modelName = "ModelName"
             case startupParameters = "StartupParameters"
         }
@@ -25820,16 +27046,19 @@ extension SageMaker {
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public let container: InferenceComponentContainerSpecificationSummary?
+        /// Settings that affect how the inference component caches data.
+        public let dataCacheConfig: InferenceComponentDataCacheConfigSummary?
         /// The name of the SageMaker AI model object that is deployed with the inference component.
         public let modelName: String?
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
 
         @inlinable
-        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecificationSummary? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
+        public init(baseInferenceComponentName: String? = nil, computeResourceRequirements: InferenceComponentComputeResourceRequirements? = nil, container: InferenceComponentContainerSpecificationSummary? = nil, dataCacheConfig: InferenceComponentDataCacheConfigSummary? = nil, modelName: String? = nil, startupParameters: InferenceComponentStartupParameters? = nil) {
             self.baseInferenceComponentName = baseInferenceComponentName
             self.computeResourceRequirements = computeResourceRequirements
             self.container = container
+            self.dataCacheConfig = dataCacheConfig
             self.modelName = modelName
             self.startupParameters = startupParameters
         }
@@ -25838,6 +27067,7 @@ extension SageMaker {
             case baseInferenceComponentName = "BaseInferenceComponentName"
             case computeResourceRequirements = "ComputeResourceRequirements"
             case container = "Container"
+            case dataCacheConfig = "DataCacheConfig"
             case modelName = "ModelName"
             case startupParameters = "StartupParameters"
         }
@@ -26346,19 +27576,23 @@ extension SageMaker {
         public let failureMessage: String?
         /// The current number of instances in the group.
         public let instanceCount: Int?
+        /// Minimum instance count of the instance group.
+        public let minCount: Int?
         /// The desired number of instances for the group after scaling.
         public let targetCount: Int?
 
         @inlinable
-        public init(failureMessage: String? = nil, instanceCount: Int? = nil, targetCount: Int? = nil) {
+        public init(failureMessage: String? = nil, instanceCount: Int? = nil, minCount: Int? = nil, targetCount: Int? = nil) {
             self.failureMessage = failureMessage
             self.instanceCount = instanceCount
+            self.minCount = minCount
             self.targetCount = targetCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case failureMessage = "FailureMessage"
             case instanceCount = "InstanceCount"
+            case minCount = "MinCount"
             case targetCount = "TargetCount"
         }
     }
@@ -27147,6 +28381,32 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case lineageGroupArn = "LineageGroupArn"
             case lineageGroupName = "LineageGroupName"
+        }
+    }
+
+    public struct LineageMetadata: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the lineage metadata action.
+        public let actionArns: [String: String]?
+        ///  The Amazon Resource Name (ARN) of the lineage metadata artifact.
+        public let artifactArns: [String: String]?
+        ///  The lineage metadata associations.
+        public let associations: [AssociationInfo]?
+        ///  The Amazon Resource Name (ARN) of the lineage metadata context.
+        public let contextArns: [String: String]?
+
+        @inlinable
+        public init(actionArns: [String: String]? = nil, artifactArns: [String: String]? = nil, associations: [AssociationInfo]? = nil, contextArns: [String: String]? = nil) {
+            self.actionArns = actionArns
+            self.artifactArns = artifactArns
+            self.associations = associations
+            self.contextArns = contextArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionArns = "ActionArns"
+            case artifactArns = "ArtifactArns"
+            case associations = "Associations"
+            case contextArns = "ContextArns"
         }
     }
 
@@ -29928,7 +31188,7 @@ extension SageMaker {
             try self.validate(self.modelNameEquals, name: "modelNameEquals", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
             try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArnEquals, name: "modelPackageVersionArnEquals", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.validate(self.nameContains, name: "nameContains", parent: name, max: 63)
             try self.validate(self.nameContains, name: "nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
@@ -30174,6 +31434,83 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case lineageGroupSummaries = "LineageGroupSummaries"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMlflowAppsRequest: AWSEncodableShape {
+        /// Filter for MLflow Apps with the specified AccountDefaultStatus.
+        public let accountDefaultStatus: AccountDefaultStatus?
+        /// Use the CreatedAfter filter to only list MLflow Apps created after a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+        public let createdAfter: Date?
+        /// Use the CreatedBefore filter to only list MLflow Apps created before a specific date and time. Listed MLflow Apps are shown with a date and time such as "2024-03-16T01:46:56+00:00". The CreatedAfter parameter takes in a Unix timestamp.
+        public let createdBefore: Date?
+        /// Filter for MLflow Apps with the specified default SageMaker Domain ID.
+        public let defaultForDomainId: String?
+        /// The maximum number of MLflow Apps to list.
+        public let maxResults: Int?
+        /// Filter for Mlflow Apps with the specified version.
+        public let mlflowVersion: String?
+        /// If the previous response was truncated, use this token in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// Filter for MLflow Apps sorting by name, creation time, or creation status.
+        public let sortBy: SortMlflowAppBy?
+        /// Change the order of the listed MLflow Apps. By default, MLflow Apps are listed in Descending order by creation time. To change the list order, specify SortOrder to be Ascending.
+        public let sortOrder: SortOrder?
+        /// Filter for Mlflow apps with a specific creation status.
+        public let status: MlflowAppStatus?
+
+        @inlinable
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, createdAfter: Date? = nil, createdBefore: Date? = nil, defaultForDomainId: String? = nil, maxResults: Int? = nil, mlflowVersion: String? = nil, nextToken: String? = nil, sortBy: SortMlflowAppBy? = nil, sortOrder: SortOrder? = nil, status: MlflowAppStatus? = nil) {
+            self.accountDefaultStatus = accountDefaultStatus
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.defaultForDomainId = defaultForDomainId
+            self.maxResults = maxResults
+            self.mlflowVersion = mlflowVersion
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.mlflowVersion, name: "mlflowVersion", parent: name, max: 16)
+            try self.validate(self.mlflowVersion, name: "mlflowVersion", parent: name, pattern: "^[0-9]*.[0-9]*.[0-9]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefaultStatus = "AccountDefaultStatus"
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case defaultForDomainId = "DefaultForDomainId"
+            case maxResults = "MaxResults"
+            case mlflowVersion = "MlflowVersion"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+            case status = "Status"
+        }
+    }
+
+    public struct ListMlflowAppsResponse: AWSDecodableShape {
+        /// If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+        public let nextToken: String?
+        /// A list of MLflow Apps according to chosen filters.
+        public let summaries: [MlflowAppSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, summaries: [MlflowAppSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaries = summaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaries = "Summaries"
         }
     }
 
@@ -33036,6 +34373,24 @@ extension SageMaker {
         }
     }
 
+    public struct MLflowConfiguration: AWSDecodableShape {
+        ///  The name of the MLflow configuration.
+        public let mlflowExperimentName: String?
+        ///  The Amazon Resource Name (ARN) of MLflow configuration resource.
+        public let mlflowResourceArn: String?
+
+        @inlinable
+        public init(mlflowExperimentName: String? = nil, mlflowResourceArn: String? = nil) {
+            self.mlflowExperimentName = mlflowExperimentName
+            self.mlflowResourceArn = mlflowResourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlflowExperimentName = "MlflowExperimentName"
+            case mlflowResourceArn = "MlflowResourceArn"
+        }
+    }
+
     public struct MemberDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Cognito user group that is part of the work team.
         public let cognitoMemberDefinition: CognitoMemberDefinition?
@@ -33171,6 +34526,24 @@ extension SageMaker {
         }
     }
 
+    public struct MetricsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to enable enhanced metrics for the endpoint. Enhanced metrics provide utilization data at instance and container granularity. Container granularity is supported for Inference Components. The default is False.
+        public let enableEnhancedMetrics: Bool?
+        /// The frequency, in seconds, at which utilization metrics are published to Amazon CloudWatch. The default is 60 seconds.
+        public let metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds?
+
+        @inlinable
+        public init(enableEnhancedMetrics: Bool? = nil, metricPublishFrequencyInSeconds: MetricPublishFrequencyInSeconds? = nil) {
+            self.enableEnhancedMetrics = enableEnhancedMetrics
+            self.metricPublishFrequencyInSeconds = metricPublishFrequencyInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableEnhancedMetrics = "EnableEnhancedMetrics"
+            case metricPublishFrequencyInSeconds = "MetricPublishFrequencyInSeconds"
+        }
+    }
+
     public struct MetricsSource: AWSEncodableShape & AWSDecodableShape {
         /// The hash key used for the metrics source.
         public let contentDigest: String?
@@ -33199,6 +34572,91 @@ extension SageMaker {
             case contentDigest = "ContentDigest"
             case contentType = "ContentType"
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct MlflowAppSummary: AWSDecodableShape {
+        /// The ARN of a listed MLflow App.
+        public let arn: String?
+        /// The creation time of a listed MLflow App.
+        public let creationTime: Date?
+        /// The last modified time of a listed MLflow App.
+        public let lastModifiedTime: Date?
+        /// The version of a listed MLflow App.
+        public let mlflowVersion: String?
+        /// The name of the MLflow App.
+        public let name: String?
+        /// The status of the MLflow App.
+        public let status: MlflowAppStatus?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, lastModifiedTime: Date? = nil, mlflowVersion: String? = nil, name: String? = nil, status: MlflowAppStatus? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.mlflowVersion = mlflowVersion
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case mlflowVersion = "MlflowVersion"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct MlflowConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The MLflow experiment name used for this job.
+        public let mlflowExperimentName: String?
+        ///  The Amazon Resource Name (ARN) of the MLflow resource.
+        public let mlflowResourceArn: String
+        ///  The MLflow run name used for this job.
+        public let mlflowRunName: String?
+
+        @inlinable
+        public init(mlflowExperimentName: String? = nil, mlflowResourceArn: String, mlflowRunName: String? = nil) {
+            self.mlflowExperimentName = mlflowExperimentName
+            self.mlflowResourceArn = mlflowResourceArn
+            self.mlflowRunName = mlflowRunName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, max: 256)
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, min: 1)
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, pattern: ".*")
+            try self.validate(self.mlflowResourceArn, name: "mlflowResourceArn", parent: name, max: 2048)
+            try self.validate(self.mlflowResourceArn, name: "mlflowResourceArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:mlflow-[a-zA-Z-]*/")
+            try self.validate(self.mlflowRunName, name: "mlflowRunName", parent: name, max: 256)
+            try self.validate(self.mlflowRunName, name: "mlflowRunName", parent: name, min: 1)
+            try self.validate(self.mlflowRunName, name: "mlflowRunName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlflowExperimentName = "MlflowExperimentName"
+            case mlflowResourceArn = "MlflowResourceArn"
+            case mlflowRunName = "MlflowRunName"
+        }
+    }
+
+    public struct MlflowDetails: AWSDecodableShape {
+        ///  The MLflow experiment ID used for this job.
+        public let mlflowExperimentId: String?
+        ///  The MLflow run ID used for this job.
+        public let mlflowRunId: String?
+
+        @inlinable
+        public init(mlflowExperimentId: String? = nil, mlflowRunId: String? = nil) {
+            self.mlflowExperimentId = mlflowExperimentId
+            self.mlflowRunId = mlflowRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mlflowExperimentId = "MlflowExperimentId"
+            case mlflowRunId = "MlflowRunId"
         }
     }
 
@@ -34264,6 +35722,8 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The name of the model package. The name can be as follows:   For a versioned model, the name is automatically generated by SageMaker Model Registry and follows the format 'ModelPackageGroupName/ModelPackageVersion'.   For an unversioned model, you must provide the name.
         public let modelPackageName: String?
+        ///  The package registration type of the model package.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The status of the model package. This can be one of the following values.    PENDING - The model package is pending being created.    IN_PROGRESS - The model package is in the process of being created.    COMPLETED - The model package was successfully created.    FAILED - The model package failed.    DELETING - The model package is in the process of being deleted.
         public let modelPackageStatus: ModelPackageStatus?
         /// Specifies the validation and image scan statuses of the model package.
@@ -34287,7 +35747,7 @@ extension SageMaker {
         public let validationSpecification: ModelPackageValidationSpecification?
 
         @inlinable
-        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(additionalInferenceSpecifications: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, certifyForMarketplace: Bool? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, customerMetadataProperties: [String: String]? = nil, domain: String? = nil, driftCheckBaselines: DriftCheckBaselines? = nil, inferenceSpecification: InferenceSpecification? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, metadataProperties: MetadataProperties? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelMetrics: ModelMetrics? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageStatusDetails: ModelPackageStatusDetails? = nil, modelPackageVersion: Int? = nil, samplePayloadUrl: String? = nil, securityConfig: ModelPackageSecurityConfig? = nil, skipModelValidation: SkipModelValidation? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, sourceUri: String? = nil, tags: [Tag]? = nil, task: String? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.additionalInferenceSpecifications = additionalInferenceSpecifications
             self.approvalDescription = approvalDescription
             self.certifyForMarketplace = certifyForMarketplace
@@ -34308,6 +35768,7 @@ extension SageMaker {
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.modelPackageStatus = modelPackageStatus
             self.modelPackageStatusDetails = modelPackageStatusDetails
             self.modelPackageVersion = modelPackageVersion
@@ -34342,6 +35803,7 @@ extension SageMaker {
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageStatusDetails = "ModelPackageStatusDetails"
             case modelPackageVersion = "ModelPackageVersion"
@@ -34356,9 +35818,38 @@ extension SageMaker {
         }
     }
 
+    public struct ModelPackageConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) of the model package group of output model package.
+        public let modelPackageGroupArn: String
+        ///  The Amazon Resource Name (ARN) of the source model package used for continued fine-tuning and custom model evaluation.
+        public let sourceModelPackageArn: String?
+
+        @inlinable
+        public init(modelPackageGroupArn: String, sourceModelPackageArn: String? = nil) {
+            self.modelPackageGroupArn = modelPackageGroupArn
+            self.sourceModelPackageArn = sourceModelPackageArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, max: 2048)
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, min: 1)
+            try self.validate(self.modelPackageGroupArn, name: "modelPackageGroupArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package-group/[\\S]{1,2048}$")
+            try self.validate(self.sourceModelPackageArn, name: "sourceModelPackageArn", parent: name, max: 2048)
+            try self.validate(self.sourceModelPackageArn, name: "sourceModelPackageArn", parent: name, min: 1)
+            try self.validate(self.sourceModelPackageArn, name: "sourceModelPackageArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelPackageGroupArn = "ModelPackageGroupArn"
+            case sourceModelPackageArn = "SourceModelPackageArn"
+        }
+    }
+
     public struct ModelPackageContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The additional data source that is used during inference in the Docker container for your model package.
         public let additionalS3DataSource: AdditionalS3DataSource?
+        ///  The base model of the package.
+        public let baseModel: BaseModel?
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map.
@@ -34371,6 +35862,8 @@ extension SageMaker {
         public let image: String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
+        ///  The checkpoint of the model package.
+        public let isCheckpoint: Bool?
         /// The ETag associated with Model Data URL.
         public let modelDataETag: String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
@@ -34385,14 +35878,16 @@ extension SageMaker {
         public let productId: String?
 
         @inlinable
-        public init(additionalS3DataSource: AdditionalS3DataSource? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, framework: String? = nil, frameworkVersion: String? = nil, image: String? = nil, imageDigest: String? = nil, modelDataETag: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelInput: ModelInput? = nil, nearestModelName: String? = nil, productId: String? = nil) {
+        public init(additionalS3DataSource: AdditionalS3DataSource? = nil, baseModel: BaseModel? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, framework: String? = nil, frameworkVersion: String? = nil, image: String? = nil, imageDigest: String? = nil, isCheckpoint: Bool? = nil, modelDataETag: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelInput: ModelInput? = nil, nearestModelName: String? = nil, productId: String? = nil) {
             self.additionalS3DataSource = additionalS3DataSource
+            self.baseModel = baseModel
             self.containerHostname = containerHostname
             self.environment = environment
             self.framework = framework
             self.frameworkVersion = frameworkVersion
             self.image = image
             self.imageDigest = imageDigest
+            self.isCheckpoint = isCheckpoint
             self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
@@ -34403,6 +35898,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.additionalS3DataSource?.validate(name: "\(name).additionalS3DataSource")
+            try self.baseModel?.validate(name: "\(name).baseModel")
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, max: 63)
             try self.validate(self.containerHostname, name: "containerHostname", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.environment?.forEach {
@@ -34429,12 +35925,14 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case additionalS3DataSource = "AdditionalS3DataSource"
+            case baseModel = "BaseModel"
             case containerHostname = "ContainerHostname"
             case environment = "Environment"
             case framework = "Framework"
             case frameworkVersion = "FrameworkVersion"
             case image = "Image"
             case imageDigest = "ImageDigest"
+            case isCheckpoint = "IsCheckpoint"
             case modelDataETag = "ModelDataETag"
             case modelDataSource = "ModelDataSource"
             case modelDataUrl = "ModelDataUrl"
@@ -34607,13 +36105,15 @@ extension SageMaker {
         public let modelPackageGroupName: String?
         /// The name of the model package.
         public let modelPackageName: String?
+        ///  The package registration type of the model package summary.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The overall status of the model package.
         public let modelPackageStatus: ModelPackageStatus?
         /// If the model package is a versioned model, the version of the model.
         public let modelPackageVersion: Int?
 
         @inlinable
-        public init(creationTime: Date? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
+        public init(creationTime: Date? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
             self.modelLifeCycle = modelLifeCycle
@@ -34621,6 +36121,7 @@ extension SageMaker {
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
             self.modelPackageName = modelPackageName
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.modelPackageStatus = modelPackageStatus
             self.modelPackageVersion = modelPackageVersion
         }
@@ -34633,6 +36134,7 @@ extension SageMaker {
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
             case modelPackageName = "ModelPackageName"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case modelPackageStatus = "ModelPackageStatus"
             case modelPackageVersion = "ModelPackageVersion"
         }
@@ -34910,6 +36412,51 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case image = "Image"
             case overrideEnvironment = "OverrideEnvironment"
+        }
+    }
+
+    public struct ModelSpeculativeDecodingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The speculative decoding technique to apply during model optimization.
+        public let technique: ModelSpeculativeDecodingTechnique?
+        /// The location of the training data to use for speculative decoding. The data must be formatted as ShareGPT, OpenAI Completions or OpenAI Chat Completions. The input can also be unencrypted captured data from a SageMaker endpoint as long as the endpoint uses one of the above formats.
+        public let trainingDataSource: ModelSpeculativeDecodingTrainingDataSource?
+
+        @inlinable
+        public init(technique: ModelSpeculativeDecodingTechnique? = nil, trainingDataSource: ModelSpeculativeDecodingTrainingDataSource? = nil) {
+            self.technique = technique
+            self.trainingDataSource = trainingDataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.trainingDataSource?.validate(name: "\(name).trainingDataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case technique = "Technique"
+            case trainingDataSource = "TrainingDataSource"
+        }
+    }
+
+    public struct ModelSpeculativeDecodingTrainingDataSource: AWSEncodableShape & AWSDecodableShape {
+        /// The type of data stored in the Amazon S3 location. Valid values are S3Prefix or ManifestFile.
+        public let s3DataType: ModelSpeculativeDecodingS3DataType?
+        /// The Amazon S3 URI that points to the training data for speculative decoding.
+        public let s3Uri: String?
+
+        @inlinable
+        public init(s3DataType: ModelSpeculativeDecodingS3DataType? = nil, s3Uri: String? = nil) {
+            self.s3DataType = s3DataType
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataType = "S3DataType"
+            case s3Uri = "S3Uri"
         }
     }
 
@@ -36273,18 +37820,23 @@ extension SageMaker {
     public struct OptimizationJobModelSource: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 location of a source model to optimize with an optimization job.
         public let s3: OptimizationJobModelSourceS3?
+        /// The name of an existing SageMaker model to optimize with an optimization job.
+        public let sageMakerModel: OptimizationSageMakerModel?
 
         @inlinable
-        public init(s3: OptimizationJobModelSourceS3? = nil) {
+        public init(s3: OptimizationJobModelSourceS3? = nil, sageMakerModel: OptimizationSageMakerModel? = nil) {
             self.s3 = s3
+            self.sageMakerModel = sageMakerModel
         }
 
         public func validate(name: String) throws {
             try self.s3?.validate(name: "\(name).s3")
+            try self.sageMakerModel?.validate(name: "\(name).sageMakerModel")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3 = "S3"
+            case sageMakerModel = "SageMakerModel"
         }
     }
 
@@ -36316,11 +37868,14 @@ extension SageMaker {
         public let kmsKeyId: String?
         /// The Amazon S3 URI for where to store the optimized model that you create with an optimization job.
         public let s3OutputLocation: String?
+        /// The name of a SageMaker model to use as the output destination for an optimization job.
+        public let sageMakerModel: OptimizationSageMakerModel?
 
         @inlinable
-        public init(kmsKeyId: String? = nil, s3OutputLocation: String? = nil) {
+        public init(kmsKeyId: String? = nil, s3OutputLocation: String? = nil, sageMakerModel: OptimizationSageMakerModel? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputLocation = s3OutputLocation
+            self.sageMakerModel = sageMakerModel
         }
 
         public func validate(name: String) throws {
@@ -36328,11 +37883,13 @@ extension SageMaker {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
             try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, max: 1024)
             try self.validate(self.s3OutputLocation, name: "s3OutputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.sageMakerModel?.validate(name: "\(name).sageMakerModel")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputLocation = "S3OutputLocation"
+            case sageMakerModel = "SageMakerModel"
         }
     }
 
@@ -36343,6 +37900,8 @@ extension SageMaker {
         public let deploymentInstanceType: OptimizationJobDeploymentInstanceType?
         /// The time when the optimization job was last updated.
         public let lastModifiedTime: Date?
+        /// The maximum number of instances to use for the optimization job.
+        public let maxInstanceCount: Int?
         /// The time when the optimization job finished processing.
         public let optimizationEndTime: Date?
         /// The Amazon Resource Name (ARN) of the optimization job.
@@ -36357,10 +37916,11 @@ extension SageMaker {
         public let optimizationTypes: [String]?
 
         @inlinable
-        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, lastModifiedTime: Date? = nil, optimizationEndTime: Date? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationStartTime: Date? = nil, optimizationTypes: [String]? = nil) {
+        public init(creationTime: Date? = nil, deploymentInstanceType: OptimizationJobDeploymentInstanceType? = nil, lastModifiedTime: Date? = nil, maxInstanceCount: Int? = nil, optimizationEndTime: Date? = nil, optimizationJobArn: String? = nil, optimizationJobName: String? = nil, optimizationJobStatus: OptimizationJobStatus? = nil, optimizationStartTime: Date? = nil, optimizationTypes: [String]? = nil) {
             self.creationTime = creationTime
             self.deploymentInstanceType = deploymentInstanceType
             self.lastModifiedTime = lastModifiedTime
+            self.maxInstanceCount = maxInstanceCount
             self.optimizationEndTime = optimizationEndTime
             self.optimizationJobArn = optimizationJobArn
             self.optimizationJobName = optimizationJobName
@@ -36373,6 +37933,7 @@ extension SageMaker {
             case creationTime = "CreationTime"
             case deploymentInstanceType = "DeploymentInstanceType"
             case lastModifiedTime = "LastModifiedTime"
+            case maxInstanceCount = "MaxInstanceCount"
             case optimizationEndTime = "OptimizationEndTime"
             case optimizationJobArn = "OptimizationJobArn"
             case optimizationJobName = "OptimizationJobName"
@@ -36407,6 +37968,25 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case recommendedInferenceImage = "RecommendedInferenceImage"
+        }
+    }
+
+    public struct OptimizationSageMakerModel: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a SageMaker model.
+        public let modelName: String?
+
+        @inlinable
+        public init(modelName: String? = nil) {
+            self.modelName = modelName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelName = "ModelName"
         }
     }
 
@@ -36727,11 +38307,17 @@ extension SageMaker {
         public let adminUsers: [String]?
         /// This is a map of required inputs for a SageMaker Partner AI App. Based on the application type, the map is populated with a key and value pair that is specific to the user and application.
         public let arguments: [String: String]?
+        /// A list of Amazon Web Services IAM Identity Center group patterns that can access the SageMaker Partner AI App. Group names support wildcard matching using *. An empty list indicates the app will not use Identity Center group features. All groups specified in RoleGroupAssignments must match patterns in this list.
+        public let assignedGroupPatterns: [String]?
+        /// A map of in-app roles to Amazon Web Services IAM Identity Center group patterns. Groups assigned to specific roles receive those permissions, while groups in AssignedGroupPatterns but not in this map receive default in-app role depending on app type. Group patterns support wildcard matching using *. Currently supported by Fiddler version 1.3 and later with roles: ORG_MEMBER (default) and ORG_ADMIN.
+        public let roleGroupAssignments: [RoleGroupAssignment]?
 
         @inlinable
-        public init(adminUsers: [String]? = nil, arguments: [String: String]? = nil) {
+        public init(adminUsers: [String]? = nil, arguments: [String: String]? = nil, assignedGroupPatterns: [String]? = nil, roleGroupAssignments: [RoleGroupAssignment]? = nil) {
             self.adminUsers = adminUsers
             self.arguments = arguments
+            self.assignedGroupPatterns = assignedGroupPatterns
+            self.roleGroupAssignments = roleGroupAssignments
         }
 
         public func validate(name: String) throws {
@@ -36746,11 +38332,23 @@ extension SageMaker {
                 try validate($0.value, name: "arguments[\"\($0.key)\"]", parent: name, max: 1024)
             }
             try self.validate(self.arguments, name: "arguments", parent: name, max: 5)
+            try self.assignedGroupPatterns?.forEach {
+                try validate($0, name: "assignedGroupPatterns[]", parent: name, max: 128)
+                try validate($0, name: "assignedGroupPatterns[]", parent: name, min: 1)
+                try validate($0, name: "assignedGroupPatterns[]", parent: name, pattern: "^[\\w+=,.@*-]+$")
+            }
+            try self.validate(self.assignedGroupPatterns, name: "assignedGroupPatterns", parent: name, max: 10)
+            try self.roleGroupAssignments?.forEach {
+                try $0.validate(name: "\(name).roleGroupAssignments[]")
+            }
+            try self.validate(self.roleGroupAssignments, name: "roleGroupAssignments", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
             case adminUsers = "AdminUsers"
             case arguments = "Arguments"
+            case assignedGroupPatterns = "AssignedGroupPatterns"
+            case roleGroupAssignments = "RoleGroupAssignments"
         }
     }
 
@@ -37141,6 +38739,14 @@ extension SageMaker {
     public struct PipelineExecutionStepMetadata: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the AutoML job that was run by this step.
         public let autoMLJob: AutoMLJobStepMetadata?
+        ///  The metadata of the Amazon Bedrock custom model used in the pipeline execution step.
+        public let bedrockCustomModel: BedrockCustomModelMetadata?
+        ///  The metadata of the Amazon Bedrock custom model deployment used in pipeline execution step.
+        public let bedrockCustomModelDeployment: BedrockCustomModelDeploymentMetadata?
+        ///  The metadata of Amazon Bedrock model import used in pipeline execution step.
+        public let bedrockModelImport: BedrockModelImportMetadata?
+        ///  The metadata of the Amazon Bedrock provisioned model throughput used in the pipeline execution step.
+        public let bedrockProvisionedModelThroughput: BedrockProvisionedModelThroughputMetadata?
         /// The URL of the Amazon SQS queue used by this step execution, the pipeline generated token, and a list of output parameters.
         public let callback: CallbackStepMetadata?
         /// Container for the metadata for a Clarify check step. The configurations and outcomes of the check step execution. This includes:    The type of the check conducted,   The Amazon S3 URIs of baseline constraints and statistics files to be used for the drift check.   The Amazon S3 URIs of newly calculated baseline constraints and statistics.   The model package group name provided.   The Amazon S3 URI of the violation report if violations detected.   The Amazon Resource Name (ARN) of check processing job initiated by the step execution.   The boolean flags indicating if the drift check is skipped.   If step property BaselineUsedForDriftCheck is set the same as CalculatedBaseline.
@@ -37155,8 +38761,12 @@ extension SageMaker {
         public let endpointConfig: EndpointConfigStepMetadata?
         /// The configurations and outcomes of a Fail step execution.
         public let fail: FailStepMetadata?
+        ///  The metadata of the inference component used in pipeline execution step.
+        public let inferenceComponent: InferenceComponentMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
         public let lambda: LambdaStepMetadata?
+        ///  The metadata of the lineage used in pipeline execution step.
+        public let lineage: LineageMetadata?
         /// The Amazon Resource Name (ARN) of the model that was created by this step execution.
         public let model: ModelStepMetadata?
         /// The Amazon Resource Name (ARN) of the processing job that was run by this step execution.
@@ -37173,8 +38783,12 @@ extension SageMaker {
         public let tuningJob: TuningJobStepMetaData?
 
         @inlinable
-        public init(autoMLJob: AutoMLJobStepMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(autoMLJob: AutoMLJobStepMetadata? = nil, bedrockCustomModel: BedrockCustomModelMetadata? = nil, bedrockCustomModelDeployment: BedrockCustomModelDeploymentMetadata? = nil, bedrockModelImport: BedrockModelImportMetadata? = nil, bedrockProvisionedModelThroughput: BedrockProvisionedModelThroughputMetadata? = nil, callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, endpoint: EndpointStepMetadata? = nil, endpointConfig: EndpointConfigStepMetadata? = nil, fail: FailStepMetadata? = nil, inferenceComponent: InferenceComponentMetadata? = nil, lambda: LambdaStepMetadata? = nil, lineage: LineageMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
             self.autoMLJob = autoMLJob
+            self.bedrockCustomModel = bedrockCustomModel
+            self.bedrockCustomModelDeployment = bedrockCustomModelDeployment
+            self.bedrockModelImport = bedrockModelImport
+            self.bedrockProvisionedModelThroughput = bedrockProvisionedModelThroughput
             self.callback = callback
             self.clarifyCheck = clarifyCheck
             self.condition = condition
@@ -37182,7 +38796,9 @@ extension SageMaker {
             self.endpoint = endpoint
             self.endpointConfig = endpointConfig
             self.fail = fail
+            self.inferenceComponent = inferenceComponent
             self.lambda = lambda
+            self.lineage = lineage
             self.model = model
             self.processingJob = processingJob
             self.qualityCheck = qualityCheck
@@ -37194,6 +38810,10 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case autoMLJob = "AutoMLJob"
+            case bedrockCustomModel = "BedrockCustomModel"
+            case bedrockCustomModelDeployment = "BedrockCustomModelDeployment"
+            case bedrockModelImport = "BedrockModelImport"
+            case bedrockProvisionedModelThroughput = "BedrockProvisionedModelThroughput"
             case callback = "Callback"
             case clarifyCheck = "ClarifyCheck"
             case condition = "Condition"
@@ -37201,7 +38821,9 @@ extension SageMaker {
             case endpoint = "Endpoint"
             case endpointConfig = "EndpointConfig"
             case fail = "Fail"
+            case inferenceComponent = "InferenceComponent"
             case lambda = "Lambda"
+            case lineage = "Lineage"
             case model = "Model"
             case processingJob = "ProcessingJob"
             case qualityCheck = "QualityCheck"
@@ -37791,7 +39413,7 @@ extension SageMaker {
         public let localPath: String?
         /// Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing container. Gzip can only be used when Pipe mode is specified as the S3InputMode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your container without using the EBS volume.
         public let s3CompressionType: ProcessingS3CompressionType?
-        /// Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is shared by Amazon S3 key, downloading one shard of data to each processing instance.
+        /// Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is sharded by Amazon S3 key, downloading one shard of data to each processing instance.
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
         public let s3DataType: ProcessingS3DataType?
@@ -37983,7 +39605,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, max: 258)
             try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, min: 20)
-            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:ml-reservation/")
+            try self.validate(self.mlReservationArn, name: "mlReservationArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z0-9\\-]{1,14}/")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39099,7 +40721,7 @@ extension SageMaker {
             try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9]([\\-a-zA-Z0-9]*[a-zA-Z0-9])?$")
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, max: 2048)
             try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, min: 1)
-            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageVersionArn, name: "modelPackageVersionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.resourceLimit?.validate(name: "\(name).resourceLimit")
             try self.trafficPattern?.validate(name: "\(name).trafficPattern")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
@@ -39716,7 +41338,7 @@ extension SageMaker {
         public let trainingPlanArn: String?
         /// The Amazon Web Services KMS key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the training job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.  The VolumeKmsKeyId can be in any of the following formats:   // KMS Key ID  "1234abcd-12ab-34cd-56ef-1234567890ab"    // Amazon Resource Name (ARN) of a KMS Key  "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
-        /// The size of the ML storage volume that you want to provision.  ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  When using an ML instance with NVMe SSD volumes, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include ml.p4d, ml.g4dn, and ml.g5.  When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through VolumeSizeInGB in the ResourceConfig API. For example, ML instance families that use EBS volumes include ml.c5 and ml.p2.  To look up instance types and their instance storage types and volumes, see Amazon EC2 Instance Types. To find the default local paths defined by the SageMaker training platform, see Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs.
+        /// The size of the ML storage volume that you want to provision.  SageMaker automatically selects the volume size for serverless training jobs. You cannot customize this setting. ML storage volumes store model artifacts and incremental states. Training algorithms might also use the ML storage volume for scratch space. If you want to store the training data in the ML storage volume, choose File as the TrainingInputMode in the algorithm specification.  When using an ML instance with NVMe SSD volumes, SageMaker doesn't provision Amazon EBS General Purpose SSD (gp2) storage. Available storage is fixed to the NVMe-type instance's storage capacity. SageMaker configures storage paths for training datasets, checkpoints, model artifacts, and outputs to use the entire capacity of the instance storage. For example, ML instance families with the NVMe-type instance storage include ml.p4d, ml.g4dn, and ml.g5.  When using an ML instance with the EBS-only storage option and without instance storage, you must define the size of EBS volume through VolumeSizeInGB in the ResourceConfig API. For example, ML instance families that use EBS volumes include ml.c5 and ml.p2.  To look up instance types and their instance storage types and volumes, see Amazon EC2 Instance Types. To find the default local paths defined by the SageMaker training platform, see Amazon SageMaker Training Storage Folders for Training Datasets, Checkpoints, Model Artifacts, and Outputs.
         public let volumeSizeInGB: Int?
 
         @inlinable
@@ -39745,7 +41367,7 @@ extension SageMaker {
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:training-plan/")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
-            try self.validate(self.volumeSizeInGB, name: "volumeSizeInGB", parent: name, min: 1)
+            try self.validate(self.volumeSizeInGB, name: "volumeSizeInGB", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -39947,6 +41569,36 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct RoleGroupAssignment: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Amazon Web Services IAM Identity Center group patterns that should be assigned to the specified role. Group patterns support wildcard matching using *.
+        public let groupPatterns: [String]
+        /// The name of the in-app role within the SageMaker Partner AI App. The specific roles available depend on the app type and version.
+        public let roleName: String
+
+        @inlinable
+        public init(groupPatterns: [String], roleName: String) {
+            self.groupPatterns = groupPatterns
+            self.roleName = roleName
+        }
+
+        public func validate(name: String) throws {
+            try self.groupPatterns.forEach {
+                try validate($0, name: "groupPatterns[]", parent: name, max: 128)
+                try validate($0, name: "groupPatterns[]", parent: name, min: 1)
+                try validate($0, name: "groupPatterns[]", parent: name, pattern: "^[\\w+=,.@*-]+$")
+            }
+            try self.validate(self.groupPatterns, name: "groupPatterns", parent: name, max: 10)
+            try self.validate(self.groupPatterns, name: "groupPatterns", parent: name, min: 1)
+            try self.validate(self.roleName, name: "roleName", parent: name, max: 256)
+            try self.validate(self.roleName, name: "roleName", parent: name, pattern: "^(?!\\s*$).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupPatterns = "GroupPatterns"
+            case roleName = "RoleName"
         }
     }
 
@@ -40515,7 +42167,7 @@ extension SageMaker {
         public let instanceType: ReservedCapacityInstanceType?
         /// A filter to search for training plan offerings with a start time after a specified date.
         public let startTimeAfter: Date?
-        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) to search for in the offerings. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
         public let targetResources: [SageMakerResourceName]?
         /// The number of UltraServers to search for.
         public let ultraServerCount: Int?
@@ -40748,6 +42400,51 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case pipelineExecutionArn = "PipelineExecutionArn"
+        }
+    }
+
+    public struct ServerlessJobConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that this model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model. For more information, see End-user license agreements section for more details on accepting the EULA.
+        public let acceptEula: Bool?
+        ///  The base model Amazon Resource Name (ARN) in SageMaker Public Hub. SageMaker always selects the latest version of the provided model.
+        public let baseModelArn: String
+        ///  The model customization technique.
+        public let customizationTechnique: CustomizationTechnique?
+        ///  The evaluation job type. Required when serverless job type is Evaluation.
+        public let evaluationType: EvaluationType?
+        ///  The evaluator Amazon Resource Name (ARN) used as reward function or reward prompt.
+        public let evaluatorArn: String?
+        ///  The serverless training job type.
+        public let jobType: ServerlessJobType
+        ///  The parameter-efficient fine-tuning configuration.
+        public let peft: Peft?
+
+        @inlinable
+        public init(acceptEula: Bool? = nil, baseModelArn: String, customizationTechnique: CustomizationTechnique? = nil, evaluationType: EvaluationType? = nil, evaluatorArn: String? = nil, jobType: ServerlessJobType, peft: Peft? = nil) {
+            self.acceptEula = acceptEula
+            self.baseModelArn = baseModelArn
+            self.customizationTechnique = customizationTechnique
+            self.evaluationType = evaluationType
+            self.evaluatorArn = evaluatorArn
+            self.jobType = jobType
+            self.peft = peft
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, max: 2048)
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, min: 1)
+            try self.validate(self.baseModelArn, name: "baseModelArn", parent: name, pattern: "^(arn:[a-z0-9-\\.]{1,63}:sagemaker:\\w+(?:-\\w+)+:(\\d{12}|aws):hub-content\\/)[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}\\/Model\\/[a-zA-Z0-9](-*[a-zA-Z0-9]){0,63}(\\/\\d{1,4}.\\d{1,4}.\\d{1,4})?$")
+            try self.validate(self.evaluatorArn, name: "evaluatorArn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptEula = "AcceptEula"
+            case baseModelArn = "BaseModelArn"
+            case customizationTechnique = "CustomizationTechnique"
+            case evaluationType = "EvaluationType"
+            case evaluatorArn = "EvaluatorArn"
+            case jobType = "JobType"
+            case peft = "Peft"
         }
     }
 
@@ -41450,6 +43147,8 @@ extension SageMaker {
     public struct StartPipelineExecutionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String?
+        ///  The MLflow experiment name of the start execution.
+        public let mlflowExperimentName: String?
         /// This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run.
         public let parallelismConfiguration: ParallelismConfiguration?
         /// The description of the pipeline execution.
@@ -41466,8 +43165,9 @@ extension SageMaker {
         public let selectiveExecutionConfig: SelectiveExecutionConfig?
 
         @inlinable
-        public init(clientRequestToken: String? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String? = nil, pipelineParameters: [Parameter]? = nil, pipelineVersionId: Int64? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
+        public init(clientRequestToken: String? = nil, mlflowExperimentName: String? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String? = nil, pipelineParameters: [Parameter]? = nil, pipelineVersionId: Int64? = nil, selectiveExecutionConfig: SelectiveExecutionConfig? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.mlflowExperimentName = mlflowExperimentName
             self.parallelismConfiguration = parallelismConfiguration
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
@@ -41480,6 +43180,9 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, max: 256)
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, min: 1)
+            try self.validate(self.mlflowExperimentName, name: "mlflowExperimentName", parent: name, pattern: ".*")
             try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, max: 3072)
             try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, pattern: ".*")
@@ -41499,6 +43202,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case mlflowExperimentName = "MlflowExperimentName"
             case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
@@ -42806,8 +44510,12 @@ extension SageMaker {
         public let lastModifiedTime: Date?
         /// Information about the Amazon S3 location that is configured for storing model artifacts.
         public let modelArtifacts: ModelArtifacts?
+        ///  The model package configuration.
+        public let modelPackageConfig: ModelPackageConfig?
         /// The S3 path where model artifacts that you configured when creating the job are stored. SageMaker creates subfolders for model artifacts.
         public let outputDataConfig: OutputDataConfig?
+        ///  The output model package Amazon Resource Name (ARN) that contains model weights or checkpoint.
+        public let outputModelPackageArn: String?
         public let profilerConfig: ProfilerConfig?
         /// Resources, including ML compute instances and ML storage volumes, that are configured for model training.
         public let resourceConfig: ResourceConfig?
@@ -42842,7 +44550,7 @@ extension SageMaker {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, outputDataConfig: OutputDataConfig? = nil, profilerConfig: ProfilerConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(algorithmSpecification: AlgorithmSpecification? = nil, autoMLJobArn: String? = nil, billableTimeInSeconds: Int? = nil, checkpointConfig: CheckpointConfig? = nil, creationTime: Date? = nil, debugHookConfig: DebugHookConfig? = nil, debugRuleConfigurations: [DebugRuleConfiguration]? = nil, debugRuleEvaluationStatuses: [DebugRuleEvaluationStatus]? = nil, enableInterContainerTrafficEncryption: Bool? = nil, enableManagedSpotTraining: Bool? = nil, enableNetworkIsolation: Bool? = nil, environment: [String: String]? = nil, experimentConfig: ExperimentConfig? = nil, failureReason: String? = nil, finalMetricDataList: [MetricData]? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [Channel]? = nil, labelingJobArn: String? = nil, lastModifiedTime: Date? = nil, modelArtifacts: ModelArtifacts? = nil, modelPackageConfig: ModelPackageConfig? = nil, outputDataConfig: OutputDataConfig? = nil, outputModelPackageArn: String? = nil, profilerConfig: ProfilerConfig? = nil, resourceConfig: ResourceConfig? = nil, retryStrategy: RetryStrategy? = nil, roleArn: String? = nil, secondaryStatus: SecondaryStatus? = nil, secondaryStatusTransitions: [SecondaryStatusTransition]? = nil, stoppingCondition: StoppingCondition? = nil, tags: [Tag]? = nil, tensorBoardOutputConfig: TensorBoardOutputConfig? = nil, trainingEndTime: Date? = nil, trainingJobArn: String? = nil, trainingJobName: String? = nil, trainingJobStatus: TrainingJobStatus? = nil, trainingStartTime: Date? = nil, trainingTimeInSeconds: Int? = nil, tuningJobArn: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.algorithmSpecification = algorithmSpecification
             self.autoMLJobArn = autoMLJobArn
             self.billableTimeInSeconds = billableTimeInSeconds
@@ -42863,7 +44571,9 @@ extension SageMaker {
             self.labelingJobArn = labelingJobArn
             self.lastModifiedTime = lastModifiedTime
             self.modelArtifacts = modelArtifacts
+            self.modelPackageConfig = modelPackageConfig
             self.outputDataConfig = outputDataConfig
+            self.outputModelPackageArn = outputModelPackageArn
             self.profilerConfig = profilerConfig
             self.resourceConfig = resourceConfig
             self.retryStrategy = retryStrategy
@@ -42904,7 +44614,9 @@ extension SageMaker {
             case labelingJobArn = "LabelingJobArn"
             case lastModifiedTime = "LastModifiedTime"
             case modelArtifacts = "ModelArtifacts"
+            case modelPackageConfig = "ModelPackageConfig"
             case outputDataConfig = "OutputDataConfig"
+            case outputModelPackageArn = "OutputModelPackageArn"
             case profilerConfig = "ProfilerConfig"
             case resourceConfig = "ResourceConfig"
             case retryStrategy = "RetryStrategy"
@@ -43101,7 +44813,7 @@ extension SageMaker {
         public let requestedStartTimeAfter: Date?
         /// A list of reserved capacity offerings associated with this training plan offering.
         public let reservedCapacityOfferings: [ReservedCapacityOffering]?
-        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod) for this training plan offering. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// The target resources (e.g., SageMaker Training Jobs, SageMaker HyperPod, SageMaker Endpoints) for this training plan offering. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
         public let targetResources: [SageMakerResourceName]?
         /// The unique identifier for this training plan offering.
         public let trainingPlanOfferingId: String?
@@ -43155,7 +44867,7 @@ extension SageMaker {
         public let status: TrainingPlanStatus?
         /// A message providing additional information about the current status of the training plan.
         public let statusMessage: String?
-        /// The target resources (e.g., training jobs, HyperPod clusters) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.
+        /// The target resources (e.g., training jobs, HyperPod clusters, Endpoints) that can use this training plan. Training plans are specific to their target resource.   A training plan designed for SageMaker training jobs can only be used to schedule and run training jobs.   A training plan for HyperPod clusters can be used exclusively to provide compute resources to a cluster's instance group.   A training plan for SageMaker endpoints can be used exclusively to provide compute resources to SageMaker endpoints for model deployment.
         public let targetResources: [SageMakerResourceName]?
         /// The total number of instances reserved in this training plan.
         public let totalInstanceCount: Int?
@@ -43205,6 +44917,32 @@ extension SageMaker {
             case trainingPlanArn = "TrainingPlanArn"
             case trainingPlanName = "TrainingPlanName"
             case upfrontFee = "UpfrontFee"
+        }
+    }
+
+    public struct TrainingProgressInfo: AWSDecodableShape {
+        ///  The current epoch number.
+        public let currentEpoch: Int64?
+        ///  The current step number.
+        public let currentStep: Int64?
+        ///  The maximum number of epochs for this job.
+        public let maxEpoch: Int64?
+        ///  The total step count per epoch.
+        public let totalStepCountPerEpoch: Int64?
+
+        @inlinable
+        public init(currentEpoch: Int64? = nil, currentStep: Int64? = nil, maxEpoch: Int64? = nil, totalStepCountPerEpoch: Int64? = nil) {
+            self.currentEpoch = currentEpoch
+            self.currentStep = currentStep
+            self.maxEpoch = maxEpoch
+            self.totalStepCountPerEpoch = totalStepCountPerEpoch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentEpoch = "CurrentEpoch"
+            case currentStep = "CurrentStep"
+            case maxEpoch = "MaxEpoch"
+            case totalStepCountPerEpoch = "TotalStepCountPerEpoch"
         }
     }
 
@@ -44558,6 +46296,8 @@ extension SageMaker {
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
         /// Specify the names of the instance groups to delete. Use a single , as the separator between multiple names.
         public let instanceGroupsToDelete: [String]?
+        /// Determines how instance provisioning is handled during cluster operations. In Continuous mode, the cluster provisions available instances incrementally and retries until the target count is reached. The cluster becomes operational once cluster-level resources are ready. Use CurrentCount and TargetCount in DescribeCluster to track provisioning progress.
+        public let nodeProvisioningMode: ClusterNodeProvisioningMode?
         /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
         public let nodeRecovery: ClusterNodeRecovery?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
@@ -44566,12 +46306,13 @@ extension SageMaker {
         public let tieredStorageConfig: ClusterTieredStorageConfig?
 
         @inlinable
-        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeRecovery: ClusterNodeRecovery? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil) {
+        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeProvisioningMode: ClusterNodeProvisioningMode? = nil, nodeRecovery: ClusterNodeRecovery? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil) {
             self.autoScaling = autoScaling
             self.clusterName = clusterName
             self.clusterRole = clusterRole
             self.instanceGroups = instanceGroups
             self.instanceGroupsToDelete = instanceGroupsToDelete
+            self.nodeProvisioningMode = nodeProvisioningMode
             self.nodeRecovery = nodeRecovery
             self.restrictedInstanceGroups = restrictedInstanceGroups
             self.tieredStorageConfig = tieredStorageConfig
@@ -44608,6 +46349,7 @@ extension SageMaker {
             case clusterRole = "ClusterRole"
             case instanceGroups = "InstanceGroups"
             case instanceGroupsToDelete = "InstanceGroupsToDelete"
+            case nodeProvisioningMode = "NodeProvisioningMode"
             case nodeRecovery = "NodeRecovery"
             case restrictedInstanceGroups = "RestrictedInstanceGroups"
             case tieredStorageConfig = "TieredStorageConfig"
@@ -44999,9 +46741,11 @@ extension SageMaker {
         public let subnetIds: [String]?
         /// Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
         public let tagPropagation: TagPropagation?
+        /// The identifier for the VPC used by the domain for network communication. Use this field only when adding VPC configuration to a SageMaker AI domain used in Amazon SageMaker Unified Studio that was created without VPC settings. SageMaker AI doesn't automatically apply VPC updates to existing applications. Stop and restart your applications to apply the changes.
+        public let vpcId: String?
 
         @inlinable
-        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String? = nil, domainSettingsForUpdate: DomainSettingsForUpdate? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, appSecurityGroupManagement: AppSecurityGroupManagement? = nil, defaultSpaceSettings: DefaultSpaceSettings? = nil, defaultUserSettings: UserSettings? = nil, domainId: String? = nil, domainSettingsForUpdate: DomainSettingsForUpdate? = nil, subnetIds: [String]? = nil, tagPropagation: TagPropagation? = nil, vpcId: String? = nil) {
             self.appNetworkAccessType = appNetworkAccessType
             self.appSecurityGroupManagement = appSecurityGroupManagement
             self.defaultSpaceSettings = defaultSpaceSettings
@@ -45010,6 +46754,7 @@ extension SageMaker {
             self.domainSettingsForUpdate = domainSettingsForUpdate
             self.subnetIds = subnetIds
             self.tagPropagation = tagPropagation
+            self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
@@ -45024,6 +46769,8 @@ extension SageMaker {
             }
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 16)
             try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 32)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "^[-0-9a-zA-Z]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -45035,6 +46782,7 @@ extension SageMaker {
             case domainSettingsForUpdate = "DomainSettingsForUpdate"
             case subnetIds = "SubnetIds"
             case tagPropagation = "TagPropagation"
+            case vpcId = "VpcId"
         }
     }
 
@@ -45391,12 +47139,12 @@ extension SageMaker {
             try self.validate(self.hubContentDescription, name: "hubContentDescription", parent: name, pattern: ".*")
             try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, max: 255)
             try self.validate(self.hubContentDisplayName, name: "hubContentDisplayName", parent: name, pattern: ".*")
-            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, max: 65535)
+            try self.validate(self.hubContentMarkdown, name: "hubContentMarkdown", parent: name, max: 170391)
             try self.validate(self.hubContentName, name: "hubContentName", parent: name, max: 63)
             try self.validate(self.hubContentName, name: "hubContentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}$")
             try self.hubContentSearchKeywords?.forEach {
                 try validate($0, name: "hubContentSearchKeywords[]", parent: name, max: 255)
-                try validate($0, name: "hubContentSearchKeywords[]", parent: name, pattern: "^[^A-Z]*$")
+                try validate($0, name: "hubContentSearchKeywords[]", parent: name, pattern: ".*")
             }
             try self.validate(self.hubContentSearchKeywords, name: "hubContentSearchKeywords", parent: name, max: 50)
             try self.validate(self.hubContentVersion, name: "hubContentVersion", parent: name, max: 14)
@@ -45804,6 +47552,75 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateMlflowAppRequest: AWSEncodableShape {
+        /// Indicates whether this this MLflow App is the default for the account.
+        public let accountDefaultStatus: AccountDefaultStatus?
+        /// The ARN of the MLflow App to update.
+        public let arn: String?
+        /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow App.
+        public let artifactStoreUri: String?
+        /// List of SageMaker Domain IDs for which this MLflow App is the default.
+        public let defaultDomainIdList: [String]?
+        /// Whether to enable or disable automatic registration of new MLflow models to the SageMaker Model Registry. To enable automatic model registration, set this value to AutoModelRegistrationEnabled. To disable automatic model registration, set this value to AutoModelRegistrationDisabled. If not specified, AutomaticModelRegistration defaults to AutoModelRegistrationEnabled
+        public let modelRegistrationMode: ModelRegistrationMode?
+        /// The name of the MLflow App to update.
+        public let name: String?
+        /// The new weekly maintenance window start day and time to update. The maintenance window day and time should be in Coordinated Universal Time (UTC) 24-hour standard time. For example: TUE:03:30.
+        public let weeklyMaintenanceWindowStart: String?
+
+        @inlinable
+        public init(accountDefaultStatus: AccountDefaultStatus? = nil, arn: String? = nil, artifactStoreUri: String? = nil, defaultDomainIdList: [String]? = nil, modelRegistrationMode: ModelRegistrationMode? = nil, name: String? = nil, weeklyMaintenanceWindowStart: String? = nil) {
+            self.accountDefaultStatus = accountDefaultStatus
+            self.arn = arn
+            self.artifactStoreUri = artifactStoreUri
+            self.defaultDomainIdList = defaultDomainIdList
+            self.modelRegistrationMode = modelRegistrationMode
+            self.name = name
+            self.weeklyMaintenanceWindowStart = weeklyMaintenanceWindowStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, max: 128)
+            try self.validate(self.arn, name: "arn", parent: name, min: 1)
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:mlflow-app/")
+            try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, max: 1024)
+            try self.validate(self.artifactStoreUri, name: "artifactStoreUri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try self.defaultDomainIdList?.forEach {
+                try validate($0, name: "defaultDomainIdList[]", parent: name, max: 63)
+                try validate($0, name: "defaultDomainIdList[]", parent: name, pattern: "^d-(-*[a-z0-9]){1,61}$")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,255}$")
+            try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, max: 9)
+            try self.validate(self.weeklyMaintenanceWindowStart, name: "weeklyMaintenanceWindowStart", parent: name, pattern: "^(Mon|Tue|Wed|Thu|Fri|Sat|Sun):([01]\\d|2[0-3]):([0-5]\\d)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountDefaultStatus = "AccountDefaultStatus"
+            case arn = "Arn"
+            case artifactStoreUri = "ArtifactStoreUri"
+            case defaultDomainIdList = "DefaultDomainIdList"
+            case modelRegistrationMode = "ModelRegistrationMode"
+            case name = "Name"
+            case weeklyMaintenanceWindowStart = "WeeklyMaintenanceWindowStart"
+        }
+    }
+
+    public struct UpdateMlflowAppResponse: AWSDecodableShape {
+        /// The ARN of the updated MLflow App.
+        public let arn: String?
+
+        @inlinable
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct UpdateMlflowTrackingServerRequest: AWSEncodableShape {
         /// The new S3 URI for the general purpose bucket to use as the artifact store for the MLflow Tracking Server.
         public let artifactStoreUri: String?
@@ -45923,11 +47740,13 @@ extension SageMaker {
         public let modelLifeCycle: ModelLifeCycle?
         /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String?
+        ///  The package registration type of the model package input.
+        public let modelPackageRegistrationType: ModelPackageRegistrationType?
         /// The URI of the source for the model package.
         public let sourceUri: String?
 
         @inlinable
-        public init(additionalInferenceSpecificationsToAdd: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, clientToken: String? = nil, customerMetadataProperties: [String: String]? = nil, customerMetadataPropertiesToRemove: [String]? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelPackageArn: String? = nil, sourceUri: String? = nil) {
+        public init(additionalInferenceSpecificationsToAdd: [AdditionalInferenceSpecificationDefinition]? = nil, approvalDescription: String? = nil, clientToken: String? = nil, customerMetadataProperties: [String: String]? = nil, customerMetadataPropertiesToRemove: [String]? = nil, inferenceSpecification: InferenceSpecification? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelCard: ModelPackageModelCard? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelPackageArn: String? = nil, modelPackageRegistrationType: ModelPackageRegistrationType? = nil, sourceUri: String? = nil) {
             self.additionalInferenceSpecificationsToAdd = additionalInferenceSpecificationsToAdd
             self.approvalDescription = approvalDescription
             self.clientToken = clientToken
@@ -45938,6 +47757,7 @@ extension SageMaker {
             self.modelCard = modelCard
             self.modelLifeCycle = modelLifeCycle
             self.modelPackageArn = modelPackageArn
+            self.modelPackageRegistrationType = modelPackageRegistrationType
             self.sourceUri = sourceUri
         }
 
@@ -45972,7 +47792,7 @@ extension SageMaker {
             try self.modelLifeCycle?.validate(name: "\(name).modelLifeCycle")
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, max: 2048)
             try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, min: 1)
-            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso-f)?:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
+            try self.validate(self.modelPackageArn, name: "modelPackageArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]{9,16}:[0-9]{12}:model-package/[\\S]{1,2048}$")
             try self.validate(self.sourceUri, name: "sourceUri", parent: name, max: 1024)
             try self.validate(self.sourceUri, name: "sourceUri", parent: name, pattern: "^[\\p{L}\\p{M}\\p{Z}\\p{N}\\p{P}]{0,1024}$")
         }
@@ -45988,6 +47808,7 @@ extension SageMaker {
             case modelCard = "ModelCard"
             case modelLifeCycle = "ModelLifeCycle"
             case modelPackageArn = "ModelPackageArn"
+            case modelPackageRegistrationType = "ModelPackageRegistrationType"
             case sourceUri = "SourceUri"
         }
     }
@@ -46127,6 +47948,8 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the notebook instance to update.
         public let notebookInstanceName: String?
+        /// The platform identifier of the notebook instance runtime environment.
+        public let platformIdentifier: String?
         /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
@@ -46135,7 +47958,7 @@ extension SageMaker {
         public let volumeSizeInGB: Int?
 
         @inlinable
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, ipAddressType: IPAddressType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, ipAddressType: IPAddressType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -46148,6 +47971,7 @@ extension SageMaker {
             self.ipAddressType = ipAddressType
             self.lifecycleConfigName = lifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
+            self.platformIdentifier = platformIdentifier
             self.roleArn = roleArn
             self.rootAccess = rootAccess
             self.volumeSizeInGB = volumeSizeInGB
@@ -46168,6 +47992,8 @@ extension SageMaker {
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, max: 63)
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, max: 20)
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1|notebook-al2-v2|notebook-al2-v3|notebook-al2023-v1)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -46188,6 +48014,7 @@ extension SageMaker {
             case ipAddressType = "IpAddressType"
             case lifecycleConfigName = "LifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"
+            case platformIdentifier = "PlatformIdentifier"
             case roleArn = "RoleArn"
             case rootAccess = "RootAccess"
             case volumeSizeInGB = "VolumeSizeInGB"
@@ -46240,10 +48067,14 @@ extension SageMaker {
     public struct UpdatePartnerAppRequest: AWSEncodableShape {
         /// Configuration settings for the SageMaker Partner AI App.
         public let applicationConfig: PartnerAppConfig?
+        /// The semantic version to upgrade the SageMaker Partner AI App to. Must be the same semantic version returned in the AvailableUpgrade field from DescribePartnerApp. Version skipping and downgrades are not supported.
+        public let appVersion: String?
         /// The ARN of the SageMaker Partner AI App to update.
         public let arn: String?
         /// A unique token that guarantees that the call to this API is idempotent.
         public let clientToken: String?
+        /// When set to TRUE, the SageMaker Partner AI App is automatically upgraded to the latest minor version during the next scheduled maintenance window, if one is available.
+        public let enableAutoMinorVersionUpgrade: Bool?
         /// When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
         public let enableIamSessionBasedIdentity: Bool?
         /// Maintenance configuration settings for the SageMaker Partner AI App.
@@ -46254,10 +48085,12 @@ extension SageMaker {
         public let tier: String?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(), enableIamSessionBasedIdentity: Bool? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, tags: [Tag]? = nil, tier: String? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, appVersion: String? = nil, arn: String? = nil, clientToken: String? = UpdatePartnerAppRequest.idempotencyToken(), enableAutoMinorVersionUpgrade: Bool? = nil, enableIamSessionBasedIdentity: Bool? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, tags: [Tag]? = nil, tier: String? = nil) {
             self.applicationConfig = applicationConfig
+            self.appVersion = appVersion
             self.arn = arn
             self.clientToken = clientToken
+            self.enableAutoMinorVersionUpgrade = enableAutoMinorVersionUpgrade
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.maintenanceConfig = maintenanceConfig
             self.tags = tags
@@ -46266,6 +48099,8 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try self.applicationConfig?.validate(name: "\(name).applicationConfig")
+            try self.validate(self.appVersion, name: "appVersion", parent: name, max: 64)
+            try self.validate(self.appVersion, name: "appVersion", parent: name, pattern: "^\\d+\\.\\d+$")
             try self.validate(self.arn, name: "arn", parent: name, max: 128)
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:partner-app\\/app-[A-Z0-9]{12}$")
@@ -46283,8 +48118,10 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case applicationConfig = "ApplicationConfig"
+            case appVersion = "AppVersion"
             case arn = "Arn"
             case clientToken = "ClientToken"
+            case enableAutoMinorVersionUpgrade = "EnableAutoMinorVersionUpgrade"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case maintenanceConfig = "MaintenanceConfig"
             case tags = "Tags"

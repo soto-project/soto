@@ -89,9 +89,7 @@ extension Signer {
     }
 
     public struct AddProfilePermissionRequest: AWSEncodableShape {
-        /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide.
-        /// 		       You can designate the following actions to an account.
-        /// 		          signer:StartSigningJob. This action isn't supported for container image workflows. For details, see StartSigningJob.    signer:SignPayload. This action isn't supported for AWS Lambda workflows. For details, see SignPayload     signer:GetSigningProfile. For details, see GetSigningProfile.    signer:RevokeSignature. For details, see RevokeSignature.
+        /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide. You can designate the following actions to an account.    signer:StartSigningJob. This action isn't supported for container image workflows. For details, see StartSigningJob.    signer:SignPayload. This action isn't supported for AWS Lambda workflows. For details, see SignPayload     signer:GetSigningProfile. For details, see GetSigningProfile.    signer:RevokeSignature. For details, see RevokeSignature.
         public let action: String
         /// The AWS principal receiving cross-account permissions. This may be an IAM role or another
         /// 			AWS account ID.
@@ -354,20 +352,12 @@ extension Signer {
     }
 
     public struct GetRevocationStatusRequest: AWSEncodableShape {
-        /// A list of composite signed hashes that identify certificates.
-        /// 		       A certificate identifier consists of a subject certificate TBS hash (signed by the
+        /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the
         /// 			parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root
-        /// 			certificates are defined as their own CA.
-        /// 		       The following example shows how to calculate a hash for this parameter using OpenSSL
-        /// 			commands:
-        ///
-        /// 			       openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs
-        /// 			       openssl sha384  childCertTbsHash
-        /// 			       openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs
-        /// 			       openssl sha384  parentCertTbsHash xxd -p
+        /// 			certificates are defined as their own CA. The following example shows how to calculate a hash for this parameter using OpenSSL
+        /// 			commands:   openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs   openssl sha384  childCertTbsHash   openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs   openssl sha384  parentCertTbsHash xxd -p
         /// 				childCertTbsHash > certificateHash.hex xxd -p parentCertTbsHash >>
-        /// 				certificateHash.hex
-        /// 			       cat certificateHash.hex | tr -d '\n'
+        /// 				certificateHash.hex   cat certificateHash.hex | tr -d '\n'
         public let certificateHashes: [String]
         /// The ARN of a signing job.
         public let jobArn: String
@@ -1920,11 +1910,9 @@ public struct SignerErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The client is making a request that exceeds service limits.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
-    /// The request was denied due to request throttling.
-    /// 		       Instead of this error, TooManyRequestsException should be used.
+    /// The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The allowed number of job-signing requests has been exceeded.
-    /// 		       This error supersedes the error ThrottlingException.
+    /// The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// You signing certificate could not be validated.
     public static var validationException: Self { .init(.validationException) }

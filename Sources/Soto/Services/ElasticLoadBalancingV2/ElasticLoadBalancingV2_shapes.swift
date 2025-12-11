@@ -30,6 +30,7 @@ extension ElasticLoadBalancingV2 {
         case authenticateOidc = "authenticate-oidc"
         case fixedResponse = "fixed-response"
         case forward = "forward"
+        case jwtValidation = "jwt-validation"
         case redirect = "redirect"
         public var description: String { return self.rawValue }
     }
@@ -93,6 +94,13 @@ extension ElasticLoadBalancingV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum JwtValidationActionAdditionalClaimFormatEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case singleString = "single-string"
+        case spaceSeparatedValues = "space-separated-values"
+        case stringArray = "string-array"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `internal` = "internal"
         case internetFacing = "internet-facing"
@@ -124,7 +132,9 @@ extension ElasticLoadBalancingV2 {
         case geneve = "GENEVE"
         case http = "HTTP"
         case https = "HTTPS"
+        case quic = "QUIC"
         case tcp = "TCP"
+        case tcpQuic = "TCP_QUIC"
         case tcpUdp = "TCP_UDP"
         case tls = "TLS"
         case udp = "UDP"
@@ -231,23 +241,26 @@ extension ElasticLoadBalancingV2 {
         public let authenticateOidcConfig: AuthenticateOidcActionConfig?
         /// [Application Load Balancer] Information for creating an action that returns a custom HTTP response. Specify only when Type is fixed-response.
         public let fixedResponseConfig: FixedResponseActionConfig?
-        /// Information for creating an action that distributes requests among one or more target groups. For Network Load Balancers, you can specify a single target group. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can specify only one target group using ForwardConfig and it must be the same target group specified in TargetGroupArn.
+        /// Information for creating an action that distributes requests among multiple target groups. Specify only when Type is forward. If you specify both ForwardConfig and TargetGroupArn, you can  specify only one target group using ForwardConfig and it must be the same  target group specified in TargetGroupArn.
         public let forwardConfig: ForwardActionConfig?
+        /// [HTTPS listeners] Information for validating JWT access tokens in client requests. Specify only when Type is jwt-validation.
+        public let jwtValidationConfig: JwtValidationActionConfig?
         /// The order for the action. This value is required for rules with multiple actions. The action with the lowest value for order is performed first.
         public let order: Int?
         /// [Application Load Balancer] Information for creating a redirect action. Specify only when Type is redirect.
         public let redirectConfig: RedirectActionConfig?
-        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to one or more target groups, use ForwardConfig instead.
+        /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to multiple target groups, you must use ForwardConfig instead.
         public let targetGroupArn: String?
         /// The type of action.
         public let type: ActionTypeEnum?
 
         @inlinable
-        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, forwardConfig: ForwardActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum? = nil) {
+        public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, forwardConfig: ForwardActionConfig? = nil, jwtValidationConfig: JwtValidationActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum? = nil) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
             self.authenticateOidcConfig = authenticateOidcConfig
             self.fixedResponseConfig = fixedResponseConfig
             self.forwardConfig = forwardConfig
+            self.jwtValidationConfig = jwtValidationConfig
             self.order = order
             self.redirectConfig = redirectConfig
             self.targetGroupArn = targetGroupArn
@@ -266,6 +279,7 @@ extension ElasticLoadBalancingV2 {
             case authenticateOidcConfig = "AuthenticateOidcConfig"
             case fixedResponseConfig = "FixedResponseConfig"
             case forwardConfig = "ForwardConfig"
+            case jwtValidationConfig = "JwtValidationConfig"
             case order = "Order"
             case redirectConfig = "RedirectConfig"
             case targetGroupArn = "TargetGroupArn"
@@ -616,7 +630,7 @@ extension ElasticLoadBalancingV2 {
         public let mutualAuthentication: MutualAuthenticationAttributes?
         /// The port on which the load balancer is listening. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
-        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
+        /// The protocol for connections from clients to the load balancer. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC. You can’t specify the UDP, TCP_UDP, QUIC, or TCP_QUIC protocol if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide and Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
@@ -831,13 +845,13 @@ extension ElasticLoadBalancingV2 {
     public struct CreateTargetGroupInput: AWSEncodableShape {
         /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance, ip, or alb, health checks are always enabled and can't be disabled.
         public let healthCheckEnabled: Bool?
-        /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, HTTP or HTTPS, the default is 30 seconds.  If the target group protocol is GENEVE, the default is 10 seconds.  If the target type is lambda, the default is 35 seconds.
+        /// The approximate amount of time, in seconds, between health checks of an individual target. The range is 5-300. If the target group protocol is TCP, TLS, UDP, TCP_UDP, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 30 seconds.  If the target group protocol is GENEVE, the default is 10 seconds.  If the target type is lambda, the default is 35 seconds.
         public let healthCheckIntervalSeconds: Int?
         /// [HTTP/HTTPS health checks] The destination for health checks on the targets. [HTTP1 or HTTP2 protocol version] The ping path. The default is /. [GRPC protocol version] The path of a custom health check method with the format /package.service/method. The default is /Amazon Web Services.ALB/healthcheck.
         public let healthCheckPath: String?
-        /// The port the load balancer uses when performing health checks on targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is traffic-port, which is the port on which each target receives traffic from the load balancer. If the protocol is GENEVE, the default is port 80.
+        /// The port the load balancer uses when performing health checks on targets. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC the default is traffic-port, which is the port on which each target receives traffic from the load balancer. If the protocol is GENEVE, the default is port 80.
         public let healthCheckPort: String?
-        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks.
         public let healthCheckProtocol: ProtocolEnum?
         /// The amount of time, in seconds, during which no response from a target means a failed  health check. The range is 2–120 seconds. For target groups with a protocol of HTTP, the  default is 6 seconds. For target groups with a protocol of TCP, TLS or HTTPS, the default  is 10 seconds. For target groups with a protocol of GENEVE, the default is 5 seconds. If  the target type is lambda, the default is 30 seconds.
         public let healthCheckTimeoutSeconds: Int?
@@ -845,28 +859,30 @@ extension ElasticLoadBalancingV2 {
         public let healthyThresholdCount: Int?
         /// The IP address type. The default value is ipv4.
         public let ipAddressType: TargetGroupIpAddressTypeEnum?
-        /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful  response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP or TLS the range  is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target  groups with a protocol of GENEVE, the range is 200-399.
+        /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for a successful  response from a target. For target groups with a protocol of TCP, TCP_UDP, UDP, QUIC, TCP_QUIC, or TLS the range  is 200-599. For target groups with a protocol of HTTP or HTTPS, the range is 200-499. For target  groups with a protocol of GENEVE, the range is 200-399.
         public let matcher: Matcher?
         /// The name of the target group. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, and must not begin or end with a hyphen.
         public let name: String?
         /// The port on which the targets receive traffic. This port is used unless you specify a port override when registering the target. If the target is a Lambda function, this parameter does not apply. If the protocol is GENEVE, the supported port is 6081.
         public let port: Int?
-        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
+        /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, TCP_UDP, QUIC, or TCP_QUIC. For Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP listener must be associated with a TCP_UDP target group. A TCP_QUIC listener must be associated with a TCP_QUIC target group. If the target is a Lambda function, this parameter does not apply.
         public let `protocol`: ProtocolEnum?
         /// [HTTP/HTTPS protocol] The protocol version. Specify GRPC to send requests to targets using gRPC. Specify HTTP2 to send requests to targets using HTTP/2. The default is HTTP1, which sends requests to targets using HTTP/1.1.
         public let protocolVersion: String?
         /// The tags to assign to the target group.
         @OptionalCustomCoding<StandardArrayCoder<Tag>>
         public var tags: [Tag]?
+        /// The port on which the target control agent and application load balancer exchange management traffic for the target optimizer feature.
+        public let targetControlPort: Int?
         /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Register targets by instance ID. This is the default value.    ip - Register targets by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - Register a single Lambda function as a target.    alb - Register a single Application Load Balancer as a target.
         public let targetType: TargetTypeEnum?
-        /// The number of consecutive health check failures required before considering a target unhealthy. The range is  2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups  with a protocol of GENEVE, the default is 2. If the target type  is lambda, the default is 5.
+        /// The number of consecutive health check failures required before considering a target unhealthy. The range is  2-10. If the target group protocol is TCP, TCP_UDP, UDP, TLS, QUIC, TCP_QUIC, HTTP or HTTPS, the default is 2. For target groups  with a protocol of GENEVE, the default is 2. If the target type  is lambda, the default is 5.
         public let unhealthyThresholdCount: Int?
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
         public let vpcId: String?
 
         @inlinable
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, matcher: Matcher? = nil, name: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, tags: [Tag]? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, matcher: Matcher? = nil, name: String? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, tags: [Tag]? = nil, targetControlPort: Int? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -881,6 +897,7 @@ extension ElasticLoadBalancingV2 {
             self.`protocol` = `protocol`
             self.protocolVersion = protocolVersion
             self.tags = tags
+            self.targetControlPort = targetControlPort
             self.targetType = targetType
             self.unhealthyThresholdCount = unhealthyThresholdCount
             self.vpcId = vpcId
@@ -901,6 +918,8 @@ extension ElasticLoadBalancingV2 {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.targetControlPort, name: "targetControlPort", parent: name, max: 65535)
+            try self.validate(self.targetControlPort, name: "targetControlPort", parent: name, min: 1)
             try self.validate(self.unhealthyThresholdCount, name: "unhealthyThresholdCount", parent: name, max: 10)
             try self.validate(self.unhealthyThresholdCount, name: "unhealthyThresholdCount", parent: name, min: 2)
         }
@@ -920,6 +939,7 @@ extension ElasticLoadBalancingV2 {
             case `protocol` = "Protocol"
             case protocolVersion = "ProtocolVersion"
             case tags = "Tags"
+            case targetControlPort = "TargetControlPort"
             case targetType = "TargetType"
             case unhealthyThresholdCount = "UnhealthyThresholdCount"
             case vpcId = "VpcId"
@@ -1899,7 +1919,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct ForwardActionConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The target groups. For Network Load Balancers, you can specify a single target group.
+        /// The target groups.
         @OptionalCustomCoding<StandardArrayCoder<TargetGroupTuple>>
         public var targetGroups: [TargetGroupTuple]?
         /// The target group stickiness for the rule.
@@ -2098,6 +2118,52 @@ extension ElasticLoadBalancingV2 {
         }
     }
 
+    public struct JwtValidationActionAdditionalClaim: AWSEncodableShape & AWSDecodableShape {
+        /// The format of the claim value.
+        public let format: JwtValidationActionAdditionalClaimFormatEnum?
+        /// The name of the claim. You can't specify exp, iss,  nbf, or iat because we validate them by default.
+        public let name: String?
+        /// The claim value. The maximum size of the list is 10.  Each value can be up to 256 characters in length. If the format is space-separated-values, the values can't include spaces.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var values: [String]?
+
+        @inlinable
+        public init(format: JwtValidationActionAdditionalClaimFormatEnum? = nil, name: String? = nil, values: [String]? = nil) {
+            self.format = format
+            self.name = name
+            self.values = values
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct JwtValidationActionConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Additional claims to validate. The maximum size of the list is 10. We validate the exp, iss, nbf,  and iat claims by default.
+        @OptionalCustomCoding<StandardArrayCoder<JwtValidationActionAdditionalClaim>>
+        public var additionalClaims: [JwtValidationActionAdditionalClaim]?
+        /// The issuer of the JWT. The maximum length is 256 characters.
+        public let issuer: String?
+        /// The JSON Web Key Set (JWKS) endpoint. This endpoint contains JSON Web Keys (JWK) that are used to validate signatures from the provider. This must be a full URL, including the HTTPS protocol, the domain, and the path. The maximum length is 256 characters.
+        public let jwksEndpoint: String?
+
+        @inlinable
+        public init(additionalClaims: [JwtValidationActionAdditionalClaim]? = nil, issuer: String? = nil, jwksEndpoint: String? = nil) {
+            self.additionalClaims = additionalClaims
+            self.issuer = issuer
+            self.jwksEndpoint = jwksEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalClaims = "AdditionalClaims"
+            case issuer = "Issuer"
+            case jwksEndpoint = "JwksEndpoint"
+        }
+    }
+
     public struct Limit: AWSDecodableShape {
         /// The maximum value of the limit.
         public let max: String?
@@ -2291,7 +2357,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether clients can connect to the load balancer using HTTP/2. If true, clients can connect using HTTP/2 or HTTP/1.1. However, all client requests are subject to the stricter HTTP/2 header validation rules. For example, message header names must contain only alphanumeric characters and hyphens. If false, clients must connect using HTTP/1.1. The default is true.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    secondary_ips.auto_assigned.per_subnet - The number of secondary IP addresses to configure for your load balancer nodes. Use to address port  allocation errors if you can't add targets. The valid range is 0 to 7. The  default is 0. After you set this value, you can't decrease it.
+        /// The name of the attribute. The following attributes are supported by all load balancers:    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The possible values are true and false. The default for Network Load Balancers and Gateway Load Balancers is false.  The default for Application Load Balancers is true, and can't be changed.   The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    ipv6.deny_all_igw_traffic - Blocks internet gateway (IGW) access to the load balancer. It is set to false for internet-facing load balancers and true for internal load balancers, preventing unintended access to your internal load balancer through an internet gateway.    zonal_shift.config.enabled - Indicates whether zonal shift is  enabled. The possible values are true and false. The  default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    client_keep_alive.seconds - The client keep alive value, in seconds. The  valid range is 60-604800 seconds. The default is 3600 seconds.    connection_logs.s3.enabled - Indicates whether connection logs are enabled. The value is true or false. The default is false.    connection_logs.s3.bucket - The name of the S3 bucket for the connection logs. This attribute is required if connection logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    connection_logs.s3.prefix - The prefix for the location in the S3 bucket for the connection logs.    health_check_logs.s3.enabled - Indicates whether health check logs are enabled. The value is true or false. The default is false.    health_check_logs.s3.bucket - The name of the S3 bucket for the health check logs. This attribute is required if health check logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    health_check_logs.s3.prefix - The prefix for the location in the S3 bucket for the health check logs.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http.preserve_host_header.enabled - Indicates whether the Application Load Balancer should preserve the Host header in the HTTP request and send it to the target without any change. The possible values are true and false. The default is false.    routing.http.x_amzn_tls_version_and_cipher_suite.enabled - Indicates whether the two headers (x-amzn-tls-version and x-amzn-tls-cipher-suite), which contain information about the negotiated TLS version and cipher suite, are added to the client request before sending it to the target. The x-amzn-tls-version header has information about the TLS protocol version negotiated with the client, and the x-amzn-tls-cipher-suite header has information about the cipher suite negotiated with the client. Both headers are in OpenSSL format. The possible values for the attribute are true and false. The default is false.    routing.http.xff_client_port.enabled - Indicates whether the X-Forwarded-For header should preserve the source port that the client used to connect to the load balancer. The possible values are true and false. The default is false.    routing.http.xff_header_processing.mode - Enables you to modify, preserve, or remove the X-Forwarded-For header in the HTTP request before the Application Load Balancer sends the request to the target. The possible values are append, preserve, and remove. The default is append.   If the value is append, the Application Load Balancer adds the client IP address (of the last hop) to the X-Forwarded-For header in the HTTP request before it sends it to targets.   If the value is preserve the Application Load Balancer preserves the X-Forwarded-For header in the HTTP request, and sends it to targets without any change.   If the value is remove, the Application Load Balancer removes the X-Forwarded-For header in the HTTP request before it sends it to targets.      routing.http2.enabled - Indicates whether clients can connect to the load balancer using HTTP/2. If true, clients can connect using HTTP/2 or HTTP/1.1. However, all client requests are subject to the stricter HTTP/2 header validation rules. For example, message header names must contain only alphanumeric characters and hyphens. If false, clients must connect using HTTP/1.1. The default is true.    waf.fail_open.enabled - Indicates whether to allow a WAF-enabled load balancer to route requests to targets if it is unable to forward the request to Amazon Web Services WAF. The possible values are true and false. The default is false.   The following attributes are supported by only Network Load Balancers:    dns_record.client_routing_policy - Indicates how traffic is  distributed among the load balancer Availability Zones. The possible values are  availability_zone_affinity with 100 percent zonal affinity,  partial_availability_zone_affinity with 85 percent zonal affinity,  and any_availability_zone with 0 percent zonal affinity.    secondary_ips.auto_assigned.per_subnet - The number of secondary IP addresses to configure for your load balancer nodes. Use to address port  allocation errors if you can't add targets. The valid range is 0 to 7. The  default is 0. After you set this value, you can't decrease it.
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2510,7 +2576,7 @@ extension ElasticLoadBalancingV2 {
         public let mutualAuthentication: MutualAuthenticationAttributes?
         /// The port for connections from clients to the load balancer. You can't specify a port for a Gateway Load Balancer.
         public let port: Int?
-        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
+        /// The protocol for connections from clients to the load balancer. Application Load Balancers support the HTTP and HTTPS protocols. Network Load Balancers support the TCP, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols. You can’t change the protocol to UDP, TCP_UDP, QUIC, or TCP_QUIC if dual-stack mode is enabled. You can't specify a protocol for a Gateway Load Balancer.
         public let `protocol`: ProtocolEnum?
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. For more information, see Security policies in the Application Load Balancers Guide or Security policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
@@ -2709,7 +2775,7 @@ extension ElasticLoadBalancingV2 {
         public let healthCheckPath: String?
         /// The port the load balancer uses when performing health checks on targets.
         public let healthCheckPort: String?
-        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, and TCP_UDP protocols are not supported for health checks.
+        /// The protocol the load balancer uses when performing health checks on targets. For Application Load Balancers, the default is HTTP. For Network Load Balancers and Gateway Load Balancers, the default is TCP. The TCP protocol is not supported for health checks if the protocol of the target group is HTTP or HTTPS. It is supported for health checks only if the protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE, TLS, UDP, TCP_UDP, QUIC, and TCP_QUIC protocols are not supported for health checks.
         public let healthCheckProtocol: ProtocolEnum?
         /// [HTTP/HTTPS health checks] The amount of time, in seconds, during which no response means a failed health check.
         public let healthCheckTimeoutSeconds: Int?
@@ -3299,7 +3365,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct SetSecurityGroupsInput: AWSEncodableShape {
-        /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink. The default is on.
+        /// Indicates whether to evaluate inbound security group rules for traffic sent to a  Network Load Balancer through Amazon Web Services PrivateLink. Applies only if the load balancer  has an associated security group. The default is on.
         public let enforceSecurityGroupInboundRulesOnPrivateLinkTraffic: EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum?
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
@@ -3521,23 +3587,29 @@ extension ElasticLoadBalancingV2 {
         public let id: String?
         /// The port on which the target is listening. If the target group protocol is GENEVE, the supported port is 6081. If the target type is alb, the targeted Application Load Balancer must have at least one listener whose port matches the target group port. This  parameter is not used if the target is a Lambda function.
         public let port: Int?
+        /// The server ID for the targets. This value is required if the protocol is  QUIC or TCP_QUIC and can't be used with other protocols. The ID consists of the 0x prefix followed by 16 hexadecimal characters.  Any letters must be lowercase. The value must be unique at the listener level. You can't  modify the server ID for a registered target. You must deregister the target and then  provide a new server ID when you register the target again.
+        public let quicServerId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, id: String? = nil, port: Int? = nil) {
+        public init(availabilityZone: String? = nil, id: String? = nil, port: Int? = nil, quicServerId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.id = id
             self.port = port
+            self.quicServerId = quicServerId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.port, name: "port", parent: name, max: 65535)
             try self.validate(self.port, name: "port", parent: name, min: 1)
+            try self.validate(self.quicServerId, name: "quicServerId", parent: name, max: 256)
+            try self.validate(self.quicServerId, name: "quicServerId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "AvailabilityZone"
             case id = "Id"
             case port = "Port"
+            case quicServerId = "QuicServerId"
         }
     }
 
@@ -3569,6 +3641,8 @@ extension ElasticLoadBalancingV2 {
         public let `protocol`: ProtocolEnum?
         /// [HTTP/HTTPS protocol] The protocol version. The possible values are GRPC, HTTP1, and HTTP2.
         public let protocolVersion: String?
+        /// The port on which the target control agent and application load balancer exchange management traffic for the target optimizer feature.
+        public let targetControlPort: Int?
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
         /// The name of the target group.
@@ -3581,7 +3655,7 @@ extension ElasticLoadBalancingV2 {
         public let vpcId: String?
 
         @inlinable
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, ipAddressType: TargetGroupIpAddressTypeEnum? = nil, loadBalancerArns: [String]? = nil, matcher: Matcher? = nil, port: Int? = nil, protocol: ProtocolEnum? = nil, protocolVersion: String? = nil, targetControlPort: Int? = nil, targetGroupArn: String? = nil, targetGroupName: String? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -3595,6 +3669,7 @@ extension ElasticLoadBalancingV2 {
             self.port = port
             self.`protocol` = `protocol`
             self.protocolVersion = protocolVersion
+            self.targetControlPort = targetControlPort
             self.targetGroupArn = targetGroupArn
             self.targetGroupName = targetGroupName
             self.targetType = targetType
@@ -3616,6 +3691,7 @@ extension ElasticLoadBalancingV2 {
             case port = "Port"
             case `protocol` = "Protocol"
             case protocolVersion = "ProtocolVersion"
+            case targetControlPort = "TargetControlPort"
             case targetGroupArn = "TargetGroupArn"
             case targetGroupName = "TargetGroupName"
             case targetType = "TargetType"
@@ -3648,7 +3724,7 @@ extension ElasticLoadBalancingV2 {
     }
 
     public struct TargetGroupStickinessConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
+        /// [Application Load Balancers] The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days). You must specify this value when enabling target group stickiness.
         public let durationSeconds: Int?
         /// Indicates whether target group stickiness is enabled.
         public let enabled: Bool?
@@ -3686,7 +3762,7 @@ extension ElasticLoadBalancingV2 {
     public struct TargetHealth: AWSDecodableShape {
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
         public let description: String?
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code. Applies only to Application Load Balancers and Gateway Load Balancers.    Target.Timeout - The health check requests timed out. Applies only to Application Load Balancers and Gateway Load Balancers.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error. Applies only to Application Load Balancers.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group. Applies only to Application Load Balancers.    Elb.InternalError - Target health is unavailable due to an internal error. Applies only to Network Load Balancers.
+        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code.    Target.Timeout - The health check requests timed out.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group.    Elb.InternalError - Target health is unavailable due to an internal error.
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
         public let state: TargetHealthStateEnum?

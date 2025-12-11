@@ -114,9 +114,7 @@ extension RolesAnywhere {
     public struct CreateProfileRequest: AWSEncodableShape {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public let acceptRoleSessionName: Bool?
-        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
-        /// CreateSession API documentation
-        /// page for more details. In requests, if this value is not provided, the default value will be 3600.
+        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
         public let durationSeconds: Int?
         /// Specifies whether the profile is enabled.
         public let enabled: Bool?
@@ -124,7 +122,7 @@ extension RolesAnywhere {
         public let managedPolicyArns: [String]?
         /// The name of the profile.
         public let name: String
-        /// Specifies whether instance properties are required in temporary credential requests with this profile.
+        /// Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
         public let requireInstanceProperties: Bool?
         /// A list of IAM roles that this profile can assume in a temporary credential request.
         public let roleArns: [String]
@@ -646,9 +644,7 @@ extension RolesAnywhere {
         public let createdAt: Date?
         /// The Amazon Web Services account that created the profile.
         public let createdBy: String?
-        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
-        /// CreateSession API documentation
-        /// page for more details. In requests, if this value is not provided, the default value will be 3600.
+        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
         public let durationSeconds: Int?
         /// Indicates whether the profile is enabled.
         public let enabled: Bool?
@@ -660,7 +656,7 @@ extension RolesAnywhere {
         public let profileArn: String?
         /// The unique identifier of the profile.
         public let profileId: String?
-        /// Specifies whether instance properties are required in temporary credential requests with this profile.
+        /// Unused, saved for future use. Will likely specify whether instance properties are required in temporary credential requests with this profile.
         public let requireInstanceProperties: Bool?
         /// A list of IAM roles that this profile can assume in a temporary credential request.
         public let roleArns: [String]?
@@ -1243,9 +1239,7 @@ extension RolesAnywhere {
     public struct UpdateProfileRequest: AWSEncodableShape {
         /// Used to determine if a custom role session name will be accepted in a temporary credential request.
         public let acceptRoleSessionName: Bool?
-        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the
-        /// CreateSession API documentation
-        /// page for more details. In requests, if this value is not provided, the default value will be 3600.
+        ///  Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the CreateSession API documentation page for more details. In requests, if this value is not provided, the default value will be 3600.
         public let durationSeconds: Int?
         /// A list of managed policy ARNs that apply to the vended session credentials.
         public let managedPolicyArns: [String]?

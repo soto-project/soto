@@ -248,18 +248,24 @@ public struct CloudFront: AWSService {
     /// Creates an Anycast static IP list.
     ///
     /// Parameters:
+    ///   - ipAddressType: The IP address type for the Anycast static IP list. You can specify one of the following options:    ipv4 only    ipv6 only     dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    ///   - ipamCidrConfigs:  A list of IPAM CIDR configurations that specify the IP address ranges and IPAM pool settings for creating the Anycast static IP list.
     ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     ///   - name: Name of the Anycast static IP list.
     ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createAnycastIpList(
+        ipAddressType: IpAddressType? = nil,
+        ipamCidrConfigs: [IpamCidrConfig]? = nil,
         ipCount: Int,
         name: String,
         tags: Tags? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAnycastIpListResult {
         let input = CreateAnycastIpListRequest(
+            ipAddressType: ipAddressType, 
+            ipamCidrConfigs: ipamCidrConfigs, 
             ipCount: ipCount, 
             name: name, 
             tags: tags
@@ -323,6 +329,44 @@ public struct CloudFront: AWSService {
             cloudFrontOriginAccessIdentityConfig: cloudFrontOriginAccessIdentityConfig
         )
         return try await self.createCloudFrontOriginAccessIdentity(input, logger: logger)
+    }
+
+    /// Creates a connection function.
+    @Sendable
+    @inlinable
+    public func createConnectionFunction(_ input: CreateConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "CreateConnectionFunction", 
+            path: "/2020-05-31/connection-function", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connection function.
+    ///
+    /// Parameters:
+    ///   - connectionFunctionCode: The code for the connection function.
+    ///   - connectionFunctionConfig: 
+    ///   - name: A name for the connection function.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnectionFunction(
+        connectionFunctionCode: AWSBase64Data,
+        connectionFunctionConfig: FunctionConfig,
+        name: String,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectionFunctionResult {
+        let input = CreateConnectionFunctionRequest(
+            connectionFunctionCode: connectionFunctionCode, 
+            connectionFunctionConfig: connectionFunctionConfig, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createConnectionFunction(input, logger: logger)
     }
 
     /// Creates a connection group.
@@ -971,6 +1015,41 @@ public struct CloudFront: AWSService {
         return try await self.createStreamingDistributionWithTags(input, logger: logger)
     }
 
+    /// Creates a trust store.
+    @Sendable
+    @inlinable
+    public func createTrustStore(_ input: CreateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTrustStoreResult {
+        try await self.client.execute(
+            operation: "CreateTrustStore", 
+            path: "/2020-05-31/trust-store", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a trust store.
+    ///
+    /// Parameters:
+    ///   - caCertificatesBundleSource: The CA certificates bundle source for the trust store.
+    ///   - name: A name for the trust store.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTrustStore(
+        caCertificatesBundleSource: CaCertificatesBundleSource,
+        name: String,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTrustStoreResult {
+        let input = CreateTrustStoreRequest(
+            caCertificatesBundleSource: caCertificatesBundleSource, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createTrustStore(input, logger: logger)
+    }
+
     /// Create an Amazon CloudFront VPC origin.
     @Sendable
     @inlinable
@@ -1099,6 +1178,38 @@ public struct CloudFront: AWSService {
         return try await self.deleteCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
+    /// Deletes a connection function.
+    @Sendable
+    @inlinable
+    public func deleteConnectionFunction(_ input: DeleteConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a connection function.
+    ///
+    /// Parameters:
+    ///   - id: The connection function's ID.
+    ///   - ifMatch: The current version (ETag value) of the connection function you are deleting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectionFunction(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectionFunctionRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteConnectionFunction(input, logger: logger)
+    }
+
     /// Deletes a connection group.
     @Sendable
     @inlinable
@@ -1163,7 +1274,7 @@ public struct CloudFront: AWSService {
         return try await self.deleteContinuousDeploymentPolicy(input, logger: logger)
     }
 
-    /// Delete a distribution.
+    /// Delete a distribution.  Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
     @Sendable
     @inlinable
     public func deleteDistribution(_ input: DeleteDistributionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1176,7 +1287,7 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Delete a distribution.
+    /// Delete a distribution.  Before you can delete a distribution, you must disable it, which requires permission to update the distribution. Once deleted, a distribution cannot be recovered.
     ///
     /// Parameters:
     ///   - id: The distribution ID.
@@ -1544,6 +1655,35 @@ public struct CloudFront: AWSService {
         return try await self.deleteRealtimeLogConfig(input, logger: logger)
     }
 
+    /// Deletes the resource policy attached to the CloudFront resource.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/2020-05-31/delete-resource-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the resource policy attached to the CloudFront resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudFront resource for which the resource policy should be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Deletes a response headers policy. You cannot delete a response headers policy if it's attached to a cache behavior. First update your distributions to remove the response headers policy from all cache behaviors, then delete the response headers policy. To delete a response headers policy, you must provide the policy's identifier and version. To get these values, you can use ListResponseHeadersPolicies or GetResponseHeadersPolicy.
     @Sendable
     @inlinable
@@ -1608,6 +1748,38 @@ public struct CloudFront: AWSService {
         return try await self.deleteStreamingDistribution(input, logger: logger)
     }
 
+    /// Deletes a trust store.
+    @Sendable
+    @inlinable
+    public func deleteTrustStore(_ input: DeleteTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTrustStore", 
+            path: "/2020-05-31/trust-store/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a trust store.
+    ///
+    /// Parameters:
+    ///   - id: The trust store's ID.
+    ///   - ifMatch: The current version (ETag value) of the trust store you are deleting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTrustStore(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTrustStoreRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteTrustStore(input, logger: logger)
+    }
+
     /// Delete an Amazon CloudFront VPC origin.
     @Sendable
     @inlinable
@@ -1638,6 +1810,38 @@ public struct CloudFront: AWSService {
             ifMatch: ifMatch
         )
         return try await self.deleteVpcOrigin(input, logger: logger)
+    }
+
+    /// Describes a connection function.
+    @Sendable
+    @inlinable
+    public func describeConnectionFunction(_ input: DescribeConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "DescribeConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Identifier}/describe", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes a connection function.
+    ///
+    /// Parameters:
+    ///   - identifier: The connection function's identifier.
+    ///   - stage: The connection function's stage.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeConnectionFunction(
+        identifier: String,
+        stage: FunctionStage? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeConnectionFunctionResult {
+        let input = DescribeConnectionFunctionRequest(
+            identifier: identifier, 
+            stage: stage
+        )
+        return try await self.describeConnectionFunction(input, logger: logger)
     }
 
     /// Gets configuration information and metadata about a CloudFront function, but not the function's code. To get a function's code, use GetFunction. To get configuration information and metadata about a function, you must provide the function's name and stage. To get these values, you can use ListFunctions.
@@ -1908,6 +2112,38 @@ public struct CloudFront: AWSService {
             id: id
         )
         return try await self.getCloudFrontOriginAccessIdentityConfig(input, logger: logger)
+    }
+
+    /// Gets a connection function.
+    @Sendable
+    @inlinable
+    public func getConnectionFunction(_ input: GetConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "GetConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a connection function.
+    ///
+    /// Parameters:
+    ///   - identifier: The connection function's identifier.
+    ///   - stage: The connection function's stage.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectionFunction(
+        identifier: String,
+        stage: FunctionStage? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionFunctionResult {
+        let input = GetConnectionFunctionRequest(
+            identifier: identifier, 
+            stage: stage
+        )
+        return try await self.getConnectionFunction(input, logger: logger)
     }
 
     /// Gets information about a connection group.
@@ -2676,6 +2912,35 @@ public struct CloudFront: AWSService {
         return try await self.getRealtimeLogConfig(input, logger: logger)
     }
 
+    /// Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResult {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/2020-05-31/get-resource-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the resource policy for the specified CloudFront resource that you own and have shared.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudFront resource that is associated with the resource policy.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResult {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
     /// Gets a response headers policy, including metadata (the policy's identifier and the date and time when the policy was last modified). To get a response headers policy, you must provide the policy's identifier. If the response headers policy is attached to a distribution's cache behavior, you can get the policy's identifier using ListDistributions or GetDistribution. If the response headers policy is not attached to a cache behavior, you can get the identifier using ListResponseHeadersPolicies.
     @Sendable
     @inlinable
@@ -2790,6 +3055,35 @@ public struct CloudFront: AWSService {
             id: id
         )
         return try await self.getStreamingDistributionConfig(input, logger: logger)
+    }
+
+    /// Gets a trust store.
+    @Sendable
+    @inlinable
+    public func getTrustStore(_ input: GetTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrustStoreResult {
+        try await self.client.execute(
+            operation: "GetTrustStore", 
+            path: "/2020-05-31/trust-store/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a trust store.
+    ///
+    /// Parameters:
+    ///   - identifier: The trust store's identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTrustStore(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTrustStoreResult {
+        let input = GetTrustStoreRequest(
+            identifier: identifier
+        )
+        return try await self.getTrustStore(input, logger: logger)
     }
 
     /// Get the details of an Amazon CloudFront VPC origin.
@@ -2956,6 +3250,41 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listConflictingAliases(input, logger: logger)
+    }
+
+    /// Lists connection functions.
+    @Sendable
+    @inlinable
+    public func listConnectionFunctions(_ input: ListConnectionFunctionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionFunctionsResult {
+        try await self.client.execute(
+            operation: "ListConnectionFunctions", 
+            path: "/2020-05-31/connection-functions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists connection functions.
+    ///
+    /// Parameters:
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of connection functions that you want returned in the response.
+    ///   - stage: The connection function's stage.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectionFunctions(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        stage: FunctionStage? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectionFunctionsResult {
+        let input = ListConnectionFunctionsRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            stage: stage
+        )
+        return try await self.listConnectionFunctions(input, logger: logger)
     }
 
     /// Lists the connection groups in your Amazon Web Services account.
@@ -3200,6 +3529,41 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByCachePolicyId(input, logger: logger)
     }
 
+    /// Lists distributions by connection function.
+    @Sendable
+    @inlinable
+    public func listDistributionsByConnectionFunction(_ input: ListDistributionsByConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByConnectionFunction", 
+            path: "/2020-05-31/distributionsByConnectionFunction", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists distributions by connection function.
+    ///
+    /// Parameters:
+    ///   - connectionFunctionIdentifier: The distributions by connection function identifier.
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of distributions that you want returned in the response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByConnectionFunction(
+        connectionFunctionIdentifier: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByConnectionFunctionResult {
+        let input = ListDistributionsByConnectionFunctionRequest(
+            connectionFunctionIdentifier: connectionFunctionIdentifier, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionsByConnectionFunction(input, logger: logger)
+    }
+
     /// Lists the distributions by the connection mode that you specify.
     @Sendable
     @inlinable
@@ -3305,6 +3669,41 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByOriginRequestPolicyId(input, logger: logger)
     }
 
+    /// Lists the CloudFront distributions that are associated with the specified resource that you own.
+    @Sendable
+    @inlinable
+    public func listDistributionsByOwnedResource(_ input: ListDistributionsByOwnedResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByOwnedResourceResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByOwnedResource", 
+            path: "/2020-05-31/distributionsByOwnedResource/{ResourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the CloudFront distributions that are associated with the specified resource that you own.
+    ///
+    /// Parameters:
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list of distributions. The response includes distributions in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of distributions to return.
+    ///   - resourceArn: The ARN of the CloudFront resource that you've shared with other Amazon Web Services accounts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByOwnedResource(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByOwnedResourceResult {
+        let input = ListDistributionsByOwnedResourceRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            resourceArn: resourceArn
+        )
+        return try await self.listDistributionsByOwnedResource(input, logger: logger)
+    }
+
     /// Gets a list of distributions that have a cache behavior that's associated with the specified real-time log configuration. You can specify the real-time log configuration by its name or its Amazon Resource Name (ARN). You must provide at least one. If you provide both, CloudFront uses the name to identify the real-time log configuration to list distributions for. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     @Sendable
     @inlinable
@@ -3376,6 +3775,41 @@ public struct CloudFront: AWSService {
             responseHeadersPolicyId: responseHeadersPolicyId
         )
         return try await self.listDistributionsByResponseHeadersPolicyId(input, logger: logger)
+    }
+
+    /// Lists distributions by trust store.
+    @Sendable
+    @inlinable
+    public func listDistributionsByTrustStore(_ input: ListDistributionsByTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByTrustStoreResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByTrustStore", 
+            path: "/2020-05-31/distributionsByTrustStore", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists distributions by trust store.
+    ///
+    /// Parameters:
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of distributions that you want returned in the response.
+    ///   - trustStoreIdentifier: The distributions by trust store identifier.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByTrustStore(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        trustStoreIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByTrustStoreResult {
+        let input = ListDistributionsByTrustStoreRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            trustStoreIdentifier: trustStoreIdentifier
+        )
+        return try await self.listDistributionsByTrustStore(input, logger: logger)
     }
 
     /// List CloudFront distributions by their VPC origin ID.
@@ -3949,6 +4383,38 @@ public struct CloudFront: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Lists trust stores.
+    @Sendable
+    @inlinable
+    public func listTrustStores(_ input: ListTrustStoresRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTrustStoresResult {
+        try await self.client.execute(
+            operation: "ListTrustStores", 
+            path: "/2020-05-31/trust-stores", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists trust stores.
+    ///
+    /// Parameters:
+    ///   - marker: Use this field when paginating results to indicate where to begin in your list. The response includes items in the list that occur after the marker. To get the next page of the list, set this field's value to the value of NextMarker from the current page's response.
+    ///   - maxItems: The maximum number of trust stores that you want returned in the response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTrustStores(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTrustStoresResult {
+        let input = ListTrustStoresRequest(
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listTrustStores(input, logger: logger)
+    }
+
     /// List the CloudFront VPC origins in your account.
     @Sendable
     @inlinable
@@ -3979,6 +4445,38 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listVpcOrigins(input, logger: logger)
+    }
+
+    /// Publishes a connection function.
+    @Sendable
+    @inlinable
+    public func publishConnectionFunction(_ input: PublishConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PublishConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "PublishConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Id}/publish", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Publishes a connection function.
+    ///
+    /// Parameters:
+    ///   - id: The connection function ID.
+    ///   - ifMatch: The current version (ETag value) of the connection function.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func publishConnectionFunction(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PublishConnectionFunctionResult {
+        let input = PublishConnectionFunctionRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.publishConnectionFunction(input, logger: logger)
     }
 
     /// Publishes a CloudFront function by copying the function code from the DEVELOPMENT stage to LIVE. This automatically updates all cache behaviors that are using this function to use the newly published copy in the LIVE stage. When a function is published to the LIVE stage, you can attach the function to a distribution's cache behavior, using the function's Amazon Resource Name (ARN). To publish a function, you must provide the function's name and version (ETag value). To get these values, you can use ListFunctions and DescribeFunction.
@@ -4013,6 +4511,38 @@ public struct CloudFront: AWSService {
         return try await self.publishFunction(input, logger: logger)
     }
 
+    /// Creates a resource control policy for a given CloudFront resource.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResult {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/2020-05-31/put-resource-policy", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a resource control policy for a given CloudFront resource.
+    ///
+    /// Parameters:
+    ///   - policyDocument: The JSON-formatted resource policy to create.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the CloudFront resource for which the policy is being created.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        policyDocument: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResult {
+        let input = PutResourcePolicyRequest(
+            policyDocument: policyDocument, 
+            resourceArn: resourceArn
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
     /// Add tags to a CloudFront resource. For more information, see Tagging a distribution in the Amazon CloudFront Developer Guide.
     @Sendable
     @inlinable
@@ -4043,6 +4573,44 @@ public struct CloudFront: AWSService {
             tags: tags
         )
         return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Tests a connection function.
+    @Sendable
+    @inlinable
+    public func testConnectionFunction(_ input: TestConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TestConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "TestConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Id}/test", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Tests a connection function.
+    ///
+    /// Parameters:
+    ///   - connectionObject: The connection object.
+    ///   - id: The connection function ID.
+    ///   - ifMatch: The current version (ETag value) of the connection function.
+    ///   - stage: The connection function stage.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func testConnectionFunction(
+        connectionObject: AWSBase64Data,
+        id: String,
+        ifMatch: String,
+        stage: FunctionStage? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TestConnectionFunctionResult {
+        let input = TestConnectionFunctionRequest(
+            connectionObject: connectionObject, 
+            id: id, 
+            ifMatch: ifMatch, 
+            stage: stage
+        )
+        return try await self.testConnectionFunction(input, logger: logger)
     }
 
     /// Tests a CloudFront function. To test a function, you provide an event object that represents an HTTP request or response that your CloudFront distribution could receive in production. CloudFront runs the function, passing it the event object that you provided, and returns the function's result (the modified event object) in the response. The response also contains function logs and error messages, if any exist. For more information about testing functions, see Testing functions in the Amazon CloudFront Developer Guide. To test a function, you provide the function's name and version (ETag value) along with the event object. To get the function's name and version, you can use ListFunctions and DescribeFunction.
@@ -4115,6 +4683,41 @@ public struct CloudFront: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates an Anycast static IP list.
+    @Sendable
+    @inlinable
+    public func updateAnycastIpList(_ input: UpdateAnycastIpListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAnycastIpListResult {
+        try await self.client.execute(
+            operation: "UpdateAnycastIpList", 
+            path: "/2020-05-31/anycast-ip-list/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an Anycast static IP list.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the Anycast static IP list.
+    ///   - ifMatch: The current version (ETag value) of the Anycast static IP list that you are updating.
+    ///   - ipAddressType: The IP address type for the Anycast static IP list. You can specify one of the following options:    ipv4 only    ipv6 only    dualstack - Allocate a list of both IPv4 and IPv6 addresses
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateAnycastIpList(
+        id: String,
+        ifMatch: String,
+        ipAddressType: IpAddressType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateAnycastIpListResult {
+        let input = UpdateAnycastIpListRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            ipAddressType: ipAddressType
+        )
+        return try await self.updateAnycastIpList(input, logger: logger)
+    }
+
     /// Updates a cache policy configuration. When you update a cache policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a cache policy configuration:   Use GetCachePolicyConfig to get the current configuration.   Locally modify the fields in the cache policy configuration that you want to update.   Call UpdateCachePolicy by providing the entire cache policy configuration, including the fields that you modified and those that you didn't.    If your minimum TTL is greater than 0, CloudFront will cache content for at least the duration specified in the cache policy's minimum TTL, even if the Cache-Control: no-cache, no-store, or private directives are present in the origin headers.
     @Sendable
     @inlinable
@@ -4183,6 +4786,44 @@ public struct CloudFront: AWSService {
             ifMatch: ifMatch
         )
         return try await self.updateCloudFrontOriginAccessIdentity(input, logger: logger)
+    }
+
+    /// Updates a connection function.
+    @Sendable
+    @inlinable
+    public func updateConnectionFunction(_ input: UpdateConnectionFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionFunctionResult {
+        try await self.client.execute(
+            operation: "UpdateConnectionFunction", 
+            path: "/2020-05-31/connection-function/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a connection function.
+    ///
+    /// Parameters:
+    ///   - connectionFunctionCode: The connection function code.
+    ///   - connectionFunctionConfig: 
+    ///   - id: The connection function ID.
+    ///   - ifMatch: The current version (ETag value) of the connection function you are updating.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectionFunction(
+        connectionFunctionCode: AWSBase64Data,
+        connectionFunctionConfig: FunctionConfig,
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectionFunctionResult {
+        let input = UpdateConnectionFunctionRequest(
+            connectionFunctionCode: connectionFunctionCode, 
+            connectionFunctionConfig: connectionFunctionConfig, 
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.updateConnectionFunction(input, logger: logger)
     }
 
     /// Updates a connection group.
@@ -4813,6 +5454,41 @@ public struct CloudFront: AWSService {
         return try await self.updateStreamingDistribution(input, logger: logger)
     }
 
+    /// Updates a trust store.
+    @Sendable
+    @inlinable
+    public func updateTrustStore(_ input: UpdateTrustStoreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTrustStoreResult {
+        try await self.client.execute(
+            operation: "UpdateTrustStore", 
+            path: "/2020-05-31/trust-store/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a trust store.
+    ///
+    /// Parameters:
+    ///   - caCertificatesBundleSource: The CA certificates bundle source.
+    ///   - id: The trust store ID.
+    ///   - ifMatch: The current version (ETag value) of the trust store you are updating.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTrustStore(
+        caCertificatesBundleSource: CaCertificatesBundleSource,
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTrustStoreResult {
+        let input = UpdateTrustStoreRequest(
+            caCertificatesBundleSource: caCertificatesBundleSource, 
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.updateTrustStore(input, logger: logger)
+    }
+
     /// Update an Amazon CloudFront VPC origin in your account.
     @Sendable
     @inlinable
@@ -4926,6 +5602,43 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listCloudFrontOriginAccessIdentitiesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listConnectionFunctions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionFunctionsPaginator(
+        _ input: ListConnectionFunctionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectionFunctionsRequest, ListConnectionFunctionsResult> {
+        return .init(
+            input: input,
+            command: self.listConnectionFunctions,
+            inputKey: \ListConnectionFunctionsRequest.marker,
+            outputKey: \ListConnectionFunctionsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectionFunctions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of connection functions that you want returned in the response.
+    ///   - stage: The connection function's stage.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionFunctionsPaginator(
+        maxItems: Int? = nil,
+        stage: FunctionStage? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectionFunctionsRequest, ListConnectionFunctionsResult> {
+        let input = ListConnectionFunctionsRequest(
+            maxItems: maxItems, 
+            stage: stage
+        )
+        return self.listConnectionFunctionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listConnectionGroups(_:logger:)``.
@@ -5076,6 +5789,43 @@ extension CloudFront {
         return self.listDistributionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionFunctionPaginator(
+        _ input: ListDistributionsByConnectionFunctionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionFunctionRequest, ListDistributionsByConnectionFunctionResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionsByConnectionFunction,
+            inputKey: \ListDistributionsByConnectionFunctionRequest.marker,
+            outputKey: \ListDistributionsByConnectionFunctionResult.distributionList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectionFunctionIdentifier: The distributions by connection function identifier.
+    ///   - maxItems: The maximum number of distributions that you want returned in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionFunctionPaginator(
+        connectionFunctionIdentifier: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionFunctionRequest, ListDistributionsByConnectionFunctionResult> {
+        let input = ListDistributionsByConnectionFunctionRequest(
+            connectionFunctionIdentifier: connectionFunctionIdentifier, 
+            maxItems: maxItems
+        )
+        return self.listDistributionsByConnectionFunctionPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
     ///
     /// - Parameters:
@@ -5111,6 +5861,43 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listDistributionsByConnectionModePaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionsByTrustStore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByTrustStorePaginator(
+        _ input: ListDistributionsByTrustStoreRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByTrustStoreRequest, ListDistributionsByTrustStoreResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionsByTrustStore,
+            inputKey: \ListDistributionsByTrustStoreRequest.marker,
+            outputKey: \ListDistributionsByTrustStoreResult.distributionList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionsByTrustStore(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of distributions that you want returned in the response.
+    ///   - trustStoreIdentifier: The distributions by trust store identifier.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByTrustStorePaginator(
+        maxItems: Int? = nil,
+        trustStoreIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByTrustStoreRequest, ListDistributionsByTrustStoreResult> {
+        let input = ListDistributionsByTrustStoreRequest(
+            maxItems: maxItems, 
+            trustStoreIdentifier: trustStoreIdentifier
+        )
+        return self.listDistributionsByTrustStorePaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDomainConflicts(_:logger:)``.
@@ -5365,6 +6152,40 @@ extension CloudFront {
         )
         return self.listStreamingDistributionsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listTrustStores(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrustStoresPaginator(
+        _ input: ListTrustStoresRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTrustStoresRequest, ListTrustStoresResult> {
+        return .init(
+            input: input,
+            command: self.listTrustStores,
+            inputKey: \ListTrustStoresRequest.marker,
+            outputKey: \ListTrustStoresResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTrustStores(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxItems: The maximum number of trust stores that you want returned in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTrustStoresPaginator(
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTrustStoresRequest, ListTrustStoresResult> {
+        let input = ListTrustStoresRequest(
+            maxItems: maxItems
+        )
+        return self.listTrustStoresPaginator(input, logger: logger)
+    }
 }
 
 extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateToken {
@@ -5373,6 +6194,17 @@ extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateTok
         return .init(
             marker: token,
             maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListConnectionFunctionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListConnectionFunctionsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            stage: self.stage
         )
     }
 }
@@ -5411,6 +6243,17 @@ extension CloudFront.ListDistributionTenantsRequest: AWSPaginateToken {
     }
 }
 
+extension CloudFront.ListDistributionsByConnectionFunctionRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsByConnectionFunctionRequest {
+        return .init(
+            connectionFunctionIdentifier: self.connectionFunctionIdentifier,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension CloudFront.ListDistributionsByConnectionModeRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsByConnectionModeRequest {
@@ -5418,6 +6261,17 @@ extension CloudFront.ListDistributionsByConnectionModeRequest: AWSPaginateToken 
             connectionMode: self.connectionMode,
             marker: token,
             maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDistributionsByTrustStoreRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsByTrustStoreRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            trustStoreIdentifier: self.trustStoreIdentifier
         )
     }
 }
@@ -5500,6 +6354,16 @@ extension CloudFront.ListPublicKeysRequest: AWSPaginateToken {
 extension CloudFront.ListStreamingDistributionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFront.ListStreamingDistributionsRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListTrustStoresRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListTrustStoresRequest {
         return .init(
             marker: token,
             maxItems: self.maxItems

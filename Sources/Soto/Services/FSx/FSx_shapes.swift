@@ -285,6 +285,12 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum OntapFileSystemUserType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case unix = "UNIX"
+        case windows = "WINDOWS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OntapVolumeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dp = "DP"
         case ls = "LS"
@@ -379,11 +385,13 @@ extension FSx {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case misconfigured = "MISCONFIGURED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum S3AccessPointAttachmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ontap = "ONTAP"
         case openzfs = "OPENZFS"
         public var description: String { return self.rawValue }
     }
@@ -1164,6 +1172,31 @@ extension FSx {
         }
     }
 
+    public struct CreateAndAttachS3AccessPointOntapConfiguration: AWSEncodableShape {
+        /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
+        public let fileSystemIdentity: OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume to which you want the S3 access point attached.
+        public let volumeId: String?
+
+        @inlinable
+        public init(fileSystemIdentity: OntapFileSystemIdentity? = nil, volumeId: String? = nil) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+
+        public func validate(name: String) throws {
+            try self.fileSystemIdentity?.validate(name: "\(name).fileSystemIdentity")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, max: 23)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, min: 23)
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "^(fsvol-[0-9a-f]{17,})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemIdentity = "FileSystemIdentity"
+            case volumeId = "VolumeId"
+        }
+    }
+
     public struct CreateAndAttachS3AccessPointOpenZFSConfiguration: AWSEncodableShape {
         /// Specifies the file system user identity to use for authorizing file read and write requests that are made using this S3 access point.
         public let fileSystemIdentity: OpenZFSFileSystemIdentity?
@@ -1193,6 +1226,7 @@ extension FSx {
         public let clientRequestToken: String?
         /// The name you want to assign to this S3 access point.
         public let name: String?
+        public let ontapConfiguration: CreateAndAttachS3AccessPointOntapConfiguration?
         /// Specifies the configuration to use when creating and attaching an S3 access point to an FSx for OpenZFS volume.
         public let openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration?
         /// Specifies the virtual private cloud (VPC) configuration if you're creating an access point that is restricted to a VPC.  For more information, see Creating access points restricted to a virtual private cloud.
@@ -1201,9 +1235,10 @@ extension FSx {
         public let type: S3AccessPointAttachmentType?
 
         @inlinable
-        public init(clientRequestToken: String? = CreateAndAttachS3AccessPointRequest.idempotencyToken(), name: String? = nil, openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration? = nil, type: S3AccessPointAttachmentType? = nil) {
+        public init(clientRequestToken: String? = CreateAndAttachS3AccessPointRequest.idempotencyToken(), name: String? = nil, ontapConfiguration: CreateAndAttachS3AccessPointOntapConfiguration? = nil, openZFSConfiguration: CreateAndAttachS3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: CreateAndAttachS3AccessPointS3Configuration? = nil, type: S3AccessPointAttachmentType? = nil) {
             self.clientRequestToken = clientRequestToken
             self.name = name
+            self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.s3AccessPoint = s3AccessPoint
             self.type = type
@@ -1216,6 +1251,7 @@ extension FSx {
             try self.validate(self.name, name: "name", parent: name, max: 50)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?=[a-z0-9])[a-z0-9-]{1,48}[a-z0-9]$")
+            try self.ontapConfiguration?.validate(name: "\(name).ontapConfiguration")
             try self.openZFSConfiguration?.validate(name: "\(name).openZFSConfiguration")
             try self.s3AccessPoint?.validate(name: "\(name).s3AccessPoint")
         }
@@ -1223,6 +1259,7 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case name = "Name"
+            case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case s3AccessPoint = "S3AccessPoint"
             case type = "Type"
@@ -2170,6 +2207,8 @@ extension FSx {
         public let deploymentType: WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public let fsrmConfiguration: WindowsFsrmConfiguration?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet  in which you want the preferred file server to be located. For in-Amazon Web Services applications, we recommend that you launch  your clients in the same Availability Zone (AZ) as your preferred file server to reduce cross-AZ  data transfer costs and minimize latency.
         public let preferredSubnetId: String?
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration?
@@ -2179,7 +2218,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [String]? = nil, auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsrmConfiguration: WindowsFsrmConfiguration? = nil, preferredSubnetId: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfiguration? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -2188,6 +2227,7 @@ extension FSx {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.preferredSubnetId = preferredSubnetId
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
@@ -2211,6 +2251,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.fsrmConfiguration?.validate(name: "\(name).fsrmConfiguration")
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, max: 24)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, min: 15)
             try self.validate(self.preferredSubnetId, name: "preferredSubnetId", parent: name, pattern: "^(subnet-[0-9a-f]{8,})$")
@@ -2231,6 +2272,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case fsrmConfiguration = "FsrmConfiguration"
             case preferredSubnetId = "PreferredSubnetId"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
@@ -5164,6 +5206,53 @@ extension FSx {
         }
     }
 
+    public struct OntapFileSystemIdentity: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the FSx for ONTAP user identity type. Valid values are UNIX and WINDOWS.
+        public let type: OntapFileSystemUserType?
+        /// Specifies the UNIX user identity for file system operations.
+        public let unixUser: OntapUnixFileSystemUser?
+        /// Specifies the Windows user identity for file system operations.
+        public let windowsUser: OntapWindowsFileSystemUser?
+
+        @inlinable
+        public init(type: OntapFileSystemUserType? = nil, unixUser: OntapUnixFileSystemUser? = nil, windowsUser: OntapWindowsFileSystemUser? = nil) {
+            self.type = type
+            self.unixUser = unixUser
+            self.windowsUser = windowsUser
+        }
+
+        public func validate(name: String) throws {
+            try self.unixUser?.validate(name: "\(name).unixUser")
+            try self.windowsUser?.validate(name: "\(name).windowsUser")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case unixUser = "UnixUser"
+            case windowsUser = "WindowsUser"
+        }
+    }
+
+    public struct OntapUnixFileSystemUser: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the UNIX user. The name can be up to 256 characters long.
+        public let name: String?
+
+        @inlinable
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
     public struct OntapVolumeConfiguration: AWSDecodableShape {
         /// This structure specifies configuration options for a volume’s storage aggregate or aggregates.
         public let aggregateConfiguration: AggregateConfiguration?
@@ -5235,6 +5324,26 @@ extension FSx {
             case tieringPolicy = "TieringPolicy"
             case uuid = "UUID"
             case volumeStyle = "VolumeStyle"
+        }
+    }
+
+    public struct OntapWindowsFileSystemUser: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Windows user. The name can be up to 256 characters long and supports Active Directory users.
+        public let name: String?
+
+        @inlinable
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -5815,6 +5924,8 @@ extension FSx {
         public let lifecycleTransitionReason: LifecycleTransitionReason?
         /// The name of the S3 access point attachment; also used for the name of the S3 access point.
         public let name: String?
+        /// The ONTAP configuration of the S3 access point attachment.
+        public let ontapConfiguration: S3AccessPointOntapConfiguration?
         /// The OpenZFSConfiguration of the S3 access point attachment.
         public let openZFSConfiguration: S3AccessPointOpenZFSConfiguration?
         /// The S3 access point configuration of the S3 access point attachment.
@@ -5823,11 +5934,12 @@ extension FSx {
         public let type: S3AccessPointAttachmentType?
 
         @inlinable
-        public init(creationTime: Date? = nil, lifecycle: S3AccessPointAttachmentLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, openZFSConfiguration: S3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: S3AccessPoint? = nil, type: S3AccessPointAttachmentType? = nil) {
+        public init(creationTime: Date? = nil, lifecycle: S3AccessPointAttachmentLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, ontapConfiguration: S3AccessPointOntapConfiguration? = nil, openZFSConfiguration: S3AccessPointOpenZFSConfiguration? = nil, s3AccessPoint: S3AccessPoint? = nil, type: S3AccessPointAttachmentType? = nil) {
             self.creationTime = creationTime
             self.lifecycle = lifecycle
             self.lifecycleTransitionReason = lifecycleTransitionReason
             self.name = name
+            self.ontapConfiguration = ontapConfiguration
             self.openZFSConfiguration = openZFSConfiguration
             self.s3AccessPoint = s3AccessPoint
             self.type = type
@@ -5838,6 +5950,7 @@ extension FSx {
             case lifecycle = "Lifecycle"
             case lifecycleTransitionReason = "LifecycleTransitionReason"
             case name = "Name"
+            case ontapConfiguration = "OntapConfiguration"
             case openZFSConfiguration = "OpenZFSConfiguration"
             case s3AccessPoint = "S3AccessPoint"
             case type = "Type"
@@ -5868,6 +5981,24 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case values = "Values"
+        }
+    }
+
+    public struct S3AccessPointOntapConfiguration: AWSDecodableShape {
+        /// The file system identity used to authorize file access requests made using the S3 access point.
+        public let fileSystemIdentity: OntapFileSystemIdentity?
+        /// The ID of the FSx for ONTAP volume that the S3 access point is attached to.
+        public let volumeId: String?
+
+        @inlinable
+        public init(fileSystemIdentity: OntapFileSystemIdentity? = nil, volumeId: String? = nil) {
+            self.fileSystemIdentity = fileSystemIdentity
+            self.volumeId = volumeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemIdentity = "FileSystemIdentity"
+            case volumeId = "VolumeId"
         }
     }
 
@@ -5935,6 +6066,8 @@ extension FSx {
     public struct SelfManagedActiveDirectoryAttributes: AWSDecodableShape {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the service account credentials used to join the file system to your self-managed Active Directory domain.
+        public let domainJoinServiceAccountSecret: String?
         /// The fully qualified domain name of the self-managed AD directory.
         public let domainName: String?
         /// The name of the domain group whose members have administrative privileges for the FSx file system.
@@ -5945,8 +6078,9 @@ extension FSx {
         public let userName: String?
 
         @inlinable
-        public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, userName: String? = nil) {
+        public init(dnsIps: [String]? = nil, domainJoinServiceAccountSecret: String? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -5955,6 +6089,7 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case dnsIps = "DnsIps"
+            case domainJoinServiceAccountSecret = "DomainJoinServiceAccountSecret"
             case domainName = "DomainName"
             case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
             case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
@@ -5965,6 +6100,8 @@ extension FSx {
     public struct SelfManagedActiveDirectoryConfiguration: AWSEncodableShape {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public let dnsIps: [String]?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials.  When provided, Amazon FSx uses the credentials stored in this secret to join the file system to your self-managed Active Directory domain. The secret must contain two key-value pairs:    CUSTOMER_MANAGED_ACTIVE_DIRECTORY_USERNAME - The username for the service account    CUSTOMER_MANAGED_ACTIVE_DIRECTORY_PASSWORD - The password for the service account   For more information, see   Using Amazon FSx for Windows with your self-managed Microsoft Active Directory or   Using Amazon FSx for ONTAP with your self-managed Microsoft Active Directory.
+        public let domainJoinServiceAccountSecret: String?
         /// The fully qualified domain name of the self-managed AD directory, such as corp.example.com.
         public let domainName: String?
         /// (Optional) The name of the domain group whose members are granted administrative privileges for the file system. Administrative privileges include taking ownership of files and folders, setting audit controls (audit ACLs) on files and folders, and              administering the file system remotely by using the FSx Remote PowerShell. The group that you specify must already exist in your domain. If you don't provide one, your AD domain's Domain Admins group is used.
@@ -5977,8 +6114,9 @@ extension FSx {
         public let userName: String?
 
         @inlinable
-        public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
+        public init(dnsIps: [String]? = nil, domainJoinServiceAccountSecret: String? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -5994,6 +6132,9 @@ extension FSx {
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 3)
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, min: 1)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, max: 1024)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, min: 64)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, pattern: "^arn:[^:]{1,63}:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
@@ -6013,6 +6154,7 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case dnsIps = "DnsIps"
+            case domainJoinServiceAccountSecret = "DomainJoinServiceAccountSecret"
             case domainName = "DomainName"
             case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
             case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
@@ -6024,6 +6166,8 @@ extension FSx {
     public struct SelfManagedActiveDirectoryConfigurationUpdates: AWSEncodableShape {
         /// A list of up to three DNS server or domain controller IP addresses in your self-managed Active Directory domain.
         public let dnsIps: [String]?
+        /// Specifies the updated Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the self-managed Active Directory domain join service account credentials.  Amazon FSx uses this account to join to your self-managed Active Directory domain.
+        public let domainJoinServiceAccountSecret: String?
         /// Specifies an updated fully qualified domain name of your self-managed Active Directory configuration.
         public let domainName: String?
         /// For FSx for ONTAP file systems only - Specifies the updated name of the self-managed Active Directory domain group whose members are granted administrative privileges for the Amazon FSx resource.
@@ -6036,8 +6180,9 @@ extension FSx {
         public let userName: String?
 
         @inlinable
-        public init(dnsIps: [String]? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
+        public init(dnsIps: [String]? = nil, domainJoinServiceAccountSecret: String? = nil, domainName: String? = nil, fileSystemAdministratorsGroup: String? = nil, organizationalUnitDistinguishedName: String? = nil, password: String? = nil, userName: String? = nil) {
             self.dnsIps = dnsIps
+            self.domainJoinServiceAccountSecret = domainJoinServiceAccountSecret
             self.domainName = domainName
             self.fileSystemAdministratorsGroup = fileSystemAdministratorsGroup
             self.organizationalUnitDistinguishedName = organizationalUnitDistinguishedName
@@ -6053,6 +6198,9 @@ extension FSx {
             }
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, max: 3)
             try self.validate(self.dnsIps, name: "dnsIps", parent: name, min: 1)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, max: 1024)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, min: 64)
+            try self.validate(self.domainJoinServiceAccountSecret, name: "domainJoinServiceAccountSecret", parent: name, pattern: "^arn:[^:]{1,63}:secretsmanager:[a-z0-9-]+:[0-9]{12}:secret:[a-zA-Z0-9/_+=.@-]+-[a-zA-Z0-9]{6}$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
@@ -6072,6 +6220,7 @@ extension FSx {
 
         private enum CodingKeys: String, CodingKey {
             case dnsIps = "DnsIps"
+            case domainJoinServiceAccountSecret = "DomainJoinServiceAccountSecret"
             case domainName = "DomainName"
             case fileSystemAdministratorsGroup = "FileSystemAdministratorsGroup"
             case organizationalUnitDistinguishedName = "OrganizationalUnitDistinguishedName"
@@ -7030,6 +7179,8 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public let fsrmConfiguration: WindowsFsrmConfiguration?
         /// The configuration Amazon FSx uses to join the Windows File Server instance to the self-managed Microsoft AD directory. You cannot make a self-managed Microsoft AD update request if there is an existing self-managed Microsoft AD update request in progress.
         public let selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates?
         /// Sets the target value for a file system's throughput capacity, in MB/s, that you are updating the file system to. Valid values are  8, 16, 32, 64, 128, 256, 512, 1024, 2048. You cannot make a throughput capacity update request if there is an existing throughput capacity update request in progress. For more information,  see Managing Throughput Capacity.
@@ -7038,11 +7189,12 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(auditLogConfiguration: WindowsAuditLogCreateConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsrmConfiguration: WindowsFsrmConfiguration? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryConfigurationUpdates? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.auditLogConfiguration = auditLogConfiguration
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.selfManagedActiveDirectoryConfiguration = selfManagedActiveDirectoryConfiguration
             self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
@@ -7056,6 +7208,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
+            try self.fsrmConfiguration?.validate(name: "\(name).fsrmConfiguration")
             try self.selfManagedActiveDirectoryConfiguration?.validate(name: "\(name).selfManagedActiveDirectoryConfiguration")
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 100000)
             try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
@@ -7069,6 +7222,7 @@ extension FSx {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case fsrmConfiguration = "FsrmConfiguration"
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
@@ -7590,6 +7744,8 @@ extension FSx {
         public let deploymentType: WindowsDeploymentType?
         /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for Windows file system. By default, Amazon FSx automatically provisions 3 IOPS per GiB of storage capacity. You can provision additional IOPS per GiB of storage, up to the maximum limit associated with your chosen throughput capacity.
         public let diskIopsConfiguration: DiskIopsConfiguration?
+        /// The File Server Resource Manager (FSRM) configuration that Amazon FSx for Windows File Server uses for the file system. FSRM is disabled by default.
+        public let fsrmConfiguration: WindowsFsrmConfiguration?
         /// The list of maintenance operations in progress for this file system.
         public let maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]?
         /// For MULTI_AZ_1 deployment types, the IPv4 address of the primary, or preferred, file server. Use this IP address when mounting the file system on Linux SMB clients or Windows SMB clients that  are not joined to a Microsoft Active Directory.  Applicable for all Windows file system deployment types.  This IPv4 address is temporarily unavailable  when the file system is undergoing maintenance. For Linux and Windows  SMB clients that are joined to an Active Directory, use the file system's DNSName instead. For more information on mapping and mounting file shares, see  Accessing data using file shares.
@@ -7607,7 +7763,7 @@ extension FSx {
         public let weeklyMaintenanceStartTime: String?
 
         @inlinable
-        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredFileServerIpv6: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(activeDirectoryId: String? = nil, aliases: [Alias]? = nil, auditLogConfiguration: WindowsAuditLogConfiguration? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, deploymentType: WindowsDeploymentType? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsrmConfiguration: WindowsFsrmConfiguration? = nil, maintenanceOperationsInProgress: [FileSystemMaintenanceOperation]? = nil, preferredFileServerIp: String? = nil, preferredFileServerIpv6: String? = nil, preferredSubnetId: String? = nil, remoteAdministrationEndpoint: String? = nil, selfManagedActiveDirectoryConfiguration: SelfManagedActiveDirectoryAttributes? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.activeDirectoryId = activeDirectoryId
             self.aliases = aliases
             self.auditLogConfiguration = auditLogConfiguration
@@ -7616,6 +7772,7 @@ extension FSx {
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.deploymentType = deploymentType
             self.diskIopsConfiguration = diskIopsConfiguration
+            self.fsrmConfiguration = fsrmConfiguration
             self.maintenanceOperationsInProgress = maintenanceOperationsInProgress
             self.preferredFileServerIp = preferredFileServerIp
             self.preferredFileServerIpv6 = preferredFileServerIpv6
@@ -7635,6 +7792,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case deploymentType = "DeploymentType"
             case diskIopsConfiguration = "DiskIopsConfiguration"
+            case fsrmConfiguration = "FsrmConfiguration"
             case maintenanceOperationsInProgress = "MaintenanceOperationsInProgress"
             case preferredFileServerIp = "PreferredFileServerIp"
             case preferredFileServerIpv6 = "PreferredFileServerIpv6"
@@ -7643,6 +7801,30 @@ extension FSx {
             case selfManagedActiveDirectoryConfiguration = "SelfManagedActiveDirectoryConfiguration"
             case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
+        }
+    }
+
+    public struct WindowsFsrmConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the destination of the FSRM event logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
+        public let eventLogDestination: String?
+        /// Specifies whether FSRM is enabled or disabled on the file system.  When TRUE, the FSRM service is enabled and monitor file operations according to  configured policies. When FALSE or omitted, FSRM is disabled. The default value is FALSE.
+        public let fsrmServiceEnabled: Bool?
+
+        @inlinable
+        public init(eventLogDestination: String? = nil, fsrmServiceEnabled: Bool? = nil) {
+            self.eventLogDestination = eventLogDestination
+            self.fsrmServiceEnabled = fsrmServiceEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventLogDestination, name: "eventLogDestination", parent: name, max: 1024)
+            try self.validate(self.eventLogDestination, name: "eventLogDestination", parent: name, min: 8)
+            try self.validate(self.eventLogDestination, name: "eventLogDestination", parent: name, pattern: "^arn:[^:]{1,63}:[^:]{0,63}:[^:]{0,63}:(?:|\\d{12}):[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventLogDestination = "EventLogDestination"
+            case fsrmServiceEnabled = "FsrmServiceEnabled"
         }
     }
 }

@@ -1157,6 +1157,35 @@ public struct Bedrock: AWSService {
         return try await self.deleteCustomModelDeployment(input, logger: logger)
     }
 
+    /// Deletes the account-level enforced guardrail configuration.
+    @Sendable
+    @inlinable
+    public func deleteEnforcedGuardrailConfiguration(_ input: DeleteEnforcedGuardrailConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteEnforcedGuardrailConfigurationResponse {
+        try await self.client.execute(
+            operation: "DeleteEnforcedGuardrailConfiguration", 
+            path: "/enforcedGuardrailsConfiguration/{configId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the account-level enforced guardrail configuration.
+    ///
+    /// Parameters:
+    ///   - configId: Unique ID for the account enforced configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteEnforcedGuardrailConfiguration(
+        configId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteEnforcedGuardrailConfigurationResponse {
+        let input = DeleteEnforcedGuardrailConfigurationRequest(
+            configId: configId
+        )
+        return try await self.deleteEnforcedGuardrailConfiguration(input, logger: logger)
+    }
+
     /// Delete the model access agreement for the specified model.
     @Sendable
     @inlinable
@@ -2419,6 +2448,35 @@ public struct Bedrock: AWSService {
         return try await self.listCustomModels(input, logger: logger)
     }
 
+    /// Lists the account-level enforced guardrail configurations.
+    @Sendable
+    @inlinable
+    public func listEnforcedGuardrailsConfiguration(_ input: ListEnforcedGuardrailsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnforcedGuardrailsConfigurationResponse {
+        try await self.client.execute(
+            operation: "ListEnforcedGuardrailsConfiguration", 
+            path: "/enforcedGuardrailsConfiguration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the account-level enforced guardrail configurations.
+    ///
+    /// Parameters:
+    ///   - nextToken: Opaque continuation token of previous paginated response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listEnforcedGuardrailsConfiguration(
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListEnforcedGuardrailsConfigurationResponse {
+        let input = ListEnforcedGuardrailsConfigurationRequest(
+            nextToken: nextToken
+        )
+        return try await self.listEnforcedGuardrailsConfiguration(input, logger: logger)
+    }
+
     /// Lists all existing evaluation jobs.
     @Sendable
     @inlinable
@@ -2871,7 +2929,7 @@ public struct Bedrock: AWSService {
     ///   - nextToken: If there were more results than the value you specified in the maxResults field in a previous ListModelInvocationJobs request, the response would have returned a nextToken value. To see the next batch of results, send the nextToken value in another request.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger use during operation
@@ -3015,6 +3073,38 @@ public struct Bedrock: AWSService {
             resourceARN: resourceARN
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Sets the account-level enforced guardrail configuration.
+    @Sendable
+    @inlinable
+    public func putEnforcedGuardrailConfiguration(_ input: PutEnforcedGuardrailConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEnforcedGuardrailConfigurationResponse {
+        try await self.client.execute(
+            operation: "PutEnforcedGuardrailConfiguration", 
+            path: "/enforcedGuardrailsConfiguration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the account-level enforced guardrail configuration.
+    ///
+    /// Parameters:
+    ///   - configId: Unique ID for the account enforced configuration.
+    ///   - guardrailInferenceConfig: Account-level enforced guardrail input configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putEnforcedGuardrailConfiguration(
+        configId: String? = nil,
+        guardrailInferenceConfig: AccountEnforcedGuardrailInferenceInputConfiguration,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutEnforcedGuardrailConfigurationResponse {
+        let input = PutEnforcedGuardrailConfigurationRequest(
+            configId: configId, 
+            guardrailInferenceConfig: guardrailInferenceConfig
+        )
+        return try await self.putEnforcedGuardrailConfiguration(input, logger: logger)
     }
 
     /// Set the configuration values for model invocation logging.
@@ -3460,6 +3550,38 @@ public struct Bedrock: AWSService {
         return try await self.updateAutomatedReasoningPolicyTestCase(input, logger: logger)
     }
 
+    ///  Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
+    @Sendable
+    @inlinable
+    public func updateCustomModelDeployment(_ input: UpdateCustomModelDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCustomModelDeploymentResponse {
+        try await self.client.execute(
+            operation: "UpdateCustomModelDeployment", 
+            path: "/model-customization/custom-model-deployments/{customModelDeploymentIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
+    ///
+    /// Parameters:
+    ///   - customModelDeploymentIdentifier:  Identifier of the custom model deployment to update with the new custom model.
+    ///   - modelArn:  ARN of the new custom model to deploy. This replaces the currently deployed model.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCustomModelDeployment(
+        customModelDeploymentIdentifier: String,
+        modelArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCustomModelDeploymentResponse {
+        let input = UpdateCustomModelDeploymentRequest(
+            customModelDeploymentIdentifier: customModelDeploymentIdentifier, 
+            modelArn: modelArn
+        )
+        return try await self.updateCustomModelDeployment(input, logger: logger)
+    }
+
     /// Updates a guardrail with the values you specify.   Specify a name and optional description.   Specify messages for when the guardrail successfully blocks a prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.   Specify topics for the guardrail to deny in the topicPolicyConfig object. Each GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name and description so that the guardrail can properly identify the topic.   Specify DENY in the type field.   (Optional) Provide up to five prompts that you would categorize as belonging to the topic in the examples list.     Specify filter strengths for the harmful categories defined in Amazon Bedrock in the contentPolicyConfig object. Each GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful category. For more information, see Content filters. For more information about the fields in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the strength of the filter for prompts in the inputStrength field and for model responses in the strength field of the GuardrailContentFilterConfig.     (Optional) For security, include the ARN of a KMS key in the kmsKeyId field.
     @Sendable
     @inlinable
@@ -3876,6 +3998,37 @@ extension Bedrock {
         return self.listCustomModelsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listEnforcedGuardrailsConfiguration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnforcedGuardrailsConfigurationPaginator(
+        _ input: ListEnforcedGuardrailsConfigurationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEnforcedGuardrailsConfigurationRequest, ListEnforcedGuardrailsConfigurationResponse> {
+        return .init(
+            input: input,
+            command: self.listEnforcedGuardrailsConfiguration,
+            inputKey: \ListEnforcedGuardrailsConfigurationRequest.nextToken,
+            outputKey: \ListEnforcedGuardrailsConfigurationResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEnforcedGuardrailsConfiguration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEnforcedGuardrailsConfigurationPaginator(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEnforcedGuardrailsConfigurationRequest, ListEnforcedGuardrailsConfigurationResponse> {
+        let input = ListEnforcedGuardrailsConfigurationRequest(
+        )
+        return self.listEnforcedGuardrailsConfigurationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEvaluationJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -4278,7 +4431,7 @@ extension Bedrock {
     ///   - nameContains: Specify a string to filter for batch inference jobs whose names contain the string.
     ///   - sortBy: An attribute by which to sort the results.
     ///   - sortOrder: Specifies whether to sort the results by ascending or descending order.
-    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web ServicesSupport Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
+    ///   - statusEquals: Specify a status to filter for batch inference jobs whose statuses match the string you specify. The following statuses are possible:   Submitted – This job has been submitted to a queue for validation.   Validating – This job is being validated for the requirements described in Format and upload your batch inference data. The criteria include the following:   Your IAM service role has access to the Amazon S3 buckets containing your files.   Your files are .jsonl files and each individual record is a JSON object in the correct format. Note that validation doesn't check if the modelInput value matches the request body for the model.   Your files fulfill the requirements for file size and number of records. For more information, see Quotas for Amazon Bedrock.     Scheduled – This job has been validated and is now in a queue. The job will automatically start when it reaches its turn.   Expired – This job timed out because it was scheduled but didn't begin before the set timeout duration. Submit a new job request.   InProgress – This job has begun. You can start viewing the results in the output S3 location.   Completed – This job has successfully completed. View the output files in the output S3 location.   PartiallyCompleted – This job has partially completed. Not all of your records could be processed in time. View the output files in the output S3 location.   Failed – This job has failed. Check the failure message for any further details. For further assistance, reach out to the Amazon Web Services Support Center.   Stopped – This job was stopped by a user.   Stopping – This job is being stopped by a user.
     ///   - submitTimeAfter: Specify a time to filter for batch inference jobs that were submitted after the time you specify.
     ///   - submitTimeBefore: Specify a time to filter for batch inference jobs that were submitted before the time you specify.
     ///   - logger: Logger used for logging
@@ -4475,6 +4628,15 @@ extension Bedrock.ListCustomModelsRequest: AWSPaginateToken {
             nextToken: token,
             sortBy: self.sortBy,
             sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension Bedrock.ListEnforcedGuardrailsConfigurationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Bedrock.ListEnforcedGuardrailsConfigurationRequest {
+        return .init(
+            nextToken: token
         )
     }
 }

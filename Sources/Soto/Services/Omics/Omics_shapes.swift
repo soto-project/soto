@@ -407,6 +407,7 @@ extension Omics {
         case cwl = "CWL"
         case nextflow = "NEXTFLOW"
         case wdl = "WDL"
+        case wdlLenient = "WDL_LENIENT"
         public var description: String { return self.rawValue }
     }
 

@@ -565,6 +565,43 @@ public struct SecurityIR: AWSService {
         return try await self.listComments(input, logger: logger)
     }
 
+    /// Investigation performed by an agent for a security incident...
+    /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListInvestigations.html
+    @Sendable
+    @inlinable
+    public func listInvestigations(_ input: ListInvestigationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvestigationsResponse {
+        try await self.client.execute(
+            operation: "ListInvestigations", 
+            path: "/v1/cases/{caseId}/list-investigations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Investigation performed by an agent for a security incident...
+    /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListInvestigations.html
+    ///
+    /// Parameters:
+    ///   - caseId: Investigation performed by an agent for a security incident per caseID
+    ///   - maxResults: Investigation performed by an agent for a security incident request, returning max results
+    ///   - nextToken: Investigation performed by an agent for a security incident request
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvestigations(
+        caseId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvestigationsResponse {
+        let input = ListInvestigationsRequest(
+            caseId: caseId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listInvestigations(input, logger: logger)
+    }
+
     /// Returns the memberships that the calling principal can access.
     /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_ListMemberships.html
     @Sendable
@@ -628,6 +665,46 @@ public struct SecurityIR: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Send feedback based on response investigation action
+    /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_SendFeedback.html
+    @Sendable
+    @inlinable
+    public func sendFeedback(_ input: SendFeedbackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendFeedbackResponse {
+        try await self.client.execute(
+            operation: "SendFeedback", 
+            path: "/v1/cases/{caseId}/feedback/{resultId}/send-feedback", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Send feedback based on response investigation action
+    /// API Reference: https://docs.aws.amazon.com/security-ir/latest/APIReference/API_SendFeedback.html
+    ///
+    /// Parameters:
+    ///   - caseId: Send feedback based on request caseID
+    ///   - comment: Send feedback based on request comments
+    ///   - resultId: Send feedback based on request result ID
+    ///   - usefulness: Required enum value indicating user assessment of result q.....
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendFeedback(
+        caseId: String,
+        comment: String? = nil,
+        resultId: String,
+        usefulness: UsefulnessRating,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendFeedbackResponse {
+        let input = SendFeedbackRequest(
+            caseId: caseId, 
+            comment: comment, 
+            resultId: resultId, 
+            usefulness: usefulness
+        )
+        return try await self.sendFeedback(input, logger: logger)
     }
 
     /// Adds a tag(s) to a designated resource.
@@ -718,6 +795,7 @@ public struct SecurityIR: AWSService {
     /// Parameters:
     ///   - actualIncidentStartDate: Optional element for UpdateCase to provide content for the incident start date field.
     ///   - caseId: Required element for UpdateCase to identify the case ID for updates.
+    ///   - caseMetadata: Update the case request with case metadata
     ///   - description: Optional element for UpdateCase to provide content for the description field.
     ///   - engagementType: Optional element for UpdateCase to provide content for the engagement type field. Available engagement types include Security Incident | Investigation.
     ///   - impactedAccountsToAdd: Optional element for UpdateCase to provide content to add accounts impacted.   AWS account ID's may appear less than 12 characters and need to be zero-prepended. An example would be 123123123 which is nine digits, and with zero-prepend would be 000123123123. Not zero-prepending to 12 digits could result in errors.
@@ -737,6 +815,7 @@ public struct SecurityIR: AWSService {
     public func updateCase(
         actualIncidentStartDate: Date? = nil,
         caseId: String,
+        caseMetadata: [CaseMetadataEntry]? = nil,
         description: String? = nil,
         engagementType: EngagementType? = nil,
         impactedAccountsToAdd: [String]? = nil,
@@ -756,6 +835,7 @@ public struct SecurityIR: AWSService {
         let input = UpdateCaseRequest(
             actualIncidentStartDate: actualIncidentStartDate, 
             caseId: caseId, 
+            caseMetadata: caseMetadata, 
             description: description, 
             engagementType: engagementType, 
             impactedAccountsToAdd: impactedAccountsToAdd, 
@@ -1047,6 +1127,43 @@ extension SecurityIR {
         return self.listCommentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listInvestigations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvestigationsPaginator(
+        _ input: ListInvestigationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvestigationsRequest, ListInvestigationsResponse> {
+        return .init(
+            input: input,
+            command: self.listInvestigations,
+            inputKey: \ListInvestigationsRequest.nextToken,
+            outputKey: \ListInvestigationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvestigations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - caseId: Investigation performed by an agent for a security incident per caseID
+    ///   - maxResults: Investigation performed by an agent for a security incident request, returning max results
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvestigationsPaginator(
+        caseId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvestigationsRequest, ListInvestigationsResponse> {
+        let input = ListInvestigationsRequest(
+            caseId: caseId, 
+            maxResults: maxResults
+        )
+        return self.listInvestigationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMemberships(_:logger:)``.
     ///
     /// - Parameters:
@@ -1106,6 +1223,17 @@ extension SecurityIR.ListCasesRequest: AWSPaginateToken {
 extension SecurityIR.ListCommentsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SecurityIR.ListCommentsRequest {
+        return .init(
+            caseId: self.caseId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SecurityIR.ListInvestigationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SecurityIR.ListInvestigationsRequest {
         return .init(
             caseId: self.caseId,
             maxResults: self.maxResults,

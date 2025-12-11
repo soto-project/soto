@@ -1367,16 +1367,19 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - instanceArn: The Amazon Resource Name (ARN) of the Identity Center instance to be associated with the Glue configuration.
     ///   - scopes: A list of Identity Center scopes that define the permissions and access levels for the Glue configuration.
+    ///   - userBackgroundSessionsEnabled: Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlueIdentityCenterConfiguration(
         instanceArn: String,
         scopes: [String]? = nil,
+        userBackgroundSessionsEnabled: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGlueIdentityCenterConfigurationResponse {
         let input = CreateGlueIdentityCenterConfigurationRequest(
             instanceArn: instanceArn, 
-            scopes: scopes
+            scopes: scopes, 
+            userBackgroundSessionsEnabled: userBackgroundSessionsEnabled
         )
         return try await self.createGlueIdentityCenterConfiguration(input, logger: logger)
     }
@@ -1452,18 +1455,21 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
     ///   - sourceProcessingProperties: The resource properties associated with the integration source.
+    ///   - tags: Metadata assigned to the resource consisting of a list of key-value pairs.
     ///   - targetProcessingProperties: The resource properties associated with the integration target.
     ///   - logger: Logger use during operation
     @inlinable
     public func createIntegrationResourceProperty(
         resourceArn: String,
         sourceProcessingProperties: SourceProcessingProperties? = nil,
+        tags: [Tag]? = nil,
         targetProcessingProperties: TargetProcessingProperties? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateIntegrationResourcePropertyResponse {
         let input = CreateIntegrationResourcePropertyRequest(
             resourceArn: resourceArn, 
             sourceProcessingProperties: sourceProcessingProperties, 
+            tags: tags, 
             targetProcessingProperties: targetProcessingProperties
         )
         return try await self.createIntegrationResourceProperty(input, logger: logger)
@@ -2655,6 +2661,35 @@ public struct Glue: AWSService {
             integrationIdentifier: integrationIdentifier
         )
         return try await self.deleteIntegration(input, logger: logger)
+    }
+
+    /// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target).
+    @Sendable
+    @inlinable
+    public func deleteIntegrationResourceProperty(_ input: DeleteIntegrationResourcePropertyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIntegrationResourcePropertyResponse {
+        try await self.client.execute(
+            operation: "DeleteIntegrationResourceProperty", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This API is used for deleting the ResourceProperty of the Glue connection (for the source) or Glue database ARN (for the target).
+    ///
+    /// Parameters:
+    ///   - resourceArn: The connection ARN of the source, or the database ARN of the target.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteIntegrationResourceProperty(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteIntegrationResourcePropertyResponse {
+        let input = DeleteIntegrationResourcePropertyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.deleteIntegrationResourceProperty(input, logger: logger)
     }
 
     /// Deletes the table properties that have been created for the tables that need to be replicated.
@@ -5976,6 +6011,7 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - catalogId: The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
+    ///   - functionType: An optional function-type pattern string that filters the function definitions returned from Amazon Redshift Federated Permissions Catalog. Specify a value of REGULAR_FUNCTION or STORED_PROCEDURE. The STORED_PROCEDURE function type is only compatible with Amazon Redshift Federated Permissions Catalog.
     ///   - maxResults: The maximum number of functions to return in one response.
     ///   - nextToken: A continuation token, if this is a continuation call.
     ///   - pattern: An optional function-name pattern string that filters the function definitions returned.
@@ -5984,6 +6020,7 @@ public struct Glue: AWSService {
     public func getUserDefinedFunctions(
         catalogId: String? = nil,
         databaseName: String? = nil,
+        functionType: FunctionType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         pattern: String,
@@ -5992,6 +6029,7 @@ public struct Glue: AWSService {
         let input = GetUserDefinedFunctionsRequest(
             catalogId: catalogId, 
             databaseName: databaseName, 
+            functionType: functionType, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             pattern: pattern
@@ -6673,6 +6711,41 @@ public struct Glue: AWSService {
         return try await self.listEntities(input, logger: logger)
     }
 
+    /// List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
+    @Sendable
+    @inlinable
+    public func listIntegrationResourceProperties(_ input: ListIntegrationResourcePropertiesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIntegrationResourcePropertiesResponse {
+        try await self.client.execute(
+            operation: "ListIntegrationResourceProperties", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
+    ///
+    /// Parameters:
+    ///   - filters: A list of filters, supported filter Key is SourceArn and TargetArn.
+    ///   - marker: This is the pagination token for next page, initial value is null.
+    ///   - maxRecords: This is total number of items to be evaluated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listIntegrationResourceProperties(
+        filters: [IntegrationResourcePropertyFilter]? = nil,
+        marker: String? = nil,
+        maxRecords: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListIntegrationResourcePropertiesResponse {
+        let input = ListIntegrationResourcePropertiesRequest(
+            filters: filters, 
+            marker: marker, 
+            maxRecords: maxRecords
+        )
+        return try await self.listIntegrationResourceProperties(input, logger: logger)
+    }
+
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     @Sendable
     @inlinable
@@ -7088,7 +7161,7 @@ public struct Glue: AWSService {
     /// Parameters:
     ///   - dataFilter: Selects source tables for the integration using Maxwell filter syntax.
     ///   - description: A description of the integration.
-    ///   - integrationConfig: 
+    ///   - integrationConfig: The configuration settings for the integration. Currently, only the RefreshInterval can be modified.
     ///   - integrationIdentifier: The Amazon Resource Name (ARN) for the integration.
     ///   - integrationName: A unique name for an integration in Glue.
     ///   - logger: Logger use during operation
@@ -8895,14 +8968,17 @@ public struct Glue: AWSService {
     ///
     /// Parameters:
     ///   - scopes: A list of Identity Center scopes that define the updated permissions and access levels for the Glue configuration.
+    ///   - userBackgroundSessionsEnabled: Specifies whether users can run background sessions when using Identity Center authentication with Glue services.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGlueIdentityCenterConfiguration(
         scopes: [String]? = nil,
+        userBackgroundSessionsEnabled: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateGlueIdentityCenterConfigurationResponse {
         let input = UpdateGlueIdentityCenterConfigurationRequest(
-            scopes: scopes
+            scopes: scopes, 
+            userBackgroundSessionsEnabled: userBackgroundSessionsEnabled
         )
         return try await self.updateGlueIdentityCenterConfiguration(input, logger: logger)
     }
@@ -10429,6 +10505,7 @@ extension Glue {
     /// - Parameters:
     ///   - catalogId: The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the Amazon Web Services account ID is used by default.
     ///   - databaseName: The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
+    ///   - functionType: An optional function-type pattern string that filters the function definitions returned from Amazon Redshift Federated Permissions Catalog. Specify a value of REGULAR_FUNCTION or STORED_PROCEDURE. The STORED_PROCEDURE function type is only compatible with Amazon Redshift Federated Permissions Catalog.
     ///   - maxResults: The maximum number of functions to return in one response.
     ///   - pattern: An optional function-name pattern string that filters the function definitions returned.
     ///   - logger: Logger used for logging
@@ -10436,6 +10513,7 @@ extension Glue {
     public func getUserDefinedFunctionsPaginator(
         catalogId: String? = nil,
         databaseName: String? = nil,
+        functionType: FunctionType? = nil,
         maxResults: Int? = nil,
         pattern: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -10443,6 +10521,7 @@ extension Glue {
         let input = GetUserDefinedFunctionsRequest(
             catalogId: catalogId, 
             databaseName: databaseName, 
+            functionType: functionType, 
             maxResults: maxResults, 
             pattern: pattern
         )
@@ -11600,6 +11679,7 @@ extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateToken {
         return .init(
             catalogId: self.catalogId,
             databaseName: self.databaseName,
+            functionType: self.functionType,
             maxResults: self.maxResults,
             nextToken: token,
             pattern: self.pattern

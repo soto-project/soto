@@ -41,6 +41,17 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case creationFailed = "CREATION_FAILED"
+        case deleting = "DELETING"
+        case deletionFailed = "DELETION_FAILED"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoggingConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Logging configuration has been created/updated. Update/Deletion is disallowed until logging configuration is ACTIVE and workspace status is ACTIVE.
         case active = "ACTIVE"
@@ -177,6 +188,138 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorMissingDataAction: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Marks missing data points as anomalies.
+        case markAsAnomaly(Bool)
+        /// Skips evaluation when data is missing.
+        case skip(Bool)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .markAsAnomaly:
+                let value = try container.decode(Bool.self, forKey: .markAsAnomaly)
+                self = .markAsAnomaly(value)
+            case .skip:
+                let value = try container.decode(Bool.self, forKey: .skip)
+                self = .skip(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .markAsAnomaly(let value):
+                try container.encode(value, forKey: .markAsAnomaly)
+            case .skip(let value):
+                try container.encode(value, forKey: .skip)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case markAsAnomaly = "markAsAnomaly"
+            case skip = "skip"
+        }
+    }
+
+    public enum IgnoreNearExpected: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The absolute amount by which values can differ from expected values before being considered anomalous.
+        case amount(Double)
+        /// The ratio by which values can differ from expected values before being considered anomalous.
+        case ratio(Double)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .amount:
+                let value = try container.decode(Double.self, forKey: .amount)
+                self = .amount(value)
+            case .ratio:
+                let value = try container.decode(Double.self, forKey: .ratio)
+                self = .ratio(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .amount(let value):
+                try container.encode(value, forKey: .amount)
+            case .ratio(let value):
+                try container.encode(value, forKey: .ratio)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "amount"
+            case ratio = "ratio"
+        }
+    }
+
+    public enum Source: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Amazon EKS cluster from which a scraper collects metrics.
+        case eksConfiguration(EksConfiguration)
+        /// The Amazon VPC configuration for the Prometheus collector when connecting to Amazon MSK clusters. This configuration enables secure, private network connectivity between the collector and your Amazon MSK cluster within your Amazon VPC.
+        case vpcConfiguration(VpcConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .eksConfiguration:
+                let value = try container.decode(EksConfiguration.self, forKey: .eksConfiguration)
+                self = .eksConfiguration(value)
+            case .vpcConfiguration:
+                let value = try container.decode(VpcConfiguration.self, forKey: .vpcConfiguration)
+                self = .vpcConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .eksConfiguration(let value):
+                try container.encode(value, forKey: .eksConfiguration)
+            case .vpcConfiguration(let value):
+                try container.encode(value, forKey: .vpcConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .eksConfiguration(let value):
+                try value.validate(name: "\(name).eksConfiguration")
+            case .vpcConfiguration(let value):
+                try value.validate(name: "\(name).vpcConfiguration")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eksConfiguration = "eksConfiguration"
+            case vpcConfiguration = "vpcConfiguration"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AlertManagerDefinitionDescription: AWSDecodableShape {
@@ -238,6 +381,116 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case workspaceArn = "workspaceArn"
+        }
+    }
+
+    public struct AnomalyDetectorDescription: AWSDecodableShape {
+        /// The user-friendly name of the anomaly detector.
+        public let alias: String
+        /// The unique identifier of the anomaly detector.
+        public let anomalyDetectorId: String
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        public let arn: String
+        /// The algorithm configuration of the anomaly detector.
+        public let configuration: AnomalyDetectorConfiguration?
+        /// The timestamp when the anomaly detector was created.
+        public let createdAt: Date
+        /// The frequency, in seconds, at which the anomaly detector evaluates metrics.
+        public let evaluationIntervalInSeconds: Int?
+        /// The Amazon Managed Service for Prometheus metric labels associated with the anomaly detector.
+        public let labels: [String: String]?
+        /// The action taken when data is missing during evaluation.
+        public let missingDataAction: AnomalyDetectorMissingDataAction?
+        /// The timestamp when the anomaly detector was last modified.
+        public let modifiedAt: Date
+        /// The current status of the anomaly detector.
+        public let status: AnomalyDetectorStatus
+        /// The tags applied to the anomaly detector.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(alias: String, anomalyDetectorId: String, arn: String, configuration: AnomalyDetectorConfiguration? = nil, createdAt: Date, evaluationIntervalInSeconds: Int? = nil, labels: [String: String]? = nil, missingDataAction: AnomalyDetectorMissingDataAction? = nil, modifiedAt: Date, status: AnomalyDetectorStatus, tags: [String: String]? = nil) {
+            self.alias = alias
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+            self.labels = labels
+            self.missingDataAction = missingDataAction
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case anomalyDetectorId = "anomalyDetectorId"
+            case arn = "arn"
+            case configuration = "configuration"
+            case createdAt = "createdAt"
+            case evaluationIntervalInSeconds = "evaluationIntervalInSeconds"
+            case labels = "labels"
+            case missingDataAction = "missingDataAction"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
+    public struct AnomalyDetectorStatus: AWSDecodableShape {
+        /// The status code of the anomaly detector.
+        public let statusCode: AnomalyDetectorStatusCode
+        /// A description of the current status of the anomaly detector.
+        public let statusReason: String?
+
+        @inlinable
+        public init(statusCode: AnomalyDetectorStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
+        }
+    }
+
+    public struct AnomalyDetectorSummary: AWSDecodableShape {
+        /// The user-friendly name of the anomaly detector.
+        public let alias: String
+        /// The unique identifier of the anomaly detector.
+        public let anomalyDetectorId: String
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        public let arn: String
+        /// The timestamp when the anomaly detector was created.
+        public let createdAt: Date
+        /// The timestamp when the anomaly detector was last modified.
+        public let modifiedAt: Date
+        /// The current status of the anomaly detector.
+        public let status: AnomalyDetectorStatus
+        /// The tags applied to the anomaly detector.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(alias: String, anomalyDetectorId: String, arn: String, createdAt: Date, modifiedAt: Date, status: AnomalyDetectorStatus, tags: [String: String]? = nil) {
+            self.alias = alias
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.createdAt = createdAt
+            self.modifiedAt = modifiedAt
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case anomalyDetectorId = "anomalyDetectorId"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case modifiedAt = "modifiedAt"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -344,6 +597,116 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+        }
+    }
+
+    public struct CreateAnomalyDetectorRequest: AWSEncodableShape {
+        /// A user-friendly name for the anomaly detector.
+        public let alias: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The algorithm configuration for the anomaly detector.
+        public let configuration: AnomalyDetectorConfiguration
+        /// The frequency, in seconds, at which the anomaly detector evaluates metrics. The default value is 60 seconds.
+        public let evaluationIntervalInSeconds: Int?
+        /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+        public let labels: [String: String]?
+        /// Specifies the action to take when data is missing during evaluation.
+        public let missingDataAction: AnomalyDetectorMissingDataAction?
+        /// The metadata to apply to the anomaly detector to assist with categorization and organization.
+        public let tags: [String: String]?
+        /// The identifier of the workspace where the anomaly detector will be created.
+        public let workspaceId: String
+
+        @inlinable
+        public init(alias: String, clientToken: String? = CreateAnomalyDetectorRequest.idempotencyToken(), configuration: AnomalyDetectorConfiguration, evaluationIntervalInSeconds: Int? = nil, labels: [String: String]? = nil, missingDataAction: AnomalyDetectorMissingDataAction? = nil, tags: [String: String]? = nil, workspaceId: String) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+            self.labels = labels
+            self.missingDataAction = missingDataAction
+            self.tags = tags
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.alias, forKey: .alias)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.evaluationIntervalInSeconds, forKey: .evaluationIntervalInSeconds)
+            try container.encodeIfPresent(self.labels, forKey: .labels)
+            try container.encodeIfPresent(self.missingDataAction, forKey: .missingDataAction)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 64)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.evaluationIntervalInSeconds, name: "evaluationIntervalInSeconds", parent: name, max: 86400)
+            try self.validate(self.evaluationIntervalInSeconds, name: "evaluationIntervalInSeconds", parent: name, min: 30)
+            try self.labels?.forEach {
+                try validate($0.key, name: "labels.key", parent: name, max: 7168)
+                try validate($0.key, name: "labels.key", parent: name, min: 1)
+                try validate($0.key, name: "labels.key", parent: name, pattern: "^(?!__)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 7168)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "alias"
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case evaluationIntervalInSeconds = "evaluationIntervalInSeconds"
+            case labels = "labels"
+            case missingDataAction = "missingDataAction"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateAnomalyDetectorResponse: AWSDecodableShape {
+        /// The unique identifier of the created anomaly detector.
+        public let anomalyDetectorId: String
+        /// The Amazon Resource Name (ARN) of the created anomaly detector.
+        public let arn: String
+        /// The status information of the created anomaly detector.
+        public let status: AnomalyDetectorStatus
+        /// The tags applied to the created anomaly detector.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(anomalyDetectorId: String, arn: String, status: AnomalyDetectorStatus, tags: [String: String]? = nil) {
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorId = "anomalyDetectorId"
+            case arn = "arn"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
@@ -553,7 +916,7 @@ extension Amp {
         public let roleConfiguration: RoleConfiguration?
         /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User Guide.
         public let scrapeConfiguration: ScrapeConfiguration
-        /// The Amazon EKS cluster from which the scraper will collect metrics.
+        /// The Amazon EKS or Amazon Web Services cluster from which the scraper will collect metrics.
         public let source: Source
         /// (Optional) The list of tag keys and values to associate with the scraper.
         public let tags: [String: String]?
@@ -721,6 +1084,44 @@ extension Amp {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAnomalyDetectorRequest: AWSEncodableShape {
+        /// The identifier of the anomaly detector to delete.
+        public let anomalyDetectorId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The identifier of the workspace containing the anomaly detector to delete.
+        public let workspaceId: String
+
+        @inlinable
+        public init(anomalyDetectorId: String, clientToken: String? = DeleteAnomalyDetectorRequest.idempotencyToken(), workspaceId: String) {
+            self.anomalyDetectorId = anomalyDetectorId
+            self.clientToken = clientToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.anomalyDetectorId, key: "anomalyDetectorId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, max: 64)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, pattern: "^ad-[0-9A-Za-z][-.0-9A-Z_a-z]*$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
@@ -1013,6 +1414,51 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case alertManagerDefinition = "alertManagerDefinition"
+        }
+    }
+
+    public struct DescribeAnomalyDetectorRequest: AWSEncodableShape {
+        /// The identifier of the anomaly detector to describe.
+        public let anomalyDetectorId: String
+        /// The identifier of the workspace containing the anomaly detector.
+        public let workspaceId: String
+
+        @inlinable
+        public init(anomalyDetectorId: String, workspaceId: String) {
+            self.anomalyDetectorId = anomalyDetectorId
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.anomalyDetectorId, key: "anomalyDetectorId")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, max: 64)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, pattern: "^ad-[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeAnomalyDetectorResponse: AWSDecodableShape {
+        /// The detailed information about the anomaly detector.
+        public let anomalyDetector: AnomalyDetectorDescription
+
+        @inlinable
+        public init(anomalyDetector: AnomalyDetectorDescription) {
+            self.anomalyDetector = anomalyDetector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetector = "anomalyDetector"
         }
     }
 
@@ -1471,6 +1917,64 @@ extension Amp {
         }
     }
 
+    public struct ListAnomalyDetectorsRequest: AWSEncodableShape {
+        /// Filters the results to anomaly detectors with the specified alias.
+        public let alias: String?
+        /// The maximum number of results to return in a single call. Valid range is 1 to 1000.
+        public let maxResults: Int?
+        /// The pagination token to continue retrieving results.
+        public let nextToken: String?
+        /// The identifier of the workspace containing the anomaly detectors to list.
+        public let workspaceId: String
+
+        @inlinable
+        public init(alias: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, workspaceId: String) {
+            self.alias = alias
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.alias, key: "alias")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 64)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAnomalyDetectorsResponse: AWSDecodableShape {
+        /// The list of anomaly detectors in the workspace.
+        public let anomalyDetectors: [AnomalyDetectorSummary]
+        /// The pagination token to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(anomalyDetectors: [AnomalyDetectorSummary], nextToken: String? = nil) {
+            self.anomalyDetectors = anomalyDetectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectors = "anomalyDetectors"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListRuleGroupsNamespacesRequest: AWSEncodableShape {
         /// The maximum number of results to return. The default is 100.
         public let maxResults: Int?
@@ -1803,6 +2307,102 @@ extension Amp {
         }
     }
 
+    public struct PutAnomalyDetectorRequest: AWSEncodableShape {
+        /// The identifier of the anomaly detector to update.
+        public let anomalyDetectorId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The algorithm configuration for the anomaly detector.
+        public let configuration: AnomalyDetectorConfiguration
+        /// The frequency, in seconds, at which the anomaly detector evaluates metrics.
+        public let evaluationIntervalInSeconds: Int?
+        /// The Amazon Managed Service for Prometheus metric labels to associate with the anomaly detector.
+        public let labels: [String: String]?
+        /// Specifies the action to take when data is missing during evaluation.
+        public let missingDataAction: AnomalyDetectorMissingDataAction?
+        /// The identifier of the workspace containing the anomaly detector to update.
+        public let workspaceId: String
+
+        @inlinable
+        public init(anomalyDetectorId: String, clientToken: String? = PutAnomalyDetectorRequest.idempotencyToken(), configuration: AnomalyDetectorConfiguration, evaluationIntervalInSeconds: Int? = nil, labels: [String: String]? = nil, missingDataAction: AnomalyDetectorMissingDataAction? = nil, workspaceId: String) {
+            self.anomalyDetectorId = anomalyDetectorId
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.evaluationIntervalInSeconds = evaluationIntervalInSeconds
+            self.labels = labels
+            self.missingDataAction = missingDataAction
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.anomalyDetectorId, key: "anomalyDetectorId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.configuration, forKey: .configuration)
+            try container.encodeIfPresent(self.evaluationIntervalInSeconds, forKey: .evaluationIntervalInSeconds)
+            try container.encodeIfPresent(self.labels, forKey: .labels)
+            try container.encodeIfPresent(self.missingDataAction, forKey: .missingDataAction)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, max: 64)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, min: 1)
+            try self.validate(self.anomalyDetectorId, name: "anomalyDetectorId", parent: name, pattern: "^ad-[0-9A-Za-z][-.0-9A-Z_a-z]*$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.evaluationIntervalInSeconds, name: "evaluationIntervalInSeconds", parent: name, max: 86400)
+            try self.validate(self.evaluationIntervalInSeconds, name: "evaluationIntervalInSeconds", parent: name, min: 30)
+            try self.labels?.forEach {
+                try validate($0.key, name: "labels.key", parent: name, max: 7168)
+                try validate($0.key, name: "labels.key", parent: name, min: 1)
+                try validate($0.key, name: "labels.key", parent: name, pattern: "^(?!__)[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, max: 7168)
+                try validate($0.value, name: "labels[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case configuration = "configuration"
+            case evaluationIntervalInSeconds = "evaluationIntervalInSeconds"
+            case labels = "labels"
+            case missingDataAction = "missingDataAction"
+        }
+    }
+
+    public struct PutAnomalyDetectorResponse: AWSDecodableShape {
+        /// The unique identifier of the updated anomaly detector.
+        public let anomalyDetectorId: String
+        /// The Amazon Resource Name (ARN) of the updated anomaly detector.
+        public let arn: String
+        /// The status information of the updated anomaly detector.
+        public let status: AnomalyDetectorStatus
+        /// The tags applied to the updated anomaly detector.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(anomalyDetectorId: String, arn: String, status: AnomalyDetectorStatus, tags: [String: String]? = nil) {
+            self.anomalyDetectorId = anomalyDetectorId
+            self.arn = arn
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorId = "anomalyDetectorId"
+            case arn = "arn"
+            case status = "status"
+            case tags = "tags"
+        }
+    }
+
     public struct PutResourcePolicyRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the request is safe to retry (idempotent).
         public let clientToken: String?
@@ -1980,6 +2580,41 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case statusCode = "statusCode"
             case statusReason = "statusReason"
+        }
+    }
+
+    public struct RandomCutForestConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for ignoring values that are near expected values from above during anomaly detection.
+        public let ignoreNearExpectedFromAbove: IgnoreNearExpected?
+        /// Configuration for ignoring values that are near expected values from below during anomaly detection.
+        public let ignoreNearExpectedFromBelow: IgnoreNearExpected?
+        /// The Prometheus query used to retrieve the time-series data for anomaly detection.  Random Cut Forest queries must be wrapped by a supported PromQL aggregation operator. For more information, see Aggregation operators on the Prometheus docs website.  Supported PromQL aggregation operators: avg, count, group, max, min, quantile, stddev, stdvar, and sum.
+        public let query: String
+        /// The number of data points sampled from the input stream for the Random Cut Forest algorithm. The default number is 256 consecutive data points.
+        public let sampleSize: Int?
+        /// The number of consecutive data points used to create a shingle for the Random Cut Forest algorithm. The default number is 8 consecutive data points.
+        public let shingleSize: Int?
+
+        @inlinable
+        public init(ignoreNearExpectedFromAbove: IgnoreNearExpected? = nil, ignoreNearExpectedFromBelow: IgnoreNearExpected? = nil, query: String, sampleSize: Int? = nil, shingleSize: Int? = nil) {
+            self.ignoreNearExpectedFromAbove = ignoreNearExpectedFromAbove
+            self.ignoreNearExpectedFromBelow = ignoreNearExpectedFromBelow
+            self.query = query
+            self.sampleSize = sampleSize
+            self.shingleSize = shingleSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.query, name: "query", parent: name, max: 8192)
+            try self.validate(self.query, name: "query", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ignoreNearExpectedFromAbove = "ignoreNearExpectedFromAbove"
+            case ignoreNearExpectedFromBelow = "ignoreNearExpectedFromBelow"
+            case query = "query"
+            case sampleSize = "sampleSize"
+            case shingleSize = "shingleSize"
         }
     }
 
@@ -2810,6 +3445,39 @@ extension Amp {
         }
     }
 
+    public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The security group IDs that control network access for the Prometheus collector. These security groups must allow the collector to communicate with your Amazon MSK cluster on the required ports.
+        public let securityGroupIds: [String]
+        /// The subnet IDs where the Prometheus collector will be deployed. The subnets must be in the same Amazon VPC as your Amazon MSK cluster and have network connectivity to the cluster.
+        public let subnetIds: [String]
+
+        @inlinable
+        public init(securityGroupIds: [String], subnetIds: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroupIds.forEach {
+                try validate($0, name: "securityGroupIds[]", parent: name, max: 255)
+                try validate($0, name: "securityGroupIds[]", parent: name, pattern: "^sg-[0-9a-z]+$")
+            }
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, max: 5)
+            try self.validate(self.securityGroupIds, name: "securityGroupIds", parent: name, min: 1)
+            try self.subnetIds.forEach {
+                try validate($0, name: "subnetIds[]", parent: name, max: 255)
+                try validate($0, name: "subnetIds[]", parent: name, pattern: "^subnet-[0-9a-z]+$")
+            }
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, max: 5)
+            try self.validate(self.subnetIds, name: "subnetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds = "securityGroupIds"
+            case subnetIds = "subnetIds"
+        }
+    }
+
     public struct WorkspaceConfigurationDescription: AWSDecodableShape {
         /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
         public let limitsPerLabelSet: [LimitsPerLabelSet]?
@@ -2944,6 +3612,24 @@ extension Amp {
         }
     }
 
+    public struct AnomalyDetectorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Random Cut Forest algorithm configuration for anomaly detection.
+        public let randomCutForest: RandomCutForestConfiguration?
+
+        @inlinable
+        public init(randomCutForest: RandomCutForestConfiguration? = nil) {
+            self.randomCutForest = randomCutForest
+        }
+
+        public func validate(name: String) throws {
+            try self.randomCutForest?.validate(name: "\(name).randomCutForest")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case randomCutForest = "randomCutForest"
+        }
+    }
+
     public struct Destination: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         public let ampConfiguration: AmpConfiguration?
@@ -2991,24 +3677,6 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLogs = "cloudWatchLogs"
-        }
-    }
-
-    public struct Source: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EKS cluster from which a scraper collects metrics.
-        public let eksConfiguration: EksConfiguration?
-
-        @inlinable
-        public init(eksConfiguration: EksConfiguration? = nil) {
-            self.eksConfiguration = eksConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.eksConfiguration?.validate(name: "\(name).eksConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case eksConfiguration = "eksConfiguration"
         }
     }
 }

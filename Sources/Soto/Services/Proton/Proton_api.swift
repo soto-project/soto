@@ -4517,6 +4517,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilComponentDeleted(
         _ input: GetComponentInput,
@@ -4539,6 +4540,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the component that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilComponentDeleted(
         name: String,
@@ -4555,6 +4557,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilComponentDeployed(
         _ input: GetComponentInput,
@@ -4577,6 +4580,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the component that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilComponentDeployed(
         name: String,
@@ -4593,6 +4597,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,
@@ -4615,6 +4620,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the environment that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilEnvironmentDeployed(
         name: String,
@@ -4631,6 +4637,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilEnvironmentTemplateVersionRegistered(
         _ input: GetEnvironmentTemplateVersionInput,
@@ -4656,6 +4663,7 @@ extension Proton {
     ///   - minorVersion: To get environment template minor version detail data, include minorVersion.
     ///   - templateName: The name of the environment template a version of which you want to get detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilEnvironmentTemplateVersionRegistered(
         majorVersion: String,
@@ -4676,6 +4684,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceCreated(
         _ input: GetServiceInput,
@@ -4700,6 +4709,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the service that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceCreated(
         name: String,
@@ -4716,6 +4726,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceDeleted(
         _ input: GetServiceInput,
@@ -4738,6 +4749,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the service that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceDeleted(
         name: String,
@@ -4754,6 +4766,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceInstanceDeployed(
         _ input: GetServiceInstanceInput,
@@ -4777,6 +4790,7 @@ extension Proton {
     ///   - name: The name of a service instance that you want to get the detailed data for.
     ///   - serviceName: The name of the service that you want the service instance input for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceInstanceDeployed(
         name: String,
@@ -4795,6 +4809,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServicePipelineDeployed(
         _ input: GetServiceInput,
@@ -4817,6 +4832,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the service that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServicePipelineDeployed(
         name: String,
@@ -4833,6 +4849,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceTemplateVersionRegistered(
         _ input: GetServiceTemplateVersionInput,
@@ -4858,6 +4875,7 @@ extension Proton {
     ///   - minorVersion: To get service template minor version detail data, include minorVersion.
     ///   - templateName: The name of the service template a version of which you want to get detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceTemplateVersionRegistered(
         majorVersion: String,
@@ -4878,6 +4896,7 @@ extension Proton {
     /// - Parameters:
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceUpdated(
         _ input: GetServiceInput,
@@ -4903,6 +4922,7 @@ extension Proton {
     /// - Parameters:
     ///   - name: The name of the service that you want to get the detailed data for.
     ///   - logger: Logger used for logging
+    @available(*, deprecated, message: "AWS Proton is not accepting new customers.")
     @inlinable
     public func waitUntilServiceUpdated(
         name: String,

@@ -1153,7 +1153,7 @@ public struct SFN: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following:   A state's input and output processing data flow   An Amazon Web Services service integration request and response   An HTTP Task request and response   You can call this API on only one state at a time. The states that you can test include the following:    All Task types except Activity     Pass     Wait     Choice     Succeed     Fail    The TestState API assumes an IAM role which must contain the required IAM permissions for the resources your state is accessing. For information about the permissions a state might need, see IAM permissions to test a state. The TestState API can run for up to five minutes. If the execution of a state exceeds this duration, it fails with the States.Timeout error.  TestState doesn't support Activity tasks, .sync or .waitForTaskToken service integration patterns, Parallel, or Map states.
+    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following:   A state's input and output processing data flow   An Amazon Web Services service integration request and response   An HTTP Task request and response   You can call this API on only one state at a time. The states that you can test include the following:    All Task types except Activity     Pass     Wait     Choice     Succeed     Fail    The TestState API assumes an IAM role which must contain the required IAM permissions for the resources your state is accessing. For information about the permissions a state might need, see IAM permissions to test a state. The TestState API can run for up to five minutes. If the execution of a state exceeds this duration, it fails with the States.Timeout error.  TestState only supports the following when a mock is specified: Activity tasks, .sync or .waitForTaskToken service integration patterns, Parallel, or Map states.
     @Sendable
     @inlinable
     public func testState(_ input: TestStateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TestStateOutput {
@@ -1167,32 +1167,44 @@ public struct SFN: AWSService {
             logger: logger
         )
     }
-    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following:   A state's input and output processing data flow   An Amazon Web Services service integration request and response   An HTTP Task request and response   You can call this API on only one state at a time. The states that you can test include the following:    All Task types except Activity     Pass     Wait     Choice     Succeed     Fail    The TestState API assumes an IAM role which must contain the required IAM permissions for the resources your state is accessing. For information about the permissions a state might need, see IAM permissions to test a state. The TestState API can run for up to five minutes. If the execution of a state exceeds this duration, it fails with the States.Timeout error.  TestState doesn't support Activity tasks, .sync or .waitForTaskToken service integration patterns, Parallel, or Map states.
+    /// Accepts the definition of a single state and executes it. You can test a state without creating a state machine or updating an existing state machine. Using this API, you can test the following:   A state's input and output processing data flow   An Amazon Web Services service integration request and response   An HTTP Task request and response   You can call this API on only one state at a time. The states that you can test include the following:    All Task types except Activity     Pass     Wait     Choice     Succeed     Fail    The TestState API assumes an IAM role which must contain the required IAM permissions for the resources your state is accessing. For information about the permissions a state might need, see IAM permissions to test a state. The TestState API can run for up to five minutes. If the execution of a state exceeds this duration, it fails with the States.Timeout error.  TestState only supports the following when a mock is specified: Activity tasks, .sync or .waitForTaskToken service integration patterns, Parallel, or Map states.
     ///
     /// Parameters:
-    ///   - definition: The Amazon States Language (ASL) definition of the state.
+    ///   - context: A JSON string representing a valid Context object for the state under test. This field may only be specified if a mock is specified in the same request.
+    ///   - definition: The Amazon States Language (ASL) definition of the state or state machine.
     ///   - input: A string that contains the JSON input data for the state.
     ///   - inspectionLevel: Determines the values to return when a state is tested. You can specify one of the following types:    INFO: Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level.    DEBUG: Shows the final state output along with the input and output data processing result.    TRACE: Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result.   Each of these levels also provide information about the status of the state execution and the next state to transition to.
+    ///   - mock: Defines a mocked result or error for the state under test. A mock can only be specified for Task, Map, or Parallel states. If it is specified for another state type, an exception will be thrown.
     ///   - revealSecrets: Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state. Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
     ///   - roleArn: The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
+    ///   - stateConfiguration: Contains configurations for the state under test.
+    ///   - stateName: Denotes the particular state within a state machine definition to be tested. If this field is specified, the definition must contain a fully-formed state machine definition.
     ///   - variables: JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
     ///   - logger: Logger use during operation
     @inlinable
     public func testState(
+        context: String? = nil,
         definition: String,
         input: String? = nil,
         inspectionLevel: InspectionLevel? = nil,
+        mock: MockInput? = nil,
         revealSecrets: Bool? = nil,
         roleArn: String? = nil,
+        stateConfiguration: TestStateConfiguration? = nil,
+        stateName: String? = nil,
         variables: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> TestStateOutput {
         let input = TestStateInput(
+            context: context, 
             definition: definition, 
             input: input, 
             inspectionLevel: inspectionLevel, 
+            mock: mock, 
             revealSecrets: revealSecrets, 
             roleArn: roleArn, 
+            stateConfiguration: stateConfiguration, 
+            stateName: stateName, 
             variables: variables
         )
         return try await self.testState(input, logger: logger)

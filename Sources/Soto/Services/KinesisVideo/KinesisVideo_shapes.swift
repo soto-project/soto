@@ -67,6 +67,12 @@ extension KinesisVideo {
         public var description: String { return self.rawValue }
     }
 
+    public enum DefaultStorageTier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case hot = "HOT"
+        case warm = "WARM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Format: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jpeg = "JPEG"
         case png = "PNG"
@@ -210,7 +216,7 @@ extension KinesisVideo {
         public let channelName: String
         /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type.
         public let channelType: ChannelType?
-        /// A structure containing the configuration for the SINGLE_MASTER channel type.
+        /// A structure containing the configuration for the SINGLE_MASTER channel type. The default configuration for the channel message's time to live is 60 seconds (1 minute).
         public let singleMasterConfiguration: SingleMasterConfiguration?
         /// A set of tags (key-value pairs) that you want to associate with this channel.
         public let tags: [Tag]?
@@ -257,26 +263,29 @@ extension KinesisVideo {
     }
 
     public struct CreateStreamInput: AWSEncodableShape {
-        /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
+        /// The number of hours that you want to retain the data in the stream. Kinesis Video Streams retains the data in a data store that is associated with the stream. The default value is 0, indicating that the stream does not persist data. The minimum is 1 hour. When the DataRetentionInHours value is 0, consumers can still consume the fragments that remain in the service host buffer, which has a retention time limit of 5 minutes and a retention memory limit of 200 MB. Fragments are removed from the buffer when either limit is reached.
         public let dataRetentionInHours: Int?
-        /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name.
+        /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams doesn't use this name.
         public let deviceName: String?
-        /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (Amazon Web Services/kinesisvideo) is used. For more information, see DescribeKey.
+        /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used. For more information, see DescribeKey.
         public let kmsKeyId: String?
         /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
         public let mediaType: String?
         /// A name for the stream that you are creating. The stream name is an identifier for the stream, and must be unique for each account and region.
         public let streamName: String
+        /// The configuration for the stream's storage, including the default storage tier for stream data. This configuration determines how stream data is stored and accessed, with different tiers offering varying levels of performance and cost optimization. If not specified, the stream will use the default storage configuration with HOT tier for optimal performance.
+        public let streamStorageConfiguration: StreamStorageConfiguration?
         /// A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional).
         public let tags: [String: String]?
 
         @inlinable
-        public init(dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, tags: [String: String]? = nil) {
+        public init(dataRetentionInHours: Int? = nil, deviceName: String? = nil, kmsKeyId: String? = nil, mediaType: String? = nil, streamName: String, streamStorageConfiguration: StreamStorageConfiguration? = nil, tags: [String: String]? = nil) {
             self.dataRetentionInHours = dataRetentionInHours
             self.deviceName = deviceName
             self.kmsKeyId = kmsKeyId
             self.mediaType = mediaType
             self.streamName = streamName
+            self.streamStorageConfiguration = streamStorageConfiguration
             self.tags = tags
         }
 
@@ -311,6 +320,7 @@ extension KinesisVideo {
             case kmsKeyId = "KmsKeyId"
             case mediaType = "MediaType"
             case streamName = "StreamName"
+            case streamStorageConfiguration = "StreamStorageConfiguration"
             case tags = "Tags"
         }
     }
@@ -778,6 +788,55 @@ extension KinesisVideo {
 
         private enum CodingKeys: String, CodingKey {
             case streamInfo = "StreamInfo"
+        }
+    }
+
+    public struct DescribeStreamStorageConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the stream for which you want to retrieve the storage configuration.
+        public let streamARN: String?
+        /// The name of the stream for which you want to retrieve the storage configuration.
+        public let streamName: String?
+
+        @inlinable
+        public init(streamARN: String? = nil, streamName: String? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct DescribeStreamStorageConfigurationOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the stream.
+        public let streamARN: String?
+        /// The name of the stream.
+        public let streamName: String?
+        /// The current storage configuration for the stream, including the default storage tier and other storage-related settings.
+        public let streamStorageConfiguration: StreamStorageConfiguration?
+
+        @inlinable
+        public init(streamARN: String? = nil, streamName: String? = nil, streamStorageConfiguration: StreamStorageConfiguration? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.streamStorageConfiguration = streamStorageConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case streamStorageConfiguration = "StreamStorageConfiguration"
         }
     }
 
@@ -1553,7 +1612,7 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The period of time a signaling channel retains undelivered messages before they are discarded.
+        /// The period of time (in seconds) a signaling channel retains undelivered messages before they are discarded. Use  to update this value.
         public let messageTtlSeconds: Int?
 
         @inlinable
@@ -1708,6 +1767,20 @@ extension KinesisVideo {
         private enum CodingKeys: String, CodingKey {
             case comparisonOperator = "ComparisonOperator"
             case comparisonValue = "ComparisonValue"
+        }
+    }
+
+    public struct StreamStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The default storage tier for the stream data. This setting determines the storage class used for stream data, affecting both performance characteristics and storage costs. Available storage tiers:    HOT - Optimized for frequent access with the lowest latency and highest performance. Ideal for real-time applications and frequently accessed data.    WARM - Balanced performance and cost for moderately accessed data. Suitable for data that is accessed regularly but not continuously.
+        public let defaultStorageTier: DefaultStorageTier
+
+        @inlinable
+        public init(defaultStorageTier: DefaultStorageTier) {
+            self.defaultStorageTier = defaultStorageTier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultStorageTier = "DefaultStorageTier"
         }
     }
 
@@ -2044,7 +2117,7 @@ extension KinesisVideo {
         public let channelARN: String
         /// The current version of the signaling channel that you want to update.
         public let currentVersion: String
-        /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update.
+        /// The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. This parameter and the channel message's time-to-live are required for channels with the SINGLE_MASTER channel type.
         public let singleMasterConfiguration: SingleMasterConfiguration?
 
         @inlinable
@@ -2124,6 +2197,48 @@ extension KinesisVideo {
     }
 
     public struct UpdateStreamOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateStreamStorageConfigurationInput: AWSEncodableShape {
+        /// The version of the stream whose storage configuration you want to change. To get the version, call either the DescribeStream or the ListStreams API.
+        public let currentVersion: String
+        /// The Amazon Resource Name (ARN) of the stream for which you want to update the storage configuration.
+        public let streamARN: String?
+        /// The name of the stream for which you want to update the storage configuration.
+        public let streamName: String?
+        /// The new storage configuration for the stream. This includes the default storage tier that determines how stream data is stored and accessed. Different storage tiers offer varying levels of performance and cost optimization to match your specific use case requirements.
+        public let streamStorageConfiguration: StreamStorageConfiguration
+
+        @inlinable
+        public init(currentVersion: String, streamARN: String? = nil, streamName: String? = nil, streamStorageConfiguration: StreamStorageConfiguration) {
+            self.currentVersion = currentVersion
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.streamStorageConfiguration = streamStorageConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
+            try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
+            try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+$")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentVersion = "CurrentVersion"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case streamStorageConfiguration = "StreamStorageConfiguration"
+        }
+    }
+
+    public struct UpdateStreamStorageConfigurationOutput: AWSDecodableShape {
         public init() {}
     }
 

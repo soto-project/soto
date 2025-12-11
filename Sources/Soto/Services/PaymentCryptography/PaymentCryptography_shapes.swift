@@ -372,19 +372,19 @@ extension PaymentCryptography {
     }
 
     public struct CertificateSubjectType: AWSEncodableShape {
-        /// City to be used in the certificate signing request
+        /// The city you provide to create the certificate signing request.
         public let city: String?
-        /// Common Name to be used in the certificate signing request
+        /// The name you provide to create the certificate signing request.
         public let commonName: String
-        /// Country to be used in the certificate signing request
+        /// The city you provide to create the certificate signing request.
         public let country: String?
-        /// Email to be used in the certificate signing request
+        /// The email address you provide to create the certificate signing request.
         public let emailAddress: String?
-        /// Organization to be used in the certificate signing request
+        /// The organization you provide to create the certificate signing request.
         public let organization: String?
-        /// Organization Unit to be used in the certificate signing request
+        /// The organization unit you provide to create the certificate signing request.
         public let organizationUnit: String?
-        /// State Or Province to be used in the certificate signing request
+        /// The state or province you provide to create the certificate signing request.
         public let stateOrProvince: String?
 
         @inlinable
@@ -608,7 +608,7 @@ extension PaymentCryptography {
     }
 
     public struct EnableDefaultKeyReplicationRegionsInput: AWSEncodableShape {
-        /// The list of Amazon Web Services Regions to enable as default replication regions for the account. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
+        /// The list of Amazon Web Services Regions to enable as default replication regions for the Amazon Web Services account for Multi-Region key replication. New keys created in this account will automatically be replicated to these regions unless explicitly overridden during key creation.
         public let replicationRegions: [String]
 
         @inlinable
@@ -849,7 +849,7 @@ extension PaymentCryptography {
         public let keyBlockHeaders: KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public let randomNonce: String?
-        /// Certificate used for signing the export key
+        /// The certificate used to sign the TR-34 key block.
         public let signingKeyCertificate: String?
         /// Key Identifier used for signing the export key
         public let signingKeyIdentifier: String?
@@ -935,11 +935,11 @@ extension PaymentCryptography {
     }
 
     public struct GetCertificateSigningRequestInput: AWSEncodableShape {
-        /// Certificate subject data
+        /// The metadata used to create the CSR.
         public let certificateSubject: CertificateSubjectType
         /// Asymmetric key used for generating the certificate signing request
         public let keyIdentifier: String
-        /// Algorithm used to generate the certificate signing request
+        /// The cryptographic algorithm used to sign your CSR.
         public let signingAlgorithm: SigningAlgorithmType
 
         @inlinable
@@ -963,7 +963,7 @@ extension PaymentCryptography {
     }
 
     public struct GetCertificateSigningRequestOutput: AWSDecodableShape {
-        /// Certificate signing request
+        /// The certificate signing request generated using the key pair associated with the key identifier.
         public let certificateSigningRequest: String
 
         @inlinable
@@ -1350,7 +1350,7 @@ extension PaymentCryptography {
         public let signingKeyCertificate: String
         /// The TR-34 wrapped key block to import.
         public let wrappedKeyBlock: String
-        /// Key Identifier used for unwrapping the import key
+        /// The certificate used to wrap the TR-34 key block.
         public let wrappingKeyCertificate: String?
         /// Key Identifier used for unwrapping the import key
         public let wrappingKeyIdentifier: String?
@@ -1426,16 +1426,16 @@ extension PaymentCryptography {
         public let keyOrigin: KeyOrigin
         /// The state of key that is being created or deleted.
         public let keyState: KeyState
-        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see Multi-Region key replication.
         public let multiRegionKeyType: MultiRegionKeyType?
         public let primaryRegion: String?
-        /// Information about the replication status of the key across different regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
+        /// Information about the replication status of the key across different Amazon Web Services Regions. This field provides details about the current state of key replication, including any status messages or operational information. It helps track the progress and health of key replication operations.
         public let replicationStatus: [String: ReplicationStatusType]?
         /// The date and time after which Amazon Web Services Payment Cryptography will start using the key material for cryptographic operations.
         public let usageStartTimestamp: Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will stop using the key material for cryptographic operations.
         public let usageStopTimestamp: Date?
-        /// Indicates whether this key is using the account's default replication regions configuration. When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
+        /// Indicates whether this key is using the account's default replication regions configuration for Multi-Region key replication. When set to true, the key automatically replicates to the regions specified in the account's default replication settings. When set to false, the key has a custom replication configuration that overrides the account defaults.
         public let usingDefaultReplicationRegions: Bool?
 
         @inlinable
@@ -1606,7 +1606,7 @@ extension PaymentCryptography {
         public let keyCheckValue: String
         /// The state of an Amazon Web Services Payment Cryptography that is being created or deleted.
         public let keyState: KeyState
-        /// Indicates whether this key is a multi-region key and its role in the multi-region key hierarchy. Multi-region keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a primary key (which can be replicated to other regions) or a replica key (which is a copy of a primary key in another region).
+        /// Indicates whether this key is a Multi-Region key and its role in the Multi-Region key hierarchy. Multi-Region replication keys allow the same key material to be used across multiple Amazon Web Services Regions. This field specifies whether the key is a Primary Region key (PRK) (which can be replicated to other Amazon Web Services Regions) or a Replica Region key (RRK) (which is a copy of a PRK in another Region). For more information, see Multi-Region key replication.
         public let multiRegionKeyType: MultiRegionKeyType?
         public let primaryRegion: String?
 
@@ -1823,7 +1823,7 @@ extension PaymentCryptography {
     }
 
     public struct ReplicationStatusType: AWSDecodableShape {
-        /// The current status of key replication in this region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
+        /// The current status of key replication in this Amazon Web Services Region. This field indicates whether the key replication is in progress, completed successfully, or has encountered an error. Possible values include states such as SYNCRHONIZED, IN_PROGRESS, DELETE_IN_PROGRESS, or FAILED. This provides visibility into the replication process for monitoring and troubleshooting purposes.
         public let status: KeyReplicationState
         /// A message that provides additional information about the current replication status of the key. This field contains details about any issues or progress updates related to key replication operations. It may include information about replication failures, synchronization status, or other operational details.
         public let statusMessage: String?

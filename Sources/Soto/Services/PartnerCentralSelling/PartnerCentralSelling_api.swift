@@ -225,6 +225,47 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.createEngagement(input, logger: logger)
     }
 
+    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
+    @Sendable
+    @inlinable
+    public func createEngagementContext(_ input: CreateEngagementContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateEngagementContextResponse {
+        try await self.client.execute(
+            operation: "CreateEngagementContext", 
+            path: "/CreateEngagementContext", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new context within an existing engagement. This action allows you to add contextual information such as customer projects or documents to an engagement, providing additional details that help facilitate collaboration between engagement members.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog associated with the engagement context request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is created in. Use AWS to create contexts in the production environment, and Sandbox for testing in secure, isolated environments.
+    ///   - clientToken: A unique, case-sensitive identifier provided by the client to ensure that the request is handled exactly once. This token helps prevent duplicate context creations and must not exceed sixty-four alphanumeric characters. Use a UUID or other unique string to ensure idempotency.
+    ///   - engagementIdentifier: The unique identifier of the Engagement for which the context is being created. This parameter ensures the context is associated with the correct engagement and provides the necessary linkage between the engagement and its contextual information.
+    ///   - payload: 
+    ///   - type: Specifies the type of context being created for the engagement. This field determines the structure and content of the context payload. Valid values include CustomerProject for customer project-related contexts. The type field ensures that the context is properly categorized and processed according to its intended purpose.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createEngagementContext(
+        catalog: String,
+        clientToken: String = CreateEngagementContextRequest.idempotencyToken(),
+        engagementIdentifier: String,
+        payload: EngagementContextPayload,
+        type: EngagementContextType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateEngagementContextResponse {
+        let input = CreateEngagementContextRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            engagementIdentifier: engagementIdentifier, 
+            payload: payload, 
+            type: type
+        )
+        return try await self.createEngagementContext(input, logger: logger)
+    }
+
     ///  This action creates an invitation from a sender to a single receiver to join an engagement.
     @Sendable
     @inlinable
@@ -980,8 +1021,10 @@ public struct PartnerCentralSelling: AWSService {
     ///
     /// Parameters:
     ///   - catalog:  Specifies the catalog related to the request.
+    ///   - contextTypes: Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information associated with them.
     ///   - createdBy:  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
     ///   - engagementIdentifier: An array of strings representing engagement identifiers to retrieve.
+    ///   - excludeContextTypes: Filters engagements to exclude those containing the specified context types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria.
     ///   - excludeCreatedBy: An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - nextToken: The token for the next set of results. This value is returned from a previous call.
@@ -990,8 +1033,10 @@ public struct PartnerCentralSelling: AWSService {
     @inlinable
     public func listEngagements(
         catalog: String,
+        contextTypes: [EngagementContextType]? = nil,
         createdBy: [String]? = nil,
         engagementIdentifier: [String]? = nil,
+        excludeContextTypes: [EngagementContextType]? = nil,
         excludeCreatedBy: [String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
@@ -1000,8 +1045,10 @@ public struct PartnerCentralSelling: AWSService {
     ) async throws -> ListEngagementsResponse {
         let input = ListEngagementsRequest(
             catalog: catalog, 
+            contextTypes: contextTypes, 
             createdBy: createdBy, 
             engagementIdentifier: engagementIdentifier, 
+            excludeContextTypes: excludeContextTypes, 
             excludeCreatedBy: excludeCreatedBy, 
             maxResults: maxResults, 
             nextToken: nextToken, 
@@ -1061,6 +1108,59 @@ public struct PartnerCentralSelling: AWSService {
             sort: sort
         )
         return try await self.listOpportunities(input, logger: logger)
+    }
+
+    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
+    @Sendable
+    @inlinable
+    public func listOpportunityFromEngagementTasks(_ input: ListOpportunityFromEngagementTasksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOpportunityFromEngagementTasksResponse {
+        try await self.client.execute(
+            operation: "ListOpportunityFromEngagementTasks", 
+            path: "/ListOpportunityFromEngagementTasks", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all in-progress, completed, or failed opportunity creation tasks from engagements that were initiated by the caller's account.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog related to the request. Valid values are AWS for production environments and Sandbox for testing or development purposes. The catalog determines which environment the task data is retrieved from.
+    ///   - contextIdentifier: Filters tasks by the identifiers of the engagement contexts associated with the opportunity creation. Use this to find tasks related to specific contextual information within engagements that are being converted to opportunities.
+    ///   - engagementIdentifier: Filters tasks by the identifiers of the engagements from which opportunities are being created. Use this to find all opportunity creation tasks associated with a specific engagement.
+    ///   - maxResults: Specifies the maximum number of results to return in a single page of the response. Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - nextToken: The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
+    ///   - opportunityIdentifier: Filters tasks by the identifiers of the opportunities they created or are associated with. Use this to find tasks related to specific opportunity creation processes.
+    ///   - sort: 
+    ///   - taskIdentifier: Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Provide the task ID to get details about a particular opportunity creation task.
+    ///   - taskStatus: Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Valid values are COMPLETE for tasks that have finished successfully, INPROGRESS for tasks that are currently running, and FAILED for tasks that have encountered an error and failed to complete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listOpportunityFromEngagementTasks(
+        catalog: String,
+        contextIdentifier: [String]? = nil,
+        engagementIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListOpportunityFromEngagementTasksResponse {
+        let input = ListOpportunityFromEngagementTasksRequest(
+            catalog: catalog, 
+            contextIdentifier: contextIdentifier, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return try await self.listOpportunityFromEngagementTasks(input, logger: logger)
     }
 
     ///  Lists resource snapshot jobs owned by the customer. This operation supports various filtering scenarios, including listing all jobs owned by the caller, jobs for a specific engagement, jobs with a specific status, or any combination of these filters.
@@ -1379,6 +1479,47 @@ public struct PartnerCentralSelling: AWSService {
         return try await self.startEngagementFromOpportunityTask(input, logger: logger)
     }
 
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
+    @Sendable
+    @inlinable
+    public func startOpportunityFromEngagementTask(_ input: StartOpportunityFromEngagementTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOpportunityFromEngagementTaskResponse {
+        try await self.client.execute(
+            operation: "StartOpportunityFromEngagementTask", 
+            path: "/StartOpportunityFromEngagementTask", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// This action creates an opportunity from an existing engagement context. The task is asynchronous and orchestrates the process of converting engagement contextual information into a structured opportunity record within the partner's account.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog in which the opportunity creation task is executed. Acceptable values include AWS for production and Sandbox for testing environments.
+    ///   - clientToken: A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
+    ///   - contextIdentifier: The unique identifier of the engagement context from which to create the opportunity. This specifies the specific contextual information within the engagement that will be used for opportunity creation.
+    ///   - identifier: The unique identifier of the engagement from which the opportunity creation task is to be initiated. This helps ensure that the task is applied to the correct engagement.
+    ///   - tags: A map of the key-value pairs of the tag or tags to assign.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startOpportunityFromEngagementTask(
+        catalog: String,
+        clientToken: String = StartOpportunityFromEngagementTaskRequest.idempotencyToken(),
+        contextIdentifier: String,
+        identifier: String,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartOpportunityFromEngagementTaskResponse {
+        let input = StartOpportunityFromEngagementTaskRequest(
+            catalog: catalog, 
+            clientToken: clientToken, 
+            contextIdentifier: contextIdentifier, 
+            identifier: identifier, 
+            tags: tags
+        )
+        return try await self.startOpportunityFromEngagementTask(input, logger: logger)
+    }
+
     /// Starts a resource snapshot job that has been previously created.
     @Sendable
     @inlinable
@@ -1543,6 +1684,50 @@ public struct PartnerCentralSelling: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the context information for an existing engagement with new or modified data.
+    @Sendable
+    @inlinable
+    public func updateEngagementContext(_ input: UpdateEngagementContextRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateEngagementContextResponse {
+        try await self.client.execute(
+            operation: "UpdateEngagementContext", 
+            path: "/UpdateEngagementContext", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the context information for an existing engagement with new or modified data.
+    ///
+    /// Parameters:
+    ///   - catalog: Specifies the catalog associated with the engagement context update request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is updated in.
+    ///   - contextIdentifier: The unique identifier of the specific engagement context to be updated. This ensures that the correct context within the engagement is modified.
+    ///   - engagementIdentifier: The unique identifier of the Engagement containing the context to be updated. This parameter ensures the context update is applied to the correct engagement.
+    ///   - engagementLastModifiedAt: The timestamp when the engagement was last modified, used for optimistic concurrency control. This helps prevent conflicts when multiple users attempt to update the same engagement simultaneously.
+    ///   - payload: Contains the updated contextual information for the engagement. The structure of this payload varies based on the context type specified in the Type field.
+    ///   - type: Specifies the type of context being updated within the engagement. This field determines the structure and content of the context payload being modified.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateEngagementContext(
+        catalog: String,
+        contextIdentifier: String,
+        engagementIdentifier: String,
+        engagementLastModifiedAt: Date,
+        payload: UpdateEngagementContextPayload,
+        type: EngagementContextType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateEngagementContextResponse {
+        let input = UpdateEngagementContextRequest(
+            catalog: catalog, 
+            contextIdentifier: contextIdentifier, 
+            engagementIdentifier: engagementIdentifier, 
+            engagementLastModifiedAt: engagementLastModifiedAt, 
+            payload: payload, 
+            type: type
+        )
+        return try await self.updateEngagementContext(input, logger: logger)
     }
 
     /// Updates the Opportunity record identified by a given Identifier. This operation allows you to modify the details of an existing opportunity to reflect the latest information and progress. Use this action to keep the opportunity record up-to-date and accurate. When you perform updates, include the entire payload with each request. If any field is omitted, the API assumes that the field is set to null. The best practice is to always perform a GetOpportunity to retrieve the latest values, then send the complete payload with the updated values to be changed.
@@ -1891,8 +2076,10 @@ extension PartnerCentralSelling {
     ///
     /// - Parameters:
     ///   - catalog:  Specifies the catalog related to the request.
+    ///   - contextTypes: Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information associated with them.
     ///   - createdBy:  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
     ///   - engagementIdentifier: An array of strings representing engagement identifiers to retrieve.
+    ///   - excludeContextTypes: Filters engagements to exclude those containing the specified context types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria.
     ///   - excludeCreatedBy: An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - sort: 
@@ -1900,8 +2087,10 @@ extension PartnerCentralSelling {
     @inlinable
     public func listEngagementsPaginator(
         catalog: String,
+        contextTypes: [EngagementContextType]? = nil,
         createdBy: [String]? = nil,
         engagementIdentifier: [String]? = nil,
+        excludeContextTypes: [EngagementContextType]? = nil,
         excludeCreatedBy: [String]? = nil,
         maxResults: Int? = nil,
         sort: EngagementSort? = nil,
@@ -1909,8 +2098,10 @@ extension PartnerCentralSelling {
     ) -> AWSClient.PaginatorSequence<ListEngagementsRequest, ListEngagementsResponse> {
         let input = ListEngagementsRequest(
             catalog: catalog, 
+            contextTypes: contextTypes, 
             createdBy: createdBy, 
             engagementIdentifier: engagementIdentifier, 
+            excludeContextTypes: excludeContextTypes, 
             excludeCreatedBy: excludeCreatedBy, 
             maxResults: maxResults, 
             sort: sort
@@ -1971,6 +2162,61 @@ extension PartnerCentralSelling {
             sort: sort
         )
         return self.listOpportunitiesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listOpportunityFromEngagementTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOpportunityFromEngagementTasksPaginator(
+        _ input: ListOpportunityFromEngagementTasksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListOpportunityFromEngagementTasksRequest, ListOpportunityFromEngagementTasksResponse> {
+        return .init(
+            input: input,
+            command: self.listOpportunityFromEngagementTasks,
+            inputKey: \ListOpportunityFromEngagementTasksRequest.nextToken,
+            outputKey: \ListOpportunityFromEngagementTasksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listOpportunityFromEngagementTasks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalog: Specifies the catalog related to the request. Valid values are AWS for production environments and Sandbox for testing or development purposes. The catalog determines which environment the task data is retrieved from.
+    ///   - contextIdentifier: Filters tasks by the identifiers of the engagement contexts associated with the opportunity creation. Use this to find tasks related to specific contextual information within engagements that are being converted to opportunities.
+    ///   - engagementIdentifier: Filters tasks by the identifiers of the engagements from which opportunities are being created. Use this to find all opportunity creation tasks associated with a specific engagement.
+    ///   - maxResults: Specifies the maximum number of results to return in a single page of the response. Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+    ///   - opportunityIdentifier: Filters tasks by the identifiers of the opportunities they created or are associated with. Use this to find tasks related to specific opportunity creation processes.
+    ///   - sort: 
+    ///   - taskIdentifier: Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Provide the task ID to get details about a particular opportunity creation task.
+    ///   - taskStatus: Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Valid values are COMPLETE for tasks that have finished successfully, INPROGRESS for tasks that are currently running, and FAILED for tasks that have encountered an error and failed to complete.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listOpportunityFromEngagementTasksPaginator(
+        catalog: String,
+        contextIdentifier: [String]? = nil,
+        engagementIdentifier: [String]? = nil,
+        maxResults: Int? = nil,
+        opportunityIdentifier: [String]? = nil,
+        sort: ListTasksSortBase? = nil,
+        taskIdentifier: [String]? = nil,
+        taskStatus: [TaskStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListOpportunityFromEngagementTasksRequest, ListOpportunityFromEngagementTasksResponse> {
+        let input = ListOpportunityFromEngagementTasksRequest(
+            catalog: catalog, 
+            contextIdentifier: contextIdentifier, 
+            engagementIdentifier: engagementIdentifier, 
+            maxResults: maxResults, 
+            opportunityIdentifier: opportunityIdentifier, 
+            sort: sort, 
+            taskIdentifier: taskIdentifier, 
+            taskStatus: taskStatus
+        )
+        return self.listOpportunityFromEngagementTasksPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listResourceSnapshotJobs(_:logger:)``.
@@ -2202,8 +2448,10 @@ extension PartnerCentralSelling.ListEngagementsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListEngagementsRequest {
         return .init(
             catalog: self.catalog,
+            contextTypes: self.contextTypes,
             createdBy: self.createdBy,
             engagementIdentifier: self.engagementIdentifier,
+            excludeContextTypes: self.excludeContextTypes,
             excludeCreatedBy: self.excludeCreatedBy,
             maxResults: self.maxResults,
             nextToken: token,
@@ -2225,6 +2473,23 @@ extension PartnerCentralSelling.ListOpportunitiesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sort: self.sort
+        )
+    }
+}
+
+extension PartnerCentralSelling.ListOpportunityFromEngagementTasksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> PartnerCentralSelling.ListOpportunityFromEngagementTasksRequest {
+        return .init(
+            catalog: self.catalog,
+            contextIdentifier: self.contextIdentifier,
+            engagementIdentifier: self.engagementIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            opportunityIdentifier: self.opportunityIdentifier,
+            sort: self.sort,
+            taskIdentifier: self.taskIdentifier,
+            taskStatus: self.taskStatus
         )
     }
 }

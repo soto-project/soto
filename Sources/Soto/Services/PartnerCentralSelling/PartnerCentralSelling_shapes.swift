@@ -25,6 +25,11 @@ import Foundation
 extension PartnerCentralSelling {
     // MARK: Enums
 
+    public enum AccessDeniedExceptionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case incompatibleBenefitAwsPartnerState = "INCOMPATIBLE_BENEFIT_AWS_PARTNER_STATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AwsClosedLostReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case administrative = "Administrative"
         case businessAssociateAgreement = "Business Associate Agreement"
@@ -118,6 +123,11 @@ extension PartnerCentralSelling {
         case sellerRegistered = "Seller Registered"
         case technicalValidation = "Technical Validation"
         case termSheetNegotiation = "Term Sheet Negotiation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AwsPartition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsEusc = "aws-eusc"
         public var description: String { return self.rawValue }
     }
 
@@ -613,10 +623,12 @@ extension PartnerCentralSelling {
 
     public enum EngagementContextType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case customerProject = "CustomerProject"
+        case lead = "Lead"
         public var description: String { return self.rawValue }
     }
 
     public enum EngagementInvitationPayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case leadInvitation = "LeadInvitation"
         case opportunityInvitation = "OpportunityInvitation"
         public var description: String { return self.rawValue }
     }
@@ -687,6 +699,15 @@ extension PartnerCentralSelling {
         public var description: String { return self.rawValue }
     }
 
+    public enum MarketSegment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enterprise = "Enterprise"
+        case large = "Large"
+        case medium = "Medium"
+        case micro = "Micro"
+        case small = "Small"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MarketingSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case marketingActivity = "Marketing Activity"
         case none = "None"
@@ -748,6 +769,9 @@ extension PartnerCentralSelling {
     }
 
     public enum ReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contextNotFound = "ContextNotFound"
+        case customerProjectContextNotPermitted = "CustomerProjectContextNotPermitted"
+        case disqualifiedLeadNotPermitted = "DisqualifiedLeadNotPermitted"
         case engagementAccessDenied = "EngagementAccessDenied"
         case engagementConflict = "EngagementConflict"
         case engagementInvitationConflict = "EngagementInvitationConflict"
@@ -784,6 +808,7 @@ extension PartnerCentralSelling {
     }
 
     public enum RelatedEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsMarketplaceOfferSets = "AwsMarketplaceOfferSets"
         case awsMarketplaceOffers = "AwsMarketplaceOffers"
         case awsProducts = "AwsProducts"
         case solutions = "Solutions"
@@ -888,6 +913,7 @@ extension PartnerCentralSelling {
         case invalidResourceState = "INVALID_RESOURCE_STATE"
         case invalidStringFormat = "INVALID_STRING_FORMAT"
         case invalidValue = "INVALID_VALUE"
+        case notEnoughValues = "NOT_ENOUGH_VALUES"
         case requiredFieldMissing = "REQUIRED_FIELD_MISSING"
         case tooManyValues = "TOO_MANY_VALUES"
         case valueOutOfRange = "VALUE_OUT_OF_RANGE"
@@ -906,6 +932,136 @@ extension PartnerCentralSelling {
         public var description: String { return self.rawValue }
     }
 
+    public enum EngagementContextPayload: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
+        case customerProject(CustomerProjectsContext)
+        /// Contains detailed information about a lead when the context type is "Lead". This field is present only when the Type in EngagementContextDetails is set to "Lead".
+        case lead(LeadContext)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .customerProject:
+                let value = try container.decode(CustomerProjectsContext.self, forKey: .customerProject)
+                self = .customerProject(value)
+            case .lead:
+                let value = try container.decode(LeadContext.self, forKey: .lead)
+                self = .lead(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .customerProject(let value):
+                try container.encode(value, forKey: .customerProject)
+            case .lead(let value):
+                try container.encode(value, forKey: .lead)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .customerProject(let value):
+                try value.validate(name: "\(name).customerProject")
+            case .lead(let value):
+                try value.validate(name: "\(name).lead")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerProject = "CustomerProject"
+            case lead = "Lead"
+        }
+    }
+
+    public enum Payload: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies the details of the lead invitation within the Engagement Invitation payload. This data helps partners understand the lead context, customer information, and interaction history for the lead opportunity from AWS.
+        case leadInvitation(LeadInvitationPayload)
+        /// Specifies the details of the opportunity invitation within the Engagement Invitation payload. This data helps partners understand the context, scope, and expected involvement for the opportunity from AWS.
+        case opportunityInvitation(OpportunityInvitationPayload)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .leadInvitation:
+                let value = try container.decode(LeadInvitationPayload.self, forKey: .leadInvitation)
+                self = .leadInvitation(value)
+            case .opportunityInvitation:
+                let value = try container.decode(OpportunityInvitationPayload.self, forKey: .opportunityInvitation)
+                self = .opportunityInvitation(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .leadInvitation(let value):
+                try container.encode(value, forKey: .leadInvitation)
+            case .opportunityInvitation(let value):
+                try container.encode(value, forKey: .opportunityInvitation)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .leadInvitation(let value):
+                try value.validate(name: "\(name).leadInvitation")
+            case .opportunityInvitation(let value):
+                try value.validate(name: "\(name).opportunityInvitation")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case leadInvitation = "LeadInvitation"
+            case opportunityInvitation = "OpportunityInvitation"
+        }
+    }
+
+    public enum UpdateEngagementContextPayload: AWSEncodableShape, Sendable {
+        case customerProject(CustomerProjectsContext)
+        /// Contains updated information about a lead when the context type is "Lead". This field is present only when updating a lead context within the engagement.
+        case lead(UpdateLeadContext)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .customerProject(let value):
+                try container.encode(value, forKey: .customerProject)
+            case .lead(let value):
+                try container.encode(value, forKey: .lead)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .customerProject(let value):
+                try value.validate(name: "\(name).customerProject")
+            case .lead(let value):
+                try value.validate(name: "\(name).lead")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customerProject = "CustomerProject"
+            case lead = "Lead"
+        }
+    }
+
     // MARK: Shapes
 
     public struct AcceptEngagementInvitationRequest: AWSEncodableShape {
@@ -922,14 +1078,29 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
-            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
             case identifier = "Identifier"
+        }
+    }
+
+    public struct AccessDeniedException: AWSErrorShape {
+        public let message: String?
+        /// The reason why access was denied for the requested operation.
+        public let reason: AccessDeniedExceptionErrorCode?
+
+        @inlinable
+        public init(message: String? = nil, reason: AccessDeniedExceptionErrorCode? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -962,10 +1133,9 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^([0-9]{12}|\\w{1,12})$")
-            try self.validate(self.companyName, name: "companyName", parent: name, max: 80)
+            try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{0,80}$")
             try self.validate(self.duns, name: "duns", parent: name, pattern: "^[0-9]{9}$")
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, max: 255)
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, min: 4)
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?s).{4,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -992,7 +1162,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.alias, name: "alias", parent: name, max: 80)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^(?s).{0,80}$")
             try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^([0-9]{12}|\\w{1,12})$")
         }
 
@@ -1062,7 +1232,7 @@ extension PartnerCentralSelling {
         }
     }
 
-    public struct AddressSummary: AWSDecodableShape {
+    public struct AddressSummary: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the end Customer's city associated with the Opportunity.
         public let city: String?
         /// Specifies the end Customer's country associated with the Opportunity.
@@ -1125,21 +1295,24 @@ extension PartnerCentralSelling {
         public let firstName: String
         /// Specifies the last name of the assignee managing the opportunity. The system automatically retrieves this value from the user profile by referencing the associated email address.
         public let lastName: String
+        /// Specifies the contact phone number of the assignee responsible for the opportunity or engagement. This field enables direct communication for time-sensitive matters and facilitates coordination between AWS and partner teams.
+        public let phone: String?
 
         @inlinable
-        public init(businessTitle: String, email: String, firstName: String, lastName: String) {
+        public init(businessTitle: String, email: String, firstName: String, lastName: String, phone: String? = nil) {
             self.businessTitle = businessTitle
             self.email = email
             self.firstName = firstName
             self.lastName = lastName
+            self.phone = phone
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessTitle, name: "businessTitle", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, pattern: "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
-            try self.validate(self.firstName, name: "firstName", parent: name, max: 80)
-            try self.validate(self.lastName, name: "lastName", parent: name, max: 80)
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{0,80}$)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.phone, name: "phone", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1147,6 +1320,7 @@ extension PartnerCentralSelling {
             case email = "Email"
             case firstName = "FirstName"
             case lastName = "LastName"
+            case phone = "Phone"
         }
     }
 
@@ -1196,18 +1370,21 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsOpportunityInsights: AWSDecodableShape {
+        public let awsProductsSpendInsightsBySource: AwsProductsSpendInsightsBySource?
         /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
         public let engagementScore: EngagementScore?
         /// Provides recommendations from AWS on the next best actions to take in order to move the opportunity forward and increase the likelihood of success.
         public let nextBestActions: String?
 
         @inlinable
-        public init(engagementScore: EngagementScore? = nil, nextBestActions: String? = nil) {
+        public init(awsProductsSpendInsightsBySource: AwsProductsSpendInsightsBySource? = nil, engagementScore: EngagementScore? = nil, nextBestActions: String? = nil) {
+            self.awsProductsSpendInsightsBySource = awsProductsSpendInsightsBySource
             self.engagementScore = engagementScore
             self.nextBestActions = nextBestActions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsProductsSpendInsightsBySource = "AwsProductsSpendInsightsBySource"
             case engagementScore = "EngagementScore"
             case nextBestActions = "NextBestActions"
         }
@@ -1244,15 +1421,19 @@ extension PartnerCentralSelling {
     }
 
     public struct AwsOpportunityProject: AWSDecodableShape {
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for all other partitions
+        public let awsPartition: AwsPartition?
         /// Indicates the expected spending by the customer over the course of the project. This value helps partners and AWS estimate the financial impact of the opportunity. Use the AWS Pricing Calculator to create an estimate of the customer’s total spend. If only annual recurring revenue (ARR) is available, distribute it across 12 months to provide an average monthly value.
         public let expectedCustomerSpend: [ExpectedCustomerSpend]?
 
         @inlinable
-        public init(expectedCustomerSpend: [ExpectedCustomerSpend]? = nil) {
+        public init(awsPartition: AwsPartition? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil) {
+            self.awsPartition = awsPartition
             self.expectedCustomerSpend = expectedCustomerSpend
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsPartition = "AwsPartition"
             case expectedCustomerSpend = "ExpectedCustomerSpend"
         }
     }
@@ -1272,6 +1453,118 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case awsProducts = "AwsProducts"
             case solutions = "Solutions"
+        }
+    }
+
+    public struct AwsProductDetails: AWSDecodableShape {
+        /// Baseline service cost before optimizations (may be null for AWS-sourced predictions)
+        public let amount: String?
+        /// List of program and pathway categories this product is eligible for
+        public let categories: [String]
+        /// List of specific optimization recommendations for this product
+        public let optimizations: [AwsProductOptimization]
+        /// Service cost after applying optimizations (may be null for AWS-sourced predictions)
+        public let optimizedAmount: String?
+        /// Service-specific cost reduction through optimizations (may be null for AWS-sourced predictions)
+        public let potentialSavingsAmount: String?
+        /// AWS Partner Central product identifier used for opportunity association
+        public let productCode: String
+        /// Pricing Calculator service code (links to original calculator URL)
+        public let serviceCode: String?
+
+        @inlinable
+        public init(amount: String? = nil, categories: [String], optimizations: [AwsProductOptimization], optimizedAmount: String? = nil, potentialSavingsAmount: String? = nil, productCode: String, serviceCode: String? = nil) {
+            self.amount = amount
+            self.categories = categories
+            self.optimizations = optimizations
+            self.optimizedAmount = optimizedAmount
+            self.potentialSavingsAmount = potentialSavingsAmount
+            self.productCode = productCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amount = "Amount"
+            case categories = "Categories"
+            case optimizations = "Optimizations"
+            case optimizedAmount = "OptimizedAmount"
+            case potentialSavingsAmount = "PotentialSavingsAmount"
+            case productCode = "ProductCode"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
+    public struct AwsProductInsights: AWSDecodableShape {
+        /// Product-level details including costs and optimization recommendations
+        public let awsProducts: [AwsProductDetails]
+        /// ISO 4217 currency code (e.g., "USD") ensuring consistent representation across calculations
+        public let currencyCode: CurrencyCode
+        /// Time period for spend amounts: "Monthly" or "Annually"
+        public let frequency: PaymentFrequency
+        /// Total estimated spend for this source before optimizations
+        public let totalAmount: String?
+        /// Spend amounts mapped to AWS programs and modernization pathways
+        public let totalAmountByCategory: [String: String]
+        /// Total estimated spend after applying recommended optimizations
+        public let totalOptimizedAmount: String?
+        /// Quantified savings achievable through implementing optimizations
+        public let totalPotentialSavingsAmount: String?
+
+        @inlinable
+        public init(awsProducts: [AwsProductDetails], currencyCode: CurrencyCode, frequency: PaymentFrequency, totalAmount: String? = nil, totalAmountByCategory: [String: String], totalOptimizedAmount: String? = nil, totalPotentialSavingsAmount: String? = nil) {
+            self.awsProducts = awsProducts
+            self.currencyCode = currencyCode
+            self.frequency = frequency
+            self.totalAmount = totalAmount
+            self.totalAmountByCategory = totalAmountByCategory
+            self.totalOptimizedAmount = totalOptimizedAmount
+            self.totalPotentialSavingsAmount = totalPotentialSavingsAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsProducts = "AwsProducts"
+            case currencyCode = "CurrencyCode"
+            case frequency = "Frequency"
+            case totalAmount = "TotalAmount"
+            case totalAmountByCategory = "TotalAmountByCategory"
+            case totalOptimizedAmount = "TotalOptimizedAmount"
+            case totalPotentialSavingsAmount = "TotalPotentialSavingsAmount"
+        }
+    }
+
+    public struct AwsProductOptimization: AWSDecodableShape {
+        /// Human-readable explanation of the optimization strategy
+        public let description: String
+        /// Quantified cost savings achievable by implementing this optimization
+        public let savingsAmount: String
+
+        @inlinable
+        public init(description: String, savingsAmount: String) {
+            self.description = description
+            self.savingsAmount = savingsAmount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case savingsAmount = "SavingsAmount"
+        }
+    }
+
+    public struct AwsProductsSpendInsightsBySource: AWSDecodableShape {
+        /// AI-generated insights including recommended products from AWS
+        public let aws: AwsProductInsights?
+        /// Partner-sourced insights derived from Pricing Calculator URLs including detailed service costs and optimizations
+        public let partner: AwsProductInsights?
+
+        @inlinable
+        public init(aws: AwsProductInsights? = nil, partner: AwsProductInsights? = nil) {
+            self.aws = aws
+            self.partner = partner
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aws = "AWS"
+            case partner = "Partner"
         }
     }
 
@@ -1341,12 +1634,10 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessTitle, name: "businessTitle", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, pattern: "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
-            try self.validate(self.firstName, name: "firstName", parent: name, max: 80)
-            try self.validate(self.lastName, name: "lastName", parent: name, max: 80)
-            try self.validate(self.phone, name: "phone", parent: name, max: 40)
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{0,80}$)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^(?s).{0,80}$")
             try self.validate(self.phone, name: "phone", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
         }
 
@@ -1356,6 +1647,69 @@ extension PartnerCentralSelling {
             case firstName = "FirstName"
             case lastName = "LastName"
             case phone = "Phone"
+        }
+    }
+
+    public struct CreateEngagementContextRequest: AWSEncodableShape {
+        /// Specifies the catalog associated with the engagement context request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is created in. Use AWS to create contexts in the production environment, and Sandbox for testing in secure, isolated environments.
+        public let catalog: String
+        /// A unique, case-sensitive identifier provided by the client to ensure that the request is handled exactly once. This token helps prevent duplicate context creations and must not exceed sixty-four alphanumeric characters. Use a UUID or other unique string to ensure idempotency.
+        public let clientToken: String
+        /// The unique identifier of the Engagement for which the context is being created. This parameter ensures the context is associated with the correct engagement and provides the necessary linkage between the engagement and its contextual information.
+        public let engagementIdentifier: String
+        public let payload: EngagementContextPayload
+        /// Specifies the type of context being created for the engagement. This field determines the structure and content of the context payload. Valid values include CustomerProject for customer project-related contexts. The type field ensures that the context is properly categorized and processed according to its intended purpose.
+        public let type: EngagementContextType
+
+        @inlinable
+        public init(catalog: String, clientToken: String = CreateEngagementContextRequest.idempotencyToken(), engagementIdentifier: String, payload: EngagementContextPayload, type: EngagementContextType) {
+            self.catalog = catalog
+            self.clientToken = clientToken
+            self.engagementIdentifier = engagementIdentifier
+            self.payload = payload
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
+            try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^(arn:.*|eng-[0-9a-z]{14})$")
+            try self.payload.validate(name: "\(name).payload")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case clientToken = "ClientToken"
+            case engagementIdentifier = "EngagementIdentifier"
+            case payload = "Payload"
+            case type = "Type"
+        }
+    }
+
+    public struct CreateEngagementContextResponse: AWSDecodableShape {
+        /// The unique identifier assigned to the newly created engagement context. This ID can be used to reference the specific context within the engagement for future operations.
+        public let contextId: String?
+        /// The Amazon Resource Name (ARN) of the engagement to which the context was added. This globally unique identifier can be used for cross-service references and IAM policies.
+        public let engagementArn: String?
+        /// The unique identifier of the engagement to which the context was added. This ID confirms the successful association of the context with the specified engagement.
+        public let engagementId: String?
+        /// The timestamp indicating when the engagement was last modified as a result of adding the context, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z".
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var engagementLastModifiedAt: Date?
+
+        @inlinable
+        public init(contextId: String? = nil, engagementArn: String? = nil, engagementId: String? = nil, engagementLastModifiedAt: Date? = nil) {
+            self.contextId = contextId
+            self.engagementArn = engagementArn
+            self.engagementId = engagementId
+            self.engagementLastModifiedAt = engagementLastModifiedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
+            case engagementArn = "EngagementArn"
+            case engagementId = "EngagementId"
+            case engagementLastModifiedAt = "EngagementLastModifiedAt"
         }
     }
 
@@ -1379,7 +1733,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^eng-[0-9a-z]{14}$")
             try self.invitation.validate(name: "\(name).invitation")
         }
@@ -1433,13 +1787,13 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.contexts?.forEach {
                 try $0.validate(name: "\(name).contexts[]")
             }
             try self.validate(self.contexts, name: "contexts", parent: name, max: 5)
-            try self.validate(self.description, name: "description", parent: name, max: 255)
-            try self.validate(self.title, name: "title", parent: name, max: 40)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^(?s).{0,255}$")
+            try self.validate(self.title, name: "title", parent: name, pattern: "^(?s).{1,40}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1456,16 +1810,21 @@ extension PartnerCentralSelling {
         public let arn: String?
         /// Unique identifier assigned to the newly created engagement.
         public let id: String?
+        /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). For newly created engagements, this value matches the creation timestamp. Example: "2023-05-01T20:37:46Z".
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil) {
+        public init(arn: String? = nil, id: String? = nil, modifiedAt: Date? = nil) {
             self.arn = arn
             self.id = id
+            self.modifiedAt = modifiedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
+            case modifiedAt = "ModifiedAt"
         }
     }
 
@@ -1519,12 +1878,13 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.customer?.validate(name: "\(name).customer")
             try self.lifeCycle?.validate(name: "\(name).lifeCycle")
             try self.opportunityTeam?.forEach {
                 try $0.validate(name: "\(name).opportunityTeam[]")
             }
-            try self.validate(self.opportunityTeam, name: "opportunityTeam", parent: name, max: 2)
+            try self.validate(self.opportunityTeam, name: "opportunityTeam", parent: name, max: 10)
             try self.project?.validate(name: "\(name).project")
             try self.softwareRevenue?.validate(name: "\(name).softwareRevenue")
             try self.tags?.forEach {
@@ -1604,7 +1964,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^eng-[0-9a-z]{14}$")
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^O[0-9]{1,19}$")
             try self.validate(self.resourceSnapshotTemplateIdentifier, name: "resourceSnapshotTemplateIdentifier", parent: name, pattern: "^[a-zA-Z0-9]{3,80}$")
@@ -1670,7 +2030,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^eng-[0-9a-z]{14}$")
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^O[0-9]{1,19}$")
             try self.validate(self.resourceSnapshotTemplateIdentifier, name: "resourceSnapshotTemplateIdentifier", parent: name, pattern: "^[a-zA-Z0-9]{3,80}$")
@@ -1820,22 +2180,27 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementContextDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the engagement context. This ID is used to reference and manage the specific context within the engagement.
+        public let id: String?
         /// Contains the specific details of the Engagement context. The structure of this payload varies depending on the Type field.
         public let payload: EngagementContextPayload?
         /// Specifies the type of Engagement context. Valid values are "CustomerProject" or "Document", indicating whether the context relates to a customer project or a document respectively.
         public let type: EngagementContextType
 
         @inlinable
-        public init(payload: EngagementContextPayload? = nil, type: EngagementContextType) {
+        public init(id: String? = nil, payload: EngagementContextPayload? = nil, type: EngagementContextType) {
+            self.id = id
             self.payload = payload
             self.type = type
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^(?s).{1,3}$")
             try self.payload?.validate(name: "\(name).payload")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case id = "Id"
             case payload = "Payload"
             case type = "Type"
         }
@@ -1860,11 +2225,8 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.companyName, name: "companyName", parent: name, max: 120)
-            try self.validate(self.companyName, name: "companyName", parent: name, min: 1)
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, max: 255)
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, min: 4)
-            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
+            try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{1,120}$")
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?=.{4,255}$)((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1891,10 +2253,8 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessProblem, name: "businessProblem", parent: name, max: 255)
-            try self.validate(self.businessProblem, name: "businessProblem", parent: name, min: 20)
-            try self.validate(self.title, name: "title", parent: name, max: 255)
-            try self.validate(self.title, name: "title", parent: name, min: 1)
+            try self.validate(self.businessProblem, name: "businessProblem", parent: name, pattern: "^(?s).{20,2000}$")
+            try self.validate(self.title, name: "title", parent: name, pattern: "^(?s).{1,255}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2059,6 +2419,8 @@ extension PartnerCentralSelling {
     public struct EngagementSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the created Engagement.
         public let arn: String?
+        /// An array of context types associated with the engagement, such as "CustomerProject" or "Lead". This provides a quick overview of the types of contexts included in the engagement.
+        public let contextTypes: [EngagementContextType]?
         /// The date and time when the Engagement was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
@@ -2068,32 +2430,43 @@ extension PartnerCentralSelling {
         public let id: String?
         /// The number of members in the Engagement.
         public let memberCount: Int?
+        /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z".
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// The AWS account ID of the user who last modified the engagement. This field helps track who made the most recent changes to the engagement.
+        public let modifiedBy: String?
         /// The title of the Engagement.
         public let title: String?
 
         @inlinable
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, memberCount: Int? = nil, title: String? = nil) {
+        public init(arn: String? = nil, contextTypes: [EngagementContextType]? = nil, createdAt: Date? = nil, createdBy: String? = nil, id: String? = nil, memberCount: Int? = nil, modifiedAt: Date? = nil, modifiedBy: String? = nil, title: String? = nil) {
             self.arn = arn
+            self.contextTypes = contextTypes
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.id = id
             self.memberCount = memberCount
+            self.modifiedAt = modifiedAt
+            self.modifiedBy = modifiedBy
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case contextTypes = "ContextTypes"
             case createdAt = "CreatedAt"
             case createdBy = "CreatedBy"
             case id = "Id"
             case memberCount = "MemberCount"
+            case modifiedAt = "ModifiedAt"
+            case modifiedBy = "ModifiedBy"
             case title = "Title"
         }
     }
 
     public struct ExpectedCustomerSpend: AWSEncodableShape & AWSDecodableShape {
         /// Represents the estimated monthly revenue that the partner expects to earn from the opportunity. This helps in forecasting financial returns.
-        public let amount: String
+        public let amount: String?
         /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
         public let currencyCode: CurrencyCode
         /// A URL providing additional information or context about the spend estimation.
@@ -2104,7 +2477,7 @@ extension PartnerCentralSelling {
         public let targetCompany: String
 
         @inlinable
-        public init(amount: String, currencyCode: CurrencyCode, estimationUrl: String? = nil, frequency: PaymentFrequency, targetCompany: String) {
+        public init(amount: String? = nil, currencyCode: CurrencyCode, estimationUrl: String? = nil, frequency: PaymentFrequency, targetCompany: String) {
             self.amount = amount
             self.currencyCode = currencyCode
             self.estimationUrl = estimationUrl
@@ -2113,9 +2486,8 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.amount, name: "amount", parent: name, pattern: "^(0|([1-9][0-9]{0,30}))(\\.[0-9]{0,2})?$")
-            try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, max: 255)
-            try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, min: 4)
+            try self.validate(self.amount, name: "amount", parent: name, pattern: "^((0|([1-9][0-9]{0,30}))(\\.[0-9]{0,2})?)?$")
+            try self.validate(self.estimationUrl, name: "estimationUrl", parent: name, pattern: "^https://calculator\\.aws/#/estimate\\?id=[a-f0-9]{32,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2222,9 +2594,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
-            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2352,11 +2722,16 @@ extension PartnerCentralSelling {
         public let id: String?
         /// Specifies the current count of members participating in the Engagement. This count includes all active members regardless of their roles or permissions within the Engagement.
         public let memberCount: Int?
+        /// The timestamp indicating when the engagement was last modified, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z". This helps track the most recent changes to the engagement.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var modifiedAt: Date?
+        /// The AWS account ID of the user who last modified the engagement. This field helps track who made the most recent changes to the engagement.
+        public let modifiedBy: String?
         /// The title of the engagement. It provides a brief, descriptive name for the engagement that is meaningful and easily recognizable.
         public let title: String?
 
         @inlinable
-        public init(arn: String? = nil, contexts: [EngagementContextDetails]? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, memberCount: Int? = nil, title: String? = nil) {
+        public init(arn: String? = nil, contexts: [EngagementContextDetails]? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, id: String? = nil, memberCount: Int? = nil, modifiedAt: Date? = nil, modifiedBy: String? = nil, title: String? = nil) {
             self.arn = arn
             self.contexts = contexts
             self.createdAt = createdAt
@@ -2364,6 +2739,8 @@ extension PartnerCentralSelling {
             self.description = description
             self.id = id
             self.memberCount = memberCount
+            self.modifiedAt = modifiedAt
+            self.modifiedBy = modifiedBy
             self.title = title
         }
 
@@ -2375,6 +2752,8 @@ extension PartnerCentralSelling {
             case description = "Description"
             case id = "Id"
             case memberCount = "MemberCount"
+            case modifiedAt = "ModifiedAt"
+            case modifiedBy = "ModifiedBy"
             case title = "Title"
         }
     }
@@ -2703,8 +3082,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.message, name: "message", parent: name, max: 255)
-            try self.validate(self.message, name: "message", parent: name, min: 1)
+            try self.validate(self.message, name: "message", parent: name, pattern: "^(?s).{1,255}$")
             try self.payload.validate(name: "\(name).payload")
             try self.receiver.validate(name: "\(name).receiver")
         }
@@ -2733,6 +3111,269 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case afterLastModifiedDate = "AfterLastModifiedDate"
             case beforeLastModifiedDate = "BeforeLastModifiedDate"
+        }
+    }
+
+    public struct LeadContact: AWSEncodableShape & AWSDecodableShape {
+        /// The lead contact's business title or job role associated with the engagement.
+        public let businessTitle: String
+        /// The lead contact's email address associated with the engagement.
+        public let email: String
+        /// The lead contact's first name associated with the engagement.
+        public let firstName: String
+        /// The lead contact's last name associated with the engagement.
+        public let lastName: String
+        /// The lead contact's phone number associated with the engagement.
+        public let phone: String?
+
+        @inlinable
+        public init(businessTitle: String, email: String, firstName: String, lastName: String, phone: String? = nil) {
+            self.businessTitle = businessTitle
+            self.email = email
+            self.firstName = firstName
+            self.lastName = lastName
+            self.phone = phone
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{0,80}$)[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.phone, name: "phone", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessTitle = "BusinessTitle"
+            case email = "Email"
+            case firstName = "FirstName"
+            case lastName = "LastName"
+            case phone = "Phone"
+        }
+    }
+
+    public struct LeadContext: AWSEncodableShape & AWSDecodableShape {
+        /// Contains detailed information about the customer associated with the lead, including company information, contact details, and other relevant customer data.
+        public let customer: LeadCustomer
+        /// An array of interactions that have occurred with the lead, providing a history of communications, meetings, and other engagement activities related to the lead.
+        public let interactions: [LeadInteraction]
+        /// Indicates the current qualification status of the lead, such as whether it has been qualified, disqualified, or is still under evaluation. This helps track the lead's progression through the qualification process.
+        public let qualificationStatus: String?
+
+        @inlinable
+        public init(customer: LeadCustomer, interactions: [LeadInteraction], qualificationStatus: String? = nil) {
+            self.customer = customer
+            self.interactions = interactions
+            self.qualificationStatus = qualificationStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.customer.validate(name: "\(name).customer")
+            try self.interactions.forEach {
+                try $0.validate(name: "\(name).interactions[]")
+            }
+            try self.validate(self.interactions, name: "interactions", parent: name, max: 10)
+            try self.validate(self.interactions, name: "interactions", parent: name, min: 1)
+            try self.validate(self.qualificationStatus, name: "qualificationStatus", parent: name, pattern: "^(?s).{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case interactions = "Interactions"
+            case qualificationStatus = "QualificationStatus"
+        }
+    }
+
+    public struct LeadCustomer: AWSEncodableShape & AWSDecodableShape {
+        public let address: AddressSummary
+        /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps determine the appropriate engagement approach and solution complexity.
+        public let awsMaturity: String?
+        /// The name of the lead customer's company. This field is essential for identifying and tracking the customer organization associated with the lead.
+        public let companyName: String
+        /// Specifies the industry sector to which the lead customer's company belongs. This categorization helps in understanding the customer's business context and tailoring appropriate solutions.
+        public let industry: Industry?
+        /// Specifies the market segment classification of the lead customer, such as enterprise, mid-market, or small business. This segmentation helps in targeting appropriate solutions and engagement strategies.
+        public let marketSegment: MarketSegment?
+        /// The website URL of the lead customer's company. This provides additional context about the customer organization and helps verify company legitimacy and size.
+        public let websiteUrl: String?
+
+        @inlinable
+        public init(address: AddressSummary, awsMaturity: String? = nil, companyName: String, industry: Industry? = nil, marketSegment: MarketSegment? = nil, websiteUrl: String? = nil) {
+            self.address = address
+            self.awsMaturity = awsMaturity
+            self.companyName = companyName
+            self.industry = industry
+            self.marketSegment = marketSegment
+            self.websiteUrl = websiteUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, pattern: "^(?s).{1,20}$")
+            try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{1,120}$")
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?=.{4,255}$)((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case awsMaturity = "AwsMaturity"
+            case companyName = "CompanyName"
+            case industry = "Industry"
+            case marketSegment = "MarketSegment"
+            case websiteUrl = "WebsiteUrl"
+        }
+    }
+
+    public struct LeadInteraction: AWSEncodableShape & AWSDecodableShape {
+        /// Describes the business problem or challenge that the customer discussed during the interaction. This information helps qualify the lead and identify appropriate solutions.
+        public let businessProblem: String?
+        /// Contains contact information for the customer representative involved in the lead interaction, including their name, title, and contact details.
+        public let contact: LeadContact
+        /// Describes the action taken by the customer during or as a result of the interaction, such as requesting information, scheduling a meeting, or expressing interest in a solution.
+        public let customerAction: String
+        /// The date and time when the lead interaction occurred, in ISO 8601 format (UTC). This timestamp helps track the chronology of lead engagement activities.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var interactionDate: Date?
+        /// The unique identifier of the specific source that generated the lead interaction. This ID provides traceability back to the original lead generation activity.
+        public let sourceId: String
+        /// The descriptive name of the source that generated the lead interaction, providing a human-readable identifier for the lead generation channel or activity.
+        public let sourceName: String
+        /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", "Referral", or "Campaign". This categorization helps track lead generation effectiveness across different channels.
+        public let sourceType: String
+        /// Describes the specific use case or business scenario discussed during the lead interaction. This helps categorize the customer's interests and potential solutions.
+        public let usecase: String?
+
+        @inlinable
+        public init(businessProblem: String? = nil, contact: LeadContact, customerAction: String, interactionDate: Date? = nil, sourceId: String, sourceName: String, sourceType: String, usecase: String? = nil) {
+            self.businessProblem = businessProblem
+            self.contact = contact
+            self.customerAction = customerAction
+            self.interactionDate = interactionDate
+            self.sourceId = sourceId
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+            self.usecase = usecase
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.businessProblem, name: "businessProblem", parent: name, pattern: "^(?s).{20,2000}$")
+            try self.contact.validate(name: "\(name).contact")
+            try self.validate(self.customerAction, name: "customerAction", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.usecase, name: "usecase", parent: name, pattern: "^(?s).{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case businessProblem = "BusinessProblem"
+            case contact = "Contact"
+            case customerAction = "CustomerAction"
+            case interactionDate = "InteractionDate"
+            case sourceId = "SourceId"
+            case sourceName = "SourceName"
+            case sourceType = "SourceType"
+            case usecase = "Usecase"
+        }
+    }
+
+    public struct LeadInvitationCustomer: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the customer's level of experience and adoption with AWS services. This assessment helps partners understand the customer's cloud maturity and tailor their engagement approach accordingly.
+        public let awsMaturity: String?
+        /// The name of the customer company associated with the lead invitation. This field identifies the target organization for the lead engagement opportunity.
+        public let companyName: String
+        /// The country code indicating the geographic location of the customer company. This information helps partners understand regional requirements and assess their ability to serve the customer effectively.
+        public let countryCode: CountryCode
+        /// Specifies the industry sector of the customer company associated with the lead invitation. This categorization helps partners understand the customer's business context and assess solution fit.
+        public let industry: Industry?
+        /// Specifies the market segment classification of the customer, such as enterprise, mid-market, or small business. This segmentation helps partners determine the appropriate solution complexity and engagement strategy.
+        public let marketSegment: MarketSegment?
+        /// The website URL of the customer company. This provides additional context about the customer organization and helps partners verify company details and assess business size and legitimacy.
+        public let websiteUrl: String?
+
+        @inlinable
+        public init(awsMaturity: String? = nil, companyName: String, countryCode: CountryCode, industry: Industry? = nil, marketSegment: MarketSegment? = nil, websiteUrl: String? = nil) {
+            self.awsMaturity = awsMaturity
+            self.companyName = companyName
+            self.countryCode = countryCode
+            self.industry = industry
+            self.marketSegment = marketSegment
+            self.websiteUrl = websiteUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsMaturity, name: "awsMaturity", parent: name, pattern: "^(?s).{1,20}$")
+            try self.validate(self.companyName, name: "companyName", parent: name, pattern: "^(?s).{1,120}$")
+            try self.validate(self.websiteUrl, name: "websiteUrl", parent: name, pattern: "^(?=.{4,255}$)((http|https)://)??(www[.])??([a-zA-Z0-9]|-)+?([.][a-zA-Z0-9(-|/|=|?)??]+?)+?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsMaturity = "AwsMaturity"
+            case companyName = "CompanyName"
+            case countryCode = "CountryCode"
+            case industry = "Industry"
+            case marketSegment = "MarketSegment"
+            case websiteUrl = "WebsiteUrl"
+        }
+    }
+
+    public struct LeadInvitationInteraction: AWSEncodableShape & AWSDecodableShape {
+        /// The business title or job role of the customer contact involved in the lead interaction. This helps partners identify the decision-making level and engagement approach for the lead.
+        public let contactBusinessTitle: String
+        /// The unique identifier of the specific source that generated the lead interaction. This provides traceability to the original lead generation activity for reference and follow-up purposes.
+        public let sourceId: String
+        /// The descriptive name of the source that generated the lead interaction. This human-readable identifier helps partners understand the specific lead generation channel or campaign that created the opportunity.
+        public let sourceName: String
+        /// Specifies the type of source that generated the lead interaction, such as "Event", "Website", or "Campaign". This helps partners understand the lead generation channel and assess lead quality based on the source type.
+        public let sourceType: String
+        /// Describes the specific use case or business scenario associated with the lead interaction. This information helps partners understand the customer's interests and potential solution requirements.
+        public let usecase: String?
+
+        @inlinable
+        public init(contactBusinessTitle: String, sourceId: String, sourceName: String, sourceType: String, usecase: String? = nil) {
+            self.contactBusinessTitle = contactBusinessTitle
+            self.sourceId = sourceId
+            self.sourceName = sourceName
+            self.sourceType = sourceType
+            self.usecase = usecase
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactBusinessTitle, name: "contactBusinessTitle", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.sourceId, name: "sourceId", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceName, name: "sourceName", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.sourceType, name: "sourceType", parent: name, pattern: "^(?s).{1,255}$")
+            try self.validate(self.usecase, name: "usecase", parent: name, pattern: "^(?s).{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactBusinessTitle = "ContactBusinessTitle"
+            case sourceId = "SourceId"
+            case sourceName = "SourceName"
+            case sourceType = "SourceType"
+            case usecase = "Usecase"
+        }
+    }
+
+    public struct LeadInvitationPayload: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the customer associated with the lead invitation. This data helps partners understand the customer's profile, industry, and business context to assess the lead opportunity.
+        public let customer: LeadInvitationCustomer
+        /// Describes the interaction details associated with the lead, including the source of the lead generation and customer engagement information. This context helps partners evaluate the lead quality and engagement approach.
+        public let interaction: LeadInvitationInteraction
+
+        @inlinable
+        public init(customer: LeadInvitationCustomer, interaction: LeadInvitationInteraction) {
+            self.customer = customer
+            self.interaction = interaction
+        }
+
+        public func validate(name: String) throws {
+            try self.customer.validate(name: "\(name).customer")
+            try self.interaction.validate(name: "\(name).interaction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case interaction = "Interaction"
         }
     }
 
@@ -2926,9 +3567,7 @@ extension PartnerCentralSelling {
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
             try self.engagementInvitationIdentifier?.forEach {
-                try validate($0, name: "engagementInvitationIdentifier[]", parent: name, max: 255)
-                try validate($0, name: "engagementInvitationIdentifier[]", parent: name, min: 1)
-                try validate($0, name: "engagementInvitationIdentifier[]", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+                try validate($0, name: "engagementInvitationIdentifier[]", parent: name, pattern: "^(?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})$")
             }
             try self.validate(self.engagementInvitationIdentifier, name: "engagementInvitationIdentifier", parent: name, max: 10)
             try self.validate(self.engagementInvitationIdentifier, name: "engagementInvitationIdentifier", parent: name, min: 1)
@@ -3309,10 +3948,14 @@ extension PartnerCentralSelling {
     public struct ListEngagementsRequest: AWSEncodableShape {
         ///  Specifies the catalog related to the request.
         public let catalog: String
+        /// Filters engagements to include only those containing the specified context types, such as "CustomerProject" or "Lead". Use this to find engagements that have specific types of contextual information associated with them.
+        public let contextTypes: [EngagementContextType]?
         ///  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
         public let createdBy: [String]?
         /// An array of strings representing engagement identifiers to retrieve.
         public let engagementIdentifier: [String]?
+        /// Filters engagements to exclude those containing the specified context types. Use this to find engagements that do not have certain types of contextual information, helping to narrow results based on context exclusion criteria.
+        public let excludeContextTypes: [EngagementContextType]?
         /// An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
         public let excludeCreatedBy: [String]?
         /// The maximum number of results to return in a single call.
@@ -3322,10 +3965,12 @@ extension PartnerCentralSelling {
         public let sort: EngagementSort?
 
         @inlinable
-        public init(catalog: String, createdBy: [String]? = nil, engagementIdentifier: [String]? = nil, excludeCreatedBy: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: EngagementSort? = nil) {
+        public init(catalog: String, contextTypes: [EngagementContextType]? = nil, createdBy: [String]? = nil, engagementIdentifier: [String]? = nil, excludeContextTypes: [EngagementContextType]? = nil, excludeCreatedBy: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sort: EngagementSort? = nil) {
             self.catalog = catalog
+            self.contextTypes = contextTypes
             self.createdBy = createdBy
             self.engagementIdentifier = engagementIdentifier
+            self.excludeContextTypes = excludeContextTypes
             self.excludeCreatedBy = excludeCreatedBy
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -3334,6 +3979,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.contextTypes, name: "contextTypes", parent: name, max: 5)
             try self.createdBy?.forEach {
                 try validate($0, name: "createdBy[]", parent: name, pattern: "^([0-9]{12}|\\w{1,12})$")
             }
@@ -3344,6 +3990,7 @@ extension PartnerCentralSelling {
             }
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, max: 10)
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, min: 1)
+            try self.validate(self.excludeContextTypes, name: "excludeContextTypes", parent: name, max: 5)
             try self.excludeCreatedBy?.forEach {
                 try validate($0, name: "excludeCreatedBy[]", parent: name, pattern: "^([0-9]{12}|\\w{1,12})$")
             }
@@ -3355,8 +4002,10 @@ extension PartnerCentralSelling {
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
+            case contextTypes = "ContextTypes"
             case createdBy = "CreatedBy"
             case engagementIdentifier = "EngagementIdentifier"
+            case excludeContextTypes = "ExcludeContextTypes"
             case excludeCreatedBy = "ExcludeCreatedBy"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
@@ -3452,6 +4101,146 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case opportunitySummaries = "OpportunitySummaries"
+        }
+    }
+
+    public struct ListOpportunityFromEngagementTaskSummary: AWSDecodableShape {
+        /// The unique identifier of the engagement context associated with the opportunity creation task. This links the task to specific contextual information within the engagement.
+        public let contextId: String?
+        /// The unique identifier of the engagement from which the opportunity is being created. This field helps track the source of the opportunity creation task.
+        public let engagementId: String?
+        /// A detailed message providing additional information about the task, especially useful in case of failures. This field may contain error details or other relevant information about the task's execution.
+        public let message: String?
+        /// The unique identifier of the opportunity created as a result of the task. This field is populated when the task is completed successfully.
+        public let opportunityId: String?
+        /// A code indicating the specific reason for a task failure. This field is populated when the task status is FAILED and provides a categorized reason for the failure.
+        public let reasonCode: ReasonCode?
+        /// The identifier of the resource snapshot job associated with this task, if a snapshot was created as part of the opportunity creation process.
+        public let resourceSnapshotJobId: String?
+        /// The timestamp indicating when the task was initiated, in RFC 3339 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the task within AWS. This ARN can be used for referencing the task in other AWS services or APIs.
+        public let taskArn: String?
+        /// The unique identifier of the task for creating an opportunity from an engagement.
+        public let taskId: String?
+        /// The current status of the task. Valid values are COMPLETE, INPROGRESS, or FAILED.
+        public let taskStatus: TaskStatus?
+
+        @inlinable
+        public init(contextId: String? = nil, engagementId: String? = nil, message: String? = nil, opportunityId: String? = nil, reasonCode: ReasonCode? = nil, resourceSnapshotJobId: String? = nil, startTime: Date? = nil, taskArn: String? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil) {
+            self.contextId = contextId
+            self.engagementId = engagementId
+            self.message = message
+            self.opportunityId = opportunityId
+            self.reasonCode = reasonCode
+            self.resourceSnapshotJobId = resourceSnapshotJobId
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
+            case engagementId = "EngagementId"
+            case message = "Message"
+            case opportunityId = "OpportunityId"
+            case reasonCode = "ReasonCode"
+            case resourceSnapshotJobId = "ResourceSnapshotJobId"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct ListOpportunityFromEngagementTasksRequest: AWSEncodableShape {
+        /// Specifies the catalog related to the request. Valid values are AWS for production environments and Sandbox for testing or development purposes. The catalog determines which environment the task data is retrieved from.
+        public let catalog: String
+        /// Filters tasks by the identifiers of the engagement contexts associated with the opportunity creation. Use this to find tasks related to specific contextual information within engagements that are being converted to opportunities.
+        public let contextIdentifier: [String]?
+        /// Filters tasks by the identifiers of the engagements from which opportunities are being created. Use this to find all opportunity creation tasks associated with a specific engagement.
+        public let engagementIdentifier: [String]?
+        /// Specifies the maximum number of results to return in a single page of the response. Use this parameter to control the number of items returned in each request, which can be useful for performance tuning and managing large result sets.
+        public let maxResults: Int?
+        /// The token for requesting the next page of results. This value is obtained from the NextToken field in the response of a previous call to this API. Use this parameter for pagination when the result set spans multiple pages.
+        public let nextToken: String?
+        /// Filters tasks by the identifiers of the opportunities they created or are associated with. Use this to find tasks related to specific opportunity creation processes.
+        public let opportunityIdentifier: [String]?
+        public let sort: ListTasksSortBase?
+        /// Filters tasks by their unique identifiers. Use this when you want to retrieve information about specific tasks. Provide the task ID to get details about a particular opportunity creation task.
+        public let taskIdentifier: [String]?
+        /// Filters the tasks based on their current status. This allows you to focus on tasks in specific states. Valid values are COMPLETE for tasks that have finished successfully, INPROGRESS for tasks that are currently running, and FAILED for tasks that have encountered an error and failed to complete.
+        public let taskStatus: [TaskStatus]?
+
+        @inlinable
+        public init(catalog: String, contextIdentifier: [String]? = nil, engagementIdentifier: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, opportunityIdentifier: [String]? = nil, sort: ListTasksSortBase? = nil, taskIdentifier: [String]? = nil, taskStatus: [TaskStatus]? = nil) {
+            self.catalog = catalog
+            self.contextIdentifier = contextIdentifier
+            self.engagementIdentifier = engagementIdentifier
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.opportunityIdentifier = opportunityIdentifier
+            self.sort = sort
+            self.taskIdentifier = taskIdentifier
+            self.taskStatus = taskStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.contextIdentifier?.forEach {
+                try validate($0, name: "contextIdentifier[]", parent: name, pattern: "^[1-9][0-9]*$")
+            }
+            try self.validate(self.contextIdentifier, name: "contextIdentifier", parent: name, max: 10)
+            try self.validate(self.contextIdentifier, name: "contextIdentifier", parent: name, min: 1)
+            try self.engagementIdentifier?.forEach {
+                try validate($0, name: "engagementIdentifier[]", parent: name, pattern: "^(arn:.*|eng-[0-9a-z]{14})$")
+            }
+            try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, max: 10)
+            try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, min: 1)
+            try self.opportunityIdentifier?.forEach {
+                try validate($0, name: "opportunityIdentifier[]", parent: name, pattern: "^O[0-9]{1,19}$")
+            }
+            try self.validate(self.opportunityIdentifier, name: "opportunityIdentifier", parent: name, max: 10)
+            try self.validate(self.opportunityIdentifier, name: "opportunityIdentifier", parent: name, min: 1)
+            try self.taskIdentifier?.forEach {
+                try validate($0, name: "taskIdentifier[]", parent: name, pattern: "^(arn:.*|task-[0-9a-z]{13})$")
+            }
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, max: 10)
+            try self.validate(self.taskIdentifier, name: "taskIdentifier", parent: name, min: 1)
+            try self.validate(self.taskStatus, name: "taskStatus", parent: name, max: 3)
+            try self.validate(self.taskStatus, name: "taskStatus", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case contextIdentifier = "ContextIdentifier"
+            case engagementIdentifier = "EngagementIdentifier"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case opportunityIdentifier = "OpportunityIdentifier"
+            case sort = "Sort"
+            case taskIdentifier = "TaskIdentifier"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct ListOpportunityFromEngagementTasksResponse: AWSDecodableShape {
+        /// A token used for pagination to retrieve the next page of results. If there are more results available, this field will contain a token that can be used in a subsequent API call to retrieve the next page. If there are no more results, this field will be null or an empty string.
+        public let nextToken: String?
+        /// An array of ListOpportunityFromEngagementTaskSummary objects, each representing a task that matches the specified filters. The array may be empty if no tasks match the criteria.
+        public let taskSummaries: [ListOpportunityFromEngagementTaskSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, taskSummaries: [ListOpportunityFromEngagementTaskSummary]? = nil) {
+            self.nextToken = nextToken
+            self.taskSummaries = taskSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case taskSummaries = "TaskSummaries"
         }
     }
 
@@ -3659,9 +4448,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(?=.{1,1000}$)arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3952,6 +4739,8 @@ extension PartnerCentralSelling {
         public let additionalComments: String?
         /// Specifies the Amazon Partner Network (APN) program that influenced the Opportunity. APN programs refer to specific partner programs or initiatives that can impact the Opportunity. Valid values: APN Immersion Days | APN Solution Space | ATO (Authority to Operate) | AWS Marketplace Campaign | IS Immersion Day SFID Program | ISV Workload Migration | Migration Acceleration Program | P3 | Partner Launch Initiative | Partner Opportunity Acceleration Funded | The Next Smart | VMware Cloud on AWS | Well-Architected | Windows | Workspaces/AppStream Accelerator Program | WWPS NDPP
         public let apnPrograms: [String]?
+        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, `null` for all other partitions
+        public let awsPartition: AwsPartition?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public let competitorName: CompetitorName?
         /// Describes the problem the end customer has, and how the partner is helping. Utilize this field to provide a concise narrative that outlines the customer's business challenge or issue. Elaborate on how the partner's solution or offerings align to resolve the customer's business problem. Include relevant information about the partner's value proposition, unique selling points, and expertise to tackle the issue. Offer insights on how the proposed solution meets the customer's needs and provides value. Use concise language and precise descriptions to convey the context and significance of the Opportunity. The content in this field helps Amazon Web Services understand the nature of the Opportunity and the strategic fit of the partner's solution.
@@ -3974,9 +4763,10 @@ extension PartnerCentralSelling {
         public let title: String?
 
         @inlinable
-        public init(additionalComments: String? = nil, apnPrograms: [String]? = nil, competitorName: CompetitorName? = nil, customerBusinessProblem: String? = nil, customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherCompetitorNames: String? = nil, otherSolutionDescription: String? = nil, relatedOpportunityIdentifier: String? = nil, salesActivities: [SalesActivity]? = nil, title: String? = nil) {
+        public init(additionalComments: String? = nil, apnPrograms: [String]? = nil, awsPartition: AwsPartition? = nil, competitorName: CompetitorName? = nil, customerBusinessProblem: String? = nil, customerUseCase: String? = nil, deliveryModels: [DeliveryModel]? = nil, expectedCustomerSpend: [ExpectedCustomerSpend]? = nil, otherCompetitorNames: String? = nil, otherSolutionDescription: String? = nil, relatedOpportunityIdentifier: String? = nil, salesActivities: [SalesActivity]? = nil, title: String? = nil) {
             self.additionalComments = additionalComments
             self.apnPrograms = apnPrograms
+            self.awsPartition = awsPartition
             self.competitorName = competitorName
             self.customerBusinessProblem = customerBusinessProblem
             self.customerUseCase = customerUseCase
@@ -4000,6 +4790,7 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case additionalComments = "AdditionalComments"
             case apnPrograms = "ApnPrograms"
+            case awsPartition = "AwsPartition"
             case competitorName = "CompetitorName"
             case customerBusinessProblem = "CustomerBusinessProblem"
             case customerUseCase = "CustomerUseCase"
@@ -4032,8 +4823,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessProblem, name: "businessProblem", parent: name, max: 255)
-            try self.validate(self.businessProblem, name: "businessProblem", parent: name, min: 20)
+            try self.validate(self.businessProblem, name: "businessProblem", parent: name, pattern: "^(?s).{20,2000}$")
             try self.expectedCustomerSpend.forEach {
                 try $0.validate(name: "\(name).expectedCustomerSpend[]")
             }
@@ -4111,8 +4901,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.resourceSnapshotJobRoleIdentifier, name: "resourceSnapshotJobRoleIdentifier", parent: name, max: 2048)
-            try self.validate(self.resourceSnapshotJobRoleIdentifier, name: "resourceSnapshotJobRoleIdentifier", parent: name, pattern: "^(arn:aws:iam::\\d{12}:role/([-+=,.@_a-zA-Z0-9]+/)*)?[-+=,.@_a-zA-Z0-9]{1,64}$")
+            try self.validate(self.resourceSnapshotJobRoleIdentifier, name: "resourceSnapshotJobRoleIdentifier", parent: name, pattern: "^(?=.{0,2048}$)(arn:aws:iam::\\d{12}:role/([-+=,.@_a-zA-Z0-9]+/)*)?[-+=,.@_a-zA-Z0-9]{1,64}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4156,9 +4945,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
-            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})$")
             try self.validate(self.rejectionReason, name: "rejectionReason", parent: name, pattern: "^[\\u0020-\\u007E\\u00A0-\\uD7FF\\uE000-\\uFFFD]{1,80}$")
         }
 
@@ -4172,20 +4959,24 @@ extension PartnerCentralSelling {
     public struct RelatedEntityIdentifiers: AWSDecodableShape {
         /// Takes one value per opportunity. Each value is an Amazon Resource Name (ARN), in this format: "offers": ["arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/Offer/offer-sampleOffer32"]. Use the ListEntities action in the Marketplace Catalog APIs for a list of offers in the associated Marketplace seller account.
         public let awsMarketplaceOffers: [String]?
+        /// Enables the association of AWS Marketplace offer sets with the Opportunity. Offer sets allow grouping multiple related marketplace offers together for comprehensive solution packaging. Each value is an Amazon Resource Name (ARN) in this format: arn:aws:aws-marketplace:us-east-1:999999999999:AWSMarketplace/OfferSet/offerset-sampleOfferSet32.
+        public let awsMarketplaceOfferSets: [String]?
         /// Enables the association of specific Amazon Web Services products with the Opportunity. Partners can indicate the relevant Amazon Web Services products for the Opportunity's solution and align with the customer's needs. Returns multiple values separated by commas. For example, "AWSProducts" : ["AmazonRedshift", "AWSAppFabric", "AWSCleanRooms"]. Use the file with the list of Amazon Web Services products hosted on GitHub:  Amazon Web Services products.
         public let awsProducts: [String]?
         /// Enables partner solutions or offerings' association with an opportunity. To associate a solution, provide the solution's unique identifier, which you can obtain with the ListSolutions operation. If the specific solution identifier is not available, you can use the value Other and provide details about the solution in the otherSolutionOffered field. But when the opportunity reaches the Committed stage or beyond, the Other value cannot be used, and a valid solution identifier must be provided. By associating the relevant solutions with the opportunity, you can communicate the offerings that are being considered or implemented to address the customer's business problem.
         public let solutions: [String]?
 
         @inlinable
-        public init(awsMarketplaceOffers: [String]? = nil, awsProducts: [String]? = nil, solutions: [String]? = nil) {
+        public init(awsMarketplaceOffers: [String]? = nil, awsMarketplaceOfferSets: [String]? = nil, awsProducts: [String]? = nil, solutions: [String]? = nil) {
             self.awsMarketplaceOffers = awsMarketplaceOffers
+            self.awsMarketplaceOfferSets = awsMarketplaceOfferSets
             self.awsProducts = awsProducts
             self.solutions = solutions
         }
 
         private enum CodingKeys: String, CodingKey {
             case awsMarketplaceOffers = "AwsMarketplaceOffers"
+            case awsMarketplaceOfferSets = "AwsMarketplaceOfferSets"
             case awsProducts = "AwsProducts"
             case solutions = "Solutions"
         }
@@ -4273,12 +5064,10 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.businessTitle, name: "businessTitle", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, max: 80)
-            try self.validate(self.email, name: "email", parent: name, pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$")
-            try self.validate(self.firstName, name: "firstName", parent: name, max: 80)
-            try self.validate(self.lastName, name: "lastName", parent: name, max: 80)
-            try self.validate(self.phone, name: "phone", parent: name, max: 40)
+            try self.validate(self.businessTitle, name: "businessTitle", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.email, name: "email", parent: name, pattern: "^(?=.{1,80}$)[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$")
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "^(?s).{0,80}$")
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "^(?s).{0,80}$")
             try self.validate(self.phone, name: "phone", parent: name, pattern: "^\\+[1-9]\\d{1,14}$")
         }
 
@@ -4417,10 +5206,8 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
-            try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
-            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
-            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(?=.{1,255}$)(arn:.*|engi-[0-9a-z]{13})$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4505,7 +5292,7 @@ extension PartnerCentralSelling {
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
-            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^O[0-9]{1,19}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -4563,6 +5350,99 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case engagementId = "EngagementId"
             case engagementInvitationId = "EngagementInvitationId"
+            case message = "Message"
+            case opportunityId = "OpportunityId"
+            case reasonCode = "ReasonCode"
+            case resourceSnapshotJobId = "ResourceSnapshotJobId"
+            case startTime = "StartTime"
+            case taskArn = "TaskArn"
+            case taskId = "TaskId"
+            case taskStatus = "TaskStatus"
+        }
+    }
+
+    public struct StartOpportunityFromEngagementTaskRequest: AWSEncodableShape {
+        /// Specifies the catalog in which the opportunity creation task is executed. Acceptable values include AWS for production and Sandbox for testing environments.
+        public let catalog: String
+        /// A unique token provided by the client to help ensure the idempotency of the request. It helps prevent the same task from being performed multiple times.
+        public let clientToken: String
+        /// The unique identifier of the engagement context from which to create the opportunity. This specifies the specific contextual information within the engagement that will be used for opportunity creation.
+        public let contextIdentifier: String
+        /// The unique identifier of the engagement from which the opportunity creation task is to be initiated. This helps ensure that the task is applied to the correct engagement.
+        public let identifier: String
+        /// A map of the key-value pairs of the tag or tags to assign.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(catalog: String, clientToken: String = StartOpportunityFromEngagementTaskRequest.idempotencyToken(), contextIdentifier: String, identifier: String, tags: [Tag]? = nil) {
+            self.catalog = catalog
+            self.clientToken = clientToken
+            self.contextIdentifier = contextIdentifier
+            self.identifier = identifier
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^.{1,255}$")
+            try self.validate(self.contextIdentifier, name: "contextIdentifier", parent: name, pattern: "^[1-9][0-9]*$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|eng-[0-9a-z]{14})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case clientToken = "ClientToken"
+            case contextIdentifier = "ContextIdentifier"
+            case identifier = "Identifier"
+            case tags = "Tags"
+        }
+    }
+
+    public struct StartOpportunityFromEngagementTaskResponse: AWSDecodableShape {
+        /// The unique identifier of the engagement context used to create the opportunity.
+        public let contextId: String?
+        /// The unique identifier of the engagement from which the opportunity was created.
+        public let engagementId: String?
+        /// If the task fails, this field contains a detailed message describing the failure and possible recovery steps.
+        public let message: String?
+        /// The unique identifier of the opportunity created as a result of the task. This field is populated when the task is completed successfully.
+        public let opportunityId: String?
+        /// Indicates the reason for task failure using an enumerated code.
+        public let reasonCode: ReasonCode?
+        /// The identifier of the resource snapshot job created as part of the opportunity creation process.
+        public let resourceSnapshotJobId: String?
+        /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var startTime: Date?
+        /// The Amazon Resource Name (ARN) of the task, used for tracking and managing the task within AWS.
+        public let taskArn: String?
+        /// The unique identifier of the task, used to track the task's progress.
+        public let taskId: String?
+        /// Indicates the current status of the task.
+        public let taskStatus: TaskStatus?
+
+        @inlinable
+        public init(contextId: String? = nil, engagementId: String? = nil, message: String? = nil, opportunityId: String? = nil, reasonCode: ReasonCode? = nil, resourceSnapshotJobId: String? = nil, startTime: Date? = nil, taskArn: String? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil) {
+            self.contextId = contextId
+            self.engagementId = engagementId
+            self.message = message
+            self.opportunityId = opportunityId
+            self.reasonCode = reasonCode
+            self.resourceSnapshotJobId = resourceSnapshotJobId
+            self.startTime = startTime
+            self.taskArn = taskArn
+            self.taskId = taskId
+            self.taskStatus = taskStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
+            case engagementId = "EngagementId"
             case message = "Message"
             case opportunityId = "OpportunityId"
             case reasonCode = "ReasonCode"
@@ -4664,11 +5544,8 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.key, name: "key", parent: name, max: 128)
-            try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
-            try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?=.{1,128}$)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^(?=.{0,256}$)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4690,9 +5567,7 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(?=.{1,1000}$)arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -4723,13 +5598,9 @@ extension PartnerCentralSelling {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^(?=.{1,1000}$)arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
             try self.tagKeys.forEach {
-                try validate($0, name: "tagKeys[]", parent: name, max: 128)
-                try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?=.{1,128}$)([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -4743,6 +5614,103 @@ extension PartnerCentralSelling {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateEngagementContextRequest: AWSEncodableShape {
+        /// Specifies the catalog associated with the engagement context update request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the engagement context is updated in.
+        public let catalog: String
+        /// The unique identifier of the specific engagement context to be updated. This ensures that the correct context within the engagement is modified.
+        public let contextIdentifier: String
+        /// The unique identifier of the Engagement containing the context to be updated. This parameter ensures the context update is applied to the correct engagement.
+        public let engagementIdentifier: String
+        /// The timestamp when the engagement was last modified, used for optimistic concurrency control. This helps prevent conflicts when multiple users attempt to update the same engagement simultaneously.
+        @CustomCoding<ISO8601DateCoder>
+        public var engagementLastModifiedAt: Date
+        /// Contains the updated contextual information for the engagement. The structure of this payload varies based on the context type specified in the Type field.
+        public let payload: UpdateEngagementContextPayload
+        /// Specifies the type of context being updated within the engagement. This field determines the structure and content of the context payload being modified.
+        public let type: EngagementContextType
+
+        @inlinable
+        public init(catalog: String, contextIdentifier: String, engagementIdentifier: String, engagementLastModifiedAt: Date, payload: UpdateEngagementContextPayload, type: EngagementContextType) {
+            self.catalog = catalog
+            self.contextIdentifier = contextIdentifier
+            self.engagementIdentifier = engagementIdentifier
+            self.engagementLastModifiedAt = engagementLastModifiedAt
+            self.payload = payload
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.contextIdentifier, name: "contextIdentifier", parent: name, pattern: "^(?s).{1,3}$")
+            try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^(arn:.*|eng-[0-9a-z]{14})$")
+            try self.payload.validate(name: "\(name).payload")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalog = "Catalog"
+            case contextIdentifier = "ContextIdentifier"
+            case engagementIdentifier = "EngagementIdentifier"
+            case engagementLastModifiedAt = "EngagementLastModifiedAt"
+            case payload = "Payload"
+            case type = "Type"
+        }
+    }
+
+    public struct UpdateEngagementContextResponse: AWSDecodableShape {
+        /// The unique identifier of the engagement context that was updated.
+        public let contextId: String
+        /// The Amazon Resource Name (ARN) of the updated engagement.
+        public let engagementArn: String
+        /// The unique identifier of the engagement that was updated.
+        public let engagementId: String
+        /// The timestamp when the engagement context was last modified.
+        @CustomCoding<ISO8601DateCoder>
+        public var engagementLastModifiedAt: Date
+
+        @inlinable
+        public init(contextId: String, engagementArn: String, engagementId: String, engagementLastModifiedAt: Date) {
+            self.contextId = contextId
+            self.engagementArn = engagementArn
+            self.engagementId = engagementId
+            self.engagementLastModifiedAt = engagementLastModifiedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextId = "ContextId"
+            case engagementArn = "EngagementArn"
+            case engagementId = "EngagementId"
+            case engagementLastModifiedAt = "EngagementLastModifiedAt"
+        }
+    }
+
+    public struct UpdateLeadContext: AWSEncodableShape {
+        /// Updated customer information associated with the lead.
+        public let customer: LeadCustomer
+        /// Updated interaction details for the lead context.
+        public let interaction: LeadInteraction?
+        /// The updated qualification status of the lead.
+        public let qualificationStatus: String?
+
+        @inlinable
+        public init(customer: LeadCustomer, interaction: LeadInteraction? = nil, qualificationStatus: String? = nil) {
+            self.customer = customer
+            self.interaction = interaction
+            self.qualificationStatus = qualificationStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.customer.validate(name: "\(name).customer")
+            try self.interaction?.validate(name: "\(name).interaction")
+            try self.validate(self.qualificationStatus, name: "qualificationStatus", parent: name, pattern: "^(?s).{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customer = "Customer"
+            case interaction = "Interaction"
+            case qualificationStatus = "QualificationStatus"
+        }
     }
 
     public struct UpdateOpportunityRequest: AWSEncodableShape {
@@ -4875,42 +5843,6 @@ extension PartnerCentralSelling {
         }
     }
 
-    public struct EngagementContextPayload: AWSEncodableShape & AWSDecodableShape {
-        /// Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
-        public let customerProject: CustomerProjectsContext?
-
-        @inlinable
-        public init(customerProject: CustomerProjectsContext? = nil) {
-            self.customerProject = customerProject
-        }
-
-        public func validate(name: String) throws {
-            try self.customerProject?.validate(name: "\(name).customerProject")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case customerProject = "CustomerProject"
-        }
-    }
-
-    public struct Payload: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the details of the opportunity invitation within the Engagement Invitation payload. This data helps partners understand the context, scope, and expected involvement for the opportunity from AWS.
-        public let opportunityInvitation: OpportunityInvitationPayload?
-
-        @inlinable
-        public init(opportunityInvitation: OpportunityInvitationPayload? = nil) {
-            self.opportunityInvitation = opportunityInvitation
-        }
-
-        public func validate(name: String) throws {
-            try self.opportunityInvitation?.validate(name: "\(name).opportunityInvitation")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case opportunityInvitation = "OpportunityInvitation"
-        }
-    }
-
     public struct Receiver: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the AWS account of the partner who received the Engagement Invitation. This field is used to track the invitation recipient within the AWS ecosystem.
         public let account: AccountReceiver?
@@ -4994,6 +5926,7 @@ public struct PartnerCentralSellingErrorType: AWSErrorType {
 
 extension PartnerCentralSellingErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": PartnerCentralSelling.AccessDeniedException.self,
         "ValidationException": PartnerCentralSelling.ValidationException.self
     ]
 }

@@ -51,6 +51,11 @@ extension BedrockAgentCore {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExtractionJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemoryRecordStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case failed = "FAILED"
         case succeeded = "SUCCEEDED"
@@ -184,6 +189,47 @@ extension BedrockAgentCore {
             case serviceQuotaExceededException = "serviceQuotaExceededException"
             case throttlingException = "throttlingException"
             case validationException = "validationException"
+        }
+    }
+
+    public enum EvaluationTarget: AWSEncodableShape, Sendable {
+        ///  The list of specific span IDs to evaluate within the provided traces. Used to target evaluation at individual tool calls or specific operations within the agent's execution flow.
+        case spanIds([String])
+        ///  The list of trace IDs to evaluate, representing complete request-response interactions. Used to evaluate entire conversation turns or specific agent interactions within a session.
+        case traceIds([String])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .spanIds(let value):
+                try container.encode(value, forKey: .spanIds)
+            case .traceIds(let value):
+                try container.encode(value, forKey: .traceIds)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .spanIds(let value):
+                try value.forEach {
+                    try validate($0, name: "spanIds[]", parent: name, max: 16)
+                    try validate($0, name: "spanIds[]", parent: name, min: 16)
+                }
+                try self.validate(value, name: "spanIds", parent: name, max: 10)
+                try self.validate(value, name: "spanIds", parent: name, min: 1)
+            case .traceIds(let value):
+                try value.forEach {
+                    try validate($0, name: "traceIds[]", parent: name, max: 32)
+                    try validate($0, name: "traceIds[]", parent: name, min: 32)
+                }
+                try self.validate(value, name: "traceIds", parent: name, max: 10)
+                try self.validate(value, name: "traceIds", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spanIds = "spanIds"
+            case traceIds = "traceIds"
         }
     }
 
@@ -935,6 +981,105 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct EvaluateRequest: AWSEncodableShape {
+        ///  The input data containing agent session spans to be evaluated. Includes a list of spans in OpenTelemetry format from supported frameworks like Strands (AgentCore Runtime) or LangGraph with OpenInference instrumentation.
+        public let evaluationInput: EvaluationInput
+        ///  The specific trace or span IDs to evaluate within the provided input. Allows targeting evaluation at different levels: individual tool calls, single request-response interactions (traces), or entire conversation sessions.
+        public let evaluationTarget: EvaluationTarget?
+        ///  The unique identifier of the evaluator to use for scoring. Can be a built-in evaluator (e.g., Builtin.Helpfulness, Builtin.Correctness) or a custom evaluator ARN created through the control plane API.
+        public let evaluatorId: String
+
+        @inlinable
+        public init(evaluationInput: EvaluationInput, evaluationTarget: EvaluationTarget? = nil, evaluatorId: String) {
+            self.evaluationInput = evaluationInput
+            self.evaluationTarget = evaluationTarget
+            self.evaluatorId = evaluatorId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.evaluationInput, forKey: .evaluationInput)
+            try container.encodeIfPresent(self.evaluationTarget, forKey: .evaluationTarget)
+            request.encodePath(self.evaluatorId, key: "evaluatorId")
+        }
+
+        public func validate(name: String) throws {
+            try self.evaluationInput.validate(name: "\(name).evaluationInput")
+            try self.evaluationTarget?.validate(name: "\(name).evaluationTarget")
+            try self.validate(self.evaluatorId, name: "evaluatorId", parent: name, pattern: "^(Builtin.[a-zA-Z0-9_-]+|[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationInput = "evaluationInput"
+            case evaluationTarget = "evaluationTarget"
+        }
+    }
+
+    public struct EvaluateResponse: AWSDecodableShape {
+        ///  The detailed evaluation results containing scores, explanations, and metadata. Includes the evaluator information, numerical or categorical ratings based on the evaluator's rating scale, and token usage statistics for the evaluation process.
+        public let evaluationResults: [EvaluationResultContent]
+
+        @inlinable
+        public init(evaluationResults: [EvaluationResultContent]) {
+            self.evaluationResults = evaluationResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationResults = "evaluationResults"
+        }
+    }
+
+    public struct EvaluationResultContent: AWSDecodableShape {
+        ///  The contextual information associated with this evaluation result, including span context details that identify the specific traces and sessions that were evaluated.
+        public let context: Context
+        ///  The error code indicating the type of failure that occurred during evaluation. Used to programmatically identify and handle different categories of evaluation errors.
+        public let errorCode: String?
+        ///  The error message describing what went wrong if the evaluation failed. Provides detailed information about evaluation failures to help diagnose and resolve issues with evaluator configuration or input data.
+        public let errorMessage: String?
+        ///  The Amazon Resource Name (ARN) of the evaluator used to generate this result. For custom evaluators, this is the full ARN; for built-in evaluators, this follows the pattern Builtin.{EvaluatorName}.
+        public let evaluatorArn: String
+        ///  The unique identifier of the evaluator that produced this result. This matches the evaluatorId provided in the evaluation request and can be used to identify which evaluator generated specific results.
+        public let evaluatorId: String
+        ///  The human-readable name of the evaluator used for this evaluation. For built-in evaluators, this is the descriptive name (e.g., "Helpfulness", "Correctness"); for custom evaluators, this is the user-defined name.
+        public let evaluatorName: String
+        ///  The detailed explanation provided by the evaluator describing the reasoning behind the assigned score. This qualitative feedback helps understand why specific ratings were given and provides actionable insights for improvement.
+        public let explanation: String?
+        ///  The categorical label assigned by the evaluator when using a categorical rating scale. This provides a human-readable description of the evaluation result (e.g., "Excellent", "Good", "Poor") corresponding to the numerical value. For numerical scales, this field is optional and provides a natural language explanation of what the value means (e.g., value 0.5 = "Somewhat Helpful").
+        public let label: String?
+        ///  The token consumption statistics for this evaluation, including input tokens, output tokens, and total tokens used by the underlying language model during the evaluation process.
+        public let tokenUsage: TokenUsage?
+        ///  The numerical score assigned by the evaluator according to its configured rating scale. For numerical scales, this is a decimal value within the defined range. This field is not allowed for categorical scales.
+        public let value: Double?
+
+        @inlinable
+        public init(context: Context, errorCode: String? = nil, errorMessage: String? = nil, evaluatorArn: String, evaluatorId: String, evaluatorName: String, explanation: String? = nil, label: String? = nil, tokenUsage: TokenUsage? = nil, value: Double? = nil) {
+            self.context = context
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.evaluatorArn = evaluatorArn
+            self.evaluatorId = evaluatorId
+            self.evaluatorName = evaluatorName
+            self.explanation = explanation
+            self.label = label
+            self.tokenUsage = tokenUsage
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "context"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case evaluatorArn = "evaluatorArn"
+            case evaluatorId = "evaluatorId"
+            case evaluatorName = "evaluatorName"
+            case explanation = "explanation"
+            case label = "label"
+            case tokenUsage = "tokenUsage"
+            case value = "value"
+        }
+    }
+
     public struct Event: AWSDecodableShape {
         /// The identifier of the actor associated with the event.
         public let actorId: String
@@ -1000,6 +1145,84 @@ extension BedrockAgentCore {
             case left = "left"
             case `operator` = "operator"
             case right = "right"
+        }
+    }
+
+    public struct ExtractionJob: AWSEncodableShape {
+        /// The unique identifier of the extraction job.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
+        }
+    }
+
+    public struct ExtractionJobFilterInput: AWSEncodableShape {
+        /// The identifier of the actor. If specified, only extraction jobs with this actor ID are returned.
+        public let actorId: String?
+        /// The unique identifier of the session. If specified, only extraction jobs with this session ID are returned.
+        public let sessionId: String?
+        /// The status of the extraction job. If specified, only extraction jobs with this status are returned.
+        public let status: ExtractionJobStatus?
+        /// The memory strategy identifier to filter extraction jobs by. If specified, only extraction jobs with this strategy ID are returned.
+        public let strategyId: String?
+
+        @inlinable
+        public init(actorId: String? = nil, sessionId: String? = nil, status: ExtractionJobStatus? = nil, strategyId: String? = nil) {
+            self.actorId = actorId
+            self.sessionId = sessionId
+            self.status = status
+            self.strategyId = strategyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorId = "actorId"
+            case sessionId = "sessionId"
+            case status = "status"
+            case strategyId = "strategyId"
+        }
+    }
+
+    public struct ExtractionJobMetadata: AWSDecodableShape {
+        /// The identifier of the actor for this extraction job.
+        public let actorId: String?
+        /// The cause of failure, if the job did not complete successfully.
+        public let failureReason: String?
+        /// The unique identifier for the extraction job.
+        public let jobID: String
+        /// The messages associated with the extraction job.
+        public let messages: ExtractionJobMessages
+        /// The identifier of the session for this extraction job.
+        public let sessionId: String?
+        /// The current status of the extraction job.
+        public let status: ExtractionJobStatus?
+        /// The identifier of the memory strategy for this extraction job.
+        public let strategyId: String?
+
+        @inlinable
+        public init(actorId: String? = nil, failureReason: String? = nil, jobID: String, messages: ExtractionJobMessages, sessionId: String? = nil, status: ExtractionJobStatus? = nil, strategyId: String? = nil) {
+            self.actorId = actorId
+            self.failureReason = failureReason
+            self.jobID = jobID
+            self.messages = messages
+            self.sessionId = sessionId
+            self.status = status
+            self.strategyId = strategyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actorId = "actorId"
+            case failureReason = "failureReason"
+            case jobID = "jobID"
+            case messages = "messages"
+            case sessionId = "sessionId"
+            case status = "status"
+            case strategyId = "strategyId"
         }
     }
 
@@ -1831,7 +2054,7 @@ extension BedrockAgentCore {
     }
 
     public struct ListActorsInput: AWSEncodableShape {
-        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        /// The maximum number of results to return in a single call. The default value is 20.
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource for which to list actors.
         public let memoryId: String
@@ -2005,19 +2228,19 @@ extension BedrockAgentCore {
     }
 
     public struct ListEventsInput: AWSEncodableShape {
-        /// The identifier of the actor for which to list events. If specified, only events from this actor are returned.
+        /// The identifier of the actor for which to list events.
         public let actorId: String
         /// Filter criteria to apply when listing events.
         public let filter: FilterInput?
         /// Specifies whether to include event payloads in the response. Set to true to include payloads, or false to exclude them.
         public let includePayloads: Bool?
-        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        /// The maximum number of results to return in a single call. The default value is 20.
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource for which to list events.
         public let memoryId: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The identifier of the session for which to list events. If specified, only events from this session are returned.
+        /// The identifier of the session for which to list events.
         public let sessionId: String
 
         @inlinable
@@ -2083,8 +2306,65 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct ListMemoryExtractionJobsInput: AWSEncodableShape {
+        /// Filter criteria to apply when listing extraction jobs.
+        public let filter: ExtractionJobFilterInput?
+        /// The maximum number of results to return in a single call. The default value is 20.
+        public let maxResults: Int?
+        /// The unique identifier of the memory to list extraction jobs for.
+        public let memoryId: String
+        /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filter: ExtractionJobFilterInput? = nil, maxResults: Int? = nil, memoryId: String, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.memoryId = memoryId
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
+            request.encodePath(self.memoryId, key: "memoryId")
+            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListMemoryExtractionJobsOutput: AWSDecodableShape {
+        /// List of extraction job metadata matching the specified criteria.
+        public let jobs: [ExtractionJobMetadata]
+        /// Token to retrieve the next page of results, if available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobs: [ExtractionJobMetadata], nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListMemoryRecordsInput: AWSEncodableShape {
-        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        /// The maximum number of results to return in a single call. The default value is 20.
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource for which to list memory records.
         public let memoryId: String
@@ -2154,9 +2434,9 @@ extension BedrockAgentCore {
     }
 
     public struct ListSessionsInput: AWSEncodableShape {
-        /// The identifier of the actor for which to list sessions. If specified, only sessions involving this actor are returned.
+        /// The identifier of the actor for which to list sessions.
         public let actorId: String
-        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        /// The maximum number of results to return in a single call. The default value is 20.
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource for which to list sessions.
         public let memoryId: String
@@ -2228,6 +2508,30 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct MemoryMetadataFilterExpression: AWSEncodableShape {
+        public let left: LeftExpression
+        /// The relationship between the metadata key and value to match when applying the metadata filter.
+        public let `operator`: OperatorType
+        public let right: RightExpression?
+
+        @inlinable
+        public init(left: LeftExpression, operator: OperatorType, right: RightExpression? = nil) {
+            self.left = left
+            self.`operator` = `operator`
+            self.right = right
+        }
+
+        public func validate(name: String) throws {
+            try self.left.validate(name: "\(name).left")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case left = "left"
+            case `operator` = "operator"
+            case right = "right"
+        }
+    }
+
     public struct MemoryRecord: AWSDecodableShape {
         /// The content of the memory record.
         public let content: MemoryContent
@@ -2237,15 +2541,18 @@ extension BedrockAgentCore {
         public let memoryRecordId: String
         /// The identifier of the memory strategy associated with this record.
         public let memoryStrategyId: String
+        /// A map of metadata key-value pairs associated with a memory record.
+        public let metadata: [String: MetadataValue]?
         /// The namespaces associated with this memory record. Namespaces help organize and categorize memory records.
         public let namespaces: [String]
 
         @inlinable
-        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, namespaces: [String]) {
+        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MetadataValue]? = nil, namespaces: [String]) {
             self.content = content
             self.createdAt = createdAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
         }
 
@@ -2254,6 +2561,7 @@ extension BedrockAgentCore {
             case createdAt = "createdAt"
             case memoryRecordId = "memoryRecordId"
             case memoryStrategyId = "memoryStrategyId"
+            case metadata = "metadata"
             case namespaces = "namespaces"
         }
     }
@@ -2362,17 +2670,20 @@ extension BedrockAgentCore {
         public let memoryRecordId: String
         /// The identifier of the memory strategy associated with this record.
         public let memoryStrategyId: String
+        /// A map of metadata key-value pairs associated with a memory record.
+        public let metadata: [String: MetadataValue]?
         /// The namespaces associated with this memory record.
         public let namespaces: [String]
         /// The relevance score of the memory record when returned as part of a search result. Higher values indicate greater relevance to the search query.
         public let score: Double?
 
         @inlinable
-        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, namespaces: [String], score: Double? = nil) {
+        public init(content: MemoryContent, createdAt: Date, memoryRecordId: String, memoryStrategyId: String, metadata: [String: MetadataValue]? = nil, namespaces: [String], score: Double? = nil) {
             self.content = content
             self.createdAt = createdAt
             self.memoryRecordId = memoryRecordId
             self.memoryStrategyId = memoryStrategyId
+            self.metadata = metadata
             self.namespaces = namespaces
             self.score = score
         }
@@ -2382,6 +2693,7 @@ extension BedrockAgentCore {
             case createdAt = "createdAt"
             case memoryRecordId = "memoryRecordId"
             case memoryStrategyId = "memoryStrategyId"
+            case metadata = "metadata"
             case namespaces = "namespaces"
             case score = "score"
         }
@@ -2432,6 +2744,24 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct MessageMetadata: AWSDecodableShape {
+        /// The identifier of the event associated with this message.
+        public let eventId: String
+        /// The position of this message within that event’s ordered list of messages.
+        public let messageIndex: Int
+
+        @inlinable
+        public init(eventId: String, messageIndex: Int) {
+            self.eventId = eventId
+            self.messageIndex = messageIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventId = "eventId"
+            case messageIndex = "messageIndex"
+        }
+    }
+
     public struct ResourceContent: AWSDecodableShape {
         /// The binary resource content.
         public let blob: AWSBase64Data?
@@ -2476,11 +2806,11 @@ extension BedrockAgentCore {
     }
 
     public struct RetrieveMemoryRecordsInput: AWSEncodableShape {
-        /// The maximum number of results to return in a single call. Minimum value of 1, maximum value of 100. Default is 20.
+        /// The maximum number of results to return in a single call. The default value is 20.
         public let maxResults: Int?
         /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
         public let memoryId: String
-        /// The namespace to filter memory records by. If specified, only memory records in this namespace are searched.
+        /// The namespace to filter memory records by.
         public let namespace: String
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
@@ -2546,14 +2876,17 @@ extension BedrockAgentCore {
     public struct SearchCriteria: AWSEncodableShape {
         /// The memory strategy identifier to filter memory records by.
         public let memoryStrategyId: String?
+        /// Filters to apply to metadata associated with a memory.
+        public let metadataFilters: [MemoryMetadataFilterExpression]?
         /// The search query to use for finding relevant memory records.
         public let searchQuery: String
         /// The maximum number of top-scoring memory records to return. This value is used for semantic search ranking.
         public let topK: Int?
 
         @inlinable
-        public init(memoryStrategyId: String? = nil, searchQuery: String, topK: Int? = nil) {
+        public init(memoryStrategyId: String? = nil, metadataFilters: [MemoryMetadataFilterExpression]? = nil, searchQuery: String, topK: Int? = nil) {
             self.memoryStrategyId = memoryStrategyId
+            self.metadataFilters = metadataFilters
             self.searchQuery = searchQuery
             self.topK = topK
         }
@@ -2562,10 +2895,16 @@ extension BedrockAgentCore {
             try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, max: 100)
             try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, min: 1)
             try self.validate(self.memoryStrategyId, name: "memoryStrategyId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$")
+            try self.metadataFilters?.forEach {
+                try $0.validate(name: "\(name).metadataFilters[]")
+            }
+            try self.validate(self.metadataFilters, name: "metadataFilters", parent: name, max: 1)
+            try self.validate(self.metadataFilters, name: "metadataFilters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case memoryStrategyId = "memoryStrategyId"
+            case metadataFilters = "metadataFilters"
             case searchQuery = "searchQuery"
             case topK = "topK"
         }
@@ -2603,6 +2942,28 @@ extension BedrockAgentCore {
             case actorId = "actorId"
             case createdAt = "createdAt"
             case sessionId = "sessionId"
+        }
+    }
+
+    public struct SpanContext: AWSDecodableShape {
+        ///  The unique identifier of the session containing this span. Sessions represent complete conversation flows and are detected using configurable SessionTimeoutMinutes (default 15 minutes).
+        public let sessionId: String
+        ///  The unique identifier of the specific span being referenced. Spans represent individual operations like tool calls, model invocations, or other discrete actions within the agent's execution.
+        public let spanId: String?
+        ///  The unique identifier of the trace containing this span. Traces represent individual request-response interactions within a session and group related spans together.
+        public let traceId: String?
+
+        @inlinable
+        public init(sessionId: String, spanId: String? = nil, traceId: String? = nil) {
+            self.sessionId = sessionId
+            self.spanId = spanId
+            self.traceId = traceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "sessionId"
+            case spanId = "spanId"
+            case traceId = "traceId"
         }
     }
 
@@ -2763,6 +3124,54 @@ extension BedrockAgentCore {
             case codeInterpreterIdentifier = "codeInterpreterIdentifier"
             case createdAt = "createdAt"
             case sessionId = "sessionId"
+        }
+    }
+
+    public struct StartMemoryExtractionJobInput: AWSEncodableShape {
+        /// A unique, case-sensitive identifier to ensure idempotent processing of the request.
+        public let clientToken: String?
+        /// Extraction job to start in this operation.
+        public let extractionJob: ExtractionJob
+        /// The unique identifier of the memory for which to start extraction jobs.
+        public let memoryId: String
+
+        @inlinable
+        public init(clientToken: String? = StartMemoryExtractionJobInput.idempotencyToken(), extractionJob: ExtractionJob, memoryId: String) {
+            self.clientToken = clientToken
+            self.extractionJob = extractionJob
+            self.memoryId = memoryId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.extractionJob, forKey: .extractionJob)
+            request.encodePath(self.memoryId, key: "memoryId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.memoryId, name: "memoryId", parent: name, min: 12)
+            try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9-_]{0,99}-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case extractionJob = "extractionJob"
+        }
+    }
+
+    public struct StartMemoryExtractionJobOutput: AWSDecodableShape {
+        /// Extraction Job ID that was attempted to start.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "jobId"
         }
     }
 
@@ -2969,6 +3378,28 @@ extension BedrockAgentCore {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct TokenUsage: AWSDecodableShape {
+        ///  The number of tokens consumed for input processing during the evaluation. Includes tokens from the evaluation prompt, agent traces, and any additional context provided to the evaluator model.
+        public let inputTokens: Int?
+        ///  The number of tokens generated by the evaluator model in its response. Includes tokens for the score, explanation, and any additional output produced during the evaluation process.
+        public let outputTokens: Int?
+        ///  The total number of tokens consumed during the evaluation, calculated as the sum of input and output tokens. Used for cost calculation and rate limiting within the service limits.
+        public let totalTokens: Int?
+
+        @inlinable
+        public init(inputTokens: Int? = nil, outputTokens: Int? = nil, totalTokens: Int? = nil) {
+            self.inputTokens = inputTokens
+            self.outputTokens = outputTokens
+            self.totalTokens = totalTokens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputTokens = "inputTokens"
+            case outputTokens = "outputTokens"
+            case totalTokens = "totalTokens"
         }
     }
 
@@ -3208,6 +3639,53 @@ extension BedrockAgentCore {
         }
     }
 
+    public struct Context: AWSDecodableShape {
+        ///  The span context information that uniquely identifies the trace and span being evaluated, including session ID, trace ID, and span ID for precise targeting within the agent's execution flow.
+        public let spanContext: SpanContext?
+
+        @inlinable
+        public init(spanContext: SpanContext? = nil) {
+            self.spanContext = spanContext
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case spanContext = "spanContext"
+        }
+    }
+
+    public struct EvaluationInput: AWSEncodableShape {
+        ///  The collection of spans representing agent execution traces within a session. Each span contains detailed information about tool calls, model interactions, and other agent activities that can be evaluated for quality and performance.
+        public let sessionSpans: [AWSDocument]?
+
+        @inlinable
+        public init(sessionSpans: [AWSDocument]? = nil) {
+            self.sessionSpans = sessionSpans
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionSpans, name: "sessionSpans", parent: name, max: 1000)
+            try self.validate(self.sessionSpans, name: "sessionSpans", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionSpans = "sessionSpans"
+        }
+    }
+
+    public struct ExtractionJobMessages: AWSDecodableShape {
+        /// The list of messages that compose this extraction job.
+        public let messagesList: [MessageMetadata]?
+
+        @inlinable
+        public init(messagesList: [MessageMetadata]? = nil) {
+            self.messagesList = messagesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messagesList = "messagesList"
+        }
+    }
+
     public struct LeftExpression: AWSEncodableShape {
         /// Key associated with the metadata in an event.
         public let metadataKey: String?
@@ -3292,6 +3770,7 @@ public struct BedrockAgentCoreErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case duplicateIdException = "DuplicateIdException"
         case internalServerException = "InternalServerException"
         case invalidInputException = "InvalidInputException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -3326,6 +3805,8 @@ public struct BedrockAgentCoreErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The exception that occurs when the request conflicts with the current state of the resource. This can happen when trying to modify a resource that is currently being modified by another request, or when trying to create a resource that already exists.
     public static var conflictException: Self { .init(.conflictException) }
+    ///  An exception thrown when attempting to create a resource with an identifier that already exists.
+    public static var duplicateIdException: Self { .init(.duplicateIdException) }
     /// The exception that occurs when the service encounters an unexpected internal error. This is a temporary condition that will resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The input fails to satisfy the constraints specified by AgentCore. Check your input values and try again.

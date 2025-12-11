@@ -25,6 +25,21 @@ import Foundation
 extension ECR {
     // MARK: Enums
 
+    public enum ArtifactStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ArtifactStatusFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case any = "ANY"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case kms = "KMS"
@@ -44,10 +59,12 @@ extension ECR {
 
     public enum ImageActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expire = "EXPIRE"
+        case transition = "TRANSITION"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageFailureCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case imageInaccessible = "ImageInaccessible"
         case imageNotFound = "ImageNotFound"
         case imageReferencedByManifestList = "ImageReferencedByManifestList"
         case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
@@ -58,6 +75,21 @@ extension ECR {
         case upstreamAccessDenied = "UpstreamAccessDenied"
         case upstreamTooManyRequests = "UpstreamTooManyRequests"
         case upstreamUnavailable = "UpstreamUnavailable"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case archived = "ARCHIVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageStatusFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case any = "ANY"
+        case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
@@ -75,6 +107,7 @@ extension ECR {
     }
 
     public enum LayerAvailability: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archived = "ARCHIVED"
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
@@ -91,6 +124,17 @@ extension ECR {
         case expired = "EXPIRED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archive = "ARCHIVE"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LifecyclePolicyTargetStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archive = "ARCHIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -124,6 +168,7 @@ extension ECR {
         case complete = "COMPLETE"
         case failed = "FAILED"
         case findingsUnavailable = "FINDINGS_UNAVAILABLE"
+        case imageArchived = "IMAGE_ARCHIVED"
         case inProgress = "IN_PROGRESS"
         case limitExceeded = "LIMIT_EXCEEDED"
         case pending = "PENDING"
@@ -148,10 +193,28 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
+    public enum SigningRepositoryFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case wildcardMatch = "WILDCARD_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SigningStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TagStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case any = "ANY"
         case tagged = "TAGGED"
         case untagged = "UNTAGGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetStorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case archive = "ARCHIVE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -558,7 +621,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
-            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws(-\\w+)*:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
@@ -633,7 +696,7 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
-        /// Creates a repository creation template with a list of filters that define which image tags can override the default image tag mutability setting.
+        /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public let lifecyclePolicy: String?
@@ -709,11 +772,11 @@ extension ECR {
     public struct CreateRepositoryRequest: AWSEncodableShape {
         /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
+        ///  The imageScanningConfiguration parameter is being deprecated, in favor of specifying the image scanning configuration at the registry level. For more information, see PutRegistryScanningConfiguration.  The image scanning configuration for the repository. This determines whether images are scanned for known vulnerabilities after being pushed to the repository.
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
-        /// Creates a repository with a list of filters that define which image tags can override the default image tag mutability setting.
+        /// A list of filters that specify which image tags should be excluded from the repository's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1109,6 +1172,61 @@ extension ECR {
         }
     }
 
+    public struct DeleteSigningConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DeleteSigningConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the registry.
+        public let registryId: String?
+        /// The registry's deleted signing configuration.
+        public let signingConfiguration: SigningConfiguration?
+
+        @inlinable
+        public init(registryId: String? = nil, signingConfiguration: SigningConfiguration? = nil) {
+            self.registryId = registryId
+            self.signingConfiguration = signingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case signingConfiguration = "signingConfiguration"
+        }
+    }
+
+    public struct DeregisterPullTimeUpdateExclusionRequest: AWSEncodableShape {
+        /// The ARN of the IAM principal to remove from the pull time update exclusion list.
+        public let principalArn: String
+
+        @inlinable
+        public init(principalArn: String) {
+            self.principalArn = principalArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.principalArn, name: "principalArn", parent: name, max: 200)
+            try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalArn = "principalArn"
+        }
+    }
+
+    public struct DeregisterPullTimeUpdateExclusionResponse: AWSDecodableShape {
+        /// The ARN of the IAM principal that was removed from the pull time update exclusion list.
+        public let principalArn: String?
+
+        @inlinable
+        public init(principalArn: String? = nil) {
+            self.principalArn = principalArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalArn = "principalArn"
+        }
+    }
+
     public struct DescribeImageReplicationStatusRequest: AWSEncodableShape {
         public let imageId: ImageIdentifier
         /// The Amazon Web Services account ID associated with the registry. If you do not specify a registry, the default registry is assumed.
@@ -1231,16 +1349,76 @@ extension ECR {
         }
     }
 
+    public struct DescribeImageSigningStatusRequest: AWSEncodableShape {
+        /// An object containing identifying information for an image.
+        public let imageId: ImageIdentifier
+        /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository that contains the image.
+        public let repositoryName: String
+
+        @inlinable
+        public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String) {
+            self.imageId = imageId
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        public func validate(name: String) throws {
+            try self.imageId.validate(name: "\(name).imageId")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
+    }
+
+    public struct DescribeImageSigningStatusResponse: AWSDecodableShape {
+        /// An object with identifying information for the image.
+        public let imageId: ImageIdentifier?
+        /// The Amazon Web Services account ID associated with the registry.
+        public let registryId: String?
+        /// The name of the repository.
+        public let repositoryName: String?
+        /// A list of signing statuses for the specified image. Each status corresponds to a signing profile.
+        public let signingStatuses: [ImageSigningStatus]?
+
+        @inlinable
+        public init(imageId: ImageIdentifier? = nil, registryId: String? = nil, repositoryName: String? = nil, signingStatuses: [ImageSigningStatus]? = nil) {
+            self.imageId = imageId
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.signingStatuses = signingStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case signingStatuses = "signingStatuses"
+        }
+    }
+
     public struct DescribeImagesFilter: AWSEncodableShape {
+        /// The image status with which to filter your DescribeImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        public let imageStatus: ImageStatusFilter?
         /// The tag status with which to filter your DescribeImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
         public let tagStatus: TagStatus?
 
         @inlinable
-        public init(tagStatus: TagStatus? = nil) {
+        public init(imageStatus: ImageStatusFilter? = nil, tagStatus: TagStatus? = nil) {
+            self.imageStatus = imageStatus
             self.tagStatus = tagStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageStatus = "imageStatus"
             case tagStatus = "tagStatus"
         }
     }
@@ -1980,6 +2158,28 @@ extension ECR {
         }
     }
 
+    public struct GetSigningConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetSigningConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the registry.
+        public let registryId: String?
+        /// The registry's signing configuration.
+        public let signingConfiguration: SigningConfiguration?
+
+        @inlinable
+        public init(registryId: String? = nil, signingConfiguration: SigningConfiguration? = nil) {
+            self.registryId = registryId
+            self.signingConfiguration = signingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId = "registryId"
+            case signingConfiguration = "signingConfiguration"
+        }
+    }
+
     public struct Image: AWSDecodableShape {
         /// An object containing the image tag and image digest associated with an image.
         public let imageId: ImageIdentifier?
@@ -2025,17 +2225,25 @@ extension ECR {
         public let imageScanStatus: ImageScanStatus?
         /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public let imageSizeInBytes: Int64?
+        /// The current status of the image.
+        public let imageStatus: ImageStatus?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
+        /// The date and time, expressed in standard JavaScript date format, when the image was last restored from Amazon ECR archive to Amazon ECR standard.
+        public let lastActivatedAt: Date?
+        /// The date and time, expressed in standard JavaScript date format, when the image was last transitioned to Amazon ECR archive.
+        public let lastArchivedAt: Date?
         /// The date and time, expressed in standard JavaScript date format, when Amazon ECR recorded the last image pull.  Amazon ECR refreshes the last image pull timestamp at least once every 24 hours. For example, if you pull an image once a day then the lastRecordedPullTime timestamp will indicate the exact time that the image was last pulled. However, if you pull an image once an hour, because Amazon ECR refreshes the lastRecordedPullTime timestamp at least once every 24 hours, the result may not be the exact time that the image was last pulled.
         public let lastRecordedPullTime: Date?
         /// The Amazon Web Services account ID associated with the registry to which this image belongs.
         public let registryId: String?
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
+        /// The digest of the subject manifest for images that are referrers.
+        public let subjectManifestDigest: String?
 
         @inlinable
-        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, lastRecordedPullTime: Date? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageStatus: ImageStatus? = nil, imageTags: [String]? = nil, lastActivatedAt: Date? = nil, lastArchivedAt: Date? = nil, lastRecordedPullTime: Date? = nil, registryId: String? = nil, repositoryName: String? = nil, subjectManifestDigest: String? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -2043,10 +2251,14 @@ extension ECR {
             self.imageScanFindingsSummary = imageScanFindingsSummary
             self.imageScanStatus = imageScanStatus
             self.imageSizeInBytes = imageSizeInBytes
+            self.imageStatus = imageStatus
             self.imageTags = imageTags
+            self.lastActivatedAt = lastActivatedAt
+            self.lastArchivedAt = lastArchivedAt
             self.lastRecordedPullTime = lastRecordedPullTime
             self.registryId = registryId
             self.repositoryName = repositoryName
+            self.subjectManifestDigest = subjectManifestDigest
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2057,10 +2269,14 @@ extension ECR {
             case imageScanFindingsSummary = "imageScanFindingsSummary"
             case imageScanStatus = "imageScanStatus"
             case imageSizeInBytes = "imageSizeInBytes"
+            case imageStatus = "imageStatus"
             case imageTags = "imageTags"
+            case lastActivatedAt = "lastActivatedAt"
+            case lastArchivedAt = "lastArchivedAt"
             case lastRecordedPullTime = "lastRecordedPullTime"
             case registryId = "registryId"
             case repositoryName = "repositoryName"
+            case subjectManifestDigest = "subjectManifestDigest"
         }
     }
 
@@ -2106,6 +2322,40 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageDigest = "imageDigest"
             case imageTag = "imageTag"
+        }
+    }
+
+    public struct ImageReferrer: AWSDecodableShape {
+        /// A map of annotations associated with the artifact.
+        public let annotations: [String: String]?
+        /// The status of the artifact. Valid values are ACTIVE, ARCHIVED, or ACTIVATING.
+        public let artifactStatus: ArtifactStatus?
+        /// A string identifying the type of artifact.
+        public let artifactType: String?
+        /// The digest of the artifact manifest.
+        public let digest: String
+        /// The media type of the artifact manifest.
+        public let mediaType: String
+        /// The size, in bytes, of the artifact.
+        public let size: Int64
+
+        @inlinable
+        public init(annotations: [String: String]? = nil, artifactStatus: ArtifactStatus? = nil, artifactType: String? = nil, digest: String, mediaType: String, size: Int64) {
+            self.annotations = annotations
+            self.artifactStatus = artifactStatus
+            self.artifactType = artifactType
+            self.digest = digest
+            self.mediaType = mediaType
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case annotations = "annotations"
+            case artifactStatus = "artifactStatus"
+            case artifactType = "artifactType"
+            case digest = "digest"
+            case mediaType = "mediaType"
+            case size = "size"
         }
     }
 
@@ -2249,10 +2499,36 @@ extension ECR {
         }
     }
 
+    public struct ImageSigningStatus: AWSDecodableShape {
+        /// The failure code, which is only present if status is FAILED.
+        public let failureCode: String?
+        /// A description of why signing the image failed. This field is only present if status is FAILED.
+        public let failureReason: String?
+        /// The ARN of the Amazon Web Services Signer signing profile used to sign the image.
+        public let signingProfileArn: String?
+        /// The image's signing status. Possible values are:    IN_PROGRESS - Signing is currently in progress.    COMPLETE - The signature was successfully generated.    FAILED - Signing failed. See failureCode and failureReason for details.
+        public let status: SigningStatus?
+
+        @inlinable
+        public init(failureCode: String? = nil, failureReason: String? = nil, signingProfileArn: String? = nil, status: SigningStatus? = nil) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.signingProfileArn = signingProfileArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case signingProfileArn = "signingProfileArn"
+            case status = "status"
+        }
+    }
+
     public struct ImageTagMutabilityExclusionFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The value to use when filtering image tags. Must be either a regular expression pattern or a tag prefix value based on the specified filter type.
+        /// The filter value used to match image tags for exclusion from mutability settings.
         public let filter: String
-        /// Specifies the type of filter to use for excluding image tags from the repository's mutability setting.
+        /// The type of filter to apply for excluding image tags from mutability settings.
         public let filterType: ImageTagMutabilityExclusionFilterType
 
         @inlinable
@@ -2436,14 +2712,17 @@ extension ECR {
         public let imagePushedAt: Date?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
+        /// The storage class of the image.
+        public let storageClass: LifecyclePolicyStorageClass?
 
         @inlinable
-        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: Date? = nil, imageTags: [String]? = nil) {
+        public init(action: LifecyclePolicyRuleAction? = nil, appliedRulePriority: Int? = nil, imageDigest: String? = nil, imagePushedAt: Date? = nil, imageTags: [String]? = nil, storageClass: LifecyclePolicyStorageClass? = nil) {
             self.action = action
             self.appliedRulePriority = appliedRulePriority
             self.imageDigest = imageDigest
             self.imagePushedAt = imagePushedAt
             self.imageTags = imageTags
+            self.storageClass = storageClass
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2452,47 +2731,148 @@ extension ECR {
             case imageDigest = "imageDigest"
             case imagePushedAt = "imagePushedAt"
             case imageTags = "imageTags"
+            case storageClass = "storageClass"
         }
     }
 
     public struct LifecyclePolicyPreviewSummary: AWSDecodableShape {
         /// The number of expiring images.
         public let expiringImageTotalCount: Int?
+        /// The total count of images that will be transitioned to each storage class. This field is only present if at least one image will be transitoned in the summary.
+        public let transitioningImageTotalCounts: [TransitioningImageTotalCount]?
 
         @inlinable
-        public init(expiringImageTotalCount: Int? = nil) {
+        public init(expiringImageTotalCount: Int? = nil, transitioningImageTotalCounts: [TransitioningImageTotalCount]? = nil) {
             self.expiringImageTotalCount = expiringImageTotalCount
+            self.transitioningImageTotalCounts = transitioningImageTotalCounts
         }
 
         private enum CodingKeys: String, CodingKey {
             case expiringImageTotalCount = "expiringImageTotalCount"
+            case transitioningImageTotalCounts = "transitioningImageTotalCounts"
         }
     }
 
     public struct LifecyclePolicyRuleAction: AWSDecodableShape {
+        /// The target storage class for the action. This is only present when the type is TRANSITION.
+        public let targetStorageClass: LifecyclePolicyTargetStorageClass?
         /// The type of action to be taken.
         public let type: ImageActionType?
 
         @inlinable
-        public init(type: ImageActionType? = nil) {
+        public init(targetStorageClass: LifecyclePolicyTargetStorageClass? = nil, type: ImageActionType? = nil) {
+            self.targetStorageClass = targetStorageClass
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case targetStorageClass = "targetStorageClass"
             case type = "type"
         }
     }
 
+    public struct ListImageReferrersFilter: AWSEncodableShape {
+        /// The artifact status with which to filter your ListImageReferrers results. Valid values are ACTIVE, ARCHIVED, ACTIVATING, or ANY. If not specified, only artifacts with ACTIVE status are returned.
+        public let artifactStatus: ArtifactStatusFilter?
+        /// The artifact types with which to filter your ListImageReferrers results.
+        public let artifactTypes: [String]?
+
+        @inlinable
+        public init(artifactStatus: ArtifactStatusFilter? = nil, artifactTypes: [String]? = nil) {
+            self.artifactStatus = artifactStatus
+            self.artifactTypes = artifactTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.artifactTypes?.forEach {
+                try validate($0, name: "artifactTypes[]", parent: name, max: 255)
+                try validate($0, name: "artifactTypes[]", parent: name, min: 1)
+            }
+            try self.validate(self.artifactTypes, name: "artifactTypes", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifactStatus = "artifactStatus"
+            case artifactTypes = "artifactTypes"
+        }
+    }
+
+    public struct ListImageReferrersRequest: AWSEncodableShape {
+        /// The filter key and value with which to filter your ListImageReferrers results. If no filter is specified, only artifacts with ACTIVE status are returned.
+        public let filter: ListImageReferrersFilter?
+        /// The maximum number of image referrer results returned by ListImageReferrers in paginated output. When this parameter is used, ListImageReferrers only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListImageReferrers request with the returned nextToken value. This value can be between 1 and 50. If this parameter is not used, then ListImageReferrers returns up to 50 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListImageReferrers request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+        /// The Amazon Web Services account ID associated with the registry that contains the repository in which to list image referrers. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository that contains the subject image.
+        public let repositoryName: String
+        /// An object containing the image digest of the subject image for which to retrieve associated artifacts.
+        public let subjectId: SubjectIdentifier
+
+        @inlinable
+        public init(filter: ListImageReferrersFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil, repositoryName: String, subjectId: SubjectIdentifier) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.subjectId = subjectId
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case subjectId = "subjectId"
+        }
+    }
+
+    public struct ListImageReferrersResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future ListImageReferrers request. When the results of a ListImageReferrers request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of artifacts associated with the subject image.
+        public let referrers: [ImageReferrer]?
+
+        @inlinable
+        public init(nextToken: String? = nil, referrers: [ImageReferrer]? = nil) {
+            self.nextToken = nextToken
+            self.referrers = referrers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case referrers = "referrers"
+        }
+    }
+
     public struct ListImagesFilter: AWSEncodableShape {
-        /// The tag status with which to filter your ListImages results. You can filter results based on whether they are TAGGED or UNTAGGED.
+        /// The image status with which to filter your ListImages results. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        public let imageStatus: ImageStatusFilter?
+        /// The tag status with which to filter your ListImages results.
         public let tagStatus: TagStatus?
 
         @inlinable
-        public init(tagStatus: TagStatus? = nil) {
+        public init(imageStatus: ImageStatusFilter? = nil, tagStatus: TagStatus? = nil) {
+            self.imageStatus = imageStatus
             self.tagStatus = tagStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case imageStatus = "imageStatus"
             case tagStatus = "tagStatus"
         }
     }
@@ -2551,6 +2931,47 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case imageIds = "imageIds"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPullTimeUpdateExclusionsRequest: AWSEncodableShape {
+        /// The maximum number of pull time update exclusion results returned by ListPullTimeUpdateExclusions in paginated output. When this parameter is used, ListPullTimeUpdateExclusions only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListPullTimeUpdateExclusions request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListPullTimeUpdateExclusions returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated ListPullTimeUpdateExclusions request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPullTimeUpdateExclusionsResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future ListPullTimeUpdateExclusions request. When the results of a ListPullTimeUpdateExclusions request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The list of IAM principal ARNs that are excluded from having their image pull times recorded.
+        public let pullTimeUpdateExclusions: [String]?
+
+        @inlinable
+        public init(nextToken: String? = nil, pullTimeUpdateExclusions: [String]? = nil) {
+            self.nextToken = nextToken
+            self.pullTimeUpdateExclusions = pullTimeUpdateExclusions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case pullTimeUpdateExclusions = "pullTimeUpdateExclusions"
         }
     }
 
@@ -2726,7 +3147,7 @@ extension ECR {
         public let imageManifest: String
         /// The media type of the image manifest. If you push an image manifest that does not contain the mediaType field, you must specify the imageManifestMediaType in the request.
         public let imageManifestMediaType: String?
-        /// The tag to associate with the image. This parameter is required for images that use the Docker Image Manifest V2 Schema 2 or Open Container Initiative (OCI) formats.
+        /// The tag to associate with the image. This parameter is optional.
         public let imageTag: String?
         /// The Amazon Web Services account ID associated with the registry that contains the repository in which to put the image. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -2832,7 +3253,7 @@ extension ECR {
     public struct PutImageTagMutabilityRequest: AWSEncodableShape {
         /// The tag mutability setting for the repository. If MUTABLE is specified, image tags can be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability
-        /// Creates or updates a repository with filters that define which image tags can override the default image tag mutability setting.
+        /// A list of filters that specify which image tags should be excluded from the image tag mutability setting being applied.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository in which to update the image tag mutability settings. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -2870,7 +3291,7 @@ extension ECR {
     public struct PutImageTagMutabilityResponse: AWSDecodableShape {
         /// The image tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
-        /// Returns a list of filters that were defined for a repository. These filters determine which image tags can override the default image tag mutability setting of the repository.
+        /// The list of filters that specify which image tags are excluded from the repository's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The registry ID associated with the request.
         public let registryId: String?
@@ -3053,6 +3474,38 @@ extension ECR {
         }
     }
 
+    public struct PutSigningConfigurationRequest: AWSEncodableShape {
+        /// The signing configuration to assign to the registry.
+        public let signingConfiguration: SigningConfiguration
+
+        @inlinable
+        public init(signingConfiguration: SigningConfiguration) {
+            self.signingConfiguration = signingConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.signingConfiguration.validate(name: "\(name).signingConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingConfiguration = "signingConfiguration"
+        }
+    }
+
+    public struct PutSigningConfigurationResponse: AWSDecodableShape {
+        /// The registry's updated signing configuration.
+        public let signingConfiguration: SigningConfiguration?
+
+        @inlinable
+        public init(signingConfiguration: SigningConfiguration? = nil) {
+            self.signingConfiguration = signingConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case signingConfiguration = "signingConfiguration"
+        }
+    }
+
     public struct Recommendation: AWSDecodableShape {
         /// The recommended course of action to remediate the finding.
         public let text: String?
@@ -3068,6 +3521,43 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case text = "text"
             case url = "url"
+        }
+    }
+
+    public struct RegisterPullTimeUpdateExclusionRequest: AWSEncodableShape {
+        /// The ARN of the IAM principal to exclude from having image pull times recorded.
+        public let principalArn: String
+
+        @inlinable
+        public init(principalArn: String) {
+            self.principalArn = principalArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.principalArn, name: "principalArn", parent: name, max: 200)
+            try self.validate(self.principalArn, name: "principalArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:iam::[0-9]{12}:(role|user)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case principalArn = "principalArn"
+        }
+    }
+
+    public struct RegisterPullTimeUpdateExclusionResponse: AWSDecodableShape {
+        /// The date and time, expressed in standard JavaScript date format, when the exclusion was created.
+        public let createdAt: Date?
+        /// The ARN of the IAM principal that was added to the pull time update exclusion list.
+        public let principalArn: String?
+
+        @inlinable
+        public init(createdAt: Date? = nil, principalArn: String? = nil) {
+            self.createdAt = createdAt
+            self.principalArn = principalArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case principalArn = "principalArn"
         }
     }
 
@@ -3212,7 +3702,7 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository.
         public let imageTagMutability: ImageTagMutability?
-        /// The image tag mutability exclusion filters associated with the repository. These filters specify which image tags can override the repository's default image tag mutability setting.
+        /// A list of filters that specify which image tags are excluded from the repository's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public let registryId: String?
@@ -3262,7 +3752,7 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
-        /// Defines the image tag mutability exclusion filters to apply when creating repositories from this template. These filters specify which image tags can override the repository's default image tag mutability setting.
+        /// A list of filters that specify which image tags are excluded from the repository creation template's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// The lifecycle policy to use for repositories created using the template.
         public let lifecyclePolicy: String?
@@ -3517,6 +4007,79 @@ extension ECR {
         }
     }
 
+    public struct SigningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of signing rules. Each rule defines a signing profile and optional repository filters that determine which images are automatically signed. Maximum of 10 rules.
+        public let rules: [SigningRule]
+
+        @inlinable
+        public init(rules: [SigningRule]) {
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules = "rules"
+        }
+    }
+
+    public struct SigningRepositoryFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The filter value used to match repository names. When using WILDCARD_MATCH, the * character matches any sequence of characters. Examples:    myapp/* - Matches all repositories starting with myapp/     */production - Matches all repositories ending with /production     *prod* - Matches all repositories containing prod
+        public let filter: String
+        /// The type of filter to apply. Currently, only WILDCARD_MATCH is supported, which uses wildcard patterns to match repository names.
+        public let filterType: SigningRepositoryFilterType
+
+        @inlinable
+        public init(filter: String, filterType: SigningRepositoryFilterType) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 256)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+            try self.validate(self.filter, name: "filter", parent: name, pattern: "^(?:[a-z0-9*]+(?:[._-][a-z0-9*]+)*/)*[a-z0-9*]+(?:[._-][a-z0-9*]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "filter"
+            case filterType = "filterType"
+        }
+    }
+
+    public struct SigningRule: AWSEncodableShape & AWSDecodableShape {
+        /// A list of repository filters that determine which repositories have their images signed on push. If no filters are specified, all images pushed to the registry are signed using the rule's signing profile. Maximum of 100 filters per rule.
+        public let repositoryFilters: [SigningRepositoryFilter]?
+        /// The ARN of the Amazon Web Services Signer signing profile to use for signing images that match this rule. For more information about signing profiles, see Signing profiles in the Amazon Web Services Signer Developer Guide.
+        public let signingProfileArn: String
+
+        @inlinable
+        public init(repositoryFilters: [SigningRepositoryFilter]? = nil, signingProfileArn: String) {
+            self.repositoryFilters = repositoryFilters
+            self.signingProfileArn = signingProfileArn
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryFilters?.forEach {
+                try $0.validate(name: "\(name).repositoryFilters[]")
+            }
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, max: 100)
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, min: 1)
+            try self.validate(self.signingProfileArn, name: "signingProfileArn", parent: name, max: 200)
+            try self.validate(self.signingProfileArn, name: "signingProfileArn", parent: name, pattern: "^arn:aws(-[a-z]+)*:signer:[a-z0-9-]+:[0-9]{12}:\\/signing-profiles\\/[a-zA-Z0-9_]{2,}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryFilters = "repositoryFilters"
+            case signingProfileArn = "signingProfileArn"
+        }
+    }
+
     public struct StartImageScanRequest: AWSEncodableShape {
         public let imageId: ImageIdentifier
         /// The Amazon Web Services account ID associated with the registry that contains the repository in which to start an image scan request. If you do not specify a registry, the default registry is assumed.
@@ -3628,6 +4191,20 @@ extension ECR {
         }
     }
 
+    public struct SubjectIdentifier: AWSEncodableShape {
+        /// The digest of the image.
+        public let imageDigest: String
+
+        @inlinable
+        public init(imageDigest: String) {
+            self.imageDigest = imageDigest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageDigest = "imageDigest"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
@@ -3668,6 +4245,24 @@ extension ECR {
         public init() {}
     }
 
+    public struct TransitioningImageTotalCount: AWSDecodableShape {
+        /// The total number of images transitioning to the storage class.
+        public let imageTotalCount: Int?
+        /// The target storage class.
+        public let targetStorageClass: LifecyclePolicyTargetStorageClass?
+
+        @inlinable
+        public init(imageTotalCount: Int? = nil, targetStorageClass: LifecyclePolicyTargetStorageClass? = nil) {
+            self.imageTotalCount = imageTotalCount
+            self.targetStorageClass = targetStorageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageTotalCount = "imageTotalCount"
+            case targetStorageClass = "targetStorageClass"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource from which to remove tags. Currently, the only supported resource is an Amazon ECR repository.
         public let resourceArn: String
@@ -3688,6 +4283,64 @@ extension ECR {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateImageStorageClassRequest: AWSEncodableShape {
+        public let imageId: ImageIdentifier
+        /// The Amazon Web Services account ID associated with the registry that contains the image to transition. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The name of the repository that contains the image to transition.
+        public let repositoryName: String
+        /// The target storage class for the image.
+        public let targetStorageClass: TargetStorageClass
+
+        @inlinable
+        public init(imageId: ImageIdentifier, registryId: String? = nil, repositoryName: String, targetStorageClass: TargetStorageClass) {
+            self.imageId = imageId
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.targetStorageClass = targetStorageClass
+        }
+
+        public func validate(name: String) throws {
+            try self.imageId.validate(name: "\(name).imageId")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 256)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 2)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case targetStorageClass = "targetStorageClass"
+        }
+    }
+
+    public struct UpdateImageStorageClassResponse: AWSDecodableShape {
+        public let imageId: ImageIdentifier?
+        /// The current status of the image after the call to UpdateImageStorageClass is complete. Valid values are ACTIVE, ARCHIVED, and ACTIVATING.
+        public let imageStatus: ImageStatus?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The repository name associated with the request.
+        public let repositoryName: String?
+
+        @inlinable
+        public init(imageId: ImageIdentifier? = nil, imageStatus: ImageStatus? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+            self.imageId = imageId
+            self.imageStatus = imageStatus
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageId = "imageId"
+            case imageStatus = "imageStatus"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+        }
     }
 
     public struct UpdatePullThroughCacheRuleRequest: AWSEncodableShape {
@@ -3711,7 +4364,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
-            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws(-\\w+)*:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
             try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
@@ -3771,7 +4424,7 @@ extension ECR {
         public let encryptionConfiguration: EncryptionConfigurationForRepositoryCreationTemplate?
         /// Updates the tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
-        /// Updates a repository with filters that define which image tags can override the default image tag mutability setting.
+        /// A list of filters that specify which image tags should be excluded from the repository creation template's image tag mutability setting.
         public let imageTagMutabilityExclusionFilters: [ImageTagMutabilityExclusionFilter]?
         /// Updates the lifecycle policy associated with the specified repository creation template.
         public let lifecyclePolicy: String?
@@ -4034,10 +4687,15 @@ extension ECR {
 /// Error enum for ECR
 public struct ECRErrorType: AWSErrorType {
     enum Code: String {
+        case blockedByOrganizationPolicyException = "BlockedByOrganizationPolicyException"
         case emptyUploadException = "EmptyUploadException"
+        case exclusionAlreadyExistsException = "ExclusionAlreadyExistsException"
+        case exclusionNotFoundException = "ExclusionNotFoundException"
         case imageAlreadyExistsException = "ImageAlreadyExistsException"
+        case imageArchivedException = "ImageArchivedException"
         case imageDigestDoesNotMatchException = "ImageDigestDoesNotMatchException"
         case imageNotFoundException = "ImageNotFoundException"
+        case imageStorageClassUpdateNotSupportedException = "ImageStorageClassUpdateNotSupportedException"
         case imageTagAlreadyExistsException = "ImageTagAlreadyExistsException"
         case invalidLayerException = "InvalidLayerException"
         case invalidLayerPartException = "InvalidLayerPartException"
@@ -4063,6 +4721,7 @@ public struct ECRErrorType: AWSErrorType {
         case scanNotFoundException = "ScanNotFoundException"
         case secretNotFoundException = "SecretNotFoundException"
         case serverException = "ServerException"
+        case signingConfigurationNotFoundException = "SigningConfigurationNotFoundException"
         case templateAlreadyExistsException = "TemplateAlreadyExistsException"
         case templateNotFoundException = "TemplateNotFoundException"
         case tooManyTagsException = "TooManyTagsException"
@@ -4094,14 +4753,24 @@ public struct ECRErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The operation did not succeed because the account is managed by a organization policy.
+    public static var blockedByOrganizationPolicyException: Self { .init(.blockedByOrganizationPolicyException) }
     /// The specified layer upload does not contain any layer parts.
     public static var emptyUploadException: Self { .init(.emptyUploadException) }
+    /// The specified pull time update exclusion already exists for the registry.
+    public static var exclusionAlreadyExistsException: Self { .init(.exclusionAlreadyExistsException) }
+    /// The specified pull time update exclusion was not found.
+    public static var exclusionNotFoundException: Self { .init(.exclusionNotFoundException) }
     /// The specified image has already been pushed, and there were no changes to the manifest or image tag after the last push.
     public static var imageAlreadyExistsException: Self { .init(.imageAlreadyExistsException) }
+    /// The specified image is archived and cannot be scanned.
+    public static var imageArchivedException: Self { .init(.imageArchivedException) }
     /// The specified image digest does not match the digest that Amazon ECR calculated for the image.
     public static var imageDigestDoesNotMatchException: Self { .init(.imageDigestDoesNotMatchException) }
     /// The image requested does not exist in the specified repository.
     public static var imageNotFoundException: Self { .init(.imageNotFoundException) }
+    /// The requested image storage class update is not supported.
+    public static var imageStorageClassUpdateNotSupportedException: Self { .init(.imageStorageClassUpdateNotSupportedException) }
     /// The specified image is tagged with a tag that already exists. The repository is configured for tag immutability.
     public static var imageTagAlreadyExistsException: Self { .init(.imageTagAlreadyExistsException) }
     /// The layer digest calculation performed by Amazon ECR upon receipt of the image layer does not match the digest specified.
@@ -4152,6 +4821,8 @@ public struct ECRErrorType: AWSErrorType {
     public static var secretNotFoundException: Self { .init(.secretNotFoundException) }
     /// These errors are usually caused by a server-side issue.
     public static var serverException: Self { .init(.serverException) }
+    /// The specified signing configuration was not found. This occurs when attempting to retrieve or delete a signing configuration that does not exist.
+    public static var signingConfigurationNotFoundException: Self { .init(.signingConfigurationNotFoundException) }
     /// The repository creation template already exists. Specify a unique prefix and try again.
     public static var templateAlreadyExistsException: Self { .init(.templateAlreadyExistsException) }
     /// The specified repository creation template can't be found. Verify the registry ID and prefix and try again.

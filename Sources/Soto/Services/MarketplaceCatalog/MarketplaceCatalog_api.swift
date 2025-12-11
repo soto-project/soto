@@ -320,7 +320,7 @@ public struct MarketplaceCatalog: AWSService {
     ///
     /// Parameters:
     ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
-    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, Seller, ResaleAuthorization.
+    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
     ///   - entityTypeFilters: A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
     ///   - entityTypeSort: A Union object containing Sort shapes for all EntityTypes. Each EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that EntityType. This can be used to sort the results of the filter query.
     ///   - filterList: An array of filter objects. Each filter object contains two attributes, filterName and filterValues.
@@ -604,7 +604,7 @@ extension MarketplaceCatalog {
     ///
     /// - Parameters:
     ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
-    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, Seller, ResaleAuthorization.
+    ///   - entityType: The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
     ///   - entityTypeFilters: A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
     ///   - entityTypeSort: A Union object containing Sort shapes for all EntityTypes. Each EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that EntityType. This can be used to sort the results of the filter query.
     ///   - filterList: An array of filter objects. Each filter object contains two attributes, filterName and filterValues.

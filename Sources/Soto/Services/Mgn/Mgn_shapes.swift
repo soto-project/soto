@@ -166,6 +166,12 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum InternetProtocol: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobLogEvent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cleanupEnd = "CLEANUP_END"
         case cleanupFail = "CLEANUP_FAIL"
@@ -286,6 +292,7 @@ extension Mgn {
     }
 
     public enum SsmParameterStoreParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case secureString = "SECURE_STRING"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
@@ -813,6 +820,8 @@ extension Mgn {
         public let copyTags: Bool?
         /// Enable map auto tagging.
         public let enableMapAutoTagging: Bool?
+        /// Enable parameters encryption.
+        public let enableParametersEncryption: Bool?
         /// Large volume config.
         public let largeVolumeConf: LaunchTemplateDiskConf?
         /// Launch disposition.
@@ -820,6 +829,8 @@ extension Mgn {
         public let licensing: Licensing?
         /// Launch configuration template map auto tagging MPE ID.
         public let mapAutoTaggingMpeID: String?
+        /// Parameters encryption key.
+        public let parametersEncryptionKey: String?
         /// Launch configuration template post launch actions.
         public let postLaunchActions: PostLaunchActions?
         /// Small volume config.
@@ -832,16 +843,18 @@ extension Mgn {
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, enableParametersEncryption: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, parametersEncryptionKey: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.enableMapAutoTagging = enableMapAutoTagging
+            self.enableParametersEncryption = enableParametersEncryption
             self.largeVolumeConf = largeVolumeConf
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+            self.parametersEncryptionKey = parametersEncryptionKey
             self.postLaunchActions = postLaunchActions
             self.smallVolumeConf = smallVolumeConf
             self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -852,6 +865,8 @@ extension Mgn {
         public func validate(name: String) throws {
             try self.largeVolumeConf?.validate(name: "\(name).largeVolumeConf")
             try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
+            try self.validate(self.parametersEncryptionKey, name: "parametersEncryptionKey", parent: name, max: 276)
+            try self.validate(self.parametersEncryptionKey, name: "parametersEncryptionKey", parent: name, pattern: "^((arn:[\\w-]+:kms:([a-z]{2}-(gov-)?[a-z]+-\\d{1})?:(\\d{12})?:((alias|key)/[a-zA-Z0-9:/_-]{1,256}))|())$")
             try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
             try self.smallVolumeConf?.validate(name: "\(name).smallVolumeConf")
             try self.validate(self.smallVolumeMaxSize, name: "smallVolumeMaxSize", parent: name, min: 0)
@@ -868,10 +883,12 @@ extension Mgn {
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
             case enableMapAutoTagging = "enableMapAutoTagging"
+            case enableParametersEncryption = "enableParametersEncryption"
             case largeVolumeConf = "largeVolumeConf"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
             case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case parametersEncryptionKey = "parametersEncryptionKey"
             case postLaunchActions = "postLaunchActions"
             case smallVolumeConf = "smallVolumeConf"
             case smallVolumeMaxSize = "smallVolumeMaxSize"
@@ -887,7 +904,7 @@ extension Mgn {
         public let bandwidthThrottling: Int64
         /// Request to create Public IP during Replication Settings template creation.
         public let createPublicIP: Bool
-        /// Request to configure  data plane routing during Replication Settings template creation.
+        /// Request to configure data plane routing during Replication Settings template creation.
         public let dataPlaneRouting: ReplicationConfigurationDataPlaneRouting
         /// Request to configure the default large staging disk EBS volume type during Replication Settings template creation.
         public let defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType
@@ -895,6 +912,8 @@ extension Mgn {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption
         /// Request to configure an EBS encryption key during Replication Settings template creation.
         public let ebsEncryptionKeyArn: String?
+        /// Request to configure the internet protocol to IPv4 or IPv6.
+        public let internetProtocol: InternetProtocol?
         /// Request to configure the Replication Server instance type during Replication Settings template creation.
         public let replicationServerInstanceType: String
         /// Request to configure the Replication Server Security group ID during Replication Settings template creation.
@@ -911,7 +930,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool, bandwidthThrottling: Int64 = 0, createPublicIP: Bool, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType, ebsEncryption: ReplicationConfigurationEbsEncryption, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationServerInstanceType: String, replicationServersSecurityGroupsIDs: [String], stagingAreaSubnetId: String, stagingAreaTags: [String: String], tags: [String: String]? = nil, useDedicatedReplicationServer: Bool, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -919,6 +938,7 @@ extension Mgn {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
             self.stagingAreaSubnetId = stagingAreaSubnetId
@@ -961,6 +981,7 @@ extension Mgn {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case replicationServerInstanceType = "replicationServerInstanceType"
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
             case stagingAreaSubnetId = "stagingAreaSubnetId"
@@ -1046,9 +1067,11 @@ extension Mgn {
         public let lastSnapshotDateTime: String?
         /// Request to query disks replicated.
         public let replicatedDisks: [DataReplicationInfoReplicatedDisk]?
+        /// Replication server instance ID.
+        public let replicatorId: String?
 
         @inlinable
-        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, lastSnapshotDateTime: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil) {
+        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, lastSnapshotDateTime: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil, replicatorId: String? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
@@ -1056,6 +1079,7 @@ extension Mgn {
             self.lagDuration = lagDuration
             self.lastSnapshotDateTime = lastSnapshotDateTime
             self.replicatedDisks = replicatedDisks
+            self.replicatorId = replicatorId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1066,6 +1090,7 @@ extension Mgn {
             case lagDuration = "lagDuration"
             case lastSnapshotDateTime = "lastSnapshotDateTime"
             case replicatedDisks = "replicatedDisks"
+            case replicatorId = "replicatorId"
         }
     }
 
@@ -1919,6 +1944,8 @@ extension Mgn {
     }
 
     public struct ExportTask: AWSDecodableShape {
+        /// ExportTask arn.
+        public let arn: String?
         /// Export task creation datetime.
         public let creationDateTime: String?
         /// Export task end datetime.
@@ -1937,9 +1964,12 @@ extension Mgn {
         public let status: ExportStatus?
         /// Export task summary.
         public let summary: ExportTaskSummary?
+        /// Export task tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(creationDateTime: String? = nil, endDateTime: String? = nil, exportID: String? = nil, progressPercentage: Float? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Key: String? = nil, status: ExportStatus? = nil, summary: ExportTaskSummary? = nil) {
+        public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, exportID: String? = nil, progressPercentage: Float? = nil, s3Bucket: String? = nil, s3BucketOwner: String? = nil, s3Key: String? = nil, status: ExportStatus? = nil, summary: ExportTaskSummary? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.exportID = exportID
@@ -1949,9 +1979,11 @@ extension Mgn {
             self.s3Key = s3Key
             self.status = status
             self.summary = summary
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case creationDateTime = "creationDateTime"
             case endDateTime = "endDateTime"
             case exportID = "exportID"
@@ -1961,6 +1993,7 @@ extension Mgn {
             case s3Key = "s3Key"
             case status = "status"
             case summary = "summary"
+            case tags = "tags"
         }
     }
 
@@ -2154,6 +2187,8 @@ extension Mgn {
     }
 
     public struct ImportTask: AWSDecodableShape {
+        /// ImportTask arn.
+        public let arn: String?
         /// Import task creation datetime.
         public let creationDateTime: String?
         /// Import task end datetime.
@@ -2168,9 +2203,12 @@ extension Mgn {
         public let status: ImportStatus?
         /// Import task summary.
         public let summary: ImportTaskSummary?
+        /// Import task tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(creationDateTime: String? = nil, endDateTime: String? = nil, importID: String? = nil, progressPercentage: Float? = nil, s3BucketSource: S3BucketSource? = nil, status: ImportStatus? = nil, summary: ImportTaskSummary? = nil) {
+        public init(arn: String? = nil, creationDateTime: String? = nil, endDateTime: String? = nil, importID: String? = nil, progressPercentage: Float? = nil, s3BucketSource: S3BucketSource? = nil, status: ImportStatus? = nil, summary: ImportTaskSummary? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
             self.creationDateTime = creationDateTime
             self.endDateTime = endDateTime
             self.importID = importID
@@ -2178,9 +2216,11 @@ extension Mgn {
             self.s3BucketSource = s3BucketSource
             self.status = status
             self.summary = summary
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
             case creationDateTime = "creationDateTime"
             case endDateTime = "endDateTime"
             case importID = "importID"
@@ -2188,6 +2228,7 @@ extension Mgn {
             case s3BucketSource = "s3BucketSource"
             case status = "status"
             case summary = "summary"
+            case tags = "tags"
         }
     }
 
@@ -2389,8 +2430,12 @@ extension Mgn {
     }
 
     public struct JobLogEventData: AWSDecodableShape {
+        /// Retries for this operation.
+        public let attemptCount: Int?
         /// Job Event conversion Server ID.
         public let conversionServerID: String?
+        /// The maximum number of retries that will be attempted if this operation failed.
+        public let maxAttemptsCount: Int?
         /// Job error.
         public let rawError: String?
         /// Job Event Source Server ID.
@@ -2399,15 +2444,19 @@ extension Mgn {
         public let targetInstanceID: String?
 
         @inlinable
-        public init(conversionServerID: String? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+        public init(attemptCount: Int? = nil, conversionServerID: String? = nil, maxAttemptsCount: Int? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+            self.attemptCount = attemptCount
             self.conversionServerID = conversionServerID
+            self.maxAttemptsCount = maxAttemptsCount
             self.rawError = rawError
             self.sourceServerID = sourceServerID
             self.targetInstanceID = targetInstanceID
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attemptCount = "attemptCount"
             case conversionServerID = "conversionServerID"
+            case maxAttemptsCount = "maxAttemptsCount"
             case rawError = "rawError"
             case sourceServerID = "sourceServerID"
             case targetInstanceID = "targetInstanceID"
@@ -2516,6 +2565,8 @@ extension Mgn {
         public let ec2LaunchTemplateID: String?
         /// Enable map auto tagging.
         public let enableMapAutoTagging: Bool?
+        /// Enable parameters encryption.
+        public let enableParametersEncryption: Bool?
         /// Large volume config.
         public let largeVolumeConf: LaunchTemplateDiskConf?
         /// ID of the Launch Configuration Template.
@@ -2525,6 +2576,8 @@ extension Mgn {
         public let licensing: Licensing?
         /// Launch configuration template map auto tagging MPE ID.
         public let mapAutoTaggingMpeID: String?
+        /// Parameters encryption key.
+        public let parametersEncryptionKey: String?
         /// Post Launch Actions of the Launch Configuration Template.
         public let postLaunchActions: PostLaunchActions?
         /// Small volume config.
@@ -2537,7 +2590,7 @@ extension Mgn {
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(arn: String? = nil, associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(arn: String? = nil, associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, enableMapAutoTagging: Bool? = nil, enableParametersEncryption: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, parametersEncryptionKey: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, tags: [String: String]? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.arn = arn
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
@@ -2545,11 +2598,13 @@ extension Mgn {
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
             self.enableMapAutoTagging = enableMapAutoTagging
+            self.enableParametersEncryption = enableParametersEncryption
             self.largeVolumeConf = largeVolumeConf
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+            self.parametersEncryptionKey = parametersEncryptionKey
             self.postLaunchActions = postLaunchActions
             self.smallVolumeConf = smallVolumeConf
             self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -2565,11 +2620,13 @@ extension Mgn {
             case copyTags = "copyTags"
             case ec2LaunchTemplateID = "ec2LaunchTemplateID"
             case enableMapAutoTagging = "enableMapAutoTagging"
+            case enableParametersEncryption = "enableParametersEncryption"
             case largeVolumeConf = "largeVolumeConf"
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
             case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case parametersEncryptionKey = "parametersEncryptionKey"
             case postLaunchActions = "postLaunchActions"
             case smallVolumeConf = "smallVolumeConf"
             case smallVolumeMaxSize = "smallVolumeMaxSize"
@@ -3964,6 +4021,8 @@ extension Mgn {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// Replication Configuration EBS encryption key ARN.
         public let ebsEncryptionKeyArn: String?
+        /// Replication Configuration internet protocol.
+        public let internetProtocol: InternetProtocol?
         /// Replication Configuration name.
         public let name: String?
         /// Replication Configuration replicated disks.
@@ -3984,7 +4043,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
             self.createPublicIP = createPublicIP
@@ -3992,6 +4051,7 @@ extension Mgn {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.name = name
             self.replicatedDisks = replicatedDisks
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -4011,6 +4071,7 @@ extension Mgn {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case replicatedDisks = "replicatedDisks"
             case replicationServerInstanceType = "replicationServerInstanceType"
@@ -4076,6 +4137,8 @@ extension Mgn {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// Replication Configuration template EBS encryption key ARN.
         public let ebsEncryptionKeyArn: String?
+        /// Replication Configuration template internet protocol.
+        public let internetProtocol: InternetProtocol?
         /// Replication Configuration template ID.
         public let replicationConfigurationTemplateID: String
         /// Replication Configuration template server instance type.
@@ -4094,7 +4157,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, tags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -4103,6 +4166,7 @@ extension Mgn {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -4122,6 +4186,7 @@ extension Mgn {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
             case replicationServerInstanceType = "replicationServerInstanceType"
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"
@@ -4634,12 +4699,15 @@ extension Mgn {
         public let s3BucketOwner: String?
         /// Start export request s3key.
         public let s3Key: String
+        /// Start import request tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String) {
+        public init(s3Bucket: String, s3BucketOwner: String? = nil, s3Key: String, tags: [String: String]? = nil) {
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
             self.s3Key = s3Key
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -4648,12 +4716,18 @@ extension Mgn {
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, min: 12)
             try self.validate(self.s3BucketOwner, name: "s3BucketOwner", parent: name, pattern: "[0-9]{12,}")
             try self.validate(self.s3Key, name: "s3Key", parent: name, pattern: "^[^\\x00]{1,1020}\\.csv$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Bucket = "s3Bucket"
             case s3BucketOwner = "s3BucketOwner"
             case s3Key = "s3Key"
+            case tags = "tags"
         }
     }
 
@@ -4676,21 +4750,30 @@ extension Mgn {
         public let clientToken: String?
         /// Start import request s3 bucket source.
         public let s3BucketSource: S3BucketSource
+        /// Start import request tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = StartImportRequest.idempotencyToken(), s3BucketSource: S3BucketSource) {
+        public init(clientToken: String? = StartImportRequest.idempotencyToken(), s3BucketSource: S3BucketSource, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.s3BucketSource = s3BucketSource
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.s3BucketSource.validate(name: "\(name).s3BucketSource")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case s3BucketSource = "s3BucketSource"
+            case tags = "tags"
         }
     }
 
@@ -5274,6 +5357,8 @@ extension Mgn {
         public let copyTags: Bool?
         /// Enable map auto tagging.
         public let enableMapAutoTagging: Bool?
+        /// Enable parameters encryption.
+        public let enableParametersEncryption: Bool?
         /// Large volume config.
         public let largeVolumeConf: LaunchTemplateDiskConf?
         /// Launch Configuration Template ID.
@@ -5283,6 +5368,8 @@ extension Mgn {
         public let licensing: Licensing?
         /// Launch configuration template map auto tagging MPE ID.
         public let mapAutoTaggingMpeID: String?
+        /// Parameters encryption key.
+        public let parametersEncryptionKey: String?
         /// Post Launch Action to execute on the Test or Cutover instance.
         public let postLaunchActions: PostLaunchActions?
         /// Small volume config.
@@ -5293,17 +5380,19 @@ extension Mgn {
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
         @inlinable
-        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, enableMapAutoTagging: Bool? = nil, enableParametersEncryption: Bool? = nil, largeVolumeConf: LaunchTemplateDiskConf? = nil, launchConfigurationTemplateID: String, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, mapAutoTaggingMpeID: String? = nil, parametersEncryptionKey: String? = nil, postLaunchActions: PostLaunchActions? = nil, smallVolumeConf: LaunchTemplateDiskConf? = nil, smallVolumeMaxSize: Int64? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.enableMapAutoTagging = enableMapAutoTagging
+            self.enableParametersEncryption = enableParametersEncryption
             self.largeVolumeConf = largeVolumeConf
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
             self.mapAutoTaggingMpeID = mapAutoTaggingMpeID
+            self.parametersEncryptionKey = parametersEncryptionKey
             self.postLaunchActions = postLaunchActions
             self.smallVolumeConf = smallVolumeConf
             self.smallVolumeMaxSize = smallVolumeMaxSize
@@ -5316,6 +5405,8 @@ extension Mgn {
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, min: 21)
             try self.validate(self.launchConfigurationTemplateID, name: "launchConfigurationTemplateID", parent: name, pattern: "^lct-[0-9a-zA-Z]{17}$")
             try self.validate(self.mapAutoTaggingMpeID, name: "mapAutoTaggingMpeID", parent: name, max: 256)
+            try self.validate(self.parametersEncryptionKey, name: "parametersEncryptionKey", parent: name, max: 2048)
+            try self.validate(self.parametersEncryptionKey, name: "parametersEncryptionKey", parent: name, min: 20)
             try self.postLaunchActions?.validate(name: "\(name).postLaunchActions")
             try self.smallVolumeConf?.validate(name: "\(name).smallVolumeConf")
             try self.validate(self.smallVolumeMaxSize, name: "smallVolumeMaxSize", parent: name, min: 0)
@@ -5327,11 +5418,13 @@ extension Mgn {
             case copyPrivateIp = "copyPrivateIp"
             case copyTags = "copyTags"
             case enableMapAutoTagging = "enableMapAutoTagging"
+            case enableParametersEncryption = "enableParametersEncryption"
             case largeVolumeConf = "largeVolumeConf"
             case launchConfigurationTemplateID = "launchConfigurationTemplateID"
             case launchDisposition = "launchDisposition"
             case licensing = "licensing"
             case mapAutoTaggingMpeID = "mapAutoTaggingMpeID"
+            case parametersEncryptionKey = "parametersEncryptionKey"
             case postLaunchActions = "postLaunchActions"
             case smallVolumeConf = "smallVolumeConf"
             case smallVolumeMaxSize = "smallVolumeMaxSize"
@@ -5356,6 +5449,8 @@ extension Mgn {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// Update replication configuration EBS encryption key ARN request.
         public let ebsEncryptionKeyArn: String?
+        /// Update replication configuration internet protocol.
+        public let internetProtocol: InternetProtocol?
         /// Update replication configuration name request.
         public let name: String?
         /// Update replication configuration replicated disks request.
@@ -5376,7 +5471,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(accountID: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, name: String? = nil, replicatedDisks: [ReplicationConfigurationReplicatedDisk]? = nil, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, sourceServerID: String, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.accountID = accountID
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -5385,6 +5480,7 @@ extension Mgn {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.name = name
             self.replicatedDisks = replicatedDisks
             self.replicationServerInstanceType = replicationServerInstanceType
@@ -5436,6 +5532,7 @@ extension Mgn {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case name = "name"
             case replicatedDisks = "replicatedDisks"
             case replicationServerInstanceType = "replicationServerInstanceType"
@@ -5465,6 +5562,8 @@ extension Mgn {
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// Update replication configuration template EBS encryption key ARN request.
         public let ebsEncryptionKeyArn: String?
+        /// Update replication configuration template internet protocol request.
+        public let internetProtocol: InternetProtocol?
         /// Update replication configuration template template ID request.
         public let replicationConfigurationTemplateID: String
         /// Update replication configuration template Replication Server instance type request.
@@ -5481,7 +5580,7 @@ extension Mgn {
         public let useFipsEndpoint: Bool?
 
         @inlinable
-        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
+        public init(arn: String? = nil, associateDefaultSecurityGroup: Bool? = nil, bandwidthThrottling: Int64? = nil, createPublicIP: Bool? = nil, dataPlaneRouting: ReplicationConfigurationDataPlaneRouting? = nil, defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType? = nil, ebsEncryption: ReplicationConfigurationEbsEncryption? = nil, ebsEncryptionKeyArn: String? = nil, internetProtocol: InternetProtocol? = nil, replicationConfigurationTemplateID: String, replicationServerInstanceType: String? = nil, replicationServersSecurityGroupsIDs: [String]? = nil, stagingAreaSubnetId: String? = nil, stagingAreaTags: [String: String]? = nil, useDedicatedReplicationServer: Bool? = nil, useFipsEndpoint: Bool? = nil) {
             self.arn = arn
             self.associateDefaultSecurityGroup = associateDefaultSecurityGroup
             self.bandwidthThrottling = bandwidthThrottling
@@ -5490,6 +5589,7 @@ extension Mgn {
             self.defaultLargeStagingDiskType = defaultLargeStagingDiskType
             self.ebsEncryption = ebsEncryption
             self.ebsEncryptionKeyArn = ebsEncryptionKeyArn
+            self.internetProtocol = internetProtocol
             self.replicationConfigurationTemplateID = replicationConfigurationTemplateID
             self.replicationServerInstanceType = replicationServerInstanceType
             self.replicationServersSecurityGroupsIDs = replicationServersSecurityGroupsIDs
@@ -5533,6 +5633,7 @@ extension Mgn {
             case defaultLargeStagingDiskType = "defaultLargeStagingDiskType"
             case ebsEncryption = "ebsEncryption"
             case ebsEncryptionKeyArn = "ebsEncryptionKeyArn"
+            case internetProtocol = "internetProtocol"
             case replicationConfigurationTemplateID = "replicationConfigurationTemplateID"
             case replicationServerInstanceType = "replicationServerInstanceType"
             case replicationServersSecurityGroupsIDs = "replicationServersSecurityGroupsIDs"

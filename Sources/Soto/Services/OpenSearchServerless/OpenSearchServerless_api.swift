@@ -261,6 +261,7 @@ public struct OpenSearchServerless: AWSService {
     ///   - standbyReplicas: Indicates whether standby replicas should be used for a collection.
     ///   - tags: An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection.
     ///   - type: The type of collection.
+    ///   - vectorOptions: Configuration options for vector search capabilities in the collection.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCollection(
@@ -270,6 +271,7 @@ public struct OpenSearchServerless: AWSService {
         standbyReplicas: StandbyReplicas? = nil,
         tags: [Tag]? = nil,
         type: CollectionType? = nil,
+        vectorOptions: VectorOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCollectionResponse {
         let input = CreateCollectionRequest(
@@ -278,7 +280,8 @@ public struct OpenSearchServerless: AWSService {
             name: name, 
             standbyReplicas: standbyReplicas, 
             tags: tags, 
-            type: type
+            type: type, 
+            vectorOptions: vectorOptions
         )
         return try await self.createCollection(input, logger: logger)
     }

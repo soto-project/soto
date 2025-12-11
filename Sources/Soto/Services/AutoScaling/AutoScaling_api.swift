@@ -391,6 +391,7 @@ public struct AutoScaling: AWSService {
     ///   - healthCheckGracePeriod: The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Default: 0 seconds
     ///   - healthCheckType: A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     ///   - instanceId: The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 DescribeInstances API operation. For more information, see Create an Auto Scaling group using parameters from an existing instance in the Amazon EC2 Auto Scaling User Guide.
+    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. This policy controls instance  behavior when an instance transitions through its lifecycle states. Configure retention  triggers to specify when instances should move to a Retained  state for manual intervention instead of automatic termination.   Instances in a Retained state will continue to incur standard EC2 charges until terminated.
     ///   - instanceMaintenancePolicy: An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
     ///   - launchConfigurationName: The name of the launch configuration to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).
     ///   - launchTemplate: Information used to specify the launch template and version to use to launch instances.  Conditional: You must specify either a launch template (LaunchTemplate or MixedInstancesPolicy) or a launch configuration (LaunchConfigurationName or InstanceId).  The launch template that is specified must be configured for use with an Auto Scaling group. For more information, see Create a launch template for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
@@ -426,6 +427,7 @@ public struct AutoScaling: AWSService {
         healthCheckGracePeriod: Int? = nil,
         healthCheckType: String? = nil,
         instanceId: String? = nil,
+        instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil,
         instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil,
         launchConfigurationName: String? = nil,
         launchTemplate: LaunchTemplateSpecification? = nil,
@@ -461,6 +463,7 @@ public struct AutoScaling: AWSService {
             healthCheckGracePeriod: healthCheckGracePeriod, 
             healthCheckType: healthCheckType, 
             instanceId: instanceId, 
+            instanceLifecyclePolicy: instanceLifecyclePolicy, 
             instanceMaintenancePolicy: instanceMaintenancePolicy, 
             launchConfigurationName: launchConfigurationName, 
             launchTemplate: launchTemplate, 
@@ -1800,6 +1803,53 @@ public struct AutoScaling: AWSService {
         return try await self.getPredictiveScalingForecast(input, logger: logger)
     }
 
+    ///  Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and other details if launch is successful or error details if launch is unsuccessful.
+    @Sendable
+    @inlinable
+    public func launchInstances(_ input: LaunchInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> LaunchInstancesResult {
+        try await self.client.execute(
+            operation: "LaunchInstances", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Launches a specified number of instances in an Auto Scaling group. Returns instance IDs and other details if launch is successful or error details if launch is unsuccessful.
+    ///
+    /// Parameters:
+    ///   - autoScalingGroupName:  The name of the Auto Scaling group to launch instances into.
+    ///   - availabilityZoneIds:  A list of Availability Zone IDs where instances should be launched. Must match or be included in the group's AZ configuration. You cannot specify both AvailabilityZones and AvailabilityZoneIds. Required for multi-AZ groups, optional for single-AZ groups.
+    ///   - availabilityZones:  The Availability Zones for the instance launch. Must match or be included in the Auto Scaling group's Availability Zone configuration. Either AvailabilityZones or SubnetIds must be specified for groups with multiple Availability Zone configurations.
+    ///   - clientToken:  A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - requestedCapacity:  The number of instances to launch. Although this value can exceed 100 for instance weights, the actual instance count is limited to 100 instances per launch.
+    ///   - retryStrategy:  Specifies whether to retry asynchronously if the synchronous launch fails. Valid values are NONE (default, no async retry) and RETRY_WITH_GROUP_CONFIGURATION (increase desired capacity and retry with group configuration).
+    ///   - subnetIds:  The subnet IDs for the instance launch. Either AvailabilityZones or SubnetIds must be specified. If both are specified, the subnets must reside in the specified Availability Zones.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func launchInstances(
+        autoScalingGroupName: String? = nil,
+        availabilityZoneIds: [String]? = nil,
+        availabilityZones: [String]? = nil,
+        clientToken: String? = nil,
+        requestedCapacity: Int? = nil,
+        retryStrategy: RetryStrategy? = nil,
+        subnetIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> LaunchInstancesResult {
+        let input = LaunchInstancesRequest(
+            autoScalingGroupName: autoScalingGroupName, 
+            availabilityZoneIds: availabilityZoneIds, 
+            availabilityZones: availabilityZones, 
+            clientToken: clientToken, 
+            requestedCapacity: requestedCapacity, 
+            retryStrategy: retryStrategy, 
+            subnetIds: subnetIds
+        )
+        return try await self.launchInstances(input, logger: logger)
+    }
+
     /// Creates or updates a lifecycle hook for the specified Auto Scaling group. Lifecycle hooks let you create solutions that are aware of events in the Auto Scaling instance lifecycle, and then perform a custom action on instances when the corresponding lifecycle event occurs. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a launch template or launch configuration with a user data script that runs while an instance is in a wait state due to a lifecycle hook.   (Optional) Create a Lambda function and a rule that allows Amazon EventBridge to invoke your Lambda function when an instance is put into a wait state due to a lifecycle hook.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.    Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.    If you need more time, record the lifecycle action heartbeat to keep the instance in a wait state using the RecordLifecycleActionHeartbeat API call.   If you finish before the timeout period ends, send a callback by using the CompleteLifecycleAction API call.   For more information, see Amazon EC2 Auto Scaling lifecycle hooks in the Amazon EC2 Auto Scaling User Guide. If you exceed your maximum limit of lifecycle hooks, which by default is 50 per Auto Scaling group, the call fails. You can view the lifecycle hooks for an Auto Scaling group using the  DescribeLifecycleHooks API call. If you are no longer using a lifecycle hook, you can delete it by calling the DeleteLifecycleHook API.
     @Sendable
     @inlinable
@@ -2385,6 +2435,7 @@ public struct AutoScaling: AWSService {
     ///   - desiredCapacityType: The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Create a mixed instances group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
     ///   - healthCheckGracePeriod: The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. This is useful if your instances do not immediately pass their health checks after they enter the InService state. For more information, see Set the health check grace period for an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
     ///   - healthCheckType: A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see Health checks for instances in an Auto Scaling group in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
+    ///   - instanceLifecyclePolicy:  The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle  policies that control instance behavior when an instance transitions through its lifecycle states. Configure  retention triggers to specify when to preserve instances for manual intervention.
     ///   - instanceMaintenancePolicy: An instance maintenance policy. For more information, see Set instance maintenance policy in the Amazon EC2 Auto Scaling User Guide.
     ///   - launchConfigurationName: The name of the launch configuration. If you specify LaunchConfigurationName in your update request, you can't specify LaunchTemplate or MixedInstancesPolicy.
     ///   - launchTemplate: The launch template and version to use to specify the updates. If you specify LaunchTemplate in your update request, you can't specify LaunchConfigurationName or MixedInstancesPolicy.
@@ -2414,6 +2465,7 @@ public struct AutoScaling: AWSService {
         desiredCapacityType: String? = nil,
         healthCheckGracePeriod: Int? = nil,
         healthCheckType: String? = nil,
+        instanceLifecyclePolicy: InstanceLifecyclePolicy? = nil,
         instanceMaintenancePolicy: InstanceMaintenancePolicy? = nil,
         launchConfigurationName: String? = nil,
         launchTemplate: LaunchTemplateSpecification? = nil,
@@ -2443,6 +2495,7 @@ public struct AutoScaling: AWSService {
             desiredCapacityType: desiredCapacityType, 
             healthCheckGracePeriod: healthCheckGracePeriod, 
             healthCheckType: healthCheckType, 
+            instanceLifecyclePolicy: instanceLifecyclePolicy, 
             instanceMaintenancePolicy: instanceMaintenancePolicy, 
             launchConfigurationName: launchConfigurationName, 
             launchTemplate: launchTemplate, 

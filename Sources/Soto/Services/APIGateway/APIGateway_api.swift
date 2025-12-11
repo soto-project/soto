@@ -423,6 +423,7 @@ public struct APIGateway: AWSService {
     ///   - certificateName: The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     ///   - certificatePrivateKey: [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     ///   - domainName: The name of the DomainName resource.
+    ///   - endpointAccessMode: The endpoint access mode of the DomainName. Only available for DomainNames that use security policies that start with SecurityPolicy_.
     ///   - endpointConfiguration: The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     ///   - mutualTlsAuthentication: 
     ///   - ownershipVerificationCertificateArn: The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
@@ -430,7 +431,7 @@ public struct APIGateway: AWSService {
     ///   - regionalCertificateArn: The reference to an Amazon Web Services-managed certificate that will be used by regional endpoint for this domain name. Certificate Manager is the only supported source.
     ///   - regionalCertificateName: The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
     ///   - routingMode: The routing mode for this domain name. The routing mode determines how API Gateway sends traffic from your custom domain name to your private APIs.
-    ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
+    ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this DomainName.
     ///   - tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     ///   - logger: Logger use during operation
     @inlinable
@@ -441,6 +442,7 @@ public struct APIGateway: AWSService {
         certificateName: String? = nil,
         certificatePrivateKey: String? = nil,
         domainName: String,
+        endpointAccessMode: EndpointAccessMode? = nil,
         endpointConfiguration: EndpointConfiguration? = nil,
         mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil,
         ownershipVerificationCertificateArn: String? = nil,
@@ -459,6 +461,7 @@ public struct APIGateway: AWSService {
             certificateName: certificateName, 
             certificatePrivateKey: certificatePrivateKey, 
             domainName: domainName, 
+            endpointAccessMode: endpointAccessMode, 
             endpointConfiguration: endpointConfiguration, 
             mutualTlsAuthentication: mutualTlsAuthentication, 
             ownershipVerificationCertificateArn: ownershipVerificationCertificateArn, 
@@ -645,10 +648,12 @@ public struct APIGateway: AWSService {
     ///   - cloneFrom: The ID of the RestApi that you want to clone from.
     ///   - description: The description of the RestApi.
     ///   - disableExecuteApiEndpoint: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
+    ///   - endpointAccessMode: The endpoint access mode of the RestApi. Only available for RestApis that use security policies that start with SecurityPolicy_.
     ///   - endpointConfiguration: The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     ///   - minimumCompressionSize: A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
     ///   - name: The name of the RestApi.
     ///   - policy: A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
+    ///   - securityPolicy: The Transport Layer Security (TLS) version + cipher suite for this RestApi.
     ///   - tags: The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
     ///   - version: A version identifier for the API.
     ///   - logger: Logger use during operation
@@ -659,10 +664,12 @@ public struct APIGateway: AWSService {
         cloneFrom: String? = nil,
         description: String? = nil,
         disableExecuteApiEndpoint: Bool? = nil,
+        endpointAccessMode: EndpointAccessMode? = nil,
         endpointConfiguration: EndpointConfiguration? = nil,
         minimumCompressionSize: Int? = nil,
         name: String,
         policy: String? = nil,
+        securityPolicy: SecurityPolicy? = nil,
         tags: [String: String]? = nil,
         version: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -673,10 +680,12 @@ public struct APIGateway: AWSService {
             cloneFrom: cloneFrom, 
             description: description, 
             disableExecuteApiEndpoint: disableExecuteApiEndpoint, 
+            endpointAccessMode: endpointAccessMode, 
             endpointConfiguration: endpointConfiguration, 
             minimumCompressionSize: minimumCompressionSize, 
             name: name, 
             policy: policy, 
+            securityPolicy: securityPolicy, 
             tags: tags, 
             version: version
         )
@@ -3447,10 +3456,12 @@ public struct APIGateway: AWSService {
     ///   - credentials: Specifies whether credentials are required for a put integration.
     ///   - httpMethod: Specifies the HTTP method for the integration.
     ///   - integrationHttpMethod: The HTTP method for the integration.
+    ///   - integrationTarget: The ALB or NLB listener to send the request to.
     ///   - passthroughBehavior: Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values:  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
     ///   - requestParameters: A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
     ///   - requestTemplates: Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
     ///   - resourceId: Specifies a put integration request's resource ID.
+    ///   - responseTransferMode: The response transfer mode of the integration.
     ///   - restApiId: The string identifier of the associated RestApi.
     ///   - timeoutInMillis: Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.  You can increase the default value to longer than 29 seconds for Regional or private APIs only.
     ///   - tlsConfig: 
@@ -3467,10 +3478,12 @@ public struct APIGateway: AWSService {
         credentials: String? = nil,
         httpMethod: String,
         integrationHttpMethod: String? = nil,
+        integrationTarget: String? = nil,
         passthroughBehavior: String? = nil,
         requestParameters: [String: String]? = nil,
         requestTemplates: [String: String]? = nil,
         resourceId: String,
+        responseTransferMode: ResponseTransferMode? = nil,
         restApiId: String,
         timeoutInMillis: Int? = nil,
         tlsConfig: TlsConfig? = nil,
@@ -3487,10 +3500,12 @@ public struct APIGateway: AWSService {
             credentials: credentials, 
             httpMethod: httpMethod, 
             integrationHttpMethod: integrationHttpMethod, 
+            integrationTarget: integrationTarget, 
             passthroughBehavior: passthroughBehavior, 
             requestParameters: requestParameters, 
             requestTemplates: requestTemplates, 
             resourceId: resourceId, 
+            responseTransferMode: responseTransferMode, 
             restApiId: restApiId, 
             timeoutInMillis: timeoutInMillis, 
             tlsConfig: tlsConfig, 

@@ -110,7 +110,7 @@ public struct S3Tables: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.    If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableStorageClass permission.   To create a table with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission.    Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -123,7 +123,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.     Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTable permission to use this operation.    If you use this operation with the optional metadata request parameter you must have the s3tables:PutTableData permission.    If you use this operation with the optional encryptionConfiguration request parameter you must have the s3tables:PutTableEncryption permission.    If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableStorageClass permission.   To create a table with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission.    Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration to use for the table. This configuration specifies the encryption algorithm and, if using SSE-KMS, the KMS key to use for encrypting the table.   If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
@@ -131,7 +131,9 @@ public struct S3Tables: AWSService {
     ///   - metadata: The metadata for the table.
     ///   - name: The name for the table.
     ///   - namespace: The namespace to associated with the table.
+    ///   - storageClassConfiguration: The storage class configuration for the table. If not specified, the table inherits the storage class configuration from its table bucket. Specify this parameter to override the bucket's default storage class for this table.
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket to create the table in.
+    ///   - tags: A map of user-defined tags that you would like to apply to the table that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize, track costs for, and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission to create a table with tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTable(
@@ -140,7 +142,9 @@ public struct S3Tables: AWSService {
         metadata: TableMetadata? = nil,
         name: String,
         namespace: String,
+        storageClassConfiguration: StorageClassConfiguration? = nil,
         tableBucketARN: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableResponse {
         let input = CreateTableRequest(
@@ -149,12 +153,14 @@ public struct S3Tables: AWSService {
             metadata: metadata, 
             name: name, 
             namespace: namespace, 
-            tableBucketARN: tableBucketARN
+            storageClassConfiguration: storageClassConfiguration, 
+            tableBucketARN: tableBucketARN, 
+            tags: tags
         )
         return try await self.createTable(input, logger: logger)
     }
 
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.   If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass permission.   To create a table bucket with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permission.
     @Sendable
     @inlinable
     public func createTableBucket(_ input: CreateTableBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableBucketResponse {
@@ -167,21 +173,27 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions    You must have the s3tables:CreateTableBucket permission to use this operation.    If you use this operation with the optional encryptionConfiguration parameter you must have the s3tables:PutTableBucketEncryption permission.   If you use this operation with the storageClassConfiguration request parameter, you must have the s3tables:PutTableBucketStorageClass permission.   To create a table bucket with tags, you must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permission.
     ///
     /// Parameters:
     ///   - encryptionConfiguration: The encryption configuration to use for the table bucket. This configuration specifies the default encryption settings that will be applied to all tables created in this bucket unless overridden at the table level. The configuration includes the encryption algorithm and, if using SSE-KMS, the KMS key to use.
     ///   - name: The name for the table bucket.
+    ///   - storageClassConfiguration: The default storage class configuration for the table bucket. This configuration will be applied to all new tables created in this bucket unless overridden at the table level. If not specified, the service default storage class will be used.
+    ///   - tags: A map of user-defined tags that you would like to apply to the table bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permisson to create a table bucket with tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTableBucket(
         encryptionConfiguration: EncryptionConfiguration? = nil,
         name: String,
+        storageClassConfiguration: StorageClassConfiguration? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableBucketResponse {
         let input = CreateTableBucketRequest(
             encryptionConfiguration: encryptionConfiguration, 
-            name: name
+            name: name, 
+            storageClassConfiguration: storageClassConfiguration, 
+            tags: tags
         )
         return try await self.createTableBucket(input, logger: logger)
     }
@@ -314,6 +326,35 @@ public struct S3Tables: AWSService {
         return try await self.deleteTableBucketEncryption(input, logger: logger)
     }
 
+    /// Deletes the metrics configuration for a table bucket.  Permissions  You must have the s3tables:DeleteTableBucketMetricsConfiguration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func deleteTableBucketMetricsConfiguration(_ input: DeleteTableBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTableBucketMetricsConfiguration", 
+            path: "/buckets/{tableBucketARN}/metrics", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the metrics configuration for a table bucket.  Permissions  You must have the s3tables:DeleteTableBucketMetricsConfiguration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTableBucketMetricsConfiguration(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTableBucketMetricsConfigurationRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.deleteTableBucketMetricsConfiguration(input, logger: logger)
+    }
+
     /// Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
@@ -341,6 +382,38 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.deleteTableBucketPolicy(input, logger: logger)
+    }
+
+    /// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets.  Permissions  You must have the s3tables:DeleteTableBucketReplication permission to use this operation.
+    @Sendable
+    @inlinable
+    public func deleteTableBucketReplication(_ input: DeleteTableBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTableBucketReplication", 
+            path: "/table-bucket-replication", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the replication configuration for a table bucket. After deletion, new table updates will no longer be replicated to destination buckets, though existing replicated tables will remain in destination buckets.  Permissions  You must have the s3tables:DeleteTableBucketReplication permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - versionToken: A version token from a previous GetTableBucketReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTableBucketReplication(
+        tableBucketARN: String,
+        versionToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTableBucketReplicationRequest(
+            tableBucketARN: tableBucketARN, 
+            versionToken: versionToken
+        )
+        return try await self.deleteTableBucketReplication(input, logger: logger)
     }
 
     /// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTablePolicy permission to use this operation.
@@ -376,6 +449,38 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.deleteTablePolicy(input, logger: logger)
+    }
+
+    /// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets.  Permissions  You must have the s3tables:DeleteTableReplication permission to use this operation.
+    @Sendable
+    @inlinable
+    public func deleteTableReplication(_ input: DeleteTableReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteTableReplication", 
+            path: "/table-replication", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the replication configuration for a specific table. After deletion, new updates to this table will no longer be replicated to destination tables, though existing replicated copies will remain in destination buckets.  Permissions  You must have the s3tables:DeleteTableReplication permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - versionToken: A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTableReplication(
+        tableArn: String,
+        versionToken: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteTableReplicationRequest(
+            tableArn: tableArn, 
+            versionToken: versionToken
+        )
+        return try await self.deleteTableReplication(input, logger: logger)
     }
 
     /// Gets details about a namespace. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetNamespace permission to use this operation.
@@ -535,6 +640,35 @@ public struct S3Tables: AWSService {
         return try await self.getTableBucketMaintenanceConfiguration(input, logger: logger)
     }
 
+    /// Gets the metrics configuration for a table bucket.  Permissions  You must have the s3tables:GetTableBucketMetricsConfiguration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableBucketMetricsConfiguration(_ input: GetTableBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketMetricsConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetTableBucketMetricsConfiguration", 
+            path: "/buckets/{tableBucketARN}/metrics", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the metrics configuration for a table bucket.  Permissions  You must have the s3tables:GetTableBucketMetricsConfiguration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableBucketMetricsConfiguration(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableBucketMetricsConfigurationResponse {
+        let input = GetTableBucketMetricsConfigurationRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableBucketMetricsConfiguration(input, logger: logger)
+    }
+
     /// Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
@@ -562,6 +696,64 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.getTableBucketPolicy(input, logger: logger)
+    }
+
+    /// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken, and replication rules that define how tables in this bucket are replicated to other buckets.  Permissions  You must have the s3tables:GetTableBucketReplication permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableBucketReplication(_ input: GetTableBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketReplicationResponse {
+        try await self.client.execute(
+            operation: "GetTableBucketReplication", 
+            path: "/table-bucket-replication", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the replication configuration for a table bucket.This operation returns the IAM role, versionToken, and replication rules that define how tables in this bucket are replicated to other buckets.  Permissions  You must have the s3tables:GetTableBucketReplication permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableBucketReplication(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableBucketReplicationResponse {
+        let input = GetTableBucketReplicationRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableBucketReplication(input, logger: logger)
+    }
+
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.  Permissions  You must have the s3tables:GetTableBucketStorageClass permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableBucketStorageClass(_ input: GetTableBucketStorageClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketStorageClassResponse {
+        try await self.client.execute(
+            operation: "GetTableBucketStorageClass", 
+            path: "/buckets/{tableBucketARN}/storage-class", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.  Permissions  You must have the s3tables:GetTableBucketStorageClass permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableBucketStorageClass(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableBucketStorageClassResponse {
+        let input = GetTableBucketStorageClassRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableBucketStorageClass(input, logger: logger)
     }
 
     /// Gets the encryption configuration for a table.  Permissions  You must have the s3tables:GetTableEncryption permission to use this operation.
@@ -650,7 +842,7 @@ public struct S3Tables: AWSService {
     /// Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation.
     ///
     /// Parameters:
-    ///   - name: The name of the maintenance job.
+    ///   - name: The name of the table containing the maintenance job status you want to check.
     ///   - namespace: The name of the namespace the table is associated with.
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
     ///   - logger: Logger use during operation
@@ -737,6 +929,157 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.getTablePolicy(input, logger: logger)
+    }
+
+    /// Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled, records expire and are automatically removed from the table after the specified number of days.  Permissions  You must have the s3tables:GetTableRecordExpirationConfiguration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableRecordExpirationConfiguration(_ input: GetTableRecordExpirationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableRecordExpirationConfigurationResponse {
+        try await self.client.execute(
+            operation: "GetTableRecordExpirationConfiguration", 
+            path: "/table-record-expiration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the expiration configuration settings for records in a table, and the status of the configuration. If the status of the configuration is enabled, records expire and are automatically removed from the table after the specified number of days.  Permissions  You must have the s3tables:GetTableRecordExpirationConfiguration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableRecordExpirationConfiguration(
+        tableArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableRecordExpirationConfigurationResponse {
+        let input = GetTableRecordExpirationConfigurationRequest(
+            tableArn: tableArn
+        )
+        return try await self.getTableRecordExpirationConfiguration(input, logger: logger)
+    }
+
+    /// Retrieves the status, metrics, and details of the latest record expiration job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed.  Permissions  You must have the s3tables:GetTableRecordExpirationJobStatus permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableRecordExpirationJobStatus(_ input: GetTableRecordExpirationJobStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableRecordExpirationJobStatusResponse {
+        try await self.client.execute(
+            operation: "GetTableRecordExpirationJobStatus", 
+            path: "/table-record-expiration-job-status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the status, metrics, and details of the latest record expiration job for a table. This includes when the job ran, and whether it succeeded or failed. If the job ran successfully, this also includes statistics about the records that were removed.  Permissions  You must have the s3tables:GetTableRecordExpirationJobStatus permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableRecordExpirationJobStatus(
+        tableArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableRecordExpirationJobStatusResponse {
+        let input = GetTableRecordExpirationJobStatusRequest(
+            tableArn: tableArn
+        )
+        return try await self.getTableRecordExpirationJobStatus(input, logger: logger)
+    }
+
+    /// Retrieves the replication configuration for a specific table.  Permissions  You must have the s3tables:GetTableReplication permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableReplication(_ input: GetTableReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableReplicationResponse {
+        try await self.client.execute(
+            operation: "GetTableReplication", 
+            path: "/table-replication", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the replication configuration for a specific table.  Permissions  You must have the s3tables:GetTableReplication permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableReplication(
+        tableArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableReplicationResponse {
+        let input = GetTableReplicationRequest(
+            tableArn: tableArn
+        )
+        return try await self.getTableReplication(input, logger: logger)
+    }
+
+    /// Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress.  Permissions  You must have the s3tables:GetTableReplicationStatus permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableReplicationStatus(_ input: GetTableReplicationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableReplicationStatusResponse {
+        try await self.client.execute(
+            operation: "GetTableReplicationStatus", 
+            path: "/replication-status", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the replication status for a table, including the status of replication to each destination. This operation provides visibility into replication health and progress.  Permissions  You must have the s3tables:GetTableReplicationStatus permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableReplicationStatus(
+        tableArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableReplicationStatusResponse {
+        let input = GetTableReplicationStatusRequest(
+            tableArn: tableArn
+        )
+        return try await self.getTableReplicationStatus(input, logger: logger)
+    }
+
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.  Permissions  You must have the s3tables:GetTableStorageClass permission to use this operation.
+    @Sendable
+    @inlinable
+    public func getTableStorageClass(_ input: GetTableStorageClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableStorageClassResponse {
+        try await self.client.execute(
+            operation: "GetTableStorageClass", 
+            path: "/tables/{tableBucketARN}/{namespace}/{name}/storage-class", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the storage class configuration for a specific table. This allows you to view the storage class settings that apply to an individual table, which may differ from the table bucket's default configuration.  Permissions  You must have the s3tables:GetTableStorageClass permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - name: The name of the table.
+    ///   - namespace: The namespace associated with the table.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket that contains the table.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTableStorageClass(
+        name: String,
+        namespace: String,
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTableStorageClassResponse {
+        let input = GetTableStorageClassRequest(
+            name: name, 
+            namespace: namespace, 
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.getTableStorageClass(input, logger: logger)
     }
 
     /// Lists the namespaces within a table bucket. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListNamespaces permission to use this operation.
@@ -856,6 +1199,35 @@ public struct S3Tables: AWSService {
         return try await self.listTables(input, logger: logger)
     }
 
+    /// Lists all of the tags applied to a specified Amazon S3 Tables resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:ListTagsForResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tag/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all of the tags applied to a specified Amazon S3 Tables resource. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to resources.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:ListTagsForResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you want to list tags for. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
     /// Sets the encryption configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketEncryption permission to use this operation.  If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the Amazon Simple Storage Service User Guide.
     @Sendable
     @inlinable
@@ -923,7 +1295,36 @@ public struct S3Tables: AWSService {
         return try await self.putTableBucketMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
+    /// Sets the metrics configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketMetricsConfiguration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func putTableBucketMetricsConfiguration(_ input: PutTableBucketMetricsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutTableBucketMetricsConfiguration", 
+            path: "/buckets/{tableBucketARN}/metrics", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the metrics configuration for a table bucket.  Permissions  You must have the s3tables:PutTableBucketMetricsConfiguration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableBucketMetricsConfiguration(
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutTableBucketMetricsConfigurationRequest(
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.putTableBucketMetricsConfiguration(input, logger: logger)
+    }
+
+    /// Creates a new table bucket policy or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func putTableBucketPolicy(_ input: PutTableBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -936,7 +1337,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
+    /// Creates a new table bucket policy or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - resourcePolicy: The JSON that defines the policy.
@@ -955,6 +1356,73 @@ public struct S3Tables: AWSService {
         return try await self.putTableBucketPolicy(input, logger: logger)
     }
 
+    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts.  Permissions    You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination buckets.   You must also have the following permissions:    s3tables:GetTable permission on the source table.    s3tables:ListTables permission on the bucket containing the table.    s3tables:CreateTable permission for the destination.    s3tables:CreateNamespace permission for the destination.    s3tables:GetTableMaintenanceConfig permission for the source bucket.    s3tables:PutTableMaintenanceConfig permission for the destination bucket.     You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    @Sendable
+    @inlinable
+    public func putTableBucketReplication(_ input: PutTableBucketReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTableBucketReplicationResponse {
+        try await self.client.execute(
+            operation: "PutTableBucketReplication", 
+            path: "/table-bucket-replication", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the replication configuration for a table bucket. This operation defines how tables in the source bucket are replicated to destination buckets. Replication helps ensure data availability and disaster recovery across regions or accounts.  Permissions    You must have the s3tables:PutTableBucketReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source bucket and write permissions to all destination buckets.   You must also have the following permissions:    s3tables:GetTable permission on the source table.    s3tables:ListTables permission on the bucket containing the table.    s3tables:CreateTable permission for the destination.    s3tables:CreateNamespace permission for the destination.    s3tables:GetTableMaintenanceConfig permission for the source bucket.    s3tables:PutTableMaintenanceConfig permission for the destination bucket.     You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    ///
+    /// Parameters:
+    ///   - configuration: The replication configuration to apply, including the IAM role and replication rules.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the source table bucket.
+    ///   - versionToken: A version token from a previous GetTableBucketReplication call. Use this token to ensure you're updating the expected version of the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableBucketReplication(
+        configuration: TableBucketReplicationConfiguration,
+        tableBucketARN: String,
+        versionToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTableBucketReplicationResponse {
+        let input = PutTableBucketReplicationRequest(
+            configuration: configuration, 
+            tableBucketARN: tableBucketARN, 
+            versionToken: versionToken
+        )
+        return try await self.putTableBucketReplication(input, logger: logger)
+    }
+
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level.  Permissions  You must have the s3tables:PutTableBucketStorageClass permission to use this operation.
+    @Sendable
+    @inlinable
+    public func putTableBucketStorageClass(_ input: PutTableBucketStorageClassRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutTableBucketStorageClass", 
+            path: "/buckets/{tableBucketARN}/storage-class", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets or updates the storage class configuration for a table bucket. This configuration serves as the default storage class for all new tables created in the bucket, allowing you to optimize storage costs at the bucket level.  Permissions  You must have the s3tables:PutTableBucketStorageClass permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - storageClassConfiguration: The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableBucketStorageClass(
+        storageClassConfiguration: StorageClassConfiguration,
+        tableBucketARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutTableBucketStorageClassRequest(
+            storageClassConfiguration: storageClassConfiguration, 
+            tableBucketARN: tableBucketARN
+        )
+        return try await self.putTableBucketStorageClass(input, logger: logger)
+    }
+
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
@@ -971,7 +1439,7 @@ public struct S3Tables: AWSService {
     /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     ///
     /// Parameters:
-    ///   - name: The name of the maintenance configuration.
+    ///   - name: The name of the table.
     ///   - namespace: The namespace of the table.
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table associated with the maintenance configuration.
     ///   - type: The type of the maintenance configuration.
@@ -996,7 +1464,7 @@ public struct S3Tables: AWSService {
         return try await self.putTableMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
+    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
     @Sendable
     @inlinable
     public func putTablePolicy(_ input: PutTablePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1009,7 +1477,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
+    /// Creates a new table policy or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
@@ -1032,6 +1500,73 @@ public struct S3Tables: AWSService {
             tableBucketARN: tableBucketARN
         )
         return try await self.putTablePolicy(input, logger: logger)
+    }
+
+    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify.  Permissions  You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation.
+    @Sendable
+    @inlinable
+    public func putTableRecordExpirationConfiguration(_ input: PutTableRecordExpirationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutTableRecordExpirationConfiguration", 
+            path: "/table-record-expiration", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the expiration configuration settings for records in a table, including the status of the configuration. If you enable record expiration for a table, records expire and are automatically removed from the table after the number of days that you specify.  Permissions  You must have the s3tables:PutTableRecordExpirationConfiguration permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - tableArn: The Amazon Resource Name (ARN) of the table.
+    ///   - value: The record expiration configuration to apply to the table, including the status (enabled or disabled) and retention period in days.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableRecordExpirationConfiguration(
+        tableArn: String,
+        value: TableRecordExpirationConfigurationValue,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutTableRecordExpirationConfigurationRequest(
+            tableArn: tableArn, 
+            value: value
+        )
+        return try await self.putTableRecordExpirationConfiguration(input, logger: logger)
+    }
+
+    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where.  Permissions    You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables.   You must also have the following permissions:    s3tables:GetTable permission on the source table being replicated.    s3tables:CreateTable permission for the destination.    s3tables:CreateNamespace permission for the destination.    s3tables:GetTableMaintenanceConfig permission for the source table.    s3tables:PutTableMaintenanceConfig permission for the destination table.     You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    @Sendable
+    @inlinable
+    public func putTableReplication(_ input: PutTableReplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTableReplicationResponse {
+        try await self.client.execute(
+            operation: "PutTableReplication", 
+            path: "/table-replication", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates the replication configuration for a specific table. This operation allows you to define table-level replication independently of bucket-level replication, providing granular control over which tables are replicated and where.  Permissions    You must have the s3tables:PutTableReplication permission to use this operation. The IAM role specified in the configuration must have permissions to read from the source table and write to all destination tables.   You must also have the following permissions:    s3tables:GetTable permission on the source table being replicated.    s3tables:CreateTable permission for the destination.    s3tables:CreateNamespace permission for the destination.    s3tables:GetTableMaintenanceConfig permission for the source table.    s3tables:PutTableMaintenanceConfig permission for the destination table.     You must have iam:PassRole permission with condition allowing roles to be passed to replication.s3tables.amazonaws.com.
+    ///
+    /// Parameters:
+    ///   - configuration: The replication configuration to apply to the table, including the IAM role and replication rules.
+    ///   - tableArn: The Amazon Resource Name (ARN) of the source table.
+    ///   - versionToken: A version token from a previous GetTableReplication call. Use this token to ensure you're updating the expected version of the configuration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putTableReplication(
+        configuration: TableReplicationConfiguration,
+        tableArn: String,
+        versionToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutTableReplicationResponse {
+        let input = PutTableReplicationRequest(
+            configuration: configuration, 
+            tableArn: tableArn, 
+            versionToken: versionToken
+        )
+        return try await self.putTableReplication(input, logger: logger)
     }
 
     /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:RenameTable permission to use this operation.
@@ -1076,6 +1611,70 @@ public struct S3Tables: AWSService {
             versionToken: versionToken
         )
         return try await self.renameTable(input, logger: logger)
+    }
+
+    /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:TagResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tag/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Applies one or more user-defined tags to an Amazon S3 Tables resource or updates existing tags. Each tag is a label consisting of a key and value pair. Tags can help you organize, track costs for, and control access to your resources. You can add up to 50 tags for each S3 resource.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:TagResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're applying tags to. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+    ///   - tags: The user-defined tag that you want to add to the specified S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tag/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the specified user-defined tags from an Amazon S3 Tables resource. You can pass one or more tag keys.   For a list of S3 resources that support tagging, see Managing tags for Amazon S3 resources.   Permissions  For tables and table buckets, you must have the s3tables:UntagResource permission to use this operation.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+    ///   - tagKeys: The array of tag keys that you're removing from the S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
     }
 
     /// Updates the metadata location for a table. The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.

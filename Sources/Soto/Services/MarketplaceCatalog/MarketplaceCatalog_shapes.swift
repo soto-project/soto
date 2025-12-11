@@ -51,6 +51,7 @@ extension MarketplaceCatalog {
     }
 
     public enum ContainerProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compatibleAWSServices = "CompatibleAWSServices"
         case entityId = "EntityId"
         case lastModifiedDate = "LastModifiedDate"
         case productTitle = "ProductTitle"
@@ -111,12 +112,29 @@ extension MarketplaceCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfferSetSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case entityId = "EntityId"
+        case lastModifiedDate = "LastModifiedDate"
+        case name = "Name"
+        case releaseDate = "ReleaseDate"
+        case solutionId = "SolutionId"
+        case state = "State"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OfferSetStateString: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case draft = "Draft"
+        case released = "Released"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OfferSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case availabilityEndDate = "AvailabilityEndDate"
         case buyerAccounts = "BuyerAccounts"
         case entityId = "EntityId"
         case lastModifiedDate = "LastModifiedDate"
         case name = "Name"
+        case offerSetId = "OfferSetId"
         case productId = "ProductId"
         case releaseDate = "ReleaseDate"
         case resaleAuthorizationId = "ResaleAuthorizationId"
@@ -170,6 +188,7 @@ extension MarketplaceCatalog {
     }
 
     public enum SaaSProductSortBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deliveryOptionTypes = "DeliveryOptionTypes"
         case entityId = "EntityId"
         case lastModifiedDate = "LastModifiedDate"
         case productTitle = "ProductTitle"
@@ -201,6 +220,8 @@ extension MarketplaceCatalog {
         case machineLearningProductFilters(MachineLearningProductFilters)
         /// A filter for offers.
         case offerFilters(OfferFilters)
+        /// A filter for offer sets.
+        case offerSetFilters(OfferSetFilters)
         /// A filter for Resale Authorizations.
         case resaleAuthorizationFilters(ResaleAuthorizationFilters)
         /// A filter for SaaS products.
@@ -219,6 +240,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .machineLearningProductFilters)
             case .offerFilters(let value):
                 try container.encode(value, forKey: .offerFilters)
+            case .offerSetFilters(let value):
+                try container.encode(value, forKey: .offerSetFilters)
             case .resaleAuthorizationFilters(let value):
                 try container.encode(value, forKey: .resaleAuthorizationFilters)
             case .saaSProductFilters(let value):
@@ -238,6 +261,8 @@ extension MarketplaceCatalog {
                 try value.validate(name: "\(name).machineLearningProductFilters")
             case .offerFilters(let value):
                 try value.validate(name: "\(name).offerFilters")
+            case .offerSetFilters(let value):
+                try value.validate(name: "\(name).offerSetFilters")
             case .resaleAuthorizationFilters(let value):
                 try value.validate(name: "\(name).resaleAuthorizationFilters")
             case .saaSProductFilters(let value):
@@ -251,6 +276,7 @@ extension MarketplaceCatalog {
             case dataProductFilters = "DataProductFilters"
             case machineLearningProductFilters = "MachineLearningProductFilters"
             case offerFilters = "OfferFilters"
+            case offerSetFilters = "OfferSetFilters"
             case resaleAuthorizationFilters = "ResaleAuthorizationFilters"
             case saaSProductFilters = "SaaSProductFilters"
         }
@@ -264,6 +290,8 @@ extension MarketplaceCatalog {
         /// A sort for data products.
         case dataProductSort(DataProductSort)
         case machineLearningProductSort(MachineLearningProductSort)
+        /// A sort for offer sets.
+        case offerSetSort(OfferSetSort)
         /// A sort for offers.
         case offerSort(OfferSort)
         /// A sort for Resale Authorizations.
@@ -282,6 +310,8 @@ extension MarketplaceCatalog {
                 try container.encode(value, forKey: .dataProductSort)
             case .machineLearningProductSort(let value):
                 try container.encode(value, forKey: .machineLearningProductSort)
+            case .offerSetSort(let value):
+                try container.encode(value, forKey: .offerSetSort)
             case .offerSort(let value):
                 try container.encode(value, forKey: .offerSort)
             case .resaleAuthorizationSort(let value):
@@ -296,6 +326,7 @@ extension MarketplaceCatalog {
             case containerProductSort = "ContainerProductSort"
             case dataProductSort = "DataProductSort"
             case machineLearningProductSort = "MachineLearningProductSort"
+            case offerSetSort = "OfferSetSort"
             case offerSort = "OfferSort"
             case resaleAuthorizationSort = "ResaleAuthorizationSort"
             case saaSProductSort = "SaaSProductSort"
@@ -1379,6 +1410,8 @@ extension MarketplaceCatalog {
         public let machineLearningProductSummary: MachineLearningProductSummary?
         /// The name for the entity. This value is not unique. It is defined by the seller.
         public let name: String?
+        /// An object that contains summary information about the offer set.
+        public let offerSetSummary: OfferSetSummary?
         /// An object that contains summary information about the offer.
         public let offerSummary: OfferSummary?
         /// An object that contains summary information about the Resale Authorization.
@@ -1389,7 +1422,7 @@ extension MarketplaceCatalog {
         public let visibility: String?
 
         @inlinable
-        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
+        public init(amiProductSummary: AmiProductSummary? = nil, containerProductSummary: ContainerProductSummary? = nil, dataProductSummary: DataProductSummary? = nil, entityArn: String? = nil, entityId: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil, machineLearningProductSummary: MachineLearningProductSummary? = nil, name: String? = nil, offerSetSummary: OfferSetSummary? = nil, offerSummary: OfferSummary? = nil, resaleAuthorizationSummary: ResaleAuthorizationSummary? = nil, saaSProductSummary: SaaSProductSummary? = nil, visibility: String? = nil) {
             self.amiProductSummary = amiProductSummary
             self.containerProductSummary = containerProductSummary
             self.dataProductSummary = dataProductSummary
@@ -1399,6 +1432,7 @@ extension MarketplaceCatalog {
             self.lastModifiedDate = lastModifiedDate
             self.machineLearningProductSummary = machineLearningProductSummary
             self.name = name
+            self.offerSetSummary = offerSetSummary
             self.offerSummary = offerSummary
             self.resaleAuthorizationSummary = resaleAuthorizationSummary
             self.saaSProductSummary = saaSProductSummary
@@ -1415,6 +1449,7 @@ extension MarketplaceCatalog {
             case lastModifiedDate = "LastModifiedDate"
             case machineLearningProductSummary = "MachineLearningProductSummary"
             case name = "Name"
+            case offerSetSummary = "OfferSetSummary"
             case offerSummary = "OfferSummary"
             case resaleAuthorizationSummary = "ResaleAuthorizationSummary"
             case saaSProductSummary = "SaaSProductSummary"
@@ -1577,7 +1612,7 @@ extension MarketplaceCatalog {
     public struct ListEntitiesRequest: AWSEncodableShape {
         /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
-        /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, Seller, ResaleAuthorization.
+        /// The type of entities to retrieve. Valid values are: AmiProduct, ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience, BrandingSettings, Offer, OfferSet, Seller, ResaleAuthorization, Solution.
         public let entityType: String
         /// A Union object containing filter shapes for all EntityTypes. Each EntityTypeFilter shape will have filters applicable for that EntityType that can be used to search or filter entities.
         public let entityTypeFilters: EntityTypeFilters?
@@ -1985,6 +2020,8 @@ extension MarketplaceCatalog {
         public let lastModifiedDate: OfferLastModifiedDateFilter?
         /// Allows filtering on the Name of an offer.
         public let name: OfferNameFilter?
+        /// Allows filtering on the OfferSetId of an offer.
+        public let offerSetId: OfferSetIdFilter?
         /// Allows filtering on the ProductId of an offer.
         public let productId: OfferProductIdFilter?
         /// Allows filtering on the ReleaseDate of an offer.
@@ -1997,12 +2034,13 @@ extension MarketplaceCatalog {
         public let targeting: OfferTargetingFilter?
 
         @inlinable
-        public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, resaleAuthorizationId: OfferResaleAuthorizationIdFilter? = nil, state: OfferStateFilter? = nil, targeting: OfferTargetingFilter? = nil) {
+        public init(availabilityEndDate: OfferAvailabilityEndDateFilter? = nil, buyerAccounts: OfferBuyerAccountsFilter? = nil, entityId: OfferEntityIdFilter? = nil, lastModifiedDate: OfferLastModifiedDateFilter? = nil, name: OfferNameFilter? = nil, offerSetId: OfferSetIdFilter? = nil, productId: OfferProductIdFilter? = nil, releaseDate: OfferReleaseDateFilter? = nil, resaleAuthorizationId: OfferResaleAuthorizationIdFilter? = nil, state: OfferStateFilter? = nil, targeting: OfferTargetingFilter? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
             self.entityId = entityId
             self.lastModifiedDate = lastModifiedDate
             self.name = name
+            self.offerSetId = offerSetId
             self.productId = productId
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
@@ -2016,6 +2054,7 @@ extension MarketplaceCatalog {
             try self.entityId?.validate(name: "\(name).entityId")
             try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
             try self.name?.validate(name: "\(name).name")
+            try self.offerSetId?.validate(name: "\(name).offerSetId")
             try self.productId?.validate(name: "\(name).productId")
             try self.releaseDate?.validate(name: "\(name).releaseDate")
             try self.resaleAuthorizationId?.validate(name: "\(name).resaleAuthorizationId")
@@ -2029,6 +2068,7 @@ extension MarketplaceCatalog {
             case entityId = "EntityId"
             case lastModifiedDate = "LastModifiedDate"
             case name = "Name"
+            case offerSetId = "OfferSetId"
             case productId = "ProductId"
             case releaseDate = "ReleaseDate"
             case resaleAuthorizationId = "ResaleAuthorizationId"
@@ -2206,6 +2246,331 @@ extension MarketplaceCatalog {
         }
     }
 
+    public struct OfferSetAssociatedOfferIdsFilter: AWSEncodableShape {
+        /// Allows filtering on the AssociatedOfferIds of an offer set with list input.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetEntityIdFilter: AWSEncodableShape {
+        /// Allows filtering on entity id of an offer set with list input.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 255)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^offerset-[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetFilters: AWSEncodableShape {
+        /// Allows filtering on the AssociatedOfferIds of an offer set.
+        public let associatedOfferIds: OfferSetAssociatedOfferIdsFilter?
+        /// Allows filtering on EntityId of an offer set.
+        public let entityId: OfferSetEntityIdFilter?
+        /// Allows filtering on the LastModifiedDate of an offer set.
+        public let lastModifiedDate: OfferSetLastModifiedDateFilter?
+        /// Allows filtering on the Name of an offer set.
+        public let name: OfferSetNameFilter?
+        /// Allows filtering on the ReleaseDate of an offer set.
+        public let releaseDate: OfferSetReleaseDateFilter?
+        /// Allows filtering on the SolutionId of an offer set.
+        public let solutionId: OfferSetSolutionIdFilter?
+        /// Allows filtering on the State of an offer set.
+        public let state: OfferSetStateFilter?
+
+        @inlinable
+        public init(associatedOfferIds: OfferSetAssociatedOfferIdsFilter? = nil, entityId: OfferSetEntityIdFilter? = nil, lastModifiedDate: OfferSetLastModifiedDateFilter? = nil, name: OfferSetNameFilter? = nil, releaseDate: OfferSetReleaseDateFilter? = nil, solutionId: OfferSetSolutionIdFilter? = nil, state: OfferSetStateFilter? = nil) {
+            self.associatedOfferIds = associatedOfferIds
+            self.entityId = entityId
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+            self.releaseDate = releaseDate
+            self.solutionId = solutionId
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.associatedOfferIds?.validate(name: "\(name).associatedOfferIds")
+            try self.entityId?.validate(name: "\(name).entityId")
+            try self.lastModifiedDate?.validate(name: "\(name).lastModifiedDate")
+            try self.name?.validate(name: "\(name).name")
+            try self.releaseDate?.validate(name: "\(name).releaseDate")
+            try self.solutionId?.validate(name: "\(name).solutionId")
+            try self.state?.validate(name: "\(name).state")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedOfferIds = "AssociatedOfferIds"
+            case entityId = "EntityId"
+            case lastModifiedDate = "LastModifiedDate"
+            case name = "Name"
+            case releaseDate = "ReleaseDate"
+            case solutionId = "SolutionId"
+            case state = "State"
+        }
+    }
+
+    public struct OfferSetIdFilter: AWSEncodableShape {
+        /// Allows filtering on the OfferSetId of an offer.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 50)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^offerset-[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetLastModifiedDateFilter: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of an offer set with date range as input.
+        public let dateRange: OfferSetLastModifiedDateFilterDateRange?
+
+        @inlinable
+        public init(dateRange: OfferSetLastModifiedDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct OfferSetLastModifiedDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the LastModifiedDate of an offer set after a date.
+        public let afterValue: String?
+        /// Allows filtering on the LastModifiedDate of an offer set before a date.
+        public let beforeValue: String?
+
+        @inlinable
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct OfferSetNameFilter: AWSEncodableShape {
+        /// Allows filtering on the Name of an offer set with list input.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 150)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^(.)+$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetReleaseDateFilter: AWSEncodableShape {
+        /// Allows filtering on the ReleaseDate of an offer set with date range as input.
+        public let dateRange: OfferSetReleaseDateFilterDateRange?
+
+        @inlinable
+        public init(dateRange: OfferSetReleaseDateFilterDateRange? = nil) {
+            self.dateRange = dateRange
+        }
+
+        public func validate(name: String) throws {
+            try self.dateRange?.validate(name: "\(name).dateRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRange = "DateRange"
+        }
+    }
+
+    public struct OfferSetReleaseDateFilterDateRange: AWSEncodableShape {
+        /// Allows filtering on the ReleaseDate of offer set after a date.
+        public let afterValue: String?
+        /// Allows filtering on the ReleaseDate of offer set before a date.
+        public let beforeValue: String?
+
+        @inlinable
+        public init(afterValue: String? = nil, beforeValue: String? = nil) {
+            self.afterValue = afterValue
+            self.beforeValue = beforeValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.afterValue, name: "afterValue", parent: name, max: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, min: 20)
+            try self.validate(self.afterValue, name: "afterValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, max: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, min: 20)
+            try self.validate(self.beforeValue, name: "beforeValue", parent: name, pattern: "^([\\d]{4})\\-(1[0-2]|0[1-9])\\-(3[01]|0[1-9]|[12][\\d])T(2[0-3]|[01][\\d]):([0-5][\\d]):([0-5][\\d])Z$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case afterValue = "AfterValue"
+            case beforeValue = "BeforeValue"
+        }
+    }
+
+    public struct OfferSetSolutionIdFilter: AWSEncodableShape {
+        /// Allows filtering on the SolutionId of an offer set with list input.
+        public let valueList: [String]?
+
+        @inlinable
+        public init(valueList: [String]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.valueList?.forEach {
+                try validate($0, name: "valueList[]", parent: name, max: 50)
+                try validate($0, name: "valueList[]", parent: name, min: 1)
+                try validate($0, name: "valueList[]", parent: name, pattern: "^[a-zA-Z0-9][.a-zA-Z0-9/-]+[a-zA-Z0-9]$")
+            }
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 10)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetSort: AWSEncodableShape {
+        /// Allows to sort offer sets.
+        public let sortBy: OfferSetSortBy?
+        /// Allows to sort offer sets.
+        public let sortOrder: SortOrder?
+
+        @inlinable
+        public init(sortBy: OfferSetSortBy? = nil, sortOrder: SortOrder? = nil) {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct OfferSetStateFilter: AWSEncodableShape {
+        /// Allows filtering on the State of an offer set with list input.
+        public let valueList: [OfferSetStateString]?
+
+        @inlinable
+        public init(valueList: [OfferSetStateString]? = nil) {
+            self.valueList = valueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.valueList, name: "valueList", parent: name, max: 2)
+            try self.validate(self.valueList, name: "valueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueList = "ValueList"
+        }
+    }
+
+    public struct OfferSetSummary: AWSDecodableShape {
+        /// The list of offer IDs associated with the offer set.
+        public let associatedOfferIds: [String]?
+        /// The name of the offer set.
+        public let name: String?
+        /// The release date of the offer set.
+        public let releaseDate: String?
+        /// The solution ID associated with the offer set.
+        public let solutionId: String?
+        /// The state of the offer set.
+        public let state: OfferSetStateString?
+
+        @inlinable
+        public init(associatedOfferIds: [String]? = nil, name: String? = nil, releaseDate: String? = nil, solutionId: String? = nil, state: OfferSetStateString? = nil) {
+            self.associatedOfferIds = associatedOfferIds
+            self.name = name
+            self.releaseDate = releaseDate
+            self.solutionId = solutionId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedOfferIds = "AssociatedOfferIds"
+            case name = "Name"
+            case releaseDate = "ReleaseDate"
+            case solutionId = "SolutionId"
+            case state = "State"
+        }
+    }
+
     public struct OfferSort: AWSEncodableShape {
         /// Allows to sort offers.
         public let sortBy: OfferSortBy?
@@ -2250,6 +2615,8 @@ extension MarketplaceCatalog {
         public let buyerAccounts: [String]?
         /// The name of the offer.
         public let name: String?
+        /// The offer set ID of the offer.
+        public let offerSetId: String?
         /// The product ID of the offer.
         public let productId: String?
         /// The release date of the offer.
@@ -2262,10 +2629,11 @@ extension MarketplaceCatalog {
         public let targeting: [OfferTargetingString]?
 
         @inlinable
-        public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, name: String? = nil, productId: String? = nil, releaseDate: String? = nil, resaleAuthorizationId: String? = nil, state: OfferStateString? = nil, targeting: [OfferTargetingString]? = nil) {
+        public init(availabilityEndDate: String? = nil, buyerAccounts: [String]? = nil, name: String? = nil, offerSetId: String? = nil, productId: String? = nil, releaseDate: String? = nil, resaleAuthorizationId: String? = nil, state: OfferStateString? = nil, targeting: [OfferTargetingString]? = nil) {
             self.availabilityEndDate = availabilityEndDate
             self.buyerAccounts = buyerAccounts
             self.name = name
+            self.offerSetId = offerSetId
             self.productId = productId
             self.releaseDate = releaseDate
             self.resaleAuthorizationId = resaleAuthorizationId
@@ -2277,6 +2645,7 @@ extension MarketplaceCatalog {
             case availabilityEndDate = "AvailabilityEndDate"
             case buyerAccounts = "BuyerAccounts"
             case name = "Name"
+            case offerSetId = "OfferSetId"
             case productId = "ProductId"
             case releaseDate = "ReleaseDate"
             case resaleAuthorizationId = "ResaleAuthorizationId"

@@ -60,6 +60,7 @@ extension Route53Resolver {
 
     public enum DnsThreatProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dga = "DGA"
+        case dictionaryDga = "DICTIONARY_DGA"
         case dnsTunneling = "DNS_TUNNELING"
         public var description: String { return self.rawValue }
     }

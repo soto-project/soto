@@ -26,6 +26,7 @@ extension ApplicationSignals {
     // MARK: Enums
 
     public enum ChangeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configuration = "CONFIGURATION"
         case deployment = "DEPLOYMENT"
         public var description: String { return self.rawValue }
     }
@@ -33,6 +34,12 @@ extension ApplicationSignals {
     public enum ConnectionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case direct = "DIRECT"
         case indirect = "INDIRECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DetailLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case brief = "BRIEF"
+        case detailed = "DETAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -120,6 +127,8 @@ extension ApplicationSignals {
     }
 
     public enum AuditTargetEntity: AWSEncodableShape, Sendable {
+        /// Canary entity information when the audit target is a CloudWatch Synthetics canary.
+        case canary(CanaryEntity)
         /// Service entity information when the audit target is a service.
         case service(ServiceEntity)
         /// Service operation entity information when the audit target is a specific service operation.
@@ -130,6 +139,8 @@ extension ApplicationSignals {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .canary(let value):
+                try container.encode(value, forKey: .canary)
             case .service(let value):
                 try container.encode(value, forKey: .service)
             case .serviceOperation(let value):
@@ -140,6 +151,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case canary = "Canary"
             case service = "Service"
             case serviceOperation = "ServiceOperation"
             case slo = "Slo"
@@ -315,7 +327,7 @@ extension ApplicationSignals {
     public struct AuditTarget: AWSEncodableShape {
         /// The specific data identifying the audit target entity.
         public let data: AuditTargetEntity
-        /// The type of entity being audited, such as Service, SLO, or ServiceOperation.
+        /// The type of entity being audited, such as service, SLO, service_operation, or canary.
         public let type: String
 
         @inlinable
@@ -333,20 +345,24 @@ extension ApplicationSignals {
     public struct AuditorResult: AWSDecodableShape {
         /// The name of the auditor algorithm that generated this result.
         public let auditor: String?
+        /// This is a string-to-string map. It contains additional data about the result of an automated audit analysis.
+        public let data: [String: String]?
         /// A detailed description of the audit finding, explaining what was observed and potential implications.
         public let description: String?
         /// The severity level of this audit finding, indicating the importance and potential impact of the issue.
         public let severity: Severity?
 
         @inlinable
-        public init(auditor: String? = nil, description: String? = nil, severity: Severity? = nil) {
+        public init(auditor: String? = nil, data: [String: String]? = nil, description: String? = nil, severity: Severity? = nil) {
             self.auditor = auditor
+            self.data = data
             self.description = description
             self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
             case auditor = "Auditor"
+            case data = "Data"
             case description = "Description"
             case severity = "Severity"
         }
@@ -517,14 +533,28 @@ extension ApplicationSignals {
         }
     }
 
+    public struct CanaryEntity: AWSEncodableShape {
+        /// The name of the CloudWatch Synthetics canary.
+        public let canaryName: String
+
+        @inlinable
+        public init(canaryName: String) {
+            self.canaryName = canaryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canaryName = "CanaryName"
+        }
+    }
+
     public struct ChangeEvent: AWSDecodableShape {
         /// The Amazon Web Services account ID where this change event occurred.
         public let accountId: String
         /// The type of change event that occurred, such as DEPLOYMENT.
         public let changeEventType: ChangeEventType
-        /// The entity (service or resource) that was affected by this change event, including its key attributes.
+        /// The entity (service or resource) that was affected by this change event, including its key attributes. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.    AwsAccountId specifies the account where this object is in.   Below is an example of a service.  { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" }  Below is an example of a resource.  { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Table", "Identifier": "Customers" }
         public let entity: [String: String]
-        /// A unique identifier for this change event.
+        /// A unique identifier for this change event. For CloudTrail-based events, this is the CloudTrail event id. For other events, this will be Unknown.
         public let eventId: String
         /// The name or description of this change event.
         public let eventName: String?
@@ -648,7 +678,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -846,7 +876,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -973,10 +1003,12 @@ extension ApplicationSignals {
     }
 
     public struct ListAuditFindingsInput: AWSEncodableShape {
-        /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase    service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
+        /// A list of auditor names to filter the findings by. Only findings generated by the specified auditors will be returned. The following auditors are available for configuration:    slo - SloAuditor: Identifies SLO violations and detects breached thresholds during the Assessment phase.    operation_metric - OperationMetricAuditor: Detects anomalies in service operation metrics from Application Signals RED metrics during the Assessment phase  Anomaly detection is not supported for sparse metrics (those missing more than 80% of datapoints within the given time period).     service_quota - ServiceQuotaAuditor: Monitors resource utilization against service quotas during the Assessment phase    trace - TraceAuditor: Performs deep-dive analysis of distributed traces, correlating traces with breached SLOs or abnormal RED metrics during the Analysis phase    dependency_metric - CriticalPathAuditor: Analyzes service dependency impacts and maps dependency relationships from Application Signals RED metrics during the Analysis phase    top_contributor - TopContributorAuditor: Identifies infrastructure-level contributors to issues by analyzing EMF logs of Application Signals RED metrics during the Analysis phase    log - LogAuditor: Extracts insights from application logs, categorizing error types and ranking severity by frequency during the Analysis phase     InitAuditor and Summarizer auditors are not configurable as they are automatically triggered during the audit process.
         public let auditors: [String]?
         /// A list of audit targets to filter the findings by. You can specify services, SLOs, or service operations to limit the audit findings to specific entities.
         public let auditTargets: [AuditTarget]
+        /// The level of details of the audit findings. Supported values: BRIEF, DETAILED.
+        public let detailLevel: DetailLevel?
         /// The end of the time period to retrieve audit findings for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
         public let endTime: Date
         /// The maximum number of audit findings to return in one operation. If you omit this parameter, the default of 10 is used.
@@ -987,9 +1019,10 @@ extension ApplicationSignals {
         public let startTime: Date
 
         @inlinable
-        public init(auditors: [String]? = nil, auditTargets: [AuditTarget], endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+        public init(auditors: [String]? = nil, auditTargets: [AuditTarget], detailLevel: DetailLevel? = nil, endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
             self.auditors = auditors
             self.auditTargets = auditTargets
+            self.detailLevel = detailLevel
             self.endTime = endTime
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1001,6 +1034,7 @@ extension ApplicationSignals {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.auditors, forKey: .auditors)
             try container.encode(self.auditTargets, forKey: .auditTargets)
+            try container.encodeIfPresent(self.detailLevel, forKey: .detailLevel)
             request.encodeQuery(self.endTime, key: "EndTime")
             try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
             try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
@@ -1017,6 +1051,7 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case auditors = "Auditors"
             case auditTargets = "AuditTargets"
+            case detailLevel = "DetailLevel"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
@@ -1025,34 +1060,131 @@ extension ApplicationSignals {
     public struct ListAuditFindingsOutput: AWSDecodableShape {
         /// An array of structures, where each structure contains information about one audit finding, including the auditor results, severity, and associated metric and dependency graphs.
         public let auditFindings: [AuditFinding]
+        /// The end of the time period that the returned audit findings apply to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+        public let endTime: Date?
         /// Include this value in your next use of this API to get the next set of audit findings.
         public let nextToken: String?
+        /// The start of the time period that the returned audit findings apply to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example, 1698778057
+        public let startTime: Date?
 
         @inlinable
-        public init(auditFindings: [AuditFinding], nextToken: String? = nil) {
+        public init(auditFindings: [AuditFinding], endTime: Date? = nil, nextToken: String? = nil, startTime: Date? = nil) {
             self.auditFindings = auditFindings
+            self.endTime = endTime
             self.nextToken = nextToken
+            self.startTime = startTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case auditFindings = "AuditFindings"
+            case endTime = "EndTime"
             case nextToken = "NextToken"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListEntityEventsInput: AWSEncodableShape {
+        /// The end of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
+        public let endTime: Date
+        /// The entity for which to retrieve change events. This specifies the service, resource, or other entity whose event history you want to examine. This is a string-to-string map. It can include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource. This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.    AwsAccountId specifies the account where this object is in.   Below is an example of a service.  { "Type": "Service", "Name": "visits-service", "Environment": "petclinic-test" }  Below is an example of a resource.  { "Type": "AWS::Resource", "ResourceType": "AWS::DynamoDB::Table", "Identifier": "Customers" }
+        public let entity: [String: String]
+        /// The maximum number of change events to return in one operation. If you omit this parameter, the default of 50 is used.
+        public let maxResults: Int?
+        /// Include this value, if it was returned by the previous operation, to get the next set of change events.
+        public let nextToken: String?
+        /// The start of the time period to retrieve change events for. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
+        public let startTime: Date
+
+        @inlinable
+        public init(endTime: Date, entity: [String: String], maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+            self.endTime = endTime
+            self.entity = entity
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.endTime, forKey: .endTime)
+            try container.encode(self.entity, forKey: .entity)
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+            try container.encode(self.startTime, forKey: .startTime)
+        }
+
+        public func validate(name: String) throws {
+            try self.entity.forEach {
+                try validate($0.key, name: "entity.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
+                try validate($0.value, name: "entity[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "entity[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "entity[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
+            }
+            try self.validate(self.entity, name: "entity", parent: name, max: 4)
+            try self.validate(self.entity, name: "entity", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case entity = "Entity"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListEntityEventsOutput: AWSDecodableShape {
+        /// An array of structures, where each structure contains information about one change event that occurred for the specified entity during the requested time period.
+        public let changeEvents: [ChangeEvent]
+        /// The end of the time period that the returned change events apply to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
+        public let endTime: Date
+        /// Include this value in your next use of this API to get the next set of change events.
+        public let nextToken: String?
+        /// The start of the time period that the returned change events apply to. When used in a raw HTTP Query API, it is formatted as epoch time in seconds. For example: 1698778057
+        public let startTime: Date
+
+        @inlinable
+        public init(changeEvents: [ChangeEvent], endTime: Date, nextToken: String? = nil, startTime: Date) {
+            self.changeEvents = changeEvents
+            self.endTime = endTime
+            self.nextToken = nextToken
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeEvents = "ChangeEvents"
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case startTime = "StartTime"
         }
     }
 
     public struct ListGroupingAttributeDefinitionsInput: AWSEncodableShape {
+        /// The Amazon Web Services account ID to retrieve grouping attribute definitions for. Use this when accessing grouping configurations from a different account in cross-account monitoring scenarios.
+        public let awsAccountId: String?
+        /// If you are using this operation in a monitoring account, specify true to include grouping attributes from source accounts in the returned data.
+        public let includeLinkedAccounts: Bool?
         /// Include this value, if it was returned by the previous operation, to get the next set of grouping attribute definitions.
         public let nextToken: String?
 
         @inlinable
-        public init(nextToken: String? = nil) {
+        public init(awsAccountId: String? = nil, includeLinkedAccounts: Bool? = nil, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.includeLinkedAccounts = includeLinkedAccounts
             self.nextToken = nextToken
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.includeLinkedAccounts, key: "IncludeLinkedAccounts")
             request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1254,7 +1386,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -2755,7 +2887,7 @@ extension ApplicationSignals {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.goal?.validate(name: "\(name).goal")
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:(aws|aws-us-gov):application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
             try self.requestBasedSliConfig?.validate(name: "\(name).requestBasedSliConfig")
             try self.sliConfig?.validate(name: "\(name).sliConfig")
         }

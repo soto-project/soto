@@ -158,6 +158,13 @@ extension SFN {
         public var description: String { return self.rawValue }
     }
 
+    public enum MockResponseValidationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case present = "PRESENT"
+        case strict = "STRICT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StateMachineStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
@@ -1536,7 +1543,7 @@ extension SFN {
         public let taskSucceededEventDetails: TaskSucceededEventDetails?
         /// Contains details about a task that timed out.
         public let taskTimedOutEventDetails: TaskTimedOutEventDetails?
-        /// The date and time the event occurred.
+        /// The date and time the event occurred, expressed in seconds and fractional milliseconds since the Unix epoch, which is defined as January 1, 1970, at 00:00:00 Coordinated Universal Time (UTC).
         public let timestamp: Date
         /// The type of the event.
         public let type: HistoryEventType
@@ -1650,47 +1657,79 @@ extension SFN {
         public let afterArguments: String?
         /// The input after Step Functions applies the InputPath filter. Not populated when QueryLanguage is JSONata.
         public let afterInputPath: String?
+        /// The effective input after the ItemBatcher filter is applied in a Map state.
+        public let afterItemBatcher: String?
+        /// An array containing the inputs for each Map iteration, transformed by the ItemSelector specified in a Map state.
+        public let afterItemSelector: String?
+        /// The effective input after the ItemsPath filter is applied. Not populated when the QueryLanguage is JSONata.
+        public let afterItemsPath: String?
+        /// The effective input after the ItemsPointer filter is applied in a Map state.
+        public let afterItemsPointer: String?
         /// The effective input after Step Functions applies the Parameters filter. Not populated when QueryLanguage is JSONata.
         public let afterParameters: String?
         /// The effective result combined with the raw state input after Step Functions applies the ResultPath filter. Not populated when QueryLanguage is JSONata.
         public let afterResultPath: String?
         /// The effective result after Step Functions applies the ResultSelector filter. Not populated when QueryLanguage is JSONata.
         public let afterResultSelector: String?
+        /// An object containing data about a handled exception in the tested state.
+        public let errorDetails: InspectionErrorDetails?
         /// The raw state input.
         public let input: String?
+        /// The max concurrency of the Map state.
+        public let maxConcurrency: Int?
         /// The raw HTTP request that is sent when you test an HTTP Task.
         public let request: InspectionDataRequest?
         /// The raw HTTP response that is returned when you test an HTTP Task.
         public let response: InspectionDataResponse?
         /// The state's raw result.
         public let result: String?
+        /// The tolerated failure threshold for a Map state as defined in number of Map state iterations.
+        public let toleratedFailureCount: Int?
+        /// The tolerated failure threshold for a Map state as defined in percentage of Map state iterations.
+        public let toleratedFailurePercentage: Float?
         /// JSON string that contains the set of workflow variables after execution of the state. The set will include variables assigned in the state and variables set up as test state input.
         public let variables: String?
 
         @inlinable
-        public init(afterArguments: String? = nil, afterInputPath: String? = nil, afterParameters: String? = nil, afterResultPath: String? = nil, afterResultSelector: String? = nil, input: String? = nil, request: InspectionDataRequest? = nil, response: InspectionDataResponse? = nil, result: String? = nil, variables: String? = nil) {
+        public init(afterArguments: String? = nil, afterInputPath: String? = nil, afterItemBatcher: String? = nil, afterItemSelector: String? = nil, afterItemsPath: String? = nil, afterItemsPointer: String? = nil, afterParameters: String? = nil, afterResultPath: String? = nil, afterResultSelector: String? = nil, errorDetails: InspectionErrorDetails? = nil, input: String? = nil, maxConcurrency: Int? = nil, request: InspectionDataRequest? = nil, response: InspectionDataResponse? = nil, result: String? = nil, toleratedFailureCount: Int? = nil, toleratedFailurePercentage: Float? = nil, variables: String? = nil) {
             self.afterArguments = afterArguments
             self.afterInputPath = afterInputPath
+            self.afterItemBatcher = afterItemBatcher
+            self.afterItemSelector = afterItemSelector
+            self.afterItemsPath = afterItemsPath
+            self.afterItemsPointer = afterItemsPointer
             self.afterParameters = afterParameters
             self.afterResultPath = afterResultPath
             self.afterResultSelector = afterResultSelector
+            self.errorDetails = errorDetails
             self.input = input
+            self.maxConcurrency = maxConcurrency
             self.request = request
             self.response = response
             self.result = result
+            self.toleratedFailureCount = toleratedFailureCount
+            self.toleratedFailurePercentage = toleratedFailurePercentage
             self.variables = variables
         }
 
         private enum CodingKeys: String, CodingKey {
             case afterArguments = "afterArguments"
             case afterInputPath = "afterInputPath"
+            case afterItemBatcher = "afterItemBatcher"
+            case afterItemSelector = "afterItemSelector"
+            case afterItemsPath = "afterItemsPath"
+            case afterItemsPointer = "afterItemsPointer"
             case afterParameters = "afterParameters"
             case afterResultPath = "afterResultPath"
             case afterResultSelector = "afterResultSelector"
+            case errorDetails = "errorDetails"
             case input = "input"
+            case maxConcurrency = "maxConcurrency"
             case request = "request"
             case response = "response"
             case result = "result"
+            case toleratedFailureCount = "toleratedFailureCount"
+            case toleratedFailurePercentage = "toleratedFailurePercentage"
             case variables = "variables"
         }
     }
@@ -1752,6 +1791,28 @@ extension SFN {
             case `protocol` = "protocol"
             case statusCode = "statusCode"
             case statusMessage = "statusMessage"
+        }
+    }
+
+    public struct InspectionErrorDetails: AWSDecodableShape {
+        /// The array index of the Catch which handled the exception.
+        public let catchIndex: Int?
+        /// The duration in seconds of the backoff for a retry on a failed state invocation.
+        public let retryBackoffIntervalSeconds: Int?
+        /// The array index of the Retry which handled the exception.
+        public let retryIndex: Int?
+
+        @inlinable
+        public init(catchIndex: Int? = nil, retryBackoffIntervalSeconds: Int? = nil, retryIndex: Int? = nil) {
+            self.catchIndex = catchIndex
+            self.retryBackoffIntervalSeconds = retryBackoffIntervalSeconds
+            self.retryIndex = retryIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catchIndex = "catchIndex"
+            case retryBackoffIntervalSeconds = "retryBackoffIntervalSeconds"
+            case retryIndex = "retryIndex"
         }
     }
 
@@ -2475,6 +2536,56 @@ extension SFN {
 
         private enum CodingKeys: String, CodingKey {
             case length = "length"
+        }
+    }
+
+    public struct MockErrorOutput: AWSEncodableShape {
+        /// A string containing the cause of the exception thrown when executing the state's logic.
+        public let cause: String?
+        /// A string denoting the error code of the exception thrown when invoking the tested state. This field is required if mock.errorOutput is specified.
+        public let error: String?
+
+        @inlinable
+        public init(cause: String? = nil, error: String? = nil) {
+            self.cause = cause
+            self.error = error
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cause, name: "cause", parent: name, max: 32768)
+            try self.validate(self.error, name: "error", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cause = "cause"
+            case error = "error"
+        }
+    }
+
+    public struct MockInput: AWSEncodableShape {
+        /// The mocked error output when calling TestState. When specified, the mocked response is returned as a JSON object that contains an error and cause field.
+        public let errorOutput: MockErrorOutput?
+        /// Determines the level of strictness when validating mocked results against their respective API models. Values include:    STRICT: All required fields must be present, and all present fields must conform to the API's schema.    PRESENT: All present fields must conform to the API's schema.    NONE: No validation is performed.   If no value is specified, the default value is STRICT.
+        public let fieldValidationMode: MockResponseValidationMode?
+        /// A JSON string containing the mocked result of the state invocation.
+        public let result: String?
+
+        @inlinable
+        public init(errorOutput: MockErrorOutput? = nil, fieldValidationMode: MockResponseValidationMode? = nil, result: String? = nil) {
+            self.errorOutput = errorOutput
+            self.fieldValidationMode = fieldValidationMode
+            self.result = result
+        }
+
+        public func validate(name: String) throws {
+            try self.errorOutput?.validate(name: "\(name).errorOutput")
+            try self.validate(self.result, name: "result", parent: name, max: 262144)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorOutput = "errorOutput"
+            case fieldValidationMode = "fieldValidationMode"
+            case result = "result"
         }
     }
 
@@ -3283,45 +3394,100 @@ extension SFN {
         }
     }
 
+    public struct TestStateConfiguration: AWSEncodableShape {
+        /// The name of the state from which an error originates when an error is mocked for a Map or Parallel state.
+        public let errorCausedByState: String?
+        /// The data read by ItemReader in Distributed Map states as found in its original source.
+        public let mapItemReaderData: String?
+        /// The number of Map state iterations that failed during the Map state invocation.
+        public let mapIterationFailureCount: Int?
+        /// The number of retry attempts that have occurred for the state's Retry that applies to the mocked error.
+        public let retrierRetryCount: Int?
+
+        @inlinable
+        public init(errorCausedByState: String? = nil, mapItemReaderData: String? = nil, mapIterationFailureCount: Int? = nil, retrierRetryCount: Int? = nil) {
+            self.errorCausedByState = errorCausedByState
+            self.mapItemReaderData = mapItemReaderData
+            self.mapIterationFailureCount = mapIterationFailureCount
+            self.retrierRetryCount = retrierRetryCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.errorCausedByState, name: "errorCausedByState", parent: name, max: 80)
+            try self.validate(self.errorCausedByState, name: "errorCausedByState", parent: name, min: 1)
+            try self.validate(self.mapItemReaderData, name: "mapItemReaderData", parent: name, max: 262144)
+            try self.validate(self.mapIterationFailureCount, name: "mapIterationFailureCount", parent: name, min: 0)
+            try self.validate(self.retrierRetryCount, name: "retrierRetryCount", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCausedByState = "errorCausedByState"
+            case mapItemReaderData = "mapItemReaderData"
+            case mapIterationFailureCount = "mapIterationFailureCount"
+            case retrierRetryCount = "retrierRetryCount"
+        }
+    }
+
     public struct TestStateInput: AWSEncodableShape {
-        /// The Amazon States Language (ASL) definition of the state.
+        /// A JSON string representing a valid Context object for the state under test. This field may only be specified if a mock is specified in the same request.
+        public let context: String?
+        /// The Amazon States Language (ASL) definition of the state or state machine.
         public let definition: String
         /// A string that contains the JSON input data for the state.
         public let input: String?
         /// Determines the values to return when a state is tested. You can specify one of the following types:    INFO: Shows the final state output. By default, Step Functions sets inspectionLevel to INFO if you don't specify a level.    DEBUG: Shows the final state output along with the input and output data processing result.    TRACE: Shows the HTTP request and response for an HTTP Task. This level also shows the final state output along with the input and output data processing result.   Each of these levels also provide information about the status of the state execution and the next state to transition to.
         public let inspectionLevel: InspectionLevel?
+        /// Defines a mocked result or error for the state under test. A mock can only be specified for Task, Map, or Parallel states. If it is specified for another state type, an exception will be thrown.
+        public let mock: MockInput?
         /// Specifies whether or not to include secret information in the test result. For HTTP Tasks, a secret includes the data that an EventBridge connection adds to modify the HTTP request headers, query parameters, and body. Step Functions doesn't omit any information included in the state definition or the HTTP response. If you set revealSecrets to true, you must make sure that the IAM user that calls the TestState API has permission for the states:RevealSecrets action. For an example of IAM policy that sets the states:RevealSecrets permission, see IAM permissions to test a state. Without this permission, Step Functions throws an access denied error. By default, revealSecrets is set to false.
         public let revealSecrets: Bool?
         /// The Amazon Resource Name (ARN) of the execution role with the required IAM permissions for the state.
         public let roleArn: String?
+        /// Contains configurations for the state under test.
+        public let stateConfiguration: TestStateConfiguration?
+        /// Denotes the particular state within a state machine definition to be tested. If this field is specified, the definition must contain a fully-formed state machine definition.
+        public let stateName: String?
         /// JSON object literal that sets variables used in the state under test. Object keys are the variable names and values are the variable values.
         public let variables: String?
 
         @inlinable
-        public init(definition: String, input: String? = nil, inspectionLevel: InspectionLevel? = nil, revealSecrets: Bool? = nil, roleArn: String? = nil, variables: String? = nil) {
+        public init(context: String? = nil, definition: String, input: String? = nil, inspectionLevel: InspectionLevel? = nil, mock: MockInput? = nil, revealSecrets: Bool? = nil, roleArn: String? = nil, stateConfiguration: TestStateConfiguration? = nil, stateName: String? = nil, variables: String? = nil) {
+            self.context = context
             self.definition = definition
             self.input = input
             self.inspectionLevel = inspectionLevel
+            self.mock = mock
             self.revealSecrets = revealSecrets
             self.roleArn = roleArn
+            self.stateConfiguration = stateConfiguration
+            self.stateName = stateName
             self.variables = variables
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.context, name: "context", parent: name, max: 262144)
             try self.validate(self.definition, name: "definition", parent: name, max: 1048576)
             try self.validate(self.definition, name: "definition", parent: name, min: 1)
             try self.validate(self.input, name: "input", parent: name, max: 262144)
+            try self.mock?.validate(name: "\(name).mock")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.stateConfiguration?.validate(name: "\(name).stateConfiguration")
+            try self.validate(self.stateName, name: "stateName", parent: name, max: 80)
+            try self.validate(self.stateName, name: "stateName", parent: name, min: 1)
             try self.validate(self.variables, name: "variables", parent: name, max: 262144)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case context = "context"
             case definition = "definition"
             case input = "input"
             case inspectionLevel = "inspectionLevel"
+            case mock = "mock"
             case revealSecrets = "revealSecrets"
             case roleArn = "roleArn"
+            case stateConfiguration = "stateConfiguration"
+            case stateName = "stateName"
             case variables = "variables"
         }
     }

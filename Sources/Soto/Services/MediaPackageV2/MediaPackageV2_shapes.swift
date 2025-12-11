@@ -190,6 +190,12 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScteInSegments: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case all = "ALL"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
@@ -226,6 +232,7 @@ extension MediaPackageV2 {
         case incompatibleDashCompactnessConfiguration = "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
         case incompatibleDashProfileDvbDashConfiguration = "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
         case incompatibleXmlEncoding = "INCOMPATIBLE_XML_ENCODING"
+        case invalidDrmSettings = "INVALID_DRM_SETTINGS"
         case invalidHarvestJobDuration = "INVALID_HARVEST_JOB_DURATION"
         case invalidManifestFilter = "INVALID_MANIFEST_FILTER"
         case invalidPaginationMaxResults = "INVALID_PAGINATION_MAX_RESULTS"
@@ -1659,6 +1666,8 @@ extension MediaPackageV2 {
     public struct FilterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Optionally specify the clip start time for all of your manifest egress requests. When you include clip start time, note that you cannot use clip start time query parameters for this manifest's endpoint URL.
         public let clipStartTime: Date?
+        /// Optionally specify one or more DRM settings for all of your manifest egress requests. When you include a DRM setting, note that you cannot use an identical DRM setting query parameter for this manifest's endpoint URL.
+        public let drmSettings: String?
         /// Optionally specify the end time for all of your manifest egress requests. When you include end time, note that you cannot use end time query parameters for this manifest's endpoint URL.
         public let end: Date?
         /// Optionally specify one or more manifest filters for all of your manifest egress requests. When you include a manifest filter, note that you cannot use an identical manifest filter query parameter for this manifest's endpoint URL.
@@ -1669,8 +1678,9 @@ extension MediaPackageV2 {
         public let timeDelaySeconds: Int?
 
         @inlinable
-        public init(clipStartTime: Date? = nil, end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
+        public init(clipStartTime: Date? = nil, drmSettings: String? = nil, end: Date? = nil, manifestFilter: String? = nil, start: Date? = nil, timeDelaySeconds: Int? = nil) {
             self.clipStartTime = clipStartTime
+            self.drmSettings = drmSettings
             self.end = end
             self.manifestFilter = manifestFilter
             self.start = start
@@ -1679,6 +1689,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case clipStartTime = "ClipStartTime"
+            case drmSettings = "DrmSettings"
             case end = "End"
             case manifestFilter = "ManifestFilter"
             case start = "Start"
@@ -2606,7 +2617,7 @@ extension MediaPackageV2 {
     }
 
     public struct InputSwitchConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is true. This setting is valid only when InputType is CMAF.
+        /// When true, AWS Elemental MediaPackage performs input switching based on the MQCS. Default is false. This setting is valid only when InputType is CMAF.
         public let mqcsInputSwitching: Bool?
         /// For CMAF inputs, indicates which input MediaPackage should prefer when both inputs have equal MQCS scores. Select 1 to prefer the first ingest endpoint, or 2 to prefer the second ingest endpoint. If you don't specify a preferred input, MediaPackage uses its default switching behavior when MQCS scores are equal.
         public let preferredInput: Int?
@@ -3305,10 +3316,13 @@ extension MediaPackageV2 {
     public struct Scte: AWSEncodableShape & AWSDecodableShape {
         /// The SCTE-35 message types that you want to be treated as ad markers in the output.
         public let scteFilter: [ScteFilter]?
+        /// Controls whether SCTE-35 messages are included in segment files.   None – SCTE-35 messages are not included in segments (default)   All – SCTE-35 messages are embedded in segment data    For DASH manifests, when set to All, an InbandEventStream tag signals that SCTE messages are present in segments. This setting works independently of manifest ad markers.
+        public let scteInSegments: ScteInSegments?
 
         @inlinable
-        public init(scteFilter: [ScteFilter]? = nil) {
+        public init(scteFilter: [ScteFilter]? = nil, scteInSegments: ScteInSegments? = nil) {
             self.scteFilter = scteFilter
+            self.scteInSegments = scteInSegments
         }
 
         public func validate(name: String) throws {
@@ -3317,6 +3331,7 @@ extension MediaPackageV2 {
 
         private enum CodingKeys: String, CodingKey {
             case scteFilter = "ScteFilter"
+            case scteInSegments = "ScteInSegments"
         }
     }
 
@@ -3335,7 +3350,7 @@ extension MediaPackageV2 {
     }
 
     public struct ScteHls: AWSEncodableShape & AWSDecodableShape {
-        /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:    DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see SCTE-35 Ad Marker EXT-X-DATERANGE.
+        /// Ad markers indicate when ads should be inserted during playback. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Choose what you want MediaPackage to do with the ad markers. Value description:    SCTE35_ENHANCED - Generate industry-standard CUE tag ad markers in HLS manifests based on SCTE-35 input messages from the input stream.   DATERANGE - Insert EXT-X-DATERANGE tags to signal ad and program transition events in TS and CMAF manifests. If you use DATERANGE, you must set a programDateTimeIntervalSeconds value of 1 or higher. To learn more about DATERANGE, see SCTE-35 Ad Marker EXT-X-DATERANGE.
         public let adMarkerHls: AdMarkerHls?
 
         @inlinable

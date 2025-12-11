@@ -32,6 +32,12 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lakehouse = "Lakehouse"
+        case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AquaConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "auto"
         case disabled = "disabled"
@@ -94,6 +100,18 @@ extension Redshift {
         case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LakehouseIdcRegistration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associate = "Associate"
+        case disassociate = "Disassociate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LakehouseRegistration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deregister = "Deregister"
+        case register = "Register"
         public var description: String { return self.rawValue }
     }
 
@@ -311,6 +329,8 @@ extension Redshift {
     public enum ServiceIntegrationsUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A list of scopes set up for Lake Formation integration.
         case lakeFormation([LakeFormationScopeUnion])
+        /// A list of scopes set up for Amazon Redshift integration.
+        case redshift([RedshiftScopeUnion])
         /// A list of scopes set up for S3 Access Grants integration.
         case s3AccessGrants([S3AccessGrantsScopeUnion])
 
@@ -327,6 +347,9 @@ extension Redshift {
             case .lakeFormation:
                 let value = try container.decode([LakeFormationScopeUnion].self, forKey: .lakeFormation)
                 self = .lakeFormation(value)
+            case .redshift:
+                let value = try container.decode([RedshiftScopeUnion].self, forKey: .redshift)
+                self = .redshift(value)
             case .s3AccessGrants:
                 let value = try container.decode([S3AccessGrantsScopeUnion].self, forKey: .s3AccessGrants)
                 self = .s3AccessGrants(value)
@@ -338,6 +361,8 @@ extension Redshift {
             switch self {
             case .lakeFormation(let value):
                 try container.encode(value, forKey: .lakeFormation)
+            case .redshift(let value):
+                try container.encode(value, forKey: .redshift)
             case .s3AccessGrants(let value):
                 try container.encode(value, forKey: .s3AccessGrants)
             }
@@ -345,6 +370,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case lakeFormation = "LakeFormation"
+            case redshift = "Redshift"
             case s3AccessGrants = "S3AccessGrants"
         }
     }
@@ -707,7 +733,7 @@ extension Redshift {
     }
 
     public struct AuthorizedTokenIssuer: AWSEncodableShape & AWSDecodableShape {
-        /// The list of audiences for the authorized token issuer for integrating Amazon Redshift  with IDC Identity Center.
+        /// The list of audiences for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var authorizedAudiencesList: [String]?
         /// The ARN for the authorized token issuer for integrating Amazon Redshift with IDC Identity Center.
@@ -906,6 +932,8 @@ extension Redshift {
         public let availabilityZone: String?
         /// Describes the status of the Availability Zone relocation operation.
         public let availabilityZoneRelocationStatus: String?
+        /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the cluster enabled with Amazon Redshift federated permissions.
+        public let catalogArn: String?
         /// The availability status of the cluster for queries. Possible values are the following:   Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.   Maintenance - The cluster is intermittently available for queries due to maintenance activities.   Modifying - The cluster is intermittently available for queries due to changes that modify the cluster.   Failed - The cluster failed and is not available for queries.
         public let clusterAvailabilityStatus: String?
         /// The date and time that the cluster was created.
@@ -972,6 +1000,8 @@ extension Redshift {
         public let ipAddressType: String?
         /// The Key Management Service (KMS) key ID of the encryption key used to encrypt data in the cluster.
         public let kmsKeyId: String?
+        /// The status of the lakehouse registration for the cluster. Indicates whether the cluster is successfully registered with Amazon Redshift federated permissions.
+        public let lakehouseRegistrationStatus: String?
         /// The name of the maintenance track for the cluster.
         public let maintenanceTrackName: String?
         /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. The value must be either -1 or an integer between 1 and 3,653.
@@ -1025,12 +1055,13 @@ extension Redshift {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, catalogArn: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocationStatus = availabilityZoneRelocationStatus
+            self.catalogArn = catalogArn
             self.clusterAvailabilityStatus = clusterAvailabilityStatus
             self.clusterCreateTime = clusterCreateTime
             self.clusterIdentifier = clusterIdentifier
@@ -1062,6 +1093,7 @@ extension Redshift {
             self.iamRoles = iamRoles
             self.ipAddressType = ipAddressType
             self.kmsKeyId = kmsKeyId
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
             self.maintenanceTrackName = maintenanceTrackName
             self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
             self.masterPasswordSecretArn = masterPasswordSecretArn
@@ -1094,6 +1126,7 @@ extension Redshift {
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocationStatus = "AvailabilityZoneRelocationStatus"
+            case catalogArn = "CatalogArn"
             case clusterAvailabilityStatus = "ClusterAvailabilityStatus"
             case clusterCreateTime = "ClusterCreateTime"
             case clusterIdentifier = "ClusterIdentifier"
@@ -1125,6 +1158,7 @@ extension Redshift {
             case iamRoles = "IamRoles"
             case ipAddressType = "IpAddressType"
             case kmsKeyId = "KmsKeyId"
+            case lakehouseRegistrationStatus = "LakehouseRegistrationStatus"
             case maintenanceTrackName = "MaintenanceTrackName"
             case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
             case masterPasswordSecretArn = "MasterPasswordSecretArn"
@@ -1675,6 +1709,20 @@ extension Redshift {
         }
     }
 
+    public struct Connect: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether the Amazon Redshift connect integration is enabled or disabled for the application.
+        public let authorization: ServiceAuthorization?
+
+        @inlinable
+        public init(authorization: ServiceAuthorization? = nil) {
+            self.authorization = authorization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "Authorization"
+        }
+    }
+
     public struct CopyClusterSnapshotMessage: AWSEncodableShape {
         /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely.  The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
@@ -1780,6 +1828,8 @@ extension Redshift {
         public let availabilityZone: String?
         /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
         public let availabilityZoneRelocation: Bool?
+        /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
+        public let catalogName: String?
         /// A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: myexamplecluster
         public let clusterIdentifier: String?
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
@@ -1852,13 +1902,14 @@ extension Redshift {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, loadSampleData: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, catalogName: String? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, loadSampleData: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocation = availabilityZoneRelocation
+            self.catalogName = catalogName
             self.clusterIdentifier = clusterIdentifier
             self.clusterParameterGroupName = clusterParameterGroupName
             self.clusterSecurityGroups = clusterSecurityGroups
@@ -1897,6 +1948,9 @@ extension Redshift {
         public func validate(name: String) throws {
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, max: 2147483647)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 2147483647)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, max: 64)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$")
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
             try self.validate(self.clusterParameterGroupName, name: "clusterParameterGroupName", parent: name, max: 2147483647)
             try self.clusterSecurityGroups?.forEach {
@@ -1938,6 +1992,7 @@ extension Redshift {
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocation = "AvailabilityZoneRelocation"
+            case catalogName = "CatalogName"
             case clusterIdentifier = "ClusterIdentifier"
             case clusterParameterGroupName = "ClusterParameterGroupName"
             case clusterSecurityGroups = "ClusterSecurityGroups"
@@ -2543,6 +2598,8 @@ extension Redshift {
         public struct _SsoTagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
+        /// The type of application being created. Valid values are None or Lakehouse. Use Lakehouse to enable Amazon Redshift federated permissions on cluster.
+        public let applicationType: ApplicationType?
         /// The token issuer list for the Amazon Redshift IAM Identity Center application instance.
         @OptionalCustomCoding<StandardArrayCoder<AuthorizedTokenIssuer>>
         public var authorizedTokenIssuerList: [AuthorizedTokenIssuer]?
@@ -2567,7 +2624,8 @@ extension Redshift {
         public var tags: [Tag]?
 
         @inlinable
-        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
+        public init(applicationType: ApplicationType? = nil, authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
+            self.applicationType = applicationType
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -2603,6 +2661,7 @@ extension Redshift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationType = "ApplicationType"
             case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"
             case iamRoleArn = "IamRoleArn"
             case idcDisplayName = "IdcDisplayName"
@@ -5917,6 +5976,47 @@ extension Redshift {
         }
     }
 
+    public struct GetIdentityCenterAuthTokenRequest: AWSEncodableShape {
+        public struct _ClusterIdsEncoding: ArrayCoderProperties { public static let member = "ClusterIdentifier" }
+
+        /// A list of cluster identifiers that the generated token can be used with.  The token will be scoped to only allow authentication to the specified clusters. Constraints:    ClusterIds must contain at least 1 cluster identifier.    ClusterIds can hold a maximum of 20 cluster identifiers.   Cluster identifiers must be 1 to 63 characters in length.   The characters accepted for cluster identifiers are the following:   Alphanumeric characters   Hyphens     Cluster identifiers must start with a letter.   Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+        @OptionalCustomCoding<ArrayCoder<_ClusterIdsEncoding, String>>
+        public var clusterIds: [String]?
+
+        @inlinable
+        public init(clusterIds: [String]? = nil) {
+            self.clusterIds = clusterIds
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterIds?.forEach {
+                try validate($0, name: "clusterIds[]", parent: name, max: 2147483647)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterIds = "ClusterIds"
+        }
+    }
+
+    public struct GetIdentityCenterAuthTokenResponse: AWSDecodableShape {
+        /// The time (UTC) when the token expires. After this timestamp,  the token will no longer be valid for authentication.
+        public let expirationTime: Date?
+        /// The encrypted authentication token containing the caller's Amazon Web Services IAM Identity Center identity information.  This token is encrypted using Key Management Service and can only be decrypted by the specified Amazon Redshift clusters.  Use this token with Amazon Redshift drivers to authenticate using your Amazon Web Services IAM Identity Center identity.
+        public let token: String?
+
+        @inlinable
+        public init(expirationTime: Date? = nil, token: String? = nil) {
+            self.expirationTime = expirationTime
+            self.token = token
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expirationTime = "ExpirationTime"
+            case token = "Token"
+        }
+    }
+
     public struct GetReservedNodeExchangeConfigurationOptionsInputMessage: AWSEncodableShape {
         /// The action type of the reserved-node configuration. The action type can be an exchange initiated from either a snapshot or a resize.
         public let actionType: ReservedNodeExchangeActionType?
@@ -6369,6 +6469,32 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case authorization = "Authorization"
+        }
+    }
+
+    public struct LakehouseConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Glue data catalog associated with the lakehouse configuration.
+        public let catalogArn: String?
+        /// The unique identifier of the cluster associated with this lakehouse configuration.
+        public let clusterIdentifier: String?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+        public let lakehouseIdcApplicationArn: String?
+        /// The current status of the lakehouse registration. Indicates whether the cluster is successfully registered with the lakehouse.
+        public let lakehouseRegistrationStatus: String?
+
+        @inlinable
+        public init(catalogArn: String? = nil, clusterIdentifier: String? = nil, lakehouseIdcApplicationArn: String? = nil, lakehouseRegistrationStatus: String? = nil) {
+            self.catalogArn = catalogArn
+            self.clusterIdentifier = clusterIdentifier
+            self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+            self.lakehouseRegistrationStatus = lakehouseRegistrationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogArn = "CatalogArn"
+            case clusterIdentifier = "ClusterIdentifier"
+            case lakehouseIdcApplicationArn = "LakehouseIdcApplicationArn"
+            case lakehouseRegistrationStatus = "LakehouseRegistrationStatus"
         }
     }
 
@@ -7219,6 +7345,48 @@ extension Redshift {
         }
     }
 
+    public struct ModifyLakehouseConfigurationMessage: AWSEncodableShape {
+        /// The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
+        public let catalogName: String?
+        /// The unique identifier of the cluster whose lakehouse configuration you want to modify.
+        public let clusterIdentifier: String?
+        /// A boolean value that, if true, validates the request without actually modifying the lakehouse configuration. Use this to check for errors before making changes.
+        public let dryRun: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+        public let lakehouseIdcApplicationArn: String?
+        /// Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+        public let lakehouseIdcRegistration: LakehouseIdcRegistration?
+        /// Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+        public let lakehouseRegistration: LakehouseRegistration?
+
+        @inlinable
+        public init(catalogName: String? = nil, clusterIdentifier: String? = nil, dryRun: Bool? = nil, lakehouseIdcApplicationArn: String? = nil, lakehouseIdcRegistration: LakehouseIdcRegistration? = nil, lakehouseRegistration: LakehouseRegistration? = nil) {
+            self.catalogName = catalogName
+            self.clusterIdentifier = clusterIdentifier
+            self.dryRun = dryRun
+            self.lakehouseIdcApplicationArn = lakehouseIdcApplicationArn
+            self.lakehouseIdcRegistration = lakehouseIdcRegistration
+            self.lakehouseRegistration = lakehouseRegistration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogName, name: "catalogName", parent: name, max: 64)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
+            try self.validate(self.lakehouseIdcApplicationArn, name: "lakehouseIdcApplicationArn", parent: name, max: 2147483647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogName = "CatalogName"
+            case clusterIdentifier = "ClusterIdentifier"
+            case dryRun = "DryRun"
+            case lakehouseIdcApplicationArn = "LakehouseIdcApplicationArn"
+            case lakehouseIdcRegistration = "LakehouseIdcRegistration"
+            case lakehouseRegistration = "LakehouseRegistration"
+        }
+    }
+
     public struct ModifyRedshiftIdcApplicationMessage: AWSEncodableShape {
         /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application to change.
         @OptionalCustomCoding<StandardArrayCoder<AuthorizedTokenIssuer>>
@@ -8063,6 +8231,8 @@ extension Redshift {
         public struct _SsoTagKeysEncoding: ArrayCoderProperties { public static let member = "TagKey" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
+        /// The type of application being created. Valid values are None or Lakehouse. Use Lakehouse to enable Amazon Redshift federated permissions on cluster.
+        public let applicationType: ApplicationType?
         /// The authorized token issuer list for the Amazon Redshift IAM Identity Center application.
         @OptionalCustomCoding<StandardArrayCoder<AuthorizedTokenIssuer>>
         public var authorizedTokenIssuerList: [AuthorizedTokenIssuer]?
@@ -8093,7 +8263,8 @@ extension Redshift {
         public var tags: [Tag]?
 
         @inlinable
-        public init(authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
+        public init(applicationType: ApplicationType? = nil, authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil, iamRoleArn: String? = nil, idcDisplayName: String? = nil, idcInstanceArn: String? = nil, idcManagedApplicationArn: String? = nil, idcOnboardStatus: String? = nil, identityNamespace: String? = nil, redshiftIdcApplicationArn: String? = nil, redshiftIdcApplicationName: String? = nil, serviceIntegrations: [ServiceIntegrationsUnion]? = nil, ssoTagKeys: [String]? = nil, tags: [Tag]? = nil) {
+            self.applicationType = applicationType
             self.authorizedTokenIssuerList = authorizedTokenIssuerList
             self.iamRoleArn = iamRoleArn
             self.idcDisplayName = idcDisplayName
@@ -8109,6 +8280,7 @@ extension Redshift {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationType = "ApplicationType"
             case authorizedTokenIssuerList = "AuthorizedTokenIssuerList"
             case iamRoleArn = "IamRoleArn"
             case idcDisplayName = "IdcDisplayName"
@@ -8643,6 +8815,8 @@ extension Redshift {
         public let availabilityZone: String?
         /// The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
         public let availabilityZoneRelocation: Bool?
+        /// The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
+        public let catalogName: String?
         /// The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
         public let clusterIdentifier: String?
         /// The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
@@ -8693,6 +8867,8 @@ extension Redshift {
         public let preferredMaintenanceWindow: String?
         /// If true, the cluster can be accessed from a public network.  Default: false
         public let publiclyAccessible: Bool?
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+        public let redshiftIdcApplicationArn: String?
         /// The identifier of the target reserved node offering.
         public let reservedNodeId: String?
         /// The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
@@ -8710,13 +8886,14 @@ extension Redshift {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeId: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, catalogName: String? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, reservedNodeId: String? = nil, snapshotArn: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String? = nil, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
             self.availabilityZoneRelocation = availabilityZoneRelocation
+            self.catalogName = catalogName
             self.clusterIdentifier = clusterIdentifier
             self.clusterParameterGroupName = clusterParameterGroupName
             self.clusterSecurityGroups = clusterSecurityGroups
@@ -8741,6 +8918,7 @@ extension Redshift {
             self.port = port
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
+            self.redshiftIdcApplicationArn = redshiftIdcApplicationArn
             self.reservedNodeId = reservedNodeId
             self.snapshotArn = snapshotArn
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
@@ -8753,6 +8931,9 @@ extension Redshift {
         public func validate(name: String) throws {
             try self.validate(self.additionalInfo, name: "additionalInfo", parent: name, max: 2147483647)
             try self.validate(self.availabilityZone, name: "availabilityZone", parent: name, max: 2147483647)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, max: 64)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, min: 1)
+            try self.validate(self.catalogName, name: "catalogName", parent: name, pattern: "^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$")
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2147483647)
             try self.validate(self.clusterParameterGroupName, name: "clusterParameterGroupName", parent: name, max: 2147483647)
             try self.clusterSecurityGroups?.forEach {
@@ -8773,6 +8954,7 @@ extension Redshift {
             try self.validate(self.nodeType, name: "nodeType", parent: name, max: 2147483647)
             try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 2147483647)
             try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, max: 2147483647)
+            try self.validate(self.redshiftIdcApplicationArn, name: "redshiftIdcApplicationArn", parent: name, max: 2147483647)
             try self.validate(self.reservedNodeId, name: "reservedNodeId", parent: name, max: 2147483647)
             try self.validate(self.snapshotArn, name: "snapshotArn", parent: name, max: 2147483647)
             try self.validate(self.snapshotClusterIdentifier, name: "snapshotClusterIdentifier", parent: name, max: 2147483647)
@@ -8791,6 +8973,7 @@ extension Redshift {
             case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
             case availabilityZone = "AvailabilityZone"
             case availabilityZoneRelocation = "AvailabilityZoneRelocation"
+            case catalogName = "CatalogName"
             case clusterIdentifier = "ClusterIdentifier"
             case clusterParameterGroupName = "ClusterParameterGroupName"
             case clusterSecurityGroups = "ClusterSecurityGroups"
@@ -8815,6 +8998,7 @@ extension Redshift {
             case port = "Port"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
+            case redshiftIdcApplicationArn = "RedshiftIdcApplicationArn"
             case reservedNodeId = "ReservedNodeId"
             case snapshotArn = "SnapshotArn"
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
@@ -10063,6 +10247,20 @@ extension Redshift {
         }
     }
 
+    public struct RedshiftScopeUnion: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Redshift connect integration scope configuration. Defines authorization settings for Amazon Redshift connect service integration.
+        public let connect: Connect?
+
+        @inlinable
+        public init(connect: Connect? = nil) {
+            self.connect = connect
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connect = "Connect"
+        }
+    }
+
     public struct S3AccessGrantsScopeUnion: AWSEncodableShape & AWSDecodableShape {
         /// The S3 Access Grants scope.
         public let readWriteAccess: ReadWriteAccess?
@@ -10182,6 +10380,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case redshiftIdcApplicationAlreadyExistsFault = "RedshiftIdcApplicationAlreadyExists"
         case redshiftIdcApplicationNotExistsFault = "RedshiftIdcApplicationNotExists"
         case redshiftIdcApplicationQuotaExceededFault = "RedshiftIdcApplicationQuotaExceeded"
+        case redshiftInvalidParameterFault = "RedshiftInvalidParameter"
         case reservedNodeAlreadyExistsFault = "ReservedNodeAlreadyExists"
         case reservedNodeAlreadyMigratedFault = "ReservedNodeAlreadyMigrated"
         case reservedNodeExchangeNotFoundFault = "ReservedNodeExchangeNotFond"
@@ -10461,6 +10660,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var redshiftIdcApplicationNotExistsFault: Self { .init(.redshiftIdcApplicationNotExistsFault) }
     /// The maximum number of Redshift IAM Identity Center applications was exceeded.
     public static var redshiftIdcApplicationQuotaExceededFault: Self { .init(.redshiftIdcApplicationQuotaExceededFault) }
+    /// The request contains one or more invalid parameters.  This error occurs when required parameters are missing,  parameter values are outside acceptable ranges,  or parameter formats are incorrect.
+    public static var redshiftInvalidParameterFault: Self { .init(.redshiftInvalidParameterFault) }
     /// User already has a reservation with the given identifier.
     public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
     /// Indicates that the reserved node has already been exchanged.

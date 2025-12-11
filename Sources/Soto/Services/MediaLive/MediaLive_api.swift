@@ -688,6 +688,7 @@ public struct MediaLive: AWSService {
     ///   - name: Name of the input.
     ///   - requestId: Unique identifier of the request to ensure the request is handled
     ///   - roleArn: The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
+    ///   - routerSettings: 
     ///   - sdiSources: 
     ///   - smpte2110ReceiverGroupSettings: Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     ///   - sources: The source URLs for a PULL-type input. Every PULL type input needs
@@ -707,6 +708,7 @@ public struct MediaLive: AWSService {
         name: String? = nil,
         requestId: String? = CreateInputRequest.idempotencyToken(),
         roleArn: String? = nil,
+        routerSettings: RouterSettings? = nil,
         sdiSources: [String]? = nil,
         smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil,
         sources: [InputSourceRequest]? = nil,
@@ -726,6 +728,7 @@ public struct MediaLive: AWSService {
             name: name, 
             requestId: requestId, 
             roleArn: roleArn, 
+            routerSettings: routerSettings, 
             sdiSources: sdiSources, 
             smpte2110ReceiverGroupSettings: smpte2110ReceiverGroupSettings, 
             sources: sources, 
@@ -2325,6 +2328,44 @@ public struct MediaLive: AWSService {
         return try await self.getSignalMap(input, logger: logger)
     }
 
+    /// List the alerts for a channel with optional filtering based on alert state.
+    @Sendable
+    @inlinable
+    public func listAlerts(_ input: ListAlertsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlertsResponse {
+        try await self.client.execute(
+            operation: "ListAlerts", 
+            path: "/prod/channels/{ChannelId}/alerts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the alerts for a channel with optional filtering based on alert state.
+    ///
+    /// Parameters:
+    ///   - channelId: The unique ID of the channel
+    ///   - maxResults: The maximum number of items to return
+    ///   - nextToken: The next pagination token
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAlerts(
+        channelId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAlertsResponse {
+        let input = ListAlertsRequest(
+            channelId: channelId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            stateFilter: stateFilter
+        )
+        return try await self.listAlerts(input, logger: logger)
+    }
+
     /// Retrieve the list of ChannelPlacementGroups in the specified Cluster.
     @Sendable
     @inlinable
@@ -2469,6 +2510,44 @@ public struct MediaLive: AWSService {
             signalMapIdentifier: signalMapIdentifier
         )
         return try await self.listCloudWatchAlarmTemplates(input, logger: logger)
+    }
+
+    /// List the alerts for a cluster with optional filtering based on alert state.
+    @Sendable
+    @inlinable
+    public func listClusterAlerts(_ input: ListClusterAlertsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListClusterAlertsResponse {
+        try await self.client.execute(
+            operation: "ListClusterAlerts", 
+            path: "/prod/clusters/{ClusterId}/alerts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the alerts for a cluster with optional filtering based on alert state.
+    ///
+    /// Parameters:
+    ///   - clusterId: The unique ID of the cluster
+    ///   - maxResults: The maximum number of items to return
+    ///   - nextToken: The next pagination token
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listClusterAlerts(
+        clusterId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListClusterAlertsResponse {
+        let input = ListClusterAlertsRequest(
+            clusterId: clusterId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            stateFilter: stateFilter
+        )
+        return try await self.listClusterAlerts(input, logger: logger)
     }
 
     /// Retrieve the list of Clusters.
@@ -2705,6 +2784,44 @@ public struct MediaLive: AWSService {
             nextToken: nextToken
         )
         return try await self.listInputs(input, logger: logger)
+    }
+
+    /// List the alerts for a multiplex with optional filtering based on alert state.
+    @Sendable
+    @inlinable
+    public func listMultiplexAlerts(_ input: ListMultiplexAlertsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMultiplexAlertsResponse {
+        try await self.client.execute(
+            operation: "ListMultiplexAlerts", 
+            path: "/prod/multiplexes/{MultiplexId}/alerts", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the alerts for a multiplex with optional filtering based on alert state.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return
+    ///   - multiplexId: The unique ID of the multiplex
+    ///   - nextToken: The next pagination token
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMultiplexAlerts(
+        maxResults: Int? = nil,
+        multiplexId: String,
+        nextToken: String? = nil,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMultiplexAlertsResponse {
+        let input = ListMultiplexAlertsRequest(
+            maxResults: maxResults, 
+            multiplexId: multiplexId, 
+            nextToken: nextToken, 
+            stateFilter: stateFilter
+        )
+        return try await self.listMultiplexAlerts(input, logger: logger)
     }
 
     /// List the programs that currently exist for a specific multiplex.
@@ -3975,6 +4092,7 @@ public struct MediaLive: AWSService {
     ///   - sdiSources: 
     ///   - smpte2110ReceiverGroupSettings: Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     ///   - sources: The source URLs for a PULL-type input. Every PULL type input needs
+    ///   - specialRouterSettings: When using MediaConnect Router as the source of a MediaLive input there's a special handoff that occurs when a router output
     ///   - srtSettings: The settings associated with an SRT input.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3990,6 +4108,7 @@ public struct MediaLive: AWSService {
         sdiSources: [String]? = nil,
         smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil,
         sources: [InputSourceRequest]? = nil,
+        specialRouterSettings: SpecialRouterSettings? = nil,
         srtSettings: SrtSettingsRequest? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateInputResponse {
@@ -4005,6 +4124,7 @@ public struct MediaLive: AWSService {
             sdiSources: sdiSources, 
             smpte2110ReceiverGroupSettings: smpte2110ReceiverGroupSettings, 
             sources: sources, 
+            specialRouterSettings: specialRouterSettings, 
             srtSettings: srtSettings
         )
         return try await self.updateInput(input, logger: logger)
@@ -4394,6 +4514,46 @@ extension MediaLive {
         return self.describeSchedulePaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAlertsPaginator(
+        _ input: ListAlertsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAlertsRequest, ListAlertsResponse> {
+        return .init(
+            input: input,
+            command: self.listAlerts,
+            inputKey: \ListAlertsRequest.nextToken,
+            outputKey: \ListAlertsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - channelId: The unique ID of the channel
+    ///   - maxResults: The maximum number of items to return
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAlertsPaginator(
+        channelId: String,
+        maxResults: Int? = nil,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAlertsRequest, ListAlertsResponse> {
+        let input = ListAlertsRequest(
+            channelId: channelId, 
+            maxResults: maxResults, 
+            stateFilter: stateFilter
+        )
+        return self.listAlertsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listChannelPlacementGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -4546,6 +4706,46 @@ extension MediaLive {
             signalMapIdentifier: signalMapIdentifier
         )
         return self.listCloudWatchAlarmTemplatesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listClusterAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterAlertsPaginator(
+        _ input: ListClusterAlertsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterAlertsRequest, ListClusterAlertsResponse> {
+        return .init(
+            input: input,
+            command: self.listClusterAlerts,
+            inputKey: \ListClusterAlertsRequest.nextToken,
+            outputKey: \ListClusterAlertsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusterAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterId: The unique ID of the cluster
+    ///   - maxResults: The maximum number of items to return
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterAlertsPaginator(
+        clusterId: String,
+        maxResults: Int? = nil,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClusterAlertsRequest, ListClusterAlertsResponse> {
+        let input = ListClusterAlertsRequest(
+            clusterId: clusterId, 
+            maxResults: maxResults, 
+            stateFilter: stateFilter
+        )
+        return self.listClusterAlertsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
@@ -4796,6 +4996,46 @@ extension MediaLive {
             maxResults: maxResults
         )
         return self.listInputsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listMultiplexAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMultiplexAlertsPaginator(
+        _ input: ListMultiplexAlertsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMultiplexAlertsRequest, ListMultiplexAlertsResponse> {
+        return .init(
+            input: input,
+            command: self.listMultiplexAlerts,
+            inputKey: \ListMultiplexAlertsRequest.nextToken,
+            outputKey: \ListMultiplexAlertsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMultiplexAlerts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return
+    ///   - multiplexId: The unique ID of the multiplex
+    ///   - stateFilter: Specifies the set of alerts to return based on their state. SET - Return only alerts with SET state. CLEARED - Return only alerts with CLEARED state. ALL - Return all alerts.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMultiplexAlertsPaginator(
+        maxResults: Int? = nil,
+        multiplexId: String,
+        stateFilter: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMultiplexAlertsRequest, ListMultiplexAlertsResponse> {
+        let input = ListMultiplexAlertsRequest(
+            maxResults: maxResults, 
+            multiplexId: multiplexId, 
+            stateFilter: stateFilter
+        )
+        return self.listMultiplexAlertsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listMultiplexPrograms(_:logger:)``.
@@ -5148,6 +5388,18 @@ extension MediaLive.DescribeScheduleRequest: AWSPaginateToken {
     }
 }
 
+extension MediaLive.ListAlertsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListAlertsRequest {
+        return .init(
+            channelId: self.channelId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter
+        )
+    }
+}
+
 extension MediaLive.ListChannelPlacementGroupsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MediaLive.ListChannelPlacementGroupsRequest {
@@ -5190,6 +5442,18 @@ extension MediaLive.ListCloudWatchAlarmTemplatesRequest: AWSPaginateToken {
             nextToken: token,
             scope: self.scope,
             signalMapIdentifier: self.signalMapIdentifier
+        )
+    }
+}
+
+extension MediaLive.ListClusterAlertsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListClusterAlertsRequest {
+        return .init(
+            clusterId: self.clusterId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            stateFilter: self.stateFilter
         )
     }
 }
@@ -5264,6 +5528,18 @@ extension MediaLive.ListInputsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension MediaLive.ListMultiplexAlertsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListMultiplexAlertsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            multiplexId: self.multiplexId,
+            nextToken: token,
+            stateFilter: self.stateFilter
         )
     }
 }

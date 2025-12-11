@@ -101,9 +101,24 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PreviewStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case previewFailed = "PREVIEW_FAILED"
+        case previewInProgress = "PREVIEW_IN_PROGRESS"
+        case previewReady = "PREVIEW_READY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ProtocolType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http = "HTTP"
         case websocket = "WEBSOCKET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PublishStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case publishFailed = "PUBLISH_FAILED"
+        case publishInProgress = "PUBLISH_IN_PROGRESS"
+        case published = "PUBLISHED"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +132,19 @@ extension ApiGatewayV2 {
     public enum SecurityPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tls10 = "TLS_1_0"
         case tls12 = "TLS_1_2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Status: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TryItState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -135,6 +163,31 @@ extension ApiGatewayV2 {
     }
 
     // MARK: Shapes
+
+    public struct ACMManaged: AWSEncodableShape {
+        /// The certificate ARN.
+        public let certificateArn: String?
+        /// The domain name.
+        public let domainName: String?
+
+        @inlinable
+        public init(certificateArn: String? = nil, domainName: String? = nil) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 10)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 256)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case domainName = "domainName"
+        }
+    }
 
     public struct AccessLogSettings: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the CloudWatch Logs log group to receive access logs.
@@ -259,6 +312,28 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct Authorization: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Cognito configuration.
+        public let cognitoConfig: CognitoConfig?
+        /// Provide no authorization for your portal. This makes your portal publicly accesible on the web.
+        public let none: None?
+
+        @inlinable
+        public init(cognitoConfig: CognitoConfig? = nil, none: None? = nil) {
+            self.cognitoConfig = cognitoConfig
+            self.none = none
+        }
+
+        public func validate(name: String) throws {
+            try self.cognitoConfig?.validate(name: "\(name).cognitoConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cognitoConfig = "cognitoConfig"
+            case none = "none"
+        }
+    }
+
     public struct Authorizer: AWSDecodableShape {
         /// Specifies the required credentials as an IAM role for API Gateway to invoke the authorizer. To specify an IAM role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To use resource-based permissions on the Lambda function, don't specify this parameter. Supported only for REQUEST authorizers.
         public let authorizerCredentialsArn: String?
@@ -310,6 +385,37 @@ extension ApiGatewayV2 {
             case identityValidationExpression = "identityValidationExpression"
             case jwtConfiguration = "jwtConfiguration"
             case name = "name"
+        }
+    }
+
+    public struct CognitoConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The app client ID.
+        public let appClientId: String?
+        /// The user pool ARN.
+        public let userPoolArn: String?
+        /// The user pool domain.
+        public let userPoolDomain: String?
+
+        @inlinable
+        public init(appClientId: String? = nil, userPoolArn: String? = nil, userPoolDomain: String? = nil) {
+            self.appClientId = appClientId
+            self.userPoolArn = userPoolArn
+            self.userPoolDomain = userPoolDomain
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appClientId, name: "appClientId", parent: name, max: 256)
+            try self.validate(self.appClientId, name: "appClientId", parent: name, min: 1)
+            try self.validate(self.userPoolArn, name: "userPoolArn", parent: name, max: 2048)
+            try self.validate(self.userPoolArn, name: "userPoolArn", parent: name, min: 20)
+            try self.validate(self.userPoolDomain, name: "userPoolDomain", parent: name, max: 2048)
+            try self.validate(self.userPoolDomain, name: "userPoolDomain", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appClientId = "appClientId"
+            case userPoolArn = "userPoolArn"
+            case userPoolDomain = "userPoolDomain"
         }
     }
 
@@ -1170,6 +1276,324 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct CreatePortalProductRequest: AWSEncodableShape {
+        /// A description of the portal product.
+        public let description: String?
+        /// The name of the portal product as it appears in a published portal.
+        public let displayName: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePortalProductResponse: AWSDecodableShape {
+        /// A description of the portal product.
+        public let description: String?
+        /// The display name for the portal product.
+        public let displayName: String?
+        /// The visual ordering of the product pages and product REST endpoint pages in a published portal.
+        public let displayOrder: DisplayOrder?
+        /// The timestamp when the portal product was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the portal product.
+        public let portalProductArn: String?
+        /// The portal product identifier.
+        public let portalProductId: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, displayOrder: DisplayOrder? = nil, lastModified: Date? = nil, portalProductArn: String? = nil, portalProductId: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.displayOrder = displayOrder
+            self.lastModified = lastModified
+            self.portalProductArn = portalProductArn
+            self.portalProductId = portalProductId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case displayOrder = "displayOrder"
+            case lastModified = "lastModified"
+            case portalProductArn = "portalProductArn"
+            case portalProductId = "portalProductId"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePortalRequest: AWSEncodableShape {
+        /// The authentication configuration for the portal.
+        public let authorization: Authorization?
+        /// The domain configuration for the portal. Use a default domain provided by API Gateway or provide a fully-qualified domain name that you own.
+        public let endpointConfiguration: EndpointConfigurationRequest?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The URI for the portal logo image that is displayed in the portal header.
+        public let logoUri: String?
+        /// The content of the portal.
+        public let portalContent: PortalContent?
+        /// The name of the Amazon CloudWatch RUM app monitor for the portal.
+        public let rumAppMonitorName: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationRequest? = nil, includedPortalProductArns: [String]? = nil, logoUri: String? = nil, portalContent: PortalContent? = nil, rumAppMonitorName: String? = nil, tags: [String: String]? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.logoUri = logoUri
+            self.portalContent = portalContent
+            self.rumAppMonitorName = rumAppMonitorName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.authorization?.validate(name: "\(name).authorization")
+            try self.endpointConfiguration?.validate(name: "\(name).endpointConfiguration")
+            try self.includedPortalProductArns?.forEach {
+                try validate($0, name: "includedPortalProductArns[]", parent: name, max: 2048)
+                try validate($0, name: "includedPortalProductArns[]", parent: name, min: 20)
+            }
+            try self.validate(self.logoUri, name: "logoUri", parent: name, max: 1092)
+            try self.portalContent?.validate(name: "\(name).portalContent")
+            try self.validate(self.rumAppMonitorName, name: "rumAppMonitorName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case logoUri = "logoUri"
+            case portalContent = "portalContent"
+            case rumAppMonitorName = "rumAppMonitorName"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePortalResponse: AWSDecodableShape {
+        /// The authorization for the portal. Supports Cognito-based user authentication or no authentication.
+        public let authorization: Authorization?
+        /// The endpoint configuration.
+        public let endpointConfiguration: EndpointConfigurationResponse?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The timestamp when the portal configuration was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The timestamp when the portal was last published.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastPublished: Date?
+        /// A user-written description of the changes made in the last published version of the portal.
+        public let lastPublishedDescription: String?
+        /// The ARN of the portal.
+        public let portalArn: String?
+        /// The name, description, and theme for the portal.
+        public let portalContent: PortalContent?
+        /// The portal identifier.
+        public let portalId: String?
+        /// The current publishing status of the portal.
+        public let publishStatus: PublishStatus?
+        /// The name of the Amazon CloudWatch RUM app monitor.
+        public let rumAppMonitorName: String?
+        /// Error information for failed portal operations. Contains details about any issues encountered during portal creation or publishing.
+        public let statusException: StatusException?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationResponse? = nil, includedPortalProductArns: [String]? = nil, lastModified: Date? = nil, lastPublished: Date? = nil, lastPublishedDescription: String? = nil, portalArn: String? = nil, portalContent: PortalContent? = nil, portalId: String? = nil, publishStatus: PublishStatus? = nil, rumAppMonitorName: String? = nil, statusException: StatusException? = nil, tags: [String: String]? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.lastModified = lastModified
+            self.lastPublished = lastPublished
+            self.lastPublishedDescription = lastPublishedDescription
+            self.portalArn = portalArn
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.publishStatus = publishStatus
+            self.rumAppMonitorName = rumAppMonitorName
+            self.statusException = statusException
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case lastModified = "lastModified"
+            case lastPublished = "lastPublished"
+            case lastPublishedDescription = "lastPublishedDescription"
+            case portalArn = "portalArn"
+            case portalContent = "portalContent"
+            case portalId = "portalId"
+            case publishStatus = "publishStatus"
+            case rumAppMonitorName = "rumAppMonitorName"
+            case statusException = "statusException"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreateProductPageRequest: AWSEncodableShape {
+        /// The content of the product page.
+        public let displayContent: DisplayContent?
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(displayContent: DisplayContent? = nil, portalProductId: String) {
+            self.displayContent = displayContent
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayContent, forKey: .displayContent)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        public func validate(name: String) throws {
+            try self.displayContent?.validate(name: "\(name).displayContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+        }
+    }
+
+    public struct CreateProductPageResponse: AWSDecodableShape {
+        /// The content of the product page.
+        public let displayContent: DisplayContent?
+        /// The timestamp when the product page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product page.
+        public let productPageArn: String?
+        /// The product page identifier.
+        public let productPageId: String?
+
+        @inlinable
+        public init(displayContent: DisplayContent? = nil, lastModified: Date? = nil, productPageArn: String? = nil, productPageId: String? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productPageArn = productPageArn
+            self.productPageId = productPageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productPageArn = "productPageArn"
+            case productPageId = "productPageId"
+        }
+    }
+
+    public struct CreateProductRestEndpointPageRequest: AWSEncodableShape {
+        /// The content of the product REST endpoint page.
+        public let displayContent: EndpointDisplayContent?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The REST endpoint identifier.
+        public let restEndpointIdentifier: RestEndpointIdentifier?
+        /// The try it state of the product REST endpoint page.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(displayContent: EndpointDisplayContent? = nil, portalProductId: String, restEndpointIdentifier: RestEndpointIdentifier? = nil, tryItState: TryItState? = nil) {
+            self.displayContent = displayContent
+            self.portalProductId = portalProductId
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.tryItState = tryItState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayContent, forKey: .displayContent)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            try container.encodeIfPresent(self.restEndpointIdentifier, forKey: .restEndpointIdentifier)
+            try container.encodeIfPresent(self.tryItState, forKey: .tryItState)
+        }
+
+        public func validate(name: String) throws {
+            try self.displayContent?.validate(name: "\(name).displayContent")
+            try self.restEndpointIdentifier?.validate(name: "\(name).restEndpointIdentifier")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case restEndpointIdentifier = "restEndpointIdentifier"
+            case tryItState = "tryItState"
+        }
+    }
+
+    public struct CreateProductRestEndpointPageResponse: AWSDecodableShape {
+        /// The display content.
+        public let displayContent: EndpointDisplayContentResponse?
+        /// The timestamp when the product REST endpoint page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product REST endpoint page.
+        public let productRestEndpointPageArn: String?
+        /// The product REST endpoint page identifier.
+        public let productRestEndpointPageId: String?
+        /// The REST endpoint identifier.
+        public let restEndpointIdentifier: RestEndpointIdentifier?
+        /// The status.
+        public let status: Status?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The try it state.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(displayContent: EndpointDisplayContentResponse? = nil, lastModified: Date? = nil, productRestEndpointPageArn: String? = nil, productRestEndpointPageId: String? = nil, restEndpointIdentifier: RestEndpointIdentifier? = nil, status: Status? = nil, statusException: StatusException? = nil, tryItState: TryItState? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productRestEndpointPageArn = productRestEndpointPageArn
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.status = status
+            self.statusException = statusException
+            self.tryItState = tryItState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productRestEndpointPageArn = "productRestEndpointPageArn"
+            case productRestEndpointPageId = "productRestEndpointPageId"
+            case restEndpointIdentifier = "restEndpointIdentifier"
+            case status = "status"
+            case statusException = "statusException"
+            case tryItState = "tryItState"
+        }
+    }
+
     public struct CreateRouteRequest: AWSEncodableShape {
         /// The API identifier.
         public let apiId: String
@@ -1662,6 +2086,55 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct CustomColors: AWSEncodableShape & AWSDecodableShape {
+        /// Represents the accent color.
+        public let accentColor: String?
+        /// Represents the background color.
+        public let backgroundColor: String?
+        /// The errorValidationColor.
+        public let errorValidationColor: String?
+        /// Represents the header color.
+        public let headerColor: String?
+        /// Represents the navigation color.
+        public let navigationColor: String?
+        /// Represents the text color.
+        public let textColor: String?
+
+        @inlinable
+        public init(accentColor: String? = nil, backgroundColor: String? = nil, errorValidationColor: String? = nil, headerColor: String? = nil, navigationColor: String? = nil, textColor: String? = nil) {
+            self.accentColor = accentColor
+            self.backgroundColor = backgroundColor
+            self.errorValidationColor = errorValidationColor
+            self.headerColor = headerColor
+            self.navigationColor = navigationColor
+            self.textColor = textColor
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accentColor, name: "accentColor", parent: name, max: 16)
+            try self.validate(self.accentColor, name: "accentColor", parent: name, min: 1)
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, max: 16)
+            try self.validate(self.backgroundColor, name: "backgroundColor", parent: name, min: 1)
+            try self.validate(self.errorValidationColor, name: "errorValidationColor", parent: name, max: 16)
+            try self.validate(self.errorValidationColor, name: "errorValidationColor", parent: name, min: 1)
+            try self.validate(self.headerColor, name: "headerColor", parent: name, max: 16)
+            try self.validate(self.headerColor, name: "headerColor", parent: name, min: 1)
+            try self.validate(self.navigationColor, name: "navigationColor", parent: name, max: 16)
+            try self.validate(self.navigationColor, name: "navigationColor", parent: name, min: 1)
+            try self.validate(self.textColor, name: "textColor", parent: name, max: 16)
+            try self.validate(self.textColor, name: "textColor", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accentColor = "accentColor"
+            case backgroundColor = "backgroundColor"
+            case errorValidationColor = "errorValidationColor"
+            case headerColor = "headerColor"
+            case navigationColor = "navigationColor"
+            case textColor = "textColor"
+        }
+    }
+
     public struct DeleteAccessLogSettingsRequest: AWSEncodableShape {
         /// The API identifier.
         public let apiId: String
@@ -1874,6 +2347,104 @@ extension ApiGatewayV2 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeletePortalProductRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(portalProductId: String) {
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePortalProductSharingPolicyRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(portalProductId: String) {
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePortalRequest: AWSEncodableShape {
+        /// The portal identifier.
+        public let portalId: String
+
+        @inlinable
+        public init(portalId: String) {
+            self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalId, key: "PortalId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProductPageRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The portal product identifier.
+        public let productPageId: String
+
+        @inlinable
+        public init(portalProductId: String, productPageId: String) {
+            self.portalProductId = portalProductId
+            self.productPageId = productPageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productPageId, key: "ProductPageId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteProductRestEndpointPageRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The product REST endpoint identifier.
+        public let productRestEndpointPageId: String
+
+        @inlinable
+        public init(portalProductId: String, productRestEndpointPageId: String) {
+            self.portalProductId = portalProductId
+            self.productRestEndpointPageId = productRestEndpointPageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productRestEndpointPageId, key: "ProductRestEndpointPageId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteRouteRequest: AWSEncodableShape {
         /// The API identifier.
         public let apiId: String
@@ -2079,6 +2650,114 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct DisablePortalRequest: AWSEncodableShape {
+        /// The portal identifier.
+        public let portalId: String
+
+        @inlinable
+        public init(portalId: String) {
+            self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalId, key: "PortalId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisplayContent: AWSEncodableShape & AWSDecodableShape {
+        /// The body.
+        public let body: String?
+        /// The title.
+        public let title: String?
+
+        @inlinable
+        public init(body: String? = nil, title: String? = nil) {
+            self.body = body
+            self.title = title
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 32768)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+            try self.validate(self.title, name: "title", parent: name, max: 255)
+            try self.validate(self.title, name: "title", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case title = "title"
+        }
+    }
+
+    public struct DisplayContentOverrides: AWSEncodableShape {
+        /// By default, this is the documentation of your REST API from API Gateway. You can provide custom documentation to override this value.
+        public let body: String?
+        /// The URL for your REST API. By default, API Gateway uses the default execute API endpoint. You can provide a custom domain to override this value.
+        public let endpoint: String?
+        /// The operation name of the product REST endpoint.
+        public let operationName: String?
+
+        @inlinable
+        public init(body: String? = nil, endpoint: String? = nil, operationName: String? = nil) {
+            self.body = body
+            self.endpoint = endpoint
+            self.operationName = operationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.body, name: "body", parent: name, max: 32768)
+            try self.validate(self.body, name: "body", parent: name, min: 1)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, max: 1024)
+            try self.validate(self.endpoint, name: "endpoint", parent: name, min: 1)
+            try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
+            try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case endpoint = "endpoint"
+            case operationName = "operationName"
+        }
+    }
+
+    public struct DisplayOrder: AWSEncodableShape & AWSDecodableShape {
+        /// Represents a list of sections which include section name and list of product REST endpoints for a product.
+        public let contents: [Section]?
+        /// The ARN of the overview page.
+        public let overviewPageArn: String?
+        /// The product page ARNs.
+        public let productPageArns: [String]?
+
+        @inlinable
+        public init(contents: [Section]? = nil, overviewPageArn: String? = nil, productPageArns: [String]? = nil) {
+            self.contents = contents
+            self.overviewPageArn = overviewPageArn
+            self.productPageArns = productPageArns
+        }
+
+        public func validate(name: String) throws {
+            try self.contents?.forEach {
+                try $0.validate(name: "\(name).contents[]")
+            }
+            try self.validate(self.overviewPageArn, name: "overviewPageArn", parent: name, max: 2048)
+            try self.validate(self.overviewPageArn, name: "overviewPageArn", parent: name, min: 20)
+            try self.productPageArns?.forEach {
+                try validate($0, name: "productPageArns[]", parent: name, max: 2048)
+                try validate($0, name: "productPageArns[]", parent: name, min: 20)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contents = "contents"
+            case overviewPageArn = "overviewPageArn"
+            case productPageArns = "productPageArns"
+        }
+    }
+
     public struct DomainName: AWSDecodableShape {
         /// The API mapping selection expression.
         public let apiMappingSelectionExpression: String?
@@ -2168,6 +2847,98 @@ extension ApiGatewayV2 {
             case ipAddressType = "ipAddressType"
             case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
             case securityPolicy = "securityPolicy"
+        }
+    }
+
+    public struct EndpointConfigurationRequest: AWSEncodableShape {
+        /// Represents a domain name and certificate for a portal.
+        public let acmManaged: ACMManaged?
+        /// Use the default portal domain name that is generated and managed by API Gateway.
+        public let none: None?
+
+        @inlinable
+        public init(acmManaged: ACMManaged? = nil, none: None? = nil) {
+            self.acmManaged = acmManaged
+            self.none = none
+        }
+
+        public func validate(name: String) throws {
+            try self.acmManaged?.validate(name: "\(name).acmManaged")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acmManaged = "acmManaged"
+            case none = "none"
+        }
+    }
+
+    public struct EndpointConfigurationResponse: AWSDecodableShape {
+        /// The ARN of the ACM certificate.
+        public let certificateArn: String?
+        /// The domain name.
+        public let domainName: String?
+        /// The portal default domain name. This domain name is generated and managed by API Gateway.
+        public let portalDefaultDomainName: String?
+        /// The portal domain hosted zone identifier.
+        public let portalDomainHostedZoneId: String?
+
+        @inlinable
+        public init(certificateArn: String? = nil, domainName: String? = nil, portalDefaultDomainName: String? = nil, portalDomainHostedZoneId: String? = nil) {
+            self.certificateArn = certificateArn
+            self.domainName = domainName
+            self.portalDefaultDomainName = portalDefaultDomainName
+            self.portalDomainHostedZoneId = portalDomainHostedZoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "certificateArn"
+            case domainName = "domainName"
+            case portalDefaultDomainName = "portalDefaultDomainName"
+            case portalDomainHostedZoneId = "portalDomainHostedZoneId"
+        }
+    }
+
+    public struct EndpointDisplayContent: AWSEncodableShape {
+        /// If your product REST endpoint contains no overrides, the none object is returned.
+        public let none: None?
+        /// The overrides for endpoint display content.
+        public let overrides: DisplayContentOverrides?
+
+        @inlinable
+        public init(none: None? = nil, overrides: DisplayContentOverrides? = nil) {
+            self.none = none
+            self.overrides = overrides
+        }
+
+        public func validate(name: String) throws {
+            try self.overrides?.validate(name: "\(name).overrides")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case none = "none"
+            case overrides = "overrides"
+        }
+    }
+
+    public struct EndpointDisplayContentResponse: AWSDecodableShape {
+        /// The API documentation.
+        public let body: String?
+        /// The URL to invoke your REST API.
+        public let endpoint: String?
+        /// The operation name.
+        public let operationName: String?
+
+        @inlinable
+        public init(body: String? = nil, endpoint: String? = nil, operationName: String? = nil) {
+            self.body = body
+            self.endpoint = endpoint
+            self.operationName = operationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "body"
+            case endpoint = "endpoint"
+            case operationName = "operationName"
         }
     }
 
@@ -2699,6 +3470,7 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        /// The ARN of the DomainName resource.
         public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -3164,6 +3936,319 @@ extension ApiGatewayV2 {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct GetPortalProductRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The account ID of the resource owner of the portal product.
+        public let resourceOwnerAccountId: String?
+
+        @inlinable
+        public init(portalProductId: String, resourceOwnerAccountId: String? = nil) {
+            self.portalProductId = portalProductId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodeQuery(self.resourceOwnerAccountId, key: "resourceOwnerAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPortalProductResponse: AWSDecodableShape {
+        /// The description of a portal product.
+        public let description: String?
+        /// The display name.
+        public let displayName: String?
+        /// The display order.
+        public let displayOrder: DisplayOrder?
+        /// The timestamp when the portal product was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the portal product.
+        public let portalProductArn: String?
+        /// The portal product identifier.
+        public let portalProductId: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, displayOrder: DisplayOrder? = nil, lastModified: Date? = nil, portalProductArn: String? = nil, portalProductId: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.displayOrder = displayOrder
+            self.lastModified = lastModified
+            self.portalProductArn = portalProductArn
+            self.portalProductId = portalProductId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case displayOrder = "displayOrder"
+            case lastModified = "lastModified"
+            case portalProductArn = "portalProductArn"
+            case portalProductId = "portalProductId"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetPortalProductSharingPolicyRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(portalProductId: String) {
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPortalProductSharingPolicyResponse: AWSDecodableShape {
+        /// The product sharing policy.
+        public let policyDocument: String?
+        /// The portal product identifier.
+        public let portalProductId: String?
+
+        @inlinable
+        public init(policyDocument: String? = nil, portalProductId: String? = nil) {
+            self.policyDocument = policyDocument
+            self.portalProductId = portalProductId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+            case portalProductId = "portalProductId"
+        }
+    }
+
+    public struct GetPortalRequest: AWSEncodableShape {
+        /// The portal identifier.
+        public let portalId: String
+
+        @inlinable
+        public init(portalId: String) {
+            self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalId, key: "PortalId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPortalResponse: AWSDecodableShape {
+        /// The authorization for the portal.
+        public let authorization: Authorization?
+        /// The endpoint configuration.
+        public let endpointConfiguration: EndpointConfigurationResponse?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The timestamp when the portal was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The timestamp when the portal was last published.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastPublished: Date?
+        /// The publish description used when the portal was last published.
+        public let lastPublishedDescription: String?
+        /// The ARN of the portal.
+        public let portalArn: String?
+        /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+        public let portalContent: PortalContent?
+        /// The portal identifier.
+        public let portalId: String?
+        /// Represents the preview endpoint and the any possible error messages during preview generation.
+        public let preview: Preview?
+        /// The publish status of a portal.
+        public let publishStatus: PublishStatus?
+        /// The CloudWatch RUM app monitor name.
+        public let rumAppMonitorName: String?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationResponse? = nil, includedPortalProductArns: [String]? = nil, lastModified: Date? = nil, lastPublished: Date? = nil, lastPublishedDescription: String? = nil, portalArn: String? = nil, portalContent: PortalContent? = nil, portalId: String? = nil, preview: Preview? = nil, publishStatus: PublishStatus? = nil, rumAppMonitorName: String? = nil, statusException: StatusException? = nil, tags: [String: String]? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.lastModified = lastModified
+            self.lastPublished = lastPublished
+            self.lastPublishedDescription = lastPublishedDescription
+            self.portalArn = portalArn
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.preview = preview
+            self.publishStatus = publishStatus
+            self.rumAppMonitorName = rumAppMonitorName
+            self.statusException = statusException
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case lastModified = "lastModified"
+            case lastPublished = "lastPublished"
+            case lastPublishedDescription = "lastPublishedDescription"
+            case portalArn = "portalArn"
+            case portalContent = "portalContent"
+            case portalId = "portalId"
+            case preview = "preview"
+            case publishStatus = "publishStatus"
+            case rumAppMonitorName = "rumAppMonitorName"
+            case statusException = "statusException"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetProductPageRequest: AWSEncodableShape {
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The portal product identifier.
+        public let productPageId: String
+        /// The account ID of the resource owner of the portal product.
+        public let resourceOwnerAccountId: String?
+
+        @inlinable
+        public init(portalProductId: String, productPageId: String, resourceOwnerAccountId: String? = nil) {
+            self.portalProductId = portalProductId
+            self.productPageId = productPageId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productPageId, key: "ProductPageId")
+            request.encodeQuery(self.resourceOwnerAccountId, key: "resourceOwnerAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProductPageResponse: AWSDecodableShape {
+        /// The content of the product page.
+        public let displayContent: DisplayContent?
+        /// The timestamp when the product page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product page.
+        public let productPageArn: String?
+        /// The product page identifier.
+        public let productPageId: String?
+
+        @inlinable
+        public init(displayContent: DisplayContent? = nil, lastModified: Date? = nil, productPageArn: String? = nil, productPageId: String? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productPageArn = productPageArn
+            self.productPageId = productPageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productPageArn = "productPageArn"
+            case productPageId = "productPageId"
+        }
+    }
+
+    public struct GetProductRestEndpointPageRequest: AWSEncodableShape {
+        /// The query parameter to include raw display content.
+        public let includeRawDisplayContent: String?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The product REST endpoint identifier.
+        public let productRestEndpointPageId: String
+        /// The account ID of the resource owner of the portal product.
+        public let resourceOwnerAccountId: String?
+
+        @inlinable
+        public init(includeRawDisplayContent: String? = nil, portalProductId: String, productRestEndpointPageId: String, resourceOwnerAccountId: String? = nil) {
+            self.includeRawDisplayContent = includeRawDisplayContent
+            self.portalProductId = portalProductId
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeRawDisplayContent, key: "includeRawDisplayContent")
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productRestEndpointPageId, key: "ProductRestEndpointPageId")
+            request.encodeQuery(self.resourceOwnerAccountId, key: "resourceOwnerAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProductRestEndpointPageResponse: AWSDecodableShape {
+        /// The content of the product REST endpoint page.
+        public let displayContent: EndpointDisplayContentResponse?
+        /// The timestamp when the product REST endpoint page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product REST endpoint page.
+        public let productRestEndpointPageArn: String?
+        /// The product REST endpoint page identifier.
+        public let productRestEndpointPageId: String?
+        /// The raw display content of the product REST endpoint page.
+        public let rawDisplayContent: String?
+        /// The REST endpoint identifier.
+        public let restEndpointIdentifier: RestEndpointIdentifier?
+        /// The status of the product REST endpoint page.
+        public let status: Status?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The try it state.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(displayContent: EndpointDisplayContentResponse? = nil, lastModified: Date? = nil, productRestEndpointPageArn: String? = nil, productRestEndpointPageId: String? = nil, rawDisplayContent: String? = nil, restEndpointIdentifier: RestEndpointIdentifier? = nil, status: Status? = nil, statusException: StatusException? = nil, tryItState: TryItState? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productRestEndpointPageArn = productRestEndpointPageArn
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.rawDisplayContent = rawDisplayContent
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.status = status
+            self.statusException = statusException
+            self.tryItState = tryItState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productRestEndpointPageArn = "productRestEndpointPageArn"
+            case productRestEndpointPageId = "productRestEndpointPageId"
+            case rawDisplayContent = "rawDisplayContent"
+            case restEndpointIdentifier = "restEndpointIdentifier"
+            case status = "status"
+            case statusException = "statusException"
+            case tryItState = "tryItState"
         }
     }
 
@@ -3725,6 +4810,43 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct IdentifierParts: AWSEncodableShape & AWSDecodableShape {
+        /// The method of the product REST endpoint.
+        public let method: String?
+        /// The path of the product REST endpoint.
+        public let path: String?
+        /// The REST API ID of the product REST endpoint.
+        public let restApiId: String?
+        /// The stage of the product REST endpoint.
+        public let stage: String?
+
+        @inlinable
+        public init(method: String? = nil, path: String? = nil, restApiId: String? = nil, stage: String? = nil) {
+            self.method = method
+            self.path = path
+            self.restApiId = restApiId
+            self.stage = stage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.method, name: "method", parent: name, max: 20)
+            try self.validate(self.method, name: "method", parent: name, min: 1)
+            try self.validate(self.path, name: "path", parent: name, max: 4096)
+            try self.validate(self.path, name: "path", parent: name, min: 1)
+            try self.validate(self.restApiId, name: "restApiId", parent: name, max: 50)
+            try self.validate(self.restApiId, name: "restApiId", parent: name, min: 1)
+            try self.validate(self.stage, name: "stage", parent: name, max: 128)
+            try self.validate(self.stage, name: "stage", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case method = "method"
+            case path = "path"
+            case restApiId = "restApiId"
+            case stage = "stage"
+        }
+    }
+
     public struct ImportApiRequest: AWSEncodableShape {
         /// Specifies how to interpret the base path of the API during import. Valid values are ignore, prepend, and split. The default value is ignore. To learn more, see Set the OpenAPI basePath Property. Supported only for HTTP APIs.
         public let basepath: String?
@@ -3974,6 +5096,186 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct ListPortalProductsRequest: AWSEncodableShape {
+        /// The maximum number of elements to be returned for this resource.
+        public let maxResults: String?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+        /// The resource owner of the portal product.
+        public let resourceOwner: String?
+
+        @inlinable
+        public init(maxResults: String? = nil, nextToken: String? = nil, resourceOwner: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceOwner = resourceOwner
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.resourceOwner, key: "resourceOwner")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPortalProductsResponse: AWSDecodableShape {
+        /// The elements from this collection.
+        public let items: [PortalProductSummary]?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [PortalProductSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListPortalsRequest: AWSEncodableShape {
+        /// The maximum number of elements to be returned for this resource.
+        public let maxResults: String?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: String? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPortalsResponse: AWSDecodableShape {
+        /// The elements from this collection.
+        public let items: [PortalSummary]?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [PortalSummary]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListProductPagesRequest: AWSEncodableShape {
+        /// The maximum number of elements to be returned for this resource.
+        public let maxResults: String?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The account ID of the resource owner of the portal product.
+        public let resourceOwnerAccountId: String?
+
+        @inlinable
+        public init(maxResults: String? = nil, nextToken: String? = nil, portalProductId: String, resourceOwnerAccountId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.portalProductId = portalProductId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodeQuery(self.resourceOwnerAccountId, key: "resourceOwnerAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProductPagesResponse: AWSDecodableShape {
+        /// The elements from this collection.
+        public let items: [ProductPageSummaryNoBody]?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ProductPageSummaryNoBody]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListProductRestEndpointPagesRequest: AWSEncodableShape {
+        /// The maximum number of elements to be returned for this resource.
+        public let maxResults: String?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The account ID of the resource owner of the portal product.
+        public let resourceOwnerAccountId: String?
+
+        @inlinable
+        public init(maxResults: String? = nil, nextToken: String? = nil, portalProductId: String, resourceOwnerAccountId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.portalProductId = portalProductId
+            self.resourceOwnerAccountId = resourceOwnerAccountId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodeQuery(self.resourceOwnerAccountId, key: "resourceOwnerAccountId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProductRestEndpointPagesResponse: AWSDecodableShape {
+        /// The elements from this collection.
+        public let items: [ProductRestEndpointPageSummaryNoBody]?
+        /// The next page of elements from this collection. Not valid for the last element of the collection.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [ProductRestEndpointPageSummaryNoBody]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListRoutingRulesRequest: AWSEncodableShape {
         /// The domain name.
         public let domainName: String
@@ -4096,6 +5398,10 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct None: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct NotFoundException: AWSErrorShape {
         /// Describes the error encountered.
         public let message: String?
@@ -4126,6 +5432,344 @@ extension ApiGatewayV2 {
         private enum CodingKeys: String, CodingKey {
             case required = "required"
         }
+    }
+
+    public struct PortalContent: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the portal.
+        public let description: String?
+        /// The display name for the portal.
+        public let displayName: String?
+        /// The theme for the portal.
+        public let theme: PortalTheme?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, theme: PortalTheme? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.theme = theme
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 3)
+            try self.theme?.validate(name: "\(name).theme")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case theme = "theme"
+        }
+    }
+
+    public struct PortalProductSummary: AWSDecodableShape {
+        /// The description.
+        public let description: String?
+        /// The display name of a portal product.
+        public let displayName: String?
+        /// The timestamp when the portal product was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of a portal product.
+        public let portalProductArn: String?
+        /// The portal product identifier.
+        public let portalProductId: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, lastModified: Date? = nil, portalProductArn: String? = nil, portalProductId: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.lastModified = lastModified
+            self.portalProductArn = portalProductArn
+            self.portalProductId = portalProductId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case lastModified = "lastModified"
+            case portalProductArn = "portalProductArn"
+            case portalProductId = "portalProductId"
+            case tags = "tags"
+        }
+    }
+
+    public struct PortalSummary: AWSDecodableShape {
+        /// The authorization of the portal.
+        public let authorization: Authorization?
+        /// The endpoint configuration of the portal.
+        public let endpointConfiguration: EndpointConfigurationResponse?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The timestamp when the portal was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The timestamp when the portal was last published.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastPublished: Date?
+        /// The description of the portal the last time it was published.
+        public let lastPublishedDescription: String?
+        /// The ARN of the portal.
+        public let portalArn: String?
+        /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+        public let portalContent: PortalContent?
+        /// The portal identifier.
+        public let portalId: String?
+        /// Represents the preview endpoint and the any possible error messages during preview generation.
+        public let preview: Preview?
+        /// The publish status.
+        public let publishStatus: PublishStatus?
+        /// The CloudWatch RUM app monitor name.
+        public let rumAppMonitorName: String?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationResponse? = nil, includedPortalProductArns: [String]? = nil, lastModified: Date? = nil, lastPublished: Date? = nil, lastPublishedDescription: String? = nil, portalArn: String? = nil, portalContent: PortalContent? = nil, portalId: String? = nil, preview: Preview? = nil, publishStatus: PublishStatus? = nil, rumAppMonitorName: String? = nil, statusException: StatusException? = nil, tags: [String: String]? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.lastModified = lastModified
+            self.lastPublished = lastPublished
+            self.lastPublishedDescription = lastPublishedDescription
+            self.portalArn = portalArn
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.preview = preview
+            self.publishStatus = publishStatus
+            self.rumAppMonitorName = rumAppMonitorName
+            self.statusException = statusException
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case lastModified = "lastModified"
+            case lastPublished = "lastPublished"
+            case lastPublishedDescription = "lastPublishedDescription"
+            case portalArn = "portalArn"
+            case portalContent = "portalContent"
+            case portalId = "portalId"
+            case preview = "preview"
+            case publishStatus = "publishStatus"
+            case rumAppMonitorName = "rumAppMonitorName"
+            case statusException = "statusException"
+            case tags = "tags"
+        }
+    }
+
+    public struct PortalTheme: AWSEncodableShape & AWSDecodableShape {
+        /// Defines custom color values.
+        public let customColors: CustomColors?
+        /// The timestamp when the logo was last uploaded.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var logoLastUploaded: Date?
+
+        @inlinable
+        public init(customColors: CustomColors? = nil, logoLastUploaded: Date? = nil) {
+            self.customColors = customColors
+            self.logoLastUploaded = logoLastUploaded
+        }
+
+        public func validate(name: String) throws {
+            try self.customColors?.validate(name: "\(name).customColors")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customColors = "customColors"
+            case logoLastUploaded = "logoLastUploaded"
+        }
+    }
+
+    public struct Preview: AWSDecodableShape {
+        /// The status of the preview.
+        public let previewStatus: PreviewStatus?
+        /// The URL of the preview.
+        public let previewUrl: String?
+        /// The status exception information.
+        public let statusException: StatusException?
+
+        @inlinable
+        public init(previewStatus: PreviewStatus? = nil, previewUrl: String? = nil, statusException: StatusException? = nil) {
+            self.previewStatus = previewStatus
+            self.previewUrl = previewUrl
+            self.statusException = statusException
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case previewStatus = "previewStatus"
+            case previewUrl = "previewUrl"
+            case statusException = "statusException"
+        }
+    }
+
+    public struct PreviewPortalRequest: AWSEncodableShape {
+        /// The portal identifier.
+        public let portalId: String
+
+        @inlinable
+        public init(portalId: String) {
+            self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.portalId, key: "PortalId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct PreviewPortalResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ProductPageSummaryNoBody: AWSDecodableShape {
+        /// The timestamp when the product page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The page title.
+        public let pageTitle: String?
+        /// The ARN of the product page.
+        public let productPageArn: String?
+        /// The product page identifier.
+        public let productPageId: String?
+
+        @inlinable
+        public init(lastModified: Date? = nil, pageTitle: String? = nil, productPageArn: String? = nil, productPageId: String? = nil) {
+            self.lastModified = lastModified
+            self.pageTitle = pageTitle
+            self.productPageArn = productPageArn
+            self.productPageId = productPageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastModified = "lastModified"
+            case pageTitle = "pageTitle"
+            case productPageArn = "productPageArn"
+            case productPageId = "productPageId"
+        }
+    }
+
+    public struct ProductRestEndpointPageSummaryNoBody: AWSDecodableShape {
+        /// The endpoint of the product REST endpoint page.
+        public let endpoint: String?
+        /// The timestamp when the product REST endpoint page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The operation name of the product REST endpoint.
+        public let operationName: String?
+        /// The ARN of the product REST endpoint page.
+        public let productRestEndpointPageArn: String?
+        /// The product REST endpoint page identifier.
+        public let productRestEndpointPageId: String?
+        /// The REST endpoint identifier.
+        public let restEndpointIdentifier: RestEndpointIdentifier?
+        /// The status.
+        public let status: Status?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The try it state of a product REST endpoint page.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(endpoint: String? = nil, lastModified: Date? = nil, operationName: String? = nil, productRestEndpointPageArn: String? = nil, productRestEndpointPageId: String? = nil, restEndpointIdentifier: RestEndpointIdentifier? = nil, status: Status? = nil, statusException: StatusException? = nil, tryItState: TryItState? = nil) {
+            self.endpoint = endpoint
+            self.lastModified = lastModified
+            self.operationName = operationName
+            self.productRestEndpointPageArn = productRestEndpointPageArn
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.status = status
+            self.statusException = statusException
+            self.tryItState = tryItState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "endpoint"
+            case lastModified = "lastModified"
+            case operationName = "operationName"
+            case productRestEndpointPageArn = "productRestEndpointPageArn"
+            case productRestEndpointPageId = "productRestEndpointPageId"
+            case restEndpointIdentifier = "restEndpointIdentifier"
+            case status = "status"
+            case statusException = "statusException"
+            case tryItState = "tryItState"
+        }
+    }
+
+    public struct PublishPortalRequest: AWSEncodableShape {
+        /// The description of the portal. When the portal is published, this description becomes the last published description.
+        public let description: String?
+        /// The portal identifier.
+        public let portalId: String
+
+        @inlinable
+        public init(description: String? = nil, portalId: String) {
+            self.description = description
+            self.portalId = portalId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.portalId, key: "PortalId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+        }
+    }
+
+    public struct PublishPortalResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutPortalProductSharingPolicyRequest: AWSEncodableShape {
+        /// The product sharing policy.
+        public let policyDocument: String?
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(policyDocument: String? = nil, portalProductId: String) {
+            self.policyDocument = policyDocument
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.policyDocument, forKey: .policyDocument)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 307200)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "policyDocument"
+        }
+    }
+
+    public struct PutPortalProductSharingPolicyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct PutRoutingRuleRequest: AWSEncodableShape {
@@ -4336,6 +5980,24 @@ extension ApiGatewayV2 {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RestEndpointIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier parts of the REST endpoint identifier.
+        public let identifierParts: IdentifierParts?
+
+        @inlinable
+        public init(identifierParts: IdentifierParts? = nil) {
+            self.identifierParts = identifierParts
+        }
+
+        public func validate(name: String) throws {
+            try self.identifierParts?.validate(name: "\(name).identifierParts")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifierParts = "identifierParts"
+        }
     }
 
     public struct Route: AWSDecodableShape {
@@ -4585,6 +6247,31 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct Section: AWSEncodableShape & AWSDecodableShape {
+        /// The ARNs of the product REST endpoint pages in a portal product.
+        public let productRestEndpointPageArns: [String]?
+        /// The section name.
+        public let sectionName: String?
+
+        @inlinable
+        public init(productRestEndpointPageArns: [String]? = nil, sectionName: String? = nil) {
+            self.productRestEndpointPageArns = productRestEndpointPageArns
+            self.sectionName = sectionName
+        }
+
+        public func validate(name: String) throws {
+            try self.productRestEndpointPageArns?.forEach {
+                try validate($0, name: "productRestEndpointPageArns[]", parent: name, max: 2048)
+                try validate($0, name: "productRestEndpointPageArns[]", parent: name, min: 20)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case productRestEndpointPageArns = "productRestEndpointPageArns"
+            case sectionName = "sectionName"
+        }
+    }
+
     public struct Stage: AWSDecodableShape {
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -4650,6 +6337,24 @@ extension ApiGatewayV2 {
             case stageName = "stageName"
             case stageVariables = "stageVariables"
             case tags = "tags"
+        }
+    }
+
+    public struct StatusException: AWSDecodableShape {
+        /// The exception.
+        public let exception: String?
+        /// The error message.
+        public let message: String?
+
+        @inlinable
+        public init(exception: String? = nil, message: String? = nil) {
+            self.exception = exception
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exception = "exception"
+            case message = "message"
         }
     }
 
@@ -5209,6 +6914,7 @@ extension ApiGatewayV2 {
         public let apiMappingSelectionExpression: String?
         /// The name of the DomainName resource.
         public let domainName: String?
+        /// The ARN of the DomainName resource.
         public let domainNameArn: String?
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
@@ -5600,6 +7306,354 @@ extension ApiGatewayV2 {
             case modelId = "modelId"
             case name = "name"
             case schema = "schema"
+        }
+    }
+
+    public struct UpdatePortalProductRequest: AWSEncodableShape {
+        /// The description.
+        public let description: String?
+        /// The displayName.
+        public let displayName: String?
+        /// The display order.
+        public let displayOrder: DisplayOrder?
+        /// The portal product identifier.
+        public let portalProductId: String
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, displayOrder: DisplayOrder? = nil, portalProductId: String) {
+            self.description = description
+            self.displayName = displayName
+            self.displayOrder = displayOrder
+            self.portalProductId = portalProductId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            try container.encodeIfPresent(self.displayOrder, forKey: .displayOrder)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.displayOrder?.validate(name: "\(name).displayOrder")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case displayOrder = "displayOrder"
+        }
+    }
+
+    public struct UpdatePortalProductResponse: AWSDecodableShape {
+        /// The description of the portal product.
+        public let description: String?
+        /// The display name of a portal product.
+        public let displayName: String?
+        /// The display order that the portal products will appear in a portal.
+        public let displayOrder: DisplayOrder?
+        /// The timestamp when the portal product was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the portal product.
+        public let portalProductArn: String?
+        /// The portal product identifier.
+        public let portalProductId: String?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, displayOrder: DisplayOrder? = nil, lastModified: Date? = nil, portalProductArn: String? = nil, portalProductId: String? = nil, tags: [String: String]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.displayOrder = displayOrder
+            self.lastModified = lastModified
+            self.portalProductArn = portalProductArn
+            self.portalProductId = portalProductId
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case displayOrder = "displayOrder"
+            case lastModified = "lastModified"
+            case portalProductArn = "portalProductArn"
+            case portalProductId = "portalProductId"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdatePortalRequest: AWSEncodableShape {
+        /// The authorization of the portal.
+        public let authorization: Authorization?
+        /// Represents an endpoint configuration.
+        public let endpointConfiguration: EndpointConfigurationRequest?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The logo URI.
+        public let logoUri: String?
+        /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+        public let portalContent: PortalContent?
+        /// The portal identifier.
+        public let portalId: String
+        /// The CloudWatch RUM app monitor name.
+        public let rumAppMonitorName: String?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationRequest? = nil, includedPortalProductArns: [String]? = nil, logoUri: String? = nil, portalContent: PortalContent? = nil, portalId: String, rumAppMonitorName: String? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.logoUri = logoUri
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.rumAppMonitorName = rumAppMonitorName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.authorization, forKey: .authorization)
+            try container.encodeIfPresent(self.endpointConfiguration, forKey: .endpointConfiguration)
+            try container.encodeIfPresent(self.includedPortalProductArns, forKey: .includedPortalProductArns)
+            try container.encodeIfPresent(self.logoUri, forKey: .logoUri)
+            try container.encodeIfPresent(self.portalContent, forKey: .portalContent)
+            request.encodePath(self.portalId, key: "PortalId")
+            try container.encodeIfPresent(self.rumAppMonitorName, forKey: .rumAppMonitorName)
+        }
+
+        public func validate(name: String) throws {
+            try self.authorization?.validate(name: "\(name).authorization")
+            try self.endpointConfiguration?.validate(name: "\(name).endpointConfiguration")
+            try self.includedPortalProductArns?.forEach {
+                try validate($0, name: "includedPortalProductArns[]", parent: name, max: 2048)
+                try validate($0, name: "includedPortalProductArns[]", parent: name, min: 20)
+            }
+            try self.validate(self.logoUri, name: "logoUri", parent: name, max: 1092)
+            try self.portalContent?.validate(name: "\(name).portalContent")
+            try self.validate(self.rumAppMonitorName, name: "rumAppMonitorName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case logoUri = "logoUri"
+            case portalContent = "portalContent"
+            case rumAppMonitorName = "rumAppMonitorName"
+        }
+    }
+
+    public struct UpdatePortalResponse: AWSDecodableShape {
+        /// The authorization for the portal.
+        public let authorization: Authorization?
+        /// The endpoint configuration.
+        public let endpointConfiguration: EndpointConfigurationResponse?
+        /// The ARNs of the portal products included in the portal.
+        public let includedPortalProductArns: [String]?
+        /// The timestamp when the portal was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The timestamp when the portal was last published.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastPublished: Date?
+        /// The description associated with the last time the portal was published.
+        public let lastPublishedDescription: String?
+        /// The ARN of the portal.
+        public let portalArn: String?
+        /// Contains the content that is visible to portal consumers including the themes, display names, and description.
+        public let portalContent: PortalContent?
+        /// The portal identifier.
+        public let portalId: String?
+        /// Represents the preview endpoint and the any possible error messages during preview generation.
+        public let preview: Preview?
+        /// The publishStatus.
+        public let publishStatus: PublishStatus?
+        /// The CloudWatch RUM app monitor name.
+        public let rumAppMonitorName: String?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The collection of tags. Each tag element is associated with a given resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(authorization: Authorization? = nil, endpointConfiguration: EndpointConfigurationResponse? = nil, includedPortalProductArns: [String]? = nil, lastModified: Date? = nil, lastPublished: Date? = nil, lastPublishedDescription: String? = nil, portalArn: String? = nil, portalContent: PortalContent? = nil, portalId: String? = nil, preview: Preview? = nil, publishStatus: PublishStatus? = nil, rumAppMonitorName: String? = nil, statusException: StatusException? = nil, tags: [String: String]? = nil) {
+            self.authorization = authorization
+            self.endpointConfiguration = endpointConfiguration
+            self.includedPortalProductArns = includedPortalProductArns
+            self.lastModified = lastModified
+            self.lastPublished = lastPublished
+            self.lastPublishedDescription = lastPublishedDescription
+            self.portalArn = portalArn
+            self.portalContent = portalContent
+            self.portalId = portalId
+            self.preview = preview
+            self.publishStatus = publishStatus
+            self.rumAppMonitorName = rumAppMonitorName
+            self.statusException = statusException
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorization = "authorization"
+            case endpointConfiguration = "endpointConfiguration"
+            case includedPortalProductArns = "includedPortalProductArns"
+            case lastModified = "lastModified"
+            case lastPublished = "lastPublished"
+            case lastPublishedDescription = "lastPublishedDescription"
+            case portalArn = "portalArn"
+            case portalContent = "portalContent"
+            case portalId = "portalId"
+            case preview = "preview"
+            case publishStatus = "publishStatus"
+            case rumAppMonitorName = "rumAppMonitorName"
+            case statusException = "statusException"
+            case tags = "tags"
+        }
+    }
+
+    public struct UpdateProductPageRequest: AWSEncodableShape {
+        /// The content of the product page.
+        public let displayContent: DisplayContent?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The portal product identifier.
+        public let productPageId: String
+
+        @inlinable
+        public init(displayContent: DisplayContent? = nil, portalProductId: String, productPageId: String) {
+            self.displayContent = displayContent
+            self.portalProductId = portalProductId
+            self.productPageId = productPageId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayContent, forKey: .displayContent)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productPageId, key: "ProductPageId")
+        }
+
+        public func validate(name: String) throws {
+            try self.displayContent?.validate(name: "\(name).displayContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+        }
+    }
+
+    public struct UpdateProductPageResponse: AWSDecodableShape {
+        /// The content of the product page.
+        public let displayContent: DisplayContent?
+        /// The timestamp when the product page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product page.
+        public let productPageArn: String?
+        /// The product page identifier.
+        public let productPageId: String?
+
+        @inlinable
+        public init(displayContent: DisplayContent? = nil, lastModified: Date? = nil, productPageArn: String? = nil, productPageId: String? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productPageArn = productPageArn
+            self.productPageId = productPageId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productPageArn = "productPageArn"
+            case productPageId = "productPageId"
+        }
+    }
+
+    public struct UpdateProductRestEndpointPageRequest: AWSEncodableShape {
+        /// The display content.
+        public let displayContent: EndpointDisplayContent?
+        /// The portal product identifier.
+        public let portalProductId: String
+        /// The product REST endpoint identifier.
+        public let productRestEndpointPageId: String
+        /// The try it state of a product REST endpoint page.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(displayContent: EndpointDisplayContent? = nil, portalProductId: String, productRestEndpointPageId: String, tryItState: TryItState? = nil) {
+            self.displayContent = displayContent
+            self.portalProductId = portalProductId
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.tryItState = tryItState
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.displayContent, forKey: .displayContent)
+            request.encodePath(self.portalProductId, key: "PortalProductId")
+            request.encodePath(self.productRestEndpointPageId, key: "ProductRestEndpointPageId")
+            try container.encodeIfPresent(self.tryItState, forKey: .tryItState)
+        }
+
+        public func validate(name: String) throws {
+            try self.displayContent?.validate(name: "\(name).displayContent")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case tryItState = "tryItState"
+        }
+    }
+
+    public struct UpdateProductRestEndpointPageResponse: AWSDecodableShape {
+        /// The content of the product REST endpoint page.
+        public let displayContent: EndpointDisplayContentResponse?
+        /// The timestamp when the product REST endpoint page was last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModified: Date?
+        /// The ARN of the product REST endpoint page.
+        public let productRestEndpointPageArn: String?
+        /// The product REST endpoint page identifier.
+        public let productRestEndpointPageId: String?
+        /// The REST endpoint identifier.
+        public let restEndpointIdentifier: RestEndpointIdentifier?
+        /// The status.
+        public let status: Status?
+        /// The status exception information.
+        public let statusException: StatusException?
+        /// The try it state of a product REST endpoint page.
+        public let tryItState: TryItState?
+
+        @inlinable
+        public init(displayContent: EndpointDisplayContentResponse? = nil, lastModified: Date? = nil, productRestEndpointPageArn: String? = nil, productRestEndpointPageId: String? = nil, restEndpointIdentifier: RestEndpointIdentifier? = nil, status: Status? = nil, statusException: StatusException? = nil, tryItState: TryItState? = nil) {
+            self.displayContent = displayContent
+            self.lastModified = lastModified
+            self.productRestEndpointPageArn = productRestEndpointPageArn
+            self.productRestEndpointPageId = productRestEndpointPageId
+            self.restEndpointIdentifier = restEndpointIdentifier
+            self.status = status
+            self.statusException = statusException
+            self.tryItState = tryItState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayContent = "displayContent"
+            case lastModified = "lastModified"
+            case productRestEndpointPageArn = "productRestEndpointPageArn"
+            case productRestEndpointPageId = "productRestEndpointPageId"
+            case restEndpointIdentifier = "restEndpointIdentifier"
+            case status = "status"
+            case statusException = "statusException"
+            case tryItState = "tryItState"
         }
     }
 

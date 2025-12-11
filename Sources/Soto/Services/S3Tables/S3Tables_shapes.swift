@@ -52,9 +52,22 @@ extension S3Tables {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "completed"
+        case failed = "failed"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SSEAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StorageClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -79,6 +92,20 @@ extension S3Tables {
     public enum TableMaintenanceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case icebergCompaction = "icebergCompaction"
         case icebergSnapshotManagement = "icebergSnapshotManagement"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableRecordExpirationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case failed = "Failed"
+        case notYetRun = "NotYetRun"
+        case successful = "Successful"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TableRecordExpirationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -196,22 +223,35 @@ extension S3Tables {
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The name for the table bucket.
         public let name: String
+        /// The default storage class configuration for the table bucket. This configuration will be applied to all new tables created in this bucket unless overridden at the table level. If not specified, the service default storage class will be used.
+        public let storageClassConfiguration: StorageClassConfiguration?
+        /// A map of user-defined tags that you would like to apply to the table bucket that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3tables:TagResource permission in addition to s3tables:CreateTableBucket permisson to create a table bucket with tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, name: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, name: String, storageClassConfiguration: StorageClassConfiguration? = nil, tags: [String: String]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.name = name
+            self.storageClassConfiguration = storageClassConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z-]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case encryptionConfiguration = "encryptionConfiguration"
             case name = "name"
+            case storageClassConfiguration = "storageClassConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -240,17 +280,23 @@ extension S3Tables {
         public let name: String
         /// The namespace to associated with the table.
         public let namespace: String
+        /// The storage class configuration for the table. If not specified, the table inherits the storage class configuration from its table bucket. Specify this parameter to override the bucket's default storage class for this table.
+        public let storageClassConfiguration: StorageClassConfiguration?
         /// The Amazon Resource Name (ARN) of the table bucket to create the table in.
         public let tableBucketARN: String
+        /// A map of user-defined tags that you would like to apply to the table that you are creating. A tag is a key-value pair that you apply to your resources. Tags can help you organize, track costs for, and control access to resources. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).  You must have the s3tables:TagResource permission in addition to s3tables:CreateTable permission to create a table with tags.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, format: OpenTableFormat, metadata: TableMetadata? = nil, name: String, namespace: String, tableBucketARN: String) {
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, format: OpenTableFormat, metadata: TableMetadata? = nil, name: String, namespace: String, storageClassConfiguration: StorageClassConfiguration? = nil, tableBucketARN: String, tags: [String: String]? = nil) {
             self.encryptionConfiguration = encryptionConfiguration
             self.format = format
             self.metadata = metadata
             self.name = name
             self.namespace = namespace
+            self.storageClassConfiguration = storageClassConfiguration
             self.tableBucketARN = tableBucketARN
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -261,7 +307,9 @@ extension S3Tables {
             try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encode(self.name, forKey: .name)
             request.encodePath(self.namespace, key: "namespace")
+            try container.encodeIfPresent(self.storageClassConfiguration, forKey: .storageClassConfiguration)
             request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -272,6 +320,11 @@ extension S3Tables {
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
             try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -279,6 +332,8 @@ extension S3Tables {
             case format = "format"
             case metadata = "metadata"
             case name = "name"
+            case storageClassConfiguration = "storageClassConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -351,6 +406,28 @@ extension S3Tables {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteTableBucketMetricsConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteTableBucketPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
@@ -368,6 +445,34 @@ extension S3Tables {
 
         public func validate(name: String) throws {
             try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTableBucketReplicationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+        /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+        public let versionToken: String?
+
+        @inlinable
+        public init(tableBucketARN: String, versionToken: String? = nil) {
+            self.tableBucketARN = tableBucketARN
+            self.versionToken = versionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableBucketARN, key: "tableBucketARN")
+            request.encodeQuery(self.versionToken, key: "versionToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+            try self.validate(self.versionToken, name: "versionToken", parent: name, max: 2048)
+            try self.validate(self.versionToken, name: "versionToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -426,6 +531,34 @@ extension S3Tables {
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
             try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTableReplicationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+        /// A version token from a previous GetTableReplication call. Use this token to ensure you're deleting the expected version of the configuration.
+        public let versionToken: String
+
+        @inlinable
+        public init(tableArn: String, versionToken: String) {
+            self.tableArn = tableArn
+            self.versionToken = versionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+            request.encodeQuery(self.versionToken, key: "versionToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -630,6 +763,46 @@ extension S3Tables {
         }
     }
 
+    public struct GetTableBucketMetricsConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableBucketMetricsConfigurationResponse: AWSDecodableShape {
+        /// The unique identifier of the metrics configuration.
+        public let id: String?
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(id: String? = nil, tableBucketARN: String) {
+            self.id = id
+            self.tableBucketARN = tableBucketARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case tableBucketARN = "tableBucketARN"
+        }
+    }
+
     public struct GetTableBucketPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
@@ -663,6 +836,46 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case resourcePolicy = "resourcePolicy"
+        }
+    }
+
+    public struct GetTableBucketReplicationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableBucketReplicationResponse: AWSDecodableShape {
+        /// The replication configuration for the table bucket, including the IAM role and replication rules.
+        public let configuration: TableBucketReplicationConfiguration
+        /// A version token that represents the current state of the replication configuration. Use this token when updating the configuration to ensure consistency.
+        public let versionToken: String
+
+        @inlinable
+        public init(configuration: TableBucketReplicationConfiguration, versionToken: String) {
+            self.configuration = configuration
+            self.versionToken = versionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case versionToken = "versionToken"
         }
     }
 
@@ -719,6 +932,42 @@ extension S3Tables {
             case ownerAccountId = "ownerAccountId"
             case tableBucketId = "tableBucketId"
             case type = "type"
+        }
+    }
+
+    public struct GetTableBucketStorageClassRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableBucketStorageClassResponse: AWSDecodableShape {
+        /// The storage class configuration for the table bucket.
+        public let storageClassConfiguration: StorageClassConfiguration
+
+        @inlinable
+        public init(storageClassConfiguration: StorageClassConfiguration) {
+            self.storageClassConfiguration = storageClassConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageClassConfiguration = "storageClassConfiguration"
         }
     }
 
@@ -827,7 +1076,7 @@ extension S3Tables {
     }
 
     public struct GetTableMaintenanceJobStatusRequest: AWSEncodableShape {
-        /// The name of the maintenance job.
+        /// The name of the table containing the maintenance job status you want to check.
         public let name: String
         /// The name of the namespace the table is associated with.
         public let namespace: String
@@ -988,6 +1237,178 @@ extension S3Tables {
         }
     }
 
+    public struct GetTableRecordExpirationConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+
+        @inlinable
+        public init(tableArn: String) {
+            self.tableArn = tableArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableRecordExpirationConfigurationResponse: AWSDecodableShape {
+        /// The record expiration configuration for the table, including the status and retention settings.
+        public let configuration: TableRecordExpirationConfigurationValue
+
+        @inlinable
+        public init(configuration: TableRecordExpirationConfigurationValue) {
+            self.configuration = configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct GetTableRecordExpirationJobStatusRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+
+        @inlinable
+        public init(tableArn: String) {
+            self.tableArn = tableArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableRecordExpirationJobStatusResponse: AWSDecodableShape {
+        /// If the job failed, this field contains an error message describing the failure reason.
+        public let failureMessage: String?
+        /// The timestamp when the expiration job was last executed.
+        public let lastRunTimestamp: Date?
+        /// Metrics about the most recent expiration job execution, including the number of records and files deleted.
+        public let metrics: TableRecordExpirationJobMetrics?
+        /// The current status of the most recent expiration job.
+        public let status: TableRecordExpirationJobStatus
+
+        @inlinable
+        public init(failureMessage: String? = nil, lastRunTimestamp: Date? = nil, metrics: TableRecordExpirationJobMetrics? = nil, status: TableRecordExpirationJobStatus) {
+            self.failureMessage = failureMessage
+            self.lastRunTimestamp = lastRunTimestamp
+            self.metrics = metrics
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureMessage = "failureMessage"
+            case lastRunTimestamp = "lastRunTimestamp"
+            case metrics = "metrics"
+            case status = "status"
+        }
+    }
+
+    public struct GetTableReplicationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+
+        @inlinable
+        public init(tableArn: String) {
+            self.tableArn = tableArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableReplicationResponse: AWSDecodableShape {
+        /// The replication configuration for the table, including the IAM role and replication rules.
+        public let configuration: TableReplicationConfiguration
+        /// A version token that represents the current state of the table's replication configuration. Use this token when updating the configuration to ensure consistency.
+        public let versionToken: String
+
+        @inlinable
+        public init(configuration: TableReplicationConfiguration, versionToken: String) {
+            self.configuration = configuration
+            self.versionToken = versionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case versionToken = "versionToken"
+        }
+    }
+
+    public struct GetTableReplicationStatusRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+
+        @inlinable
+        public init(tableArn: String) {
+            self.tableArn = tableArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableReplicationStatusResponse: AWSDecodableShape {
+        /// An array of status information for each replication destination, including the current state, last successful update, and any error messages.
+        public let destinations: [ReplicationDestinationStatusModel]
+        /// The Amazon Resource Name (ARN) of the source table being replicated.
+        public let sourceTableArn: String
+
+        @inlinable
+        public init(destinations: [ReplicationDestinationStatusModel], sourceTableArn: String) {
+            self.destinations = destinations
+            self.sourceTableArn = sourceTableArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+            case sourceTableArn = "sourceTableArn"
+        }
+    }
+
     public struct GetTableRequest: AWSEncodableShape {
         /// The name of the table.
         public let name: String?
@@ -1040,6 +1461,8 @@ extension S3Tables {
         public let format: OpenTableFormat
         /// The service that manages the table.
         public let managedByService: String?
+        /// If this table is managed by S3 Tables, contains additional information such as replication details.
+        public let managedTableInformation: ManagedTableInformation?
         /// The metadata location of the table.
         public let metadataLocation: String?
         /// The date and time the table was last modified on.
@@ -1066,11 +1489,12 @@ extension S3Tables {
         public let warehouseLocation: String
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, format: OpenTableFormat, managedByService: String? = nil, metadataLocation: String? = nil, modifiedAt: Date, modifiedBy: String, name: String, namespace: [String], namespaceId: String? = nil, ownerAccountId: String, tableARN: String, tableBucketId: String? = nil, type: TableType, versionToken: String, warehouseLocation: String) {
+        public init(createdAt: Date, createdBy: String, format: OpenTableFormat, managedByService: String? = nil, managedTableInformation: ManagedTableInformation? = nil, metadataLocation: String? = nil, modifiedAt: Date, modifiedBy: String, name: String, namespace: [String], namespaceId: String? = nil, ownerAccountId: String, tableARN: String, tableBucketId: String? = nil, type: TableType, versionToken: String, warehouseLocation: String) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.format = format
             self.managedByService = managedByService
+            self.managedTableInformation = managedTableInformation
             self.metadataLocation = metadataLocation
             self.modifiedAt = modifiedAt
             self.modifiedBy = modifiedBy
@@ -1090,6 +1514,7 @@ extension S3Tables {
             case createdBy = "createdBy"
             case format = "format"
             case managedByService = "managedByService"
+            case managedTableInformation = "managedTableInformation"
             case metadataLocation = "metadataLocation"
             case modifiedAt = "modifiedAt"
             case modifiedBy = "modifiedBy"
@@ -1102,6 +1527,56 @@ extension S3Tables {
             case type = "type"
             case versionToken = "versionToken"
             case warehouseLocation = "warehouseLocation"
+        }
+    }
+
+    public struct GetTableStorageClassRequest: AWSEncodableShape {
+        /// The name of the table.
+        public let name: String
+        /// The namespace associated with the table.
+        public let namespace: String
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(name: String, namespace: String, tableBucketARN: String) {
+            self.name = name
+            self.namespace = namespace
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "name")
+            request.encodePath(self.namespace, key: "namespace")
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[0-9a-z_]*$")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTableStorageClassResponse: AWSDecodableShape {
+        /// The storage class configuration for the table.
+        public let storageClassConfiguration: StorageClassConfiguration
+
+        @inlinable
+        public init(storageClassConfiguration: StorageClassConfiguration) {
+            self.storageClassConfiguration = storageClassConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageClassConfiguration = "storageClassConfiguration"
         }
     }
 
@@ -1129,15 +1604,19 @@ extension S3Tables {
     }
 
     public struct IcebergMetadata: AWSEncodableShape {
+        /// Contains configuration properties for an Iceberg table.
+        public let properties: [String: String]?
         /// The schema for an Iceberg table.
         public let schema: IcebergSchema
 
         @inlinable
-        public init(schema: IcebergSchema) {
+        public init(properties: [String: String]? = nil, schema: IcebergSchema) {
+            self.properties = properties
             self.schema = schema
         }
 
         private enum CodingKeys: String, CodingKey {
+            case properties = "properties"
             case schema = "schema"
         }
     }
@@ -1203,6 +1682,24 @@ extension S3Tables {
         private enum CodingKeys: String, CodingKey {
             case nonCurrentDays = "nonCurrentDays"
             case unreferencedDays = "unreferencedDays"
+        }
+    }
+
+    public struct LastSuccessfulReplicatedUpdate: AWSDecodableShape {
+        /// The S3 location of the metadata that was successfully replicated.
+        public let metadataLocation: String
+        /// The timestamp when the replication update completed successfully.
+        public let timestamp: Date
+
+        @inlinable
+        public init(metadataLocation: String, timestamp: Date) {
+            self.metadataLocation = metadataLocation
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataLocation = "metadataLocation"
+            case timestamp = "timestamp"
         }
     }
 
@@ -1380,6 +1877,58 @@ extension S3Tables {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you want to list tags for. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The user-defined tags that are applied to the resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct ManagedTableInformation: AWSDecodableShape {
+        /// If this table is a replica, contains information about the source table from which it is replicated.
+        public let replicationInformation: ReplicationInformation?
+
+        @inlinable
+        public init(replicationInformation: ReplicationInformation? = nil) {
+            self.replicationInformation = replicationInformation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationInformation = "replicationInformation"
+        }
+    }
+
     public struct NamespaceSummary: AWSDecodableShape {
         /// The date and time the namespace was created at.
         public let createdAt: Date
@@ -1475,6 +2024,28 @@ extension S3Tables {
         }
     }
 
+    public struct PutTableBucketMetricsConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(tableBucketARN: String) {
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct PutTableBucketPolicyRequest: AWSEncodableShape {
         /// The JSON that defines the policy.
         public let resourcePolicy: String
@@ -1505,8 +2076,89 @@ extension S3Tables {
         }
     }
 
+    public struct PutTableBucketReplicationRequest: AWSEncodableShape {
+        /// The replication configuration to apply, including the IAM role and replication rules.
+        public let configuration: TableBucketReplicationConfiguration
+        /// The Amazon Resource Name (ARN) of the source table bucket.
+        public let tableBucketARN: String
+        /// A version token from a previous GetTableBucketReplication call. Use this token to ensure you're updating the expected version of the configuration.
+        public let versionToken: String?
+
+        @inlinable
+        public init(configuration: TableBucketReplicationConfiguration, tableBucketARN: String, versionToken: String? = nil) {
+            self.configuration = configuration
+            self.tableBucketARN = tableBucketARN
+            self.versionToken = versionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodeQuery(self.tableBucketARN, key: "tableBucketARN")
+            request.encodeQuery(self.versionToken, key: "versionToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+            try self.validate(self.versionToken, name: "versionToken", parent: name, max: 2048)
+            try self.validate(self.versionToken, name: "versionToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct PutTableBucketReplicationResponse: AWSDecodableShape {
+        /// The status of the replication configuration operation.
+        public let status: String
+        /// A new version token representing the updated replication configuration.
+        public let versionToken: String
+
+        @inlinable
+        public init(status: String, versionToken: String) {
+            self.status = status
+            self.versionToken = versionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case versionToken = "versionToken"
+        }
+    }
+
+    public struct PutTableBucketStorageClassRequest: AWSEncodableShape {
+        /// The storage class configuration to apply to the table bucket. This configuration will serve as the default for new tables created in this bucket.
+        public let storageClassConfiguration: StorageClassConfiguration
+        /// The Amazon Resource Name (ARN) of the table bucket.
+        public let tableBucketARN: String
+
+        @inlinable
+        public init(storageClassConfiguration: StorageClassConfiguration, tableBucketARN: String) {
+            self.storageClassConfiguration = storageClassConfiguration
+            self.tableBucketARN = tableBucketARN
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.storageClassConfiguration, forKey: .storageClassConfiguration)
+            request.encodePath(self.tableBucketARN, key: "tableBucketARN")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableBucketARN, name: "tableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageClassConfiguration = "storageClassConfiguration"
+        }
+    }
+
     public struct PutTableMaintenanceConfigurationRequest: AWSEncodableShape {
-        /// The name of the maintenance configuration.
+        /// The name of the table.
         public let name: String
         /// The namespace of the table.
         public let namespace: String
@@ -1596,6 +2248,90 @@ extension S3Tables {
         }
     }
 
+    public struct PutTableRecordExpirationConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the table.
+        public let tableArn: String
+        /// The record expiration configuration to apply to the table, including the status (enabled or disabled) and retention period in days.
+        public let value: TableRecordExpirationConfigurationValue
+
+        @inlinable
+        public init(tableArn: String, value: TableRecordExpirationConfigurationValue) {
+            self.tableArn = tableArn
+            self.value = value
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+            try container.encode(self.value, forKey: .value)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+            try self.value.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+        }
+    }
+
+    public struct PutTableReplicationRequest: AWSEncodableShape {
+        /// The replication configuration to apply to the table, including the IAM role and replication rules.
+        public let configuration: TableReplicationConfiguration
+        /// The Amazon Resource Name (ARN) of the source table.
+        public let tableArn: String
+        /// A version token from a previous GetTableReplication call. Use this token to ensure you're updating the expected version of the configuration.
+        public let versionToken: String?
+
+        @inlinable
+        public init(configuration: TableReplicationConfiguration, tableArn: String, versionToken: String? = nil) {
+            self.configuration = configuration
+            self.tableArn = tableArn
+            self.versionToken = versionToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.configuration, forKey: .configuration)
+            request.encodeQuery(self.tableArn, key: "tableArn")
+            request.encodeQuery(self.versionToken, key: "versionToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration.validate(name: "\(name).configuration")
+            try self.validate(self.tableArn, name: "tableArn", parent: name, max: 2048)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, min: 1)
+            try self.validate(self.tableArn, name: "tableArn", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63}/table/[a-zA-Z0-9-_]{1,255})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+        }
+    }
+
+    public struct PutTableReplicationResponse: AWSDecodableShape {
+        /// The status of the replication configuration operation.
+        public let status: String
+        /// A new version token representing the updated replication configuration.
+        public let versionToken: String
+
+        @inlinable
+        public init(status: String, versionToken: String) {
+            self.status = status
+            self.versionToken = versionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case versionToken = "versionToken"
+        }
+    }
+
     public struct RenameTableRequest: AWSEncodableShape {
         /// The current name of the table.
         public let name: String
@@ -1656,6 +2392,68 @@ extension S3Tables {
         }
     }
 
+    public struct ReplicationDestination: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination table bucket where tables will be replicated.
+        public let destinationTableBucketARN: String
+
+        @inlinable
+        public init(destinationTableBucketARN: String) {
+            self.destinationTableBucketARN = destinationTableBucketARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationTableBucketARN, name: "destinationTableBucketARN", parent: name, pattern: "^(arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/[a-z0-9_-]{3,63})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationTableBucketARN = "destinationTableBucketARN"
+        }
+    }
+
+    public struct ReplicationDestinationStatusModel: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination table.
+        public let destinationTableArn: String?
+        /// The Amazon Resource Name (ARN) of the destination table bucket.
+        public let destinationTableBucketArn: String
+        /// If replication has failed, this field contains an error message describing the failure reason.
+        public let failureMessage: String?
+        /// Information about the most recent successful replication update to this destination.
+        public let lastSuccessfulReplicatedUpdate: LastSuccessfulReplicatedUpdate?
+        /// The current status of replication to this destination.
+        public let replicationStatus: ReplicationStatus
+
+        @inlinable
+        public init(destinationTableArn: String? = nil, destinationTableBucketArn: String, failureMessage: String? = nil, lastSuccessfulReplicatedUpdate: LastSuccessfulReplicatedUpdate? = nil, replicationStatus: ReplicationStatus) {
+            self.destinationTableArn = destinationTableArn
+            self.destinationTableBucketArn = destinationTableBucketArn
+            self.failureMessage = failureMessage
+            self.lastSuccessfulReplicatedUpdate = lastSuccessfulReplicatedUpdate
+            self.replicationStatus = replicationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationTableArn = "destinationTableArn"
+            case destinationTableBucketArn = "destinationTableBucketArn"
+            case failureMessage = "failureMessage"
+            case lastSuccessfulReplicatedUpdate = "lastSuccessfulReplicatedUpdate"
+            case replicationStatus = "replicationStatus"
+        }
+    }
+
+    public struct ReplicationInformation: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the source table from which this table is replicated.
+        public let sourceTableARN: String
+
+        @inlinable
+        public init(sourceTableARN: String) {
+            self.sourceTableARN = sourceTableARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceTableARN = "sourceTableARN"
+        }
+    }
+
     public struct SchemaField: AWSEncodableShape {
         /// The name of the field.
         public let name: String
@@ -1678,6 +2476,20 @@ extension S3Tables {
         }
     }
 
+    public struct StorageClassConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The storage class for the table or table bucket. Valid values include storage classes optimized for different access patterns and cost profiles.
+        public let storageClass: StorageClass
+
+        @inlinable
+        public init(storageClass: StorageClass) {
+            self.storageClass = storageClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageClass = "storageClass"
+        }
+    }
+
     public struct TableBucketMaintenanceConfigurationValue: AWSEncodableShape & AWSDecodableShape {
         /// Contains details about the settings of the maintenance configuration.
         public let settings: TableBucketMaintenanceSettings?
@@ -1697,6 +2509,57 @@ extension S3Tables {
         private enum CodingKeys: String, CodingKey {
             case settings = "settings"
             case status = "status"
+        }
+    }
+
+    public struct TableBucketReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate tables on your behalf.
+        public let role: String
+        /// An array of replication rules that define which tables to replicate and where to replicate them.
+        public let rules: [TableBucketReplicationRule]
+
+        @inlinable
+        public init(role: String, rules: [TableBucketReplicationRule]) {
+            self.role = role
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 1)
+            try self.validate(self.rules, name: "rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "role"
+            case rules = "rules"
+        }
+    }
+
+    public struct TableBucketReplicationRule: AWSEncodableShape & AWSDecodableShape {
+        /// An array of destination table buckets where tables should be replicated.
+        public let destinations: [ReplicationDestination]
+
+        @inlinable
+        public init(destinations: [ReplicationDestination]) {
+            self.destinations = destinations
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 5)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
         }
     }
 
@@ -1778,9 +2641,125 @@ extension S3Tables {
         }
     }
 
+    public struct TableRecordExpirationConfigurationValue: AWSEncodableShape & AWSDecodableShape {
+        /// The expiration settings for records in the table.
+        public let settings: TableRecordExpirationSettings?
+        /// The status of the expiration settings for records in the table.
+        public let status: TableRecordExpirationStatus?
+
+        @inlinable
+        public init(settings: TableRecordExpirationSettings? = nil, status: TableRecordExpirationStatus? = nil) {
+            self.settings = settings
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.settings?.validate(name: "\(name).settings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case settings = "settings"
+            case status = "status"
+        }
+    }
+
+    public struct TableRecordExpirationJobMetrics: AWSDecodableShape {
+        /// The total number of data files that were removed when the job ran.
+        public let deletedDataFiles: Int64?
+        /// The total number of records that were removed when the job ran.
+        public let deletedRecords: Int64?
+        /// The total size (in bytes) of the data files that were removed when the job ran.
+        public let removedFilesSize: Int64?
+
+        @inlinable
+        public init(deletedDataFiles: Int64? = nil, deletedRecords: Int64? = nil, removedFilesSize: Int64? = nil) {
+            self.deletedDataFiles = deletedDataFiles
+            self.deletedRecords = deletedRecords
+            self.removedFilesSize = removedFilesSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deletedDataFiles = "deletedDataFiles"
+            case deletedRecords = "deletedRecords"
+            case removedFilesSize = "removedFilesSize"
+        }
+    }
+
+    public struct TableRecordExpirationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// If you enable record expiration for a table, you can specify the number of days to retain your table records. For example, to retain your table records for one year, set this value to 365.
+        public let days: Int?
+
+        @inlinable
+        public init(days: Int? = nil) {
+            self.days = days
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.days, name: "days", parent: name, max: 2147483647)
+            try self.validate(self.days, name: "days", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case days = "days"
+        }
+    }
+
+    public struct TableReplicationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM role that S3 Tables assumes to replicate the table on your behalf.
+        public let role: String
+        /// An array of replication rules that define where this table should be replicated.
+        public let rules: [TableReplicationRule]
+
+        @inlinable
+        public init(role: String, rules: [TableReplicationRule]) {
+            self.role = role
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")
+            try self.rules.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 1)
+            try self.validate(self.rules, name: "rules", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case role = "role"
+            case rules = "rules"
+        }
+    }
+
+    public struct TableReplicationRule: AWSEncodableShape & AWSDecodableShape {
+        /// An array of destination table buckets where this table should be replicated.
+        public let destinations: [ReplicationDestination]
+
+        @inlinable
+        public init(destinations: [ReplicationDestination]) {
+            self.destinations = destinations
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.destinations, name: "destinations", parent: name, max: 5)
+            try self.validate(self.destinations, name: "destinations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "destinations"
+        }
+    }
+
     public struct TableSummary: AWSDecodableShape {
         /// The date and time the table was created at.
         public let createdAt: Date
+        /// The Amazon Web Services service managing this table, if applicable. For example, a replicated table is managed by the S3 Tables replication service.
+        public let managedByService: String?
         /// The date and time the table was last modified at.
         public let modifiedAt: Date
         /// The name of the table.
@@ -1797,8 +2776,9 @@ extension S3Tables {
         public let type: TableType
 
         @inlinable
-        public init(createdAt: Date, modifiedAt: Date, name: String, namespace: [String], namespaceId: String? = nil, tableARN: String, tableBucketId: String? = nil, type: TableType) {
+        public init(createdAt: Date, managedByService: String? = nil, modifiedAt: Date, name: String, namespace: [String], namespaceId: String? = nil, tableARN: String, tableBucketId: String? = nil, type: TableType) {
             self.createdAt = createdAt
+            self.managedByService = managedByService
             self.modifiedAt = modifiedAt
             self.name = name
             self.namespace = namespace
@@ -1810,6 +2790,7 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
+            case managedByService = "managedByService"
             case modifiedAt = "modifiedAt"
             case name = "name"
             case namespace = "namespace"
@@ -1818,6 +2799,81 @@ extension S3Tables {
             case tableBucketId = "tableBucketId"
             case type = "type"
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're applying tags to. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+        public let resourceArn: String
+        /// The user-defined tag that you want to add to the specified S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            try container.encode(self.tags, forKey: .tags)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Amazon S3 Tables resource that you're removing tags from. The tagged resource can be a table bucket or a table. For a list of all S3 resources that support tagging, see Managing tags for Amazon S3 resources.
+        public let resourceArn: String
+        /// The array of tag keys that you're removing from the S3 Tables resource. For more information, see Tagging for cost allocation or attribute-based access control (ABAC).
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.resourceArn, key: "resourceArn")
+            request.encodeQuery(self.tagKeys, key: "tagKeys")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[-a-z0-9]*:[a-z0-9]+:[-a-z0-9]*:[0-9]{12}:bucket/.+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateTableMetadataLocationRequest: AWSEncodableShape {
@@ -1944,6 +3000,7 @@ public struct S3TablesErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case forbiddenException = "ForbiddenException"
         case internalServerErrorException = "InternalServerErrorException"
+        case methodNotAllowedException = "MethodNotAllowedException"
         case notFoundException = "NotFoundException"
         case tooManyRequestsException = "TooManyRequestsException"
     }
@@ -1976,6 +3033,8 @@ public struct S3TablesErrorType: AWSErrorType {
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// The request failed due to an internal server error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The requested operation is not allowed on this resource. This may occur when attempting to modify a resource that is managed by a service or has restrictions that prevent the operation.
+    public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
     /// The request was rejected because the specified resource could not be found.
     public static var notFoundException: Self { .init(.notFoundException) }
     /// The limit on the number of requests per second was exceeded.

@@ -403,6 +403,94 @@ public struct LicenseManager: AWSService {
         return try await self.createLicense(input, logger: logger)
     }
 
+    /// Creates a license asset group.
+    @Sendable
+    @inlinable
+    public func createLicenseAssetGroup(_ input: CreateLicenseAssetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLicenseAssetGroupResponse {
+        try await self.client.execute(
+            operation: "CreateLicenseAssetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a license asset group.
+    ///
+    /// Parameters:
+    ///   - associatedLicenseAssetRulesetARNs: ARNs of associated license asset rulesets.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: License asset group description.
+    ///   - licenseAssetGroupConfigurations: License asset group configurations.
+    ///   - name: License asset group name.
+    ///   - properties: License asset group properties.
+    ///   - tags: Tags to add to the license asset group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLicenseAssetGroup(
+        associatedLicenseAssetRulesetARNs: [String],
+        clientToken: String,
+        description: String? = nil,
+        licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration],
+        name: String,
+        properties: [LicenseAssetGroupProperty]? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLicenseAssetGroupResponse {
+        let input = CreateLicenseAssetGroupRequest(
+            associatedLicenseAssetRulesetARNs: associatedLicenseAssetRulesetARNs, 
+            clientToken: clientToken, 
+            description: description, 
+            licenseAssetGroupConfigurations: licenseAssetGroupConfigurations, 
+            name: name, 
+            properties: properties, 
+            tags: tags
+        )
+        return try await self.createLicenseAssetGroup(input, logger: logger)
+    }
+
+    /// Creates a license asset ruleset.
+    @Sendable
+    @inlinable
+    public func createLicenseAssetRuleset(_ input: CreateLicenseAssetRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLicenseAssetRulesetResponse {
+        try await self.client.execute(
+            operation: "CreateLicenseAssetRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a license asset ruleset.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: License asset ruleset description.
+    ///   - name: License asset ruleset name.
+    ///   - rules: License asset rules.
+    ///   - tags: Tags to add to the license asset ruleset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLicenseAssetRuleset(
+        clientToken: String,
+        description: String? = nil,
+        name: String,
+        rules: [LicenseAssetRule],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLicenseAssetRulesetResponse {
+        let input = CreateLicenseAssetRulesetRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            rules: rules, 
+            tags: tags
+        )
+        return try await self.createLicenseAssetRuleset(input, logger: logger)
+    }
+
     /// Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy,  Dedicated Instance, Dedicated Host, or all of these), license affinity  to host (how long a  license must be associated with a host), and the number of licenses purchased and used.
     @Sendable
     @inlinable
@@ -424,6 +512,7 @@ public struct LicenseManager: AWSService {
     ///   - licenseCount: Number of licenses managed by the license configuration.
     ///   - licenseCountHardLimit: Indicates whether hard or soft license enforcement is used. Exceeding a hard limit blocks the launch of new instances.
     ///   - licenseCountingType: Dimension used to track the license inventory.
+    ///   - licenseExpiry: License configuration expiry.
     ///   - licenseRules: License rules. The syntax is #name=value (for example, #allowedTenancy=EC2-DedicatedHost). The available rules  vary by dimension, as follows.    Cores dimension: allowedTenancy | licenseAffinityToHost | maximumCores | minimumCores     Instances dimension: allowedTenancy |  maximumVcpus | minimumVcpus     Sockets dimension: allowedTenancy |  licenseAffinityToHost | maximumSockets | minimumSockets     vCPUs dimension: allowedTenancy |  honorVcpuOptimization |  maximumVcpus | minimumVcpus    The unit for licenseAffinityToHost is days and the range is 1 to 180. The possible  values for allowedTenancy are EC2-Default, EC2-DedicatedHost, and  EC2-DedicatedInstance. The possible values for honorVcpuOptimization are  True and False.
     ///   - name: Name of the license configuration.
     ///   - productInformationList: Product information.
@@ -436,6 +525,7 @@ public struct LicenseManager: AWSService {
         licenseCount: Int64? = nil,
         licenseCountHardLimit: Bool? = nil,
         licenseCountingType: LicenseCountingType,
+        licenseExpiry: Int64? = nil,
         licenseRules: [String]? = nil,
         name: String,
         productInformationList: [ProductInformation]? = nil,
@@ -448,6 +538,7 @@ public struct LicenseManager: AWSService {
             licenseCount: licenseCount, 
             licenseCountHardLimit: licenseCountHardLimit, 
             licenseCountingType: licenseCountingType, 
+            licenseExpiry: licenseExpiry, 
             licenseRules: licenseRules, 
             name: name, 
             productInformationList: productInformationList, 
@@ -708,6 +799,64 @@ public struct LicenseManager: AWSService {
         return try await self.deleteLicense(input, logger: logger)
     }
 
+    /// Deletes a license asset group.
+    @Sendable
+    @inlinable
+    public func deleteLicenseAssetGroup(_ input: DeleteLicenseAssetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLicenseAssetGroupResponse {
+        try await self.client.execute(
+            operation: "DeleteLicenseAssetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a license asset group.
+    ///
+    /// Parameters:
+    ///   - licenseAssetGroupArn: Amazon Resource Name (ARN) of the license asset group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLicenseAssetGroup(
+        licenseAssetGroupArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLicenseAssetGroupResponse {
+        let input = DeleteLicenseAssetGroupRequest(
+            licenseAssetGroupArn: licenseAssetGroupArn
+        )
+        return try await self.deleteLicenseAssetGroup(input, logger: logger)
+    }
+
+    /// Deletes a license asset ruleset.
+    @Sendable
+    @inlinable
+    public func deleteLicenseAssetRuleset(_ input: DeleteLicenseAssetRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLicenseAssetRulesetResponse {
+        try await self.client.execute(
+            operation: "DeleteLicenseAssetRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a license asset ruleset.
+    ///
+    /// Parameters:
+    ///   - licenseAssetRulesetArn: Amazon Resource Name (ARN) of the license asset ruleset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLicenseAssetRuleset(
+        licenseAssetRulesetArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLicenseAssetRulesetResponse {
+        let input = DeleteLicenseAssetRulesetRequest(
+            licenseAssetRulesetArn: licenseAssetRulesetArn
+        )
+        return try await self.deleteLicenseAssetRuleset(input, logger: logger)
+    }
+
     /// Deletes the specified license configuration. You cannot delete a license configuration that is in use.
     @Sendable
     @inlinable
@@ -923,6 +1072,64 @@ public struct LicenseManager: AWSService {
         return try await self.getLicense(input, logger: logger)
     }
 
+    /// Gets a license asset group.
+    @Sendable
+    @inlinable
+    public func getLicenseAssetGroup(_ input: GetLicenseAssetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLicenseAssetGroupResponse {
+        try await self.client.execute(
+            operation: "GetLicenseAssetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a license asset group.
+    ///
+    /// Parameters:
+    ///   - licenseAssetGroupArn: Amazon Resource Name (ARN) of the license asset group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLicenseAssetGroup(
+        licenseAssetGroupArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLicenseAssetGroupResponse {
+        let input = GetLicenseAssetGroupRequest(
+            licenseAssetGroupArn: licenseAssetGroupArn
+        )
+        return try await self.getLicenseAssetGroup(input, logger: logger)
+    }
+
+    /// Gets a license asset ruleset.
+    @Sendable
+    @inlinable
+    public func getLicenseAssetRuleset(_ input: GetLicenseAssetRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLicenseAssetRulesetResponse {
+        try await self.client.execute(
+            operation: "GetLicenseAssetRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a license asset ruleset.
+    ///
+    /// Parameters:
+    ///   - licenseAssetRulesetArn: Amazon Resource Name (ARN) of the license asset ruleset.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLicenseAssetRuleset(
+        licenseAssetRulesetArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLicenseAssetRulesetResponse {
+        let input = GetLicenseAssetRulesetRequest(
+            licenseAssetRulesetArn: licenseAssetRulesetArn
+        )
+        return try await self.getLicenseAssetRuleset(input, logger: logger)
+    }
+
     /// Gets detailed information about the specified license configuration.
     @Sendable
     @inlinable
@@ -1065,6 +1272,44 @@ public struct LicenseManager: AWSService {
         return try await self.getServiceSettings(input, logger: logger)
     }
 
+    /// Lists assets for a license asset group.
+    @Sendable
+    @inlinable
+    public func listAssetsForLicenseAssetGroup(_ input: ListAssetsForLicenseAssetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAssetsForLicenseAssetGroupResponse {
+        try await self.client.execute(
+            operation: "ListAssetsForLicenseAssetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists assets for a license asset group.
+    ///
+    /// Parameters:
+    ///   - assetType: Asset type. The possible values are Instance | License | LicenseConfiguration.
+    ///   - licenseAssetGroupArn: Amazon Resource Name (ARN) of the license asset group.
+    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - nextToken: Token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAssetsForLicenseAssetGroup(
+        assetType: String,
+        licenseAssetGroupArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAssetsForLicenseAssetGroupResponse {
+        let input = ListAssetsForLicenseAssetGroupRequest(
+            assetType: assetType, 
+            licenseAssetGroupArn: licenseAssetGroupArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAssetsForLicenseAssetGroup(input, logger: logger)
+    }
+
     /// Lists the resource associations for the specified license configuration. Resource associations need not consume licenses from a license configuration.  For example, an AMI or a stopped instance might not consume a license (depending on  the license rules).
     @Sendable
     @inlinable
@@ -1173,6 +1418,79 @@ public struct LicenseManager: AWSService {
         return try await self.listFailuresForLicenseConfigurationOperations(input, logger: logger)
     }
 
+    /// Lists license asset groups.
+    @Sendable
+    @inlinable
+    public func listLicenseAssetGroups(_ input: ListLicenseAssetGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLicenseAssetGroupsResponse {
+        try await self.client.execute(
+            operation: "ListLicenseAssetGroups", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists license asset groups.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to scope the results. Following filters are supported    LicenseAssetRulesetArn
+    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - nextToken: Token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLicenseAssetGroups(
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLicenseAssetGroupsResponse {
+        let input = ListLicenseAssetGroupsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLicenseAssetGroups(input, logger: logger)
+    }
+
+    /// Lists license asset rulesets.
+    @Sendable
+    @inlinable
+    public func listLicenseAssetRulesets(_ input: ListLicenseAssetRulesetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLicenseAssetRulesetsResponse {
+        try await self.client.execute(
+            operation: "ListLicenseAssetRulesets", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists license asset rulesets.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to scope the results. Following filters are supported    Name
+    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - nextToken: Token for the next set of results.
+    ///   - showAWSManagedLicenseAssetRulesets: Specifies whether to show License Manager managed license asset rulesets.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLicenseAssetRulesets(
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        showAWSManagedLicenseAssetRulesets: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLicenseAssetRulesetsResponse {
+        let input = ListLicenseAssetRulesetsRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            showAWSManagedLicenseAssetRulesets: showAWSManagedLicenseAssetRulesets
+        )
+        return try await self.listLicenseAssetRulesets(input, logger: logger)
+    }
+
     /// Lists the license configurations for your account.
     @Sendable
     @inlinable
@@ -1209,6 +1527,44 @@ public struct LicenseManager: AWSService {
             nextToken: nextToken
         )
         return try await self.listLicenseConfigurations(input, logger: logger)
+    }
+
+    /// Lists license configurations for an organization.
+    @Sendable
+    @inlinable
+    public func listLicenseConfigurationsForOrganization(_ input: ListLicenseConfigurationsForOrganizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLicenseConfigurationsForOrganizationResponse {
+        try await self.client.execute(
+            operation: "ListLicenseConfigurationsForOrganization", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists license configurations for an organization.
+    ///
+    /// Parameters:
+    ///   - filters: Filters to scope the results.
+    ///   - licenseConfigurationArns: License configuration ARNs.
+    ///   - maxResults: Maximum number of results to return in a single call.
+    ///   - nextToken: Token for the next set of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLicenseConfigurationsForOrganization(
+        filters: [Filter]? = nil,
+        licenseConfigurationArns: [String]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLicenseConfigurationsForOrganizationResponse {
+        let input = ListLicenseConfigurationsForOrganizationRequest(
+            filters: filters, 
+            licenseConfigurationArns: licenseConfigurationArns, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLicenseConfigurationsForOrganization(input, logger: logger)
     }
 
     /// Lists the license type conversion tasks for your account.
@@ -1771,6 +2127,97 @@ public struct LicenseManager: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates a license asset group.
+    @Sendable
+    @inlinable
+    public func updateLicenseAssetGroup(_ input: UpdateLicenseAssetGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLicenseAssetGroupResponse {
+        try await self.client.execute(
+            operation: "UpdateLicenseAssetGroup", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a license asset group.
+    ///
+    /// Parameters:
+    ///   - associatedLicenseAssetRulesetARNs: ARNs of associated license asset rulesets.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: License asset group description.
+    ///   - licenseAssetGroupArn: Amazon Resource Name (ARN) of the license asset group.
+    ///   - licenseAssetGroupConfigurations: License asset group configurations.
+    ///   - name: License asset group name.
+    ///   - properties: License asset group properties.
+    ///   - status: License asset group status. The possible values are ACTIVE | DISABLED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLicenseAssetGroup(
+        associatedLicenseAssetRulesetARNs: [String],
+        clientToken: String,
+        description: String? = nil,
+        licenseAssetGroupArn: String,
+        licenseAssetGroupConfigurations: [LicenseAssetGroupConfiguration]? = nil,
+        name: String? = nil,
+        properties: [LicenseAssetGroupProperty]? = nil,
+        status: LicenseAssetGroupStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLicenseAssetGroupResponse {
+        let input = UpdateLicenseAssetGroupRequest(
+            associatedLicenseAssetRulesetARNs: associatedLicenseAssetRulesetARNs, 
+            clientToken: clientToken, 
+            description: description, 
+            licenseAssetGroupArn: licenseAssetGroupArn, 
+            licenseAssetGroupConfigurations: licenseAssetGroupConfigurations, 
+            name: name, 
+            properties: properties, 
+            status: status
+        )
+        return try await self.updateLicenseAssetGroup(input, logger: logger)
+    }
+
+    /// Updates a license asset ruleset.
+    @Sendable
+    @inlinable
+    public func updateLicenseAssetRuleset(_ input: UpdateLicenseAssetRulesetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLicenseAssetRulesetResponse {
+        try await self.client.execute(
+            operation: "UpdateLicenseAssetRuleset", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a license asset ruleset.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - description: License asset ruleset description.
+    ///   - licenseAssetRulesetArn: Amazon Resource Name (ARN) of the license asset ruleset.
+    ///   - name: License asset ruleset name.
+    ///   - rules: License asset rules.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLicenseAssetRuleset(
+        clientToken: String,
+        description: String? = nil,
+        licenseAssetRulesetArn: String,
+        name: String? = nil,
+        rules: [LicenseAssetRule],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLicenseAssetRulesetResponse {
+        let input = UpdateLicenseAssetRulesetRequest(
+            clientToken: clientToken, 
+            description: description, 
+            licenseAssetRulesetArn: licenseAssetRulesetArn, 
+            name: name, 
+            rules: rules
+        )
+        return try await self.updateLicenseAssetRuleset(input, logger: logger)
+    }
+
     /// Modifies the attributes of an existing license configuration.
     @Sendable
     @inlinable
@@ -1793,6 +2240,7 @@ public struct LicenseManager: AWSService {
     ///   - licenseConfigurationStatus: New status of the license configuration.
     ///   - licenseCount: New number of licenses managed by the license configuration.
     ///   - licenseCountHardLimit: New hard limit of the number of available licenses.
+    ///   - licenseExpiry: License configuration expiry time.
     ///   - licenseRules: New license rule. The only rule that you can add after you create a license configuration is licenseAffinityToHost.
     ///   - name: New name of the license configuration.
     ///   - productInformationList: New product information.
@@ -1805,6 +2253,7 @@ public struct LicenseManager: AWSService {
         licenseConfigurationStatus: LicenseConfigurationStatus? = nil,
         licenseCount: Int64? = nil,
         licenseCountHardLimit: Bool? = nil,
+        licenseExpiry: Int64? = nil,
         licenseRules: [String]? = nil,
         name: String? = nil,
         productInformationList: [ProductInformation]? = nil,
@@ -1817,6 +2266,7 @@ public struct LicenseManager: AWSService {
             licenseConfigurationStatus: licenseConfigurationStatus, 
             licenseCount: licenseCount, 
             licenseCountHardLimit: licenseCountHardLimit, 
+            licenseExpiry: licenseExpiry, 
             licenseRules: licenseRules, 
             name: name, 
             productInformationList: productInformationList
@@ -1923,6 +2373,7 @@ public struct LicenseManager: AWSService {
     ///
     /// Parameters:
     ///   - enableCrossAccountsDiscovery: Activates cross-account discovery.
+    ///   - enabledDiscoverySourceRegions: Cross region discovery enabled source regions.
     ///   - organizationConfiguration: Enables integration with Organizations for cross-account discovery.
     ///   - s3BucketArn: Amazon Resource Name (ARN) of the Amazon S3 bucket where the License Manager information is stored.
     ///   - snsTopicArn: Amazon Resource Name (ARN) of the Amazon SNS topic used for License Manager alerts.
@@ -1930,6 +2381,7 @@ public struct LicenseManager: AWSService {
     @inlinable
     public func updateServiceSettings(
         enableCrossAccountsDiscovery: Bool? = nil,
+        enabledDiscoverySourceRegions: [String]? = nil,
         organizationConfiguration: OrganizationConfiguration? = nil,
         s3BucketArn: String? = nil,
         snsTopicArn: String? = nil,
@@ -1937,6 +2389,7 @@ public struct LicenseManager: AWSService {
     ) async throws -> UpdateServiceSettingsResponse {
         let input = UpdateServiceSettingsRequest(
             enableCrossAccountsDiscovery: enableCrossAccountsDiscovery, 
+            enabledDiscoverySourceRegions: enabledDiscoverySourceRegions, 
             organizationConfiguration: organizationConfiguration, 
             s3BucketArn: s3BucketArn, 
             snsTopicArn: snsTopicArn

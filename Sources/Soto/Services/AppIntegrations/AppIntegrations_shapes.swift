@@ -25,6 +25,13 @@ import Foundation
 extension AppIntegrations {
     // MARK: Enums
 
+    public enum ApplicationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mcpServer = "MCP_SERVER"
+        case service = "SERVICE"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContactHandlingScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case crossContacts = "CROSS_CONTACTS"
         case perContact = "PER_CONTACT"
@@ -101,6 +108,8 @@ extension AppIntegrations {
     }
 
     public struct ApplicationSummary: AWSDecodableShape {
+        /// The type of application.
+        public let applicationType: ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String?
         /// The time when the application was created.
@@ -117,7 +126,21 @@ extension AppIntegrations {
         public let namespace: String?
 
         @inlinable
-        public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+            self.applicationType = applicationType
+            self.arn = arn
+            self.createdTime = createdTime
+            self.id = id
+            self.isService = nil
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.namespace = namespace
+        }
+
+        @available(*, deprecated, message: "Members isService have been deprecated")
+        @inlinable
+        public init(applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, id: String? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil) {
+            self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -128,6 +151,7 @@ extension AppIntegrations {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationType = "ApplicationType"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case id = "Id"
@@ -157,6 +181,8 @@ extension AppIntegrations {
         public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig
+        /// The type of application.
+        public let applicationType: ApplicationType?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
         /// The description of the application.
@@ -181,14 +207,15 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String, namespace: String, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.clientToken = clientToken
             self.description = description
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
-            self.isService = isService
+            self.isService = nil
             self.name = name
             self.namespace = namespace
             self.permissions = permissions
@@ -197,11 +224,12 @@ extension AppIntegrations {
             self.tags = tags
         }
 
-        @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig, applicationType: ApplicationType? = nil, clientToken: String? = CreateApplicationRequest.idempotencyToken(), description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String, namespace: String, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.clientToken = clientToken
             self.description = description
             self.iframeConfig = iframeConfig
@@ -228,7 +256,7 @@ extension AppIntegrations {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\/\\._ \\-]+$")
-            try self.validate(self.namespace, name: "namespace", parent: name, max: 32)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 211)
             try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
             try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9\\/\\._\\-]+$")
             try self.permissions?.forEach {
@@ -258,6 +286,7 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
+            case applicationType = "ApplicationType"
             case clientToken = "ClientToken"
             case description = "Description"
             case iframeConfig = "IframeConfig"
@@ -935,6 +964,8 @@ extension AppIntegrations {
         public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig?
+        /// The type of application.
+        public let applicationType: ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String?
         /// The created time of the Application.
@@ -965,16 +996,17 @@ extension AppIntegrations {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
             self.id = id
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
-            self.isService = isService
+            self.isService = nil
             self.lastModifiedTime = lastModifiedTime
             self.name = name
             self.namespace = namespace
@@ -984,11 +1016,12 @@ extension AppIntegrations {
             self.tags = tags
         }
 
-        @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, namespace: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil, tags: [String: String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
@@ -1008,6 +1041,7 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
+            case applicationType = "ApplicationType"
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
@@ -1265,6 +1299,8 @@ extension AppIntegrations {
     }
 
     public struct ListApplicationsRequest: AWSEncodableShape {
+        /// The type of application.
+        public let applicationType: ApplicationType?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous
@@ -1272,7 +1308,8 @@ extension AppIntegrations {
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(applicationType: ApplicationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationType = applicationType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1280,6 +1317,7 @@ extension AppIntegrations {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.applicationType, key: "applicationType")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -1767,6 +1805,8 @@ extension AppIntegrations {
         public let applicationConfig: ApplicationConfig?
         /// The configuration for where the application should be loaded from.
         public let applicationSourceConfig: ApplicationSourceConfig?
+        /// The type of application.
+        public let applicationType: ApplicationType?
         /// The Amazon Resource Name (ARN) of the Application.
         public let arn: String
         /// The description of the application.
@@ -1787,25 +1827,27 @@ extension AppIntegrations {
         public let subscriptions: [Subscription]?
 
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, name: String? = nil, permissions: [String]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.arn = arn
             self.description = description
             self.iframeConfig = iframeConfig
             self.initializationTimeout = initializationTimeout
-            self.isService = isService
+            self.isService = nil
             self.name = name
             self.permissions = permissions
             self.publications = nil
             self.subscriptions = nil
         }
 
-        @available(*, deprecated, message: "Members publications, subscriptions have been deprecated")
+        @available(*, deprecated, message: "Members isService, publications, subscriptions have been deprecated")
         @inlinable
-        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
+        public init(applicationConfig: ApplicationConfig? = nil, applicationSourceConfig: ApplicationSourceConfig? = nil, applicationType: ApplicationType? = nil, arn: String, description: String? = nil, iframeConfig: IframeConfig? = nil, initializationTimeout: Int? = nil, isService: Bool? = nil, name: String? = nil, permissions: [String]? = nil, publications: [Publication]? = nil, subscriptions: [Subscription]? = nil) {
             self.applicationConfig = applicationConfig
             self.applicationSourceConfig = applicationSourceConfig
+            self.applicationType = applicationType
             self.arn = arn
             self.description = description
             self.iframeConfig = iframeConfig
@@ -1822,6 +1864,7 @@ extension AppIntegrations {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.applicationConfig, forKey: .applicationConfig)
             try container.encodeIfPresent(self.applicationSourceConfig, forKey: .applicationSourceConfig)
+            try container.encodeIfPresent(self.applicationType, forKey: .applicationType)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.iframeConfig, forKey: .iframeConfig)
@@ -1865,6 +1908,7 @@ extension AppIntegrations {
         private enum CodingKeys: String, CodingKey {
             case applicationConfig = "ApplicationConfig"
             case applicationSourceConfig = "ApplicationSourceConfig"
+            case applicationType = "ApplicationType"
             case description = "Description"
             case iframeConfig = "IframeConfig"
             case initializationTimeout = "InitializationTimeout"

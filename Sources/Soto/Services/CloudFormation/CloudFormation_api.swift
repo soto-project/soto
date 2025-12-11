@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CloudFormation service.
 ///
-/// CloudFormation CloudFormation allows you to create and manage Amazon Web Services infrastructure deployments predictably and repeatedly. You can use CloudFormation to leverage Amazon Web Services products, such as Amazon Elastic Compute Cloud, Amazon Elastic Block Store, Amazon Simple Notification Service, Elastic Load Balancing, and Amazon EC2 Auto Scaling to build highly reliable, highly scalable, cost-effective applications without creating or configuring the underlying Amazon Web Services infrastructure. With CloudFormation, you declare all your resources and dependencies in a template file. The template defines a collection of resources as a single unit called a stack. CloudFormation creates and deletes all member resources of the stack together and manages all dependencies between the resources for you. For more information about CloudFormation, see the CloudFormation product page. CloudFormation makes use of other Amazon Web Services products. If you need additional technical information about a specific Amazon Web Services product, you can find the product's technical documentation at docs.aws.amazon.com.
+/// CloudFormation CloudFormation allows you to create and manage Amazon Web Services infrastructure deployments predictably and repeatedly. You can use CloudFormation to leverage Amazon Web Services products, such as Amazon Elastic Compute Cloud, Amazon Elastic Block Store, Amazon Simple Notification Service, ELB, and Amazon EC2 Auto Scaling to build highly reliable, highly scalable, cost-effective applications without creating or configuring the underlying Amazon Web Services infrastructure. With CloudFormation, you declare all your resources and dependencies in a template file. The template defines a collection of resources as a single unit called a stack. CloudFormation creates and deletes all member resources of the stack together and manages all dependencies between the resources for you. For more information about CloudFormation, see the CloudFormation product page. CloudFormation makes use of other Amazon Web Services products. If you need additional technical information about a specific Amazon Web Services product, you can find the product's technical documentation at docs.aws.amazon.com.
 public struct CloudFormation: AWSService {
     // MARK: Member variables
 
@@ -225,7 +225,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that CloudFormation successfully received them.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request:  { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }   The name or the unique stack ID that's associated with the stack.
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request:  { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }   The name or the unique stack ID that's associated with the stack.
     ///   - logger: Logger use during operation
     @inlinable
     public func cancelUpdateStack(
@@ -294,10 +294,11 @@ public struct CloudFormation: AWSService {
     /// Creates a list of changes that will be applied to a stack so that you can review the changes before executing them. You can create a change set for a stack that doesn't exist or an existing stack. If you create a change set for a stack that doesn't exist, the change set shows all of the resources that CloudFormation will create. If you create a change set for an existing stack, CloudFormation compares the stack's information with the information that you submit in the change set and lists the differences. Use change sets to understand which resources CloudFormation will create or change, and how it will change resources in an existing stack, before you create or update a stack. To create a change set for a stack that doesn't exist, for the ChangeSetType parameter, specify CREATE. To create a change set for an existing stack, specify UPDATE for the ChangeSetType parameter. To create a change set for an import operation, specify IMPORT for the ChangeSetType parameter. After the CreateChangeSet call successfully completes, CloudFormation starts creating the change set. To check the status of the change set or to review it, use the DescribeChangeSet action. When you are satisfied with the changes the change set will make, execute the change set by using the ExecuteChangeSet action. CloudFormation doesn't make changes until you execute the change set. To create a change set for the entire stack hierarchy, set IncludeNestedStacks to True.
     ///
     /// Parameters:
-    ///   - capabilities: In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::ManagedPolicy      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.  This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no effect. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information about macros, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
+    ///   - capabilities: In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::ManagedPolicy      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.  This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no effect. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information about macros, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - changeSetName: The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical character and can't exceed 128 characters.
     ///   - changeSetType: The type of change set operation. To create a change set for a new stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To create a change set for an import operation, specify IMPORT. If you create a change set for a new stack, CloudFormation creates a stack with a unique stack ID, but no template or resources. The stack will be in the REVIEW_IN_PROGRESS state until you execute the change set. By default, CloudFormation specifies UPDATE. You can't use the UPDATE type to create a change set for a new stack or the CREATE type to create a change set for an existing stack.
     ///   - clientToken: A unique identifier for this CreateChangeSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another change set with the same name. You might retry CreateChangeSet requests to ensure that CloudFormation successfully received them.
+    ///   - deploymentMode: Determines how CloudFormation handles configuration drift during deployment.    REVERT_DRIFT – Creates a drift-aware change set that brings actual resource states in line with template definitions. Provides a three-way comparison between actual state, previous deployment state, and desired state.   For more information, see Using drift-aware change sets in the CloudFormation User Guide.
     ///   - description: A description to help you identify this change set.
     ///   - importExistingResources: Indicates if the change set auto-imports resources that already exist. For more information, see Import Amazon Web Services resources into a CloudFormation stack automatically in the CloudFormation User Guide.  This parameter can only import resources that have custom names in templates. For more information, see name type in the CloudFormation User Guide. To import resources that do not accept custom names, such as EC2 instances, use the ResourcesToImport parameter instead.
     ///   - includeNestedStacks: Creates a change set for the all nested stacks specified in the template. The default behavior of this action is set to False. To include nested sets in a change set, specify True.
@@ -305,14 +306,14 @@ public struct CloudFormation: AWSService {
     ///   - onStackFailure: Determines what action will be taken if stack creation fails. If this parameter is specified, the DisableRollback parameter to the ExecuteChangeSet API operation must not be specified. This must be one of these values:    DELETE - Deletes the change set if the stack creation fails. This is only valid when the ChangeSetType parameter is set to CREATE. If the deletion of the stack fails, the status of the stack is DELETE_FAILED.    DO_NOTHING - if the stack creation fails, do nothing. This is equivalent to specifying true for the DisableRollback parameter to the ExecuteChangeSet API operation.    ROLLBACK - if the stack creation fails, roll back the stack. This is equivalent to specifying false for the DisableRollback parameter to the ExecuteChangeSet API operation.   For nested stacks, when the OnStackFailure parameter is set to DELETE for the change set for the parent stack, any failure in a child stack will cause the parent stack creation to fail and all stacks to be deleted.
     ///   - parameters: A list of Parameter structures that specify input parameters for the change set. For more information, see the Parameter data type.
     ///   - resourcesToImport: The resources to import into your stack.
-    ///   - resourceTypes: The template resource types that you have permissions to work with if you execute this change set, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see Control access with Identity and Access Management in the CloudFormation User Guide.  Only one of the Capabilities and ResourceType parameters can be specified.
+    ///   - resourceTypes: Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource type that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for condition keys in IAM policies for CloudFormation. For more information, see Control CloudFormation access with Identity and Access Management in the CloudFormation User Guide.  Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes when executing the change set. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least permission. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that is generated from your user credentials.
     ///   - rollbackConfiguration: The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
     ///   - stackName: The name or the unique ID of the stack for which you are creating a change set. CloudFormation generates the change set by comparing this stack's information with the information that you submit, such as a modified template or different parameter input values.
     ///   - tags: Key-value pairs to associate with this stack. CloudFormation also propagates these tags to resources in the stack. You can specify a maximum of 50 tags.
-    ///   - templateBody: A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
-    ///   - templateURL: The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only TemplateBody or TemplateURL.
-    ///   - usePreviousTemplate: Whether to reuse the template that's associated with the stack to create the change set.
+    ///   - templateBody: A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    ///   - templateURL: The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. URLs from S3 static websites are not supported. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    ///   - usePreviousTemplate: Whether to reuse the template that's associated with the stack to create the change set. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see AWS::LanguageExtensions transform. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     ///   - logger: Logger use during operation
     @inlinable
     public func createChangeSet(
@@ -320,6 +321,7 @@ public struct CloudFormation: AWSService {
         changeSetName: String? = nil,
         changeSetType: ChangeSetType? = nil,
         clientToken: String? = nil,
+        deploymentMode: DeploymentMode? = nil,
         description: String? = nil,
         importExistingResources: Bool? = nil,
         includeNestedStacks: Bool? = nil,
@@ -342,6 +344,7 @@ public struct CloudFormation: AWSService {
             changeSetName: changeSetName, 
             changeSetType: changeSetType, 
             clientToken: clientToken, 
+            deploymentMode: deploymentMode, 
             description: description, 
             importExistingResources: importExistingResources, 
             includeNestedStacks: includeNestedStacks, 
@@ -422,7 +425,7 @@ public struct CloudFormation: AWSService {
     ///   - notificationARNs: The Amazon SNS topic ARNs to publish stack related events. You can find your Amazon SNS topic ARNs using the Amazon SNS console or your Command Line Interface (CLI).
     ///   - onFailure: Determines what action will be taken if stack creation fails. This must be one of: DO_NOTHING, ROLLBACK, or DELETE. You can specify either OnFailure or DisableRollback, but not both.  Although the default setting is ROLLBACK, there is one exception. This exception occurs when a StackSet attempts to deploy a stack instance and the stack instance fails to create successfully. In this case, the CreateStack call overrides the default setting and sets the value of OnFailure to DELETE.  Default: ROLLBACK
     ///   - parameters: A list of Parameter structures that specify input parameters for the stack. For more information, see the Parameter data type.
-    ///   - resourceTypes: The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Control access with Identity and Access Management.  Only one of the Capabilities and ResourceType parameters can be specified.
+    ///   - resourceTypes: Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Control CloudFormation access with Identity and Access Management.  Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - retainExceptOnCreate: When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to create the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
     ///   - rollbackConfiguration: The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
@@ -937,7 +940,7 @@ public struct CloudFormation: AWSService {
     /// Retrieves your account's CloudFormation limits, such as the maximum number of stacks that you can create in your account. For more information about account limits, see Understand CloudFormation quotas in the CloudFormation User Guide.
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of limits that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func describeAccountLimits(
@@ -968,7 +971,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set that you want to describe.
     ///   - includePropertyValues: If true, the returned changes include detailed changes in the property values.
-    ///   - nextToken: A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
@@ -988,7 +991,7 @@ public struct CloudFormation: AWSService {
         return try await self.describeChangeSet(input, logger: logger)
     }
 
-    /// Returns hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
+    /// Returns Hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
     @Sendable
     @inlinable
     public func describeChangeSetHooks(_ input: DescribeChangeSetHooksInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeChangeSetHooksOutput {
@@ -1001,12 +1004,12 @@ public struct CloudFormation: AWSService {
             logger: logger
         )
     }
-    /// Returns hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
+    /// Returns Hook-related information for the change set and a list of changes that CloudFormation makes when you run the change set.
     ///
     /// Parameters:
     ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set that you want to describe.
     ///   - logicalResourceId: If specified, lists only the Hooks related to the specified LogicalResourceId.
-    ///   - nextToken: A string, provided by the DescribeChangeSetHooks response output, that identifies the next page of information that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: If you specified the name of a change set, specify the stack name or stack ID (ARN) of the change set you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1024,6 +1027,47 @@ public struct CloudFormation: AWSService {
             stackName: stackName
         )
         return try await self.describeChangeSetHooks(input, logger: logger)
+    }
+
+    /// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack operations during deployment. An operation is any action performed on a stack, including stack lifecycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns different types of events including:    Progress events - Status updates during stack operation execution.    Validation errors - Failures from CloudFormation Early Validations.    Provisioning errors - Resource creation and update failures.    Hook invocation errors - Failures from CloudFormation Hook during stack operations.    One of ChangeSetName, OperationId or StackName must be specified as input.
+    @Sendable
+    @inlinable
+    public func describeEvents(_ input: DescribeEventsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEventsOutput {
+        try await self.client.execute(
+            operation: "DescribeEvents", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns CloudFormation events based on flexible query criteria. Groups events by operation ID, enabling you to focus on individual stack operations during deployment. An operation is any action performed on a stack, including stack lifecycle actions (Create, Update, Delete, Rollback), change set creation, nested stack creation, and automatic rollbacks triggered by failures. Each operation has a unique identifier (Operation ID) and represents a discrete change attempt on the stack. Returns different types of events including:    Progress events - Status updates during stack operation execution.    Validation errors - Failures from CloudFormation Early Validations.    Provisioning errors - Resource creation and update failures.    Hook invocation errors - Failures from CloudFormation Hook during stack operations.    One of ChangeSetName, OperationId or StackName must be specified as input.
+    ///
+    /// Parameters:
+    ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events.
+    ///   - filters: Filters to apply when retrieving events.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - operationId: The unique identifier of the operation for which you want to retrieve events.
+    ///   - stackName: The name or unique stack ID for which you want to retrieve events.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeEvents(
+        changeSetName: String? = nil,
+        filters: EventFilter? = nil,
+        nextToken: String? = nil,
+        operationId: String? = nil,
+        stackName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeEventsOutput {
+        let input = DescribeEventsInput(
+            changeSetName: changeSetName, 
+            filters: filters, 
+            nextToken: nextToken, 
+            operationId: operationId, 
+            stackName: stackName
+        )
+        return try await self.describeEvents(input, logger: logger)
     }
 
     /// Describes a generated template. The output includes details about the progress of the creation of a generated template started by a CreateGeneratedTemplate API action or the update of a generated template started with an UpdateGeneratedTemplate API action.
@@ -1187,7 +1231,7 @@ public struct CloudFormation: AWSService {
     /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide.  You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of events that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1319,7 +1363,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: A string that identifies the next page of stack resource drift results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: The name of the stack for which you want drift information.
     ///   - stackResourceDriftStatusFilters: The resource drift status values to use as filters for the resource drift results returned.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resource's actual configuration matches its expected template configuration.    NOT_CHECKED: CloudFormation doesn't currently return this value.    UNKNOWN: CloudFormation could not run drift detection for the resource.
     ///   - logger: Logger use during operation
@@ -1458,8 +1502,8 @@ public struct CloudFormation: AWSService {
     /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see Understand CloudFormation stack creation events in the CloudFormation User Guide.  If the stack doesn't exist, a ValidationError is returned.
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeStacks(
@@ -1786,6 +1830,35 @@ public struct CloudFormation: AWSService {
         return try await self.getGeneratedTemplate(input, logger: logger)
     }
 
+    /// Retrieves detailed information and remediation guidance for a Hook invocation result. If the Hook uses a KMS key to encrypt annotations, callers of the GetHookResult operation must have kms:Decrypt permissions. For more information, see KMS key policy and permissions for encrypting CloudFormation Hooks results at rest in the CloudFormation Hooks User Guide.
+    @Sendable
+    @inlinable
+    public func getHookResult(_ input: GetHookResultInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHookResultOutput {
+        try await self.client.execute(
+            operation: "GetHookResult", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information and remediation guidance for a Hook invocation result. If the Hook uses a KMS key to encrypt annotations, callers of the GetHookResult operation must have kms:Decrypt permissions. For more information, see KMS key policy and permissions for encrypting CloudFormation Hooks results at rest in the CloudFormation Hooks User Guide.
+    ///
+    /// Parameters:
+    ///   - hookResultId: The unique identifier (ID) of the Hook invocation result that you want details about. You can get the ID from the ListHookResults operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getHookResult(
+        hookResultId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetHookResultOutput {
+        let input = GetHookResultInput(
+            hookResultId: hookResultId
+        )
+        return try await self.getHookResult(input, logger: logger)
+    }
+
     /// Returns the stack policy for a specified stack. If a stack doesn't have a policy, a null value is returned.
     @Sendable
     @inlinable
@@ -1957,7 +2030,7 @@ public struct CloudFormation: AWSService {
     /// Returns the ID and status of each active change set for a stack. For example, CloudFormation lists change sets that are in the CREATE_IN_PROGRESS or CREATE_PENDING state.
     ///
     /// Parameters:
-    ///   - nextToken: A string (provided by the ListChangeSets response output) that identifies the next page of change sets that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: The name or the Amazon Resource Name (ARN) of the stack for which you want to list change sets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1989,7 +2062,7 @@ public struct CloudFormation: AWSService {
     /// Lists all exported output values in the account and Region in which you call this action. Use this action to see the exported output values that you can import into other stacks. To import values, use the  Fn::ImportValue function. For more information, see Get exported outputs from a deployed CloudFormation stack.
     ///
     /// Parameters:
-    ///   - nextToken: A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func listExports(
@@ -2019,7 +2092,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListGeneratedTemplates API action will return at most 50 results in each response. The maximum value is 100.
-    ///   - nextToken: A string that identifies the next page of resource scan results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func listGeneratedTemplates(
@@ -2050,7 +2123,7 @@ public struct CloudFormation: AWSService {
     /// Returns summaries of invoked Hooks. For more information, see View invocation summaries for CloudFormation Hooks in the CloudFormation Hooks User Guide. This operation supports the following parameter combinations:   No parameters: Returns all Hook invocation summaries.    TypeArn only: Returns summaries for a specific Hook.    TypeArn and Status: Returns summaries for a specific Hook filtered by status.    TargetId and TargetType: Returns summaries for a specific Hook invocation target.
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of events that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - status: Filters results by the status of Hook invocations. Can only be used in combination with TypeArn. Valid values are:    HOOK_IN_PROGRESS: The Hook is currently running.    HOOK_COMPLETE_SUCCEEDED: The Hook completed successfully.    HOOK_COMPLETE_FAILED: The Hook completed but failed validation.    HOOK_FAILED: The Hook encountered an error during execution.
     ///   - targetId: Filters results by the unique identifier of the target the Hook was invoked against. For change sets, this is the change set ARN. When the target is a Cloud Control API operation, this value must be the HookRequestToken returned by the Cloud Control API request. For more information on the HookRequestToken, see ProgressEvent. Required when TargetType is specified and cannot be used otherwise.
     ///   - targetType: Filters results by target type. Currently, only CHANGE_SET and CLOUD_CONTROL are supported filter options. Required when TargetId is specified and cannot be used otherwise.
@@ -2092,7 +2165,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - exportName: The name of the exported output value. CloudFormation returns the stack names that are importing this value.
-    ///   - nextToken: A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func listImports(
@@ -2124,7 +2197,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanRelatedResources API action will return up to 100 results in each response. The maximum value is 100.
-    ///   - nextToken: A string that identifies the next page of resource scan results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - resources: The list of resources for which you want to get the related resources. Up to 100 resources can be provided.
     ///   - resourceScanId: The Amazon Resource Name (ARN) of the resource scan.
     ///   - logger: Logger use during operation
@@ -2162,7 +2235,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanResources API action will return at most 100 results in each response. The maximum value is 100.
-    ///   - nextToken: A string that identifies the next page of resource scan results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - resourceIdentifier: If specified, the returned resources will have the specified resource identifier (or one of them in the case where the resource has multiple identifiers).
     ///   - resourceScanId: The Amazon Resource Name (ARN) of the resource scan.
     ///   - resourceTypePrefix: If specified, the returned resources will be of any of the resource types with the specified prefix.
@@ -2209,7 +2282,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. The default value is 10. The maximum value is 100.
-    ///   - nextToken: A string that identifies the next page of resource scan results.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - scanTypeFilter: The scan type that you want to get summary information about. The default is FULL.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2245,7 +2318,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - callAs: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - operationId: The unique ID of the drift operation.
     ///   - stackInstanceAccount: The name of the Amazon Web Services account that you want to list resource drifts for.
     ///   - stackInstanceRegion: The name of the Region where you want to list resource drifts.
@@ -2296,7 +2369,7 @@ public struct CloudFormation: AWSService {
     ///   - callAs: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - filters: The filter to apply to stack instances
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous request didn't return all the remaining results, the response's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackInstances again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackInstanceAccount: The name of the Amazon Web Services account that you want to list stack instances for.
     ///   - stackInstanceRegion: The name of the Region where you want to list stack instances.
     ///   - stackSetName: The name or unique ID of the StackSet that you want to list stack instances for.
@@ -2341,7 +2414,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackRefactorId: The ID associated with the stack refactor created from the CreateStackRefactor action.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2377,7 +2450,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - executionStatusFilter: Execution status to use as a filter. Specify one or more execution status codes to list only stack refactors with the specified execution status codes.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
     @inlinable
     public func listStackRefactors(
@@ -2410,7 +2483,7 @@ public struct CloudFormation: AWSService {
     /// Returns descriptions of all resources of the specified stack. For deleted stacks, ListStackResources returns resource information for up to 90 days after the stack has been deleted.
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of stack resources that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2444,7 +2517,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - callAs: Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: A string that identifies the next page of deployment targets that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackSetName: The name or unique ID of the StackSet that you want to get automatic deployment targets for.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2483,7 +2556,7 @@ public struct CloudFormation: AWSService {
     ///   - callAs: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - filters: The filter to apply to operation results.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - operationId: The ID of the StackSet operation.
     ///   - stackSetName: The name or unique ID of the StackSet that you want to get operation results for.
     ///   - logger: Logger use during operation
@@ -2526,7 +2599,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - callAs: [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackSetName: The name or unique ID of the StackSet that you want to get operation summaries for.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2564,7 +2637,7 @@ public struct CloudFormation: AWSService {
     /// Parameters:
     ///   - callAs: [Service-managed permissions] Specifies whether you are acting as an account administrator in the management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - status: The status of the StackSets that you want to get summary information about.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2600,7 +2673,7 @@ public struct CloudFormation: AWSService {
     /// Returns the summary information for stacks whose status matches the specified StackStatusFilter. Summary information for stacks that have been deleted is kept for 90 days after the stack is deleted. If no StackStatusFilter is specified, summary information for all stacks is returned (including existing stacks and stacks that have been deleted).
     ///
     /// Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackStatusFilter: Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2633,7 +2706,7 @@ public struct CloudFormation: AWSService {
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - registrationStatusFilter: The current status of the extension registration request. The default is IN_PROGRESS.
     ///   - type: The kind of extension. Conditional: You must specify either TypeName and Type, or Arn.
     ///   - typeArn: The Amazon Resource Name (ARN) of the extension. Conditional: You must specify either TypeName and Type, or Arn.
@@ -2679,7 +2752,7 @@ public struct CloudFormation: AWSService {
     ///   - arn: The Amazon Resource Name (ARN) of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
     ///   - deprecatedStatus: The deprecation status of the extension versions that you want to get summary information about. Valid values include:    LIVE: The extension version is registered and can be used in CloudFormation operations, dependent on its provisioning behavior and visibility scope.    DEPRECATED: The extension version has been deregistered and can no longer be used in CloudFormation operations.   The default is LIVE.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - publisherId: The publisher ID of the extension publisher. Extensions published by Amazon aren't assigned a publisher ID.
     ///   - type: The kind of the extension. Conditional: You must specify either TypeName and Type, or Arn.
     ///   - typeName: The name of the extension for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
@@ -2726,7 +2799,7 @@ public struct CloudFormation: AWSService {
     ///   - deprecatedStatus: The deprecation status of the extension that you want to get summary information about. Valid values include:    LIVE: The extension is registered for use in CloudFormation operations.    DEPRECATED: The extension has been deregistered and can no longer be used in CloudFormation operations.
     ///   - filters: Filter criteria to use in determining which extensions to return. Filters must be compatible with Visibility to return valid results. For example, specifying AWS_TYPES for Category and PRIVATE for Visibility returns an empty list of types, but specifying PUBLIC for Visibility returns the desired list.
     ///   - maxResults: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
-    ///   - nextToken: If the previous paginated request didn't return all the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - provisioningType: For resource types, the provisioning behavior of the resource type. CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The resource type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The resource type doesn't include an update handler, so the type can't be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The resource type doesn't include create, read, and delete handlers, and therefore can't actually be provisioned.   The default is FULLY_MUTABLE.
     ///   - type: The type of extension.
     ///   - visibility: The scope at which the extensions are visible and usable in CloudFormation operations. Valid values include:    PRIVATE: Extensions that are visible and usable within this account and Region. This includes:   Private extensions you have registered in this account and Region.   Public extensions that you have activated in this account and Region.      PUBLIC: Extensions that are publicly visible and available to be activated within any Amazon Web Services account. This includes extensions from Amazon Web Services and third-party publishers.   The default is PRIVATE.
@@ -3086,7 +3159,7 @@ public struct CloudFormation: AWSService {
     ///   - logicalResourceId: The logical ID of the resource that you want to signal. The logical ID is the name of the resource that given in the template.
     ///   - stackName: The stack name or unique stack ID that includes the resource that you want to signal.
     ///   - status: The status of the signal, which is either success or failure. A failure signal causes CloudFormation to immediately fail the stack creation or update.
-    ///   - uniqueId: A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
+    ///   - uniqueId: A unique ID of the signal. When you signal Amazon EC2 instances or Amazon EC2 Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func signalResource(
@@ -3278,7 +3351,7 @@ public struct CloudFormation: AWSService {
     ///   - disableRollback: Preserve the state of previously provisioned resources when an operation fails. Default: False
     ///   - notificationARNs: Amazon Simple Notification Service topic Amazon Resource Names (ARNs) that CloudFormation associates with the stack. Specify an empty list to remove all notification topics.
     ///   - parameters: A list of Parameter structures that specify input parameters for the stack. For more information, see the Parameter data type.
-    ///   - resourceTypes: The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Control access with Identity and Access Management.  Only one of the Capabilities and ResourceType parameters can be specified.
+    ///   - resourceTypes: Specifies which resource types you can work with, such as AWS::EC2::Instance or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. IAM uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see Control CloudFormation access with Identity and Access Management.  Only one of the Capabilities and ResourceType parameters can be specified.
     ///   - retainExceptOnCreate: When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     ///   - roleARN: The Amazon Resource Name (ARN) of an IAM role that CloudFormation assumes to update the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that is generated from your user credentials.
     ///   - rollbackConfiguration: The rollback triggers for CloudFormation to monitor during stack creation and updating operations, and for the specified monitoring period afterwards.
@@ -3290,7 +3363,7 @@ public struct CloudFormation: AWSService {
     ///   - tags: Key-value pairs to associate with this stack. CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 50 tags. If you don't specify this parameter, CloudFormation doesn't modify the stack's tags. If you specify an empty value, CloudFormation removes all associated tags.
     ///   - templateBody: Structure that contains the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     ///   - templateURL: The URL of a file that contains the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
-    ///   - usePreviousTemplate: Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    ///   - usePreviousTemplate: Reuse the existing template that is associated with the stack that you are updating. When using templates with the AWS::LanguageExtensions transform, provide the template instead of using UsePreviousTemplate to ensure new parameter values and Systems Manager parameter updates are applied correctly. For more information, see AWS::LanguageExtensions transform. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateStack(
@@ -3579,6 +3652,89 @@ extension CloudFormation {
         return self.describeAccountLimitsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``describeChangeSet(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeChangeSetPaginator(
+        _ input: DescribeChangeSetInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeChangeSetInput, DescribeChangeSetOutput> {
+        return .init(
+            input: input,
+            command: self.describeChangeSet,
+            inputKey: \DescribeChangeSetInput.nextToken,
+            outputKey: \DescribeChangeSetOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeChangeSet(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set that you want to describe.
+    ///   - includePropertyValues: If true, the returned changes include detailed changes in the property values.
+    ///   - stackName: If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeChangeSetPaginator(
+        changeSetName: String? = nil,
+        includePropertyValues: Bool? = nil,
+        stackName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeChangeSetInput, DescribeChangeSetOutput> {
+        let input = DescribeChangeSetInput(
+            changeSetName: changeSetName, 
+            includePropertyValues: includePropertyValues, 
+            stackName: stackName
+        )
+        return self.describeChangeSetPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeEventsPaginator(
+        _ input: DescribeEventsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        return .init(
+            input: input,
+            command: self.describeEvents,
+            inputKey: \DescribeEventsInput.nextToken,
+            outputKey: \DescribeEventsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeEvents(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set for which you want to retrieve events.
+    ///   - filters: Filters to apply when retrieving events.
+    ///   - operationId: The unique identifier of the operation for which you want to retrieve events.
+    ///   - stackName: The name or unique stack ID for which you want to retrieve events.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeEventsPaginator(
+        changeSetName: String? = nil,
+        filters: EventFilter? = nil,
+        operationId: String? = nil,
+        stackName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeEventsInput, DescribeEventsOutput> {
+        let input = DescribeEventsInput(
+            changeSetName: changeSetName, 
+            filters: filters, 
+            operationId: operationId, 
+            stackName: stackName
+        )
+        return self.describeEventsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``describeStackEvents(_:logger:)``.
     ///
     /// - Parameters:
@@ -3674,7 +3830,7 @@ extension CloudFormation {
     /// Return PaginatorSequence for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeStacksPaginator(
@@ -4417,6 +4573,31 @@ extension CloudFormation.DescribeAccountLimitsInput: AWSPaginateToken {
     }
 }
 
+extension CloudFormation.DescribeChangeSetInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeChangeSetInput {
+        return .init(
+            changeSetName: self.changeSetName,
+            includePropertyValues: self.includePropertyValues,
+            nextToken: token,
+            stackName: self.stackName
+        )
+    }
+}
+
+extension CloudFormation.DescribeEventsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeEventsInput {
+        return .init(
+            changeSetName: self.changeSetName,
+            filters: self.filters,
+            nextToken: token,
+            operationId: self.operationId,
+            stackName: self.stackName
+        )
+    }
+}
+
 extension CloudFormation.DescribeStackEventsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFormation.DescribeStackEventsInput {
@@ -4696,7 +4877,7 @@ extension CloudFormation {
     /// - Parameters:
     ///   - changeSetName: The name or Amazon Resource Name (ARN) of the change set that you want to describe.
     ///   - includePropertyValues: If true, the returned changes include detailed changes in the property values.
-    ///   - nextToken: A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
     ///   - stackName: If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4753,8 +4934,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackCreateComplete(
@@ -4800,8 +4981,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackDeleteComplete(
@@ -4840,8 +5021,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackExists(
@@ -4885,8 +5066,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackImportComplete(
@@ -5005,8 +5186,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackRollbackComplete(
@@ -5048,8 +5229,8 @@ extension CloudFormation {
     /// Waiter for operation ``describeStacks(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - nextToken: A string that identifies the next page of stacks that you want to retrieve.
-    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
+    ///   - nextToken: The token for the next set of items to return. (You received this token from a previous call.)
+    ///   - stackName:  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17",		 	 	  "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilStackUpdateComplete(

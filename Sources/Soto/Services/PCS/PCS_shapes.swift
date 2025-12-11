@@ -61,6 +61,7 @@ extension PCS {
     public enum EndpointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case slurmctld = "SLURMCTLD"
         case slurmdbd = "SLURMDBD"
+        case slurmrestd = "SLURMRESTD"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +100,12 @@ extension PCS {
         case large = "LARGE"
         case medium = "MEDIUM"
         case small = "SMALL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlurmRestMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -216,24 +223,32 @@ extension PCS {
         public let accounting: Accounting?
         /// The shared Slurm key for authentication, also known as the cluster secret.
         public let authKey: SlurmAuthKey?
+        /// The JWT authentication configuration for Slurm REST API access.
+        public let jwtAuth: JwtAuth?
         /// The time (in seconds) before an idle node is scaled down. Default: 600
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public let slurmRest: SlurmRest?
 
         @inlinable
-        public init(accounting: Accounting? = nil, authKey: SlurmAuthKey? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(accounting: Accounting? = nil, authKey: SlurmAuthKey? = nil, jwtAuth: JwtAuth? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: SlurmRest? = nil) {
             self.accounting = accounting
             self.authKey = authKey
+            self.jwtAuth = jwtAuth
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
             case authKey = "authKey"
+            case jwtAuth = "jwtAuth"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmRest = "slurmRest"
         }
     }
 
@@ -244,18 +259,22 @@ extension PCS {
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public let slurmRest: SlurmRestRequest?
 
         @inlinable
-        public init(accounting: AccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(accounting: AccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: SlurmRestRequest? = nil) {
             self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmRest = "slurmRest"
         }
     }
 
@@ -968,6 +987,38 @@ extension PCS {
         }
     }
 
+    public struct JwtAuth: AWSDecodableShape {
+        /// The JWT key for Slurm REST API authentication.
+        public let jwtKey: JwtKey?
+
+        @inlinable
+        public init(jwtKey: JwtKey? = nil) {
+            self.jwtKey = jwtKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jwtKey = "jwtKey"
+        }
+    }
+
+    public struct JwtKey: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret containing the JWT key.
+        public let secretArn: String
+        /// The version of the AWS Secrets Manager secret containing the JWT key.
+        public let secretVersion: String
+
+        @inlinable
+        public init(secretArn: String, secretVersion: String) {
+            self.secretArn = secretArn
+            self.secretVersion = secretVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case secretArn = "secretArn"
+            case secretVersion = "secretVersion"
+        }
+    }
+
     public struct ListClustersRequest: AWSEncodableShape {
         /// The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 10 results, and the maximum allowed page size is 100 results. A value of 0 uses the default.
         public let maxResults: Int?
@@ -1514,6 +1565,34 @@ extension PCS {
         }
     }
 
+    public struct SlurmRest: AWSDecodableShape {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        public let mode: SlurmRestMode
+
+        @inlinable
+        public init(mode: SlurmRestMode) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+        }
+    }
+
+    public struct SlurmRestRequest: AWSEncodableShape {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        public let mode: SlurmRestMode
+
+        @inlinable
+        public init(mode: SlurmRestMode) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+        }
+    }
+
     public struct SpotOptions: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon EC2 allocation strategy PCS uses to provision EC2 instances. PCS supports lowest price, capacity optimized, and price capacity optimized. For more information, see Use allocation strategies to determine how EC2 Fleet or Spot Fleet fulfills Spot and On-Demand capacity in the Amazon Elastic Compute Cloud User Guide. If you don't provide this option, it defaults to price capacity optimized.
         public let allocationStrategy: SpotAllocationStrategy?
@@ -1557,6 +1636,10 @@ extension PCS {
             case resourceArn = "resourceArn"
             case tags = "tags"
         }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct ThrottlingException: AWSErrorShape {
@@ -1616,6 +1699,10 @@ extension PCS {
         private enum CodingKeys: String, CodingKey {
             case tagKeys = "tagKeys"
         }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateAccountingRequest: AWSEncodableShape {
@@ -1684,18 +1771,22 @@ extension PCS {
         public let scaleDownIdleTimeInSeconds: Int?
         /// Additional Slurm-specific configuration that directly maps to Slurm settings.
         public let slurmCustomSettings: [SlurmCustomSetting]?
+        /// The Slurm REST API configuration for the cluster.
+        public let slurmRest: UpdateSlurmRestRequest?
 
         @inlinable
-        public init(accounting: UpdateAccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil) {
+        public init(accounting: UpdateAccountingRequest? = nil, scaleDownIdleTimeInSeconds: Int? = nil, slurmCustomSettings: [SlurmCustomSetting]? = nil, slurmRest: UpdateSlurmRestRequest? = nil) {
             self.accounting = accounting
             self.scaleDownIdleTimeInSeconds = scaleDownIdleTimeInSeconds
             self.slurmCustomSettings = slurmCustomSettings
+            self.slurmRest = slurmRest
         }
 
         private enum CodingKeys: String, CodingKey {
             case accounting = "accounting"
             case scaleDownIdleTimeInSeconds = "scaleDownIdleTimeInSeconds"
             case slurmCustomSettings = "slurmCustomSettings"
+            case slurmRest = "slurmRest"
         }
     }
 
@@ -1848,6 +1939,20 @@ extension PCS {
 
         private enum CodingKeys: String, CodingKey {
             case slurmCustomSettings = "slurmCustomSettings"
+        }
+    }
+
+    public struct UpdateSlurmRestRequest: AWSEncodableShape {
+        /// The default value for mode is STANDARD. A value of STANDARD means the Slurm REST API is enabled.
+        public let mode: SlurmRestMode?
+
+        @inlinable
+        public init(mode: SlurmRestMode? = nil) {
+            self.mode = mode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
         }
     }
 

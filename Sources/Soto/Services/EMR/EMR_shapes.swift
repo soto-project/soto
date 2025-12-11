@@ -133,6 +133,7 @@ extension EMR {
     public enum InstanceFleetState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bootstrapping = "BOOTSTRAPPING"
         case provisioning = "PROVISIONING"
+        case reconfiguring = "RECONFIGURING"
         case resizing = "RESIZING"
         case running = "RUNNING"
         case suspended = "SUSPENDED"
@@ -904,6 +905,49 @@ extension EMR {
         }
     }
 
+    public struct CloudWatchLogConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies if CloudWatch logging is enabled.
+        public let enabled: Bool?
+        /// The ARN of the encryption key used to encrypt the logs.
+        public let encryptionKeyArn: String?
+        /// The name of the CloudWatch log group where logs are published.
+        public let logGroupName: String?
+        /// The prefix of the log stream name.
+        public let logStreamNamePrefix: String?
+        /// A map of log types to file names for publishing logs to the standard output or standard error streams for CloudWatch. Valid log types include STEP_LOGS, SPARK_DRIVER, and SPARK_EXECUTOR. Valid file names for each type include STDOUT and STDERR.
+        public let logTypes: [String: [String]]?
+
+        @inlinable
+        public init(enabled: Bool? = nil, encryptionKeyArn: String? = nil, logGroupName: String? = nil, logStreamNamePrefix: String? = nil, logTypes: [String: [String]]? = nil) {
+            self.enabled = enabled
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logGroupName = logGroupName
+            self.logStreamNamePrefix = logStreamNamePrefix
+            self.logTypes = logTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 10280)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, max: 10280)
+            try self.validate(self.logGroupName, name: "logGroupName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, max: 10280)
+            try self.validate(self.logStreamNamePrefix, name: "logStreamNamePrefix", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.logTypes?.forEach {
+                try validate($0.key, name: "logTypes.key", parent: name, max: 10280)
+                try validate($0.key, name: "logTypes.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case logGroupName = "LogGroupName"
+            case logStreamNamePrefix = "LogStreamNamePrefix"
+            case logTypes = "LogTypes"
+        }
+    }
+
     public struct Cluster: AWSDecodableShape {
         /// The applications installed on this cluster.
         public let applications: [Application]?
@@ -939,6 +983,8 @@ extension EMR {
         public let logUri: String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public let masterPublicDnsName: String?
+        /// Contains Cloudwatch log configuration metadata and settings.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The name of the cluster. This parameter can't contain the characters , $, |, or ` (backtick).
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
@@ -977,7 +1023,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, extendedSupport: Bool? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, extendedSupport: Bool? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, osReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, unhealthyNodeReplacement: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -995,6 +1041,7 @@ extension EMR {
             self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.masterPublicDnsName = masterPublicDnsName
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
             self.osReleaseLabel = osReleaseLabel
@@ -1033,6 +1080,7 @@ extension EMR {
             case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case masterPublicDnsName = "MasterPublicDnsName"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case name = "Name"
             case normalizedInstanceHours = "NormalizedInstanceHours"
             case osReleaseLabel = "OSReleaseLabel"
@@ -2777,7 +2825,7 @@ extension EMR {
     public struct InstanceGroup: AWSDecodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicyDescription?
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2859,7 +2907,7 @@ extension EMR {
     public struct InstanceGroupConfig: AWSEncodableShape {
         /// An automatic scaling policy for a core instance group or task instance group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group dynamically adds and terminates Amazon EC2 instances in response to the value of a CloudWatch metric. See PutAutoScalingPolicy.
         public let autoScalingPolicy: AutoScalingPolicy?
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         ///  Amazon EMR releases 4.x or later.  The list of configurations supplied for an Amazon EMR cluster instance group. You can specify a separate configuration for each instance group (master, core, and task).
         public let configurations: [Configuration]?
@@ -2921,7 +2969,7 @@ extension EMR {
     }
 
     public struct InstanceGroupDetail: AWSDecodableShape {
-        /// If specified, indicates that the instance group uses Spot Instances. This is the maximum price you are willing to pay for Spot Instances. Specify OnDemandPrice to set the amount equal to the On-Demand price, or specify an amount in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The date/time the instance group was created.
         public let creationDateTime: Date?
@@ -3232,7 +3280,7 @@ extension EMR {
     }
 
     public struct InstanceTypeSpecification: AWSDecodableShape {
-        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD.
+        /// The bid price for each Amazon EC2 Spot Instance type as defined by InstanceType. Expressed in USD. If neither BidPrice nor BidPriceAsPercentageOfOnDemandPrice is provided, BidPriceAsPercentageOfOnDemandPrice defaults to 100%.
         public let bidPrice: String?
         /// The bid price, as a percentage of On-Demand price, for each Amazon EC2 Spot Instance as defined by InstanceType. Expressed as a number (for example, 20 specifies 20%).
         public let bidPriceAsPercentageOfOnDemandPrice: Double?
@@ -4294,6 +4342,24 @@ extension EMR {
         }
     }
 
+    public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// CloudWatch log configuration settings and metadata that specify settings like log files to monitor and where to send them.
+        public let cloudWatchLogConfiguration: CloudWatchLogConfiguration?
+
+        @inlinable
+        public init(cloudWatchLogConfiguration: CloudWatchLogConfiguration? = nil) {
+            self.cloudWatchLogConfiguration = cloudWatchLogConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogConfiguration?.validate(name: "\(name).cloudWatchLogConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogConfiguration = "CloudWatchLogConfiguration"
+        }
+    }
+
     public struct NotebookExecution: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the notebook execution.
         public let arn: String?
@@ -4959,6 +5025,8 @@ extension EMR {
         public let logUri: String?
         ///  The specified managed scaling policy for an Amazon EMR cluster.
         public let managedScalingPolicy: ManagedScalingPolicy?
+        /// Contains CloudWatch log configuration metadata and settings.
+        public let monitoringConfiguration: MonitoringConfiguration?
         /// The name of the job flow.
         public let name: String?
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. Amazon EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
@@ -4989,7 +5057,7 @@ extension EMR {
         public let visibleToAllUsers: Bool?
 
         @inlinable
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, extendedSupport: Bool? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeIops: Int? = nil, ebsRootVolumeSize: Int? = nil, ebsRootVolumeThroughput: Int? = nil, extendedSupport: Bool? = nil, instances: JobFlowInstancesConfig? = nil, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, newSupportedProducts: [SupportedProductConfig]? = nil, osReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -5008,6 +5076,7 @@ extension EMR {
             self.logEncryptionKmsKeyId = logEncryptionKmsKeyId
             self.logUri = logUri
             self.managedScalingPolicy = managedScalingPolicy
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.newSupportedProducts = newSupportedProducts
             self.osReleaseLabel = osReleaseLabel
@@ -5045,6 +5114,7 @@ extension EMR {
             try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
             try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.managedScalingPolicy?.validate(name: "\(name).managedScalingPolicy")
+            try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.newSupportedProducts?.forEach {
@@ -5086,6 +5156,7 @@ extension EMR {
             case logEncryptionKmsKeyId = "LogEncryptionKmsKeyId"
             case logUri = "LogUri"
             case managedScalingPolicy = "ManagedScalingPolicy"
+            case monitoringConfiguration = "MonitoringConfiguration"
             case name = "Name"
             case newSupportedProducts = "NewSupportedProducts"
             case osReleaseLabel = "OSReleaseLabel"
@@ -5118,6 +5189,31 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "ClusterArn"
             case jobFlowId = "JobFlowId"
+        }
+    }
+
+    public struct S3MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3 destination.
+        public let encryptionKeyArn: String?
+        /// The Amazon S3 destination URI for log publishing.
+        public let logUri: String?
+
+        @inlinable
+        public init(encryptionKeyArn: String? = nil, logUri: String? = nil) {
+            self.encryptionKeyArn = encryptionKeyArn
+            self.logUri = logUri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 10280)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.logUri, name: "logUri", parent: name, max: 10280)
+            try self.validate(self.logUri, name: "logUri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionKeyArn = "EncryptionKeyArn"
+            case logUri = "LogUri"
         }
     }
 
@@ -5634,21 +5730,27 @@ extension EMR {
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3  destination.
+        public let encryptionKeyArn: String?
         /// The Amazon Resource Name (ARN) of the runtime role for a step on the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a combination of account ID, role name, and role type using the following format: arn:partition:service:region:account:resource.  For example, arn:aws:IAM::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
         public let executionRoleArn: String?
         /// The identifier of the cluster step.
         public let id: String?
+        /// The Amazon S3 destination URI for log publishing.
+        public let logUri: String?
         /// The name of the cluster step.
         public let name: String?
         /// The current execution status details of the cluster step.
         public let status: StepStatus?
 
         @inlinable
-        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, executionRoleArn: String? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, executionRoleArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
             self.actionOnFailure = actionOnFailure
             self.config = config
+            self.encryptionKeyArn = encryptionKeyArn
             self.executionRoleArn = executionRoleArn
             self.id = id
+            self.logUri = logUri
             self.name = name
             self.status = status
         }
@@ -5656,8 +5758,10 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
             case config = "Config"
+            case encryptionKeyArn = "EncryptionKeyArn"
             case executionRoleArn = "ExecutionRoleArn"
             case id = "Id"
+            case logUri = "LogUri"
             case name = "Name"
             case status = "Status"
         }
@@ -5670,24 +5774,29 @@ extension EMR {
         public let hadoopJarStep: HadoopJarStepConfig?
         /// The name of the step.
         public let name: String?
+        /// Object that holds configuration properties for logging.
+        public let stepMonitoringConfiguration: StepMonitoringConfiguration?
 
         @inlinable
-        public init(actionOnFailure: ActionOnFailure? = nil, hadoopJarStep: HadoopJarStepConfig? = nil, name: String? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, hadoopJarStep: HadoopJarStepConfig? = nil, name: String? = nil, stepMonitoringConfiguration: StepMonitoringConfiguration? = nil) {
             self.actionOnFailure = actionOnFailure
             self.hadoopJarStep = hadoopJarStep
             self.name = name
+            self.stepMonitoringConfiguration = stepMonitoringConfiguration
         }
 
         public func validate(name: String) throws {
             try self.hadoopJarStep?.validate(name: "\(name).hadoopJarStep")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.stepMonitoringConfiguration?.validate(name: "\(name).stepMonitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
             case hadoopJarStep = "HadoopJarStep"
             case name = "Name"
+            case stepMonitoringConfiguration = "StepMonitoringConfiguration"
         }
     }
 
@@ -5736,6 +5845,24 @@ extension EMR {
             case lastStateChangeReason = "LastStateChangeReason"
             case startDateTime = "StartDateTime"
             case state = "State"
+        }
+    }
+
+    public struct StepMonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 configuration for monitoring log publishing. You can configure your step to send log information  to Amazon S3. When it's specified, it takes precedence over the cluster's logging configuration. If you don't specify this  configuration entirely, or omit individual fields, EMR falls back to cluster-level logging behavior.
+        public let s3MonitoringConfiguration: S3MonitoringConfiguration?
+
+        @inlinable
+        public init(s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+            self.s3MonitoringConfiguration = s3MonitoringConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3MonitoringConfiguration = "S3MonitoringConfiguration"
         }
     }
 
@@ -5788,18 +5915,24 @@ extension EMR {
         public let actionOnFailure: ActionOnFailure?
         /// The Hadoop job configuration of the cluster step.
         public let config: HadoopStepConfig?
+        /// The KMS key ARN to encrypt the logs published to the given Amazon S3  destination.
+        public let encryptionKeyArn: String?
         /// The identifier of the cluster step.
         public let id: String?
+        /// The Amazon S3 destination URI for log publishing.
+        public let logUri: String?
         /// The name of the cluster step.
         public let name: String?
         /// The current execution status details of the cluster step.
         public let status: StepStatus?
 
         @inlinable
-        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, id: String? = nil, name: String? = nil, status: StepStatus? = nil) {
+        public init(actionOnFailure: ActionOnFailure? = nil, config: HadoopStepConfig? = nil, encryptionKeyArn: String? = nil, id: String? = nil, logUri: String? = nil, name: String? = nil, status: StepStatus? = nil) {
             self.actionOnFailure = actionOnFailure
             self.config = config
+            self.encryptionKeyArn = encryptionKeyArn
             self.id = id
+            self.logUri = logUri
             self.name = name
             self.status = status
         }
@@ -5807,7 +5940,9 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case actionOnFailure = "ActionOnFailure"
             case config = "Config"
+            case encryptionKeyArn = "EncryptionKeyArn"
             case id = "Id"
+            case logUri = "LogUri"
             case name = "Name"
             case status = "Status"
         }

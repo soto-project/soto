@@ -733,7 +733,7 @@ extension Budgets {
             try self.definition.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.resourceTags?.forEach {
                 try $0.validate(name: "\(name).resourceTags[]")
             }
@@ -1862,7 +1862,7 @@ extension Budgets {
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
             try self.validate(self.policyArn, name: "policyArn", parent: name, max: 684)
             try self.validate(self.policyArn, name: "policyArn", parent: name, min: 25)
-            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.policyArn, name: "policyArn", parent: name, pattern: "^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.roles?.forEach {
                 try validate($0, name: "roles[]", parent: name, max: 576)
                 try validate($0, name: "roles[]", parent: name, min: 1)
@@ -2103,7 +2103,7 @@ extension Budgets {
             try self.validate(self.instanceIds, name: "instanceIds", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, max: 20)
             try self.validate(self.region, name: "region", parent: name, min: 9)
-            try self.validate(self.region, name: "region", parent: name, pattern: "^\\w{2}-\\w+(-\\w+)?-\\d$")
+            try self.validate(self.region, name: "region", parent: name, pattern: "^\\w{2,4}-\\w+(-\\w+)?-\\d$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2303,7 +2303,7 @@ extension Budgets {
             try self.definition?.validate(name: "\(name).definition")
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 618)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 32)
-            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws(-eusc|-cn|-us-gov|-iso|-iso-[a-z]{1})?:iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
             try self.subscribers?.forEach {
                 try $0.validate(name: "\(name).subscribers[]")
             }
@@ -2522,7 +2522,7 @@ public struct BudgetsErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     public static var resourceLockedException: Self { .init(.resourceLockedException) }
-    /// You've reached the limit on the number of tags you can associate with a resource.
+    /// You've reached a Service Quota limit on this resource.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
     public static var throttlingException: Self { .init(.throttlingException) }

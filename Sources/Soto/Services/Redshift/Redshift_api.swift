@@ -560,6 +560,7 @@ public struct Redshift: AWSService {
     ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: 1  Constraints: Must be a value from 0 to 35.
     ///   - availabilityZone: The EC2 Availability Zone (AZ) in which you want Amazon Redshift to provision the cluster. For example, if you have several EC2 instances running in a specific Availability Zone, then you might want the cluster to be provisioned in the same zone in order to decrease network latency. Default: A random, system-chosen Availability Zone in the region that is specified by the endpoint. Example: us-east-2d  Constraint: The specified Availability Zone must be in the same region as the current endpoint.
     ///   - availabilityZoneRelocation: The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is created.
+    ///   - catalogName: The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
     ///   - clusterIdentifier: A unique identifier for the cluster. You use this identifier to refer to the cluster for any subsequent cluster operations such as deleting or modifying. The identifier also appears in the Amazon Redshift console. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.   Example: myexamplecluster
     ///   - clusterParameterGroupName: The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups  Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
     ///   - clusterSecurityGroups: A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift.
@@ -602,6 +603,7 @@ public struct Redshift: AWSService {
         automatedSnapshotRetentionPeriod: Int? = nil,
         availabilityZone: String? = nil,
         availabilityZoneRelocation: Bool? = nil,
+        catalogName: String? = nil,
         clusterIdentifier: String? = nil,
         clusterParameterGroupName: String? = nil,
         clusterSecurityGroups: [String]? = nil,
@@ -644,6 +646,7 @@ public struct Redshift: AWSService {
             automatedSnapshotRetentionPeriod: automatedSnapshotRetentionPeriod, 
             availabilityZone: availabilityZone, 
             availabilityZoneRelocation: availabilityZoneRelocation, 
+            catalogName: catalogName, 
             clusterIdentifier: clusterIdentifier, 
             clusterParameterGroupName: clusterParameterGroupName, 
             clusterSecurityGroups: clusterSecurityGroups, 
@@ -1122,6 +1125,7 @@ public struct Redshift: AWSService {
     /// Creates an Amazon Redshift application for use with IAM Identity Center.
     ///
     /// Parameters:
+    ///   - applicationType: The type of application being created. Valid values are None or Lakehouse. Use Lakehouse to enable Amazon Redshift federated permissions on cluster.
     ///   - authorizedTokenIssuerList: The token issuer list for the Amazon Redshift IAM Identity Center application instance.
     ///   - iamRoleArn: The IAM role ARN for the Amazon Redshift IAM Identity Center application instance. It has the required permissions  to be assumed and invoke the IDC Identity Center API.
     ///   - idcDisplayName: The display name for the Amazon Redshift IAM Identity Center application instance. It appears in the console.
@@ -1134,6 +1138,7 @@ public struct Redshift: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createRedshiftIdcApplication(
+        applicationType: ApplicationType? = nil,
         authorizedTokenIssuerList: [AuthorizedTokenIssuer]? = nil,
         iamRoleArn: String? = nil,
         idcDisplayName: String? = nil,
@@ -1146,6 +1151,7 @@ public struct Redshift: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateRedshiftIdcApplicationResult {
         let input = CreateRedshiftIdcApplicationMessage(
+            applicationType: applicationType, 
             authorizedTokenIssuerList: authorizedTokenIssuerList, 
             iamRoleArn: iamRoleArn, 
             idcDisplayName: idcDisplayName, 
@@ -3989,6 +3995,35 @@ public struct Redshift: AWSService {
         return try await self.getClusterCredentialsWithIAM(input, logger: logger)
     }
 
+    /// Generates an encrypted authentication token that propagates the caller's  Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the  Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token  that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be  decrypted by the specified Amazon Redshift clusters. The token contains the caller's  Amazon Web Services IAM Identity Center identity information and is valid for a limited time period. This API is exclusively for use with Amazon Web Services IAM Identity Center enhanced credentials. If the  caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will  return an error.
+    @Sendable
+    @inlinable
+    public func getIdentityCenterAuthToken(_ input: GetIdentityCenterAuthTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityCenterAuthTokenResponse {
+        try await self.client.execute(
+            operation: "GetIdentityCenterAuthToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates an encrypted authentication token that propagates the caller's  Amazon Web Services IAM Identity Center identity to Amazon Redshift clusters. This API extracts the  Amazon Web Services IAM Identity Center identity from enhanced credentials and creates a secure token  that Amazon Redshift drivers can use for authentication. The token is encrypted using Key Management Service (KMS) and can only be  decrypted by the specified Amazon Redshift clusters. The token contains the caller's  Amazon Web Services IAM Identity Center identity information and is valid for a limited time period. This API is exclusively for use with Amazon Web Services IAM Identity Center enhanced credentials. If the  caller is not using enhanced credentials with embedded Amazon Web Services IAM Identity Center identity, the API will  return an error.
+    ///
+    /// Parameters:
+    ///   - clusterIds: A list of cluster identifiers that the generated token can be used with.  The token will be scoped to only allow authentication to the specified clusters. Constraints:    ClusterIds must contain at least 1 cluster identifier.    ClusterIds can hold a maximum of 20 cluster identifiers.   Cluster identifiers must be 1 to 63 characters in length.   The characters accepted for cluster identifiers are the following:   Alphanumeric characters   Hyphens     Cluster identifiers must start with a letter.   Cluster identifiers can't end with a hyphen or contain two consecutive hyphens.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getIdentityCenterAuthToken(
+        clusterIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetIdentityCenterAuthTokenResponse {
+        let input = GetIdentityCenterAuthTokenRequest(
+            clusterIds: clusterIds
+        )
+        return try await self.getIdentityCenterAuthToken(input, logger: logger)
+    }
+
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
     @Sendable
     @inlinable
@@ -4721,6 +4756,50 @@ public struct Redshift: AWSService {
         return try await self.modifyIntegration(input, logger: logger)
     }
 
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    @Sendable
+    @inlinable
+    public func modifyLakehouseConfiguration(_ input: ModifyLakehouseConfigurationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> LakehouseConfiguration {
+        try await self.client.execute(
+            operation: "ModifyLakehouseConfiguration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the lakehouse configuration for a cluster. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
+    ///
+    /// Parameters:
+    ///   - catalogName: The name of the Glue data catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
+    ///   - clusterIdentifier: The unique identifier of the cluster whose lakehouse configuration you want to modify.
+    ///   - dryRun: A boolean value that, if true, validates the request without actually modifying the lakehouse configuration. Use this to check for errors before making changes.
+    ///   - lakehouseIdcApplicationArn: The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
+    ///   - lakehouseIdcRegistration: Modifies the Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions. Valid values are Associate or Disassociate.
+    ///   - lakehouseRegistration: Specifies whether to register or deregister the cluster with Amazon Redshift federated permissions. Valid values are Register or Deregister.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyLakehouseConfiguration(
+        catalogName: String? = nil,
+        clusterIdentifier: String? = nil,
+        dryRun: Bool? = nil,
+        lakehouseIdcApplicationArn: String? = nil,
+        lakehouseIdcRegistration: LakehouseIdcRegistration? = nil,
+        lakehouseRegistration: LakehouseRegistration? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> LakehouseConfiguration {
+        let input = ModifyLakehouseConfigurationMessage(
+            catalogName: catalogName, 
+            clusterIdentifier: clusterIdentifier, 
+            dryRun: dryRun, 
+            lakehouseIdcApplicationArn: lakehouseIdcApplicationArn, 
+            lakehouseIdcRegistration: lakehouseIdcRegistration, 
+            lakehouseRegistration: lakehouseRegistration
+        )
+        return try await self.modifyLakehouseConfiguration(input, logger: logger)
+    }
+
     /// Changes an existing Amazon Redshift IAM Identity Center application.
     @Sendable
     @inlinable
@@ -5222,6 +5301,7 @@ public struct Redshift: AWSService {
     ///   - automatedSnapshotRetentionPeriod: The number of days that automated snapshots are retained. If the value is 0, automated snapshots are disabled. Even if automated snapshots are disabled, you can still create manual snapshots when you want with CreateClusterSnapshot.  You can't disable automated snapshots for RA3 node types. Set the automated retention period from 1-35 days. Default: The value selected for the cluster from which the snapshot was taken. Constraints: Must be a value from 0 to 35.
     ///   - availabilityZone: The Amazon EC2 Availability Zone in which to restore the cluster. Default: A random, system-chosen Availability Zone. Example: us-east-2a
     ///   - availabilityZoneRelocation: The option to enable relocation for an Amazon Redshift cluster between Availability Zones after the cluster is restored.
+    ///   - catalogName: The name of the Glue Data Catalog that will be associated with the cluster enabled with Amazon Redshift federated permissions. Constraints:   Must contain at least one lowercase letter.   Can only contain lowercase letters (a-z), numbers (0-9), underscores (_), and hyphens (-).   Pattern: ^[a-z0-9_-]*[a-z]+[a-z0-9_-]*$  Example: my-catalog_01
     ///   - clusterIdentifier: The identifier of the cluster that will be created from restoring the snapshot. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
     ///   - clusterParameterGroupName: The name of the parameter group to be associated with this cluster. Default: The default Amazon Redshift cluster parameter group. For information about the default parameter group, go to Working with Amazon Redshift Parameter Groups. Constraints:   Must be 1 to 255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
     ///   - clusterSecurityGroups: A list of security groups to be associated with this cluster. Default: The default cluster security group for Amazon Redshift. Cluster security groups only apply to clusters outside of VPCs.
@@ -5246,6 +5326,7 @@ public struct Redshift: AWSService {
     ///   - port: The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be  within the ranges 5431-5455 or 8191-8215.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi  Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see Maintenance Windows in Amazon Redshift Cluster Management Guide.  Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     ///   - publiclyAccessible: If true, the cluster can be accessed from a public network.  Default: false
+    ///   - redshiftIdcApplicationArn: The Amazon Resource Name (ARN) of the IAM Identity Center application used for enabling Amazon Web Services IAM Identity Center trusted identity propagation on a cluster enabled with Amazon Redshift federated permissions.
     ///   - reservedNodeId: The identifier of the target reserved node offering.
     ///   - snapshotArn: The Amazon Resource Name (ARN) of the snapshot associated with the message to restore from a cluster. You must specify this parameter or snapshotIdentifier, but not both.
     ///   - snapshotClusterIdentifier: The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
@@ -5262,6 +5343,7 @@ public struct Redshift: AWSService {
         automatedSnapshotRetentionPeriod: Int? = nil,
         availabilityZone: String? = nil,
         availabilityZoneRelocation: Bool? = nil,
+        catalogName: String? = nil,
         clusterIdentifier: String? = nil,
         clusterParameterGroupName: String? = nil,
         clusterSecurityGroups: [String]? = nil,
@@ -5286,6 +5368,7 @@ public struct Redshift: AWSService {
         port: Int? = nil,
         preferredMaintenanceWindow: String? = nil,
         publiclyAccessible: Bool? = nil,
+        redshiftIdcApplicationArn: String? = nil,
         reservedNodeId: String? = nil,
         snapshotArn: String? = nil,
         snapshotClusterIdentifier: String? = nil,
@@ -5302,6 +5385,7 @@ public struct Redshift: AWSService {
             automatedSnapshotRetentionPeriod: automatedSnapshotRetentionPeriod, 
             availabilityZone: availabilityZone, 
             availabilityZoneRelocation: availabilityZoneRelocation, 
+            catalogName: catalogName, 
             clusterIdentifier: clusterIdentifier, 
             clusterParameterGroupName: clusterParameterGroupName, 
             clusterSecurityGroups: clusterSecurityGroups, 
@@ -5326,6 +5410,7 @@ public struct Redshift: AWSService {
             port: port, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
             publiclyAccessible: publiclyAccessible, 
+            redshiftIdcApplicationArn: redshiftIdcApplicationArn, 
             reservedNodeId: reservedNodeId, 
             snapshotArn: snapshotArn, 
             snapshotClusterIdentifier: snapshotClusterIdentifier, 

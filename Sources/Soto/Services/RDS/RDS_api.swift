@@ -668,11 +668,12 @@ public struct RDS: AWSService {
     /// Creates a custom DB engine version (CEV).
     ///
     /// Parameters:
+    ///   - databaseInstallationFiles: The database installation files (ISO and EXE) uploaded to Amazon S3 for your database engine version to import to Amazon RDS.
     ///   - databaseInstallationFilesS3BucketName: The name of an Amazon S3 bucket that contains database installation files for your CEV. For example, a valid  bucket name is my-custom-installation-files.
     ///   - databaseInstallationFilesS3Prefix: The Amazon S3 directory that contains the database installation files for your CEV. For example, a valid  bucket name is 123456789012/cev1. If this setting isn't specified, no prefix is assumed.
     ///   - description: An optional description of your CEV.
-    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb
-    ///   - engineVersion: The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
+    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb    RDS Custom for SQL Server supports the following values:    custom-sqlserver-ee     custom-sqlserver-se     ccustom-sqlserver-web     custom-sqlserver-dev    RDS for SQL Server supports only sqlserver-dev-ee.
+    ///   - engineVersion: The name of your custom engine version (CEV). For RDS Custom for Oracle, the name format is 19.*customized_string*. For example, a valid CEV name is 19.my_cev1. For RDS for SQL Server and RDS Custom for SQL Server, the name format is major engine_version*.*minor_engine_version*.*customized_string*. For example, a valid CEV name is 16.00.4215.2.my_cev1. The CEV name is unique per customer per Amazon Web Services Regions.
     ///   - imageId: The ID of the Amazon Machine Image (AMI). For RDS Custom for SQL Server, an AMI ID is required  to create a CEV. For RDS Custom for Oracle, the default is the most recent AMI available,  but you can specify an AMI ID that was used in a different Oracle CEV. Find the AMIs  used by your CEVs by calling the DescribeDBEngineVersions operation.
     ///   - kmsKeyId: The Amazon Web Services KMS key identifier for an encrypted CEV. A symmetric encryption KMS key is required for  RDS Custom, but optional for Amazon RDS. If you have an existing symmetric encryption KMS key in your account, you can use it with RDS Custom.  No further action is necessary. If you don't already have a symmetric encryption KMS key in your account,  follow the instructions in  Creating a symmetric encryption KMS key in the Amazon Web Services Key Management Service Developer Guide. You can choose the same symmetric encryption key when you create a CEV and a DB instance, or choose different keys.
     ///   - manifest: The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3.  Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which  they are listed. The following JSON fields are valid:  MediaImportTemplateVersion  Version of the CEV manifest. The date is in the format YYYY-MM-DD.  databaseInstallationFileNames  Ordered list of installation files for the CEV.  opatchFileNames  Ordered list of OPatch installers used for the Oracle DB engine.  psuRuPatchFileNames  The PSU and RU patches for this CEV.  OtherPatchFileNames  The patches that are not in the list of PSU and RU patches.  Amazon RDS applies these patches after applying the PSU and RU patches.   For more information, see  Creating the CEV manifest in the Amazon RDS User Guide.
@@ -682,6 +683,7 @@ public struct RDS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createCustomDBEngineVersion(
+        databaseInstallationFiles: [String]? = nil,
         databaseInstallationFilesS3BucketName: String? = nil,
         databaseInstallationFilesS3Prefix: String? = nil,
         description: String? = nil,
@@ -696,6 +698,7 @@ public struct RDS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DBEngineVersion {
         let input = CreateCustomDBEngineVersionMessage(
+            databaseInstallationFiles: databaseInstallationFiles, 
             databaseInstallationFilesS3BucketName: databaseInstallationFilesS3BucketName, 
             databaseInstallationFilesS3Prefix: databaseInstallationFilesS3Prefix, 
             description: description, 
@@ -775,7 +778,7 @@ public struct RDS: AWSService {
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  To view the time blocks available, see   Backup window in the Amazon Aurora User Guide. Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. To see the time blocks available, see   Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide. Constraints:   Must be in the format ddd:hh24:mi-ddd:hh24:mi.   Days must be one of Mon | Tue | Wed | Thu | Fri | Sat | Sun.   Must be in Universal Coordinated Time (UTC).   Must be at least 30 minutes.
     ///   - preSignedUrl: When you are replicating a DB cluster from one Amazon Web Services GovCloud (US) Region to another, an URL that contains a Signature Version 4 signed request for the CreateDBCluster operation to be called in the source Amazon Web Services Region where the DB cluster is replicated from. Specify PreSignedUrl only when you are performing cross-Region replication from an encrypted DB cluster. The presigned URL must be a valid request for the CreateDBCluster API operation that can run in the source Amazon Web Services Region that contains the encrypted DB cluster to copy. The presigned URL request must contain the following parameter values:    KmsKeyId - The KMS key identifier for the KMS key to use to encrypt the copy of the DB cluster in the destination Amazon Web Services Region. This should refer to the same KMS key for both the CreateDBCluster operation that is called in the destination Amazon Web Services Region, and the operation contained in the presigned URL.    DestinationRegion - The name of the Amazon Web Services Region that Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied.  This identifier must be in the Amazon Resource Name (ARN) format for the source Amazon Web Services Region. For example, if you are copying an  encrypted DB cluster from the us-west-2 Amazon Web Services Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see   Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.  Valid for Cluster Type: Aurora DB clusters only
-    ///   - publiclyAccessible: Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC),  its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster,  the endpoint resolves to the private IP address. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB cluster is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster is public.
+    ///   - publiclyAccessible: Specifies whether the DB cluster is publicly accessible. Valid for Cluster Type: Multi-AZ DB clusters only When the DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB cluster, the endpoint resolves to the private IP address. Access to the DB cluster is controlled by its security group settings. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to true. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     ///   - rdsCustomClusterConfiguration: Reserved for future use.
     ///   - replicationSourceIdentifier: The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - scalingConfiguration: For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster. Valid for Cluster Type: Aurora DB clusters only
@@ -783,6 +786,7 @@ public struct RDS: AWSService {
     ///   - storageEncrypted: Specifies whether the DB cluster is encrypted. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Aurora DB clusters, see Storage configurations for Amazon Aurora DB clusters. For information on storage types for Multi-AZ DB clusters, see Settings for creating Multi-AZ DB clusters. This setting is required to create a Multi-AZ DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:   Aurora DB clusters - aurora | aurora-iopt1    Multi-AZ DB clusters - io1 | io2 | gp3    Default:   Aurora DB clusters - aurora    Multi-AZ DB clusters - io1     When you create an Aurora DB cluster with the storage type set to aurora-iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to aurora.
     ///   - tags: Tags to assign to the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB cluster. Valid Values:     cluster-auto-backup - The DB cluster's automated backup.
     ///   - vpcSecurityGroupIds: A list of EC2 VPC security groups to associate with this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     ///   - logger: Logger use during operation
     @inlinable
@@ -843,6 +847,7 @@ public struct RDS: AWSService {
         storageEncrypted: Bool? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDBClusterResult {
@@ -903,6 +908,7 @@ public struct RDS: AWSService {
             storageEncrypted: storageEncrypted, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
         return try await self.createDBCluster(input, logger: logger)
@@ -1041,6 +1047,7 @@ public struct RDS: AWSService {
     /// Creates a new DB instance. The new DB instance can be an RDS DB instance, or it can be a DB instance in an Aurora DB cluster.  For an Aurora DB cluster, you can call this operation multiple times to add more than one DB instance  to the cluster. For more information about creating an RDS DB instance, see  Creating an Amazon RDS DB instance in the Amazon RDS User Guide. For more information about creating a DB instance in an Aurora DB cluster, see   Creating an Amazon Aurora DB cluster in the Amazon Aurora User Guide.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your  database increases, though you are only charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.    RDS for Db2  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.    RDS for MariaDB  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for MySQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for Oracle  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    RDS for PostgreSQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for SQL Server  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1, io2):   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
     ///   - autoMinorVersionUpgrade: Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
     ///   - availabilityZone: The Availability Zone (AZ) where the database will be created. For information on Amazon Web Services Regions and Availability Zones, see  Regions and Availability Zones. For Amazon Aurora, each Aurora DB cluster hosts copies of its storage in three separate Availability Zones. Specify one of these  Availability Zones. Aurora automatically chooses an appropriate Availability Zone if you don't specify one. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Constraints:   The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.   The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.   Example: us-east-1d
@@ -1071,7 +1078,7 @@ public struct RDS: AWSService {
     ///   - enableCustomerOwnedIp: Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
     ///   - enableIAMDatabaseAuthentication: Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. This setting doesn't apply to the following DB instances:   Amazon Aurora (Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster.)   RDS Custom
     ///   - enablePerformanceInsights: Specifies whether to enable Performance Insights for the DB instance. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
-    ///   - engine: The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-oracle-se2 (for RDS Custom for Oracle DB instances)    custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
+    ///   - engine: The database engine to use for this DB instance. Not every database engine is available in every Amazon Web Services Region. Valid Values:    aurora-mysql (for Aurora MySQL DB instances)    aurora-postgresql (for Aurora PostgreSQL DB instances)    custom-oracle-ee (for RDS Custom for Oracle DB instances)    custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)    custom-oracle-se2 (for RDS Custom for Oracle DB instances)    custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)    custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)    custom-sqlserver-se (for RDS Custom for SQL Server DB instances)    custom-sqlserver-web (for RDS Custom for SQL Server DB instances)    custom-sqlserver-dev (for RDS Custom for SQL Server DB instances)    db2-ae     db2-se     mariadb     mysql     oracle-ee     oracle-ee-cdb     oracle-se2     oracle-se2-cdb     postgres     sqlserver-dev-ee     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
     ///   - engineLifecycleSupport: The life cycle type for this DB instance.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB instance into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  creating the DB instance will fail if the DB major version is past its end of standard support date.  This setting applies only to RDS for MySQL and RDS for PostgreSQL. For Amazon Aurora DB instances, the life cycle type is managed by the DB cluster. You can use this setting to enroll your DB instance into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB instance past the end of standard support for that engine version. For more information, see Amazon RDS Extended Support with Amazon RDS in the Amazon RDS User Guide. Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
     ///   - engineVersion: The version number of the database engine to use. This setting doesn't apply to Amazon Aurora DB instances. The version number of the database engine the DB instance uses is managed by the DB cluster. For a list of valid engine versions, use the DescribeDBEngineVersions operation. The following are the database engines and links to information about the major and minor versions that are available with  Amazon RDS. Not every database engine is available for every Amazon Web Services Region.  Amazon RDS Custom for Oracle  A custom engine version (CEV) that you have previously created. This setting is required for RDS Custom for Oracle. The CEV  name has the following format: 19.customized_string. A valid CEV name is   19.my_cev1. For more information, see  Creating an RDS Custom for Oracle DB instance in the Amazon RDS User Guide.  Amazon RDS Custom for SQL Server  See RDS Custom for SQL Server general requirements  in the Amazon RDS User Guide.  RDS for Db2  For information, see Db2 on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for MariaDB  For information, see MariaDB on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Microsoft SQL Server  For information, see Microsoft SQL Server versions on Amazon RDS in the  Amazon RDS User Guide.  RDS for MySQL  For information, see MySQL on Amazon RDS versions in the  Amazon RDS User Guide.  RDS for Oracle  For information, see Oracle Database Engine release notes in the  Amazon RDS User Guide.  RDS for PostgreSQL  For information, see Amazon RDS for PostgreSQL versions and extensions in the  Amazon RDS User Guide.
     ///   - iops: The amount of Provisioned IOPS (input/output operations per second) to initially allocate for the DB instance. For information about valid IOPS values, see  Amazon RDS DB instance storage  in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Constraints:   For RDS for Db2, MariaDB, MySQL, Oracle, and PostgreSQL - Must be a multiple between .5 and 50  of the storage amount for the DB instance.   For RDS for SQL Server - Must be a multiple between 1 and 50 of the storage amount for the DB instance.
@@ -1097,11 +1104,12 @@ public struct RDS: AWSService {
     ///   - preferredMaintenanceWindow: The time range each week during which system maintenance can occur.  For more information, see Amazon RDS Maintenance Window  in the Amazon RDS User Guide.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Constraints:   Must be in the format ddd:hh24:mi-ddd:hh24:mi.   The day values must be mon | tue | wed | thu | fri | sat | sun.    Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred backup window.   Must be at least 30 minutes.
     ///   - processorFeatures: The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     ///   - promotionTier: The order of priority in which an Aurora Replica is promoted to the primary instance  after a failure of the existing primary instance. For more information,  see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. This setting doesn't apply to RDS Custom DB instances. Default: 1  Valid Values: 0 - 15
-    ///   - publiclyAccessible: Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC),  its Domain Name System (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance,  the endpoint resolves to the private IP address. Access to the DB instance is ultimately controlled by the security group it uses.  That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB instance is private.   If the default VPC in the target Region has an internet gateway attached to it, the DB instance is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB instance is private.   If the subnets are part of a VPC that has an internet gateway attached to it, the DB instance is public.
+    ///   - publiclyAccessible: Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible and you connect from outside of the DB instance's virtual private cloud (VPC), its domain name system (DNS) endpoint resolves to the public IP address. When you connect from within the same VPC as the DB instance, the endpoint resolves to the private IP address. Access to the DB instance is controlled by its security group settings. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. The default behavior when PubliclyAccessible is not specified depends on whether a DBSubnetGroup is specified. If DBSubnetGroup isn't specified, PubliclyAccessible defaults to false for Aurora instances and true for non-Aurora instances. If DBSubnetGroup is specified, PubliclyAccessible defaults to false unless the value of DBSubnetGroup is default, in which case PubliclyAccessible defaults to true. If PubliclyAccessible is true and the VPC that the DBSubnetGroup is in doesn't have an internet gateway attached to it, Amazon RDS returns an error.
     ///   - storageEncrypted: Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The encryption for DB instances is managed by the DB cluster.
     ///   - storageThroughput: The storage throughput value, in mebibyte per second (MiBps), for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     ///   - storageType: The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp3.
     ///   - tags: Tags to assign to the DB instance.
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom DB instances.
     ///   - timezone: The time zone of the DB instance.  The time zone parameter is currently supported only by RDS for Db2 and RDS for SQL Server.
@@ -1109,6 +1117,7 @@ public struct RDS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createDBInstance(
+        additionalStorageVolumes: [AdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         availabilityZone: String? = nil,
@@ -1170,6 +1179,7 @@ public struct RDS: AWSService {
         storageThroughput: Int? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         tdeCredentialArn: String? = nil,
         tdeCredentialPassword: String? = nil,
         timezone: String? = nil,
@@ -1177,6 +1187,7 @@ public struct RDS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDBInstanceResult {
         let input = CreateDBInstanceMessage(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             availabilityZone: availabilityZone, 
@@ -1238,6 +1249,7 @@ public struct RDS: AWSService {
             storageThroughput: storageThroughput, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             tdeCredentialArn: tdeCredentialArn, 
             tdeCredentialPassword: tdeCredentialPassword, 
             timezone: timezone, 
@@ -1262,6 +1274,7 @@ public struct RDS: AWSService {
     /// Creates a new DB instance that acts as a read replica for an existing source DB instance or Multi-AZ DB cluster. You can create a read replica for a DB instance running Db2, MariaDB, MySQL, Oracle, PostgreSQL, or SQL Server. You can create a read replica for a Multi-AZ DB cluster running MySQL or PostgreSQL. For more information, see Working with read replicas and Migrating from a Multi-AZ DB cluster to a DB instance using a read replica in the Amazon RDS User Guide. Amazon Aurora doesn't support this operation. To create a DB instance for an Aurora DB cluster, use the CreateDBInstance operation. RDS creates read replicas with backups disabled. All other attributes (including DB security groups and DB parameter groups) are inherited from the source DB instance or cluster, except as specified.  Your source DB instance or cluster must have backup retention enabled.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
     ///   - autoMinorVersionUpgrade: Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
     ///   - availabilityZone: The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
@@ -1306,12 +1319,14 @@ public struct RDS: AWSService {
     ///   - storageThroughput: Specifies the storage throughput value for the read replica. This setting doesn't apply to RDS Custom or Amazon Aurora DB instances.
     ///   - storageType: The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1 if the Iops parameter is specified. Otherwise, gp3.
     ///   - tags: 
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - upgradeStorageConfig: Whether to upgrade the storage file system configuration on the read replica. This option migrates the read replica from the old storage file system layout to the preferred layout.
     ///   - useDefaultProcessorFeatures: Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom DB instances.
     ///   - vpcSecurityGroupIds: A list of Amazon EC2 VPC security groups to associate with the read replica. This setting doesn't apply to RDS Custom DB instances. Default: The default EC2 VPC security group for the DB subnet group's VPC.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDBInstanceReadReplica(
+        additionalStorageVolumes: [AdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         availabilityZone: String? = nil,
@@ -1356,12 +1371,14 @@ public struct RDS: AWSService {
         storageThroughput: Int? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         upgradeStorageConfig: Bool? = nil,
         useDefaultProcessorFeatures: Bool? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDBInstanceReadReplicaResult {
         let input = CreateDBInstanceReadReplicaMessage(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             availabilityZone: availabilityZone, 
@@ -1406,6 +1423,7 @@ public struct RDS: AWSService {
             storageThroughput: storageThroughput, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             upgradeStorageConfig: upgradeStorageConfig, 
             useDefaultProcessorFeatures: useDefaultProcessorFeatures, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
@@ -2010,7 +2028,7 @@ public struct RDS: AWSService {
     /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites:   The CEV must not be the default for RDS Custom. If it is, change the default  before running this command.   The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot,  or automated backup of your RDS Custom instance.   Typically, deletion takes a few minutes.  The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with  Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the  DeleteCustomDbEngineVersion event aren't logged. However, you might see calls from the  API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for  the DeleteCustomDbEngineVersion event.  For more information, see Deleting a CEV in the Amazon RDS User Guide.
     ///
     /// Parameters:
-    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb
+    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb    RDS Custom for SQL Server supports the following values:    custom-sqlserver-ee     custom-sqlserver-se     ccustom-sqlserver-web     custom-sqlserver-dev    RDS for SQL Server supports only sqlserver-dev-ee.
     ///   - engineVersion: The custom engine version (CEV) for your DB instance. This option is required for  RDS Custom, but optional for Amazon RDS. The combination of Engine and  EngineVersion is unique per customer per Amazon Web Services Region.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4854,7 +4872,7 @@ public struct RDS: AWSService {
     ///
     /// Parameters:
     ///   - description: An optional description of your CEV.
-    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb
+    ///   - engine: The database engine. RDS Custom for Oracle supports the following values:    custom-oracle-ee     custom-oracle-ee-cdb     custom-oracle-se2     custom-oracle-se2-cdb    RDS Custom for SQL Server supports the following values:    custom-sqlserver-ee     custom-sqlserver-se     ccustom-sqlserver-web     custom-sqlserver-dev    RDS for SQL Server supports only sqlserver-dev-ee.
     ///   - engineVersion: The custom engine version (CEV) that you want to modify. This option is required for  RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and  EngineVersion is unique per customer per Amazon Web Services Region.
     ///   - status: The availability status to be assigned to the CEV. Valid values are as follows:  available  You can use this CEV to create a new RDS Custom DB instance.  inactive  You can create a new RDS Custom instance by restoring a DB snapshot with this CEV.  You can't patch or create new instances with this CEV.   You can change any status to any status. A typical reason to change status is to prevent the accidental  use of a CEV, or to make a deprecated CEV eligible for use again. For example, you might change the status  of your CEV from available to inactive, and from inactive back to  available. To change the availability status of the CEV, it must not currently be in use by an  RDS Custom instance, snapshot, or automated backup.
     ///   - logger: Logger use during operation
@@ -5166,6 +5184,7 @@ public struct RDS: AWSService {
     /// Modifies settings for a DB instance.  You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call DescribeValidDBInstanceModifications before you call ModifyDBInstance.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to modify or delete for the DB instance. You can create up to 3 additional storage volumes. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL,  the value supplied must be at least 10% greater than the current value.  Values that are not at least 10% greater than the existing value are rounded up  so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance. Constraints:   When you increase the allocated storage for a DB instance that uses Provisioned IOPS (gp3, io1, or io2 storage type), you must also specify the Iops parameter. You can use the current value for Iops.
     ///   - allowMajorVersionUpgrade: Specifies whether major version upgrades are allowed. Changing this parameter doesn't  result in an outage and the change is asynchronously applied as soon as possible. This setting doesn't apply to RDS Custom DB instances. Constraints:   Major version upgrades must be allowed when specifying a value  for the EngineVersion parameter that's a different major version than the DB instance's current version.
     ///   - applyImmediately: Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible,  regardless of the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is disabled. If this parameter is disabled, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in  Modifying a DB Instance in the  Amazon RDS User Guide to see the impact of enabling or disabling ApplyImmediately for each modified parameter and to  determine when the changes are applied.
@@ -5192,7 +5211,7 @@ public struct RDS: AWSService {
     ///   - domainDnsIps: The IPv4 DNS IP addresses of your primary and secondary Active Directory domain controllers. Constraints:   Two IP addresses must be provided.  If there isn't a secondary domain controller, use the IP address of the primary domain controller for both entries in the list.   Example: 123.124.125.126,234.235.236.237
     ///   - domainFqdn: The fully qualified domain name (FQDN) of an Active Directory domain. Constraints:   Can't be longer than 64 characters.   Example: mymanagedADtest.mymanagedAD.mydomain
     ///   - domainIAMRoleName: The name of the IAM role to use when making API calls to the Directory Service. This setting doesn't apply to RDS Custom DB instances.
-    ///   - domainOu: The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Can't be longer than 64 characters.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
+    ///   - domainOu: The Active Directory organizational unit for your DB instance to join. Constraints:   Must be in the distinguished name format.   Example: OU=mymanagedADtestOU,DC=mymanagedADtest,DC=mymanagedAD,DC=mydomain
     ///   - enableCustomerOwnedIp: Specifies whether to enable a customer-owned IP address (CoIP) for an RDS on Outposts DB instance. A CoIP provides local or external connectivity to resources in your Outpost subnets through your on-premises network. For some use cases, a CoIP can provide lower latency for connections to the DB instance from outside of its virtual private cloud (VPC) on your local network. For more information about RDS on Outposts, see Working with Amazon RDS on Amazon Web Services Outposts  in the Amazon RDS User Guide. For more information about CoIPs, see Customer-owned IP addresses  in the Amazon Web Services Outposts User Guide.
     ///   - enableIAMDatabaseAuthentication: Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. This setting doesn't apply to Amazon Aurora. Mapping Amazon Web Services IAM accounts to database accounts is managed by the DB cluster. For more information about IAM database authentication, see   IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.  This setting doesn't apply to RDS Custom DB instances.
     ///   - enablePerformanceInsights: Specifies whether to enable Performance Insights for the DB instance. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom DB instances.
@@ -5224,6 +5243,7 @@ public struct RDS: AWSService {
     ///   - rotateMasterUserPassword: Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
     ///   - storageThroughput: The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     ///   - storageType: The storage type to associate with the DB instance. If you specify io1, io2, or gp3  you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to gp2 (General Purpose SSD), gp3, or Provisioned IOPS (io1), or from these storage types to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom DB instances.
     ///   - useDefaultProcessorFeatures: Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom DB instances.
@@ -5231,6 +5251,7 @@ public struct RDS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyDBInstance(
+        additionalStorageVolumes: [ModifyAdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         allowMajorVersionUpgrade: Bool? = nil,
         applyImmediately: Bool? = nil,
@@ -5289,6 +5310,7 @@ public struct RDS: AWSService {
         rotateMasterUserPassword: Bool? = nil,
         storageThroughput: Int? = nil,
         storageType: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         tdeCredentialArn: String? = nil,
         tdeCredentialPassword: String? = nil,
         useDefaultProcessorFeatures: Bool? = nil,
@@ -5296,6 +5318,7 @@ public struct RDS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyDBInstanceResult {
         let input = ModifyDBInstanceMessage(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             allowMajorVersionUpgrade: allowMajorVersionUpgrade, 
             applyImmediately: applyImmediately, 
@@ -5354,6 +5377,7 @@ public struct RDS: AWSService {
             rotateMasterUserPassword: rotateMasterUserPassword, 
             storageThroughput: storageThroughput, 
             storageType: storageType, 
+            tagSpecifications: tagSpecifications, 
             tdeCredentialArn: tdeCredentialArn, 
             tdeCredentialPassword: tdeCredentialPassword, 
             useDefaultProcessorFeatures: useDefaultProcessorFeatures, 
@@ -5928,18 +5952,21 @@ public struct RDS: AWSService {
     ///   - backupRetentionPeriod: The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to read replicas.
     ///   - dbInstanceIdentifier: The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing read replica DB instance.   Example: mydbinstance
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  To see the time blocks available, see   Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - logger: Logger use during operation
     @inlinable
     public func promoteReadReplica(
         backupRetentionPeriod: Int? = nil,
         dbInstanceIdentifier: String? = nil,
         preferredBackupWindow: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PromoteReadReplicaResult {
         let input = PromoteReadReplicaMessage(
             backupRetentionPeriod: backupRetentionPeriod, 
             dbInstanceIdentifier: dbInstanceIdentifier, 
-            preferredBackupWindow: preferredBackupWindow
+            preferredBackupWindow: preferredBackupWindow, 
+            tagSpecifications: tagSpecifications
         )
         return try await self.promoteReadReplica(input, logger: logger)
     }
@@ -6427,6 +6454,7 @@ public struct RDS: AWSService {
     ///   - storageEncrypted: Specifies whether the restored DB cluster is encrypted.
     ///   - storageType: Specifies the storage type to be associated with the DB cluster. Valid Values: aurora, aurora-iopt1  Default: aurora  Valid for: Aurora DB clusters only
     ///   - tags: 
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB cluster. Valid Values:     cluster-auto-backup - The DB cluster's automated backup.
     ///   - vpcSecurityGroupIds: A list of EC2 VPC security groups to associate with the restored DB cluster.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6467,6 +6495,7 @@ public struct RDS: AWSService {
         storageEncrypted: Bool? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBClusterFromS3Result {
@@ -6507,6 +6536,7 @@ public struct RDS: AWSService {
             storageEncrypted: storageEncrypted, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
         return try await self.restoreDBClusterFromS3(input, logger: logger)
@@ -6562,6 +6592,7 @@ public struct RDS: AWSService {
     ///   - snapshotIdentifier: The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - storageType: Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - tags: The tags to be assigned to the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB cluster. Valid Values:     cluster-auto-backup - The DB cluster's automated backup.
     ///   - vpcSecurityGroupIds: A list of VPC security groups that the new DB cluster will belong to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - logger: Logger use during operation
     @inlinable
@@ -6600,6 +6631,7 @@ public struct RDS: AWSService {
         snapshotIdentifier: String? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBClusterFromSnapshotResult {
@@ -6638,6 +6670,7 @@ public struct RDS: AWSService {
             snapshotIdentifier: snapshotIdentifier, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
         return try await self.restoreDBClusterFromSnapshot(input, logger: logger)
@@ -6692,6 +6725,7 @@ public struct RDS: AWSService {
     ///   - sourceDbClusterResourceId: The resource ID of the source DB cluster from which to restore.
     ///   - storageType: Specifies the storage type to be associated with the DB cluster. When specified for a Multi-AZ DB cluster, a value for the Iops parameter is required. Valid Values: aurora, aurora-iopt1 (Aurora DB clusters); io1 (Multi-AZ DB clusters) Default: aurora (Aurora DB clusters); io1 (Multi-AZ DB clusters) Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - tags: 
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB cluster. Valid Values:     cluster-auto-backup - The DB cluster's automated backup.
     ///   - useLatestRestorableTime: Specifies whether to restore the DB cluster to the latest  restorable backup time. By default, the DB cluster isn't restored to the latest  restorable backup time. Constraints: Can't be specified if RestoreToTime parameter is provided. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - vpcSecurityGroupIds: A list of VPC security groups that the new DB cluster belongs to. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     ///   - logger: Logger use during operation
@@ -6730,6 +6764,7 @@ public struct RDS: AWSService {
         sourceDbClusterResourceId: String? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         useLatestRestorableTime: Bool? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -6768,6 +6803,7 @@ public struct RDS: AWSService {
             sourceDbClusterResourceId: sourceDbClusterResourceId, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             useLatestRestorableTime: useLatestRestorableTime, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
@@ -6790,6 +6826,7 @@ public struct RDS: AWSService {
     /// Creates a new DB instance from a DB snapshot. The target database is created from the source database restore point with most of the source's original configuration, including the default security group and DB parameter group. By default, the new DB instance is created as a Single-AZ deployment, except when the instance is a SQL Server instance that has an option group associated with mirroring. In this case, the instance becomes a Multi-AZ deployment, not a Single-AZ deployment. If you want to replace your original DB instance with the new, restored DB instance, then rename your original DB instance before you call the RestoreDBInstanceFromDBSnapshot operation. RDS doesn't allow two DB instances with the same name. After you have renamed your original DB instance with a different identifier, then you can pass the original name of the DB instance as the DBInstanceIdentifier in the call to the RestoreDBInstanceFromDBSnapshot operation. The result is that you replace the original DB instance with the DB instance created from the snapshot. If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot. To restore from a DB snapshot with an unsupported engine version, you must first upgrade the  engine version of the snapshot. For more information about upgrading a RDS for MySQL DB snapshot engine version, see Upgrading a MySQL DB snapshot engine version.  For more information about upgrading a RDS for PostgreSQL DB snapshot engine version, Upgrading a PostgreSQL DB snapshot engine version.  This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to create for the DB instance. You can create up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     ///   - autoMinorVersionUpgrade: Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
     ///   - availabilityZone: The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
@@ -6830,6 +6867,7 @@ public struct RDS: AWSService {
     ///   - storageThroughput: Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     ///   - storageType: Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp3
     ///   - tags: 
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom.
     ///   - useDefaultProcessorFeatures: Specifies whether the DB instance class of the DB instance uses its default processor features. This setting doesn't apply to RDS Custom.
@@ -6837,6 +6875,7 @@ public struct RDS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreDBInstanceFromDBSnapshot(
+        additionalStorageVolumes: [AdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         availabilityZone: String? = nil,
@@ -6877,6 +6916,7 @@ public struct RDS: AWSService {
         storageThroughput: Int? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         tdeCredentialArn: String? = nil,
         tdeCredentialPassword: String? = nil,
         useDefaultProcessorFeatures: Bool? = nil,
@@ -6884,6 +6924,7 @@ public struct RDS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBInstanceFromDBSnapshotResult {
         let input = RestoreDBInstanceFromDBSnapshotMessage(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             availabilityZone: availabilityZone, 
@@ -6924,6 +6965,7 @@ public struct RDS: AWSService {
             storageThroughput: storageThroughput, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             tdeCredentialArn: tdeCredentialArn, 
             tdeCredentialPassword: tdeCredentialPassword, 
             useDefaultProcessorFeatures: useDefaultProcessorFeatures, 
@@ -6948,6 +6990,7 @@ public struct RDS: AWSService {
     /// Amazon Relational Database Service (Amazon RDS)  supports importing MySQL databases by using backup files.  You can create a backup of your on-premises database,  store it on Amazon Simple Storage Service (Amazon S3),  and then restore the backup file onto a new Amazon RDS DB instance running MySQL. For more information, see Restoring a backup into an Amazon RDS for MySQL DB instance  in the Amazon RDS User Guide.  This operation doesn't apply to RDS Custom.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to modify or delete for the DB instance. You can modify or delete up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     ///   - autoMinorVersionUpgrade: Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
     ///   - availabilityZone: The Availability Zone that the DB instance is created in.  For information about Amazon Web Services Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.  The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
@@ -6998,11 +7041,13 @@ public struct RDS: AWSService {
     ///   - storageThroughput: Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     ///   - storageType: Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  If you specify io1, io2, or gp3,  you must also include a value for the Iops parameter. Default: io1  if the Iops parameter is specified;  otherwise gp2
     ///   - tags: A list of tags to associate with this DB instance. For more information, see Tagging Amazon RDS Resources in the Amazon RDS User Guide.
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - useDefaultProcessorFeatures: Specifies whether the DB instance class of the DB instance uses its default processor features.
     ///   - vpcSecurityGroupIds: A list of VPC security groups to associate with this DB instance.
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreDBInstanceFromS3(
+        additionalStorageVolumes: [AdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         availabilityZone: String? = nil,
@@ -7053,11 +7098,13 @@ public struct RDS: AWSService {
         storageThroughput: Int? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         useDefaultProcessorFeatures: Bool? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBInstanceFromS3Result {
         let input = RestoreDBInstanceFromS3Message(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             availabilityZone: availabilityZone, 
@@ -7108,6 +7155,7 @@ public struct RDS: AWSService {
             storageThroughput: storageThroughput, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             useDefaultProcessorFeatures: useDefaultProcessorFeatures, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )
@@ -7130,6 +7178,7 @@ public struct RDS: AWSService {
     /// Restores a DB instance to an arbitrary point in time. You can restore to any point in time before the time identified by the LatestRestorableTime property. You can restore to a point up to the number of days specified by the BackupRetentionPeriod property. The target database is created with most of the original configuration, but in a system-selected Availability Zone, with the default security group, the default subnet group, and the default DB parameter group. By default, the new DB instance is created as a single-AZ deployment except when the instance is a SQL Server instance that has an option group that is associated with mirroring; in this case, the instance becomes a mirrored deployment and not a single-AZ deployment.  This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
     ///
     /// Parameters:
+    ///   - additionalStorageVolumes: A list of additional storage volumes to restore to the DB instance. You can restore up to three additional storage volumes using the names rdsdbdata2, rdsdbdata3, and rdsdbdata4. Additional storage volumes are supported for RDS for Oracle and RDS for SQL Server DB instances only.
     ///   - allocatedStorage: The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
     ///   - autoMinorVersionUpgrade: Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
     ///   - availabilityZone: The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.   Example: us-east-1a
@@ -7172,6 +7221,7 @@ public struct RDS: AWSService {
     ///   - storageThroughput: The storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     ///   - storageType: The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp3. Constraints:   If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     ///   - tags: 
+    ///   - tagSpecifications: Tags to assign to resources associated with the DB instance. Valid Values:     auto-backup - The DB instance's automated backup.
     ///   - targetDBInstanceIdentifier: The name of the new DB instance to create. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
     ///   - tdeCredentialArn: The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom.
     ///   - tdeCredentialPassword: The password for the given ARN from the key store in order to access the device. This setting doesn't apply to RDS Custom.
@@ -7181,6 +7231,7 @@ public struct RDS: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func restoreDBInstanceToPointInTime(
+        additionalStorageVolumes: [AdditionalStorageVolume]? = nil,
         allocatedStorage: Int? = nil,
         autoMinorVersionUpgrade: Bool? = nil,
         availabilityZone: String? = nil,
@@ -7223,6 +7274,7 @@ public struct RDS: AWSService {
         storageThroughput: Int? = nil,
         storageType: String? = nil,
         tags: [Tag]? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
         targetDBInstanceIdentifier: String? = nil,
         tdeCredentialArn: String? = nil,
         tdeCredentialPassword: String? = nil,
@@ -7232,6 +7284,7 @@ public struct RDS: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RestoreDBInstanceToPointInTimeResult {
         let input = RestoreDBInstanceToPointInTimeMessage(
+            additionalStorageVolumes: additionalStorageVolumes, 
             allocatedStorage: allocatedStorage, 
             autoMinorVersionUpgrade: autoMinorVersionUpgrade, 
             availabilityZone: availabilityZone, 
@@ -7274,6 +7327,7 @@ public struct RDS: AWSService {
             storageThroughput: storageThroughput, 
             storageType: storageType, 
             tags: tags, 
+            tagSpecifications: tagSpecifications, 
             targetDBInstanceIdentifier: targetDBInstanceIdentifier, 
             tdeCredentialArn: tdeCredentialArn, 
             tdeCredentialPassword: tdeCredentialPassword, 
@@ -7444,6 +7498,7 @@ public struct RDS: AWSService {
     ///   - kmsKeyId: The Amazon Web Services KMS key identifier for encryption of the replicated automated backups. The KMS key ID is the Amazon Resource Name (ARN) for the KMS encryption key in the destination Amazon Web Services Region, for example,  arn:aws:kms:us-east-1:123456789012:key/AKIAIOSFODNN7EXAMPLE.
     ///   - preSignedUrl: In an Amazon Web Services GovCloud (US) Region, an URL that contains a Signature Version 4 signed request  for the StartDBInstanceAutomatedBackupsReplication operation to call  in the Amazon Web Services Region of the source DB instance. The presigned URL must be a valid request for the StartDBInstanceAutomatedBackupsReplication API operation that can run in  the Amazon Web Services Region that contains the source DB instance. This setting applies only to Amazon Web Services GovCloud (US) Regions. It's ignored in other Amazon Web Services Regions. To learn how to generate a Signature Version 4 signed request, see   Authenticating Requests: Using Query Parameters (Amazon Web Services Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an Amazon Web Services SDK tool or the CLI, you can specify SourceRegion (or --source-region for the CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can run in the source Amazon Web Services Region.
     ///   - sourceDBInstanceArn: The Amazon Resource Name (ARN) of the source DB instance for the replicated automated backups, for example,  arn:aws:rds:us-west-2:123456789012:db:mydatabase.
+    ///   - tags: A list of tags to associate with the replicated automated backups.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDBInstanceAutomatedBackupsReplication(
@@ -7451,13 +7506,15 @@ public struct RDS: AWSService {
         kmsKeyId: String? = nil,
         preSignedUrl: String? = nil,
         sourceDBInstanceArn: String? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDBInstanceAutomatedBackupsReplicationResult {
         let input = StartDBInstanceAutomatedBackupsReplicationMessage(
             backupRetentionPeriod: backupRetentionPeriod, 
             kmsKeyId: kmsKeyId, 
             preSignedUrl: preSignedUrl, 
-            sourceDBInstanceArn: sourceDBInstanceArn
+            sourceDBInstanceArn: sourceDBInstanceArn, 
+            tags: tags
         )
         return try await self.startDBInstanceAutomatedBackupsReplication(input, logger: logger)
     }

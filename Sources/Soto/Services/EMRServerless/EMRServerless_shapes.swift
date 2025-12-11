@@ -823,26 +823,33 @@ extension EMRServerless {
         public let identityCenterApplicationArn: String?
         /// The ARN of the IAM Identity Center instance.
         public let identityCenterInstanceArn: String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public let userBackgroundSessionsEnabled: Bool?
 
         @inlinable
-        public init(identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil) {
+        public init(identityCenterApplicationArn: String? = nil, identityCenterInstanceArn: String? = nil, userBackgroundSessionsEnabled: Bool? = nil) {
             self.identityCenterApplicationArn = identityCenterApplicationArn
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case identityCenterApplicationArn = "identityCenterApplicationArn"
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case userBackgroundSessionsEnabled = "userBackgroundSessionsEnabled"
         }
     }
 
     public struct IdentityCenterConfigurationInput: AWSEncodableShape {
         /// The ARN of the IAM Identity Center instance.
         public let identityCenterInstanceArn: String?
+        /// Enables user background sessions for this application so Livy sessions can continue running after users log out of their interactive notebook or their Identity Center sessions expire.
+        public let userBackgroundSessionsEnabled: Bool?
 
         @inlinable
-        public init(identityCenterInstanceArn: String? = nil) {
+        public init(identityCenterInstanceArn: String? = nil, userBackgroundSessionsEnabled: Bool? = nil) {
             self.identityCenterInstanceArn = identityCenterInstanceArn
+            self.userBackgroundSessionsEnabled = userBackgroundSessionsEnabled
         }
 
         public func validate(name: String) throws {
@@ -853,6 +860,7 @@ extension EMRServerless {
 
         private enum CodingKeys: String, CodingKey {
             case identityCenterInstanceArn = "identityCenterInstanceArn"
+            case userBackgroundSessionsEnabled = "userBackgroundSessionsEnabled"
         }
     }
 

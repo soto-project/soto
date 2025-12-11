@@ -108,6 +108,41 @@ public struct Odb: AWSService {
         return try await self.acceptMarketplaceRegistration(input, logger: logger)
     }
 
+    /// Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
+    @Sendable
+    @inlinable
+    public func associateIamRoleToResource(_ input: AssociateIamRoleToResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateIamRoleToResourceOutput {
+        try await self.client.execute(
+            operation: "AssociateIamRoleToResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates an Amazon Web Services Identity and Access Management (IAM) service role with a specified resource to enable Amazon Web Services service integration.
+    ///
+    /// Parameters:
+    ///   - awsIntegration: The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role association.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to associate with the resource.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the target resource to associate with the Amazon Web Services Identity and Access Management (IAM) service role.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateIamRoleToResource(
+        awsIntegration: SupportedAwsIntegration,
+        iamRoleArn: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateIamRoleToResourceOutput {
+        let input = AssociateIamRoleToResourceInput(
+            awsIntegration: awsIntegration, 
+            iamRoleArn: iamRoleArn, 
+            resourceArn: resourceArn
+        )
+        return try await self.associateIamRoleToResource(input, logger: logger)
+    }
+
     /// Creates a new Autonomous VM cluster in the specified Exadata infrastructure.
     @Sendable
     @inlinable
@@ -357,11 +392,16 @@ public struct Odb: AWSService {
     ///   - backupSubnetCidr: The CIDR range of the backup subnet for the ODB network. Constraints:   Must not overlap with the CIDR range of the client subnet.   Must not overlap with the CIDR ranges of the VPCs that are connected to the ODB network.   Must not use the following CIDR ranges that are reserved by OCI:    100.106.0.0/16 and 100.107.0.0/16     169.254.0.0/16     224.0.0.0 - 239.255.255.255     240.0.0.0 - 255.255.255.255
     ///   - clientSubnetCidr: The CIDR range of the client subnet for the ODB network. Constraints:   Must not overlap with the CIDR range of the backup subnet.   Must not overlap with the CIDR ranges of the VPCs that are connected to the ODB network.   Must not use the following CIDR ranges that are reserved by OCI:    100.106.0.0/16 and 100.107.0.0/16     169.254.0.0/16     224.0.0.0 - 239.255.255.255     240.0.0.0 - 255.255.255.255
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you don't specify a client token, the Amazon Web Services SDK automatically generates a client token and uses it for the request to ensure idempotency. The client token is valid for up to 24 hours after it's first used.
+    ///   - crossRegionS3RestoreSourcesToEnable: The cross-Region Amazon S3 restore sources to enable for the ODB network.
     ///   - customDomainName: The domain name to use for the resources in the ODB network.
     ///   - defaultDnsPrefix: The DNS prefix to the default DNS domain name. The default DNS domain name is oraclevcn.com.
     ///   - displayName: A user-friendly name for the ODB network.
+    ///   - kmsAccess: The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+    ///   - kmsPolicyDocument: The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
     ///   - s3Access: Specifies the configuration for Amazon S3 access from the ODB network.
     ///   - s3PolicyDocument: Specifies the endpoint policy for Amazon S3 access from the ODB network.
+    ///   - stsAccess: The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+    ///   - stsPolicyDocument: The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
     ///   - tags: The list of resource tags to apply to the ODB network.
     ///   - zeroEtlAccess: Specifies the configuration for Zero-ETL access from the ODB network.
     ///   - logger: Logger use during operation
@@ -372,11 +412,16 @@ public struct Odb: AWSService {
         backupSubnetCidr: String? = nil,
         clientSubnetCidr: String,
         clientToken: String? = CreateOdbNetworkInput.idempotencyToken(),
+        crossRegionS3RestoreSourcesToEnable: [String]? = nil,
         customDomainName: String? = nil,
         defaultDnsPrefix: String? = nil,
         displayName: String,
+        kmsAccess: Access? = nil,
+        kmsPolicyDocument: String? = nil,
         s3Access: Access? = nil,
         s3PolicyDocument: String? = nil,
+        stsAccess: Access? = nil,
+        stsPolicyDocument: String? = nil,
         tags: [String: String]? = nil,
         zeroEtlAccess: Access? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -387,11 +432,16 @@ public struct Odb: AWSService {
             backupSubnetCidr: backupSubnetCidr, 
             clientSubnetCidr: clientSubnetCidr, 
             clientToken: clientToken, 
+            crossRegionS3RestoreSourcesToEnable: crossRegionS3RestoreSourcesToEnable, 
             customDomainName: customDomainName, 
             defaultDnsPrefix: defaultDnsPrefix, 
             displayName: displayName, 
+            kmsAccess: kmsAccess, 
+            kmsPolicyDocument: kmsPolicyDocument, 
             s3Access: s3Access, 
             s3PolicyDocument: s3PolicyDocument, 
+            stsAccess: stsAccess, 
+            stsPolicyDocument: stsPolicyDocument, 
             tags: tags, 
             zeroEtlAccess: zeroEtlAccess
         )
@@ -588,6 +638,41 @@ public struct Odb: AWSService {
             odbPeeringConnectionId: odbPeeringConnectionId
         )
         return try await self.deleteOdbPeeringConnection(input, logger: logger)
+    }
+
+    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
+    @Sendable
+    @inlinable
+    public func disassociateIamRoleFromResource(_ input: DisassociateIamRoleFromResourceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateIamRoleFromResourceOutput {
+        try await self.client.execute(
+            operation: "DisassociateIamRoleFromResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates an Amazon Web Services Identity and Access Management (IAM) service role from a specified resource to disable Amazon Web Services service integration.
+    ///
+    /// Parameters:
+    ///   - awsIntegration: The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role disassociation.
+    ///   - iamRoleArn: The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role to disassociate from the resource.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the target resource to disassociate from the Amazon Web Services Identity and Access Management (IAM) service role.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateIamRoleFromResource(
+        awsIntegration: SupportedAwsIntegration,
+        iamRoleArn: String,
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateIamRoleFromResourceOutput {
+        let input = DisassociateIamRoleFromResourceInput(
+            awsIntegration: awsIntegration, 
+            iamRoleArn: iamRoleArn, 
+            resourceArn: resourceArn
+        )
+        return try await self.disassociateIamRoleFromResource(input, logger: logger)
     }
 
     /// Gets information about a specific Autonomous VM cluster.
@@ -873,12 +958,15 @@ public struct Odb: AWSService {
     /// Initializes the ODB service for the first time in an account.
     ///
     /// Parameters:
+    ///   - ociIdentityDomain: The Oracle Cloud Infrastructure (OCI) identity domain configuration for service initialization.
     ///   - logger: Logger use during operation
     @inlinable
     public func initializeService(
+        ociIdentityDomain: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InitializeServiceOutput {
         let input = InitializeServiceInput(
+            ociIdentityDomain: ociIdentityDomain
         )
         return try await self.initializeService(input, logger: logger)
     }
@@ -1505,32 +1593,50 @@ public struct Odb: AWSService {
     /// Updates properties of a specified ODB network.
     ///
     /// Parameters:
+    ///   - crossRegionS3RestoreSourcesToDisable: The cross-Region Amazon S3 restore sources to disable for the ODB network.
+    ///   - crossRegionS3RestoreSourcesToEnable: The cross-Region Amazon S3 restore sources to enable for the ODB network.
     ///   - displayName: The new user-friendly name of the ODB network.
+    ///   - kmsAccess: The Amazon Web Services Key Management Service (KMS) access configuration for the ODB network.
+    ///   - kmsPolicyDocument: The Amazon Web Services Key Management Service (KMS) policy document that defines permissions for key usage within the ODB network.
     ///   - odbNetworkId: The unique identifier of the ODB network to update.
     ///   - peeredCidrsToBeAdded: The list of CIDR ranges from the peered VPC that allow access to the ODB network.
     ///   - peeredCidrsToBeRemoved: The list of CIDR ranges from the peered VPC to remove from the ODB network.
     ///   - s3Access: Specifies the updated configuration for Amazon S3 access from the ODB network.
     ///   - s3PolicyDocument: Specifies the updated endpoint policy for Amazon S3 access from the ODB network.
+    ///   - stsAccess: The Amazon Web Services Security Token Service (STS) access configuration for the ODB network.
+    ///   - stsPolicyDocument: The Amazon Web Services Security Token Service (STS) policy document that defines permissions for token service usage within the ODB network.
     ///   - zeroEtlAccess: Specifies the updated configuration for Zero-ETL access from the ODB network.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateOdbNetwork(
+        crossRegionS3RestoreSourcesToDisable: [String]? = nil,
+        crossRegionS3RestoreSourcesToEnable: [String]? = nil,
         displayName: String? = nil,
+        kmsAccess: Access? = nil,
+        kmsPolicyDocument: String? = nil,
         odbNetworkId: String,
         peeredCidrsToBeAdded: [String]? = nil,
         peeredCidrsToBeRemoved: [String]? = nil,
         s3Access: Access? = nil,
         s3PolicyDocument: String? = nil,
+        stsAccess: Access? = nil,
+        stsPolicyDocument: String? = nil,
         zeroEtlAccess: Access? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateOdbNetworkOutput {
         let input = UpdateOdbNetworkInput(
+            crossRegionS3RestoreSourcesToDisable: crossRegionS3RestoreSourcesToDisable, 
+            crossRegionS3RestoreSourcesToEnable: crossRegionS3RestoreSourcesToEnable, 
             displayName: displayName, 
+            kmsAccess: kmsAccess, 
+            kmsPolicyDocument: kmsPolicyDocument, 
             odbNetworkId: odbNetworkId, 
             peeredCidrsToBeAdded: peeredCidrsToBeAdded, 
             peeredCidrsToBeRemoved: peeredCidrsToBeRemoved, 
             s3Access: s3Access, 
             s3PolicyDocument: s3PolicyDocument, 
+            stsAccess: stsAccess, 
+            stsPolicyDocument: stsPolicyDocument, 
             zeroEtlAccess: zeroEtlAccess
         )
         return try await self.updateOdbNetwork(input, logger: logger)

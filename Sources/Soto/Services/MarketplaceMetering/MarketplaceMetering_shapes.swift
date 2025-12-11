@@ -81,6 +81,8 @@ extension MarketplaceMetering {
     }
 
     public struct MeterUsageRequest: AWSEncodableShape {
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotencyConflictException error.
+        public let clientToken: String?
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
         public let dryRun: Bool?
         /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -95,7 +97,8 @@ extension MarketplaceMetering {
         public let usageQuantity: Int?
 
         @inlinable
-        public init(dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil) {
+        public init(clientToken: String? = MeterUsageRequest.idempotencyToken(), dryRun: Bool? = nil, productCode: String, timestamp: Date, usageAllocations: [UsageAllocation]? = nil, usageDimension: String, usageQuantity: Int? = nil) {
+            self.clientToken = clientToken
             self.dryRun = dryRun
             self.productCode = productCode
             self.timestamp = timestamp
@@ -105,6 +108,8 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
             try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
@@ -121,6 +126,7 @@ extension MarketplaceMetering {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case dryRun = "DryRun"
             case productCode = "ProductCode"
             case timestamp = "Timestamp"
@@ -297,7 +303,7 @@ extension MarketplaceMetering {
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public let quantity: Int?
-        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
         public let usageAllocations: [UsageAllocation]?
@@ -372,6 +378,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
         case disabledApiException = "DisabledApiException"
         case duplicateRequestException = "DuplicateRequestException"
         case expiredTokenException = "ExpiredTokenException"
+        case idempotencyConflictException = "IdempotencyConflictException"
         case internalServiceErrorException = "InternalServiceErrorException"
         case invalidCustomerIdentifierException = "InvalidCustomerIdentifierException"
         case invalidEndpointRegionException = "InvalidEndpointRegionException"
@@ -413,6 +420,8 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
     /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    /// The ClientToken is being used for multiple requests.
+    public static var idempotencyConflictException: Self { .init(.idempotencyConflictException) }
     /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the Amazon Web Services forums.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// You have metered usage for a CustomerIdentifier that does not exist.

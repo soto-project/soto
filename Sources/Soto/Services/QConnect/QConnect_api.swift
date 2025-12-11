@@ -333,6 +333,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the AI Prompt.
+    ///   - inferenceConfiguration: The inference configuration for the AI Prompt being created.
     ///   - modelId: The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
     ///   - name: The name of the AI Prompt.
     ///   - tags: The tags used to organize, track, or control access for this resource.
@@ -347,6 +348,7 @@ public struct QConnect: AWSService {
         assistantId: String,
         clientToken: String? = CreateAIPromptRequest.idempotencyToken(),
         description: String? = nil,
+        inferenceConfiguration: AIPromptInferenceConfiguration? = nil,
         modelId: String,
         name: String,
         tags: [String: String]? = nil,
@@ -361,6 +363,7 @@ public struct QConnect: AWSService {
             assistantId: assistantId, 
             clientToken: clientToken, 
             description: description, 
+            inferenceConfiguration: inferenceConfiguration, 
             modelId: modelId, 
             name: name, 
             tags: tags, 
@@ -667,19 +670,21 @@ public struct QConnect: AWSService {
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - language: The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
     ///   - name: The name of the message template.
+    ///   - sourceConfiguration: The source configuration of the message template. Only set this argument for WHATSAPP channel subtype.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMessageTemplate(
         channelSubtype: ChannelSubtype,
         clientToken: String? = CreateMessageTemplateRequest.idempotencyToken(),
-        content: MessageTemplateContentProvider,
+        content: MessageTemplateContentProvider? = nil,
         defaultAttributes: MessageTemplateAttributes? = nil,
         description: String? = nil,
         groupingConfiguration: GroupingConfiguration? = nil,
         knowledgeBaseId: String,
         language: String? = nil,
-        name: String,
+        name: String? = nil,
+        sourceConfiguration: MessageTemplateSourceConfiguration? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateMessageTemplateResponse {
@@ -693,6 +698,7 @@ public struct QConnect: AWSService {
             knowledgeBaseId: knowledgeBaseId, 
             language: language, 
             name: name, 
+            sourceConfiguration: sourceConfiguration, 
             tags: tags
         )
         return try await self.createMessageTemplate(input, logger: logger)
@@ -861,6 +867,8 @@ public struct QConnect: AWSService {
     ///   - contactArn: The Amazon Resource Name (ARN) of the email contact in Amazon Connect. Used to retrieve email content and establish session context for AI-powered email assistance.
     ///   - description: The description.
     ///   - name: The name of the session.
+    ///   - orchestratorConfigurationList: The list of orchestrator configurations for the session being created.
+    ///   - removeOrchestratorConfigurationList: The list of orchestrator configurations to remove from the session.
     ///   - tagFilter: An object that can be used to specify Tag conditions.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - logger: Logger use during operation
@@ -872,6 +880,8 @@ public struct QConnect: AWSService {
         contactArn: String? = nil,
         description: String? = nil,
         name: String,
+        orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil,
+        removeOrchestratorConfigurationList: Bool? = nil,
         tagFilter: TagFilter? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -883,6 +893,8 @@ public struct QConnect: AWSService {
             contactArn: contactArn, 
             description: description, 
             name: name, 
+            orchestratorConfigurationList: orchestratorConfigurationList, 
+            removeOrchestratorConfigurationList: removeOrchestratorConfigurationList, 
             tagFilter: tagFilter, 
             tags: tags
         )
@@ -1849,6 +1861,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextChunkToken: The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
+    ///   - recommendationType: The type of recommendation being requested.
     ///   - sessionId: The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - waitTimeSeconds: The duration (in seconds) for which the call waits for a recommendation to be made available before returning. If a recommendation is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list.
     ///   - logger: Logger use during operation
@@ -1858,6 +1871,7 @@ public struct QConnect: AWSService {
         assistantId: String,
         maxResults: Int? = nil,
         nextChunkToken: String? = nil,
+        recommendationType: RecommendationType? = nil,
         sessionId: String,
         waitTimeSeconds: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1866,6 +1880,7 @@ public struct QConnect: AWSService {
             assistantId: assistantId, 
             maxResults: maxResults, 
             nextChunkToken: nextChunkToken, 
+            recommendationType: recommendationType, 
             sessionId: sessionId, 
             waitTimeSeconds: waitTimeSeconds
         )
@@ -2432,6 +2447,7 @@ public struct QConnect: AWSService {
     ///
     /// Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - filter: The filter criteria for listing messages.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - sessionId: The identifier of the Amazon Q in Connect session.
@@ -2439,6 +2455,7 @@ public struct QConnect: AWSService {
     @inlinable
     public func listMessages(
         assistantId: String,
+        filter: MessageFilterType? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         sessionId: String,
@@ -2446,6 +2463,7 @@ public struct QConnect: AWSService {
     ) async throws -> ListMessagesResponse {
         let input = ListMessagesRequest(
             assistantId: assistantId, 
+            filter: filter, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             sessionId: sessionId
@@ -2486,6 +2504,44 @@ public struct QConnect: AWSService {
             nextToken: nextToken
         )
         return try await self.listQuickResponses(input, logger: logger)
+    }
+
+    /// Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
+    @Sendable
+    @inlinable
+    public func listSpans(_ input: ListSpansRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSpansResponse {
+        try await self.client.execute(
+            operation: "ListSpans", 
+            path: "/assistants/{assistantId}/sessions/{sessionId}/spans", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves AI agent execution traces for a session, providing granular visibility into agent orchestration flows, LLM interactions, and tool invocations.
+    ///
+    /// Parameters:
+    ///   - assistantId: UUID or ARN of the Connect AI Assistant resource
+    ///   - maxResults: Maximum number of spans to return per page
+    ///   - nextToken: Pagination token for retrieving the next page of results
+    ///   - sessionId: UUID or ARN of the Connect AI Session resource
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSpans(
+        assistantId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSpansResponse {
+        let input = ListSpansRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sessionId: sessionId
+        )
+        return try await self.listSpans(input, logger: logger)
     }
 
     /// Lists the tags for the specified resource.
@@ -2660,16 +2716,19 @@ public struct QConnect: AWSService {
     /// Parameters:
     ///   - aiAgentType: The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    ///   - orchestratorUseCase: The orchestrator use case for the AI Agent being removed.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeAssistantAIAgent(
         aiAgentType: AIAgentType,
         assistantId: String,
+        orchestratorUseCase: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RemoveAssistantAIAgentResponse {
         let input = RemoveAssistantAIAgentRequest(
             aiAgentType: aiAgentType, 
-            assistantId: assistantId
+            assistantId: assistantId, 
+            orchestratorUseCase: orchestratorUseCase
         )
         return try await self.removeAssistantAIAgent(input, logger: logger)
     }
@@ -2736,6 +2795,41 @@ public struct QConnect: AWSService {
             messageTemplateId: messageTemplateId
         )
         return try await self.renderMessageTemplate(input, logger: logger)
+    }
+
+    /// Retrieves content from knowledge sources based on a query.
+    @Sendable
+    @inlinable
+    public func retrieve(_ input: RetrieveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveResponse {
+        try await self.client.execute(
+            operation: "Retrieve", 
+            path: "/assistants/{assistantId}/retrieve", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves content from knowledge sources based on a query.
+    ///
+    /// Parameters:
+    ///   - assistantId: The identifier of the Amazon Q in Connect assistant for content retrieval.
+    ///   - retrievalConfiguration: The configuration for the content retrieval operation.
+    ///   - retrievalQuery: The query for content retrieval.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func retrieve(
+        assistantId: String,
+        retrievalConfiguration: RetrievalConfiguration,
+        retrievalQuery: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RetrieveResponse {
+        let input = RetrieveRequest(
+            assistantId: assistantId, 
+            retrievalConfiguration: retrievalConfiguration, 
+            retrievalQuery: retrievalQuery
+        )
+        return try await self.retrieve(input, logger: logger)
     }
 
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
@@ -2909,31 +3003,40 @@ public struct QConnect: AWSService {
     /// Submits a message to the Amazon Q in Connect session.
     ///
     /// Parameters:
+    ///   - aiAgentId: The identifier of the AI Agent to use for processing the message.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field.For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - configuration: The configuration of the SendMessage request.
     ///   - conversationContext: The conversation context before the Amazon Q in Connect session.
     ///   - message: The message data to submit to the Amazon Q in Connect session.
+    ///   - metadata: Additional metadata for the message.
+    ///   - orchestratorUseCase: The orchestrator use case for message processing.
     ///   - sessionId: The identifier of the Amazon Q in Connect session.
     ///   - type: The message type.
     ///   - logger: Logger use during operation
     @inlinable
     public func sendMessage(
+        aiAgentId: String? = nil,
         assistantId: String,
         clientToken: String? = SendMessageRequest.idempotencyToken(),
         configuration: MessageConfiguration? = nil,
         conversationContext: ConversationContext? = nil,
         message: MessageInput,
+        metadata: [String: String]? = nil,
+        orchestratorUseCase: String? = nil,
         sessionId: String,
         type: MessageType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SendMessageResponse {
         let input = SendMessageRequest(
+            aiAgentId: aiAgentId, 
             assistantId: assistantId, 
             clientToken: clientToken, 
             configuration: configuration, 
             conversationContext: conversationContext, 
             message: message, 
+            metadata: metadata, 
+            orchestratorUseCase: orchestratorUseCase, 
             sessionId: sessionId, 
             type: type
         )
@@ -3209,6 +3312,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the Amazon Q in Connect AI Prompt.
+    ///   - inferenceConfiguration: The updated inference configuration for the AI Prompt.
     ///   - modelId: The identifier of the model used for this AI Prompt.  For information about which models are supported in each Amazon Web Services Region, see Supported models for system/custom prompts.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
     ///   - visibilityStatus: The visibility status of the Amazon Q in Connect AI prompt.
@@ -3219,6 +3323,7 @@ public struct QConnect: AWSService {
         assistantId: String,
         clientToken: String? = UpdateAIPromptRequest.idempotencyToken(),
         description: String? = nil,
+        inferenceConfiguration: AIPromptInferenceConfiguration? = nil,
         modelId: String? = nil,
         templateConfiguration: AIPromptTemplateConfiguration? = nil,
         visibilityStatus: VisibilityStatus,
@@ -3229,6 +3334,7 @@ public struct QConnect: AWSService {
             assistantId: assistantId, 
             clientToken: clientToken, 
             description: description, 
+            inferenceConfiguration: inferenceConfiguration, 
             modelId: modelId, 
             templateConfiguration: templateConfiguration, 
             visibilityStatus: visibilityStatus
@@ -3255,18 +3361,21 @@ public struct QConnect: AWSService {
     ///   - aiAgentType: The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - configuration: The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
+    ///   - orchestratorConfigurationList: The updated list of orchestrator configurations for the assistant AI Agent.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAssistantAIAgent(
         aiAgentType: AIAgentType,
         assistantId: String,
         configuration: AIAgentConfigurationData,
+        orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAssistantAIAgentResponse {
         let input = UpdateAssistantAIAgentRequest(
             aiAgentType: aiAgentType, 
             assistantId: assistantId, 
-            configuration: configuration
+            configuration: configuration, 
+            orchestratorConfigurationList: orchestratorConfigurationList
         )
         return try await self.updateAssistantAIAgent(input, logger: logger)
     }
@@ -3374,6 +3483,7 @@ public struct QConnect: AWSService {
     ///   - knowledgeBaseId: The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - language: The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
     ///   - messageTemplateId: The identifier of the message template. Can be either the ID or the ARN. It cannot contain any qualifier.
+    ///   - sourceConfiguration: The source configuration of the message template. Only set this argument for WHATSAPP channel subtype.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMessageTemplate(
@@ -3382,6 +3492,7 @@ public struct QConnect: AWSService {
         knowledgeBaseId: String,
         language: String? = nil,
         messageTemplateId: String,
+        sourceConfiguration: MessageTemplateSourceConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMessageTemplateResponse {
         let input = UpdateMessageTemplateRequest(
@@ -3389,7 +3500,8 @@ public struct QConnect: AWSService {
             defaultAttributes: defaultAttributes, 
             knowledgeBaseId: knowledgeBaseId, 
             language: language, 
-            messageTemplateId: messageTemplateId
+            messageTemplateId: messageTemplateId, 
+            sourceConfiguration: sourceConfiguration
         )
         return try await self.updateMessageTemplate(input, logger: logger)
     }
@@ -3522,6 +3634,8 @@ public struct QConnect: AWSService {
     ///   - aiAgentConfiguration: The configuration of the AI Agents (mapped by AI Agent Type to AI Agent version) that should be used by Amazon Q in Connect for this Session.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - description: The description.
+    ///   - orchestratorConfigurationList: The updated list of orchestrator configurations for the session.
+    ///   - removeOrchestratorConfigurationList: The list of orchestrator configurations to remove from the session.
     ///   - sessionId: The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - tagFilter: An object that can be used to specify Tag conditions.
     ///   - logger: Logger use during operation
@@ -3530,6 +3644,8 @@ public struct QConnect: AWSService {
         aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil,
         assistantId: String,
         description: String? = nil,
+        orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil,
+        removeOrchestratorConfigurationList: Bool? = nil,
         sessionId: String,
         tagFilter: TagFilter? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3538,6 +3654,8 @@ public struct QConnect: AWSService {
             aiAgentConfiguration: aiAgentConfiguration, 
             assistantId: assistantId, 
             description: description, 
+            orchestratorConfigurationList: orchestratorConfigurationList, 
+            removeOrchestratorConfigurationList: removeOrchestratorConfigurationList, 
             sessionId: sessionId, 
             tagFilter: tagFilter
         )
@@ -4157,18 +4275,21 @@ extension QConnect {
     ///
     /// - Parameters:
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant.
+    ///   - filter: The filter criteria for listing messages.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - sessionId: The identifier of the Amazon Q in Connect session.
     ///   - logger: Logger used for logging
     @inlinable
     public func listMessagesPaginator(
         assistantId: String,
+        filter: MessageFilterType? = nil,
         maxResults: Int? = nil,
         sessionId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListMessagesRequest, ListMessagesResponse> {
         let input = ListMessagesRequest(
             assistantId: assistantId, 
+            filter: filter, 
             maxResults: maxResults, 
             sessionId: sessionId
         )
@@ -4210,6 +4331,46 @@ extension QConnect {
             maxResults: maxResults
         )
         return self.listQuickResponsesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSpans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSpansPaginator(
+        _ input: ListSpansRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSpansRequest, ListSpansResponse> {
+        return .init(
+            input: input,
+            command: self.listSpans,
+            inputKey: \ListSpansRequest.nextToken,
+            outputKey: \ListSpansResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSpans(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - assistantId: UUID or ARN of the Connect AI Assistant resource
+    ///   - maxResults: Maximum number of spans to return per page
+    ///   - sessionId: UUID or ARN of the Connect AI Session resource
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSpansPaginator(
+        assistantId: String,
+        maxResults: Int? = nil,
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSpansRequest, ListSpansResponse> {
+        let input = ListSpansRequest(
+            assistantId: assistantId, 
+            maxResults: maxResults, 
+            sessionId: sessionId
+        )
+        return self.listSpansPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``queryAssistant(_:logger:)``.
@@ -4596,6 +4757,7 @@ extension QConnect.ListMessagesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> QConnect.ListMessagesRequest {
         return .init(
             assistantId: self.assistantId,
+            filter: self.filter,
             maxResults: self.maxResults,
             nextToken: token,
             sessionId: self.sessionId
@@ -4610,6 +4772,18 @@ extension QConnect.ListQuickResponsesRequest: AWSPaginateToken {
             knowledgeBaseId: self.knowledgeBaseId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension QConnect.ListSpansRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QConnect.ListSpansRequest {
+        return .init(
+            assistantId: self.assistantId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionId: self.sessionId
         )
     }
 }

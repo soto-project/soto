@@ -194,8 +194,8 @@ public struct Lambda: AWSService {
     ///   - action: The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
     ///   - eventSourceToken: For Alexa Smart Home functions, a token that the invoker must supply.
     ///   - functionName: The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
-    ///   - functionUrlAuthType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
-    ///   - invokedViaFunctionUrl: Restricts the lambda:InvokeFunction action to calls coming from a function URL. When set to true, this prevents the principal from invoking the function by any means other than the function URL. For more information, see Security and auth model for Lambda function URLs.
+    ///   - functionUrlAuthType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs.
+    ///   - invokedViaFunctionUrl: Indicates whether the permission applies when the function is invoked through a function URL.
     ///   - principal: The Amazon Web Services service, Amazon Web Services account, IAM user, or IAM role that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
     ///   - principalOrgID: The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
     ///   - qualifier: Specify a version or alias to add permissions to a published version of the function.
@@ -235,6 +235,44 @@ public struct Lambda: AWSService {
             statementId: statementId
         )
         return try await self.addPermission(input, logger: logger)
+    }
+
+    /// Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order state updates.
+    @Sendable
+    @inlinable
+    public func checkpointDurableExecution(_ input: CheckpointDurableExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CheckpointDurableExecutionResponse {
+        try await self.client.execute(
+            operation: "CheckpointDurableExecution", 
+            path: "/2025-12-01/durable-executions/{DurableExecutionArn}/checkpoint", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Saves the progress of a durable function execution during runtime. This API is used by the Lambda durable functions SDK to checkpoint completed steps and schedule asynchronous operations. You typically don't need to call this API directly as the SDK handles checkpointing automatically. Each checkpoint operation consumes the current checkpoint token and returns a new one for the next checkpoint. This ensures that checkpoints are applied in the correct order and prevents duplicate or out-of-order state updates.
+    ///
+    /// Parameters:
+    ///   - checkpointToken: A unique token that identifies the current checkpoint state. This token is provided by the Lambda runtime and must be used to ensure checkpoints are applied in the correct order. Each checkpoint operation consumes this token and returns a new one.
+    ///   - clientToken: An optional idempotency token to ensure that duplicate checkpoint requests are handled correctly. If provided, Lambda uses this token to detect and handle duplicate requests within a 15-minute window.
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - updates: An array of state updates to apply during this checkpoint. Each update represents a change to the execution state, such as completing a step, starting a callback, or scheduling a timer. Updates are applied atomically as part of the checkpoint operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func checkpointDurableExecution(
+        checkpointToken: String,
+        clientToken: String? = CheckpointDurableExecutionRequest.idempotencyToken(),
+        durableExecutionArn: String,
+        updates: [OperationUpdate]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CheckpointDurableExecutionResponse {
+        let input = CheckpointDurableExecutionRequest(
+            checkpointToken: checkpointToken, 
+            clientToken: clientToken, 
+            durableExecutionArn: durableExecutionArn, 
+            updates: updates
+        )
+        return try await self.checkpointDurableExecution(input, logger: logger)
     }
 
     /// Creates an alias for a Lambda function version. Use aliases to provide clients with a function identifier that you can update to invoke a different version. You can also map an alias to split invocation requests between two versions. Use the RoutingConfig parameter to specify a second version and the percentage of invocation requests that it receives.
@@ -278,6 +316,53 @@ public struct Lambda: AWSService {
         return try await self.createAlias(input, logger: logger)
     }
 
+    /// Creates a capacity provider that manages compute resources for Lambda functions
+    @Sendable
+    @inlinable
+    public func createCapacityProvider(_ input: CreateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCapacityProviderResponse {
+        try await self.client.execute(
+            operation: "CreateCapacityProvider", 
+            path: "/2025-11-30/capacity-providers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a capacity provider that manages compute resources for Lambda functions
+    ///
+    /// Parameters:
+    ///   - capacityProviderName: The name of the capacity provider.
+    ///   - capacityProviderScalingConfig: The scaling configuration that defines how the capacity provider scales compute instances, including maximum vCPU count and scaling policies.
+    ///   - instanceRequirements: The instance requirements that specify the compute instance characteristics, including architectures and allowed or excluded instance types.
+    ///   - kmsKeyArn: The ARN of the KMS key used to encrypt data associated with the capacity provider.
+    ///   - permissionsConfig: The permissions configuration that specifies the IAM role ARN used by the capacity provider to manage compute resources.
+    ///   - tags: A list of tags to associate with the capacity provider.
+    ///   - vpcConfig: The VPC configuration for the capacity provider, including subnet IDs and security group IDs where compute instances will be launched.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCapacityProvider(
+        capacityProviderName: String,
+        capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil,
+        instanceRequirements: InstanceRequirements? = nil,
+        kmsKeyArn: String? = nil,
+        permissionsConfig: CapacityProviderPermissionsConfig,
+        tags: [String: String]? = nil,
+        vpcConfig: CapacityProviderVpcConfig,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCapacityProviderResponse {
+        let input = CreateCapacityProviderRequest(
+            capacityProviderName: capacityProviderName, 
+            capacityProviderScalingConfig: capacityProviderScalingConfig, 
+            instanceRequirements: instanceRequirements, 
+            kmsKeyArn: kmsKeyArn, 
+            permissionsConfig: permissionsConfig, 
+            tags: tags, 
+            vpcConfig: vpcConfig
+        )
+        return try await self.createCapacityProvider(input, logger: logger)
+    }
+
     /// Creates a code signing configuration. A code signing configuration defines a list of allowed signing profiles and defines the code-signing validation policy (action to be taken if deployment validation checks fail).
     @Sendable
     @inlinable
@@ -316,7 +401,7 @@ public struct Lambda: AWSService {
         return try await self.createCodeSigningConfig(input, logger: logger)
     }
 
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka):    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka topic, or Amazon S3 bucket. For more information, see Adding a destination.   The following option is available only for DynamoDB and Kinesis event sources:    ParallelizationFactor – Process multiple batches from each shard concurrently.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     @Sendable
     @inlinable
     public func createEventSourceMapping(_ input: CreateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EventSourceMappingConfiguration {
@@ -329,26 +414,26 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Creates a mapping between an event source and an Lambda function. Lambda reads items from the event source and invokes the function. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka):    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka topic, or Amazon S3 bucket. For more information, see Adding a destination.   The following option is available only for DynamoDB and Kinesis event sources:    ParallelizationFactor – Process multiple batches from each shard concurrently.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     ///
     /// Parameters:
     ///   - amazonManagedKafkaEventSourceConfig: Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     ///   - batchSize: The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
-    ///   - bisectBatchOnFunctionError: (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
-    ///   - destinationConfig: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
+    ///   - bisectBatchOnFunctionError: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) If the function returns an error, split the batch in two and retry.
+    ///   - destinationConfig: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) A configuration object that specifies the destination of an event after Lambda processes it.
     ///   - documentDBEventSourceConfig: Specific configuration settings for a DocumentDB event source.
     ///   - enabled: When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
     ///   - eventSourceArn: The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for cross-account event source mappings).    Amazon MQ – The ARN of the broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
     ///   - filterCriteria: An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
-    ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache Kafka, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     ///   - kmsKeyArn:  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
     ///   - maximumBatchingWindowInSeconds: The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    ///   - maximumRecordAgeInSeconds: (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
-    ///   - maximumRetryAttempts: (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    ///   - maximumRecordAgeInSeconds: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
+    ///   - maximumRetryAttempts: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///   - metricsConfig: The metrics configuration for your event source. For more information, see Event source mapping metrics.
     ///   - parallelizationFactor: (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
-    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
+    ///   - provisionedPollerConfig: (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
     ///   - queues:  (MQ) The name of the Amazon MQ broker destination queue to consume.
     ///   - scalingConfig: (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
     ///   - selfManagedEventSource: The self-managed Apache Kafka cluster to receive records from.
@@ -440,10 +525,12 @@ public struct Lambda: AWSService {
     ///
     /// Parameters:
     ///   - architectures: The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
+    ///   - capacityProviderConfig: Configuration for the capacity provider that manages compute resources for Lambda functions.
     ///   - code: The code for the function.
     ///   - codeSigningConfigArn: To enable code signing for this function, specify the ARN of a code-signing configuration. A code-signing configuration includes a set of signing profiles, which define the trusted publishers for this function.
     ///   - deadLetterConfig: A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
     ///   - description: A description of the function.
+    ///   - durableConfig: Configuration settings for durable functions. Enables creating functions with durability that can remember their state and continue execution even after interruptions.
     ///   - environment: Environment variables that are accessible from function code during execution.
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
     ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
@@ -456,10 +543,12 @@ public struct Lambda: AWSService {
     ///   - memorySize: The amount of memory available to the function at runtime. Increasing the function memory also increases its CPU allocation. The default value is 128 MB. The value can be any multiple of 1 MB.
     ///   - packageType: The type of deployment package. Set to Image for container image and set to Zip for .zip file archive.
     ///   - publish: Set to true to publish the first version of the function during creation.
+    ///   - publishTo: Specifies where to publish the function version or configuration.
     ///   - role: The Amazon Resource Name (ARN) of the function's execution role.
     ///   - runtime: The identifier of the function's  runtime. Runtime is required if the deployment package is a .zip file archive. Specifying a runtime results in an error if you're deploying a function using a container image. The following list includes deprecated runtimes. Lambda blocks creating new functions and updating existing functions shortly after each runtime is deprecated. For more information, see Runtime use after deprecation. For a list of all currently supported runtimes, see Supported runtimes.
     ///   - snapStart: The function's SnapStart setting.
     ///   - tags: A list of tags to apply to the function.
+    ///   - tenancyConfig: Configuration for multi-tenant applications that use Lambda functions. Defines tenant isolation settings and resource allocations. Required for functions supporting multiple tenants.
     ///   - timeout: The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For more information, see Lambda execution environment.
     ///   - tracingConfig: Set Mode to Active to sample and trace a subset of incoming requests with X-Ray.
     ///   - vpcConfig: For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can access resources and the internet only through that VPC. For more information, see Configuring a Lambda function to access resources in a VPC.
@@ -467,10 +556,12 @@ public struct Lambda: AWSService {
     @inlinable
     public func createFunction(
         architectures: [Architecture]? = nil,
+        capacityProviderConfig: CapacityProviderConfig? = nil,
         code: FunctionCode,
         codeSigningConfigArn: String? = nil,
         deadLetterConfig: DeadLetterConfig? = nil,
         description: String? = nil,
+        durableConfig: DurableConfig? = nil,
         environment: Environment? = nil,
         ephemeralStorage: EphemeralStorage? = nil,
         fileSystemConfigs: [FileSystemConfig]? = nil,
@@ -483,10 +574,12 @@ public struct Lambda: AWSService {
         memorySize: Int? = nil,
         packageType: PackageType? = nil,
         publish: Bool? = nil,
+        publishTo: FunctionVersionLatestPublished? = nil,
         role: String,
         runtime: Runtime? = nil,
         snapStart: SnapStart? = nil,
         tags: [String: String]? = nil,
+        tenancyConfig: TenancyConfig? = nil,
         timeout: Int? = nil,
         tracingConfig: TracingConfig? = nil,
         vpcConfig: VpcConfig? = nil,
@@ -494,10 +587,12 @@ public struct Lambda: AWSService {
     ) async throws -> FunctionConfiguration {
         let input = CreateFunctionRequest(
             architectures: architectures, 
+            capacityProviderConfig: capacityProviderConfig, 
             code: code, 
             codeSigningConfigArn: codeSigningConfigArn, 
             deadLetterConfig: deadLetterConfig, 
             description: description, 
+            durableConfig: durableConfig, 
             environment: environment, 
             ephemeralStorage: ephemeralStorage, 
             fileSystemConfigs: fileSystemConfigs, 
@@ -510,10 +605,12 @@ public struct Lambda: AWSService {
             memorySize: memorySize, 
             packageType: packageType, 
             publish: publish, 
+            publishTo: publishTo, 
             role: role, 
             runtime: runtime, 
             snapStart: snapStart, 
             tags: tags, 
+            tenancyConfig: tenancyConfig, 
             timeout: timeout, 
             tracingConfig: tracingConfig, 
             vpcConfig: vpcConfig
@@ -537,7 +634,7 @@ public struct Lambda: AWSService {
     /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
     ///
     /// Parameters:
-    ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+    ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs.
     ///   - cors: The cross-origin resource sharing (CORS) settings for your function URL.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
@@ -592,6 +689,35 @@ public struct Lambda: AWSService {
             name: name
         )
         return try await self.deleteAlias(input, logger: logger)
+    }
+
+    /// Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
+    @Sendable
+    @inlinable
+    public func deleteCapacityProvider(_ input: DeleteCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCapacityProviderResponse {
+        try await self.client.execute(
+            operation: "DeleteCapacityProvider", 
+            path: "/2025-11-30/capacity-providers/{CapacityProviderName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a capacity provider. You cannot delete a capacity provider that is currently being used by Lambda functions.
+    ///
+    /// Parameters:
+    ///   - capacityProviderName: The name of the capacity provider to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCapacityProvider(
+        capacityProviderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCapacityProviderResponse {
+        let input = DeleteCapacityProviderRequest(
+            capacityProviderName: capacityProviderName
+        )
+        return try await self.deleteCapacityProvider(input, logger: logger)
     }
 
     /// Deletes the code signing configuration. You can delete the code signing configuration only if no function is using it.
@@ -652,10 +778,10 @@ public struct Lambda: AWSService {
         return try await self.deleteEventSourceMapping(input, logger: logger)
     }
 
-    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
+    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias.  A deleted Lambda function cannot be recovered. Ensure that you specify the correct function name and version before deleting.  To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     @Sendable
     @inlinable
-    public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func deleteFunction(_ input: DeleteFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFunctionResponse {
         try await self.client.execute(
             operation: "DeleteFunction", 
             path: "/2015-03-31/functions/{FunctionName}", 
@@ -665,7 +791,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias. To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
+    /// Deletes a Lambda function. To delete a specific function version, use the Qualifier parameter. Otherwise, all versions and aliases are deleted. This doesn't require the user to have explicit permissions for DeleteAlias.  A deleted Lambda function cannot be recovered. Ensure that you specify the correct function name and version before deleting.  To delete Lambda event source mappings that invoke a function, use DeleteEventSourceMapping. For Amazon Web Services services and resources that invoke your function directly, delete the trigger in the service where you originally configured it.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function or version.  Name formats     Function name – my-function (name-only), my-function:1 (with version).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -676,7 +802,7 @@ public struct Lambda: AWSService {
         functionName: String,
         qualifier: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
+    ) async throws -> DeleteFunctionResponse {
         let input = DeleteFunctionRequest(
             functionName: functionName, 
             qualifier: qualifier
@@ -928,6 +1054,35 @@ public struct Lambda: AWSService {
         return try await self.getAlias(input, logger: logger)
     }
 
+    /// Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
+    @Sendable
+    @inlinable
+    public func getCapacityProvider(_ input: GetCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCapacityProviderResponse {
+        try await self.client.execute(
+            operation: "GetCapacityProvider", 
+            path: "/2025-11-30/capacity-providers/{CapacityProviderName}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a specific capacity provider, including its configuration, state, and associated resources.
+    ///
+    /// Parameters:
+    ///   - capacityProviderName: The name of the capacity provider to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getCapacityProvider(
+        capacityProviderName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetCapacityProviderResponse {
+        let input = GetCapacityProviderRequest(
+            capacityProviderName: capacityProviderName
+        )
+        return try await self.getCapacityProvider(input, logger: logger)
+    }
+
     /// Returns information about the specified code signing configuration.
     @Sendable
     @inlinable
@@ -955,6 +1110,114 @@ public struct Lambda: AWSService {
             codeSigningConfigArn: codeSigningConfigArn
         )
         return try await self.getCodeSigningConfig(input, logger: logger)
+    }
+
+    /// Retrieves detailed information about a specific durable execution, including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
+    @Sendable
+    @inlinable
+    public func getDurableExecution(_ input: GetDurableExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDurableExecutionResponse {
+        try await self.client.execute(
+            operation: "GetDurableExecution", 
+            path: "/2025-12-01/durable-executions/{DurableExecutionArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific durable execution, including its current status, input payload, result or error information, and execution metadata such as start time and usage statistics.
+    ///
+    /// Parameters:
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDurableExecution(
+        durableExecutionArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDurableExecutionResponse {
+        let input = GetDurableExecutionRequest(
+            durableExecutionArn: durableExecutionArn
+        )
+        return try await self.getDurableExecution(input, logger: logger)
+    }
+
+    /// Retrieves the execution history for a durable execution, showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads.
+    @Sendable
+    @inlinable
+    public func getDurableExecutionHistory(_ input: GetDurableExecutionHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDurableExecutionHistoryResponse {
+        try await self.client.execute(
+            operation: "GetDurableExecutionHistory", 
+            path: "/2025-12-01/durable-executions/{DurableExecutionArn}/history", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the execution history for a durable execution, showing all the steps, callbacks, and events that occurred during the execution. This provides a detailed audit trail of the execution's progress over time. The history is available while the execution is running and for a retention period after it completes (1-90 days, default 30 days). You can control whether to include execution data such as step results and callback payloads.
+    ///
+    /// Parameters:
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - includeExecutionData: Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The default is true.
+    ///   - marker: If NextMarker was returned from a previous request, use this value to retrieve the next page of results. Each pagination token expires after 24 hours.
+    ///   - maxItems: The maximum number of history events to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    ///   - reverseOrder: When set to true, returns the history events in reverse chronological order (newest first). By default, events are returned in chronological order (oldest first).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDurableExecutionHistory(
+        durableExecutionArn: String,
+        includeExecutionData: Bool? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        reverseOrder: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDurableExecutionHistoryResponse {
+        let input = GetDurableExecutionHistoryRequest(
+            durableExecutionArn: durableExecutionArn, 
+            includeExecutionData: includeExecutionData, 
+            marker: marker, 
+            maxItems: maxItems, 
+            reverseOrder: reverseOrder
+        )
+        return try await self.getDurableExecutionHistory(input, logger: logger)
+    }
+
+    /// Retrieves the current execution state required for the replay process during durable function execution. This API is used by the Lambda durable functions SDK to get state information needed for replay. You typically don't need to call this API directly as the SDK handles state management automatically. The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed.
+    @Sendable
+    @inlinable
+    public func getDurableExecutionState(_ input: GetDurableExecutionStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDurableExecutionStateResponse {
+        try await self.client.execute(
+            operation: "GetDurableExecutionState", 
+            path: "/2025-12-01/durable-executions/{DurableExecutionArn}/state", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the current execution state required for the replay process during durable function execution. This API is used by the Lambda durable functions SDK to get state information needed for replay. You typically don't need to call this API directly as the SDK handles state management automatically. The response contains operations ordered by start sequence number in ascending order. Completed operations with children don't include child operation details since they don't need to be replayed.
+    ///
+    /// Parameters:
+    ///   - checkpointToken: A checkpoint token that identifies the current state of the execution. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context.
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - marker: If NextMarker was returned from a previous request, use this value to retrieve the next page of operations. Each pagination token expires after 24 hours.
+    ///   - maxItems: The maximum number of operations to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDurableExecutionState(
+        checkpointToken: String,
+        durableExecutionArn: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDurableExecutionStateResponse {
+        let input = GetDurableExecutionStateRequest(
+            checkpointToken: checkpointToken, 
+            durableExecutionArn: durableExecutionArn, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.getDurableExecutionState(input, logger: logger)
     }
 
     /// Returns details about an event source mapping. You can get the identifier of a mapping from the output of ListEventSourceMappings.
@@ -1156,7 +1419,7 @@ public struct Lambda: AWSService {
     /// Returns your function's recursive loop detection configuration.
     ///
     /// Parameters:
-    ///   - functionName: 
+    ///   - functionName: The name of the function.
     ///   - logger: Logger use during operation
     @inlinable
     public func getFunctionRecursionConfig(
@@ -1167,6 +1430,38 @@ public struct Lambda: AWSService {
             functionName: functionName
         )
         return try await self.getFunctionRecursionConfig(input, logger: logger)
+    }
+
+    /// Retrieves the scaling configuration for a Lambda Managed Instances function.
+    @Sendable
+    @inlinable
+    public func getFunctionScalingConfig(_ input: GetFunctionScalingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFunctionScalingConfigResponse {
+        try await self.client.execute(
+            operation: "GetFunctionScalingConfig", 
+            path: "/2025-11-30/functions/{FunctionName}/function-scaling-config", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the scaling configuration for a Lambda Managed Instances function.
+    ///
+    /// Parameters:
+    ///   - functionName: The name or ARN of the Lambda function.
+    ///   - qualifier: Specify a version or alias to get the scaling configuration for a published version of the function.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFunctionScalingConfig(
+        functionName: String,
+        qualifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFunctionScalingConfigResponse {
+        let input = GetFunctionScalingConfigRequest(
+            functionName: functionName, 
+            qualifier: qualifier
+        )
+        return try await self.getFunctionScalingConfig(input, logger: logger)
     }
 
     /// Returns details about a Lambda function URL.
@@ -1390,7 +1685,7 @@ public struct Lambda: AWSService {
         return try await self.getRuntimeManagementConfig(input, logger: logger)
     }
 
-    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace. When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda. For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue. The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
+    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is 1 MB. For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace. When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda. For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue. The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
     @Sendable
     @inlinable
     public func invoke(_ input: InvocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvocationResponse {
@@ -1403,38 +1698,44 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace. When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda. For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue. The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
+    /// Invokes a Lambda function. You can invoke a function synchronously (and wait for the response), or asynchronously. By default, Lambda invokes your function synchronously (i.e. theInvocationType is RequestResponse). To invoke a function asynchronously, set InvocationType to Event. Lambda passes the ClientContext object to your function for synchronous invocations only. For synchronous invocations, the maximum payload size is 6 MB. For asynchronous invocations, the maximum payload size is 1 MB. For synchronous invocation, details about the function response, including errors, are included in the response body and headers. For either invocation type, you can find more information in the execution log and trace. When an error occurs, your function may be invoked multiple times. Retry behavior varies by error type, client, event source, and invocation type. For example, if you invoke a function asynchronously and it returns an error, Lambda executes the function up to two more times. For more information, see Error handling and automatic retries in Lambda. For asynchronous invocation, Lambda adds events to a queue before sending them to your function. If your function does not have enough capacity to keep up with the queue, events may be lost. Occasionally, your function may receive the same event multiple times, even if no error occurs. To retain events that were not processed, configure your function with a dead-letter queue. The status code in the API response doesn't reflect function errors. Error codes are reserved for errors that prevent your function from executing, such as permissions errors, quota errors, or issues with your function's code and configuration. For example, Lambda returns TooManyRequestsException if running the function would cause you to exceed a concurrency limit at either the account level (ConcurrentInvocationLimitExceeded) or function level (ReservedFunctionConcurrentInvocationLimitExceeded). For functions with a long timeout, your client might disconnect during synchronous invocation while it waits for a response. Configure your HTTP client, SDK, firewall, proxy, or operating system to allow for long connections with timeout or keep-alive settings. This operation requires permission for the lambda:InvokeFunction action. For details on how to set up permissions for cross-account invocations, see Granting function access to other accounts.
     ///
     /// Parameters:
     ///   - clientContext: Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
+    ///   - durableExecutionName: Optional unique name for the durable execution. When you start your special function, you can give it a unique name to identify this specific execution. It's like giving a nickname to a task.
     ///   - functionName: The name or ARN of the Lambda function, version, or alias.  Name formats     Function name – my-function (name-only), my-function:v1 (with alias).    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - invocationType: Choose from the following options.    RequestResponse (default) – Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event – Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if one is configured). The API response only includes a status code.    DryRun – Validate parameter values and verify that the user or role has permission to invoke the function.
     ///   - logType: Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
-    ///   - payload: The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
+    ///   - payload: The JSON that you want to provide to your Lambda function as input. The maximum payload size is 6 MB for synchronous invocations and 1 MB for asynchronous invocations. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
     ///   - qualifier: Specify a version or alias to invoke a published version of the function.
+    ///   - tenantId: The identifier of the tenant in a multi-tenant Lambda function.
     ///   - logger: Logger use during operation
     @inlinable
     public func invoke(
         clientContext: String? = nil,
+        durableExecutionName: String? = nil,
         functionName: String,
         invocationType: InvocationType? = nil,
         logType: LogType? = nil,
         payload: AWSHTTPBody? = nil,
         qualifier: String? = nil,
+        tenantId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvocationResponse {
         let input = InvocationRequest(
             clientContext: clientContext, 
+            durableExecutionName: durableExecutionName, 
             functionName: functionName, 
             invocationType: invocationType, 
             logType: logType, 
             payload: payload, 
-            qualifier: qualifier
+            qualifier: qualifier, 
+            tenantId: tenantId
         )
         return try await self.invoke(input, logger: logger)
     }
 
-    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
+    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  The payload limit is 256KB. For larger payloads, for up to 1MB, use Invoke.   If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     @Sendable
     @inlinable
     public func invokeAsync(_ input: InvokeAsyncRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAsyncResponse {
@@ -1447,7 +1748,7 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
+    ///  For asynchronous function invocation, use Invoke.  Invokes a function asynchronously.  The payload limit is 256KB. For larger payloads, for up to 1MB, use Invoke.   If you do use the InvokeAsync action, note that it doesn't support the use of X-Ray active tracing. Trace ID is not propagated to the function, even if X-Ray active tracing is turned on.
     ///
     /// Parameters:
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -1488,6 +1789,7 @@ public struct Lambda: AWSService {
     ///   - logType: Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
     ///   - payload: The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
     ///   - qualifier: The alias name.
+    ///   - tenantId: The identifier of the tenant in a multi-tenant Lambda function.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeWithResponseStream(
@@ -1497,6 +1799,7 @@ public struct Lambda: AWSService {
         logType: LogType? = nil,
         payload: AWSHTTPBody? = nil,
         qualifier: String? = nil,
+        tenantId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeWithResponseStreamResponse {
         let input = InvokeWithResponseStreamRequest(
@@ -1505,7 +1808,8 @@ public struct Lambda: AWSService {
             invocationType: invocationType, 
             logType: logType, 
             payload: payload, 
-            qualifier: qualifier
+            qualifier: qualifier, 
+            tenantId: tenantId
         )
         return try await self.invokeWithResponseStream(input, logger: logger)
     }
@@ -1548,6 +1852,41 @@ public struct Lambda: AWSService {
         return try await self.listAliases(input, logger: logger)
     }
 
+    /// Returns a list of capacity providers in your account.
+    @Sendable
+    @inlinable
+    public func listCapacityProviders(_ input: ListCapacityProvidersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCapacityProvidersResponse {
+        try await self.client.execute(
+            operation: "ListCapacityProviders", 
+            path: "/2025-11-30/capacity-providers", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of capacity providers in your account.
+    ///
+    /// Parameters:
+    ///   - marker: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    ///   - maxItems: The maximum number of capacity providers to return.
+    ///   - state: Filter capacity providers by their current state.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCapacityProviders(
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        state: CapacityProviderState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCapacityProvidersResponse {
+        let input = ListCapacityProvidersRequest(
+            marker: marker, 
+            maxItems: maxItems, 
+            state: state
+        )
+        return try await self.listCapacityProviders(input, logger: logger)
+    }
+
     /// Returns a list of code signing configurations. A request returns up to 10,000 configurations per call. You can use the MaxItems parameter to return fewer configurations per call.
     @Sendable
     @inlinable
@@ -1578,6 +1917,59 @@ public struct Lambda: AWSService {
             maxItems: maxItems
         )
         return try await self.listCodeSigningConfigs(input, logger: logger)
+    }
+
+    /// Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
+    @Sendable
+    @inlinable
+    public func listDurableExecutionsByFunction(_ input: ListDurableExecutionsByFunctionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDurableExecutionsByFunctionResponse {
+        try await self.client.execute(
+            operation: "ListDurableExecutionsByFunction", 
+            path: "/2025-12-01/functions/{FunctionName}/durable-executions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of durable executions for a specified Lambda function. You can filter the results by execution name, status, and start time range. This API supports pagination for large result sets.
+    ///
+    /// Parameters:
+    ///   - durableExecutionName: Filter executions by name. Only executions with names that contain this string are returned.
+    ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
+    ///   - marker: Pagination token from a previous request to continue retrieving results.
+    ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
+    ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
+    ///   - reverseOrder: Set to true to return results in reverse chronological order (newest first). Default is false.
+    ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
+    ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).
+    ///   - statuses: Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDurableExecutionsByFunction(
+        durableExecutionName: String? = nil,
+        functionName: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        qualifier: String? = nil,
+        reverseOrder: Bool? = nil,
+        startedAfter: Date? = nil,
+        startedBefore: Date? = nil,
+        statuses: [ExecutionStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDurableExecutionsByFunctionResponse {
+        let input = ListDurableExecutionsByFunctionRequest(
+            durableExecutionName: durableExecutionName, 
+            functionName: functionName, 
+            marker: marker, 
+            maxItems: maxItems, 
+            qualifier: qualifier, 
+            reverseOrder: reverseOrder, 
+            startedAfter: startedAfter, 
+            startedBefore: startedBefore, 
+            statuses: statuses
+        )
+        return try await self.listDurableExecutionsByFunction(input, logger: logger)
     }
 
     /// Lists event source mappings. Specify an EventSourceArn to show only event source mappings for a single event source.
@@ -1686,6 +2078,41 @@ public struct Lambda: AWSService {
             maxItems: maxItems
         )
         return try await self.listFunctionUrlConfigs(input, logger: logger)
+    }
+
+    /// Returns a list of function versions that are configured to use a specific capacity provider.
+    @Sendable
+    @inlinable
+    public func listFunctionVersionsByCapacityProvider(_ input: ListFunctionVersionsByCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFunctionVersionsByCapacityProviderResponse {
+        try await self.client.execute(
+            operation: "ListFunctionVersionsByCapacityProvider", 
+            path: "/2025-11-30/capacity-providers/{CapacityProviderName}/function-versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of function versions that are configured to use a specific capacity provider.
+    ///
+    /// Parameters:
+    ///   - capacityProviderName: The name of the capacity provider to list function versions for.
+    ///   - marker: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+    ///   - maxItems: The maximum number of function versions to return in the response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFunctionVersionsByCapacityProvider(
+        capacityProviderName: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFunctionVersionsByCapacityProviderResponse {
+        let input = ListFunctionVersionsByCapacityProviderRequest(
+            capacityProviderName: capacityProviderName, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listFunctionVersionsByCapacityProvider(input, logger: logger)
     }
 
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.  The ListFunctions operation returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode, RuntimeVersionConfig) for a function or version, use GetFunction.
@@ -2002,6 +2429,7 @@ public struct Lambda: AWSService {
     ///   - codeSha256: Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of UpdateFunctionCode.
     ///   - description: A description for the version to override the description in the function configuration.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+    ///   - publishTo: Specifies where to publish the function version or configuration.
     ///   - revisionId: Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2009,6 +2437,7 @@ public struct Lambda: AWSService {
         codeSha256: String? = nil,
         description: String? = nil,
         functionName: String,
+        publishTo: FunctionVersionLatestPublished? = nil,
         revisionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> FunctionConfiguration {
@@ -2016,6 +2445,7 @@ public struct Lambda: AWSService {
             codeSha256: codeSha256, 
             description: description, 
             functionName: functionName, 
+            publishTo: publishTo, 
             revisionId: revisionId
         )
         return try await self.publishVersion(input, logger: logger)
@@ -2156,6 +2586,41 @@ public struct Lambda: AWSService {
             recursiveLoop: recursiveLoop
         )
         return try await self.putFunctionRecursionConfig(input, logger: logger)
+    }
+
+    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
+    @Sendable
+    @inlinable
+    public func putFunctionScalingConfig(_ input: PutFunctionScalingConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutFunctionScalingConfigResponse {
+        try await self.client.execute(
+            operation: "PutFunctionScalingConfig", 
+            path: "/2025-11-30/functions/{FunctionName}/function-scaling-config", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sets the scaling configuration for a Lambda Managed Instances function. The scaling configuration defines the minimum and maximum number of execution environments that can be provisioned for the function, allowing you to control scaling behavior and resource allocation.
+    ///
+    /// Parameters:
+    ///   - functionName: The name or ARN of the Lambda function.
+    ///   - functionScalingConfig: The scaling configuration to apply to the function, including minimum and maximum execution environment limits.
+    ///   - qualifier: Specify a version or alias to set the scaling configuration for a published version of the function.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putFunctionScalingConfig(
+        functionName: String,
+        functionScalingConfig: FunctionScalingConfig? = nil,
+        qualifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutFunctionScalingConfigResponse {
+        let input = PutFunctionScalingConfigRequest(
+            functionName: functionName, 
+            functionScalingConfig: functionScalingConfig, 
+            qualifier: qualifier
+        )
+        return try await self.putFunctionScalingConfig(input, logger: logger)
     }
 
     /// Adds a provisioned concurrency configuration to a function's alias or version.
@@ -2307,6 +2772,131 @@ public struct Lambda: AWSService {
         return try await self.removePermission(input, logger: logger)
     }
 
+    /// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
+    @Sendable
+    @inlinable
+    public func sendDurableExecutionCallbackFailure(_ input: SendDurableExecutionCallbackFailureRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDurableExecutionCallbackFailureResponse {
+        try await self.client.execute(
+            operation: "SendDurableExecutionCallbackFailure", 
+            path: "/2025-12-01/durable-execution-callbacks/{CallbackId}/fail", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a failure response for a callback operation in a durable execution. Use this API when an external system cannot complete a callback operation successfully.
+    ///
+    /// Parameters:
+    ///   - callbackId: The unique identifier for the callback operation.
+    ///   - error: Error details describing why the callback operation failed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendDurableExecutionCallbackFailure(
+        callbackId: String,
+        error: ErrorObject? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendDurableExecutionCallbackFailureResponse {
+        let input = SendDurableExecutionCallbackFailureRequest(
+            callbackId: callbackId, 
+            error: error
+        )
+        return try await self.sendDurableExecutionCallbackFailure(input, logger: logger)
+    }
+
+    /// Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
+    @Sendable
+    @inlinable
+    public func sendDurableExecutionCallbackHeartbeat(_ input: SendDurableExecutionCallbackHeartbeatRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDurableExecutionCallbackHeartbeatResponse {
+        try await self.client.execute(
+            operation: "SendDurableExecutionCallbackHeartbeat", 
+            path: "/2025-12-01/durable-execution-callbacks/{CallbackId}/heartbeat", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a heartbeat signal for a long-running callback operation to prevent timeout. Use this API to extend the callback timeout period while the external operation is still in progress.
+    ///
+    /// Parameters:
+    ///   - callbackId: The unique identifier for the callback operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendDurableExecutionCallbackHeartbeat(
+        callbackId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendDurableExecutionCallbackHeartbeatResponse {
+        let input = SendDurableExecutionCallbackHeartbeatRequest(
+            callbackId: callbackId
+        )
+        return try await self.sendDurableExecutionCallbackHeartbeat(input, logger: logger)
+    }
+
+    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
+    @Sendable
+    @inlinable
+    public func sendDurableExecutionCallbackSuccess(_ input: SendDurableExecutionCallbackSuccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDurableExecutionCallbackSuccessResponse {
+        try await self.client.execute(
+            operation: "SendDurableExecutionCallbackSuccess", 
+            path: "/2025-12-01/durable-execution-callbacks/{CallbackId}/succeed", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Sends a successful completion response for a callback operation in a durable execution. Use this API when an external system has successfully completed a callback operation.
+    ///
+    /// Parameters:
+    ///   - callbackId: The unique identifier for the callback operation.
+    ///   - result: The result data from the successful callback operation. Maximum size is 256 KB.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func sendDurableExecutionCallbackSuccess(
+        callbackId: String,
+        result: AWSHTTPBody? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SendDurableExecutionCallbackSuccessResponse {
+        let input = SendDurableExecutionCallbackSuccessRequest(
+            callbackId: callbackId, 
+            result: result
+        )
+        return try await self.sendDurableExecutionCallbackSuccess(input, logger: logger)
+    }
+
+    /// Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
+    @Sendable
+    @inlinable
+    public func stopDurableExecution(_ input: StopDurableExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopDurableExecutionResponse {
+        try await self.client.execute(
+            operation: "StopDurableExecution", 
+            path: "/2025-12-01/durable-executions/{DurableExecutionArn}/stop", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running durable execution. The execution transitions to STOPPED status and cannot be resumed. Any in-progress operations are terminated.
+    ///
+    /// Parameters:
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - error: Optional error details explaining why the execution is being stopped.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopDurableExecution(
+        durableExecutionArn: String,
+        error: ErrorObject? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopDurableExecutionResponse {
+        let input = StopDurableExecutionRequest(
+            durableExecutionArn: durableExecutionArn, 
+            error: error
+        )
+        return try await self.stopDurableExecution(input, logger: logger)
+    }
+
     /// Adds tags to a function, event source mapping, or code signing configuration.
     @Sendable
     @inlinable
@@ -2415,6 +3005,38 @@ public struct Lambda: AWSService {
         return try await self.updateAlias(input, logger: logger)
     }
 
+    /// Updates the configuration of an existing capacity provider.
+    @Sendable
+    @inlinable
+    public func updateCapacityProvider(_ input: UpdateCapacityProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCapacityProviderResponse {
+        try await self.client.execute(
+            operation: "UpdateCapacityProvider", 
+            path: "/2025-11-30/capacity-providers/{CapacityProviderName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of an existing capacity provider.
+    ///
+    /// Parameters:
+    ///   - capacityProviderName: The name of the capacity provider to update.
+    ///   - capacityProviderScalingConfig: The updated scaling configuration for the capacity provider.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCapacityProvider(
+        capacityProviderName: String,
+        capacityProviderScalingConfig: CapacityProviderScalingConfig? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCapacityProviderResponse {
+        let input = UpdateCapacityProviderRequest(
+            capacityProviderName: capacityProviderName, 
+            capacityProviderScalingConfig: capacityProviderScalingConfig
+        )
+        return try await self.updateCapacityProvider(input, logger: logger)
+    }
+
     /// Update the code signing configuration. Changes to the code signing configuration take effect the next time a user tries to deploy a code package to the function.
     @Sendable
     @inlinable
@@ -2453,7 +3075,7 @@ public struct Lambda: AWSService {
         return try await self.updateCodeSigningConfig(input, logger: logger)
     }
 
-    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka):    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka topic, or Amazon S3 bucket. For more information, see Adding a destination.   The following option is available only for DynamoDB and Kinesis event sources:    ParallelizationFactor – Process multiple batches from each shard concurrently.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     @Sendable
     @inlinable
     public func updateEventSourceMapping(_ input: UpdateEventSourceMappingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EventSourceMappingConfiguration {
@@ -2466,25 +3088,25 @@ public struct Lambda: AWSService {
             logger: logger
         )
     }
-    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available only for DynamoDB and Kinesis event sources:    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    ParallelizationFactor – Process multiple batches from each shard concurrently.   For stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka), the following option is also available:    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, or Amazon S3 bucket. For more information, see Adding a destination.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
+    /// Updates an event source mapping. You can change the function that Lambda invokes, or pause invocation and resume later from the same location. For details about how to configure different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB    The following error handling options are available for stream sources (DynamoDB, Kinesis, Amazon MSK, and self-managed Apache Kafka):    BisectBatchOnFunctionError – If the function returns an error, split the batch in two and retry.    MaximumRecordAgeInSeconds – Discard records older than the specified age. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts – Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.    OnFailure – Send discarded records to an Amazon SQS queue, Amazon SNS topic, Kafka topic, or Amazon S3 bucket. For more information, see Adding a destination.   The following option is available only for DynamoDB and Kinesis event sources:    ParallelizationFactor – Process multiple batches from each shard concurrently.   For information about which configuration parameters apply to each event source, see the following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
     ///
     /// Parameters:
     ///   - amazonManagedKafkaEventSourceConfig: 
     ///   - batchSize: The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis – Default 100. Max 10,000.    Amazon DynamoDB Streams – Default 100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka – Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default 100. Max 10,000.
-    ///   - bisectBatchOnFunctionError: (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
-    ///   - destinationConfig: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
+    ///   - bisectBatchOnFunctionError: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) If the function returns an error, split the batch in two and retry.
+    ///   - destinationConfig: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) A configuration object that specifies the destination of an event after Lambda processes it.
     ///   - documentDBEventSourceConfig: Specific configuration settings for a DocumentDB event source.
     ///   - enabled: When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
     ///   - filterCriteria: An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
-    ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current response type enums applied to the event source mapping.
+    ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache Kafka, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     ///   - kmsKeyArn:  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
     ///   - maximumBatchingWindowInSeconds: The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
-    ///   - maximumRecordAgeInSeconds: (Kinesis and DynamoDB Streams only) Discard records older than the specified age. The default value is infinite (-1).
-    ///   - maximumRetryAttempts: (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
+    ///   - maximumRecordAgeInSeconds: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
+    ///   - maximumRetryAttempts: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///   - metricsConfig: The metrics configuration for your event source. For more information, see Event source mapping metrics.
     ///   - parallelizationFactor: (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
-    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
+    ///   - provisionedPollerConfig: (Amazon SQS, Amazon MSK, and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
     ///   - scalingConfig: (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
     ///   - selfManagedKafkaEventSourceConfig: 
     ///   - sourceAccessConfigurations: An array of authentication protocols or VPC components required to secure your event source.
@@ -2563,6 +3185,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - imageUri: URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
     ///   - publish: Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
+    ///   - publishTo: Specifies where to publish the function version or configuration.
     ///   - revisionId: Update the function only if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
     ///   - s3Bucket: An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
     ///   - s3Key: The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
@@ -2577,6 +3200,7 @@ public struct Lambda: AWSService {
         functionName: String,
         imageUri: String? = nil,
         publish: Bool? = nil,
+        publishTo: FunctionVersionLatestPublished? = nil,
         revisionId: String? = nil,
         s3Bucket: String? = nil,
         s3Key: String? = nil,
@@ -2591,6 +3215,7 @@ public struct Lambda: AWSService {
             functionName: functionName, 
             imageUri: imageUri, 
             publish: publish, 
+            publishTo: publishTo, 
             revisionId: revisionId, 
             s3Bucket: s3Bucket, 
             s3Key: s3Key, 
@@ -2617,8 +3242,10 @@ public struct Lambda: AWSService {
     /// Modify the version-specific settings of a Lambda function. When you update a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute. During this time, you can't modify the function, but you can still invoke it. The LastUpdateStatus, LastUpdateStatusReason, and LastUpdateStatusReasonCode fields in the response from GetFunctionConfiguration indicate when the update is complete and the function is processing events with the new configuration. For more information, see Lambda function states. These settings can vary between versions of a function and are locked when you publish a version. You can't modify the configuration of a published version, only the unpublished version. To configure function concurrency, use PutFunctionConcurrency. To grant invoke permissions to an Amazon Web Services account or Amazon Web Services service, use AddPermission.
     ///
     /// Parameters:
+    ///   - capacityProviderConfig: Configuration for the capacity provider that manages compute resources for Lambda functions.
     ///   - deadLetterConfig: A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead-letter queues.
     ///   - description: A description of the function.
+    ///   - durableConfig: Configuration settings for durable functions. Allows updating execution timeout and retention period for functions with durability enabled.
     ///   - environment: Environment variables that are accessible from function code during execution.
     ///   - ephemeralStorage: The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see Configuring ephemeral storage (console).
     ///   - fileSystemConfigs: Connection settings for an Amazon EFS file system.
@@ -2639,8 +3266,10 @@ public struct Lambda: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFunctionConfiguration(
+        capacityProviderConfig: CapacityProviderConfig? = nil,
         deadLetterConfig: DeadLetterConfig? = nil,
         description: String? = nil,
+        durableConfig: DurableConfig? = nil,
         environment: Environment? = nil,
         ephemeralStorage: EphemeralStorage? = nil,
         fileSystemConfigs: [FileSystemConfig]? = nil,
@@ -2661,8 +3290,10 @@ public struct Lambda: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> FunctionConfiguration {
         let input = UpdateFunctionConfigurationRequest(
+            capacityProviderConfig: capacityProviderConfig, 
             deadLetterConfig: deadLetterConfig, 
             description: description, 
+            durableConfig: durableConfig, 
             environment: environment, 
             ephemeralStorage: ephemeralStorage, 
             fileSystemConfigs: fileSystemConfigs, 
@@ -2741,7 +3372,7 @@ public struct Lambda: AWSService {
     /// Updates the configuration for a Lambda function URL.
     ///
     /// Parameters:
-    ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Security and auth model for Lambda function URLs.
+    ///   - authType: The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see Control access to Lambda function URLs.
     ///   - cors: The cross-origin resource sharing (CORS) settings for your function URL.
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – my-function.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN – 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
     ///   - invokeMode: Use one of the following options:    BUFFERED – This is the default option. Lambda invokes your function using the Invoke API operation. Invocation results are available when the payload is complete. The maximum payload size is 6 MB.    RESPONSE_STREAM – Your function streams payload results as they become available. Lambda invokes your function using the InvokeWithResponseStream API operation. The maximum response payload size is 200 MB.
@@ -2773,6 +3404,191 @@ extension Lambda {
     public init(from: Lambda, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
+    }
+}
+
+// MARK: Paginators
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Lambda {
+    /// Return PaginatorSequence for operation ``getDurableExecutionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getDurableExecutionHistoryPaginator(
+        _ input: GetDurableExecutionHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDurableExecutionHistoryRequest, GetDurableExecutionHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.getDurableExecutionHistory,
+            inputKey: \GetDurableExecutionHistoryRequest.marker,
+            outputKey: \GetDurableExecutionHistoryResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getDurableExecutionHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - includeExecutionData: Specifies whether to include execution data such as step results and callback payloads in the history events. Set to true to include data, or false to exclude it for a more compact response. The default is true.
+    ///   - maxItems: The maximum number of history events to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    ///   - reverseOrder: When set to true, returns the history events in reverse chronological order (newest first). By default, events are returned in chronological order (oldest first).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getDurableExecutionHistoryPaginator(
+        durableExecutionArn: String,
+        includeExecutionData: Bool? = nil,
+        maxItems: Int? = nil,
+        reverseOrder: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetDurableExecutionHistoryRequest, GetDurableExecutionHistoryResponse> {
+        let input = GetDurableExecutionHistoryRequest(
+            durableExecutionArn: durableExecutionArn, 
+            includeExecutionData: includeExecutionData, 
+            maxItems: maxItems, 
+            reverseOrder: reverseOrder
+        )
+        return self.getDurableExecutionHistoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getDurableExecutionState(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getDurableExecutionStatePaginator(
+        _ input: GetDurableExecutionStateRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetDurableExecutionStateRequest, GetDurableExecutionStateResponse> {
+        return .init(
+            input: input,
+            command: self.getDurableExecutionState,
+            inputKey: \GetDurableExecutionStateRequest.marker,
+            outputKey: \GetDurableExecutionStateResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getDurableExecutionState(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - checkpointToken: A checkpoint token that identifies the current state of the execution. This token is provided by the Lambda runtime and ensures that state retrieval is consistent with the current execution context.
+    ///   - durableExecutionArn: The Amazon Resource Name (ARN) of the durable execution.
+    ///   - maxItems: The maximum number of operations to return per call. You can use Marker to retrieve additional pages of results. The default is 100 and the maximum allowed is 1000. A value of 0 uses the default.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getDurableExecutionStatePaginator(
+        checkpointToken: String,
+        durableExecutionArn: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetDurableExecutionStateRequest, GetDurableExecutionStateResponse> {
+        let input = GetDurableExecutionStateRequest(
+            checkpointToken: checkpointToken, 
+            durableExecutionArn: durableExecutionArn, 
+            maxItems: maxItems
+        )
+        return self.getDurableExecutionStatePaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDurableExecutionsByFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDurableExecutionsByFunctionPaginator(
+        _ input: ListDurableExecutionsByFunctionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDurableExecutionsByFunctionRequest, ListDurableExecutionsByFunctionResponse> {
+        return .init(
+            input: input,
+            command: self.listDurableExecutionsByFunction,
+            inputKey: \ListDurableExecutionsByFunctionRequest.marker,
+            outputKey: \ListDurableExecutionsByFunctionResponse.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDurableExecutionsByFunction(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - durableExecutionName: Filter executions by name. Only executions with names that contain this string are returned.
+    ///   - functionName: The name or ARN of the Lambda function. You can specify a function name, a partial ARN, or a full ARN.
+    ///   - maxItems: Maximum number of executions to return (1-1000). Default is 100.
+    ///   - qualifier: The function version or alias. If not specified, lists executions for the $LATEST version.
+    ///   - reverseOrder: Set to true to return results in reverse chronological order (newest first). Default is false.
+    ///   - startedAfter: Filter executions that started after this timestamp (ISO 8601 format).
+    ///   - startedBefore: Filter executions that started before this timestamp (ISO 8601 format).
+    ///   - statuses: Filter executions by status. Valid values: RUNNING, SUCCEEDED, FAILED, TIMED_OUT, STOPPED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDurableExecutionsByFunctionPaginator(
+        durableExecutionName: String? = nil,
+        functionName: String,
+        maxItems: Int? = nil,
+        qualifier: String? = nil,
+        reverseOrder: Bool? = nil,
+        startedAfter: Date? = nil,
+        startedBefore: Date? = nil,
+        statuses: [ExecutionStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDurableExecutionsByFunctionRequest, ListDurableExecutionsByFunctionResponse> {
+        let input = ListDurableExecutionsByFunctionRequest(
+            durableExecutionName: durableExecutionName, 
+            functionName: functionName, 
+            maxItems: maxItems, 
+            qualifier: qualifier, 
+            reverseOrder: reverseOrder, 
+            startedAfter: startedAfter, 
+            startedBefore: startedBefore, 
+            statuses: statuses
+        )
+        return self.listDurableExecutionsByFunctionPaginator(input, logger: logger)
+    }
+}
+
+extension Lambda.GetDurableExecutionHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.GetDurableExecutionHistoryRequest {
+        return .init(
+            durableExecutionArn: self.durableExecutionArn,
+            includeExecutionData: self.includeExecutionData,
+            marker: token,
+            maxItems: self.maxItems,
+            reverseOrder: self.reverseOrder
+        )
+    }
+}
+
+extension Lambda.GetDurableExecutionStateRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.GetDurableExecutionStateRequest {
+        return .init(
+            checkpointToken: self.checkpointToken,
+            durableExecutionArn: self.durableExecutionArn,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension Lambda.ListDurableExecutionsByFunctionRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Lambda.ListDurableExecutionsByFunctionRequest {
+        return .init(
+            durableExecutionName: self.durableExecutionName,
+            functionName: self.functionName,
+            marker: token,
+            maxItems: self.maxItems,
+            qualifier: self.qualifier,
+            reverseOrder: self.reverseOrder,
+            startedAfter: self.startedAfter,
+            startedBefore: self.startedBefore,
+            statuses: self.statuses
+        )
     }
 }
 

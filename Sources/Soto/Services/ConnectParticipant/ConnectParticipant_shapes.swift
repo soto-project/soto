@@ -61,6 +61,13 @@ extension ConnectParticipant {
         public var description: String { return self.rawValue }
     }
 
+    public enum MessageProcessingStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case agent = "AGENT"
         case customBot = "CUSTOM_BOT"
@@ -658,18 +665,36 @@ extension ConnectParticipant {
     public struct MessageMetadata: AWSDecodableShape {
         /// The identifier of the message that contains the metadata information.
         public let messageId: String?
+        /// The status of Message Processing for the message.
+        public let messageProcessingStatus: MessageProcessingStatus?
         /// The list of receipt information for a message for different recipients.
         public let receipts: [Receipt]?
 
         @inlinable
-        public init(messageId: String? = nil, receipts: [Receipt]? = nil) {
+        public init(messageId: String? = nil, messageProcessingStatus: MessageProcessingStatus? = nil, receipts: [Receipt]? = nil) {
             self.messageId = messageId
+            self.messageProcessingStatus = messageProcessingStatus
             self.receipts = receipts
         }
 
         private enum CodingKeys: String, CodingKey {
             case messageId = "MessageId"
+            case messageProcessingStatus = "MessageProcessingStatus"
             case receipts = "Receipts"
+        }
+    }
+
+    public struct MessageProcessingMetadata: AWSDecodableShape {
+        /// The status of Message Processing for the message.
+        public let messageProcessingStatus: MessageProcessingStatus?
+
+        @inlinable
+        public init(messageProcessingStatus: MessageProcessingStatus? = nil) {
+            self.messageProcessingStatus = messageProcessingStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageProcessingStatus = "MessageProcessingStatus"
         }
     }
 
@@ -827,16 +852,20 @@ extension ConnectParticipant {
         public let absoluteTime: String?
         /// The ID of the message.
         public let id: String?
+        /// Contains metadata for the message.
+        public let messageMetadata: MessageProcessingMetadata?
 
         @inlinable
-        public init(absoluteTime: String? = nil, id: String? = nil) {
+        public init(absoluteTime: String? = nil, id: String? = nil, messageMetadata: MessageProcessingMetadata? = nil) {
             self.absoluteTime = absoluteTime
             self.id = id
+            self.messageMetadata = messageMetadata
         }
 
         private enum CodingKeys: String, CodingKey {
             case absoluteTime = "AbsoluteTime"
             case id = "Id"
+            case messageMetadata = "MessageMetadata"
         }
     }
 

@@ -534,7 +534,7 @@ public struct SSM: AWSService {
     ///   - description: User-defined text that contains information about the OpsItem, in Markdown format.   Provide enough information so that users viewing this OpsItem for the first time understand the issue.
     ///   - notifications: The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
     ///   - operationalData: Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-    ///   - opsItemType: The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    ///   - opsItemType: The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.   Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
     ///   - plannedEndTime: The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     ///   - plannedStartTime: The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
     ///   - priority: The importance of this OpsItem in relation to other OpsItems in the system.
@@ -3669,7 +3669,8 @@ public struct SSM: AWSService {
         return try await self.listComplianceSummaries(input, logger: logger)
     }
 
-    /// Information about approval reviews for a version of a change template in Change Manager.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Information about approval reviews for a version of a change template in Change Manager.
     @Sendable
     @inlinable
     public func listDocumentMetadataHistory(_ input: ListDocumentMetadataHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDocumentMetadataHistoryResponse {
@@ -3682,7 +3683,8 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Information about approval reviews for a version of a change template in Change Manager.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Information about approval reviews for a version of a change template in Change Manager.
     ///
     /// Parameters:
     ///   - documentVersion: The version of the change template.
@@ -4852,7 +4854,8 @@ public struct SSM: AWSService {
         return try await self.startAutomationExecution(input, logger: logger)
     }
 
-    /// Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     @Sendable
     @inlinable
     public func startChangeRequestExecution(_ input: StartChangeRequestExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartChangeRequestExecutionResult {
@@ -4865,7 +4868,8 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     ///
     /// Parameters:
     ///   - autoApprove: Indicates whether the change request can be approved automatically without the need for manual approvals. If AutoApprovable is enabled in a change template, then setting AutoApprove to true in StartChangeRequestExecution creates a change request that bypasses approver review.  Change Calendar restrictions are not bypassed in this scenario. If the state of an associated calendar is CLOSED, change freeze approvers must still grant permission for this change request to run. If they don't, the change won't be processed until the calendar state is again OPEN.
@@ -5286,7 +5290,8 @@ public struct SSM: AWSService {
         return try await self.updateDocumentDefaultVersion(input, logger: logger)
     }
 
-    /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Updates information related to approval reviews for a specific version of a change template in Change Manager.
     @Sendable
     @inlinable
     public func updateDocumentMetadata(_ input: UpdateDocumentMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDocumentMetadataResponse {
@@ -5299,7 +5304,8 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    /// Updates information related to approval reviews for a specific version of a change template in Change Manager.
+    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    /// Amazon Web Services Systems Manager Change Manager availability change.  Updates information related to approval reviews for a specific version of a change template in Change Manager.
     ///
     /// Parameters:
     ///   - documentReviews: The change template review details to update.

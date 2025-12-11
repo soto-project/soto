@@ -302,6 +302,7 @@ public struct NetworkManager: AWSService {
     ///   - coreNetworkId: The ID of a core network where you want to create the attachment.
     ///   - edgeLocation: The Region where the edge is located.
     ///   - options: Options for creating an attachment.
+    ///   - routingPolicyLabel: The routing policy label to apply to the Connect attachment for traffic routing decisions.
     ///   - tags: The list of key-value tags associated with the request.
     ///   - transportAttachmentId: The ID of the attachment between the two connections.
     ///   - logger: Logger use during operation
@@ -311,6 +312,7 @@ public struct NetworkManager: AWSService {
         coreNetworkId: String,
         edgeLocation: String,
         options: ConnectAttachmentOptions,
+        routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         transportAttachmentId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -320,6 +322,7 @@ public struct NetworkManager: AWSService {
             coreNetworkId: coreNetworkId, 
             edgeLocation: edgeLocation, 
             options: options, 
+            routingPolicyLabel: routingPolicyLabel, 
             tags: tags, 
             transportAttachmentId: transportAttachmentId
         )
@@ -464,6 +467,44 @@ public struct NetworkManager: AWSService {
         return try await self.createCoreNetwork(input, logger: logger)
     }
 
+    /// Creates an association between a core network and a prefix list for routing control.
+    @Sendable
+    @inlinable
+    public func createCoreNetworkPrefixListAssociation(_ input: CreateCoreNetworkPrefixListAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCoreNetworkPrefixListAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateCoreNetworkPrefixListAssociation", 
+            path: "/prefix-list", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an association between a core network and a prefix list for routing control.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - coreNetworkId: The ID of the core network to associate with the prefix list.
+    ///   - prefixListAlias: An optional alias for the prefix list association.
+    ///   - prefixListArn: The ARN of the prefix list to associate with the core network.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createCoreNetworkPrefixListAssociation(
+        clientToken: String? = CreateCoreNetworkPrefixListAssociationRequest.idempotencyToken(),
+        coreNetworkId: String,
+        prefixListAlias: String,
+        prefixListArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateCoreNetworkPrefixListAssociationResponse {
+        let input = CreateCoreNetworkPrefixListAssociationRequest(
+            clientToken: clientToken, 
+            coreNetworkId: coreNetworkId, 
+            prefixListAlias: prefixListAlias, 
+            prefixListArn: prefixListArn
+        )
+        return try await self.createCoreNetworkPrefixListAssociation(input, logger: logger)
+    }
+
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
     @Sendable
     @inlinable
@@ -540,6 +581,7 @@ public struct NetworkManager: AWSService {
     ///   - coreNetworkId: The ID of the Cloud WAN core network that the Direct Connect gateway attachment should be attached to.
     ///   - directConnectGatewayArn: The ARN of the Direct Connect gateway attachment.
     ///   - edgeLocations: One or more core network edge locations that the Direct Connect gateway attachment is associated with.
+    ///   - routingPolicyLabel: The routing policy label to apply to the Direct Connect Gateway attachment for traffic routing decisions.
     ///   - tags: The key value tags to apply to the Direct Connect gateway attachment during creation.
     ///   - logger: Logger use during operation
     @inlinable
@@ -548,6 +590,7 @@ public struct NetworkManager: AWSService {
         coreNetworkId: String,
         directConnectGatewayArn: String,
         edgeLocations: [String],
+        routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDirectConnectGatewayAttachmentResponse {
@@ -556,6 +599,7 @@ public struct NetworkManager: AWSService {
             coreNetworkId: coreNetworkId, 
             directConnectGatewayArn: directConnectGatewayArn, 
             edgeLocations: edgeLocations, 
+            routingPolicyLabel: routingPolicyLabel, 
             tags: tags
         )
         return try await self.createDirectConnectGatewayAttachment(input, logger: logger)
@@ -696,6 +740,7 @@ public struct NetworkManager: AWSService {
     /// Parameters:
     ///   - clientToken: The client token associated with the request.
     ///   - coreNetworkId: The ID of a core network where you're creating a site-to-site VPN attachment.
+    ///   - routingPolicyLabel: The routing policy label to apply to the Site-to-Site VPN attachment for traffic routing decisions.
     ///   - tags: The tags associated with the request.
     ///   - vpnConnectionArn: The ARN identifying the VPN attachment.
     ///   - logger: Logger use during operation
@@ -703,6 +748,7 @@ public struct NetworkManager: AWSService {
     public func createSiteToSiteVpnAttachment(
         clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(),
         coreNetworkId: String,
+        routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         vpnConnectionArn: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -710,6 +756,7 @@ public struct NetworkManager: AWSService {
         let input = CreateSiteToSiteVpnAttachmentRequest(
             clientToken: clientToken, 
             coreNetworkId: coreNetworkId, 
+            routingPolicyLabel: routingPolicyLabel, 
             tags: tags, 
             vpnConnectionArn: vpnConnectionArn
         )
@@ -772,6 +819,7 @@ public struct NetworkManager: AWSService {
     /// Parameters:
     ///   - clientToken: The client token associated with the request.
     ///   - peeringId: The ID of the peer for the
+    ///   - routingPolicyLabel: The routing policy label to apply to the Transit Gateway route table attachment for traffic routing decisions.
     ///   - tags: The list of key-value tags associated with the request.
     ///   - transitGatewayRouteTableArn: The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
     ///   - logger: Logger use during operation
@@ -779,6 +827,7 @@ public struct NetworkManager: AWSService {
     public func createTransitGatewayRouteTableAttachment(
         clientToken: String? = CreateTransitGatewayRouteTableAttachmentRequest.idempotencyToken(),
         peeringId: String,
+        routingPolicyLabel: String? = nil,
         tags: [Tag]? = nil,
         transitGatewayRouteTableArn: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -786,6 +835,7 @@ public struct NetworkManager: AWSService {
         let input = CreateTransitGatewayRouteTableAttachmentRequest(
             clientToken: clientToken, 
             peeringId: peeringId, 
+            routingPolicyLabel: routingPolicyLabel, 
             tags: tags, 
             transitGatewayRouteTableArn: transitGatewayRouteTableArn
         )
@@ -811,6 +861,7 @@ public struct NetworkManager: AWSService {
     ///   - clientToken: The client token associated with the request.
     ///   - coreNetworkId: The ID of a core network for the VPC attachment.
     ///   - options: Options for the VPC attachment.
+    ///   - routingPolicyLabel: The routing policy label to apply to the VPC attachment for traffic routing decisions.
     ///   - subnetArns: The subnet ARN of the VPC attachment.
     ///   - tags: The key-value tags associated with the request.
     ///   - vpcArn: The ARN of the VPC.
@@ -820,6 +871,7 @@ public struct NetworkManager: AWSService {
         clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(),
         coreNetworkId: String,
         options: VpcOptions? = nil,
+        routingPolicyLabel: String? = nil,
         subnetArns: [String],
         tags: [Tag]? = nil,
         vpcArn: String,
@@ -829,6 +881,7 @@ public struct NetworkManager: AWSService {
             clientToken: clientToken, 
             coreNetworkId: coreNetworkId, 
             options: options, 
+            routingPolicyLabel: routingPolicyLabel, 
             subnetArns: subnetArns, 
             tags: tags, 
             vpcArn: vpcArn
@@ -985,6 +1038,38 @@ public struct NetworkManager: AWSService {
             policyVersionId: policyVersionId
         )
         return try await self.deleteCoreNetworkPolicyVersion(input, logger: logger)
+    }
+
+    /// Deletes an association between a core network and a prefix list.
+    @Sendable
+    @inlinable
+    public func deleteCoreNetworkPrefixListAssociation(_ input: DeleteCoreNetworkPrefixListAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCoreNetworkPrefixListAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteCoreNetworkPrefixListAssociation", 
+            path: "/prefix-list/{PrefixListArn}/core-network/{CoreNetworkId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an association between a core network and a prefix list.
+    ///
+    /// Parameters:
+    ///   - coreNetworkId: The ID of the core network from which to delete the prefix list association.
+    ///   - prefixListArn: The ARN of the prefix list to disassociate from the core network.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCoreNetworkPrefixListAssociation(
+        coreNetworkId: String,
+        prefixListArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCoreNetworkPrefixListAssociationResponse {
+        let input = DeleteCoreNetworkPrefixListAssociationRequest(
+            coreNetworkId: coreNetworkId, 
+            prefixListArn: prefixListArn
+        )
+        return try await self.deleteCoreNetworkPrefixListAssociation(input, logger: logger)
     }
 
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
@@ -2417,6 +2502,44 @@ public struct NetworkManager: AWSService {
         return try await self.getVpcAttachment(input, logger: logger)
     }
 
+    /// Lists the routing policy associations for attachments in a core network.
+    @Sendable
+    @inlinable
+    public func listAttachmentRoutingPolicyAssociations(_ input: ListAttachmentRoutingPolicyAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAttachmentRoutingPolicyAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListAttachmentRoutingPolicyAssociations", 
+            path: "/routing-policy-label/core-network/{CoreNetworkId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the routing policy associations for attachments in a core network.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of a specific attachment to filter the routing policy associations.
+    ///   - coreNetworkId: The ID of the core network to list attachment routing policy associations for.
+    ///   - maxResults: The maximum number of results to return in a single page.
+    ///   - nextToken: The token for the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAttachmentRoutingPolicyAssociations(
+        attachmentId: String? = nil,
+        coreNetworkId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAttachmentRoutingPolicyAssociationsResponse {
+        let input = ListAttachmentRoutingPolicyAssociationsRequest(
+            attachmentId: attachmentId, 
+            coreNetworkId: coreNetworkId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAttachmentRoutingPolicyAssociations(input, logger: logger)
+    }
+
     /// Returns a list of core network attachments.
     @Sendable
     @inlinable
@@ -2532,6 +2655,100 @@ public struct NetworkManager: AWSService {
             nextToken: nextToken
         )
         return try await self.listCoreNetworkPolicyVersions(input, logger: logger)
+    }
+
+    /// Lists the prefix list associations for a core network.
+    @Sendable
+    @inlinable
+    public func listCoreNetworkPrefixListAssociations(_ input: ListCoreNetworkPrefixListAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoreNetworkPrefixListAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListCoreNetworkPrefixListAssociations", 
+            path: "/prefix-list/core-network/{CoreNetworkId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the prefix list associations for a core network.
+    ///
+    /// Parameters:
+    ///   - coreNetworkId: The ID of the core network to list prefix list associations for.
+    ///   - maxResults: The maximum number of results to return in a single page.
+    ///   - nextToken: The token for the next page of results.
+    ///   - prefixListArn: The ARN of a specific prefix list to filter the associations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCoreNetworkPrefixListAssociations(
+        coreNetworkId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        prefixListArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCoreNetworkPrefixListAssociationsResponse {
+        let input = ListCoreNetworkPrefixListAssociationsRequest(
+            coreNetworkId: coreNetworkId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            prefixListArn: prefixListArn
+        )
+        return try await self.listCoreNetworkPrefixListAssociations(input, logger: logger)
+    }
+
+    /// Lists routing information for a core network, including routes and their attributes.
+    @Sendable
+    @inlinable
+    public func listCoreNetworkRoutingInformation(_ input: ListCoreNetworkRoutingInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCoreNetworkRoutingInformationResponse {
+        try await self.client.execute(
+            operation: "ListCoreNetworkRoutingInformation", 
+            path: "/core-networks/{CoreNetworkId}/core-network-routing-information", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists routing information for a core network, including routes and their attributes.
+    ///
+    /// Parameters:
+    ///   - communityMatches: BGP community values to match when filtering routing information.
+    ///   - coreNetworkId: The ID of the core network to retrieve routing information for.
+    ///   - edgeLocation: The edge location to filter routing information by.
+    ///   - exactAsPathMatches: Exact AS path values to match when filtering routing information.
+    ///   - localPreferenceMatches: Local preference values to match when filtering routing information.
+    ///   - maxResults: The maximum number of routing information entries to return in a single page.
+    ///   - medMatches: Multi-Exit Discriminator (MED) values to match when filtering routing information.
+    ///   - nextHopFilters: Filters to apply based on next hop information.
+    ///   - nextToken: The token for the next page of results.
+    ///   - segmentName: The name of the segment to filter routing information by.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCoreNetworkRoutingInformation(
+        communityMatches: [String]? = nil,
+        coreNetworkId: String,
+        edgeLocation: String,
+        exactAsPathMatches: [String]? = nil,
+        localPreferenceMatches: [String]? = nil,
+        maxResults: Int? = nil,
+        medMatches: [String]? = nil,
+        nextHopFilters: [String: [String]]? = nil,
+        nextToken: String? = nil,
+        segmentName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCoreNetworkRoutingInformationResponse {
+        let input = ListCoreNetworkRoutingInformationRequest(
+            communityMatches: communityMatches, 
+            coreNetworkId: coreNetworkId, 
+            edgeLocation: edgeLocation, 
+            exactAsPathMatches: exactAsPathMatches, 
+            localPreferenceMatches: localPreferenceMatches, 
+            maxResults: maxResults, 
+            medMatches: medMatches, 
+            nextHopFilters: nextHopFilters, 
+            nextToken: nextToken, 
+            segmentName: segmentName
+        )
+        return try await self.listCoreNetworkRoutingInformation(input, logger: logger)
     }
 
     /// Returns a list of owned and shared core networks.
@@ -2671,6 +2888,44 @@ public struct NetworkManager: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Applies a routing policy label to an attachment for traffic routing decisions.
+    @Sendable
+    @inlinable
+    public func putAttachmentRoutingPolicyLabel(_ input: PutAttachmentRoutingPolicyLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAttachmentRoutingPolicyLabelResponse {
+        try await self.client.execute(
+            operation: "PutAttachmentRoutingPolicyLabel", 
+            path: "/routing-policy-label", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Applies a routing policy label to an attachment for traffic routing decisions.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of the attachment to apply the routing policy label to.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    ///   - coreNetworkId: The ID of the core network containing the attachment.
+    ///   - routingPolicyLabel: The routing policy label to apply to the attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAttachmentRoutingPolicyLabel(
+        attachmentId: String,
+        clientToken: String? = PutAttachmentRoutingPolicyLabelRequest.idempotencyToken(),
+        coreNetworkId: String,
+        routingPolicyLabel: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutAttachmentRoutingPolicyLabelResponse {
+        let input = PutAttachmentRoutingPolicyLabelRequest(
+            attachmentId: attachmentId, 
+            clientToken: clientToken, 
+            coreNetworkId: coreNetworkId, 
+            routingPolicyLabel: routingPolicyLabel
+        )
+        return try await self.putAttachmentRoutingPolicyLabel(input, logger: logger)
+    }
+
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
     @Sendable
     @inlinable
@@ -2803,6 +3058,38 @@ public struct NetworkManager: AWSService {
             attachmentId: attachmentId
         )
         return try await self.rejectAttachment(input, logger: logger)
+    }
+
+    /// Removes a routing policy label from an attachment.
+    @Sendable
+    @inlinable
+    public func removeAttachmentRoutingPolicyLabel(_ input: RemoveAttachmentRoutingPolicyLabelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveAttachmentRoutingPolicyLabelResponse {
+        try await self.client.execute(
+            operation: "RemoveAttachmentRoutingPolicyLabel", 
+            path: "/routing-policy-label/core-network/{CoreNetworkId}/attachment/{AttachmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a routing policy label from an attachment.
+    ///
+    /// Parameters:
+    ///   - attachmentId: The ID of the attachment to remove the routing policy label from.
+    ///   - coreNetworkId: The ID of the core network containing the attachment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeAttachmentRoutingPolicyLabel(
+        attachmentId: String,
+        coreNetworkId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RemoveAttachmentRoutingPolicyLabelResponse {
+        let input = RemoveAttachmentRoutingPolicyLabelRequest(
+            attachmentId: attachmentId, 
+            coreNetworkId: coreNetworkId
+        )
+        return try await self.removeAttachmentRoutingPolicyLabel(input, logger: logger)
     }
 
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
@@ -4033,6 +4320,46 @@ extension NetworkManager {
         return self.getTransitGatewayRegistrationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAttachmentRoutingPolicyAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachmentRoutingPolicyAssociationsPaginator(
+        _ input: ListAttachmentRoutingPolicyAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAttachmentRoutingPolicyAssociationsRequest, ListAttachmentRoutingPolicyAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listAttachmentRoutingPolicyAssociations,
+            inputKey: \ListAttachmentRoutingPolicyAssociationsRequest.nextToken,
+            outputKey: \ListAttachmentRoutingPolicyAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAttachmentRoutingPolicyAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - attachmentId: The ID of a specific attachment to filter the routing policy associations.
+    ///   - coreNetworkId: The ID of the core network to list attachment routing policy associations for.
+    ///   - maxResults: The maximum number of results to return in a single page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAttachmentRoutingPolicyAssociationsPaginator(
+        attachmentId: String? = nil,
+        coreNetworkId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAttachmentRoutingPolicyAssociationsRequest, ListAttachmentRoutingPolicyAssociationsResponse> {
+        let input = ListAttachmentRoutingPolicyAssociationsRequest(
+            attachmentId: attachmentId, 
+            coreNetworkId: coreNetworkId, 
+            maxResults: maxResults
+        )
+        return self.listAttachmentRoutingPolicyAssociationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAttachments(_:logger:)``.
     ///
     /// - Parameters:
@@ -4154,6 +4481,104 @@ extension NetworkManager {
             maxResults: maxResults
         )
         return self.listCoreNetworkPolicyVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCoreNetworkPrefixListAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCoreNetworkPrefixListAssociationsPaginator(
+        _ input: ListCoreNetworkPrefixListAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkPrefixListAssociationsRequest, ListCoreNetworkPrefixListAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listCoreNetworkPrefixListAssociations,
+            inputKey: \ListCoreNetworkPrefixListAssociationsRequest.nextToken,
+            outputKey: \ListCoreNetworkPrefixListAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCoreNetworkPrefixListAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - coreNetworkId: The ID of the core network to list prefix list associations for.
+    ///   - maxResults: The maximum number of results to return in a single page.
+    ///   - prefixListArn: The ARN of a specific prefix list to filter the associations.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCoreNetworkPrefixListAssociationsPaginator(
+        coreNetworkId: String,
+        maxResults: Int? = nil,
+        prefixListArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkPrefixListAssociationsRequest, ListCoreNetworkPrefixListAssociationsResponse> {
+        let input = ListCoreNetworkPrefixListAssociationsRequest(
+            coreNetworkId: coreNetworkId, 
+            maxResults: maxResults, 
+            prefixListArn: prefixListArn
+        )
+        return self.listCoreNetworkPrefixListAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCoreNetworkRoutingInformation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCoreNetworkRoutingInformationPaginator(
+        _ input: ListCoreNetworkRoutingInformationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkRoutingInformationRequest, ListCoreNetworkRoutingInformationResponse> {
+        return .init(
+            input: input,
+            command: self.listCoreNetworkRoutingInformation,
+            inputKey: \ListCoreNetworkRoutingInformationRequest.nextToken,
+            outputKey: \ListCoreNetworkRoutingInformationResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCoreNetworkRoutingInformation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - communityMatches: BGP community values to match when filtering routing information.
+    ///   - coreNetworkId: The ID of the core network to retrieve routing information for.
+    ///   - edgeLocation: The edge location to filter routing information by.
+    ///   - exactAsPathMatches: Exact AS path values to match when filtering routing information.
+    ///   - localPreferenceMatches: Local preference values to match when filtering routing information.
+    ///   - maxResults: The maximum number of routing information entries to return in a single page.
+    ///   - medMatches: Multi-Exit Discriminator (MED) values to match when filtering routing information.
+    ///   - nextHopFilters: Filters to apply based on next hop information.
+    ///   - segmentName: The name of the segment to filter routing information by.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCoreNetworkRoutingInformationPaginator(
+        communityMatches: [String]? = nil,
+        coreNetworkId: String,
+        edgeLocation: String,
+        exactAsPathMatches: [String]? = nil,
+        localPreferenceMatches: [String]? = nil,
+        maxResults: Int? = nil,
+        medMatches: [String]? = nil,
+        nextHopFilters: [String: [String]]? = nil,
+        segmentName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkRoutingInformationRequest, ListCoreNetworkRoutingInformationResponse> {
+        let input = ListCoreNetworkRoutingInformationRequest(
+            communityMatches: communityMatches, 
+            coreNetworkId: coreNetworkId, 
+            edgeLocation: edgeLocation, 
+            exactAsPathMatches: exactAsPathMatches, 
+            localPreferenceMatches: localPreferenceMatches, 
+            maxResults: maxResults, 
+            medMatches: medMatches, 
+            nextHopFilters: nextHopFilters, 
+            segmentName: segmentName
+        )
+        return self.listCoreNetworkRoutingInformationPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listCoreNetworks(_:logger:)``.
@@ -4449,6 +4874,18 @@ extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateToken
     }
 }
 
+extension NetworkManager.ListAttachmentRoutingPolicyAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListAttachmentRoutingPolicyAssociationsRequest {
+        return .init(
+            attachmentId: self.attachmentId,
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension NetworkManager.ListAttachmentsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NetworkManager.ListAttachmentsRequest {
@@ -4482,6 +4919,36 @@ extension NetworkManager.ListCoreNetworkPolicyVersionsRequest: AWSPaginateToken 
             coreNetworkId: self.coreNetworkId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension NetworkManager.ListCoreNetworkPrefixListAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListCoreNetworkPrefixListAssociationsRequest {
+        return .init(
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            prefixListArn: self.prefixListArn
+        )
+    }
+}
+
+extension NetworkManager.ListCoreNetworkRoutingInformationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListCoreNetworkRoutingInformationRequest {
+        return .init(
+            communityMatches: self.communityMatches,
+            coreNetworkId: self.coreNetworkId,
+            edgeLocation: self.edgeLocation,
+            exactAsPathMatches: self.exactAsPathMatches,
+            localPreferenceMatches: self.localPreferenceMatches,
+            maxResults: self.maxResults,
+            medMatches: self.medMatches,
+            nextHopFilters: self.nextHopFilters,
+            nextToken: token,
+            segmentName: self.segmentName
         )
     }
 }

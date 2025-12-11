@@ -145,6 +145,7 @@ public struct BedrockRuntime: AWSService {
     ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
+    ///   - serviceTier: Specifies the processing tier configuration used for serving the request.
     ///   - system: A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
     ///   - toolConfig: Configuration information for the tools that the model can use when generating a response.  For information about models that support tool use, see Supported models and model features.
     ///   - logger: Logger use during operation
@@ -159,6 +160,7 @@ public struct BedrockRuntime: AWSService {
         performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
         requestMetadata: [String: String]? = nil,
+        serviceTier: ServiceTier? = nil,
         system: [SystemContentBlock]? = nil,
         toolConfig: ToolConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -173,6 +175,7 @@ public struct BedrockRuntime: AWSService {
             performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
             requestMetadata: requestMetadata, 
+            serviceTier: serviceTier, 
             system: system, 
             toolConfig: toolConfig
         )
@@ -204,6 +207,7 @@ public struct BedrockRuntime: AWSService {
     ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
+    ///   - serviceTier: Specifies the processing tier configuration used for serving the request.
     ///   - system: A prompt that provides instructions or context to the model about the task it should perform, or the persona it should adopt during the conversation.
     ///   - toolConfig: Configuration information for the tools that the model can use when generating a response. For information about models that support streaming tool use, see Supported models and model features.
     ///   - logger: Logger use during operation
@@ -218,6 +222,7 @@ public struct BedrockRuntime: AWSService {
         performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
         requestMetadata: [String: String]? = nil,
+        serviceTier: ServiceTier? = nil,
         system: [SystemContentBlock]? = nil,
         toolConfig: ToolConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -232,6 +237,7 @@ public struct BedrockRuntime: AWSService {
             performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
             requestMetadata: requestMetadata, 
+            serviceTier: serviceTier, 
             system: system, 
             toolConfig: toolConfig
         )
@@ -322,6 +328,7 @@ public struct BedrockRuntime: AWSService {
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
     ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - performanceConfigLatency: Model performance settings for the request.
+    ///   - serviceTier: Specifies the processing tier type used for serving the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
     @inlinable
@@ -333,6 +340,7 @@ public struct BedrockRuntime: AWSService {
         guardrailVersion: String? = nil,
         modelId: String,
         performanceConfigLatency: PerformanceConfigLatency? = nil,
+        serviceTier: ServiceTierType? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeModelResponse {
@@ -344,6 +352,7 @@ public struct BedrockRuntime: AWSService {
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
             performanceConfigLatency: performanceConfigLatency, 
+            serviceTier: serviceTier, 
             trace: trace
         )
         return try await self.invokeModel(input, logger: logger)
@@ -404,6 +413,7 @@ public struct BedrockRuntime: AWSService {
     ///   - guardrailVersion: The version number for the guardrail. The value can also be DRAFT.
     ///   - modelId: The unique identifier of the model to invoke to run inference. The modelId to provide depends on the type of model or throughput that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, specify the ARN of the custom model deployment (for on-demand inference) or the ARN of your provisioned model (for Provisioned Throughput). For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   If you use an imported model, specify the ARN of the imported model. You can get the model ARN from a successful call to CreateModelImportJob or from the Imported models page in the Amazon Bedrock console.
     ///   - performanceConfigLatency: Model performance settings for the request.
+    ///   - serviceTier: Specifies the processing tier type used for serving the request.
     ///   - trace: Specifies whether to enable or disable the Bedrock trace. If enabled, you can see the full Bedrock trace.
     ///   - logger: Logger use during operation
     @inlinable
@@ -415,6 +425,7 @@ public struct BedrockRuntime: AWSService {
         guardrailVersion: String? = nil,
         modelId: String,
         performanceConfigLatency: PerformanceConfigLatency? = nil,
+        serviceTier: ServiceTierType? = nil,
         trace: Trace? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeModelWithResponseStreamResponse {
@@ -426,6 +437,7 @@ public struct BedrockRuntime: AWSService {
             guardrailVersion: guardrailVersion, 
             modelId: modelId, 
             performanceConfigLatency: performanceConfigLatency, 
+            serviceTier: serviceTier, 
             trace: trace
         )
         return try await self.invokeModelWithResponseStream(input, logger: logger)

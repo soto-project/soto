@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS Invoicing service.
 ///
-///  Amazon Web Services Invoice Configuration  You can use Amazon Web Services Invoice Configuration APIs to programmatically create, update, delete, get, and list invoice units. You can also programmatically fetch the information of the invoice receiver. For example, business legal name, address, and invoicing contacts.  You can use Amazon Web Services Invoice Configuration to receive separate Amazon Web Services invoices based your organizational needs. By using Amazon Web Services Invoice Configuration, you can configure invoice units that are groups of Amazon Web Services accounts that represent your business entities, and receive separate invoices for each business entity. You can also assign a unique member or payer account as the invoice receiver for each invoice unit. As you create new accounts within your Organizations using Amazon Web Services Invoice Configuration APIs, you can automate the creation of new invoice units and subsequently automate the addition of new accounts to your invoice units. Service endpoint You can use the following endpoints for Amazon Web Services Invoice Configuration:    https://invoicing.us-east-1.api.aws
+///  Amazon Web Services Invoice Configuration  You can use Amazon Web Services Invoice Configuration APIs to programmatically create, update, delete, get, and list invoice units. You can also programmatically fetch the information of the invoice receiver. For example, business legal name, address, and invoicing contacts.  You can use Amazon Web Services Invoice Configuration to receive separate Amazon Web Services invoices based your organizational needs. By using Amazon Web Services Invoice Configuration, you can configure invoice units that are groups of Amazon Web Services accounts that represent your business entities, and receive separate invoices for each business entity. You can also assign a unique member or payer account as the invoice receiver for each invoice unit. As you create new accounts within your Organizations using Amazon Web Services Invoice Configuration APIs, you can automate the creation of new invoice units and subsequently automate the addition of new accounts to your invoice units.  Amazon Web Services Procurement Portal Preferences  You can use Amazon Web Services Procurement Portal Preferences APIs to programmatically create, update, delete, get, and list procurement portal connections and e-invoice delivery settings. You can also programmatically fetch and modify the status of procurement portal configurations. For example, SAP Business Network or Coupa connections, configure e-invoice delivery and purchase order retrieval features. You can use Amazon Web Services Procurement Portal Preferences to connect e-invoice delivery to your procurement portals based on your organizational needs. By using Amazon Web Services Procurement Portal Preferences, you can configure connections to SAP Business Network and Coupa procurement portals that retrieve purchase orders and deliver Amazon Web Services invoices on the same day they are generated. You can also set up testing environments to validate invoice delivery without affecting live transactions, and manage contact information for portal setup and support.  Administrative users should understand that billing read-only policies will show all procurement portal connection details. Review your IAM policies to ensure appropriate access controls are in place for procurement portal preferences.  Amazon Web Services Invoice Management  You can use Amazon Web Services Invoice Management APIs to programmatically list invoice summaries and get invoice documents. You can also programmatically fetch invoice documents with S3 pre-signed URLs. You can use Amazon Web Services Invoice Management to access invoice information based on your organizational needs. By using Amazon Web Services Invoice Management, you can retrieve paginated lists of invoice summaries that include invoice metadata such as invoice IDs, amounts, and currencies without downloading documents. You can also download invoice documents in PDF format using S3 pre-signed URLs with built-in expiration. As you manage invoices across your organization using Amazon Web Services Invoice Management APIs, you can create invoice retrieval processes and integrate invoice data into your financial systems. Service endpoint You can use the following endpoints for Amazon Web Services Invoice Configuration, Amazon Web Services Procurement Portal Preferences, and Amazon Web Services Invoice Management:    https://invoicing.us-east-1.api.aws
 public struct Invoicing: AWSService {
     // MARK: Member variables
 
@@ -152,6 +152,77 @@ public struct Invoicing: AWSService {
         return try await self.createInvoiceUnit(input, logger: logger)
     }
 
+    /// Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
+    @Sendable
+    @inlinable
+    public func createProcurementPortalPreference(_ input: CreateProcurementPortalPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateProcurementPortalPreferenceResponse {
+        try await self.client.execute(
+            operation: "CreateProcurementPortalPreference", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
+    ///
+    /// Parameters:
+    ///   - buyerDomain: The domain identifier for the buyer in the procurement portal.
+    ///   - buyerIdentifier: The unique identifier for the buyer in the procurement portal.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure idempotency of the request.
+    ///   - contacts: List of contact information for portal administrators and technical contacts responsible for the e-invoice integration.
+    ///   - einvoiceDeliveryEnabled: Indicates whether e-invoice delivery is enabled for this procurement portal preference. Set to true to enable e-invoice delivery, false to disable.
+    ///   - einvoiceDeliveryPreference: Specifies the e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    ///   - procurementPortalInstanceEndpoint: The endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+    ///   - procurementPortalName: The name of the procurement portal.
+    ///   - procurementPortalSharedSecret: The shared secret or authentication credential used to establish secure communication with the procurement portal. This value must be encrypted at rest.
+    ///   - purchaseOrderRetrievalEnabled: Indicates whether purchase order retrieval is enabled for this procurement portal preference. Set to true to enable PO retrieval, false to disable.
+    ///   - resourceTags: The tags to apply to this procurement portal preference resource. Each tag consists of a key and an optional value.
+    ///   - selector: 
+    ///   - supplierDomain: The domain identifier for the supplier in the procurement portal.
+    ///   - supplierIdentifier: The unique identifier for the supplier in the procurement portal.
+    ///   - testEnvPreference: Configuration settings for the test environment of the procurement portal. Includes test credentials and endpoints that are used for validation before production deployment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createProcurementPortalPreference(
+        buyerDomain: BuyerDomain,
+        buyerIdentifier: String,
+        clientToken: String? = CreateProcurementPortalPreferenceRequest.idempotencyToken(),
+        contacts: [Contact],
+        einvoiceDeliveryEnabled: Bool,
+        einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil,
+        procurementPortalInstanceEndpoint: String? = nil,
+        procurementPortalName: ProcurementPortalName,
+        procurementPortalSharedSecret: String? = nil,
+        purchaseOrderRetrievalEnabled: Bool,
+        resourceTags: [ResourceTag]? = nil,
+        selector: ProcurementPortalPreferenceSelector? = nil,
+        supplierDomain: SupplierDomain,
+        supplierIdentifier: String,
+        testEnvPreference: TestEnvPreferenceInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateProcurementPortalPreferenceResponse {
+        let input = CreateProcurementPortalPreferenceRequest(
+            buyerDomain: buyerDomain, 
+            buyerIdentifier: buyerIdentifier, 
+            clientToken: clientToken, 
+            contacts: contacts, 
+            einvoiceDeliveryEnabled: einvoiceDeliveryEnabled, 
+            einvoiceDeliveryPreference: einvoiceDeliveryPreference, 
+            procurementPortalInstanceEndpoint: procurementPortalInstanceEndpoint, 
+            procurementPortalName: procurementPortalName, 
+            procurementPortalSharedSecret: procurementPortalSharedSecret, 
+            purchaseOrderRetrievalEnabled: purchaseOrderRetrievalEnabled, 
+            resourceTags: resourceTags, 
+            selector: selector, 
+            supplierDomain: supplierDomain, 
+            supplierIdentifier: supplierIdentifier, 
+            testEnvPreference: testEnvPreference
+        )
+        return try await self.createProcurementPortalPreference(input, logger: logger)
+    }
+
     /// This deletes an invoice unit with the provided invoice unit ARN.
     @Sendable
     @inlinable
@@ -179,6 +250,64 @@ public struct Invoicing: AWSService {
             invoiceUnitArn: invoiceUnitArn
         )
         return try await self.deleteInvoiceUnit(input, logger: logger)
+    }
+
+    /// Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
+    @Sendable
+    @inlinable
+    public func deleteProcurementPortalPreference(_ input: DeleteProcurementPortalPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteProcurementPortalPreferenceResponse {
+        try await self.client.execute(
+            operation: "DeleteProcurementPortalPreference", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
+    ///
+    /// Parameters:
+    ///   - procurementPortalPreferenceArn: The Amazon Resource Name (ARN) of the procurement portal preference to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteProcurementPortalPreference(
+        procurementPortalPreferenceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteProcurementPortalPreferenceResponse {
+        let input = DeleteProcurementPortalPreferenceRequest(
+            procurementPortalPreferenceArn: procurementPortalPreferenceArn
+        )
+        return try await self.deleteProcurementPortalPreference(input, logger: logger)
+    }
+
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action.
+    @Sendable
+    @inlinable
+    public func getInvoicePDF(_ input: GetInvoicePDFRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvoicePDFResponse {
+        try await self.client.execute(
+            operation: "GetInvoicePDF", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the invoicing:GetInvoicePDF policy action.
+    ///
+    /// Parameters:
+    ///   - invoiceId:  Your unique invoice ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInvoicePDF(
+        invoiceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInvoicePDFResponse {
+        let input = GetInvoicePDFRequest(
+            invoiceId: invoiceId
+        )
+        return try await self.getInvoicePDF(input, logger: logger)
     }
 
     /// This retrieves the invoice unit definition.
@@ -211,6 +340,35 @@ public struct Invoicing: AWSService {
             invoiceUnitArn: invoiceUnitArn
         )
         return try await self.getInvoiceUnit(input, logger: logger)
+    }
+
+    /// Retrieves the details of a specific procurement portal preference configuration.
+    @Sendable
+    @inlinable
+    public func getProcurementPortalPreference(_ input: GetProcurementPortalPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProcurementPortalPreferenceResponse {
+        try await self.client.execute(
+            operation: "GetProcurementPortalPreference", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a specific procurement portal preference configuration.
+    ///
+    /// Parameters:
+    ///   - procurementPortalPreferenceArn: The Amazon Resource Name (ARN) of the procurement portal preference to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProcurementPortalPreference(
+        procurementPortalPreferenceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProcurementPortalPreferenceResponse {
+        let input = GetProcurementPortalPreferenceRequest(
+            procurementPortalPreferenceArn: procurementPortalPreferenceArn
+        )
+        return try await self.getProcurementPortalPreference(input, logger: logger)
     }
 
     /// Retrieves your invoice details programmatically, without line item details.
@@ -289,6 +447,38 @@ public struct Invoicing: AWSService {
         return try await self.listInvoiceUnits(input, logger: logger)
     }
 
+    /// Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listProcurementPortalPreferences(_ input: ListProcurementPortalPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProcurementPortalPreferencesResponse {
+        try await self.client.execute(
+            operation: "ListProcurementPortalPreferences", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+    ///   - nextToken: The token for the next set of results. (You received this token from a previous call.)
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProcurementPortalPreferences(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProcurementPortalPreferencesResponse {
+        let input = ListProcurementPortalPreferencesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listProcurementPortalPreferences(input, logger: logger)
+    }
+
     /// Lists the tags for a resource.
     @Sendable
     @inlinable
@@ -316,6 +506,59 @@ public struct Invoicing: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+    @Sendable
+    @inlinable
+    public func putProcurementPortalPreference(_ input: PutProcurementPortalPreferenceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutProcurementPortalPreferenceResponse {
+        try await self.client.execute(
+            operation: "PutProcurementPortalPreference", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
+    ///
+    /// Parameters:
+    ///   - contacts: Updated list of contact information for portal administrators and technical contacts.
+    ///   - einvoiceDeliveryEnabled: Updated flag indicating whether e-invoice delivery is enabled for this procurement portal preference.
+    ///   - einvoiceDeliveryPreference: Updated e-invoice delivery configuration including document types, attachment types, and customization settings for the portal.
+    ///   - procurementPortalInstanceEndpoint: The updated endpoint URL where e-invoices will be delivered to the procurement portal. Must be a valid HTTPS URL.
+    ///   - procurementPortalPreferenceArn: The Amazon Resource Name (ARN) of the procurement portal preference to update.
+    ///   - procurementPortalSharedSecret: The updated shared secret or authentication credential for the procurement portal. This value must be encrypted at rest.
+    ///   - purchaseOrderRetrievalEnabled: Updated flag indicating whether purchase order retrieval is enabled for this procurement portal preference.
+    ///   - selector: 
+    ///   - testEnvPreference: Updated configuration settings for the test environment of the procurement portal.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putProcurementPortalPreference(
+        contacts: [Contact],
+        einvoiceDeliveryEnabled: Bool,
+        einvoiceDeliveryPreference: EinvoiceDeliveryPreference? = nil,
+        procurementPortalInstanceEndpoint: String? = nil,
+        procurementPortalPreferenceArn: String,
+        procurementPortalSharedSecret: String? = nil,
+        purchaseOrderRetrievalEnabled: Bool,
+        selector: ProcurementPortalPreferenceSelector? = nil,
+        testEnvPreference: TestEnvPreferenceInput? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutProcurementPortalPreferenceResponse {
+        let input = PutProcurementPortalPreferenceRequest(
+            contacts: contacts, 
+            einvoiceDeliveryEnabled: einvoiceDeliveryEnabled, 
+            einvoiceDeliveryPreference: einvoiceDeliveryPreference, 
+            procurementPortalInstanceEndpoint: procurementPortalInstanceEndpoint, 
+            procurementPortalPreferenceArn: procurementPortalPreferenceArn, 
+            procurementPortalSharedSecret: procurementPortalSharedSecret, 
+            purchaseOrderRetrievalEnabled: purchaseOrderRetrievalEnabled, 
+            selector: selector, 
+            testEnvPreference: testEnvPreference
+        )
+        return try await self.putProcurementPortalPreference(input, logger: logger)
     }
 
     /// Adds a tag to a resource.
@@ -419,6 +662,47 @@ public struct Invoicing: AWSService {
         )
         return try await self.updateInvoiceUnit(input, logger: logger)
     }
+
+    /// Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+    @Sendable
+    @inlinable
+    public func updateProcurementPortalPreferenceStatus(_ input: UpdateProcurementPortalPreferenceStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProcurementPortalPreferenceStatusResponse {
+        try await self.client.execute(
+            operation: "UpdateProcurementPortalPreferenceStatus", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
+    ///
+    /// Parameters:
+    ///   - einvoiceDeliveryPreferenceStatus: The updated status of the e-invoice delivery preference.
+    ///   - einvoiceDeliveryPreferenceStatusReason: The reason for the e-invoice delivery preference status update, providing context for the change.
+    ///   - procurementPortalPreferenceArn: The Amazon Resource Name (ARN) of the procurement portal preference to update.
+    ///   - purchaseOrderRetrievalPreferenceStatus: The updated status of the purchase order retrieval preference.
+    ///   - purchaseOrderRetrievalPreferenceStatusReason: The reason for the purchase order retrieval preference status update, providing context for the change.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProcurementPortalPreferenceStatus(
+        einvoiceDeliveryPreferenceStatus: ProcurementPortalPreferenceStatus? = nil,
+        einvoiceDeliveryPreferenceStatusReason: String? = nil,
+        procurementPortalPreferenceArn: String,
+        purchaseOrderRetrievalPreferenceStatus: ProcurementPortalPreferenceStatus? = nil,
+        purchaseOrderRetrievalPreferenceStatusReason: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProcurementPortalPreferenceStatusResponse {
+        let input = UpdateProcurementPortalPreferenceStatusRequest(
+            einvoiceDeliveryPreferenceStatus: einvoiceDeliveryPreferenceStatus, 
+            einvoiceDeliveryPreferenceStatusReason: einvoiceDeliveryPreferenceStatusReason, 
+            procurementPortalPreferenceArn: procurementPortalPreferenceArn, 
+            purchaseOrderRetrievalPreferenceStatus: purchaseOrderRetrievalPreferenceStatus, 
+            purchaseOrderRetrievalPreferenceStatusReason: purchaseOrderRetrievalPreferenceStatusReason
+        )
+        return try await self.updateProcurementPortalPreferenceStatus(input, logger: logger)
+    }
 }
 
 extension Invoicing {
@@ -513,6 +797,40 @@ extension Invoicing {
         )
         return self.listInvoiceUnitsPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listProcurementPortalPreferences(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalPreferencesPaginator(
+        _ input: ListProcurementPortalPreferencesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalPreferencesRequest, ListProcurementPortalPreferencesResponse> {
+        return .init(
+            input: input,
+            command: self.listProcurementPortalPreferences,
+            inputKey: \ListProcurementPortalPreferencesRequest.nextToken,
+            outputKey: \ListProcurementPortalPreferencesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProcurementPortalPreferences(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProcurementPortalPreferencesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProcurementPortalPreferencesRequest, ListProcurementPortalPreferencesResponse> {
+        let input = ListProcurementPortalPreferencesRequest(
+            maxResults: maxResults
+        )
+        return self.listProcurementPortalPreferencesPaginator(input, logger: logger)
+    }
 }
 
 extension Invoicing.ListInvoiceSummariesRequest: AWSPaginateToken {
@@ -533,6 +851,16 @@ extension Invoicing.ListInvoiceUnitsRequest: AWSPaginateToken {
         return .init(
             asOf: self.asOf,
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Invoicing.ListProcurementPortalPreferencesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Invoicing.ListProcurementPortalPreferencesRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

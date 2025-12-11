@@ -164,6 +164,38 @@ public struct CloudWatchLogs: AWSService {
         return try await self.associateKmsKey(input, logger: logger)
     }
 
+    /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark.
+    @Sendable
+    @inlinable
+    public func associateSourceToS3TableIntegration(_ input: AssociateSourceToS3TableIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateSourceToS3TableIntegrationResponse {
+        try await self.client.execute(
+            operation: "AssociateSourceToS3TableIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a data source with an S3 Table Integration for query access in the 'logs' namespace. This enables querying log data using analytics engines that support Iceberg such as Amazon Athena, Amazon Redshift, and Apache Spark.
+    ///
+    /// Parameters:
+    ///   - dataSource: The data source to associate with the S3 Table Integration. Contains the name and type of the data source.
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the S3 Table Integration to associate the data source with.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateSourceToS3TableIntegration(
+        dataSource: DataSource,
+        integrationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateSourceToS3TableIntegrationResponse {
+        let input = AssociateSourceToS3TableIntegrationRequest(
+            dataSource: dataSource, 
+            integrationArn: integrationArn
+        )
+        return try await self.associateSourceToS3TableIntegration(input, logger: logger)
+    }
+
     /// Cancels the specified export task. The task must be in the PENDING or RUNNING state.
     @Sendable
     @inlinable
@@ -347,6 +379,7 @@ public struct CloudWatchLogs: AWSService {
     /// Creates a log group with the specified name. You can create up to 1,000,000 log groups per Region per account. You must use the following guidelines when naming a log group:   Log group names must be unique within a Region for an Amazon Web Services account.   Log group names can be between 1 and 512 characters long.   Log group names consist of the following characters: a-z, A-Z, 0-9, '_' (underscore), '-' (hyphen), '/' (forward slash), '.' (period), and '#' (number sign)   Log group names can't start with the string aws/    When you create a log group, by default the log events in the log group do not expire. To set a retention policy so that events expire and are deleted after a specified time, use PutRetentionPolicy. If you associate an KMS key with the log group, ingested data is encrypted using the KMS key. This association is stored as long as the data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key with the log group but the KMS key does not exist or the KMS key is disabled, you receive an InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do not associate an asymmetric KMS key with your log group. For more information, see Using Symmetric and Asymmetric Keys.
     ///
     /// Parameters:
+    ///   - deletionProtectionEnabled: Use this parameter to enable deletion protection for the new log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. By default log groups are created without deletion protection enabled.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names.
     ///   - logGroupClass: Use this parameter to specify the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   If you omit this parameter, the default of STANDARD is used.  The value of logGroupClass can't be changed after a log group is created.  For details about the features supported by each class, see Log classes
     ///   - logGroupName: A name for the log group.
@@ -354,6 +387,7 @@ public struct CloudWatchLogs: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLogGroup(
+        deletionProtectionEnabled: Bool? = nil,
         kmsKeyId: String? = nil,
         logGroupClass: LogGroupClass? = nil,
         logGroupName: String,
@@ -361,6 +395,7 @@ public struct CloudWatchLogs: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = CreateLogGroupRequest(
+            deletionProtectionEnabled: deletionProtectionEnabled, 
             kmsKeyId: kmsKeyId, 
             logGroupClass: logGroupClass, 
             logGroupName: logGroupName, 
@@ -401,7 +436,75 @@ public struct CloudWatchLogs: AWSService {
         return try await self.createLogStream(input, logger: logger)
     }
 
-    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.   To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.   To delete a subscription filter policy, you must have the logs:DeleteSubscriptionFilter and logs:DeleteAccountPolicy permissions.   To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.   To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions.   If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
+    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing.
+    @Sendable
+    @inlinable
+    public func createScheduledQuery(_ input: CreateScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateScheduledQueryResponse {
+        try await self.client.execute(
+            operation: "CreateScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a scheduled query that runs CloudWatch Logs Insights queries at regular intervals. Scheduled queries enable proactive monitoring by automatically executing queries to detect patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis or further processing.
+    ///
+    /// Parameters:
+    ///   - description: An optional description for the scheduled query to help identify its purpose and functionality.
+    ///   - destinationConfiguration: Configuration for where to deliver query results. Currently supports Amazon S3 destinations for storing query output.
+    ///   - executionRoleArn: The ARN of the IAM role that grants permissions to execute the query and deliver results to the specified destination. The role must have permissions to read from the specified log groups and write to the destination.
+    ///   - logGroupIdentifiers: An array of log group names or ARNs to query. You can specify between 1 and 50 log groups. Log groups can be identified by name or full ARN.
+    ///   - name: The name of the scheduled query. The name must be unique within your account and region. Valid characters are alphanumeric characters, hyphens, underscores, and periods. Length must be between 1 and 255 characters.
+    ///   - queryLanguage: The query language to use for the scheduled query. Valid values are LogsQL, PPL, and SQL.
+    ///   - queryString: The query string to execute. This is the same query syntax used in CloudWatch Logs Insights. Maximum length is 10,000 characters.
+    ///   - scheduleEndTime: The end time for the scheduled query in Unix epoch format. The query will stop executing after this time.
+    ///   - scheduleExpression: A cron expression that defines when the scheduled query runs. The expression uses standard cron syntax and supports minute-level precision. Maximum length is 256 characters.
+    ///   - scheduleStartTime: The start time for the scheduled query in Unix epoch format. The query will not execute before this time.
+    ///   - startTimeOffset: The time offset in seconds that defines the lookback period for the query. This determines how far back in time the query searches from the execution time.
+    ///   - state: The initial state of the scheduled query. Valid values are ENABLED and DISABLED. Default is ENABLED.
+    ///   - tags: Key-value pairs to associate with the scheduled query for resource management and cost allocation.
+    ///   - timezone: The timezone for evaluating the schedule expression. This determines when the scheduled query executes relative to the specified timezone.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createScheduledQuery(
+        description: String? = nil,
+        destinationConfiguration: DestinationConfiguration? = nil,
+        executionRoleArn: String,
+        logGroupIdentifiers: [String]? = nil,
+        name: String,
+        queryLanguage: QueryLanguage,
+        queryString: String,
+        scheduleEndTime: Int64? = nil,
+        scheduleExpression: String,
+        scheduleStartTime: Int64? = nil,
+        startTimeOffset: Int64? = nil,
+        state: ScheduledQueryState? = nil,
+        tags: [String: String]? = nil,
+        timezone: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateScheduledQueryResponse {
+        let input = CreateScheduledQueryRequest(
+            description: description, 
+            destinationConfiguration: destinationConfiguration, 
+            executionRoleArn: executionRoleArn, 
+            logGroupIdentifiers: logGroupIdentifiers, 
+            name: name, 
+            queryLanguage: queryLanguage, 
+            queryString: queryString, 
+            scheduleEndTime: scheduleEndTime, 
+            scheduleExpression: scheduleExpression, 
+            scheduleStartTime: scheduleStartTime, 
+            startTimeOffset: startTimeOffset, 
+            state: state, 
+            tags: tags, 
+            timezone: timezone
+        )
+        return try await self.createScheduledQuery(input, logger: logger)
+    }
+
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.   To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.   To delete a subscription filter policy, you must have the logs:DeleteSubscriptionFilter and logs:DeleteAccountPolicy permissions.   To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.   To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions. If you delete a field index policy that included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console. However, facet data is retained for up to 30 days.   If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
     @Sendable
     @inlinable
     public func deleteAccountPolicy(_ input: DeleteAccountPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -414,7 +517,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.   To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.   To delete a subscription filter policy, you must have the logs:DeleteSubscriptionFilter and logs:DeleteAccountPolicy permissions.   To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.   To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions.   If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
+    /// Deletes a CloudWatch Logs account policy. This stops the account-wide policy from applying to log groups or data sources in the account. If you delete a data protection policy or subscription filter policy, any log-group level policies of those types remain in effect. This operation supports deletion of data source-based field index policies, including facet configurations, in addition to log group-based policies. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are deleting.   To delete a data protection policy, you must have the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.   To delete a subscription filter policy, you must have the logs:DeleteSubscriptionFilter and logs:DeleteAccountPolicy permissions.   To delete a transformer policy, you must have the logs:DeleteTransformer and logs:DeleteAccountPolicy permissions.   To delete a field index policy, you must have the logs:DeleteIndexPolicy and logs:DeleteAccountPolicy permissions. If you delete a field index policy that included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console. However, facet data is retained for up to 30 days.   If you delete a field index policy, the indexing of the log events that happened before you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs Insights queries.
     ///
     /// Parameters:
     ///   - policyName: The name of the policy to delete.
@@ -607,7 +710,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.deleteDestination(input, logger: logger)
     }
 
-    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. You can't use this operation to delete an account-level index policy. Instead, use DeletAccountPolicy. If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events.
+    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this operation to delete an account-level index policy. Instead, use DeletAccountPolicy. If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events. This operation only affects log group-level policies, including any facet configurations, and preserves any data source-based account policies that may apply to the log group.
     @Sendable
     @inlinable
     public func deleteIndexPolicy(_ input: DeleteIndexPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIndexPolicyResponse {
@@ -620,7 +723,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. You can't use this operation to delete an account-level index policy. Instead, use DeletAccountPolicy. If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events.
+    /// Deletes a log-group level field index policy that was applied to a single log group. The indexing of the log events that happened before you delete the policy will still be used for as many as 30 days to improve CloudWatch Logs Insights queries. If the deleted policy included facet configurations, those facets will no longer be available for interactive exploration in the CloudWatch Logs Insights console for this log group. However, facet data is retained for up to 30 days. You can't use this operation to delete an account-level index policy. Instead, use DeletAccountPolicy. If you delete a log-group level field index policy and there is an account-level field index policy, in a few minutes the log group begins using that account-wide policy to index new incoming log events. This operation only affects log group-level policies, including any facet configurations, and preserves any data source-based account policies that may apply to the log group.
     ///
     /// Parameters:
     ///   - logGroupIdentifier: The log group to delete the index policy for. You can specify either the name or the ARN of the log group.
@@ -881,6 +984,35 @@ public struct CloudWatchLogs: AWSService {
             logGroupName: logGroupName
         )
         return try await self.deleteRetentionPolicy(input, logger: logger)
+    }
+
+    /// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources.
+    @Sendable
+    @inlinable
+    public func deleteScheduledQuery(_ input: DeleteScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteScheduledQueryResponse {
+        try await self.client.execute(
+            operation: "DeleteScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a scheduled query and stops all future executions. This operation also removes any configured actions and associated resources.
+    ///
+    /// Parameters:
+    ///   - identifier: The ARN or name of the scheduled query to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteScheduledQuery(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteScheduledQueryResponse {
+        let input = DeleteScheduledQueryRequest(
+            identifier: identifier
+        )
+        return try await self.deleteScheduledQuery(input, logger: logger)
     }
 
     /// Deletes the specified subscription filter.
@@ -1259,7 +1391,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.describeIndexPolicies(input, logger: logger)
     }
 
-    /// Returns information about log groups. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Returns information about log groups, including data sources that ingest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
     @Sendable
     @inlinable
     public func describeLogGroups(_ input: DescribeLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeLogGroupsResponse {
@@ -1272,7 +1404,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns information about log groups. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Returns information about log groups, including data sources that ingest into each log group. You can return all your log groups or filter the results by prefix. The results are ASCII-sorted by log group name. CloudWatch Logs doesn't support IAM policies that control access to the DescribeLogGroups action by using the aws:ResourceTag/key-name condition key. Other CloudWatch Logs actions do support the use of the aws:ResourceTag/key-name condition key to control access. For more information about using tags to control access, see Controlling access to Amazon Web Services resources using tags. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
     ///
     /// Parameters:
     ///   - accountIdentifiers: When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
@@ -1400,7 +1532,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.describeMetricFilters(input, logger: logger)
     }
 
-    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status.
+    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status. This operation includes both interactive queries started directly by users and automated queries executed by scheduled query configurations. Scheduled query executions appear in the results alongside manually initiated queries, providing visibility into all query activity in your account.
     @Sendable
     @inlinable
     public func describeQueries(_ input: DescribeQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeQueriesResponse {
@@ -1413,7 +1545,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status.
+    /// Returns a list of CloudWatch Logs Insights queries that are scheduled, running, or have been run recently in this account. You can request all queries or limit it to queries of a specific log group or queries with a certain status. This operation includes both interactive queries started directly by users and automated queries executed by scheduled query configurations. Scheduled query executions appear in the results alongside manually initiated queries, providing visibility into all query activity in your account.
     ///
     /// Parameters:
     ///   - logGroupName: Limits the returned queries to only those for the specified log group.
@@ -1585,6 +1717,35 @@ public struct CloudWatchLogs: AWSService {
             resourceIdentifier: resourceIdentifier
         )
         return try await self.disassociateKmsKey(input, logger: logger)
+    }
+
+    /// Disassociates a data source from an S3 Table Integration, removing query access and deleting all associated data from the integration.
+    @Sendable
+    @inlinable
+    public func disassociateSourceFromS3TableIntegration(_ input: DisassociateSourceFromS3TableIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateSourceFromS3TableIntegrationResponse {
+        try await self.client.execute(
+            operation: "DisassociateSourceFromS3TableIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a data source from an S3 Table Integration, removing query access and deleting all associated data from the integration.
+    ///
+    /// Parameters:
+    ///   - identifier: The unique identifier of the association to remove between the data source and S3 Table Integration.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateSourceFromS3TableIntegration(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateSourceFromS3TableIntegrationResponse {
+        let input = DisassociateSourceFromS3TableIntegrationRequest(
+            identifier: identifier
+        )
+        return try await self.disassociateSourceFromS3TableIntegration(input, logger: logger)
     }
 
     /// Lists log events from the specified log group. You can list all the log events or filter the results using one or more of the following:   A filter pattern   A time range   The log stream name, or a log stream name prefix that matches multiple log streams   You must have the logs:FilterLogEvents permission to perform this operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must include one of these two parameters, but you can't include both.   FilterLogEvents is a paginated operation. Each page returned can contain up to 1 MB of log events or up to 10,000 log events. A returned page might only be partially full, or even empty. For example, if the result of a query would return 15,000 log events, the first page isn't guaranteed to have 10,000 log events even if they all fit into 1 MB. Partially full or empty pages don't necessarily mean that pagination is finished. If the results include a nextToken, there might be more log events available. You can return these additional log events by providing the nextToken in a subsequent FilterLogEvents operation. If the results don't include a nextToken, then pagination is finished.  Specifying the limit parameter only guarantees that a single page doesn't return more log events than the specified limit, but it might return fewer events than the limit. This is the expected API behavior. The returned log events are sorted by event timestamp, the timestamp when the event was ingested by CloudWatch Logs, and the ID of the PutLogEvents request. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.  If you are using log transformation, the FilterLogEvents operation returns only the original versions of log events, before they were transformed. To view the transformed versions, you must use a CloudWatch Logs query.
@@ -1899,7 +2060,39 @@ public struct CloudWatchLogs: AWSService {
         return try await self.getLogEvents(input, logger: logger)
     }
 
-    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both.  In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see Supported Logs and Discovered Fields. The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Discovers available fields for a specific data source and type. The response includes any field modifications introduced through pipelines, such as new fields or changed field types.
+    @Sendable
+    @inlinable
+    public func getLogFields(_ input: GetLogFieldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogFieldsResponse {
+        try await self.client.execute(
+            operation: "GetLogFields", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Discovers available fields for a specific data source and type. The response includes any field modifications introduced through pipelines, such as new fields or changed field types.
+    ///
+    /// Parameters:
+    ///   - dataSourceName: The name of the data source to retrieve log fields for.
+    ///   - dataSourceType: The type of the data source to retrieve log fields for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLogFields(
+        dataSourceName: String,
+        dataSourceType: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLogFieldsResponse {
+        let input = GetLogFieldsRequest(
+            dataSourceName: dataSourceName, 
+            dataSourceType: dataSourceType
+        )
+        return try await self.getLogFields(input, logger: logger)
+    }
+
+    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both.  In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see Supported Logs and Discovered Fields. The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
     @Sendable
     @inlinable
     public func getLogGroupFields(_ input: GetLogGroupFieldsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogGroupFieldsResponse {
@@ -1912,7 +2105,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both.  In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see Supported Logs and Discovered Fields. The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Returns a list of the fields that are included in log events in the specified log group. Includes the percentage of log events that contain each field. The search is limited to a time period that you specify. This operation is used for discovering fields within log group events. For discovering fields across data sources, use the GetLogFields operation. You can specify the log group to search by using either logGroupIdentifier or logGroupName. You must specify one of these parameters, but you can't specify both.  In the results, fields that start with @ are fields generated by CloudWatch Logs. For example, @timestamp is the timestamp of each log event. For more information about the fields that are generated by CloudWatch logs, see Supported Logs and Discovered Fields. The response results are sorted by the frequency percentage, starting with the highest percentage. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view data from the linked source accounts. For more information, see CloudWatch cross-account observability.
     ///
     /// Parameters:
     ///   - logGroupIdentifier: Specify either the name or ARN of the log group to view. If the log group is in a source account and you are using a monitoring account, you must specify the ARN.  You must include either logGroupIdentifier or logGroupName, but not both.
@@ -1999,7 +2192,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.getLogRecord(input, logger: logger)
     }
 
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. For more information about how long results of previous queries are available, see CloudWatch Logs quotas. If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results.  If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. For more information about how long results of previous queries are available, see CloudWatch Logs quotas. If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results.  This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see CloudWatch cross-account observability.
     @Sendable
     @inlinable
     public func getQueryResults(_ input: GetQueryResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueryResultsResponse {
@@ -2012,7 +2205,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. For more information about how long results of previous queries are available, see CloudWatch Logs quotas. If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results.  If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see CloudWatch cross-account observability.
+    /// Returns the results from the specified query. Only the fields requested in the query are returned, along with a @ptr field, which is the identifier for the log record. You can use the value of @ptr in a GetLogRecord operation to get the full log record.  GetQueryResults does not start running a query. To run a query, use StartQuery. For more information about how long results of previous queries are available, see CloudWatch Logs quotas. If the value of the Status field in the output is Running, this operation returns only partial results. If you see a value of Scheduled or Running for the status, you can retry the operation later to see the final results.  This operation is used both for retrieving results from interactive queries and from automated scheduled query executions. Scheduled queries use GetQueryResults internally to retrieve query results for processing and delivery to configured destinations. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start queries in linked source accounts. For more information, see CloudWatch cross-account observability.
     ///
     /// Parameters:
     ///   - queryId: The ID number of the query.
@@ -2026,6 +2219,79 @@ public struct CloudWatchLogs: AWSService {
             queryId: queryId
         )
         return try await self.getQueryResults(input, logger: logger)
+    }
+
+    /// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata.
+    @Sendable
+    @inlinable
+    public func getScheduledQuery(_ input: GetScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScheduledQueryResponse {
+        try await self.client.execute(
+            operation: "GetScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific scheduled query, including its configuration, execution status, and metadata.
+    ///
+    /// Parameters:
+    ///   - identifier: The ARN or name of the scheduled query to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getScheduledQuery(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetScheduledQueryResponse {
+        let input = GetScheduledQueryRequest(
+            identifier: identifier
+        )
+        return try await self.getScheduledQuery(input, logger: logger)
+    }
+
+    /// Retrieves the execution history of a scheduled query within a specified time range, including query results and destination processing status.
+    @Sendable
+    @inlinable
+    public func getScheduledQueryHistory(_ input: GetScheduledQueryHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetScheduledQueryHistoryResponse {
+        try await self.client.execute(
+            operation: "GetScheduledQueryHistory", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the execution history of a scheduled query within a specified time range, including query results and destination processing status.
+    ///
+    /// Parameters:
+    ///   - endTime: The end time for the history query in Unix epoch format.
+    ///   - executionStatuses: An array of execution statuses to filter the history results. Only executions with the specified statuses are returned.
+    ///   - identifier: The ARN or name of the scheduled query to retrieve history for.
+    ///   - maxResults: The maximum number of history records to return. Valid range is 1 to 1000.
+    ///   - nextToken: 
+    ///   - startTime: The start time for the history query in Unix epoch format.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getScheduledQueryHistory(
+        endTime: Int64,
+        executionStatuses: [ExecutionStatus]? = nil,
+        identifier: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetScheduledQueryHistoryResponse {
+        let input = GetScheduledQueryHistoryRequest(
+            endTime: endTime, 
+            executionStatuses: executionStatuses, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime
+        )
+        return try await self.getScheduledQueryHistory(input, logger: logger)
     }
 
     /// Returns the information about the log transformer associated with this log group. This operation returns data only for transformers created at the log group level. To get information for an account-level transformer, use DescribeAccountPolicies.
@@ -2055,6 +2321,56 @@ public struct CloudWatchLogs: AWSService {
             logGroupIdentifier: logGroupIdentifier
         )
         return try await self.getTransformer(input, logger: logger)
+    }
+
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see CloudWatch cross-account observability. The operation aggregates log groups by data source name and type and optionally format, providing counts of log groups that share these characteristics. The operation paginates results. By default, it returns up to 50 results and includes a token to retrieve more results.
+    @Sendable
+    @inlinable
+    public func listAggregateLogGroupSummaries(_ input: ListAggregateLogGroupSummariesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAggregateLogGroupSummariesResponse {
+        try await self.client.execute(
+            operation: "ListAggregateLogGroupSummaries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns an aggregate summary of all log groups in the Region grouped by specified data source characteristics. Supports optional filtering by log group class, name patterns, and data sources. If you perform this action in a monitoring account, you can also return aggregated summaries of log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see CloudWatch cross-account observability. The operation aggregates log groups by data source name and type and optionally format, providing counts of log groups that share these characteristics. The operation paginates results. By default, it returns up to 50 results and includes a token to retrieve more results.
+    ///
+    /// Parameters:
+    ///   - accountIdentifiers: When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    ///   - dataSources: Filters the results by data source characteristics to include only log groups associated with the specified data sources.
+    ///   - groupBy: Specifies how to group the log groups in the summary.
+    ///   - includeLinkedAccounts: If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.  The default for this parameter is false.
+    ///   - limit: The maximum number of aggregated summaries to return. If you omit this parameter, the default is up to 50 aggregated summaries.
+    ///   - logGroupClass: Filters the results by log group class to include only log groups of the specified class.
+    ///   - logGroupNamePattern: Use this parameter to limit the returned log groups to only those with names that match the pattern that you specify. This parameter is a regular expression that can match prefixes and substrings, and supports wildcard matching and matching multiple patterns, as in the following examples.    Use ^ to match log group names by prefix.   For a substring match, specify the string to match. All matches are case sensitive   To match multiple patterns, separate them with a | as in the example ^/aws/lambda|discovery    You can specify as many as five different regular expression patterns in this field, each of which must be between 3 and 24 characters. You can include the ^ symbol as many as five times, and include the | symbol as many as four times.
+    ///   - nextToken: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAggregateLogGroupSummaries(
+        accountIdentifiers: [String]? = nil,
+        dataSources: [DataSourceFilter]? = nil,
+        groupBy: ListAggregateLogGroupSummariesGroupBy,
+        includeLinkedAccounts: Bool? = nil,
+        limit: Int? = nil,
+        logGroupClass: LogGroupClass? = nil,
+        logGroupNamePattern: String? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAggregateLogGroupSummariesResponse {
+        let input = ListAggregateLogGroupSummariesRequest(
+            accountIdentifiers: accountIdentifiers, 
+            dataSources: dataSources, 
+            groupBy: groupBy, 
+            includeLinkedAccounts: includeLinkedAccounts, 
+            limit: limit, 
+            logGroupClass: logGroupClass, 
+            logGroupNamePattern: logGroupNamePattern, 
+            nextToken: nextToken
+        )
+        return try await self.listAggregateLogGroupSummaries(input, logger: logger)
     }
 
     /// Returns a list of anomalies that log anomaly detectors have found. For details about the structure format of each anomaly object that is returned, see the example in this section.
@@ -2165,7 +2481,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.listLogAnomalyDetectors(input, logger: logger)
     }
 
-    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see  CloudWatch cross-account observability. You can optionally filter the list by log group class and by using regular expressions in your request to match strings in the log group names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
+    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see  CloudWatch cross-account observability. You can optionally filter the list by log group class, by using regular expressions in your request to match strings in the log group names, by using the fieldIndexes parameter to filter log groups based on which field indexes are configured, by using the dataSources parameter to filter log groups by data source types, and by using the fieldIndexNames parameter to filter by specific field index names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
     @Sendable
     @inlinable
     public func listLogGroups(_ input: ListLogGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLogGroupsResponse {
@@ -2178,10 +2494,12 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see  CloudWatch cross-account observability. You can optionally filter the list by log group class and by using regular expressions in your request to match strings in the log group names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
+    /// Returns a list of log groups in the Region in your account. If you are performing this action in a monitoring account, you can choose to also return log groups from source accounts that are linked to the monitoring account. For more information about using cross-account observability to set up monitoring accounts and source accounts, see  CloudWatch cross-account observability. You can optionally filter the list by log group class, by using regular expressions in your request to match strings in the log group names, by using the fieldIndexes parameter to filter log groups based on which field indexes are configured, by using the dataSources parameter to filter log groups by data source types, and by using the fieldIndexNames parameter to filter by specific field index names. This operation is paginated. By default, your first use of this operation returns 50 results, and includes a token to use in a subsequent operation to return more results.
     ///
     /// Parameters:
     ///   - accountIdentifiers: When includeLinkedAccounts is set to true, use this parameter to specify the list of accounts to search. You can specify as many as 20 account IDs in the array.
+    ///   - dataSources: An array of data source filters to filter log groups by their associated data sources. You can filter by data source name, type, or both. Multiple filters within the same dimension are combined with OR logic, while filters across different dimensions are combined with AND logic.
+    ///   - fieldIndexNames: An array of field index names to filter log groups that have specific field indexes. Only log groups containing all specified field indexes are returned. You can specify 1 to 20 field index names, each with 1 to 512 characters.
     ///   - includeLinkedAccounts: If you are using a monitoring account, set this to true to have the operation return log groups in the accounts listed in accountIdentifiers. If this parameter is set to true and accountIdentifiers contains a null value, the operation returns all log groups in the monitoring account and all log groups in all source accounts that are linked to the monitoring account.  The default for this parameter is false.
     ///   - limit: The maximum number of log groups to return. If you omit this parameter, the default is up to 50 log groups.
     ///   - logGroupClass: Use this parameter to limit the results to only those log groups in the specified log group class. If you omit this parameter, log groups of all classes can be returned.
@@ -2191,6 +2509,8 @@ public struct CloudWatchLogs: AWSService {
     @inlinable
     public func listLogGroups(
         accountIdentifiers: [String]? = nil,
+        dataSources: [DataSourceFilter]? = nil,
+        fieldIndexNames: [String]? = nil,
         includeLinkedAccounts: Bool? = nil,
         limit: Int? = nil,
         logGroupClass: LogGroupClass? = nil,
@@ -2200,6 +2520,8 @@ public struct CloudWatchLogs: AWSService {
     ) async throws -> ListLogGroupsResponse {
         let input = ListLogGroupsRequest(
             accountIdentifiers: accountIdentifiers, 
+            dataSources: dataSources, 
+            fieldIndexNames: fieldIndexNames, 
             includeLinkedAccounts: includeLinkedAccounts, 
             limit: limit, 
             logGroupClass: logGroupClass, 
@@ -2242,6 +2564,76 @@ public struct CloudWatchLogs: AWSService {
             queryId: queryId
         )
         return try await self.listLogGroupsForQuery(input, logger: logger)
+    }
+
+    /// Lists all scheduled queries in your account and region. You can filter results by state to show only enabled or disabled queries.
+    @Sendable
+    @inlinable
+    public func listScheduledQueries(_ input: ListScheduledQueriesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListScheduledQueriesResponse {
+        try await self.client.execute(
+            operation: "ListScheduledQueries", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all scheduled queries in your account and region. You can filter results by state to show only enabled or disabled queries.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of scheduled queries to return. Valid range is 1 to 1000.
+    ///   - nextToken: 
+    ///   - state: Filter scheduled queries by state. Valid values are ENABLED and DISABLED. If not specified, all scheduled queries are returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listScheduledQueries(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        state: ScheduledQueryState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListScheduledQueriesResponse {
+        let input = ListScheduledQueriesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            state: state
+        )
+        return try await self.listScheduledQueries(input, logger: logger)
+    }
+
+    /// Returns a list of data source associations for a specified S3 Table Integration, showing which data sources are currently associated for query access.
+    @Sendable
+    @inlinable
+    public func listSourcesForS3TableIntegration(_ input: ListSourcesForS3TableIntegrationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourcesForS3TableIntegrationResponse {
+        try await self.client.execute(
+            operation: "ListSourcesForS3TableIntegration", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of data source associations for a specified S3 Table Integration, showing which data sources are currently associated for query access.
+    ///
+    /// Parameters:
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the S3 Table Integration to list associations for.
+    ///   - maxResults: The maximum number of associations to return in a single call. Valid range is 1 to 100.
+    ///   - nextToken: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSourcesForS3TableIntegration(
+        integrationArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSourcesForS3TableIntegrationResponse {
+        let input = ListSourcesForS3TableIntegrationRequest(
+            integrationArn: integrationArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSourcesForS3TableIntegration(input, logger: logger)
     }
 
     /// Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and destinations support tagging.
@@ -2304,7 +2696,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.listTagsLogGroup(input, logger: logger)
     }
 
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.   To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.   To create a subscription filter policy, you must have the logs:PutSubscriptionFilter and logs:PutAccountPolicy permissions.   To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.   To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.    Data protection policy  A data protection policy can help safeguard sensitive data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a GetLogEvents or FilterLogEvents operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use PutDataProtectionPolicy to create a data protection policy that applies to just one log group. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in this account. Supported destinations are Kinesis Data Streams, Firehose, and Lambda. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.  Transformer policy  Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see  Processors that you can use. Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  You can also set up a transformer at the log-group level. For more information, see PutTransformer. If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer.  Field index policy  You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see Create field indexes to improve query performance and reduce costs  To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 20 account-level field index policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use PutIndexPolicy instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with PutAccountPolicy.  Metric extraction policy  A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them.  Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"].  Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats:  LogGroupName IN ["log-group-1", "log-group-2"]   LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"]  If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:   If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".   If you have a NOT IN policy for prefix "/aws/lambda", you cannot create an IN policy for prefix "/aws" because the set of log groups matching "/aws" is not a subset of the log groups matching "/aws/lambda".
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see Use facets to group and explore logs. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.   To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.   To create a subscription filter policy, you must have the logs:PutSubscriptionFilter and logs:PutAccountPolicy permissions.   To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.   To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To configure facets for field index policies, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.    Data protection policy  A data protection policy can help safeguard sensitive data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a GetLogEvents or FilterLogEvents operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use PutDataProtectionPolicy to create a data protection policy that applies to just one log group. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in this account. Supported destinations are Kinesis Data Streams, Firehose, and Lambda. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.  Transformer policy  Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see  Processors that you can use. Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @logStream     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  You can also set up a transformer at the log-group level. For more information, see PutTransformer. If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer.  Field index policy  You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see Create field indexes to improve query performance and reduce costs  To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 40 account-level field index policies (20 for log group prefix selection, 20 for data source selection) that are each scoped to a subset of log groups or data sources with the selectionCriteria parameter. Field index policies can now be created for specific data source name and type combinations using DataSourceName and DataSourceType selection criteria. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use PutIndexPolicy instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with PutAccountPolicy.  Metric extraction policy  A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them.  Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"].  Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats:  LogGroupName IN ["log-group-1", "log-group-2"]   LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"]  If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:   If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".   If you have a NOT IN policy for prefix "/aws/lambda", you cannot create an IN policy for prefix "/aws" because the set of log groups matching "/aws" is not a subset of the log groups matching "/aws/lambda".
     @Sendable
     @inlinable
     public func putAccountPolicy(_ input: PutAccountPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountPolicyResponse {
@@ -2317,7 +2709,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.   To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.   To create a subscription filter policy, you must have the logs:PutSubscriptionFilter and logs:PutAccountPolicy permissions.   To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.   To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.    Data protection policy  A data protection policy can help safeguard sensitive data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a GetLogEvents or FilterLogEvents operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use PutDataProtectionPolicy to create a data protection policy that applies to just one log group. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in this account. Supported destinations are Kinesis Data Streams, Firehose, and Lambda. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.  Transformer policy  Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see  Processors that you can use. Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  You can also set up a transformer at the log-group level. For more information, see PutTransformer. If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer.  Field index policy  You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see Create field indexes to improve query performance and reduce costs  To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 20 account-level field index policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use PutIndexPolicy instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with PutAccountPolicy.  Metric extraction policy  A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them.  Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"].  Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats:  LogGroupName IN ["log-group-1", "log-group-2"]   LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"]  If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:   If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".   If you have a NOT IN policy for prefix "/aws/lambda", you cannot create an IN policy for prefix "/aws" because the set of log groups matching "/aws" is not a subset of the log groups matching "/aws/lambda".
+    /// Creates an account-level data protection policy, subscription filter policy, field index policy, transformer policy, or metric extraction policy that applies to all log groups or a subset of log groups in the account. For field index policies, you can configure indexed fields as facets to enable interactive exploration of your logs. Facets provide value distributions and counts for indexed fields in the CloudWatch Logs Insights console without requiring query execution. For more information, see Use facets to group and explore logs. To use this operation, you must be signed on with the correct permissions depending on the type of policy that you are creating.   To create a data protection policy, you must have the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions.   To create a subscription filter policy, you must have the logs:PutSubscriptionFilter and logs:PutAccountPolicy permissions.   To create a transformer policy, you must have the logs:PutTransformer and logs:PutAccountPolicy permissions.   To create a field index policy, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To configure facets for field index policies, you must have the logs:PutIndexPolicy and logs:PutAccountPolicy permissions.   To create a metric extraction policy, you must have the logs:PutMetricExtractionPolicy and logs:PutAccountPolicy permissions.    Data protection policy  A data protection policy can help safeguard sensitive data that's ingested by your log groups by auditing and masking the sensitive log data. Each account can have only one account-level data protection policy.  Sensitive data is detected and masked when it is ingested into a log group. When you set a data protection policy, log events ingested into the log groups before that time are not masked.  If you use PutAccountPolicy to create a data protection policy for your whole account, it applies to both existing log groups and all log groups that are created later in this account. The account-level policy is applied to existing log groups with eventual consistency. It might take up to 5 minutes before sensitive data in existing log groups begins to be masked. By default, when a user views a log event that includes masked data, the sensitive data is replaced by asterisks. A user who has the logs:Unmask permission can use a GetLogEvents or FilterLogEvents operation with the unmask parameter set to true to view the unmasked log events. Users with the logs:Unmask can also view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query with the unmask query command. For more information, including a list of types of data that can be audited and masked, see Protect sensitive log data with masking. To use the PutAccountPolicy operation for a data protection policy, you must be signed on with the logs:PutDataProtectionPolicy and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log groups in the account. You can use PutDataProtectionPolicy to create a data protection policy that applies to just one log group. If a log group has its own data protection policy and the account also has an account-level data protection policy, then the two policies are cumulative. Any sensitive term specified in either policy is masked.  Subscription filter policy  A subscription filter policy sets up a real-time feed of log events from CloudWatch Logs to other Amazon Web Services services. Account-level subscription filter policies apply to both existing log groups and log groups that are created later in this account. Supported destinations are Kinesis Data Streams, Firehose, and Lambda. When log events are sent to the receiving service, they are Base64 encoded and compressed with the GZIP format. The following destinations are supported for subscription filters:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.   Each account can have one account-level subscription filter policy per Region. If you are updating an existing filter, you must specify the correct name in PolicyName. To perform a PutAccountPolicy subscription filter operation for any destination except a Lambda function, you must also have the iam:PassRole permission.  Transformer policy  Creates or updates a log transformer policy for your account. You use log transformers to transform log events into a different format, making them easier for you to process and analyze. You can also transform logs from different sources into standardized formats that contain relevant, source-specific information. After you have created a transformer, CloudWatch Logs performs this transformation at the time of log ingestion. You can then refer to the transformed versions of the logs during operations such as querying with CloudWatch Logs Insights or creating metric filters or subscription filters. You can also use a transformer to copy metadata from metadata keys into the log events themselves. This metadata can include log group name, log stream name, account ID and Region. A transformer for a log group is a series of processors, where each processor applies one type of transformation to the log events ingested into this log group. For more information about the available processors to use in a transformer, see  Processors that you can use. Having log events in standardized format enables visibility across your applications for your log analysis, reporting, and alarming needs. CloudWatch Logs provides transformation for common log types with out-of-the-box transformation templates for major Amazon Web Services log sources such as VPC flow logs, Lambda, and Amazon RDS. You can use pre-built transformation templates or create custom transformation policies. You can create transformers only for the log groups in the Standard log class. You can have one account-level transformer policy that applies to all log groups in the account. Or you can create as many as 20 account-level transformer policies that are each scoped to a subset of log groups with the selectionCriteria parameter. If you have multiple account-level transformer policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @logStream     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  You can also set up a transformer at the log-group level. For more information, see PutTransformer. If there is both a log-group level transformer created with PutTransformer and an account-level transformer that could apply to the same log group, the log group uses only the log-group level transformer. It ignores the account-level transformer.  Field index policy  You can use field index policies to create indexes on fields found in log events in the log group. Creating field indexes can help lower the scan volume for CloudWatch Logs Insights queries that reference those fields, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, user IDs, or instance IDs. For more information, see Create field indexes to improve query performance and reduce costs  To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId in [value, value, ...] will attempt to process only the log events where the indexed field matches the specified value. Matches of log events to the names of indexed fields are case-sensitive. For example, an indexed field of RequestId won't match a log event containing requestId. You can have one account-level field index policy that applies to all log groups in the account. Or you can create as many as 40 account-level field index policies (20 for log group prefix selection, 20 for data source selection) that are each scoped to a subset of log groups or data sources with the selectionCriteria parameter. Field index policies can now be created for specific data source name and type combinations using DataSourceName and DataSourceType selection criteria. If you have multiple account-level index policies with selection criteria, no two of them can use the same or overlapping log group name prefixes. For example, if you have one policy filtered to log groups that start with my-log, you can't have another field index policy filtered to my-logpprod or my-logging. If you create an account-level field index policy in a monitoring account in cross-account observability, the policy is applied only to the monitoring account and not to any source accounts. If you want to create a field index policy for a single log group, you can use PutIndexPolicy instead of PutAccountPolicy. If you do so, that log group will use only that log-group level policy, and will ignore the account-level policy that you create with PutAccountPolicy.  Metric extraction policy  A metric extraction policy controls whether CloudWatch Metrics can be created through the Embedded Metrics Format (EMF) for log groups in your account. By default, EMF metric creation is enabled for all log groups. You can use metric extraction policies to disable EMF metric creation for your entire account or specific log groups. When a policy disables EMF metric creation for a log group, log events in the EMF format are still ingested, but no CloudWatch Metrics are created from them.  Creating a policy disables metrics for AWS features that use EMF to create metrics, such as CloudWatch Container Insights and CloudWatch Application Signals. To prevent turning off those features by accident, we recommend that you exclude the underlying log-groups through a selection-criteria such as LogGroupNamePrefix NOT IN ["/aws/containerinsights", "/aws/ecs/containerinsights", "/aws/application-signals/data"].  Each account can have either one account-level metric extraction policy that applies to all log groups, or up to 5 policies that are each scoped to a subset of log groups with the selectionCriteria parameter. The selection criteria supports filtering by LogGroupName and LogGroupNamePrefix using the operators IN and NOT IN. You can specify up to 50 values in each IN or NOT IN list. The selection criteria can be specified in these formats:  LogGroupName IN ["log-group-1", "log-group-2"]   LogGroupNamePrefix NOT IN ["/aws/prefix1", "/aws/prefix2"]  If you have multiple account-level metric extraction policies with selection criteria, no two of them can have overlapping criteria. For example, if you have one policy with selection criteria LogGroupNamePrefix IN ["my-log"], you can't have another metric extraction policy with selection criteria LogGroupNamePrefix IN ["/my-log-prod"] or LogGroupNamePrefix IN ["/my-logging"], as the set of log groups matching these prefixes would be a subset of the log groups matching the first policy's prefix, creating an overlap. When using NOT IN, only one policy with this operator is allowed per account. When combining policies with IN and NOT IN operators, the overlap check ensures that policies don't have conflicting effects. Two policies with IN and NOT IN operators do not overlap if and only if every value in the IN policy is completely contained within some value in the NOT IN policy. For example:   If you have a NOT IN policy for prefix "/aws/lambda", you can create an IN policy for the exact log group name "/aws/lambda/function1" because the set of log groups matching "/aws/lambda/function1" is a subset of the log groups matching "/aws/lambda".   If you have a NOT IN policy for prefix "/aws/lambda", you cannot create an IN policy for prefix "/aws" because the set of log groups matching "/aws" is not a subset of the log groups matching "/aws/lambda".
     ///
     /// Parameters:
     ///   - policyDocument: Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see Types of data that you can mask. The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a filtered stream of log events.    Distribution The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.    Transformer policy  A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see  Processors that you can use.   Field index policy  A field index filter policy can include the following attribute in a JSON block:    Fields The array of field indexes to create.   It must contain at least one field index. The following is an example of an index policy document that creates two indexes, RequestId and TransactionId.  "policyDocument": "{ \"Fields\": [ \"RequestId\", \"TransactionId\" ] }"
@@ -2466,7 +2858,7 @@ public struct CloudWatchLogs: AWSService {
     /// Creates or updates a logical delivery source. A delivery source represents an Amazon Web Services resource that sends logs to an logs delivery destination. The destination can be CloudWatch Logs, Amazon S3, Firehose or X-Ray for sending traces. To configure logs delivery between a delivery destination and an Amazon Web Services service that is supported as a delivery source, you must do the following:   Use PutDeliverySource to create a delivery source, which is a logical object that represents the resource that is actually sending the logs.    Use PutDeliveryDestination to create a delivery destination, which is a logical object that represents the actual delivery destination. For more information, see PutDeliveryDestination.   If you are delivering logs cross-account, you must use PutDeliveryDestinationPolicy in the destination account to assign an IAM policy to the destination. This policy allows delivery to that destination.    Use CreateDelivery to create a delivery by pairing exactly one delivery source and one delivery destination. For more information, see CreateDelivery.    You can configure a single delivery source to send logs to multiple destinations by creating multiple deliveries. You can also create multiple deliveries to configure multiple delivery sources to send logs to the same delivery destination. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at Enabling logging from Amazon Web Services services.  If you use this operation to update an existing delivery source, all the current delivery source parameters are overwritten with the new parameter values that you specify.
     ///
     /// Parameters:
-    ///   - logType: Defines the type of log that the source is sending.   For Amazon Bedrock, the valid value is APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.   For Amazon Q, the valid value is EVENT_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOG and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+    ///   - logType: Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
     ///   - name: A name for this delivery source. This name must be unique for all delivery sources in your account.
     ///   - resourceArn: The ARN of the Amazon Web Services resource that is generating and sending logs. For example, arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234
     ///   - tags: An optional list of key-value pairs to associate with the resource. For more information about tagging, see Tagging Amazon Web Services resources
@@ -2561,7 +2953,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.putDestinationPolicy(input, logger: logger)
     }
 
-    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes. You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see Create field indexes to improve query performance and reduce costs. To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  Each index policy has the following quotas and restrictions:   As many as 20 fields can be included in the policy.   Each field name can include as many as 100 characters.   Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with PutAccountPolicy. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy. The log group ignores any account-wide field index policy that you might have created.
+    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes. You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see Create field indexes to improve query performance and reduce costs. You can configure indexed fields as facets to enable interactive exploration and filtering of your logs in the CloudWatch Logs Insights console. Facets allow you to view value distributions and counts for indexed fields without running queries. When you create a field index, you can optionally set it as a facet to enable this interactive analysis capability. For more information, see Use facets to group and explore logs. To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @logStream     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  Each index policy has the following quotas and restrictions:   As many as 20 fields can be included in the policy.   Each field name can include as many as 100 characters.   Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with PutAccountPolicy that apply to log groups. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy for log group-level indexing, including any facet configurations. The log group ignores any account-wide field index policy that applies to log groups, but data source-based account policies may still apply.
     @Sendable
     @inlinable
     public func putIndexPolicy(_ input: PutIndexPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutIndexPolicyResponse {
@@ -2574,7 +2966,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes. You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see Create field indexes to improve query performance and reduce costs. To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  Each index policy has the following quotas and restrictions:   As many as 20 fields can be included in the policy.   Each field name can include as many as 100 characters.   Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with PutAccountPolicy. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy. The log group ignores any account-wide field index policy that you might have created.
+    /// Creates or updates a field index policy for the specified log group. Only log groups in the Standard log class support field index policies. For more information about log classes, see Log classes. You can use field index policies to create field indexes on fields found in log events in the log group. Creating field indexes speeds up and lowers the costs for CloudWatch Logs Insights queries that reference those field indexes, because these queries attempt to skip the processing of log events that are known to not match the indexed field. Good fields to index are fields that you often need to query for and fields or values that match only a small fraction of the total log events. Common examples of indexes include request ID, session ID, userID, and instance IDs. For more information, see Create field indexes to improve query performance and reduce costs. You can configure indexed fields as facets to enable interactive exploration and filtering of your logs in the CloudWatch Logs Insights console. Facets allow you to view value distributions and counts for indexed fields without running queries. When you create a field index, you can optionally set it as a facet to enable this interactive analysis capability. For more information, see Use facets to group and explore logs. To find the fields that are in your log group events, use the GetLogGroupFields operation. For example, suppose you have created a field index for requestId. Then, any CloudWatch Logs Insights query on that log group that includes requestId = value or requestId IN [value, value, ...] will process fewer log events to reduce costs, and have improved performance. CloudWatch Logs provides default field indexes for all log groups in the Standard log class. Default field indexes are automatically available for the following fields:     @logStream     @aws.region     @aws.account     @source.log     traceId    Default field indexes are in addition to any custom field indexes you define within your policy. Default field indexes are not counted towards your field index quota.  Each index policy has the following quotas and restrictions:   As many as 20 fields can be included in the policy.   Each field name can include as many as 100 characters.   Matches of log events to the names of indexed fields are case-sensitive. For example, a field index of RequestId won't match a log event containing requestId. Log group-level field index policies created with PutIndexPolicy override account-level field index policies created with PutAccountPolicy that apply to log groups. If you use PutIndexPolicy to create a field index policy for a log group, that log group uses only that policy for log group-level indexing, including any facet configurations. The log group ignores any account-wide field index policy that applies to log groups, but data source-based account policies may still apply.
     ///
     /// Parameters:
     ///   - logGroupIdentifier: Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end.
@@ -2669,6 +3061,38 @@ public struct CloudWatchLogs: AWSService {
         return try await self.putLogEvents(input, logger: logger)
     }
 
+    /// Enables or disables deletion protection for the specified log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. For information about the parameters that are common to all actions, see Common Parameters.
+    @Sendable
+    @inlinable
+    public func putLogGroupDeletionProtection(_ input: PutLogGroupDeletionProtectionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutLogGroupDeletionProtection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables or disables deletion protection for the specified log group. When enabled on a log group, deletion protection blocks all deletion operations until it is explicitly disabled. For information about the parameters that are common to all actions, see Common Parameters.
+    ///
+    /// Parameters:
+    ///   - deletionProtectionEnabled: Whether to enable deletion protection. Type: Boolean Required: Yes
+    ///   - logGroupIdentifier: The name or ARN of the log group. Type: String Length Constraints: Minimum length of 1. Maximum length of 512. Pattern: [\.\-_/#A-Za-z0-9]+  Required: Yes
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putLogGroupDeletionProtection(
+        deletionProtectionEnabled: Bool,
+        logGroupIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutLogGroupDeletionProtectionRequest(
+            deletionProtectionEnabled: deletionProtectionEnabled, 
+            logGroupIdentifier: logGroupIdentifier
+        )
+        return try await self.putLogGroupDeletionProtection(input, logger: logger)
+    }
+
     /// Creates or updates a metric filter and associates it with the specified log group. With metric filters, you can configure rules to extract metric data from log events ingested through PutLogEvents. The maximum number of metric filters that can be associated with a log group is 100. Using regular expressions in filter patterns is supported. For these filters, there is a quota of two regular expression patterns within a single filter pattern. There is also a quota of five regular expression patterns per log group. For more information about using regular expressions in filter patterns, see  Filter pattern syntax for metric filters, subscription filters, filter log events, and Live Tail. When you create a metric filter, you can also optionally assign a unit and dimensions to the metric that is created.  Metrics extracted from log events are charged as custom metrics. To prevent unexpected high charges, do not specify high-cardinality fields such as IPAddress or requestID as dimensions. Each different value found for a dimension is treated as a separate metric and accrues charges as a separate custom metric.  CloudWatch Logs might disable a metric filter if it generates 1,000 different name/value pairs for your specified dimensions within one hour. You can also set up a billing alarm to alert you if your charges are higher than expected. For more information, see  Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
     @Sendable
     @inlinable
@@ -2760,7 +3184,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.putQueryDefinition(input, logger: logger)
     }
 
-    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
+    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions:    Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream  actions    Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals    Policy limits - An account can have a maximum of 10 policies without resourceARN and one per LogGroup resourceARN    Resource policies with actions invoked by non-Amazon Web Services service principals (such as IAM users, roles, or other Amazon Web Services accounts) will not be enforced. For access control involving these principals, use the IAM policies.
     @Sendable
     @inlinable
     public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
@@ -2773,11 +3197,11 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. An account can have up to 10 resource policies per Amazon Web Services Region.
+    /// Creates or updates a resource policy allowing other Amazon Web Services services to put log events to this account, such as Amazon Route 53. This API has the following restrictions:    Supported actions - Policy only supports logs:PutLogEvents and logs:CreateLogStream  actions    Supported principals - Policy only applies when operations are invoked by Amazon Web Services service principals (not IAM users, roles, or cross-account principals    Policy limits - An account can have a maximum of 10 policies without resourceARN and one per LogGroup resourceARN    Resource policies with actions invoked by non-Amazon Web Services service principals (such as IAM users, roles, or other Amazon Web Services accounts) will not be enforced. For access control involving these principals, use the IAM policies.
     ///
     /// Parameters:
     ///   - expectedRevisionId: The expected revision ID of the resource policy. Required when resourceArn is provided to prevent concurrent modifications. Use null when creating a resource policy for the first time.
-    ///   - policyDocument: Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call.   { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
+    ///   - policyDocument: Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream. CloudWatch Logs also supports aws:SourceArn and aws:SourceAccount condition context keys. In the example resource policy, you would replace the value of SourceArn with the resource making the call from Route 53 to CloudWatch Logs. You would also replace the value of SourceAccount with the Amazon Web Services account ID making that call.   { "Version": "2012-10-17",		 	 	  "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action": "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": { "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": { "aws:SourceAccount": "myAwsAccountId" } } } ] }
     ///   - policyName: Name of the new policy. This parameter is required.
     ///   - resourceArn: The ARN of the CloudWatch Logs resource to which the resource policy needs to be added or attached. Currently only supports LogGroup ARN.
     ///   - logger: Logger use during operation
@@ -2954,7 +3378,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.startLiveTail(input, logger: logger)
     }
 
-    /// Starts a query of one or more log groups using CloudWatch Logs Insights. You specify the log groups and time range to query and the query string to use. For more information, see CloudWatch Logs Insights Query Syntax. After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery returns.   To specify the log groups to query, a StartQuery operation must include one of the following:   Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers    Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class.  For more information about the SOURCE command, see SOURCE.    If you have associated a KMS key with the query results in this account, then StartQuery uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
+    /// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax. After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery returns.  Interactive queries started with StartQuery share concurrency limits with automated scheduled query executions. Both types of queries count toward the same regional concurrent query quota, so high scheduled query activity may affect the availability of concurrent slots for interactive queries.  To specify the log groups to query, a StartQuery operation must include one of the following:   Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers    Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class, or select data sources using dataSource syntax in LogsQL, PPL, and SQL.  For more information about the SOURCE command, see SOURCE.    If you have associated a KMS key with the query results in this account, then StartQuery uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
     @Sendable
     @inlinable
     public func startQuery(_ input: StartQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQueryResponse {
@@ -2967,7 +3391,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Starts a query of one or more log groups using CloudWatch Logs Insights. You specify the log groups and time range to query and the query string to use. For more information, see CloudWatch Logs Insights Query Syntax. After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery returns.   To specify the log groups to query, a StartQuery operation must include one of the following:   Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers    Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class.  For more information about the SOURCE command, see SOURCE.    If you have associated a KMS key with the query results in this account, then StartQuery uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
+    /// Starts a query of one or more log groups or data sources using CloudWatch Logs Insights. You specify the log groups or data sources and time range to query and the query string to use. You can query up to 10 data sources in a single query. For more information, see CloudWatch Logs Insights Query Syntax. After you run a query using StartQuery, the query results are stored by CloudWatch Logs. You can use GetQueryResults to retrieve the results of a query, using the queryId that StartQuery returns.  Interactive queries started with StartQuery share concurrency limits with automated scheduled query executions. Both types of queries count toward the same regional concurrent query quota, so high scheduled query activity may affect the availability of concurrent slots for interactive queries.  To specify the log groups to query, a StartQuery operation must include one of the following:   Either exactly one of the following parameters: logGroupName, logGroupNames, or logGroupIdentifiers    Or the queryString must include a SOURCE command to select log groups for the query. The SOURCE command can select log groups based on log group name prefix, account ID, and log class, or select data sources using dataSource syntax in LogsQL, PPL, and SQL.  For more information about the SOURCE command, see SOURCE.    If you have associated a KMS key with the query results in this account, then StartQuery uses that key to encrypt the results when it stores them. If no key is associated with query results, the query results are encrypted with the default CloudWatch Logs encryption method. Queries time out after 60 minutes of runtime. If your queries are timing out, reduce the time range being searched or partition your query into a number of queries. If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account to start a query in a linked source account. For more information, see CloudWatch cross-account observability. For a cross-account StartQuery operation, the query definition must be defined in the monitoring account. You can have up to 30 concurrent CloudWatch Logs insights queries, including queries that have been added to dashboards.
     ///
     /// Parameters:
     ///   - endTime: The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
@@ -3004,7 +3428,7 @@ public struct CloudWatchLogs: AWSService {
         return try await self.startQuery(input, logger: logger)
     }
 
-    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
+    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running. This operation can be used to cancel both interactive queries and individual scheduled query executions. When used with scheduled queries, StopQuery cancels only the specific execution identified by the query ID, not the scheduled query configuration itself.
     @Sendable
     @inlinable
     public func stopQuery(_ input: StopQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopQueryResponse {
@@ -3017,7 +3441,7 @@ public struct CloudWatchLogs: AWSService {
             logger: logger
         )
     }
-    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running.
+    /// Stops a CloudWatch Logs Insights query that is in progress. If the query has already ended, the operation returns an error indicating that the specified query is not running. This operation can be used to cancel both interactive queries and individual scheduled query executions. When used with scheduled queries, StopQuery cancels only the specific execution identified by the query ID, not the scheduled query configuration itself.
     ///
     /// Parameters:
     ///   - queryId: The ID number of the query to stop. To find this ID number, use DescribeQueries.
@@ -3350,6 +3774,71 @@ public struct CloudWatchLogs: AWSService {
             filterPattern: filterPattern
         )
         return try await self.updateLogAnomalyDetector(input, logger: logger)
+    }
+
+    /// Updates an existing scheduled query with new configuration. This operation uses PUT semantics, allowing modification of query parameters, schedule, and destinations.
+    @Sendable
+    @inlinable
+    public func updateScheduledQuery(_ input: UpdateScheduledQueryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateScheduledQueryResponse {
+        try await self.client.execute(
+            operation: "UpdateScheduledQuery", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing scheduled query with new configuration. This operation uses PUT semantics, allowing modification of query parameters, schedule, and destinations.
+    ///
+    /// Parameters:
+    ///   - description: An updated description for the scheduled query.
+    ///   - destinationConfiguration: The updated configuration for where to deliver query results.
+    ///   - executionRoleArn: The updated ARN of the IAM role that grants permissions to execute the query and deliver results.
+    ///   - identifier: The ARN or name of the scheduled query to update.
+    ///   - logGroupIdentifiers: The updated array of log group names or ARNs to query.
+    ///   - queryLanguage: The updated query language for the scheduled query.
+    ///   - queryString: The updated query string to execute.
+    ///   - scheduleEndTime: The updated end time for the scheduled query in Unix epoch format.
+    ///   - scheduleExpression: The updated cron expression that defines when the scheduled query runs.
+    ///   - scheduleStartTime: The updated start time for the scheduled query in Unix epoch format.
+    ///   - startTimeOffset: The updated time offset in seconds that defines the lookback period for the query.
+    ///   - state: The updated state of the scheduled query.
+    ///   - timezone: The updated timezone for evaluating the schedule expression.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateScheduledQuery(
+        description: String? = nil,
+        destinationConfiguration: DestinationConfiguration? = nil,
+        executionRoleArn: String,
+        identifier: String,
+        logGroupIdentifiers: [String]? = nil,
+        queryLanguage: QueryLanguage,
+        queryString: String,
+        scheduleEndTime: Int64? = nil,
+        scheduleExpression: String,
+        scheduleStartTime: Int64? = nil,
+        startTimeOffset: Int64? = nil,
+        state: ScheduledQueryState? = nil,
+        timezone: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateScheduledQueryResponse {
+        let input = UpdateScheduledQueryRequest(
+            description: description, 
+            destinationConfiguration: destinationConfiguration, 
+            executionRoleArn: executionRoleArn, 
+            identifier: identifier, 
+            logGroupIdentifiers: logGroupIdentifiers, 
+            queryLanguage: queryLanguage, 
+            queryString: queryString, 
+            scheduleEndTime: scheduleEndTime, 
+            scheduleExpression: scheduleExpression, 
+            scheduleStartTime: scheduleStartTime, 
+            startTimeOffset: startTimeOffset, 
+            state: state, 
+            timezone: timezone
+        )
+        return try await self.updateScheduledQuery(input, logger: logger)
     }
 }
 
@@ -3851,6 +4340,52 @@ extension CloudWatchLogs {
         return self.getLogEventsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getScheduledQueryHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getScheduledQueryHistoryPaginator(
+        _ input: GetScheduledQueryHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetScheduledQueryHistoryRequest, GetScheduledQueryHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.getScheduledQueryHistory,
+            inputKey: \GetScheduledQueryHistoryRequest.nextToken,
+            outputKey: \GetScheduledQueryHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getScheduledQueryHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - endTime: The end time for the history query in Unix epoch format.
+    ///   - executionStatuses: An array of execution statuses to filter the history results. Only executions with the specified statuses are returned.
+    ///   - identifier: The ARN or name of the scheduled query to retrieve history for.
+    ///   - maxResults: The maximum number of history records to return. Valid range is 1 to 1000.
+    ///   - startTime: The start time for the history query in Unix epoch format.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getScheduledQueryHistoryPaginator(
+        endTime: Int64,
+        executionStatuses: [ExecutionStatus]? = nil,
+        identifier: String,
+        maxResults: Int? = nil,
+        startTime: Int64,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetScheduledQueryHistoryRequest, GetScheduledQueryHistoryResponse> {
+        let input = GetScheduledQueryHistoryRequest(
+            endTime: endTime, 
+            executionStatuses: executionStatuses, 
+            identifier: identifier, 
+            maxResults: maxResults, 
+            startTime: startTime
+        )
+        return self.getScheduledQueryHistoryPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAnomalies(_:logger:)``.
     ///
     /// - Parameters:
@@ -3963,6 +4498,80 @@ extension CloudWatchLogs {
             queryId: queryId
         )
         return self.listLogGroupsForQueryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listScheduledQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduledQueriesPaginator(
+        _ input: ListScheduledQueriesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListScheduledQueriesRequest, ListScheduledQueriesResponse> {
+        return .init(
+            input: input,
+            command: self.listScheduledQueries,
+            inputKey: \ListScheduledQueriesRequest.nextToken,
+            outputKey: \ListScheduledQueriesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listScheduledQueries(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of scheduled queries to return. Valid range is 1 to 1000.
+    ///   - state: Filter scheduled queries by state. Valid values are ENABLED and DISABLED. If not specified, all scheduled queries are returned.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listScheduledQueriesPaginator(
+        maxResults: Int? = nil,
+        state: ScheduledQueryState? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListScheduledQueriesRequest, ListScheduledQueriesResponse> {
+        let input = ListScheduledQueriesRequest(
+            maxResults: maxResults, 
+            state: state
+        )
+        return self.listScheduledQueriesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSourcesForS3TableIntegration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourcesForS3TableIntegrationPaginator(
+        _ input: ListSourcesForS3TableIntegrationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourcesForS3TableIntegrationRequest, ListSourcesForS3TableIntegrationResponse> {
+        return .init(
+            input: input,
+            command: self.listSourcesForS3TableIntegration,
+            inputKey: \ListSourcesForS3TableIntegrationRequest.nextToken,
+            outputKey: \ListSourcesForS3TableIntegrationResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSourcesForS3TableIntegration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - integrationArn: The Amazon Resource Name (ARN) of the S3 Table Integration to list associations for.
+    ///   - maxResults: The maximum number of associations to return in a single call. Valid range is 1 to 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourcesForS3TableIntegrationPaginator(
+        integrationArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSourcesForS3TableIntegrationRequest, ListSourcesForS3TableIntegrationResponse> {
+        let input = ListSourcesForS3TableIntegrationRequest(
+            integrationArn: integrationArn, 
+            maxResults: maxResults
+        )
+        return self.listSourcesForS3TableIntegrationPaginator(input, logger: logger)
     }
 }
 
@@ -4113,6 +4722,20 @@ extension CloudWatchLogs.GetLogEventsRequest: AWSPaginateToken {
     }
 }
 
+extension CloudWatchLogs.GetScheduledQueryHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.GetScheduledQueryHistoryRequest {
+        return .init(
+            endTime: self.endTime,
+            executionStatuses: self.executionStatuses,
+            identifier: self.identifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime
+        )
+    }
+}
+
 extension CloudWatchLogs.ListAnomaliesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudWatchLogs.ListAnomaliesRequest {
@@ -4143,6 +4766,28 @@ extension CloudWatchLogs.ListLogGroupsForQueryRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             queryId: self.queryId
+        )
+    }
+}
+
+extension CloudWatchLogs.ListScheduledQueriesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.ListScheduledQueriesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            state: self.state
+        )
+    }
+}
+
+extension CloudWatchLogs.ListSourcesForS3TableIntegrationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudWatchLogs.ListSourcesForS3TableIntegrationRequest {
+        return .init(
+            integrationArn: self.integrationArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

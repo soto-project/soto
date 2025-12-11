@@ -25,6 +25,18 @@ import Foundation
 extension Route53 {
     // MARK: Enums
 
+    public enum AcceleratedRecoveryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disableFailed = "DISABLE_FAILED"
+        case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case disablingHostedZoneLocked = "DISABLING_HOSTED_ZONE_LOCKED"
+        case enableFailed = "ENABLE_FAILED"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case enablingHostedZoneLocked = "ENABLING_HOSTED_ZONE_LOCKED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccountLimitType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
         case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
@@ -82,6 +94,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case euscDeEast1 = "eusc-de-east-1"
         case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
@@ -94,6 +107,7 @@ extension Route53 {
         case usIsoEast1 = "us-iso-east-1"
         case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
+        case usIsobWest1 = "us-isob-west-1"
         case usIsofEast1 = "us-isof-east-1"
         case usIsofSouth1 = "us-isof-south-1"
         case usWest1 = "us-west-1"
@@ -214,6 +228,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case euscDeEast1 = "eusc-de-east-1"
         case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
@@ -277,6 +292,7 @@ extension Route53 {
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
+        case euscDeEast1 = "eusc-de-east-1"
         case ilCentral1 = "il-central-1"
         case meCentral1 = "me-central-1"
         case meSouth1 = "me-south-1"
@@ -289,6 +305,7 @@ extension Route53 {
         case usIsoEast1 = "us-iso-east-1"
         case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
+        case usIsobWest1 = "us-isob-west-1"
         case usIsofEast1 = "us-isof-east-1"
         case usIsofSouth1 = "us-isof-south-1"
         case usWest1 = "us-west-1"
@@ -509,14 +526,33 @@ extension Route53 {
         /// 							Load Balancing health checks; they're not Route 53 health checks, but
         /// 							they perform a similar function. Do not create Route 53 health checks
         /// 							for the EC2 instances that you register with an ELB load balancer.
-        /// 						   S3 buckets  There are no special requirements for setting
+        /// 						   API Gateway APIs  There are no special requirements for setting
         /// 							EvaluateTargetHealth to true when the alias
-        /// 						target is an S3 bucket.  Other records in the same hosted zone  If the Amazon Web Services resource that you specify in
+        /// 						target is an API Gateway API. However, because API Gateway is highly
+        /// 						available by design, EvaluateTargetHealth provides no
+        /// 						operational benefit and Route 53 health
+        /// 							checks are recommended instead for failover scenarios.  S3 buckets  There are no special requirements for setting
+        /// 							EvaluateTargetHealth to true when the alias
+        /// 						target is an S3 bucket. However, because S3 buckets are highly available by
+        /// 						design, EvaluateTargetHealth provides no operational benefit
+        /// 						and Route 53 health
+        /// 							checks are recommended instead for failover scenarios.  VPC interface endpoints  There are no special requirements for setting
+        /// 							EvaluateTargetHealth to true when the alias
+        /// 						target is a VPC interface endpoint. However, because VPC interface endpoints
+        /// 						are highly available by design, EvaluateTargetHealth provides
+        /// 						no operational benefit and Route 53 health
+        /// 							checks are recommended instead for failover scenarios.  Other records in the same hosted zone  If the Amazon Web Services resource that you specify in
         /// 							DNSName is a record or a group of records (for example, a
         /// 						group of weighted records) but is not another alias record, we recommend
         /// 						that you associate a health check with all of the records in the alias
         /// 						target. For more information, see What Happens When You Omit Health Checks? in the
-        /// 							Amazon Route 53 Developer Guide.   For more information and examples, see Amazon Route 53 Health Checks
+        /// 							Amazon Route 53 Developer Guide.    While EvaluateTargetHealth can be set to true for highly
+        /// 				available Amazon Web Services services (such as S3 buckets, VPC interface endpoints,
+        /// 				and API Gateway), these services are designed for high availability and rarely
+        /// 				experience outages that would be detected by this feature. For failover scenarios
+        /// 				with these services, consider using Route 53 health
+        /// 					checks that monitor your application's ability to access the service
+        /// 				instead.  For more information and examples, see Amazon Route 53 Health Checks
         /// 				and DNS Failover in the Amazon Route 53 Developer
         /// 			Guide.
         public let evaluateTargetHealth: Bool
@@ -1172,8 +1208,8 @@ extension Route53 {
         /// 			health checks:   If you send a CreateHealthCheck request with the same
         /// 						CallerReference and settings as a previous request, and if the
         /// 					health check doesn't exist, Amazon Route 53 creates the health check. If the
-        /// 					health check does exist, Route 53 returns the settings for the existing health
-        /// 					check.   If you send a CreateHealthCheck request with the same
+        /// 					health check does exist, Route 53 returns the health check configuration in the
+        /// 					response.    If you send a CreateHealthCheck request with the same
         /// 						CallerReference as a deleted health check, regardless of the
         /// 					settings, Route 53 returns a HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with the same
         /// 						CallerReference as an existing health check but with different
@@ -3165,7 +3201,8 @@ extension Route53 {
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon
         /// 			Route 53 to change the current status of the endpoint from unhealthy to healthy or vice
         /// 			versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the
-        /// 				Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is
+        /// 				Amazon Route 53 Developer Guide.  FailureThreshold is not supported when you specify a value for
+        /// 			Type of RECOVERY_CONTROL. Otherwise, if you don't specify a value for FailureThreshold, the default value is
         /// 			three health checks.
         public let failureThreshold: Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for
@@ -3250,7 +3287,8 @@ extension Route53 {
         /// Specify whether you want Amazon Route 53 to measure the latency between health
         /// 			checkers in multiple Amazon Web Services regions and your endpoint, and to display
         /// 			CloudWatch latency graphs on the Health Checks page in
-        /// 			the Route 53 console.  You can't change the value of MeasureLatency after you create a
+        /// 			the Route 53 console.  MeasureLatency is not supported when you specify a value for
+        /// 			Type of RECOVERY_CONTROL.  You can't change the value of MeasureLatency after you create a
         /// 				health check.
         public let measureLatency: Bool?
         /// The port on the endpoint that you want Amazon Route 53 to perform health checks
@@ -3269,7 +3307,8 @@ extension Route53 {
         public var regions: [HealthCheckRegion]?
         /// The number of seconds between the time that Amazon Route 53 gets a response from your
         /// 			endpoint and the time that it sends the next health check request. Each Route 53 health
-        /// 			checker makes requests at this interval.  You can't change the value of RequestInterval after you create a
+        /// 			checker makes requests at this interval.  RequestInterval is not supported when you specify a value for
+        /// 			Type of RECOVERY_CONTROL.  You can't change the value of RequestInterval after you create a
         /// 				health check.  If you don't specify a value for RequestInterval, the default value is
         /// 				30 seconds.
         public let requestInterval: Int?
@@ -3422,6 +3461,8 @@ extension Route53 {
         /// 			elements from the request, the Config and Comment elements
         /// 			don't appear in the response.
         public let config: HostedZoneConfig?
+        /// The features configuration for the hosted zone, including accelerated recovery settings and status information.
+        public let features: HostedZoneFeatures?
         /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
         public let id: String
         /// If the hosted zone was created by another service, the service that created the hosted
@@ -3437,9 +3478,10 @@ extension Route53 {
         public let resourceRecordSetCount: Int64?
 
         @inlinable
-        public init(callerReference: String, config: HostedZoneConfig? = nil, id: String, linkedService: LinkedService? = nil, name: String, resourceRecordSetCount: Int64? = nil) {
+        public init(callerReference: String, config: HostedZoneConfig? = nil, features: HostedZoneFeatures? = nil, id: String, linkedService: LinkedService? = nil, name: String, resourceRecordSetCount: Int64? = nil) {
             self.callerReference = callerReference
             self.config = config
+            self.features = features
             self.id = id
             self.linkedService = linkedService
             self.name = name
@@ -3449,6 +3491,7 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case callerReference = "CallerReference"
             case config = "Config"
+            case features = "Features"
             case id = "Id"
             case linkedService = "LinkedService"
             case name = "Name"
@@ -3475,6 +3518,38 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case privateZone = "PrivateZone"
+        }
+    }
+
+    public struct HostedZoneFailureReasons: AWSDecodableShape {
+        /// The reason why accelerated recovery failed to be enabled or disabled for the hosted zone, if applicable.
+        public let acceleratedRecovery: String?
+
+        @inlinable
+        public init(acceleratedRecovery: String? = nil) {
+            self.acceleratedRecovery = acceleratedRecovery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratedRecovery = "AcceleratedRecovery"
+        }
+    }
+
+    public struct HostedZoneFeatures: AWSDecodableShape {
+        /// The current status of accelerated recovery for the hosted zone.
+        public let acceleratedRecoveryStatus: AcceleratedRecoveryStatus?
+        /// Information about any failures that occurred when attempting to enable or configure features for the hosted zone.
+        public let failureReasons: HostedZoneFailureReasons?
+
+        @inlinable
+        public init(acceleratedRecoveryStatus: AcceleratedRecoveryStatus? = nil, failureReasons: HostedZoneFailureReasons? = nil) {
+            self.acceleratedRecoveryStatus = acceleratedRecoveryStatus
+            self.failureReasons = failureReasons
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceleratedRecoveryStatus = "AcceleratedRecoveryStatus"
+            case failureReasons = "FailureReasons"
         }
     }
 
@@ -5979,7 +6054,7 @@ extension Route53 {
         /// The number of consecutive health checks that an endpoint must pass or fail for Amazon
         /// 			Route 53 to change the current status of the endpoint from unhealthy to healthy or vice
         /// 			versa. For more information, see How Amazon Route 53 Determines Whether an Endpoint Is Healthy in the
-        /// 				Amazon Route 53 Developer Guide. If you don't specify a value for FailureThreshold, the default value is
+        /// 				Amazon Route 53 Developer Guide. Otherwise, if you don't specify a value for FailureThreshold, the default value is
         /// 			three health checks.
         public let failureThreshold: Int?
         /// Amazon Route 53 behavior depends on whether you specify a value for
@@ -6258,6 +6333,38 @@ extension Route53 {
         private enum CodingKeys: String, CodingKey {
             case hostedZone = "HostedZone"
         }
+    }
+
+    public struct UpdateHostedZoneFeaturesRequest: AWSEncodableShape {
+        /// Specifies whether to enable accelerated recovery for the hosted zone. Set to true to enable accelerated recovery, or false to disable it.
+        public let enableAcceleratedRecovery: Bool?
+        /// The ID of the hosted zone for which you want to update features. This is the unique identifier for your hosted zone.
+        public let hostedZoneId: String
+
+        @inlinable
+        public init(enableAcceleratedRecovery: Bool? = nil, hostedZoneId: String) {
+            self.enableAcceleratedRecovery = enableAcceleratedRecovery
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.enableAcceleratedRecovery, forKey: .enableAcceleratedRecovery)
+            request.encodePath(self.hostedZoneId, key: "HostedZoneId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostedZoneId, name: "hostedZoneId", parent: name, max: 32)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableAcceleratedRecovery = "EnableAcceleratedRecovery"
+        }
+    }
+
+    public struct UpdateHostedZoneFeaturesResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateTrafficPolicyCommentRequest: AWSEncodableShape {

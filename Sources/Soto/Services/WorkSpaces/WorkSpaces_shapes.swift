@@ -6149,6 +6149,8 @@ extension WorkSpaces {
         public let errorMessage: String?
         /// The IP address of the WorkSpace.
         public let ipAddress: String?
+        /// The IPv6 address of the WorkSpace.
+        public let ipv6Address: String?
         /// The modification states of the WorkSpace.
         public let modificationStates: [ModificationState]?
         /// The standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
@@ -6175,7 +6177,7 @@ extension WorkSpaces {
         public let workspaceProperties: WorkspaceProperties?
 
         @inlinable
-        public init(bundleId: String? = nil, computerName: String? = nil, dataReplicationSettings: DataReplicationSettings? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, standbyWorkspacesProperties: [StandbyWorkspacesProperties]? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+        public init(bundleId: String? = nil, computerName: String? = nil, dataReplicationSettings: DataReplicationSettings? = nil, directoryId: String? = nil, errorCode: String? = nil, errorMessage: String? = nil, ipAddress: String? = nil, ipv6Address: String? = nil, modificationStates: [ModificationState]? = nil, relatedWorkspaces: [RelatedWorkspaceProperties]? = nil, rootVolumeEncryptionEnabled: Bool? = nil, standbyWorkspacesProperties: [StandbyWorkspacesProperties]? = nil, state: WorkspaceState? = nil, subnetId: String? = nil, userName: String? = nil, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceId: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.computerName = computerName
             self.dataReplicationSettings = dataReplicationSettings
@@ -6183,6 +6185,7 @@ extension WorkSpaces {
             self.errorCode = errorCode
             self.errorMessage = errorMessage
             self.ipAddress = ipAddress
+            self.ipv6Address = ipv6Address
             self.modificationStates = modificationStates
             self.relatedWorkspaces = relatedWorkspaces
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
@@ -6205,6 +6208,7 @@ extension WorkSpaces {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case ipAddress = "IpAddress"
+            case ipv6Address = "Ipv6Address"
             case modificationStates = "ModificationStates"
             case relatedWorkspaces = "RelatedWorkspaces"
             case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
@@ -6416,6 +6420,8 @@ extension WorkSpaces {
         public let directoryType: WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public let dnsIpAddresses: [String]?
+        /// The IPv6 addresses of the DNS servers for the directory.
+        public let dnsIpv6Addresses: [String]?
         /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
         public let endpointEncryptionMode: EndpointEncryptionMode?
         /// The error message returned.
@@ -6458,7 +6464,7 @@ extension WorkSpaces {
         public let workspaceType: WorkspaceType?
 
         @inlinable
-        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, endpointEncryptionMode: EndpointEncryptionMode? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, dnsIpv6Addresses: [String]? = nil, endpointEncryptionMode: EndpointEncryptionMode? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
@@ -6467,6 +6473,7 @@ extension WorkSpaces {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.dnsIpv6Addresses = dnsIpv6Addresses
             self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
@@ -6498,6 +6505,7 @@ extension WorkSpaces {
             case directoryName = "DirectoryName"
             case directoryType = "DirectoryType"
             case dnsIpAddresses = "DnsIpAddresses"
+            case dnsIpv6Addresses = "DnsIpv6Addresses"
             case endpointEncryptionMode = "EndpointEncryptionMode"
             case errorMessage = "ErrorMessage"
             case iamRoleId = "IamRoleId"
@@ -6626,6 +6634,8 @@ extension WorkSpaces {
         public let bundleId: String
         /// The identifier of the Directory Service directory for the WorkSpace. You can use DescribeWorkspaceDirectories to list the available directories.
         public let directoryId: String
+        /// The IPv6 address for the WorkSpace.
+        public let ipv6Address: String?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
         /// The tags for the WorkSpace.
@@ -6642,9 +6652,10 @@ extension WorkSpaces {
         public let workspaceProperties: WorkspaceProperties?
 
         @inlinable
-        public init(bundleId: String, directoryId: String, rootVolumeEncryptionEnabled: Bool? = nil, tags: [Tag]? = nil, userName: String, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
+        public init(bundleId: String, directoryId: String, ipv6Address: String? = nil, rootVolumeEncryptionEnabled: Bool? = nil, tags: [Tag]? = nil, userName: String, userVolumeEncryptionEnabled: Bool? = nil, volumeEncryptionKey: String? = nil, workspaceName: String? = nil, workspaceProperties: WorkspaceProperties? = nil) {
             self.bundleId = bundleId
             self.directoryId = directoryId
+            self.ipv6Address = ipv6Address
             self.rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabled
             self.tags = tags
             self.userName = userName
@@ -6659,6 +6670,7 @@ extension WorkSpaces {
             try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
             try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+            try self.validate(self.ipv6Address, name: "ipv6Address", parent: name, pattern: "^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|[0-9a-fA-F]{1,4}(?::[0-9a-fA-F]{1,4}){0,6}::[0-9a-fA-F]{1,4}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -6670,6 +6682,7 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case bundleId = "BundleId"
             case directoryId = "DirectoryId"
+            case ipv6Address = "Ipv6Address"
             case rootVolumeEncryptionEnabled = "RootVolumeEncryptionEnabled"
             case tags = "Tags"
             case userName = "UserName"

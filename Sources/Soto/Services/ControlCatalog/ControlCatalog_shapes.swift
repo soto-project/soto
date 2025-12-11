@@ -32,6 +32,13 @@ extension ControlCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ControlRelationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alternative = "ALTERNATIVE"
+        case complementary = "COMPLEMENTARY"
+        case mutuallyExclusive = "MUTUALLY_EXCLUSIVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ControlScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case global = "GLOBAL"
         case regional = "REGIONAL"
@@ -49,6 +56,7 @@ extension ControlCatalog {
     public enum MappingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case commonControl = "COMMON_CONTROL"
         case framework = "FRAMEWORK"
+        case relatedControl = "RELATED_CONTROL"
         public var description: String { return self.rawValue }
     }
 
@@ -57,6 +65,8 @@ extension ControlCatalog {
         case commonControl(CommonControlMappingDetails)
         /// The framework mapping details when the mapping type relates to a compliance framework.
         case framework(FrameworkMappingDetails)
+        /// Returns information about controls that are related to the specified control.
+        case relatedControl(RelatedControlMappingDetails)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -74,12 +84,16 @@ extension ControlCatalog {
             case .framework:
                 let value = try container.decode(FrameworkMappingDetails.self, forKey: .framework)
                 self = .framework(value)
+            case .relatedControl:
+                let value = try container.decode(RelatedControlMappingDetails.self, forKey: .relatedControl)
+                self = .relatedControl(value)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case commonControl = "CommonControl"
             case framework = "Framework"
+            case relatedControl = "RelatedControl"
         }
     }
 
@@ -214,9 +228,9 @@ extension ControlCatalog {
     public struct ControlMapping: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that identifies the control in the mapping.
         public let controlArn: String
-        /// The details of the mapping relationship, containing either framework or common control information.
+        /// The details of the mapping relationship, for example, containing framework, common control, or related control information.
         public let mapping: Mapping
-        /// The type of mapping relationship between the control and other entities. Indicates whether the mapping is to a framework or common control.
+        /// The type of mapping relationship between the control and other entities.
         public let mappingType: MappingType
 
         @inlinable
@@ -893,6 +907,24 @@ extension ControlCatalog {
         private enum CodingKeys: String, CodingKey {
             case deployableRegions = "DeployableRegions"
             case scope = "Scope"
+        }
+    }
+
+    public struct RelatedControlMappingDetails: AWSDecodableShape {
+        /// The unique identifier of a control.
+        public let controlArn: String?
+        /// Returns an enumerated value that represents the relationship between two or more controls.
+        public let relationType: ControlRelationType
+
+        @inlinable
+        public init(controlArn: String? = nil, relationType: ControlRelationType) {
+            self.controlArn = controlArn
+            self.relationType = relationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case controlArn = "ControlArn"
+            case relationType = "RelationType"
         }
     }
 }
