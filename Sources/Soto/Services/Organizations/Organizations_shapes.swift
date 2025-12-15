@@ -149,6 +149,7 @@ extension Organizations {
         case chatbotPolicy = "CHATBOT_POLICY"
         case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
         case inspectorPolicy = "INSPECTOR_POLICY"
+        case networkSecurityDirectorPolicy = "NETWORK_SECURITY_DIRECTOR_POLICY"
         case s3Policy = "S3_POLICY"
         case securityhubPolicy = "SECURITYHUB_POLICY"
         case tagPolicy = "TAG_POLICY"
@@ -278,6 +279,7 @@ extension Organizations {
         case chatbotPolicy = "CHATBOT_POLICY"
         case declarativePolicyEc2 = "DECLARATIVE_POLICY_EC2"
         case inspectorPolicy = "INSPECTOR_POLICY"
+        case networkSecurityDirectorPolicy = "NETWORK_SECURITY_DIRECTOR_POLICY"
         case resourceControlPolicy = "RESOURCE_CONTROL_POLICY"
         case s3Policy = "S3_POLICY"
         case securityhubPolicy = "SECURITYHUB_POLICY"
@@ -761,7 +763,7 @@ extension Organizations {
         public let name: String
         /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging Organizations resources in the Organizations User Guide.  If any one of the tags is not valid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
         public let tags: [Tag]?
-        /// The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The type of policy to create. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let type: PolicyType
 
         @inlinable
@@ -1037,7 +1039,7 @@ extension Organizations {
     }
 
     public struct DescribeEffectivePolicyRequest: AWSEncodableShape {
-        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: EffectivePolicyType
         /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
         public let targetId: String?
@@ -1278,7 +1280,7 @@ extension Organizations {
     }
 
     public struct DisablePolicyTypeRequest: AWSEncodableShape {
-        /// The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The policy type that you want to disable in this root. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: PolicyType
         /// ID for the root in which you want to disable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1405,7 +1407,7 @@ extension Organizations {
     }
 
     public struct EnablePolicyTypeRequest: AWSEncodableShape {
-        /// The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The policy type that you want to enable. You can specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: PolicyType
         /// ID for the root in which you want to enable a policy type. You can get the ID from the ListRoots operation. The regex pattern for a root ID string requires "r-" followed by  from 4 to 32 lowercase letters or digits.
         public let rootId: String
@@ -1846,7 +1848,7 @@ extension Organizations {
         public let maxResults: Int?
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: EffectivePolicyType
 
         @inlinable
@@ -1875,7 +1877,7 @@ extension Organizations {
         public let accounts: [Account]?
         /// If present, indicates that more output is available than is  included in the current response. Use this value in the NextToken request parameter  in a subsequent call to the operation to get the next part of the output. You should repeat this  until the NextToken response element comes back as null.
         public let nextToken: String?
-        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: EffectivePolicyType?
 
         @inlinable
@@ -2098,7 +2100,7 @@ extension Organizations {
         public let maxResults: Int?
         /// The parameter for receiving additional results if you receive a  NextToken response in a previous request. A NextToken response  indicates that more output is available. Set this parameter to the value of the previous  call's NextToken response to indicate where the output should continue  from.
         public let nextToken: String?
-        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The type of policy that you want information about. You can specify one of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: EffectivePolicyType
 
         @inlinable
@@ -2137,7 +2139,7 @@ extension Organizations {
         public let nextToken: String?
         /// The path in the organization where the specified account exists.
         public let path: String?
-        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The specified policy type. One of the following values:    DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let policyType: EffectivePolicyType?
 
         @inlinable
@@ -2454,7 +2456,7 @@ extension Organizations {
     }
 
     public struct ListPoliciesForTargetRequest: AWSEncodableShape {
-        /// The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// The type of policy that you want to include in the returned list. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let filter: PolicyType
         /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
         public let maxResults: Int?
@@ -2507,7 +2509,7 @@ extension Organizations {
     }
 
     public struct ListPoliciesRequest: AWSEncodableShape {
-        /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY
+        /// Specifies the type of policy that you want to include in the response. You must specify one of the following values:    SERVICE_CONTROL_POLICY     RESOURCE_CONTROL_POLICY     DECLARATIVE_POLICY_EC2     BACKUP_POLICY     TAG_POLICY     CHATBOT_POLICY     AISERVICES_OPT_OUT_POLICY     SECURITYHUB_POLICY     UPGRADE_ROLLOUT_POLICY     INSPECTOR_POLICY     BEDROCK_POLICY     S3_POLICY     NETWORK_SECURITY_DIRECTOR_POLICY
         public let filter: PolicyType
         /// The maximum number of items to return in the response. If more results exist than the specified MaxResults value, a token is included in the response so that you can retrieve the remaining results.
         public let maxResults: Int?

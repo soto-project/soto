@@ -532,6 +532,7 @@ public struct SecretsManager: AWSService {
     ///   - includePlannedDeletion: Specifies whether to include secrets scheduled for deletion. By default, secrets scheduled for deletion aren't included.
     ///   - maxResults: The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecrets again with the value from NextToken.
     ///   - nextToken: A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecrets again with this value.
+    ///   - sortBy: If not specified, secrets are listed by CreatedDate.
     ///   - sortOrder: Secrets are listed by CreatedDate.
     ///   - logger: Logger use during operation
     @inlinable
@@ -540,6 +541,7 @@ public struct SecretsManager: AWSService {
         includePlannedDeletion: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        sortBy: SortByType? = nil,
         sortOrder: SortOrderType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListSecretsResponse {
@@ -548,6 +550,7 @@ public struct SecretsManager: AWSService {
             includePlannedDeletion: includePlannedDeletion, 
             maxResults: maxResults, 
             nextToken: nextToken, 
+            sortBy: sortBy, 
             sortOrder: sortOrder
         )
         return try await self.listSecrets(input, logger: logger)
@@ -1103,6 +1106,7 @@ extension SecretsManager {
     ///   - filters: The filters to apply to the list of secrets.
     ///   - includePlannedDeletion: Specifies whether to include secrets scheduled for deletion. By default, secrets scheduled for deletion aren't included.
     ///   - maxResults: The number of results to include in the response. If there are more results available, in the response, Secrets Manager includes NextToken. To get the next results, call ListSecrets again with the value from NextToken.
+    ///   - sortBy: If not specified, secrets are listed by CreatedDate.
     ///   - sortOrder: Secrets are listed by CreatedDate.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1110,6 +1114,7 @@ extension SecretsManager {
         filters: [Filter]? = nil,
         includePlannedDeletion: Bool? = nil,
         maxResults: Int? = nil,
+        sortBy: SortByType? = nil,
         sortOrder: SortOrderType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListSecretsRequest, ListSecretsResponse> {
@@ -1117,6 +1122,7 @@ extension SecretsManager {
             filters: filters, 
             includePlannedDeletion: includePlannedDeletion, 
             maxResults: maxResults, 
+            sortBy: sortBy, 
             sortOrder: sortOrder
         )
         return self.listSecretsPaginator(input, logger: logger)
@@ -1155,6 +1161,7 @@ extension SecretsManager.ListSecretsRequest: AWSPaginateToken {
             includePlannedDeletion: self.includePlannedDeletion,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy,
             sortOrder: self.sortOrder
         )
     }

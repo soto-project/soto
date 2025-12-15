@@ -67,6 +67,12 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
+    public enum ColorTheme: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dark = "Dark"
+        case light = "Light"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnabledType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -117,6 +123,21 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
+    public enum Locale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case br = "pt-BR"
+        case cn = "zh-CN"
+        case de = "de-DE"
+        case en = "en-US"
+        case es = "es-ES"
+        case fr = "fr-FR"
+        case id = "id-ID"
+        case it = "it-IT"
+        case jp = "ja-JP"
+        case kr = "ko-KR"
+        case tw = "zh-TW"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogFileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case json = "Json"
         case jsonLines = "JSONLines"
@@ -132,6 +153,13 @@ extension WorkSpacesWeb {
         case size3840X2160 = "size3840X2160"
         case size4096X2160 = "size4096X2160"
         case size800X600 = "size800X600"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MimeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ico = "image/x-icon"
+        case jpeg = "image/jpeg"
+        case png = "image/png"
         public var description: String { return self.rawValue }
     }
 
@@ -240,6 +268,68 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case all = "all"
             case include = "include"
+        }
+    }
+
+    public enum IconImageInput: AWSEncodableShape, Sendable {
+        /// The image provided as a binary image file.
+        case blob(AWSBase64Data)
+        /// The S3 URI pointing to the image file. The URI must use the format s3://bucket-name/key-name. You must have read access to the S3 object.
+        case s3Uri(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .blob(let value):
+                try container.encode(value, forKey: .blob)
+            case .s3Uri(let value):
+                try container.encode(value, forKey: .s3Uri)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .blob(let value):
+                try self.validate(value, name: "blob", parent: name, max: 102400)
+            case .s3Uri(let value):
+                try self.validate(value, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9\\.\\-]{1,61}[a-z0-9]/.+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blob = "blob"
+            case s3Uri = "s3Uri"
+        }
+    }
+
+    public enum WallpaperImageInput: AWSEncodableShape, Sendable {
+        /// The image provided as a binary image file.
+        case blob(AWSBase64Data)
+        /// The S3 URI pointing to the image file. The URI must use the format s3://bucket-name/key-name. You must have read access to the S3 object.
+        case s3Uri(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .blob(let value):
+                try container.encode(value, forKey: .blob)
+            case .s3Uri(let value):
+                try container.encode(value, forKey: .s3Uri)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .blob(let value):
+                try self.validate(value, name: "blob", parent: name, max: 5242880)
+            case .s3Uri(let value):
+                try self.validate(value, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][a-z0-9\\.\\-]{1,61}[a-z0-9]/.+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blob = "blob"
+            case s3Uri = "s3Uri"
         }
     }
 
@@ -634,6 +724,128 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case portalArn = "portalArn"
             case userSettingsArn = "userSettingsArn"
+        }
+    }
+
+    public struct BrandingConfiguration: AWSDecodableShape {
+        /// The color theme for components on the web portal.
+        public let colorTheme: ColorTheme
+        /// Metadata for the favicon image file, including the MIME type, file extension, and upload timestamp.
+        public let favicon: ImageMetadata
+        /// A map of localized text strings for different languages, allowing the portal to display content in the user's preferred language.
+        public let localizedStrings: [Locale: LocalizedBrandingStrings]
+        /// Metadata for the logo image file, including the MIME type, file extension, and upload timestamp.
+        public let logo: ImageMetadata
+        /// The terms of service text in Markdown format that users must accept before accessing the portal.
+        public let termsOfService: String?
+        /// Metadata for the wallpaper image file, including the MIME type, file extension, and upload timestamp.
+        public let wallpaper: ImageMetadata
+
+        @inlinable
+        public init(colorTheme: ColorTheme, favicon: ImageMetadata, localizedStrings: [Locale: LocalizedBrandingStrings], logo: ImageMetadata, termsOfService: String? = nil, wallpaper: ImageMetadata) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorTheme = "colorTheme"
+            case favicon = "favicon"
+            case localizedStrings = "localizedStrings"
+            case logo = "logo"
+            case termsOfService = "termsOfService"
+            case wallpaper = "wallpaper"
+        }
+    }
+
+    public struct BrandingConfigurationCreateInput: AWSEncodableShape {
+        /// The color theme for components on the web portal. Choose Light if you upload a dark wallpaper, or Dark for a light wallpaper.
+        public let colorTheme: ColorTheme
+        /// The favicon image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public let favicon: IconImageInput
+        /// A map of localized text strings for different supported languages. Each locale must provide the required fields browserTabTitle and welcomeText.
+        public let localizedStrings: [Locale: LocalizedBrandingStrings]
+        /// The logo image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public let logo: IconImageInput
+        /// The terms of service text in Markdown format. Users will be presented with the terms of service after successfully signing in.
+        public let termsOfService: String?
+        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format.
+        public let wallpaper: WallpaperImageInput?
+
+        @inlinable
+        public init(colorTheme: ColorTheme, favicon: IconImageInput, localizedStrings: [Locale: LocalizedBrandingStrings], logo: IconImageInput, termsOfService: String? = nil, wallpaper: WallpaperImageInput? = nil) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+
+        public func validate(name: String) throws {
+            try self.favicon.validate(name: "\(name).favicon")
+            try self.localizedStrings.forEach {
+                try $0.value.validate(name: "\(name).localizedStrings[\"\($0.key)\"]")
+            }
+            try self.logo.validate(name: "\(name).logo")
+            try self.validate(self.termsOfService, name: "termsOfService", parent: name, max: 153600)
+            try self.wallpaper?.validate(name: "\(name).wallpaper")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorTheme = "colorTheme"
+            case favicon = "favicon"
+            case localizedStrings = "localizedStrings"
+            case logo = "logo"
+            case termsOfService = "termsOfService"
+            case wallpaper = "wallpaper"
+        }
+    }
+
+    public struct BrandingConfigurationUpdateInput: AWSEncodableShape {
+        /// The color theme for components on the web portal. Choose Light if you upload a dark wallpaper, or Dark for a light wallpaper.
+        public let colorTheme: ColorTheme?
+        /// The favicon image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public let favicon: IconImageInput?
+        /// A map of localized text strings for different supported languages. Each locale must provide the required fields browserTabTitle and welcomeText.
+        public let localizedStrings: [Locale: LocalizedBrandingStrings]?
+        /// The logo image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 100 KB in JPEG, PNG, or ICO format.
+        public let logo: IconImageInput?
+        /// The terms of service text in Markdown format. To remove existing terms of service, provide an empty string.
+        public let termsOfService: String?
+        /// The wallpaper image for the portal. Provide either a binary image file or an S3 URI pointing to the image file. Maximum 5 MB in JPEG or PNG format.
+        public let wallpaper: WallpaperImageInput?
+
+        @inlinable
+        public init(colorTheme: ColorTheme? = nil, favicon: IconImageInput? = nil, localizedStrings: [Locale: LocalizedBrandingStrings]? = nil, logo: IconImageInput? = nil, termsOfService: String? = nil, wallpaper: WallpaperImageInput? = nil) {
+            self.colorTheme = colorTheme
+            self.favicon = favicon
+            self.localizedStrings = localizedStrings
+            self.logo = logo
+            self.termsOfService = termsOfService
+            self.wallpaper = wallpaper
+        }
+
+        public func validate(name: String) throws {
+            try self.favicon?.validate(name: "\(name).favicon")
+            try self.localizedStrings?.forEach {
+                try $0.value.validate(name: "\(name).localizedStrings[\"\($0.key)\"]")
+            }
+            try self.logo?.validate(name: "\(name).logo")
+            try self.validate(self.termsOfService, name: "termsOfService", parent: name, max: 153600)
+            try self.wallpaper?.validate(name: "\(name).wallpaper")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case colorTheme = "colorTheme"
+            case favicon = "favicon"
+            case localizedStrings = "localizedStrings"
+            case logo = "logo"
+            case termsOfService = "termsOfService"
+            case wallpaper = "wallpaper"
         }
     }
 
@@ -1454,6 +1666,8 @@ extension WorkSpacesWeb {
     public struct CreateUserSettingsRequest: AWSEncodableShape {
         /// The additional encryption context of the user settings.
         public let additionalEncryptionContext: [String: String]?
+        /// The branding configuration input that customizes the appearance of the web portal for end users. This includes a custom logo, favicon, wallpaper, localized strings, color theme, and an optional terms of service.
+        public let brandingConfigurationInput: BrandingConfigurationCreateInput?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request.  If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
         public let clientToken: String?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
@@ -1482,8 +1696,9 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, brandingConfigurationInput: BrandingConfigurationCreateInput? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType) {
             self.additionalEncryptionContext = additionalEncryptionContext
+            self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
@@ -1506,6 +1721,7 @@ extension WorkSpacesWeb {
                 try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, max: 131072)
                 try validate($0.value, name: "additionalEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
+            try self.brandingConfigurationInput?.validate(name: "\(name).brandingConfigurationInput")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.cookieSynchronizationConfiguration?.validate(name: "\(name).cookieSynchronizationConfiguration")
@@ -1524,6 +1740,7 @@ extension WorkSpacesWeb {
 
         private enum CodingKeys: String, CodingKey {
             case additionalEncryptionContext = "additionalEncryptionContext"
+            case brandingConfigurationInput = "brandingConfigurationInput"
             case clientToken = "clientToken"
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
@@ -2764,6 +2981,28 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct ImageMetadata: AWSDecodableShape {
+        /// The file extension of the image.
+        public let fileExtension: String
+        /// The timestamp when the image was last uploaded.
+        public let lastUploadTimestamp: Date
+        /// The MIME type of the image.
+        public let mimeType: MimeType
+
+        @inlinable
+        public init(fileExtension: String, lastUploadTimestamp: Date, mimeType: MimeType) {
+            self.fileExtension = fileExtension
+            self.lastUploadTimestamp = lastUploadTimestamp
+            self.mimeType = mimeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileExtension = "fileExtension"
+            case lastUploadTimestamp = "lastUploadTimestamp"
+            case mimeType = "mimeType"
+        }
+    }
+
     public struct InlineRedactionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The global confidence level for the inline redaction configuration. This indicates the certainty of data type matches in the redaction process. Confidence level 3 means high confidence, and requires a formatted text pattern match in order for content to be redacted. Confidence level 2 means medium confidence, and redaction considers both formatted and unformatted text, and adds keyword associate to the logic. Confidence level 1 means low confidence, and redaction is enforced for both formatted pattern + unformatted pattern without keyword. This is applied to patterns that do not have a pattern-level confidence level. Defaults to confidence level 2.
         public let globalConfidenceLevel: Int?
@@ -3624,6 +3863,59 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case userSettings = "userSettings"
+        }
+    }
+
+    public struct LocalizedBrandingStrings: AWSEncodableShape & AWSDecodableShape {
+        /// The text displayed in the browser tab title.
+        public let browserTabTitle: String
+        /// The text displayed on the contact button. This field is optional and defaults to "Contact us".
+        public let contactButtonText: String?
+        /// A contact link URL. The URL must start with https:// or mailto:. If not provided, the contact button will be hidden from the web portal screen.
+        public let contactLink: String?
+        /// The text displayed during session loading. This field is optional and defaults to "Loading your session".
+        public let loadingText: String?
+        /// The text displayed on the login button. This field is optional and defaults to "Sign In".
+        public let loginButtonText: String?
+        /// The description text for the login section. This field is optional and defaults to "Sign in to your session".
+        public let loginDescription: String?
+        /// The title text for the login section. This field is optional and defaults to "Sign In".
+        public let loginTitle: String?
+        /// The welcome text displayed on the sign-in page.
+        public let welcomeText: String
+
+        @inlinable
+        public init(browserTabTitle: String, contactButtonText: String? = nil, contactLink: String? = nil, loadingText: String? = nil, loginButtonText: String? = nil, loginDescription: String? = nil, loginTitle: String? = nil, welcomeText: String) {
+            self.browserTabTitle = browserTabTitle
+            self.contactButtonText = contactButtonText
+            self.contactLink = contactLink
+            self.loadingText = loadingText
+            self.loginButtonText = loginButtonText
+            self.loginDescription = loginDescription
+            self.loginTitle = loginTitle
+            self.welcomeText = welcomeText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.browserTabTitle, name: "browserTabTitle", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.contactButtonText, name: "contactButtonText", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.contactLink, name: "contactLink", parent: name, pattern: "^(https://|mailto:).*$")
+            try self.validate(self.loadingText, name: "loadingText", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.loginButtonText, name: "loginButtonText", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.loginDescription, name: "loginDescription", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.loginTitle, name: "loginTitle", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+            try self.validate(self.welcomeText, name: "welcomeText", parent: name, pattern: "^[^<>&'`~\\\\]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case browserTabTitle = "browserTabTitle"
+            case contactButtonText = "contactButtonText"
+            case contactLink = "contactLink"
+            case loadingText = "loadingText"
+            case loginButtonText = "loginButtonText"
+            case loginDescription = "loginDescription"
+            case loginTitle = "loginTitle"
+            case welcomeText = "welcomeText"
         }
     }
 
@@ -4931,6 +5223,8 @@ extension WorkSpacesWeb {
     }
 
     public struct UpdateUserSettingsRequest: AWSEncodableShape {
+        /// The branding configuration that customizes the appearance of the web portal for end users. When updating user settings without an existing branding configuration, all fields (logo, favicon, wallpaper, localized strings, and color theme) are required except for terms of service. When updating user settings with an existing branding configuration, all fields are optional.
+        public let brandingConfigurationInput: BrandingConfigurationUpdateInput?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request.  If you do not specify a client token, one is automatically generated by the Amazon Web Services SDK.
         public let clientToken: String?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
@@ -4957,7 +5251,8 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String
 
         @inlinable
-        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfigurationInput: BrandingConfigurationUpdateInput? = nil, clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+            self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
@@ -4975,6 +5270,7 @@ extension WorkSpacesWeb {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.brandingConfigurationInput, forKey: .brandingConfigurationInput)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
             try container.encodeIfPresent(self.copyAllowed, forKey: .copyAllowed)
@@ -4990,6 +5286,7 @@ extension WorkSpacesWeb {
         }
 
         public func validate(name: String) throws {
+            try self.brandingConfigurationInput?.validate(name: "\(name).brandingConfigurationInput")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 512)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.cookieSynchronizationConfiguration?.validate(name: "\(name).cookieSynchronizationConfiguration")
@@ -5003,6 +5300,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brandingConfigurationInput = "brandingConfigurationInput"
             case clientToken = "clientToken"
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
@@ -5076,6 +5374,8 @@ extension WorkSpacesWeb {
         public let additionalEncryptionContext: [String: String]?
         /// A list of web portal ARNs that this user settings is associated with.
         public let associatedPortalArns: [String]?
+        /// The branding configuration output that customizes the appearance of the web portal for end users.
+        public let brandingConfiguration: BrandingConfiguration?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -5102,9 +5402,10 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
+            self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.customerManagedKey = customerManagedKey
@@ -5122,6 +5423,7 @@ extension WorkSpacesWeb {
         private enum CodingKeys: String, CodingKey {
             case additionalEncryptionContext = "additionalEncryptionContext"
             case associatedPortalArns = "associatedPortalArns"
+            case brandingConfiguration = "brandingConfiguration"
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case customerManagedKey = "customerManagedKey"
@@ -5138,6 +5440,8 @@ extension WorkSpacesWeb {
     }
 
     public struct UserSettingsSummary: AWSDecodableShape {
+        /// The branding configuration output that customizes the appearance of the web portal for end users.
+        public let brandingConfiguration: BrandingConfiguration?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public let cookieSynchronizationConfiguration: CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -5162,7 +5466,8 @@ extension WorkSpacesWeb {
         public let userSettingsArn: String
 
         @inlinable
-        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+            self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.deepLinkAllowed = deepLinkAllowed
@@ -5177,6 +5482,7 @@ extension WorkSpacesWeb {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brandingConfiguration = "brandingConfiguration"
             case cookieSynchronizationConfiguration = "cookieSynchronizationConfiguration"
             case copyAllowed = "copyAllowed"
             case deepLinkAllowed = "deepLinkAllowed"
