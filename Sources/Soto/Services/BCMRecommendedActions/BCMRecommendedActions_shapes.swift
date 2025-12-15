@@ -38,6 +38,8 @@ extension BCMRecommendedActions {
         case reviewBudgetsExceeded = "REVIEW_BUDGETS_EXCEEDED"
         case reviewExpiringRi = "REVIEW_EXPIRING_RI"
         case reviewExpiringSp = "REVIEW_EXPIRING_SP"
+        case reviewFreetierCreditsRemaining = "REVIEW_FREETIER_CREDITS_REMAINING"
+        case reviewFreetierDaysRemaining = "REVIEW_FREETIER_DAYS_REMAINING"
         case reviewFreetierUsageAlerts = "REVIEW_FREETIER_USAGE_ALERTS"
         case reviewSavingsOpportunityRecommendations = "REVIEW_SAVINGS_OPPORTUNITY_RECOMMENDATIONS"
         case updateExpiredPaymentMethod = "UPDATE_EXPIRED_PAYMENT_METHOD"

@@ -500,11 +500,11 @@ extension DataSync {
         public let authenticationType: AzureBlobAuthenticationType
         /// Specifies the type of blob that you want your objects or files to be when transferring them into Azure Blob Storage. Currently, DataSync only supports moving data into Azure Blob Storage as block blobs. For more information on blob types, see the Azure Blob Storage documentation.
         public let blobType: AzureBlobType?
-        /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a DataSync-managed secret, which includes the authentication token that DataSync uses to access a specific AzureBlob storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationAzureBlob request, you provide only the KMS key ARN. DataSync uses this KMS key together with the authentication token you specify for SasConfiguration to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
         public let cmkSecretConfig: CmkSecretConfig?
         /// Specifies the URL of the Azure Blob Storage container involved in your transfer.
         public let containerUrl: String
-        /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the authentication token for an AzureBlob storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationAzureBlob request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the SAS configuration that allows DataSync to access your Azure Blob Storage.  If you provide an authentication token using SasConfiguration, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's secrets manager secret.
         public let sasConfiguration: AzureBlobSasConfiguration?
@@ -532,7 +532,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.validate(self.containerUrl, name: "containerUrl", parent: name, max: 325)
@@ -948,7 +948,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
             try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
@@ -1071,9 +1071,9 @@ extension DataSync {
         public let agentArns: [String]?
         /// Specifies the name of the object storage bucket involved in the transfer.
         public let bucketName: String
-        /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this paramater as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure the DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a DataSync-managed secret, which includes the SecretKey that DataSync uses to access a specific object storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationObjectStorage request, you provide only the KMS key ARN. DataSync uses this KMS key together with the value you specify for the SecretKey parameter to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
         public let cmkSecretConfig: CmkSecretConfig?
-        /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the secret key for a specific object storage location is stored in plain text, in Secrets Manager. This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SecretKey) or CustomSecretConfig (without SecretKey) to provide credentials for a CreateLocationObjectStorage request. Do not provide both parameters for the same request.
         public let customSecretConfig: CustomSecretConfig?
         /// Specifies the secret key (for example, a password) if credentials are required to authenticate with the object storage server.  If you provide a secret using SecretKey, but do not provide secret configuration details using CmkSecretConfig or CustomSecretConfig, then DataSync stores the token using your Amazon Web Services account's Secrets Manager secret.
         public let secretKey: String?
@@ -1113,7 +1113,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
@@ -1193,7 +1193,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, max: 268)
             try self.validate(self.s3BucketArn, name: "s3BucketArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:[a-z\\-0-9]*:[0-9]{12}:accesspoint[/:][a-zA-Z0-9\\-.]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3-outposts:[a-z\\-0-9]+:[0-9]{12}:outpost[/:][a-zA-Z0-9\\-]{1,63}[/:]accesspoint[/:][a-zA-Z0-9\\-]{1,63}$|^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):s3:::[a-zA-Z0-9.\\-_]{1,255}$")
@@ -1235,6 +1235,10 @@ extension DataSync {
         public let agentArns: [String]
         /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
         public let authenticationType: SmbAuthenticationType?
+        /// Specifies configuration information for a DataSync-managed secret, either a Password or KerberosKeytab (for NTLM (default) and KERBEROS authentication types, respectively) that DataSync uses to access a specific SMB storage location, with a customer-managed KMS key. When you include this parameter as part of a CreateLocationSmbRequest request, you provide only the KMS key ARN. DataSync uses this KMS key together with either the Password or KerberosKeytab you specify to create a DataSync-managed secret to store the location access credentials. Make sure that DataSync has permission to access the KMS key that you specify.  You can use either CmkSecretConfig (with either Password or KerberosKeytab) or CustomSecretConfig (without any Password and KerberosKeytab) to provide credentials for a CreateLocationSmbRequest request. Do not provide both CmkSecretConfig and CustomSecretConfig parameters for the same request.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed Secrets Manager secret where the SMB storage location credentials is stored in Secrets Manager as plain text (for Password) or binary (for KerberosKeytab). This configuration includes the secret ARN, and the ARN for an IAM role that provides access to the secret.  You can use either CmkSecretConfig (with SasConfiguration) or CustomSecretConfig (without SasConfiguration) to provide credentials for a CreateLocationSmbRequest request. Do not provide both parameters for the same request.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?
         /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
@@ -1259,9 +1263,11 @@ extension DataSync {
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String], authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String? = nil) {
+        public init(agentArns: [String], authenticationType: SmbAuthenticationType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
             self.kerberosKeytab = kerberosKeytab
@@ -1280,8 +1286,10 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.dnsIpAddresses?.forEach {
                 try validate($0, name: "dnsIpAddresses[]", parent: name, max: 39)
                 try validate($0, name: "dnsIpAddresses[]", parent: name, min: 7)
@@ -1312,6 +1320,8 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
             case kerberosKeytab = "KerberosKeytab"
@@ -2196,8 +2206,12 @@ extension DataSync {
         public let agentArns: [String]?
         /// The authentication protocol that DataSync uses to connect to your SMB file server.
         public let authenticationType: SmbAuthenticationType?
+        /// Describes configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
         /// The time that the SMB location was created.
         public let creationTime: Date?
+        /// Describes configuration information for a customer-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location, with a customer-managed KMS key.
+        public let customSecretConfig: CustomSecretConfig?
         /// The IPv4 or IPv6 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
         public let dnsIpAddresses: [String]?
         /// The name of the Windows domain that the SMB file server belongs to. This element applies only if AuthenticationType is set to NTLM.
@@ -2208,21 +2222,26 @@ extension DataSync {
         public let locationArn: String?
         /// The URI of the SMB location.
         public let locationUri: String?
+        /// Describes configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab that DataSync uses to access a specific storage location. DataSync uses the default Amazon Web Services-managed KMS key to encrypt this secret in Secrets Manager.
+        public let managedSecretConfig: ManagedSecretConfig?
         /// The SMB protocol version that DataSync uses to access your SMB file server.
         public let mountOptions: SmbMountOptions?
         /// The user that can mount and access the files, folders, and file metadata in your SMB file server. This element applies only if AuthenticationType is set to NTLM.
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, creationTime: Date? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosPrincipal: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, creationTime: Date? = nil, customSecretConfig: CustomSecretConfig? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosPrincipal: String? = nil, locationArn: String? = nil, locationUri: String? = nil, managedSecretConfig: ManagedSecretConfig? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
+            self.cmkSecretConfig = cmkSecretConfig
             self.creationTime = creationTime
+            self.customSecretConfig = customSecretConfig
             self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
             self.kerberosPrincipal = kerberosPrincipal
             self.locationArn = locationArn
             self.locationUri = locationUri
+            self.managedSecretConfig = managedSecretConfig
             self.mountOptions = mountOptions
             self.user = user
         }
@@ -2230,12 +2249,15 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
+            case cmkSecretConfig = "CmkSecretConfig"
             case creationTime = "CreationTime"
+            case customSecretConfig = "CustomSecretConfig"
             case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
             case kerberosPrincipal = "KerberosPrincipal"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+            case managedSecretConfig = "ManagedSecretConfig"
             case mountOptions = "MountOptions"
             case user = "User"
         }
@@ -2271,26 +2293,44 @@ extension DataSync {
         public let endTime: Date?
         /// The number of logical bytes that DataSync expects to write to the destination location.
         public let estimatedBytesToTransfer: Int64?
-        /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        /// The number of files, objects, and directories that DataSync expects to delete in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.  For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in EstimatedFoldersToDelete.
         public let estimatedFilesToDelete: Int64?
-        /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated while DataSync prepares the transfer. How this gets calculated depends primarily on your task’s transfer mode configuration:   If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:   Anything that's added or modified at the source location.   Anything that's in both locations and modified at the destination after an initial transfer (unless OverwriteMode is set to NEVER).    (Basic task mode only) The number of items that DataSync expects to delete (if PreserveDeletedFiles is set to REMOVE).     If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.
+        /// The number of files, objects, and directories that DataSync expects to transfer over the network. This value is calculated while DataSync prepares the transfer. How this gets calculated depends primarily on your task’s transfer mode configuration:   If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:   Anything that's added or modified at the source location.   Anything that's in both locations and modified at the destination after an initial transfer (unless OverwriteMode is set to NEVER).    (Basic task mode only) The number of items that DataSync expects to delete (if PreserveDeletedFiles is set to REMOVE).     If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.    For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in EstimatedFoldersToTransfer.
         public let estimatedFilesToTransfer: Int64?
+        /// The number of directories that DataSync expects to delete in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.  Applies only to Enhanced mode tasks.
+        public let estimatedFoldersToDelete: Int64?
+        /// The number of directories that DataSync expects to transfer over the network. This value is calculated as DataSync prepares directories to transfer. How this gets calculated depends primarily on your task’s transfer mode configuration:   If TranserMode is set to CHANGED - The calculation is based on comparing the content of the source and destination locations and determining the difference that needs to be transferred. The difference can include:   Anything that's added or modified at the source location.   Anything that's in both locations and modified at the destination after an initial transfer (unless OverwriteMode is set to NEVER).     If TranserMode is set to ALL - The calculation is based only on the items that DataSync finds at the source location.    Applies only to Enhanced mode tasks.
+        public let estimatedFoldersToTransfer: Int64?
         /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let excludes: [FilterRule]?
-        /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.
+        /// The number of files, objects, and directories that DataSync actually deletes in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.  For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in FoldersDeleted.
         public let filesDeleted: Int64?
-        /// The number of objects that DataSync fails to prepare, transfer, verify, and delete during your task execution.  Applies only to Enhanced mode tasks.
+        /// The number of files or objects that DataSync fails to prepare, transfer, verify, and delete during your task execution.  Applies only to Enhanced mode tasks.
         public let filesFailed: TaskExecutionFilesFailedDetail?
-        /// The number of objects that DataSync finds at your locations.  Applies only to Enhanced mode tasks.
+        /// The number of files or objects that DataSync finds at your locations.  Applies only to Enhanced mode tasks.
         public let filesListed: TaskExecutionFilesListedDetail?
-        /// The number of objects that DataSync will attempt to transfer after comparing your source and destination locations.  Applies only to Enhanced mode tasks.  This counter isn't applicable if you configure your task to transfer all data. In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+        /// The number of files or objects that DataSync will attempt to transfer after comparing your source and destination locations.  Applies only to Enhanced mode tasks.  This counter isn't applicable if you configure your task to transfer all data. In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
         public let filesPrepared: Int64?
-        /// The number of files, objects, and directories that DataSync skips during your transfer.
+        /// The number of files, objects, and directories that DataSync skips during your transfer.  For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in FoldersSkipped.
         public let filesSkipped: Int64?
-        /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.
+        /// The number of files, objects, and directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what's transferring or to monitor your task execution.  For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in FoldersTransferred.
         public let filesTransferred: Int64?
-        /// The number of files, objects, and directories that DataSync verifies during your transfer.  When you configure your task to verify only the data that's transferred, DataSync doesn't verify directories in some situations or files that fail to transfer.
+        /// The number of files, objects, and directories that DataSync verifies during your transfer.  When you configure your task to verify only the data that's transferred, DataSync doesn't verify directories in some situations or files that fail to transfer. For Enhanced mode tasks, this counter only includes files or objects. Directories are counted in FoldersVerified.
         public let filesVerified: Int64?
+        /// The number of directories that DataSync actually deletes in your destination location. If you don't configure your task to delete data in the destination that isn't in the source, the value is always 0.  Applies only to Enhanced mode tasks.
+        public let foldersDeleted: Int64?
+        /// The number of directories that DataSync fails to list, prepare, transfer, verify, and delete during your task execution.  Applies only to Enhanced mode tasks.
+        public let foldersFailed: TaskExecutionFoldersFailedDetail?
+        /// The number of directories that DataSync finds at your locations.  Applies only to Enhanced mode tasks.
+        public let foldersListed: TaskExecutionFoldersListedDetail?
+        /// The number of directories that DataSync will attempt to transfer after comparing your source and destination locations.  Applies only to Enhanced mode tasks.  This counter isn't applicable if you configure your task to transfer all data. In that scenario, DataSync copies everything from the source to the destination without comparing differences between the locations.
+        public let foldersPrepared: Int64?
+        /// The number of directories that DataSync skips during your transfer.  Applies only to Enhanced mode tasks.
+        public let foldersSkipped: Int64?
+        /// The number of directories that DataSync actually transfers over the network. This value is updated periodically during your task execution when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFoldersToTransfer. In some cases, this value can also be greater than EstimatedFoldersToTransfer.    Applies only to Enhanced mode tasks.
+        public let foldersTransferred: Int64?
+        /// The number of directories that DataSync verifies during your transfer.  Applies only to Enhanced mode tasks.
+        public let foldersVerified: Int64?
         /// A list of filter rules that include specific data during your transfer. For more information and examples, see Filtering data transferred by DataSync.
         public let includes: [FilterRule]?
         /// The time that the task execution actually begins. For non-queued tasks, LaunchTime and StartTime are typically the same. For queued tasks, LaunchTime is typically later than StartTime because previously queued tasks must finish running before newer tasks can begin.
@@ -2314,7 +2354,7 @@ extension DataSync {
         public let taskReportConfig: TaskReportConfig?
 
         @inlinable
-        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, endTime: Date? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesFailed: TaskExecutionFilesFailedDetail? = nil, filesListed: TaskExecutionFilesListedDetail? = nil, filesPrepared: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, includes: [FilterRule]? = nil, launchTime: Date? = nil, manifestConfig: ManifestConfig? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskMode: TaskMode? = nil, taskReportConfig: TaskReportConfig? = nil) {
+        public init(bytesCompressed: Int64? = nil, bytesTransferred: Int64? = nil, bytesWritten: Int64? = nil, endTime: Date? = nil, estimatedBytesToTransfer: Int64? = nil, estimatedFilesToDelete: Int64? = nil, estimatedFilesToTransfer: Int64? = nil, estimatedFoldersToDelete: Int64? = nil, estimatedFoldersToTransfer: Int64? = nil, excludes: [FilterRule]? = nil, filesDeleted: Int64? = nil, filesFailed: TaskExecutionFilesFailedDetail? = nil, filesListed: TaskExecutionFilesListedDetail? = nil, filesPrepared: Int64? = nil, filesSkipped: Int64? = nil, filesTransferred: Int64? = nil, filesVerified: Int64? = nil, foldersDeleted: Int64? = nil, foldersFailed: TaskExecutionFoldersFailedDetail? = nil, foldersListed: TaskExecutionFoldersListedDetail? = nil, foldersPrepared: Int64? = nil, foldersSkipped: Int64? = nil, foldersTransferred: Int64? = nil, foldersVerified: Int64? = nil, includes: [FilterRule]? = nil, launchTime: Date? = nil, manifestConfig: ManifestConfig? = nil, options: Options? = nil, reportResult: ReportResult? = nil, result: TaskExecutionResultDetail? = nil, startTime: Date? = nil, status: TaskExecutionStatus? = nil, taskExecutionArn: String? = nil, taskMode: TaskMode? = nil, taskReportConfig: TaskReportConfig? = nil) {
             self.bytesCompressed = bytesCompressed
             self.bytesTransferred = bytesTransferred
             self.bytesWritten = bytesWritten
@@ -2322,6 +2362,8 @@ extension DataSync {
             self.estimatedBytesToTransfer = estimatedBytesToTransfer
             self.estimatedFilesToDelete = estimatedFilesToDelete
             self.estimatedFilesToTransfer = estimatedFilesToTransfer
+            self.estimatedFoldersToDelete = estimatedFoldersToDelete
+            self.estimatedFoldersToTransfer = estimatedFoldersToTransfer
             self.excludes = excludes
             self.filesDeleted = filesDeleted
             self.filesFailed = filesFailed
@@ -2330,6 +2372,13 @@ extension DataSync {
             self.filesSkipped = filesSkipped
             self.filesTransferred = filesTransferred
             self.filesVerified = filesVerified
+            self.foldersDeleted = foldersDeleted
+            self.foldersFailed = foldersFailed
+            self.foldersListed = foldersListed
+            self.foldersPrepared = foldersPrepared
+            self.foldersSkipped = foldersSkipped
+            self.foldersTransferred = foldersTransferred
+            self.foldersVerified = foldersVerified
             self.includes = includes
             self.launchTime = launchTime
             self.manifestConfig = manifestConfig
@@ -2351,6 +2400,8 @@ extension DataSync {
             case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
             case estimatedFilesToDelete = "EstimatedFilesToDelete"
             case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
+            case estimatedFoldersToDelete = "EstimatedFoldersToDelete"
+            case estimatedFoldersToTransfer = "EstimatedFoldersToTransfer"
             case excludes = "Excludes"
             case filesDeleted = "FilesDeleted"
             case filesFailed = "FilesFailed"
@@ -2359,6 +2410,13 @@ extension DataSync {
             case filesSkipped = "FilesSkipped"
             case filesTransferred = "FilesTransferred"
             case filesVerified = "FilesVerified"
+            case foldersDeleted = "FoldersDeleted"
+            case foldersFailed = "FoldersFailed"
+            case foldersListed = "FoldersListed"
+            case foldersPrepared = "FoldersPrepared"
+            case foldersSkipped = "FoldersSkipped"
+            case foldersTransferred = "FoldersTransferred"
+            case foldersVerified = "FoldersVerified"
             case includes = "Includes"
             case launchTime = "LaunchTime"
             case manifestConfig = "ManifestConfig"
@@ -3076,7 +3134,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
         }
 
@@ -3088,7 +3146,7 @@ extension DataSync {
     public struct Options: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether to preserve metadata indicating the last time a file was read or written to.  The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis.     BEST_EFFORT (default) - DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING steps of the task execution). This option is recommended.    NONE - Ignores Atime.    If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE.  If Atime is set to NONE, Mtime must also be NONE.
         public let atime: Atime?
-        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).  Not applicable to Enhanced mode tasks.
+        /// Limits the bandwidth used by a DataSync task. For example, if you want DataSync to use a maximum of 1 MB, set this value to 1048576 (=1024*1024).
         public let bytesPerSecond: Int64?
         /// Specifies the POSIX group ID (GID) of the file's owners.    INT_VALUE (default) - Preserves the integer value of user ID (UID) and GID, which is recommended.    NONE - Ignores UID and GID.   For more information, see Understanding how DataSync handles file and object metadata.
         public let gid: Gid?
@@ -3546,13 +3604,13 @@ extension DataSync {
     }
 
     public struct TaskExecutionFilesFailedDetail: AWSDecodableShape {
-        /// The number of objects that DataSync fails to delete during your task execution.
+        /// The number of files or objects that DataSync fails to delete during your task execution.
         public let delete: Int64?
-        /// The number of objects that DataSync fails to prepare during your task execution.
+        /// The number of files or objects that DataSync fails to prepare during your task execution.
         public let prepare: Int64?
-        /// The number of objects that DataSync fails to transfer during your task execution.
+        /// The number of files or objects that DataSync fails to transfer during your task execution.
         public let transfer: Int64?
-        /// The number of objects that DataSync fails to verify during your task execution.
+        /// The number of files or objects that DataSync fails to verify during your task execution.
         public let verify: Int64?
 
         @inlinable
@@ -3572,9 +3630,57 @@ extension DataSync {
     }
 
     public struct TaskExecutionFilesListedDetail: AWSDecodableShape {
-        /// The number of objects that DataSync finds at your destination location. This counter is only applicable if you configure your task to delete data in the destination that isn't in the source.
+        /// The number of files or objects that DataSync finds at your destination location. This counter is only applicable if you configure your task to delete data in the destination that isn't in the source.
         public let atDestinationForDelete: Int64?
-        /// The number of objects that DataSync finds at your source location.   With a manifest, DataSync lists only what's in your manifest (and not everything at your source location).   With an include filter, DataSync lists only what matches the filter at your source location.   With an exclude filter, DataSync lists everything at your source location before applying the filter.
+        /// The number of files or objects that DataSync finds at your source location.   With a manifest, DataSync lists only what's in your manifest (and not everything at your source location).   With an include filter, DataSync lists only what matches the filter at your source location.   With an exclude filter, DataSync lists everything at your source location before applying the filter.
+        public let atSource: Int64?
+
+        @inlinable
+        public init(atDestinationForDelete: Int64? = nil, atSource: Int64? = nil) {
+            self.atDestinationForDelete = atDestinationForDelete
+            self.atSource = atSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case atDestinationForDelete = "AtDestinationForDelete"
+            case atSource = "AtSource"
+        }
+    }
+
+    public struct TaskExecutionFoldersFailedDetail: AWSDecodableShape {
+        /// The number of directories that DataSync fails to delete during your task execution.
+        public let delete: Int64?
+        /// The number of directories that DataSync fails to list during your task execution.
+        public let list: Int64?
+        /// The number of directories that DataSync fails to prepare during your task execution.
+        public let prepare: Int64?
+        /// The number of directories that DataSync fails to transfer during your task execution.
+        public let transfer: Int64?
+        /// The number of directories that DataSync fails to verify during your task execution.
+        public let verify: Int64?
+
+        @inlinable
+        public init(delete: Int64? = nil, list: Int64? = nil, prepare: Int64? = nil, transfer: Int64? = nil, verify: Int64? = nil) {
+            self.delete = delete
+            self.list = list
+            self.prepare = prepare
+            self.transfer = transfer
+            self.verify = verify
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case delete = "Delete"
+            case list = "List"
+            case prepare = "Prepare"
+            case transfer = "Transfer"
+            case verify = "Verify"
+        }
+    }
+
+    public struct TaskExecutionFoldersListedDetail: AWSDecodableShape {
+        /// The number of directories that DataSync finds at your destination location. This counter is only applicable if you configure your task to delete data in the destination that isn't in the source.
+        public let atDestinationForDelete: Int64?
+        /// The number of directories that DataSync finds at your source location.   With a manifest, DataSync lists only what's in your manifest (and not everything at your source location).   With an include filter, DataSync lists only what matches the filter at your source location.   With an exclude filter, DataSync lists everything at your source location before applying the filter.
         public let atSource: Int64?
 
         @inlinable
@@ -3893,7 +3999,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
@@ -4159,7 +4265,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.blockSize, name: "blockSize", parent: name, max: 1073741824)
             try self.validate(self.blockSize, name: "blockSize", parent: name, min: 1048576)
@@ -4295,7 +4401,7 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
             try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
@@ -4373,6 +4479,10 @@ extension DataSync {
         public let agentArns: [String]?
         /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
         public let authenticationType: SmbAuthenticationType?
+        /// Specifies configuration information for a DataSync-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public let cmkSecretConfig: CmkSecretConfig?
+        /// Specifies configuration information for a customer-managed secret, such as a Password or KerberosKeytab or set of credentials that DataSync uses to access a specific transfer location, and a customer-managed KMS key.
+        public let customSecretConfig: CustomSecretConfig?
         /// Specifies the IP addresses (IPv4 or IPv6) for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?
         /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
@@ -4396,9 +4506,11 @@ extension DataSync {
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, cmkSecretConfig: CmkSecretConfig? = nil, customSecretConfig: CustomSecretConfig? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String? = nil, subdirectory: String? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
+            self.cmkSecretConfig = cmkSecretConfig
+            self.customSecretConfig = customSecretConfig
             self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
             self.kerberosKeytab = kerberosKeytab
@@ -4417,8 +4529,10 @@ extension DataSync {
                 try validate($0, name: "agentArns[]", parent: name, max: 128)
                 try validate($0, name: "agentArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-eusc|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:agent/agent-[0-9a-z]{17}$")
             }
-            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
+            try self.validate(self.agentArns, name: "agentArns", parent: name, max: 8)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.cmkSecretConfig?.validate(name: "\(name).cmkSecretConfig")
+            try self.customSecretConfig?.validate(name: "\(name).customSecretConfig")
             try self.dnsIpAddresses?.forEach {
                 try validate($0, name: "dnsIpAddresses[]", parent: name, max: 39)
                 try validate($0, name: "dnsIpAddresses[]", parent: name, min: 7)
@@ -4447,6 +4561,8 @@ extension DataSync {
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
             case authenticationType = "AuthenticationType"
+            case cmkSecretConfig = "CmkSecretConfig"
+            case customSecretConfig = "CustomSecretConfig"
             case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
             case kerberosKeytab = "KerberosKeytab"

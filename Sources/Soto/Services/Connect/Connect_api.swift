@@ -9874,6 +9874,7 @@ public struct Connect: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactFlowId: The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - customerId: The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+    ///   - disconnectOnCustomerExit: A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
     ///   - initialMessage: The initial message to be sent to the newly created chat.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantConfiguration:  The configuration of the participant.
@@ -9890,6 +9891,7 @@ public struct Connect: AWSService {
         clientToken: String? = StartChatContactRequest.idempotencyToken(),
         contactFlowId: String,
         customerId: String? = nil,
+        disconnectOnCustomerExit: [DisconnectOnCustomerExitParticipantType]? = nil,
         initialMessage: ChatMessage? = nil,
         instanceId: String,
         participantConfiguration: ParticipantConfiguration? = nil,
@@ -9906,6 +9908,7 @@ public struct Connect: AWSService {
             clientToken: clientToken, 
             contactFlowId: contactFlowId, 
             customerId: customerId, 
+            disconnectOnCustomerExit: disconnectOnCustomerExit, 
             initialMessage: initialMessage, 
             instanceId: instanceId, 
             participantConfiguration: participantConfiguration, 

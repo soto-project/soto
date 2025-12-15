@@ -36,6 +36,14 @@ extension SecretsManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum SortByType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createdDate = "created-date"
+        case lastAccessedDate = "last-accessed-date"
+        case lastChangedDate = "last-changed-date"
+        case name = "name"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case asc = "asc"
         case desc = "desc"
@@ -769,15 +777,18 @@ extension SecretsManager {
         public let maxResults: Int?
         /// A token that indicates where the output should continue from, if a previous call did not show all results. To get the next results, call ListSecrets again with this value.
         public let nextToken: String?
+        /// If not specified, secrets are listed by CreatedDate.
+        public let sortBy: SortByType?
         /// Secrets are listed by CreatedDate.
         public let sortOrder: SortOrderType?
 
         @inlinable
-        public init(filters: [Filter]? = nil, includePlannedDeletion: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
+        public init(filters: [Filter]? = nil, includePlannedDeletion: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: SortByType? = nil, sortOrder: SortOrderType? = nil) {
             self.filters = filters
             self.includePlannedDeletion = includePlannedDeletion
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.sortBy = sortBy
             self.sortOrder = sortOrder
         }
 
@@ -797,6 +808,7 @@ extension SecretsManager {
             case includePlannedDeletion = "IncludePlannedDeletion"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case sortBy = "SortBy"
             case sortOrder = "SortOrder"
         }
     }

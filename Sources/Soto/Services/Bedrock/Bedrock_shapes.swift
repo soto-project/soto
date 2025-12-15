@@ -426,9 +426,12 @@ extension Bedrock {
     }
 
     public enum ModelModality: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case audio = "AUDIO"
         case embedding = "EMBEDDING"
         case image = "IMAGE"
+        case speech = "SPEECH"
         case text = "TEXT"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 

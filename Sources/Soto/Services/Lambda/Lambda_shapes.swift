@@ -288,6 +288,7 @@ extension Lambda {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dotnet10 = "dotnet10"
         case dotnet6 = "dotnet6"
         case dotnet8 = "dotnet8"
         case dotnetcore10 = "dotnetcore1.0"

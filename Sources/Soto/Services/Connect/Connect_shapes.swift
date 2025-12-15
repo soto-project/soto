@@ -339,6 +339,11 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DisconnectOnCustomerExitParticipantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case agent = "AGENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EmailHeaderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case inReplyTo = "IN_REPLY_TO"
         case messageId = "MESSAGE_ID"
@@ -26713,6 +26718,8 @@ extension Connect {
         public let contactFlowId: String
         /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
         public let customerId: String?
+        /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
+        public let disconnectOnCustomerExit: [DisconnectOnCustomerExitParticipantType]?
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -26731,12 +26738,13 @@ extension Connect {
         public let supportedMessagingContentTypes: [String]?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, customerId: String? = nil, initialMessage: ChatMessage? = nil, instanceId: String, participantConfiguration: ParticipantConfiguration? = nil, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, customerId: String? = nil, disconnectOnCustomerExit: [DisconnectOnCustomerExitParticipantType]? = nil, initialMessage: ChatMessage? = nil, instanceId: String, participantConfiguration: ParticipantConfiguration? = nil, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
             self.customerId = customerId
+            self.disconnectOnCustomerExit = disconnectOnCustomerExit
             self.initialMessage = initialMessage
             self.instanceId = instanceId
             self.participantConfiguration = participantConfiguration
@@ -26759,6 +26767,8 @@ extension Connect {
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
             try self.validate(self.customerId, name: "customerId", parent: name, max: 128)
             try self.validate(self.customerId, name: "customerId", parent: name, min: 1)
+            try self.validate(self.disconnectOnCustomerExit, name: "disconnectOnCustomerExit", parent: name, max: 1)
+            try self.validate(self.disconnectOnCustomerExit, name: "disconnectOnCustomerExit", parent: name, min: 1)
             try self.initialMessage?.validate(name: "\(name).initialMessage")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -26783,6 +26793,7 @@ extension Connect {
             case clientToken = "ClientToken"
             case contactFlowId = "ContactFlowId"
             case customerId = "CustomerId"
+            case disconnectOnCustomerExit = "DisconnectOnCustomerExit"
             case initialMessage = "InitialMessage"
             case instanceId = "InstanceId"
             case participantConfiguration = "ParticipantConfiguration"
