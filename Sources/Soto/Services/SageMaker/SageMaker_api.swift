@@ -95,6 +95,7 @@ public struct SageMaker: AWSService {
             "ap-southeast-3": "api-fips.sagemaker.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "api-fips.sagemaker.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "api-fips.sagemaker.ap-southeast-5.amazonaws.com",
+            "ap-southeast-6": "api-fips.sagemaker.ap-southeast-6.amazonaws.com",
             "ap-southeast-7": "api-fips.sagemaker.ap-southeast-7.amazonaws.com",
             "ca-central-1": "api-fips.sagemaker.ca-central-1.amazonaws.com",
             "ca-west-1": "api-fips.sagemaker.ca-west-1.amazonaws.com",

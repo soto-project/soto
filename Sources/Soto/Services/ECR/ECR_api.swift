@@ -472,7 +472,7 @@ public struct ECR: AWSService {
     /// Creates a repository creation template. This template is used to define the settings for repositories created by Amazon ECR on your behalf. For example, repositories created through pull through cache actions. For more information, see Private repository creation templates in the Amazon Elastic Container Registry User Guide.
     ///
     /// Parameters:
-    ///   - appliedFor: A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    ///   - appliedFor: A list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     ///   - customRoleArn: The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: The encryption configuration to use for repositories created using the template.
@@ -2095,7 +2095,7 @@ public struct ECR: AWSService {
     /// Updates an existing repository creation template.
     ///
     /// Parameters:
-    ///   - appliedFor: Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The two supported scenarios are PULL_THROUGH_CACHE and REPLICATION
+    ///   - appliedFor: Updates the list of enumerable strings representing the Amazon ECR repository creation scenarios that this template will apply towards. The supported scenarios are PULL_THROUGH_CACHE, REPLICATION, and CREATE_ON_PUSH
     ///   - customRoleArn: The ARN of the role to be assumed by Amazon ECR. This role must be in the same account as the registry that you are configuring. Amazon ECR will assume your supplied role when the customRoleArn is specified. When this field isn't specified, Amazon ECR will use the service-linked role for the repository creation template.
     ///   - description: A description for the repository creation template.
     ///   - encryptionConfiguration: 

@@ -336,6 +336,7 @@ public struct SESv2: AWSService {
     ///   - failureRedirectionURL: The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     ///   - fromEmailAddress: The email address that the custom verification email is sent from.
     ///   - successRedirectionURL: The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
+    ///   - tags: An array of objects that define the tags (keys and values) to associate with the custom verification email template.
     ///   - templateContent: The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide.
     ///   - templateName: The name of the custom verification email template.
     ///   - templateSubject: The subject line of the custom verification email.
@@ -345,6 +346,7 @@ public struct SESv2: AWSService {
         failureRedirectionURL: String,
         fromEmailAddress: String,
         successRedirectionURL: String,
+        tags: [Tag]? = nil,
         templateContent: String,
         templateName: String,
         templateSubject: String,
@@ -354,6 +356,7 @@ public struct SESv2: AWSService {
             failureRedirectionURL: failureRedirectionURL, 
             fromEmailAddress: fromEmailAddress, 
             successRedirectionURL: successRedirectionURL, 
+            tags: tags, 
             templateContent: templateContent, 
             templateName: templateName, 
             templateSubject: templateSubject
@@ -523,16 +526,19 @@ public struct SESv2: AWSService {
     /// Creates an email template. Email templates enable you to send personalized email to one or more destinations in a single API operation. For more information, see the Amazon SES Developer Guide. You can execute this operation no more than once per second.
     ///
     /// Parameters:
+    ///   - tags: An array of objects that define the tags (keys and values) to associate with the email template.
     ///   - templateContent: The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     ///   - templateName: The name of the template.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEmailTemplate(
+        tags: [Tag]? = nil,
         templateContent: EmailTemplateContent,
         templateName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEmailTemplateResponse {
         let input = CreateEmailTemplateRequest(
+            tags: tags, 
             templateContent: templateContent, 
             templateName: templateName
         )
@@ -1504,6 +1510,35 @@ public struct SESv2: AWSService {
             startDate: startDate
         )
         return try await self.getDomainStatisticsReport(input, logger: logger)
+    }
+
+    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors.
+    @Sendable
+    @inlinable
+    public func getEmailAddressInsights(_ input: GetEmailAddressInsightsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEmailAddressInsightsResponse {
+        try await self.client.execute(
+            operation: "GetEmailAddressInsights", 
+            path: "/v2/email/email-address-insights", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors.
+    ///
+    /// Parameters:
+    ///   - emailAddress: The email address to analyze for validation insights.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getEmailAddressInsights(
+        emailAddress: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetEmailAddressInsightsResponse {
+        let input = GetEmailAddressInsightsRequest(
+            emailAddress: emailAddress
+        )
+        return try await self.getEmailAddressInsights(input, logger: logger)
     }
 
     /// Provides information about a specific identity, including the identity's verification status, sending authorization policies, its DKIM authentication status, and its custom Mail-From settings.
@@ -2571,14 +2606,17 @@ public struct SESv2: AWSService {
     ///
     /// Parameters:
     ///   - suppressedReasons: A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+    ///   - validationAttributes: An object that contains additional suppression attributes for your account.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccountSuppressionAttributes(
         suppressedReasons: [SuppressionListReason]? = nil,
+        validationAttributes: SuppressionValidationAttributes? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutAccountSuppressionAttributesResponse {
         let input = PutAccountSuppressionAttributesRequest(
-            suppressedReasons: suppressedReasons
+            suppressedReasons: suppressedReasons, 
+            validationAttributes: validationAttributes
         )
         return try await self.putAccountSuppressionAttributes(input, logger: logger)
     }
@@ -2764,16 +2802,19 @@ public struct SESv2: AWSService {
     /// Parameters:
     ///   - configurationSetName: The name of the configuration set to change the suppression list preferences for.
     ///   - suppressedReasons: A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
+    ///   - validationOptions: An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
     ///   - logger: Logger use during operation
     @inlinable
     public func putConfigurationSetSuppressionOptions(
         configurationSetName: String,
         suppressedReasons: [SuppressionListReason]? = nil,
+        validationOptions: SuppressionValidationOptions? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutConfigurationSetSuppressionOptionsResponse {
         let input = PutConfigurationSetSuppressionOptionsRequest(
             configurationSetName: configurationSetName, 
-            suppressedReasons: suppressedReasons
+            suppressedReasons: suppressedReasons, 
+            validationOptions: validationOptions
         )
         return try await self.putConfigurationSetSuppressionOptions(input, logger: logger)
     }

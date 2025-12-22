@@ -101,6 +101,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum CompressionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FillPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case fullAvailOnly = "FULL_AVAIL_ONLY"
         case partialAvail = "PARTIAL_AVAIL"
@@ -170,6 +176,12 @@ extension MediaTailor {
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case spliceInsert = "SPLICE_INSERT"
         case timeSignal = "TIME_SIGNAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Method: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case get = "GET"
+        case post = "POST"
         public var description: String { return self.rawValue }
     }
 
@@ -319,6 +331,20 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case streamingMediaFileConditioning = "StreamingMediaFileConditioning"
+        }
+    }
+
+    public struct AdDecisionServerConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP request configuration parameters for the ad decision server.
+        public let httpRequest: HttpRequest?
+
+        @inlinable
+        public init(httpRequest: HttpRequest? = nil) {
+            self.httpRequest = httpRequest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpRequest = "HttpRequest"
         }
     }
 
@@ -1989,6 +2015,8 @@ extension MediaTailor {
     public struct GetPlaybackConfigurationResponse: AWSDecodableShape {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public let adConditioningConfiguration: AdConditioningConfiguration?
+        /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+        public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2031,8 +2059,9 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2057,6 +2086,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adConditioningConfiguration = "AdConditioningConfiguration"
+            case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -2209,6 +2239,32 @@ extension MediaTailor {
             case path = "Path"
             case sourceGroup = "SourceGroup"
             case type = "Type"
+        }
+    }
+
+    public struct HttpRequest: AWSEncodableShape & AWSDecodableShape {
+        /// The request body content to send with HTTP requests to the ad decision server. This value is only eligible for POST requests.
+        public let body: String?
+        /// The compression method to apply to requests sent to the ad decision server. Supported values are NONE and GZIP. This value is only eligible for POST requests.
+        public let compressRequest: CompressionMethod?
+        /// Custom HTTP headers to include in requests to the ad decision server. Specify headers as key-value pairs. This value is only eligible for POST requests.
+        public let headers: [String: String]?
+        /// The HTTP method to use when making requests to the ad decision server. Supported values are GET and POST.
+        public let method: Method?
+
+        @inlinable
+        public init(body: String? = nil, compressRequest: CompressionMethod? = nil, headers: [String: String]? = nil, method: Method? = nil) {
+            self.body = body
+            self.compressRequest = compressRequest
+            self.headers = headers
+            self.method = method
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case compressRequest = "CompressRequest"
+            case headers = "Headers"
+            case method = "Method"
         }
     }
 
@@ -2735,6 +2791,7 @@ extension MediaTailor {
     public struct PlaybackConfiguration: AWSDecodableShape {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public let adConditioningConfiguration: AdConditioningConfiguration?
+        public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2777,8 +2834,9 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2803,6 +2861,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adConditioningConfiguration = "AdConditioningConfiguration"
+            case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -2859,11 +2918,11 @@ extension MediaTailor {
         /// The time when prefetch retrievals can start for this break. Ad prefetching will be attempted for manifest requests that occur at or after this time. Defaults to the current time. If not specified, the prefetch retrieval starts as soon as possible.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var startTime: Date?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public let trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow?
-        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
         public let trafficShapingTpsConfiguration: TrafficShapingTpsConfiguration?
-        /// Indicates the type of traffic shaping used for prefetch traffic shaping and limiting the number of requests to the ADS at one time.
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public let trafficShapingType: TrafficShapingType?
 
         @inlinable
@@ -2959,6 +3018,8 @@ extension MediaTailor {
     public struct PutPlaybackConfigurationRequest: AWSEncodableShape {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public let adConditioningConfiguration: AdConditioningConfiguration?
+        /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+        public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2991,8 +3052,9 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -3016,6 +3078,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adConditioningConfiguration = "AdConditioningConfiguration"
+            case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -3037,6 +3100,8 @@ extension MediaTailor {
     public struct PutPlaybackConfigurationResponse: AWSDecodableShape {
         /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
         public let adConditioningConfiguration: AdConditioningConfiguration?
+        /// The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
+        public let adDecisionServerConfiguration: AdDecisionServerConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -3079,8 +3144,9 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
             self.adConditioningConfiguration = adConditioningConfiguration
+            self.adDecisionServerConfiguration = adDecisionServerConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -3105,6 +3171,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adConditioningConfiguration = "AdConditioningConfiguration"
+            case adDecisionServerConfiguration = "AdDecisionServerConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -3179,11 +3246,11 @@ extension MediaTailor {
         public let delayAfterAvailEndSeconds: Int?
         /// The dynamic variables to use for substitution during prefetch requests to the ADS.
         public let dynamicVariables: [String: String]?
-        /// Configuration for spreading ADS traffic across a set window instead of sending ADS requests for all sessions at the same time.
+        /// The configuration that tells Elemental MediaTailor how many seconds to spread out requests to the ad decision server (ADS). Instead of sending ADS requests for all sessions at the same time, MediaTailor spreads the requests across the amount of time specified in the retrieval window.
         public let trafficShapingRetrievalWindow: TrafficShapingRetrievalWindow?
-        /// The configuration for TPS-based traffic shaping that limits the number of requests to the ad decision server (ADS) based on transactions per second instead of time windows.
+        /// The configuration for TPS-based traffic shaping. This approach limits requests to the ad decision server (ADS) based on transactions per second and concurrent users.
         public let trafficShapingTpsConfiguration: TrafficShapingTpsConfiguration?
-        /// Indicates the type of traffic shaping used for traffic shaping and limiting the number of requests to the ADS at one time.
+        /// Indicates the type of traffic shaping used to limit the number of requests to the ADS at one time.
         public let trafficShapingType: TrafficShapingType?
 
         @inlinable

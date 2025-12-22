@@ -205,12 +205,15 @@ extension MediaPackageV2 {
     public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case batchGetSecretValueDenied = "BATCH_GET_SECRET_VALUE_DENIED"
         case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
+        case certificateAccessDenied = "CERTIFICATE_ACCESS_DENIED"
+        case certificateResourceNotFound = "CERTIFICATE_RESOURCE_NOT_FOUND"
         case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
         case cmafContainerTypeWithMssManifest = "CMAF_CONTAINER_TYPE_WITH_MSS_MANIFEST"
         case cmafExcludeSegmentDrmMetadataIncompatibleContainerType = "CMAF_EXCLUDE_SEGMENT_DRM_METADATA_INCOMPATIBLE_CONTAINER_TYPE"
         case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
         case dashDvbAttributesWithoutDvbDashProfile = "DASH_DVB_ATTRIBUTES_WITHOUT_DVB_DASH_PROFILE"
         case decryptSecretFailed = "DECRYPT_SECRET_FAILED"
+        case describeCertificateFailed = "DESCRIBE_CERTIFICATE_FAILED"
         case describeSecretDenied = "DESCRIBE_SECRET_DENIED"
         case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
         case drmSignalingMismatchSegmentEncryptionStatus = "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
@@ -232,6 +235,10 @@ extension MediaPackageV2 {
         case incompatibleDashCompactnessConfiguration = "INCOMPATIBLE_DASH_COMPACTNESS_CONFIGURATION"
         case incompatibleDashProfileDvbDashConfiguration = "INCOMPATIBLE_DASH_PROFILE_DVB_DASH_CONFIGURATION"
         case incompatibleXmlEncoding = "INCOMPATIBLE_XML_ENCODING"
+        case invalidArn = "INVALID_ARN"
+        case invalidCertificateKeyAlgorithm = "INVALID_CERTIFICATE_KEY_ALGORITHM"
+        case invalidCertificateSignatureAlgorithm = "INVALID_CERTIFICATE_SIGNATURE_ALGORITHM"
+        case invalidCertificateStatus = "INVALID_CERTIFICATE_STATUS"
         case invalidDrmSettings = "INVALID_DRM_SETTINGS"
         case invalidHarvestJobDuration = "INVALID_HARVEST_JOB_DURATION"
         case invalidManifestFilter = "INVALID_MANIFEST_FILTER"
@@ -260,6 +267,7 @@ extension MediaPackageV2 {
         case memberMinLength = "MEMBER_MIN_LENGTH"
         case memberMinValue = "MEMBER_MIN_VALUE"
         case memberMissing = "MEMBER_MISSING"
+        case missingCertificateDomainName = "MISSING_CERTIFICATE_DOMAIN_NAME"
         case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
         case numManifestsHigh = "NUM_MANIFESTS_HIGH"
         case numManifestsLow = "NUM_MANIFESTS_LOW"
@@ -268,6 +276,7 @@ extension MediaPackageV2 {
         case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
         case onlyCmafInputTypeAllowPreferredInputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_PREFERRED_INPUT_CONFIGURATION"
         case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
+        case resourceNotInSameRegion = "RESOURCE_NOT_IN_SAME_REGION"
         case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
         case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
         case roleArnNotAssumable = "ROLE_ARN_NOT_ASSUMABLE"
@@ -3405,6 +3414,8 @@ extension MediaPackageV2 {
     }
 
     public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN for the certificate that you imported to AWS Certificate Manager to add content key encryption to this endpoint. For this feature to work, your DRM key provider must support content key encryption.
+        public let certificateArn: String?
         /// The DRM solution provider you're using to protect your content during distribution.
         public let drmSystems: [DrmSystem]
         /// Configure one or more content encryption keys for your endpoints that use SPEKE Version 2.0. The encryption contract defines which content keys are used to encrypt the audio and video tracks in your stream. To configure the encryption contract, specify which audio and video encryption presets to use.
@@ -3417,7 +3428,8 @@ extension MediaPackageV2 {
         public let url: String
 
         @inlinable
-        public init(drmSystems: [DrmSystem], encryptionContractConfiguration: EncryptionContractConfiguration, resourceId: String, roleArn: String, url: String) {
+        public init(certificateArn: String? = nil, drmSystems: [DrmSystem], encryptionContractConfiguration: EncryptionContractConfiguration, resourceId: String, roleArn: String, url: String) {
+            self.certificateArn = certificateArn
             self.drmSystems = drmSystems
             self.encryptionContractConfiguration = encryptionContractConfiguration
             self.resourceId = resourceId
@@ -3426,6 +3438,7 @@ extension MediaPackageV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
             case drmSystems = "DrmSystems"
             case encryptionContractConfiguration = "EncryptionContractConfiguration"
             case resourceId = "ResourceId"

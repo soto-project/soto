@@ -1486,7 +1486,7 @@ extension QBusiness {
         public let displayName: String?
         /// The authentication type being used by a Amazon Q Business application.
         public let identityType: IdentityType?
-        /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight as the identity provider.
+        /// The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite as the identity provider.
         public let quickSightConfiguration: QuickSightConfiguration?
         /// The status of the Amazon Q Business application. The application is ready to use when the status is ACTIVE.
         public let status: ApplicationStatus?
@@ -1604,7 +1604,7 @@ extension QBusiness {
             try self.validate(self.conditions, name: "conditions", parent: name, min: 1)
             try self.validate(self.principal, name: "principal", parent: name, max: 1284)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
-            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
+            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
             try self.validate(self.statementId, name: "statementId", parent: name, max: 100)
             try self.validate(self.statementId, name: "statementId", parent: name, min: 1)
             try self.validate(self.statementId, name: "statementId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
@@ -2874,7 +2874,7 @@ extension QBusiness {
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// An option to allow end users to create and use Amazon Q Apps in the web experience.
         public let qAppsConfiguration: QAppsConfiguration?
-        /// The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight for authentication. This configuration is required if your application uses QuickSight as the identity provider. For more information, see Creating an Amazon QuickSight integrated application.
+        /// The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite for authentication. This configuration is required if your application uses Quick Suite as the identity provider. For more information, see Creating an Amazon Quick Suite integrated application.
         public let quickSightConfiguration: QuickSightConfiguration?
         ///  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a service linked role (SLR) and use it as the application's role.
         public let roleArn: String?
@@ -2915,10 +2915,10 @@ extension QBusiness {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, max: 2048)
             try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, min: 20)
-            try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:(oidc-provider|saml-provider)/[a-zA-Z0-9_\\.\\/@\\-]+$")
+            try self.validate(self.iamIdentityProviderArn, name: "iamIdentityProviderArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:iam::\\d{12}:(oidc-provider|saml-provider)/[a-zA-Z0-9_\\.\\/@\\-]+$")
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, max: 1224)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, min: 10)
-            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.quickSightConfiguration?.validate(name: "\(name).quickSightConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
@@ -3096,7 +3096,7 @@ extension QBusiness {
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.principal, name: "principal", parent: name, max: 1284)
             try self.validate(self.principal, name: "principal", parent: name, min: 1)
-            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:aws:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
+            try self.validate(self.principal, name: "principal", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:iam::[0-9]{12}:role/[a-zA-Z0-9_/+=,.@-]+$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3920,7 +3920,7 @@ extension QBusiness {
 
         public func validate(name: String) throws {
             try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, max: 1284)
-            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, pattern: "^arn:aws:sso::[0-9]{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.idcTrustedTokenIssuerArn, name: "idcTrustedTokenIssuerArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:sso::[0-9]{12}:trustedTokenIssuer/(sso)?ins-[a-zA-Z0-9-.]{16}/tti-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5111,7 +5111,7 @@ extension QBusiness {
         public let personalizationConfiguration: PersonalizationConfiguration?
         /// Settings for whether end users can create and use Amazon Q Apps in the web experience.
         public let qAppsConfiguration: QAppsConfiguration?
-        /// The Amazon QuickSight authentication configuration for the Amazon Q Business application.
+        /// The Amazon Quick Suite authentication configuration for the Amazon Q Business application.
         public let quickSightConfiguration: QuickSightConfiguration?
         /// The Amazon Resource Name (ARN) of the IAM with permissions to access your CloudWatch logs and metrics.
         public let roleArn: String?
@@ -6276,7 +6276,7 @@ extension QBusiness {
             try self.invocationCondition?.validate(name: "\(name).invocationCondition")
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
             try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 1)
-            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:aws[a-zA-Z-]*:lambda:[a-z-]*-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?$")
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:lambda:[a-z-]*-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
@@ -6307,7 +6307,7 @@ extension QBusiness {
         public func validate(name: String) throws {
             try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, max: 1224)
             try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, min: 10)
-            try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
+            try self.validate(self.idcApplicationArn, name: "idcApplicationArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:sso::\\d{12}:application/(sso)?ins-[a-zA-Z0-9-.]{16}/apl-[a-zA-Z0-9]{16}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
@@ -7949,11 +7949,11 @@ extension QBusiness {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.conditionKey, name: "conditionKey", parent: name, pattern: "^aws:PrincipalTag/qbusiness-dataaccessor:[a-zA-Z]+")
+            try self.validate(self.conditionKey, name: "conditionKey", parent: name, pattern: "^aws:[a-zA-Z][a-zA-Z0-9-/:]*$")
             try self.conditionValues.forEach {
                 try validate($0, name: "conditionValues[]", parent: name, max: 1000)
                 try validate($0, name: "conditionValues[]", parent: name, min: 1)
-                try validate($0, name: "conditionValues[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+                try validate($0, name: "conditionValues[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9._-]*$")
             }
             try self.validate(self.conditionValues, name: "conditionValues", parent: name, max: 1)
             try self.validate(self.conditionValues, name: "conditionValues", parent: name, min: 1)
@@ -8261,7 +8261,7 @@ extension QBusiness {
     }
 
     public struct QuickSightConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon QuickSight namespace that is used as the identity provider. For more information about QuickSight namespaces, see Namespace operations.
+        /// The Amazon Quick Suite namespace that is used as the identity provider. For more information about Quick Suite namespaces, see Namespace operations.
         public let clientNamespace: String
 
         @inlinable
@@ -9173,7 +9173,7 @@ extension QBusiness {
             try self.validate(self.displayName, name: "displayName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, max: 1224)
             try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, min: 10)
-            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn|aws-iso|aws-iso-b):sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
+            try self.validate(self.identityCenterInstanceArn, name: "identityCenterInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:sso:::instance/(sso)?ins-[a-zA-Z0-9-.]{16}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }

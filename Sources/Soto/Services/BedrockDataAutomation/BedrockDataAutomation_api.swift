@@ -79,6 +79,44 @@ public struct BedrockDataAutomation: AWSService {
 
     // MARK: API Calls
 
+    /// Copies a Blueprint from one stage to another
+    @Sendable
+    @inlinable
+    public func copyBlueprintStage(_ input: CopyBlueprintStageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyBlueprintStageResponse {
+        try await self.client.execute(
+            operation: "CopyBlueprintStage", 
+            path: "/blueprints/{blueprintArn}/copy-stage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Copies a Blueprint from one stage to another
+    ///
+    /// Parameters:
+    ///   - blueprintArn: Blueprint to be copied
+    ///   - clientToken: Client token for idempotency
+    ///   - sourceStage: Source stage to copy from
+    ///   - targetStage: Target stage to copy to
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func copyBlueprintStage(
+        blueprintArn: String,
+        clientToken: String? = CopyBlueprintStageRequest.idempotencyToken(),
+        sourceStage: BlueprintStage,
+        targetStage: BlueprintStage,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CopyBlueprintStageResponse {
+        let input = CopyBlueprintStageRequest(
+            blueprintArn: blueprintArn, 
+            clientToken: clientToken, 
+            sourceStage: sourceStage, 
+            targetStage: targetStage
+        )
+        return try await self.copyBlueprintStage(input, logger: logger)
+    }
+
     /// Creates an Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
@@ -310,6 +348,35 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.getBlueprint(input, logger: logger)
     }
 
+    /// API used to get blueprint optimization status.
+    @Sendable
+    @inlinable
+    public func getBlueprintOptimizationStatus(_ input: GetBlueprintOptimizationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlueprintOptimizationStatusResponse {
+        try await self.client.execute(
+            operation: "GetBlueprintOptimizationStatus", 
+            path: "/getBlueprintOptimizationStatus/{invocationArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// API used to get blueprint optimization status.
+    ///
+    /// Parameters:
+    ///   - invocationArn: Invocation arn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBlueprintOptimizationStatus(
+        invocationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBlueprintOptimizationStatusResponse {
+        let input = GetBlueprintOptimizationStatusRequest(
+            invocationArn: invocationArn
+        )
+        return try await self.getBlueprintOptimizationStatus(input, logger: logger)
+    }
+
     /// Gets an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
@@ -340,6 +407,50 @@ public struct BedrockDataAutomation: AWSService {
             projectStage: projectStage
         )
         return try await self.getDataAutomationProject(input, logger: logger)
+    }
+
+    /// Invoke an async job to perform Blueprint Optimization
+    @Sendable
+    @inlinable
+    public func invokeBlueprintOptimizationAsync(_ input: InvokeBlueprintOptimizationAsyncRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeBlueprintOptimizationAsyncResponse {
+        try await self.client.execute(
+            operation: "InvokeBlueprintOptimizationAsync", 
+            path: "/invokeBlueprintOptimizationAsync", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Invoke an async job to perform Blueprint Optimization
+    ///
+    /// Parameters:
+    ///   - blueprint: Blueprint to be optimized
+    ///   - dataAutomationProfileArn: Data automation profile ARN
+    ///   - encryptionConfiguration: Encryption configuration.
+    ///   - outputConfiguration: Output configuration where the results should be placed
+    ///   - samples: List of Blueprint Optimization Samples
+    ///   - tags: List of tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeBlueprintOptimizationAsync(
+        blueprint: BlueprintOptimizationObject,
+        dataAutomationProfileArn: String,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
+        outputConfiguration: BlueprintOptimizationOutputConfiguration,
+        samples: [BlueprintOptimizationSample],
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeBlueprintOptimizationAsyncResponse {
+        let input = InvokeBlueprintOptimizationAsyncRequest(
+            blueprint: blueprint, 
+            dataAutomationProfileArn: dataAutomationProfileArn, 
+            encryptionConfiguration: encryptionConfiguration, 
+            outputConfiguration: outputConfiguration, 
+            samples: samples, 
+            tags: tags
+        )
+        return try await self.invokeBlueprintOptimizationAsync(input, logger: logger)
     }
 
     /// Lists all existing Amazon Bedrock Data Automation Blueprints

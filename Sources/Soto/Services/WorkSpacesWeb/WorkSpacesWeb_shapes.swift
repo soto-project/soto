@@ -1694,9 +1694,11 @@ extension WorkSpacesWeb {
         public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, brandingConfigurationInput: BrandingConfigurationCreateInput? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, brandingConfigurationInput: BrandingConfigurationCreateInput? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType, webAuthnAllowed: EnabledType? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
@@ -1712,6 +1714,7 @@ extension WorkSpacesWeb {
             self.tags = tags
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         public func validate(name: String) throws {
@@ -1754,6 +1757,7 @@ extension WorkSpacesWeb {
             case tags = "tags"
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -5249,9 +5253,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(brandingConfigurationInput: BrandingConfigurationUpdateInput? = nil, clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfigurationInput: BrandingConfigurationUpdateInput? = nil, clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.brandingConfigurationInput = brandingConfigurationInput
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -5265,6 +5271,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5283,6 +5290,7 @@ extension WorkSpacesWeb {
             try container.encodeIfPresent(self.toolbarConfiguration, forKey: .toolbarConfiguration)
             try container.encodeIfPresent(self.uploadAllowed, forKey: .uploadAllowed)
             request.encodePath(self.userSettingsArn, key: "userSettingsArn")
+            try container.encodeIfPresent(self.webAuthnAllowed, forKey: .webAuthnAllowed)
         }
 
         public func validate(name: String) throws {
@@ -5312,6 +5320,7 @@ extension WorkSpacesWeb {
             case printAllowed = "printAllowed"
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -5400,9 +5409,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.brandingConfiguration = brandingConfiguration
@@ -5418,6 +5429,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5436,6 +5448,7 @@ extension WorkSpacesWeb {
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 
@@ -5464,9 +5477,11 @@ extension WorkSpacesWeb {
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
+        /// Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
+        public let webAuthnAllowed: EnabledType?
 
         @inlinable
-        public init(brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(brandingConfiguration: BrandingConfiguration? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String, webAuthnAllowed: EnabledType? = nil) {
             self.brandingConfiguration = brandingConfiguration
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
@@ -5479,6 +5494,7 @@ extension WorkSpacesWeb {
             self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
+            self.webAuthnAllowed = webAuthnAllowed
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5494,6 +5510,7 @@ extension WorkSpacesWeb {
             case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
+            case webAuthnAllowed = "webAuthnAllowed"
         }
     }
 

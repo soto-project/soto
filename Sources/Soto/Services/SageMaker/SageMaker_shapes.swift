@@ -830,6 +830,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR6I12Xlarge = "ml.r6i.12xlarge"
         case mlR6I16Xlarge = "ml.r6i.16xlarge"
@@ -2863,6 +2864,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
@@ -3506,6 +3508,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
@@ -41360,7 +41363,7 @@ extension SageMaker {
             }
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 5)
             try self.instancePlacementConfig?.validate(name: "\(name).instancePlacementConfig")
-            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 3600)
+            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 21600)
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, min: 0)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, min: 50)
@@ -41392,7 +41395,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 3600)
+            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 21600)
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, min: 0)
         }
 

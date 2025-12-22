@@ -93,6 +93,7 @@ extension PaymentCryptographyData {
     }
 
     public enum MacAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case as280541 = "AS2805_4_1"
         case cmac = "CMAC"
         case hmac = "HMAC"
         case hmacSha224 = "HMAC_SHA224"
@@ -145,6 +146,12 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
+    public enum RandomKeySendVariantMask: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case variantMask82 = "VARIANT_MASK_82"
+        case variantMask82C0 = "VARIANT_MASK_82C0"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SessionKeyDerivationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amex = "AMEX"
         case emv2000 = "EMV2000"
@@ -180,6 +187,37 @@ extension PaymentCryptographyData {
         case tr31KeyBlock = "TR31_KEY_BLOCK"
         case tr34KeyBlock = "TR34_KEY_BLOCK"
         public var description: String { return self.rawValue }
+    }
+
+    public enum As2805KekValidationType: AWSEncodableShape, Sendable {
+        /// Parameter information for generating a KEK validation request during node-to-node initialization.
+        case kekValidationRequest(KekValidationRequest)
+        /// Parameter information for generating a KEK validation response during node-to-node initialization.
+        case kekValidationResponse(KekValidationResponse)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .kekValidationRequest(let value):
+                try container.encode(value, forKey: .kekValidationRequest)
+            case .kekValidationResponse(let value):
+                try container.encode(value, forKey: .kekValidationResponse)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .kekValidationResponse(let value):
+                try value.validate(name: "\(name).kekValidationResponse")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kekValidationRequest = "KekValidationRequest"
+            case kekValidationResponse = "KekValidationResponse"
+        }
     }
 
     public enum CardGenerationAttributes: AWSEncodableShape, Sendable {
@@ -736,18 +774,22 @@ extension PaymentCryptographyData {
     }
 
     public enum TranslationIsoFormats: AWSEncodableShape, Sendable {
-        /// Parameters that are required for ISO9564 PIN format 0 tranlation.
+        /// Parameters that are required for AS2805 PIN format 0 translation.
+        case as2805Format0(TranslationPinDataAs2805Format0)
+        /// Parameters that are required for ISO9564 PIN format 0 translation.
         case isoFormat0(TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 1 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 1 translation.
         case isoFormat1(TranslationPinDataIsoFormat1)
-        /// Parameters that are required for ISO9564 PIN format 3 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 3 translation.
         case isoFormat3(TranslationPinDataIsoFormat034)
-        /// Parameters that are required for ISO9564 PIN format 4 tranlation.
+        /// Parameters that are required for ISO9564 PIN format 4 translation.
         case isoFormat4(TranslationPinDataIsoFormat034)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .as2805Format0(let value):
+                try container.encode(value, forKey: .as2805Format0)
             case .isoFormat0(let value):
                 try container.encode(value, forKey: .isoFormat0)
             case .isoFormat1(let value):
@@ -761,6 +803,8 @@ extension PaymentCryptographyData {
 
         public func validate(name: String) throws {
             switch self {
+            case .as2805Format0(let value):
+                try value.validate(name: "\(name).as2805Format0")
             case .isoFormat0(let value):
                 try value.validate(name: "\(name).isoFormat0")
             case .isoFormat3(let value):
@@ -773,6 +817,7 @@ extension PaymentCryptographyData {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case as2805Format0 = "As2805Format0"
             case isoFormat0 = "IsoFormat0"
             case isoFormat1 = "IsoFormat1"
             case isoFormat3 = "IsoFormat3"
@@ -909,6 +954,33 @@ extension PaymentCryptographyData {
         private enum CodingKeys: String, CodingKey {
             case cardExpiryDate = "CardExpiryDate"
             case serviceCode = "ServiceCode"
+        }
+    }
+
+    public struct As2805PekDerivationAttributes: AWSEncodableShape {
+        /// The system trace audit number for the transaction.
+        public let systemTraceAuditNumber: String
+        /// The transaction amount for the transaction.
+        public let transactionAmount: String
+
+        @inlinable
+        public init(systemTraceAuditNumber: String, transactionAmount: String) {
+            self.systemTraceAuditNumber = systemTraceAuditNumber
+            self.transactionAmount = transactionAmount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.systemTraceAuditNumber, name: "systemTraceAuditNumber", parent: name, max: 6)
+            try self.validate(self.systemTraceAuditNumber, name: "systemTraceAuditNumber", parent: name, min: 6)
+            try self.validate(self.systemTraceAuditNumber, name: "systemTraceAuditNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.transactionAmount, name: "transactionAmount", parent: name, max: 12)
+            try self.validate(self.transactionAmount, name: "transactionAmount", parent: name, min: 12)
+            try self.validate(self.transactionAmount, name: "transactionAmount", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case systemTraceAuditNumber = "SystemTraceAuditNumber"
+            case transactionAmount = "TransactionAmount"
         }
     }
 
@@ -1605,6 +1677,61 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct GenerateAs2805KekValidationInput: AWSEncodableShape {
+        /// Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+        public let kekValidationType: As2805KekValidationType
+        /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
+        public let keyIdentifier: String
+        /// The key variant to use for generating a random key for KEK validation during node-to-node initialization.
+        public let randomKeySendVariantMask: RandomKeySendVariantMask
+
+        @inlinable
+        public init(kekValidationType: As2805KekValidationType, keyIdentifier: String, randomKeySendVariantMask: RandomKeySendVariantMask) {
+            self.kekValidationType = kekValidationType
+            self.keyIdentifier = keyIdentifier
+            self.randomKeySendVariantMask = randomKeySendVariantMask
+        }
+
+        public func validate(name: String) throws {
+            try self.kekValidationType.validate(name: "\(name).kekValidationType")
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, max: 322)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, min: 7)
+            try self.validate(self.keyIdentifier, name: "keyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kekValidationType = "KekValidationType"
+            case keyIdentifier = "KeyIdentifier"
+            case randomKeySendVariantMask = "RandomKeySendVariantMask"
+        }
+    }
+
+    public struct GenerateAs2805KekValidationOutput: AWSDecodableShape {
+        /// The keyARN of sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization
+        public let keyArn: String
+        /// The key check value (KCV) of the sending KEK that Amazon Web Services Payment Cryptography validates for node-to-node initialization.
+        public let keyCheckValue: String
+        /// The random key generated for receiving KEK validation. The initiating node sends this key to its partner node for validation.
+        public let randomKeyReceive: String
+        /// The random key generated for sending KEK validation.
+        public let randomKeySend: String
+
+        @inlinable
+        public init(keyArn: String, keyCheckValue: String, randomKeyReceive: String, randomKeySend: String) {
+            self.keyArn = keyArn
+            self.keyCheckValue = keyCheckValue
+            self.randomKeyReceive = randomKeyReceive
+            self.randomKeySend = randomKeySend
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyArn = "KeyArn"
+            case keyCheckValue = "KeyCheckValue"
+            case randomKeyReceive = "RandomKeyReceive"
+            case randomKeySend = "RandomKeySend"
+        }
+    }
+
     public struct GenerateCardValidationDataInput: AWSEncodableShape {
         /// The algorithm for generating CVV or CSC values for the card within Amazon Web Services Payment Cryptography.
         public let generationAttributes: CardGenerationAttributes
@@ -1836,7 +1963,7 @@ extension PaymentCryptographyData {
         public let generationAttributes: PinGenerationAttributes
         /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
         public let generationKeyIdentifier: String
-        /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption. It is similar to ISO_Format_3 but doubles the pin block length by padding with fill digit A and random values from 10 to 15.
+        /// The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption.
         public let pinBlockFormat: PinBlockFormatForPinData
         /// The length of PIN under generation.
         public let pinDataLength: Int?
@@ -2160,6 +2287,40 @@ extension PaymentCryptographyData {
             case privateKeyIdentifier = "PrivateKeyIdentifier"
             case publicKeyCertificate = "PublicKeyCertificate"
             case wrappedKeyBlock = "WrappedKeyBlock"
+        }
+    }
+
+    public struct KekValidationRequest: AWSEncodableShape {
+        /// The key derivation algorithm to use for generating a KEK validation request.
+        public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
+
+        @inlinable
+        public init(deriveKeyAlgorithm: SymmetricKeyAlgorithm) {
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deriveKeyAlgorithm = "DeriveKeyAlgorithm"
+        }
+    }
+
+    public struct KekValidationResponse: AWSEncodableShape {
+        /// The random key for generating a KEK validation response.
+        public let randomKeySend: String
+
+        @inlinable
+        public init(randomKeySend: String) {
+            self.randomKeySend = randomKeySend
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, max: 48)
+            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, min: 32)
+            try self.validate(self.randomKeySend, name: "randomKeySend", parent: name, pattern: "^(?:[0-9a-fA-F]{32}|[0-9a-fA-F]{48})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case randomKeySend = "RandomKeySend"
         }
     }
 
@@ -2584,7 +2745,7 @@ extension PaymentCryptographyData {
     public struct TranslateKeyMaterialInput: AWSEncodableShape {
         /// Parameter information of the TR31WrappedKeyBlock containing the transaction key.
         public let incomingKeyMaterial: IncomingKeyMaterial
-        /// The key check value (KCV) algorithm used for calculating the KCV.
+        /// The key check value (KCV) algorithm used for calculating the KCV of the derived key.
         public let keyCheckValueAlgorithm: KeyCheckValueAlgorithm?
         /// Parameter information of the wrapping key used to wrap the transaction key in the outgoing TR31WrappedKeyBlock.
         public let outgoingKeyMaterial: OutgoingKeyMaterial
@@ -2625,6 +2786,8 @@ extension PaymentCryptographyData {
     public struct TranslatePinDataInput: AWSEncodableShape {
         /// The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
         public let encryptedPinBlock: String
+        /// The attributes and values to use for incoming AS2805 encryption key for PIN block translation.
+        public let incomingAs2805Attributes: As2805PekDerivationAttributes?
         /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
         public let incomingDukptAttributes: DukptDerivationAttributes?
         /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key.
@@ -2643,8 +2806,9 @@ extension PaymentCryptographyData {
         public let outgoingWrappedKey: WrappedKey?
 
         @inlinable
-        public init(encryptedPinBlock: String, incomingDukptAttributes: DukptDerivationAttributes? = nil, incomingKeyIdentifier: String, incomingTranslationAttributes: TranslationIsoFormats, incomingWrappedKey: WrappedKey? = nil, outgoingDukptAttributes: DukptDerivationAttributes? = nil, outgoingKeyIdentifier: String, outgoingTranslationAttributes: TranslationIsoFormats, outgoingWrappedKey: WrappedKey? = nil) {
+        public init(encryptedPinBlock: String, incomingAs2805Attributes: As2805PekDerivationAttributes? = nil, incomingDukptAttributes: DukptDerivationAttributes? = nil, incomingKeyIdentifier: String, incomingTranslationAttributes: TranslationIsoFormats, incomingWrappedKey: WrappedKey? = nil, outgoingDukptAttributes: DukptDerivationAttributes? = nil, outgoingKeyIdentifier: String, outgoingTranslationAttributes: TranslationIsoFormats, outgoingWrappedKey: WrappedKey? = nil) {
             self.encryptedPinBlock = encryptedPinBlock
+            self.incomingAs2805Attributes = incomingAs2805Attributes
             self.incomingDukptAttributes = incomingDukptAttributes
             self.incomingKeyIdentifier = incomingKeyIdentifier
             self.incomingTranslationAttributes = incomingTranslationAttributes
@@ -2659,6 +2823,7 @@ extension PaymentCryptographyData {
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, max: 32)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, min: 16)
             try self.validate(self.encryptedPinBlock, name: "encryptedPinBlock", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+            try self.incomingAs2805Attributes?.validate(name: "\(name).incomingAs2805Attributes")
             try self.incomingDukptAttributes?.validate(name: "\(name).incomingDukptAttributes")
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, max: 322)
             try self.validate(self.incomingKeyIdentifier, name: "incomingKeyIdentifier", parent: name, min: 7)
@@ -2675,6 +2840,7 @@ extension PaymentCryptographyData {
 
         private enum CodingKeys: String, CodingKey {
             case encryptedPinBlock = "EncryptedPinBlock"
+            case incomingAs2805Attributes = "IncomingAs2805Attributes"
             case incomingDukptAttributes = "IncomingDukptAttributes"
             case incomingKeyIdentifier = "IncomingKeyIdentifier"
             case incomingTranslationAttributes = "IncomingTranslationAttributes"
@@ -2705,6 +2871,26 @@ extension PaymentCryptographyData {
             case keyArn = "KeyArn"
             case keyCheckValue = "KeyCheckValue"
             case pinBlock = "PinBlock"
+        }
+    }
+
+    public struct TranslationPinDataAs2805Format0: AWSEncodableShape {
+        /// The Primary Account Number (PAN) of the cardholder. A PAN is a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        public let primaryAccountNumber: String
+
+        @inlinable
+        public init(primaryAccountNumber: String) {
+            self.primaryAccountNumber = primaryAccountNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, max: 19)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, min: 12)
+            try self.validate(self.primaryAccountNumber, name: "primaryAccountNumber", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primaryAccountNumber = "PrimaryAccountNumber"
         }
     }
 

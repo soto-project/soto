@@ -556,6 +556,7 @@ extension MediaConvert {
         case srt = "SRT"
         case stl = "STL"
         case teletext = "TELETEXT"
+        case tt3Gpp = "TT_3GPP"
         case ttml = "TTML"
         case webvtt = "WEBVTT"
         public var description: String { return self.rawValue }
@@ -1677,6 +1678,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265MvOverPictureBoundaries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265MvTemporalPredictor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
@@ -1748,9 +1761,21 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265TilePadding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case padded = "PADDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265Tiles: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265TreeBlockSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case treeSize32X32 = "TREE_SIZE_32X32"
         public var description: String { return self.rawValue }
     }
 
@@ -4023,7 +4048,7 @@ extension MediaConvert {
         public let audioDurationCorrection: AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
-        /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+        /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
         public let defaultSelection: AudioDefaultSelection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public let externalAudioFileInput: String?
@@ -7656,6 +7681,10 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public let minIInterval: Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public let mvOverPictureBoundaries: H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public let mvTemporalPredictor: H265MvTemporalPredictor?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
@@ -7692,15 +7721,23 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization?
         /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers are supported depending on GOP structure: I- and P-frames form one layer, reference B-frames can form a second layer and non-reference b-frames can form a third layer. Decoders can optionally decode only the lower temporal layers to generate a lower frame rate output. For example, given a bitstream with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a decoder could decode all the frames for full frame rate output or only the I and P frames (lowest temporal layer) for a half frame rate output.
         public let temporalIds: H265TemporalIds?
+        /// Set this field to set up the picture as a tile. You must also set TileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 or less. If the tile width and height are specified, MediaConvert will override the video codec slices field with a value that MediaConvert calculates.
+        public let tileHeight: Int?
+        /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public let tilePadding: H265TilePadding?
         /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
         public let tiles: H265Tiles?
+        /// Set this field to set up the picture as a tile. See TileHeight for more information.
+        public let tileWidth: Int?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public let treeBlockSize: H265TreeBlockSize?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H265UnregisteredSeiTimecode?
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tiles: H265Tiles? = nil, tileWidth: Int? = nil, treeBlockSize: H265TreeBlockSize? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
@@ -7725,6 +7762,8 @@ extension MediaConvert {
             self.interlaceMode = interlaceMode
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
             self.numberReferenceFrames = numberReferenceFrames
             self.parControl = parControl
@@ -7743,7 +7782,11 @@ extension MediaConvert {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.temporalIds = temporalIds
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
             self.tiles = tiles
+            self.tileWidth = tileWidth
+            self.treeBlockSize = treeBlockSize
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
             self.writeMp4PackagingType = writeMp4PackagingType
         }
@@ -7778,6 +7821,10 @@ extension MediaConvert {
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2160)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 64)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 3840)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7805,6 +7852,8 @@ extension MediaConvert {
             case interlaceMode = "interlaceMode"
             case maxBitrate = "maxBitrate"
             case minIInterval = "minIInterval"
+            case mvOverPictureBoundaries = "mvOverPictureBoundaries"
+            case mvTemporalPredictor = "mvTemporalPredictor"
             case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
             case numberReferenceFrames = "numberReferenceFrames"
             case parControl = "parControl"
@@ -7823,7 +7872,11 @@ extension MediaConvert {
             case telecine = "telecine"
             case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
             case temporalIds = "temporalIds"
+            case tileHeight = "tileHeight"
+            case tilePadding = "tilePadding"
             case tiles = "tiles"
+            case tileWidth = "tileWidth"
+            case treeBlockSize = "treeBlockSize"
             case unregisteredSeiTimecode = "unregisteredSeiTimecode"
             case writeMp4PackagingType = "writeMp4PackagingType"
         }
@@ -8806,6 +8859,8 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify the height, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a height: Enter an even integer from 32 to 8192. When you do, you must also specify a value for width.
         public let height: Int?
+        /// Specify the HTTP, HTTPS, or Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
+        public let imageInput: String?
         /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input.
         /// Enter an integer from 32000 to 48000.
         public let sampleRate: Int?
@@ -8813,12 +8868,13 @@ extension MediaConvert {
         public let width: Int?
 
         @inlinable
-        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, height: Int? = nil, sampleRate: Int? = nil, width: Int? = nil) {
+        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, height: Int? = nil, imageInput: String? = nil, sampleRate: Int? = nil, width: Int? = nil) {
             self.channels = channels
             self.duration = duration
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.height = height
+            self.imageInput = imageInput
             self.sampleRate = sampleRate
             self.width = width
         }
@@ -8834,6 +8890,8 @@ extension MediaConvert {
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.height, name: "height", parent: name, max: 8192)
             try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.imageInput, name: "imageInput", parent: name, min: 14)
+            try self.validate(self.imageInput, name: "imageInput", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA))|(https?://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 32000)
             try self.validate(self.width, name: "width", parent: name, max: 8192)
@@ -8846,6 +8904,7 @@ extension MediaConvert {
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
             case height = "height"
+            case imageInput = "imageInput"
             case sampleRate = "sampleRate"
             case width = "width"
         }
@@ -13152,6 +13211,8 @@ extension MediaConvert {
     }
 
     public struct VideoOverlayInput: AWSEncodableShape & AWSDecodableShape {
+        /// Use Audio selectors to specify audio to use during your Video overlay. You can use multiple Audio selectors per Video overlay. When you include an Audio selector within a Video overlay, MediaConvert mutes any Audio selectors with the same name from the underlying input. For example, if your underlying input has Audio selector 1 and Audio selector 2, and your Video overlay only has Audio selector 1, then MediaConvert replaces all audio for Audio selector 1 during the Video overlay. To replace all audio for all Audio selectors from the underlying input by using a single Audio selector in your overlay, set DefaultSelection to DEFAULT (Check \"Use as default\" in the MediaConvert console).
+        public let audioSelectors: [String: AudioSelector]?
         /// Specify the input file S3, HTTP, or HTTPS URL for your video overlay.
         /// To specify one or more Transitions for your base input video instead: Leave blank.
         public let fileInput: String?
@@ -13163,7 +13224,8 @@ extension MediaConvert {
         public let timecodeStart: String?
 
         @inlinable
-        public init(fileInput: String? = nil, inputClippings: [VideoOverlayInputClipping]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil) {
+        public init(audioSelectors: [String: AudioSelector]? = nil, fileInput: String? = nil, inputClippings: [VideoOverlayInputClipping]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil) {
+            self.audioSelectors = audioSelectors
             self.fileInput = fileInput
             self.inputClippings = inputClippings
             self.timecodeSource = timecodeSource
@@ -13171,6 +13233,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.audioSelectors?.forEach {
+                try $0.value.validate(name: "\(name).audioSelectors[\"\($0.key)\"]")
+            }
             try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^s3://([^\\/]+\\/+)+((([^\\/]*)))|^https?://[^\\/].*[^&]$")
             try self.inputClippings?.forEach {
                 try $0.validate(name: "\(name).inputClippings[]")
@@ -13181,6 +13246,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioSelectors = "audioSelectors"
             case fileInput = "fileInput"
             case inputClippings = "inputClippings"
             case timecodeSource = "timecodeSource"

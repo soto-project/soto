@@ -25,6 +25,14 @@ import Foundation
 extension PaymentCryptography {
     // MARK: Enums
 
+    public enum As2805KeyVariant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataEncryptionKeyVariant22 = "DATA_ENCRYPTION_KEY_VARIANT_22"
+        case messageAuthenticationKeyVariant24 = "MESSAGE_AUTHENTICATION_KEY_VARIANT_24"
+        case pinEncryptionKeyVariant28 = "PIN_ENCRYPTION_KEY_VARIANT_28"
+        case terminalMajorKeyVariant00 = "TERMINAL_MAJOR_KEY_VARIANT_00"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeriveKeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
         case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
@@ -149,6 +157,7 @@ extension PaymentCryptography {
         case tr31K1KeyBlockProtectionKey = "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
         case tr31K2Tr34AsymmetricKey = "TR31_K2_TR34_ASYMMETRIC_KEY"
         case tr31K3AsymmetricKeyForKeyAgreement = "TR31_K3_ASYMMETRIC_KEY_FOR_KEY_AGREEMENT"
+        case tr31M0Iso16609MacKey = "TR31_M0_ISO_16609_MAC_KEY"
         case tr31M1Iso97971MacKey = "TR31_M1_ISO_9797_1_MAC_KEY"
         case tr31M3Iso97973MacKey = "TR31_M3_ISO_9797_3_MAC_KEY"
         case tr31M6Iso97975CmacKey = "TR31_M6_ISO_9797_5_CMAC_KEY"
@@ -207,6 +216,8 @@ extension PaymentCryptography {
     }
 
     public enum ExportKeyMaterial: AWSEncodableShape, Sendable {
+        /// Parameter information for key material export using AS2805 key cryptogram format.
+        case as2805KeyCryptogram(ExportAs2805KeyCryptogram)
         /// Key derivation parameter information for key material export using asymmetric ECDH key exchange method.
         case diffieHellmanTr31KeyBlock(ExportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
@@ -219,6 +230,8 @@ extension PaymentCryptography {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .as2805KeyCryptogram(let value):
+                try container.encode(value, forKey: .as2805KeyCryptogram)
             case .diffieHellmanTr31KeyBlock(let value):
                 try container.encode(value, forKey: .diffieHellmanTr31KeyBlock)
             case .keyCryptogram(let value):
@@ -232,6 +245,8 @@ extension PaymentCryptography {
 
         public func validate(name: String) throws {
             switch self {
+            case .as2805KeyCryptogram(let value):
+                try value.validate(name: "\(name).as2805KeyCryptogram")
             case .diffieHellmanTr31KeyBlock(let value):
                 try value.validate(name: "\(name).diffieHellmanTr31KeyBlock")
             case .keyCryptogram(let value):
@@ -244,6 +259,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case as2805KeyCryptogram = "As2805KeyCryptogram"
             case diffieHellmanTr31KeyBlock = "DiffieHellmanTr31KeyBlock"
             case keyCryptogram = "KeyCryptogram"
             case tr31KeyBlock = "Tr31KeyBlock"
@@ -252,6 +268,8 @@ extension PaymentCryptography {
     }
 
     public enum ImportKeyMaterial: AWSEncodableShape, Sendable {
+        /// Parameter information for key material import using AS2805 key cryptogram format.
+        case as2805KeyCryptogram(ImportAs2805KeyCryptogram)
         /// Key derivation parameter information for key material import using asymmetric ECDH key exchange method.
         case diffieHellmanTr31KeyBlock(ImportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
@@ -268,6 +286,8 @@ extension PaymentCryptography {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .as2805KeyCryptogram(let value):
+                try container.encode(value, forKey: .as2805KeyCryptogram)
             case .diffieHellmanTr31KeyBlock(let value):
                 try container.encode(value, forKey: .diffieHellmanTr31KeyBlock)
             case .keyCryptogram(let value):
@@ -285,6 +305,8 @@ extension PaymentCryptography {
 
         public func validate(name: String) throws {
             switch self {
+            case .as2805KeyCryptogram(let value):
+                try value.validate(name: "\(name).as2805KeyCryptogram")
             case .diffieHellmanTr31KeyBlock(let value):
                 try value.validate(name: "\(name).diffieHellmanTr31KeyBlock")
             case .keyCryptogram(let value):
@@ -301,6 +323,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case as2805KeyCryptogram = "As2805KeyCryptogram"
             case diffieHellmanTr31KeyBlock = "DiffieHellmanTr31KeyBlock"
             case keyCryptogram = "KeyCryptogram"
             case rootCertificatePublicKey = "RootCertificatePublicKey"
@@ -376,7 +399,7 @@ extension PaymentCryptography {
         public let city: String?
         /// The name you provide to create the certificate signing request.
         public let commonName: String
-        /// The city you provide to create the certificate signing request.
+        /// The country you provide to create the certificate signing request.
         public let country: String?
         /// The email address you provide to create the certificate signing request.
         public let emailAddress: String?
@@ -638,6 +661,29 @@ extension PaymentCryptography {
 
         private enum CodingKeys: String, CodingKey {
             case enabledReplicationRegions = "EnabledReplicationRegions"
+        }
+    }
+
+    public struct ExportAs2805KeyCryptogram: AWSEncodableShape {
+        /// The cryptographic usage of the key under export.
+        public let as2805KeyVariant: As2805KeyVariant
+        public let wrappingKeyIdentifier: String
+
+        @inlinable
+        public init(as2805KeyVariant: As2805KeyVariant, wrappingKeyIdentifier: String) {
+            self.as2805KeyVariant = as2805KeyVariant
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case as2805KeyVariant = "As2805KeyVariant"
+            case wrappingKeyIdentifier = "WrappingKeyIdentifier"
         }
     }
 
@@ -1159,6 +1205,47 @@ extension PaymentCryptography {
         private enum CodingKeys: String, CodingKey {
             case keyCertificate = "KeyCertificate"
             case keyCertificateChain = "KeyCertificateChain"
+        }
+    }
+
+    public struct ImportAs2805KeyCryptogram: AWSEncodableShape {
+        /// The cryptographic usage of the key under import.
+        public let as2805KeyVariant: As2805KeyVariant
+        /// Specified whether the key is exportable. This data is immutable after the key is imported.
+        public let exportable: Bool
+        /// The key algorithm of the key under import.
+        public let keyAlgorithm: KeyAlgorithm
+        public let keyModesOfUse: KeyModesOfUse
+        /// The wrapped key cryptogram under import.
+        public let wrappedKeyCryptogram: String
+        public let wrappingKeyIdentifier: String
+
+        @inlinable
+        public init(as2805KeyVariant: As2805KeyVariant, exportable: Bool, keyAlgorithm: KeyAlgorithm, keyModesOfUse: KeyModesOfUse, wrappedKeyCryptogram: String, wrappingKeyIdentifier: String) {
+            self.as2805KeyVariant = as2805KeyVariant
+            self.exportable = exportable
+            self.keyAlgorithm = keyAlgorithm
+            self.keyModesOfUse = keyModesOfUse
+            self.wrappedKeyCryptogram = wrappedKeyCryptogram
+            self.wrappingKeyIdentifier = wrappingKeyIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, max: 4096)
+            try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, min: 16)
+            try self.validate(self.wrappedKeyCryptogram, name: "wrappedKeyCryptogram", parent: name, pattern: "^[0-9A-F]+$")
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.wrappingKeyIdentifier, name: "wrappingKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case as2805KeyVariant = "As2805KeyVariant"
+            case exportable = "Exportable"
+            case keyAlgorithm = "KeyAlgorithm"
+            case keyModesOfUse = "KeyModesOfUse"
+            case wrappedKeyCryptogram = "WrappedKeyCryptogram"
+            case wrappingKeyIdentifier = "WrappingKeyIdentifier"
         }
     }
 

@@ -74,6 +74,14 @@ extension ServiceQuotas {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case approved = "APPROVED"
         case caseClosed = "CASE_CLOSED"
@@ -82,6 +90,11 @@ extension ServiceQuotas {
         case invalidRequest = "INVALID_REQUEST"
         case notApproved = "NOT_APPROVED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RequestType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case automaticManagement = "AutomaticManagement"
         public var description: String { return self.rawValue }
     }
 
@@ -279,6 +292,80 @@ extension ServiceQuotas {
             case optInLevel = "OptInLevel"
             case optInStatus = "OptInStatus"
             case optInType = "OptInType"
+        }
+    }
+
+    public struct GetQuotaUtilizationReportRequest: AWSEncodableShape {
+        /// The maximum number of results to return per page. The default value is 1,000 and the  maximum allowed value is 1,000.
+        public let maxResults: Int?
+        /// A token that indicates the next page of results to retrieve. This token is returned in  the response when there are more results available. Omit this parameter for the first request.
+        public let nextToken: String?
+        /// The unique identifier for the quota utilization report. This identifier is returned by  the StartQuotaUtilizationReport operation.
+        public let reportId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reportId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reportId = reportId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9/+]*={0,2}$")
+            try self.validate(self.reportId, name: "reportId", parent: name, max: 128)
+            try self.validate(self.reportId, name: "reportId", parent: name, min: 1)
+            try self.validate(self.reportId, name: "reportId", parent: name, pattern: "^[0-9a-zA-Z][a-zA-Z0-9-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case reportId = "ReportId"
+        }
+    }
+
+    public struct GetQuotaUtilizationReportResponse: AWSDecodableShape {
+        /// An error code indicating the reason for failure when the report status is FAILED.  This field is only present when the status is FAILED.
+        public let errorCode: String?
+        /// A detailed error message describing the failure when the report status is FAILED.  This field is only present when the status is FAILED.
+        public let errorMessage: String?
+        /// The timestamp when the report was generated, in ISO 8601 format.
+        public let generatedAt: Date?
+        /// A token that indicates more results are available. Include this token in the next request  to retrieve the next page of results. If this field is not present, you have retrieved all  available results.
+        public let nextToken: String?
+        /// A list of quota utilization records, sorted by utilization percentage in descending order.  Each record includes the quota code, service code, service name, quota name, namespace,  utilization percentage, default value, applied value, and whether the quota is adjustable.  Up to 1,000 records are returned per page.
+        public let quotas: [QuotaUtilizationInfo]?
+        /// The unique identifier for the quota utilization report.
+        public let reportId: String?
+        /// The current status of the report generation. Possible values are:    PENDING - The report generation is in progress. Retry this operation  after a few seconds.    IN_PROGRESS - The report is being processed. Continue polling until  the status changes to COMPLETED.    COMPLETED - The report is ready and quota utilization data is available  in the response.    FAILED - The report generation failed. Check the ErrorCode  and ErrorMessage fields for details.
+        public let status: ReportStatus?
+        /// The total number of quotas included in the report across all pages.
+        public let totalCount: Int?
+
+        @inlinable
+        public init(errorCode: String? = nil, errorMessage: String? = nil, generatedAt: Date? = nil, nextToken: String? = nil, quotas: [QuotaUtilizationInfo]? = nil, reportId: String? = nil, status: ReportStatus? = nil, totalCount: Int? = nil) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.generatedAt = generatedAt
+            self.nextToken = nextToken
+            self.quotas = quotas
+            self.reportId = reportId
+            self.status = status
+            self.totalCount = totalCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case generatedAt = "GeneratedAt"
+            case nextToken = "NextToken"
+            case quotas = "Quotas"
+            case reportId = "ReportId"
+            case status = "Status"
+            case totalCount = "TotalCount"
         }
     }
 
@@ -915,6 +1002,52 @@ extension ServiceQuotas {
         }
     }
 
+    public struct QuotaUtilizationInfo: AWSDecodableShape {
+        /// Indicates whether the quota value can be increased.
+        public let adjustable: Bool?
+        /// The applied value of the quota, which may be higher than the default value if a quota  increase has been requested and approved.
+        public let appliedValue: Double?
+        /// The default value of the quota.
+        public let defaultValue: Double?
+        /// The namespace of the metric used to track quota usage.
+        public let namespace: String?
+        /// The quota identifier.
+        public let quotaCode: String?
+        /// The quota name.
+        public let quotaName: String?
+        /// The service identifier.
+        public let serviceCode: String?
+        /// The service name.
+        public let serviceName: String?
+        /// The utilization percentage of the quota, calculated as (current usage / applied value) × 100.  Values range from 0.0 to 100.0 or higher if usage exceeds the quota limit.
+        public let utilization: Double?
+
+        @inlinable
+        public init(adjustable: Bool? = nil, appliedValue: Double? = nil, defaultValue: Double? = nil, namespace: String? = nil, quotaCode: String? = nil, quotaName: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, utilization: Double? = nil) {
+            self.adjustable = adjustable
+            self.appliedValue = appliedValue
+            self.defaultValue = defaultValue
+            self.namespace = namespace
+            self.quotaCode = quotaCode
+            self.quotaName = quotaName
+            self.serviceCode = serviceCode
+            self.serviceName = serviceName
+            self.utilization = utilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustable = "Adjustable"
+            case appliedValue = "AppliedValue"
+            case defaultValue = "DefaultValue"
+            case namespace = "Namespace"
+            case quotaCode = "QuotaCode"
+            case quotaName = "QuotaName"
+            case serviceCode = "ServiceCode"
+            case serviceName = "ServiceName"
+            case utilization = "Utilization"
+        }
+    }
+
     public struct RequestServiceQuotaIncreaseRequest: AWSEncodableShape {
         /// Specifies the resource with an Amazon Resource Name (ARN).
         public let contextId: String?
@@ -995,6 +1128,8 @@ extension ServiceQuotas {
         public let quotaRequestedAtLevel: AppliedLevelEnum?
         /// The IAM identity of the requester.
         public let requester: String?
+        /// The type of quota increase request. Possible values include:    AutomaticManagement - The request was automatically created by  Service Quotas Automatic Management when quota utilization approached the limit.   If this field is not present, the request was manually created by a user.
+        public let requestType: RequestType?
         /// Specifies the service identifier. To find the service code value  for an Amazon Web Services service, use the ListServices operation.
         public let serviceCode: String?
         /// Specifies the service name.
@@ -1005,7 +1140,7 @@ extension ServiceQuotas {
         public let unit: String?
 
         @inlinable
-        public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, requester: String? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
+        public init(caseId: String? = nil, created: Date? = nil, desiredValue: Double? = nil, globalQuota: Bool? = nil, id: String? = nil, lastUpdated: Date? = nil, quotaArn: String? = nil, quotaCode: String? = nil, quotaContext: QuotaContextInfo? = nil, quotaName: String? = nil, quotaRequestedAtLevel: AppliedLevelEnum? = nil, requester: String? = nil, requestType: RequestType? = nil, serviceCode: String? = nil, serviceName: String? = nil, status: RequestStatus? = nil, unit: String? = nil) {
             self.caseId = caseId
             self.created = created
             self.desiredValue = desiredValue
@@ -1018,6 +1153,7 @@ extension ServiceQuotas {
             self.quotaName = quotaName
             self.quotaRequestedAtLevel = quotaRequestedAtLevel
             self.requester = requester
+            self.requestType = requestType
             self.serviceCode = serviceCode
             self.serviceName = serviceName
             self.status = status
@@ -1037,6 +1173,7 @@ extension ServiceQuotas {
             case quotaName = "QuotaName"
             case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
             case requester = "Requester"
+            case requestType = "RequestType"
             case serviceCode = "ServiceCode"
             case serviceName = "ServiceName"
             case status = "Status"
@@ -1213,6 +1350,32 @@ extension ServiceQuotas {
 
     public struct StartAutoManagementResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StartQuotaUtilizationReportRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct StartQuotaUtilizationReportResponse: AWSDecodableShape {
+        /// An optional message providing additional information about the report generation status.  This field may contain details about the report initiation or indicate if an existing recent  report is being reused.
+        public let message: String?
+        /// A unique identifier for the quota utilization report. Use this identifier with the  GetQuotaUtilizationReport operation to retrieve the report results.
+        public let reportId: String?
+        /// The current status of the report generation. The status will be PENDING  when the report is first initiated.
+        public let status: ReportStatus?
+
+        @inlinable
+        public init(message: String? = nil, reportId: String? = nil, status: ReportStatus? = nil) {
+            self.message = message
+            self.reportId = reportId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reportId = "ReportId"
+            case status = "Status"
+        }
     }
 
     public struct StopAutoManagementRequest: AWSEncodableShape {

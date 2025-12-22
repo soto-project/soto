@@ -2698,17 +2698,20 @@ extension BedrockAgentCoreControl {
         public let description: String?
         /// The identifier of the gateway to create a target for.
         public let gatewayIdentifier: String
+        /// Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target. The name must be unique within the gateway.
         public let name: String
         /// The configuration settings for the target, including endpoint information and schema definitions.
         public let targetConfiguration: TargetConfiguration
 
         @inlinable
-        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, name: String, targetConfiguration: TargetConfiguration) {
+        public init(clientToken: String? = CreateGatewayTargetRequest.idempotencyToken(), credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String, targetConfiguration: TargetConfiguration) {
             self.clientToken = clientToken
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.targetConfiguration = targetConfiguration
         }
@@ -2720,6 +2723,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
+            try container.encodeIfPresent(self.metadataConfiguration, forKey: .metadataConfiguration)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.targetConfiguration, forKey: .targetConfiguration)
         }
@@ -2736,6 +2740,7 @@ extension BedrockAgentCoreControl {
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
             try self.targetConfiguration.validate(name: "\(name).targetConfiguration")
         }
@@ -2744,6 +2749,7 @@ extension BedrockAgentCoreControl {
             case clientToken = "clientToken"
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case targetConfiguration = "targetConfiguration"
         }
@@ -2762,6 +2768,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization of the target.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration that was applied to the created gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the target.
         public let name: String
         /// The current status of the target.
@@ -2777,12 +2785,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -2797,6 +2806,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -4661,6 +4671,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration for HTTP header and query parameter propagation to and from this gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target.
         public let name: String
         /// The status of the gateway target.
@@ -4675,12 +4687,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -4695,6 +4708,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -5323,6 +5337,8 @@ extension BedrockAgentCoreControl {
         /// The last synchronization of the target.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration for HTTP header and query parameter propagation for the retrieved gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The name of the gateway target.
         public let name: String
         /// The current status of the gateway target.
@@ -5337,12 +5353,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -5357,6 +5374,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"
@@ -7349,6 +7367,49 @@ extension BedrockAgentCoreControl {
 
         private enum CodingKeys: String, CodingKey {
             case messageCount = "messageCount"
+        }
+    }
+
+    public struct MetadataConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of URL query parameters that are allowed to be propagated from incoming gateway URL to the target.
+        public let allowedQueryParameters: [String]?
+        /// A list of HTTP headers that are allowed to be propagated from incoming client requests to the target.
+        public let allowedRequestHeaders: [String]?
+        /// A list of HTTP headers that are allowed to be propagated from the target response back to the client.
+        public let allowedResponseHeaders: [String]?
+
+        @inlinable
+        public init(allowedQueryParameters: [String]? = nil, allowedRequestHeaders: [String]? = nil, allowedResponseHeaders: [String]? = nil) {
+            self.allowedQueryParameters = allowedQueryParameters
+            self.allowedRequestHeaders = allowedRequestHeaders
+            self.allowedResponseHeaders = allowedResponseHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.allowedQueryParameters?.forEach {
+                try validate($0, name: "allowedQueryParameters[]", parent: name, max: 40)
+                try validate($0, name: "allowedQueryParameters[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedQueryParameters, name: "allowedQueryParameters", parent: name, max: 10)
+            try self.validate(self.allowedQueryParameters, name: "allowedQueryParameters", parent: name, min: 1)
+            try self.allowedRequestHeaders?.forEach {
+                try validate($0, name: "allowedRequestHeaders[]", parent: name, max: 100)
+                try validate($0, name: "allowedRequestHeaders[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedRequestHeaders, name: "allowedRequestHeaders", parent: name, max: 10)
+            try self.validate(self.allowedRequestHeaders, name: "allowedRequestHeaders", parent: name, min: 1)
+            try self.allowedResponseHeaders?.forEach {
+                try validate($0, name: "allowedResponseHeaders[]", parent: name, max: 100)
+                try validate($0, name: "allowedResponseHeaders[]", parent: name, min: 1)
+            }
+            try self.validate(self.allowedResponseHeaders, name: "allowedResponseHeaders", parent: name, max: 10)
+            try self.validate(self.allowedResponseHeaders, name: "allowedResponseHeaders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedQueryParameters = "allowedQueryParameters"
+            case allowedRequestHeaders = "allowedRequestHeaders"
+            case allowedResponseHeaders = "allowedResponseHeaders"
         }
     }
 
@@ -9507,6 +9568,8 @@ extension BedrockAgentCoreControl {
         public let description: String?
         /// The unique identifier of the gateway associated with the target.
         public let gatewayIdentifier: String
+        /// Configuration for HTTP header and query parameter propagation to the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The updated name for the gateway target.
         public let name: String
         public let targetConfiguration: TargetConfiguration
@@ -9514,10 +9577,11 @@ extension BedrockAgentCoreControl {
         public let targetId: String
 
         @inlinable
-        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, name: String, targetConfiguration: TargetConfiguration, targetId: String) {
+        public init(credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil, description: String? = nil, gatewayIdentifier: String, metadataConfiguration: MetadataConfiguration? = nil, name: String, targetConfiguration: TargetConfiguration, targetId: String) {
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayIdentifier = gatewayIdentifier
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.targetConfiguration = targetConfiguration
             self.targetId = targetId
@@ -9529,6 +9593,7 @@ extension BedrockAgentCoreControl {
             try container.encodeIfPresent(self.credentialProviderConfigurations, forKey: .credentialProviderConfigurations)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.gatewayIdentifier, key: "gatewayIdentifier")
+            try container.encodeIfPresent(self.metadataConfiguration, forKey: .metadataConfiguration)
             try container.encode(self.name, forKey: .name)
             try container.encode(self.targetConfiguration, forKey: .targetConfiguration)
             request.encodePath(self.targetId, key: "targetId")
@@ -9543,6 +9608,7 @@ extension BedrockAgentCoreControl {
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.gatewayIdentifier, name: "gatewayIdentifier", parent: name, pattern: "^([0-9a-z][-]?){1,100}-[0-9a-z]{10}$")
+            try self.metadataConfiguration?.validate(name: "\(name).metadataConfiguration")
             try self.validate(self.name, name: "name", parent: name, pattern: "^([0-9a-zA-Z][-]?){1,100}$")
             try self.targetConfiguration.validate(name: "\(name).targetConfiguration")
             try self.validate(self.targetId, name: "targetId", parent: name, pattern: "^[0-9a-zA-Z]{10}$")
@@ -9551,6 +9617,7 @@ extension BedrockAgentCoreControl {
         private enum CodingKeys: String, CodingKey {
             case credentialProviderConfigurations = "credentialProviderConfigurations"
             case description = "description"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case targetConfiguration = "targetConfiguration"
         }
@@ -9569,6 +9636,8 @@ extension BedrockAgentCoreControl {
         /// The date and time at which the targets were last synchronized.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSynchronizedAt: Date?
+        /// The metadata configuration that was applied to the gateway target.
+        public let metadataConfiguration: MetadataConfiguration?
         /// The updated name of the gateway target.
         public let name: String
         /// The current status of the updated gateway target.
@@ -9583,12 +9652,13 @@ extension BedrockAgentCoreControl {
         public var updatedAt: Date
 
         @inlinable
-        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
+        public init(createdAt: Date, credentialProviderConfigurations: [CredentialProviderConfiguration], description: String? = nil, gatewayArn: String, lastSynchronizedAt: Date? = nil, metadataConfiguration: MetadataConfiguration? = nil, name: String, status: TargetStatus, statusReasons: [String]? = nil, targetConfiguration: TargetConfiguration, targetId: String, updatedAt: Date) {
             self.createdAt = createdAt
             self.credentialProviderConfigurations = credentialProviderConfigurations
             self.description = description
             self.gatewayArn = gatewayArn
             self.lastSynchronizedAt = lastSynchronizedAt
+            self.metadataConfiguration = metadataConfiguration
             self.name = name
             self.status = status
             self.statusReasons = statusReasons
@@ -9603,6 +9673,7 @@ extension BedrockAgentCoreControl {
             case description = "description"
             case gatewayArn = "gatewayArn"
             case lastSynchronizedAt = "lastSynchronizedAt"
+            case metadataConfiguration = "metadataConfiguration"
             case name = "name"
             case status = "status"
             case statusReasons = "statusReasons"

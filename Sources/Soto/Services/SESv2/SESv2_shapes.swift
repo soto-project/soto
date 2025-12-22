@@ -165,6 +165,13 @@ extension SESv2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EmailAddressInsightsConfidenceVerdict: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EngagementEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case click = "CLICK"
         case open = "OPEN"
@@ -367,6 +374,13 @@ extension SESv2 {
     public enum SubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case optIn = "OPT_IN"
         case optOut = "OPT_OUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SuppressionConfidenceVerdictThreshold: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case high = "HIGH"
+        case managed = "MANAGED"
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
@@ -1073,6 +1087,8 @@ extension SESv2 {
         public let fromEmailAddress: String
         /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
         public let successRedirectionURL: String
+        /// An array of objects that define the tags (keys and values) to associate with the custom verification email template.
+        public let tags: [Tag]?
         /// The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML, with some limitations. For more information, see Custom verification email frequently asked questions in the Amazon SES Developer Guide.
         public let templateContent: String
         /// The name of the custom verification email template.
@@ -1081,10 +1097,11 @@ extension SESv2 {
         public let templateSubject: String
 
         @inlinable
-        public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, templateContent: String, templateName: String, templateSubject: String) {
+        public init(failureRedirectionURL: String, fromEmailAddress: String, successRedirectionURL: String, tags: [Tag]? = nil, templateContent: String, templateName: String, templateSubject: String) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
             self.successRedirectionURL = successRedirectionURL
+            self.tags = tags
             self.templateContent = templateContent
             self.templateName = templateName
             self.templateSubject = templateSubject
@@ -1098,6 +1115,7 @@ extension SESv2 {
             case failureRedirectionURL = "FailureRedirectionURL"
             case fromEmailAddress = "FromEmailAddress"
             case successRedirectionURL = "SuccessRedirectionURL"
+            case tags = "Tags"
             case templateContent = "TemplateContent"
             case templateName = "TemplateName"
             case templateSubject = "TemplateSubject"
@@ -1275,13 +1293,16 @@ extension SESv2 {
     }
 
     public struct CreateEmailTemplateRequest: AWSEncodableShape {
+        /// An array of objects that define the tags (keys and values) to associate with the email template.
+        public let tags: [Tag]?
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
         /// The name of the template.
         public let templateName: String
 
         @inlinable
-        public init(templateContent: EmailTemplateContent, templateName: String) {
+        public init(tags: [Tag]? = nil, templateContent: EmailTemplateContent, templateName: String) {
+            self.tags = tags
             self.templateContent = templateContent
             self.templateName = templateName
         }
@@ -1291,6 +1312,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
             case templateContent = "TemplateContent"
             case templateName = "TemplateName"
         }
@@ -2255,6 +2277,54 @@ extension SESv2 {
         }
     }
 
+    public struct EmailAddressInsightsMailboxEvaluations: AWSDecodableShape {
+        /// Checks that the domain exists, has valid DNS records, and is conﬁgured to receive email.
+        public let hasValidDnsRecords: EmailAddressInsightsVerdict?
+        /// Checks that the email address follows proper RFC standards and contains valid characters in the correct format.
+        public let hasValidSyntax: EmailAddressInsightsVerdict?
+        /// Checks disposable or temporary email addresses that could negatively impact your sender reputation.
+        public let isDisposable: EmailAddressInsightsVerdict?
+        /// Checks if the input appears to be random text.
+        public let isRandomInput: EmailAddressInsightsVerdict?
+        /// Identiﬁes role-based addresses (such as admin@, support@, or info@) that may have lower engagement rates.
+        public let isRoleAddress: EmailAddressInsightsVerdict?
+        /// Checks that the mailbox exists and can receive messages without actually sending an email.
+        public let mailboxExists: EmailAddressInsightsVerdict?
+
+        @inlinable
+        public init(hasValidDnsRecords: EmailAddressInsightsVerdict? = nil, hasValidSyntax: EmailAddressInsightsVerdict? = nil, isDisposable: EmailAddressInsightsVerdict? = nil, isRandomInput: EmailAddressInsightsVerdict? = nil, isRoleAddress: EmailAddressInsightsVerdict? = nil, mailboxExists: EmailAddressInsightsVerdict? = nil) {
+            self.hasValidDnsRecords = hasValidDnsRecords
+            self.hasValidSyntax = hasValidSyntax
+            self.isDisposable = isDisposable
+            self.isRandomInput = isRandomInput
+            self.isRoleAddress = isRoleAddress
+            self.mailboxExists = mailboxExists
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasValidDnsRecords = "HasValidDnsRecords"
+            case hasValidSyntax = "HasValidSyntax"
+            case isDisposable = "IsDisposable"
+            case isRandomInput = "IsRandomInput"
+            case isRoleAddress = "IsRoleAddress"
+            case mailboxExists = "MailboxExists"
+        }
+    }
+
+    public struct EmailAddressInsightsVerdict: AWSDecodableShape {
+        /// The confidence level of the validation verdict.
+        public let confidenceVerdict: EmailAddressInsightsConfidenceVerdict?
+
+        @inlinable
+        public init(confidenceVerdict: EmailAddressInsightsConfidenceVerdict? = nil) {
+            self.confidenceVerdict = confidenceVerdict
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceVerdict = "ConfidenceVerdict"
+        }
+    }
+
     public struct EmailContent: AWSEncodableShape {
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let raw: RawMessage?
@@ -2911,6 +2981,8 @@ extension SESv2 {
         public let fromEmailAddress: String?
         /// The URL that the recipient of the verification email is sent to if his or her address is successfully verified.
         public let successRedirectionURL: String?
+        /// An array of objects that define the tags (keys and values) that are associated with the custom verification email template.
+        public let tags: [Tag]?
         /// The content of the custom verification email.
         public let templateContent: String?
         /// The name of the custom verification email template.
@@ -2919,10 +2991,11 @@ extension SESv2 {
         public let templateSubject: String?
 
         @inlinable
-        public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, templateContent: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
+        public init(failureRedirectionURL: String? = nil, fromEmailAddress: String? = nil, successRedirectionURL: String? = nil, tags: [Tag]? = nil, templateContent: String? = nil, templateName: String? = nil, templateSubject: String? = nil) {
             self.failureRedirectionURL = failureRedirectionURL
             self.fromEmailAddress = fromEmailAddress
             self.successRedirectionURL = successRedirectionURL
+            self.tags = tags
             self.templateContent = templateContent
             self.templateName = templateName
             self.templateSubject = templateSubject
@@ -2932,6 +3005,7 @@ extension SESv2 {
             case failureRedirectionURL = "FailureRedirectionURL"
             case fromEmailAddress = "FromEmailAddress"
             case successRedirectionURL = "SuccessRedirectionURL"
+            case tags = "Tags"
             case templateContent = "TemplateContent"
             case templateName = "TemplateName"
             case templateSubject = "TemplateSubject"
@@ -3208,6 +3282,34 @@ extension SESv2 {
         }
     }
 
+    public struct GetEmailAddressInsightsRequest: AWSEncodableShape {
+        /// The email address to analyze for validation insights.
+        public let emailAddress: String
+
+        @inlinable
+        public init(emailAddress: String) {
+            self.emailAddress = emailAddress
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAddress = "EmailAddress"
+        }
+    }
+
+    public struct GetEmailAddressInsightsResponse: AWSDecodableShape {
+        /// Detailed validation results for the email address.
+        public let mailboxValidation: MailboxValidation?
+
+        @inlinable
+        public init(mailboxValidation: MailboxValidation? = nil) {
+            self.mailboxValidation = mailboxValidation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mailboxValidation = "MailboxValidation"
+        }
+    }
+
     public struct GetEmailIdentityPoliciesRequest: AWSEncodableShape {
         /// The email identity.
         public let emailIdentity: String
@@ -3339,18 +3441,22 @@ extension SESv2 {
     }
 
     public struct GetEmailTemplateResponse: AWSDecodableShape {
+        /// An array of objects that define the tags (keys and values) that are associated with the email template.
+        public let tags: [Tag]?
         /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
         public let templateContent: EmailTemplateContent
         /// The name of the template.
         public let templateName: String
 
         @inlinable
-        public init(templateContent: EmailTemplateContent, templateName: String) {
+        public init(tags: [Tag]? = nil, templateContent: EmailTemplateContent, templateName: String) {
+            self.tags = tags
             self.templateContent = templateContent
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
             case templateContent = "TemplateContent"
             case templateName = "TemplateName"
         }
@@ -4798,6 +4904,24 @@ extension SESv2 {
         }
     }
 
+    public struct MailboxValidation: AWSDecodableShape {
+        /// Specific validation checks performed on the email address.
+        public let evaluations: EmailAddressInsightsMailboxEvaluations?
+        /// Overall validity assessment with a conﬁdence verdict.
+        public let isValid: EmailAddressInsightsVerdict?
+
+        @inlinable
+        public init(evaluations: EmailAddressInsightsMailboxEvaluations? = nil, isValid: EmailAddressInsightsVerdict? = nil) {
+            self.evaluations = evaluations
+            self.isValid = isValid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluations = "Evaluations"
+            case isValid = "IsValid"
+        }
+    }
+
     public struct Message: AWSEncodableShape {
         ///  The List of attachments to include in your email. All recipients will receive the same attachments.
         public let attachments: [Attachment]?
@@ -5251,14 +5375,18 @@ extension SESv2 {
     public struct PutAccountSuppressionAttributesRequest: AWSEncodableShape {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        /// An object that contains additional suppression attributes for your account.
+        public let validationAttributes: SuppressionValidationAttributes?
 
         @inlinable
-        public init(suppressedReasons: [SuppressionListReason]? = nil) {
+        public init(suppressedReasons: [SuppressionListReason]? = nil, validationAttributes: SuppressionValidationAttributes? = nil) {
             self.suppressedReasons = suppressedReasons
+            self.validationAttributes = validationAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case validationAttributes = "ValidationAttributes"
         }
     }
 
@@ -5422,11 +5550,14 @@ extension SESv2 {
         public let configurationSetName: String
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        /// An object that contains information about the email address suppression preferences for the configuration set in the current Amazon Web Services Region.
+        public let validationOptions: SuppressionValidationOptions?
 
         @inlinable
-        public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil) {
+        public init(configurationSetName: String, suppressedReasons: [SuppressionListReason]? = nil, validationOptions: SuppressionValidationOptions? = nil) {
             self.configurationSetName = configurationSetName
             self.suppressedReasons = suppressedReasons
+            self.validationOptions = validationOptions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5434,10 +5565,12 @@ extension SESv2 {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
             try container.encodeIfPresent(self.suppressedReasons, forKey: .suppressedReasons)
+            try container.encodeIfPresent(self.validationOptions, forKey: .validationOptions)
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case validationOptions = "ValidationOptions"
         }
     }
 
@@ -6402,14 +6535,49 @@ extension SESv2 {
     public struct SuppressionAttributes: AWSDecodableShape {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        public let validationAttributes: SuppressionValidationAttributes?
 
         @inlinable
-        public init(suppressedReasons: [SuppressionListReason]? = nil) {
+        public init(suppressedReasons: [SuppressionListReason]? = nil, validationAttributes: SuppressionValidationAttributes? = nil) {
             self.suppressedReasons = suppressedReasons
+            self.validationAttributes = validationAttributes
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case validationAttributes = "ValidationAttributes"
+        }
+    }
+
+    public struct SuppressionConditionThreshold: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether Auto Validation is enabled for suppression. Set to ENABLED to enable the Auto Validation feature, or set to DISABLED to disable it.
+        public let conditionThresholdEnabled: FeatureStatus
+        /// The overall confidence threshold used to determine suppression decisions.
+        public let overallConfidenceThreshold: SuppressionConfidenceThreshold?
+
+        @inlinable
+        public init(conditionThresholdEnabled: FeatureStatus, overallConfidenceThreshold: SuppressionConfidenceThreshold? = nil) {
+            self.conditionThresholdEnabled = conditionThresholdEnabled
+            self.overallConfidenceThreshold = overallConfidenceThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionThresholdEnabled = "ConditionThresholdEnabled"
+            case overallConfidenceThreshold = "OverallConfidenceThreshold"
+        }
+    }
+
+    public struct SuppressionConfidenceThreshold: AWSEncodableShape & AWSDecodableShape {
+        /// The confidence level threshold for suppression decisions.
+        public let confidenceVerdictThreshold: SuppressionConfidenceVerdictThreshold
+
+        @inlinable
+        public init(confidenceVerdictThreshold: SuppressionConfidenceVerdictThreshold) {
+            self.confidenceVerdictThreshold = confidenceVerdictThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidenceVerdictThreshold = "ConfidenceVerdictThreshold"
         }
     }
 
@@ -6430,14 +6598,45 @@ extension SESv2 {
     public struct SuppressionOptions: AWSEncodableShape & AWSDecodableShape {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.
         public let suppressedReasons: [SuppressionListReason]?
+        public let validationOptions: SuppressionValidationOptions?
 
         @inlinable
-        public init(suppressedReasons: [SuppressionListReason]? = nil) {
+        public init(suppressedReasons: [SuppressionListReason]? = nil, validationOptions: SuppressionValidationOptions? = nil) {
             self.suppressedReasons = suppressedReasons
+            self.validationOptions = validationOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case suppressedReasons = "SuppressedReasons"
+            case validationOptions = "ValidationOptions"
+        }
+    }
+
+    public struct SuppressionValidationAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the condition threshold settings for account-level suppression.
+        public let conditionThreshold: SuppressionConditionThreshold
+
+        @inlinable
+        public init(conditionThreshold: SuppressionConditionThreshold) {
+            self.conditionThreshold = conditionThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionThreshold = "ConditionThreshold"
+        }
+    }
+
+    public struct SuppressionValidationOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the condition threshold settings for suppression validation.
+        public let conditionThreshold: SuppressionConditionThreshold
+
+        @inlinable
+        public init(conditionThreshold: SuppressionConditionThreshold) {
+            self.conditionThreshold = conditionThreshold
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionThreshold = "ConditionThreshold"
         }
     }
 

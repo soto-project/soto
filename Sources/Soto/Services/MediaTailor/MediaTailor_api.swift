@@ -1268,6 +1268,7 @@ public struct MediaTailor: AWSService {
     ///
     /// Parameters:
     ///   - adConditioningConfiguration: The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+    ///   - adDecisionServerConfiguration: The configuration for customizing HTTP requests to the ad decision server (ADS). This includes settings for request method, headers, body content, and compression options.
     ///   - adDecisionServerUrl: The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
     ///   - availSuppression: The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
     ///   - bumper: The configuration for bumpers. Bumpers are short audio or video clips that play at the start or before the end of an ad break. To learn more about bumpers, see Bumpers.
@@ -1287,6 +1288,7 @@ public struct MediaTailor: AWSService {
     @inlinable
     public func putPlaybackConfiguration(
         adConditioningConfiguration: AdConditioningConfiguration? = nil,
+        adDecisionServerConfiguration: AdDecisionServerConfiguration? = nil,
         adDecisionServerUrl: String? = nil,
         availSuppression: AvailSuppression? = nil,
         bumper: Bumper? = nil,
@@ -1306,6 +1308,7 @@ public struct MediaTailor: AWSService {
     ) async throws -> PutPlaybackConfigurationResponse {
         let input = PutPlaybackConfigurationRequest(
             adConditioningConfiguration: adConditioningConfiguration, 
+            adDecisionServerConfiguration: adDecisionServerConfiguration, 
             adDecisionServerUrl: adDecisionServerUrl, 
             availSuppression: availSuppression, 
             bumper: bumper, 

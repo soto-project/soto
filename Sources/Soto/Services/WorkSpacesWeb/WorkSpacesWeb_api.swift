@@ -763,6 +763,7 @@ public struct WorkSpacesWeb: AWSService {
     ///   - tags: The tags to add to the user settings resource. A tag is a key-value pair.
     ///   - toolbarConfiguration: The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
     ///   - uploadAllowed: Specifies whether the user can upload files from the local device to the streaming session.
+    ///   - webAuthnAllowed: Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUserSettings(
@@ -781,6 +782,7 @@ public struct WorkSpacesWeb: AWSService {
         tags: [Tag]? = nil,
         toolbarConfiguration: ToolbarConfiguration? = nil,
         uploadAllowed: EnabledType,
+        webAuthnAllowed: EnabledType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserSettingsResponse {
         let input = CreateUserSettingsRequest(
@@ -798,7 +800,8 @@ public struct WorkSpacesWeb: AWSService {
             printAllowed: printAllowed, 
             tags: tags, 
             toolbarConfiguration: toolbarConfiguration, 
-            uploadAllowed: uploadAllowed
+            uploadAllowed: uploadAllowed, 
+            webAuthnAllowed: webAuthnAllowed
         )
         return try await self.createUserSettings(input, logger: logger)
     }
@@ -2624,6 +2627,7 @@ public struct WorkSpacesWeb: AWSService {
     ///   - toolbarConfiguration: The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
     ///   - uploadAllowed: Specifies whether the user can upload files from the local device to the streaming session.
     ///   - userSettingsArn: The ARN of the user settings.
+    ///   - webAuthnAllowed: Specifies whether the user can use WebAuthn redirection for passwordless login to websites within the streaming session.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateUserSettings(
@@ -2640,6 +2644,7 @@ public struct WorkSpacesWeb: AWSService {
         toolbarConfiguration: ToolbarConfiguration? = nil,
         uploadAllowed: EnabledType? = nil,
         userSettingsArn: String,
+        webAuthnAllowed: EnabledType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateUserSettingsResponse {
         let input = UpdateUserSettingsRequest(
@@ -2655,7 +2660,8 @@ public struct WorkSpacesWeb: AWSService {
             printAllowed: printAllowed, 
             toolbarConfiguration: toolbarConfiguration, 
             uploadAllowed: uploadAllowed, 
-            userSettingsArn: userSettingsArn
+            userSettingsArn: userSettingsArn, 
+            webAuthnAllowed: webAuthnAllowed
         )
         return try await self.updateUserSettings(input, logger: logger)
     }

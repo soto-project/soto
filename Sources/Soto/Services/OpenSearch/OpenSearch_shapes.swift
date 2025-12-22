@@ -277,6 +277,7 @@ extension OpenSearch {
         case data = "Data"
         case master = "Master"
         case ultrawarm = "Ultrawarm"
+        case warm = "Warm"
         public var description: String { return self.rawValue }
     }
 

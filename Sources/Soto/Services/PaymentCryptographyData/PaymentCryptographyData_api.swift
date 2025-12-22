@@ -155,6 +155,41 @@ public struct PaymentCryptographyData: AWSService {
         return try await self.encryptData(input, logger: logger)
     }
 
+    /// Establishes node-to-node initialization between payment processing nodes such as an acquirer, issuer or payment network using Australian Standard 2805 (AS2805). During node-to-node initialization, both communicating nodes must validate that they possess the correct Key Encrypting Keys (KEKs) before proceeding with session key exchange. In AS2805, the sending KEK (KEKs) of one node corresponds to the receiving KEK (KEKr) of its partner node. Each node uses its KEK to encrypt and decrypt session keys exchanged between the nodes. A KEK can be created or imported into Amazon Web Services Payment Cryptography using either the CreateKey or ImportKey operations. The node initiating communication can use GenerateAS2805KekValidation to generate a combined KEK validation request and KEK validation response to send to the partnering node for validation. When invoked, the API internally generates a random sending key encrypted under KEKs and provides a receiving key encrypted under KEKr as response. The initiating node sends the response returned by this API to its partner for validation. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.
+    @Sendable
+    @inlinable
+    public func generateAs2805KekValidation(_ input: GenerateAs2805KekValidationInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateAs2805KekValidationOutput {
+        try await self.client.execute(
+            operation: "GenerateAs2805KekValidation", 
+            path: "/as2805kekvalidation/generate", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Establishes node-to-node initialization between payment processing nodes such as an acquirer, issuer or payment network using Australian Standard 2805 (AS2805). During node-to-node initialization, both communicating nodes must validate that they possess the correct Key Encrypting Keys (KEKs) before proceeding with session key exchange. In AS2805, the sending KEK (KEKs) of one node corresponds to the receiving KEK (KEKr) of its partner node. Each node uses its KEK to encrypt and decrypt session keys exchanged between the nodes. A KEK can be created or imported into Amazon Web Services Payment Cryptography using either the CreateKey or ImportKey operations. The node initiating communication can use GenerateAS2805KekValidation to generate a combined KEK validation request and KEK validation response to send to the partnering node for validation. When invoked, the API internally generates a random sending key encrypted under KEKs and provides a receiving key encrypted under KEKr as response. The initiating node sends the response returned by this API to its partner for validation. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.
+    ///
+    /// Parameters:
+    ///   - kekValidationType: Parameter information for generating a random key for KEK validation to perform node-to-node initialization.
+    ///   - keyIdentifier: The keyARN of sending KEK that Amazon Web Services Payment Cryptography uses for node-to-node initialization
+    ///   - randomKeySendVariantMask: The key variant to use for generating a random key for KEK validation during node-to-node initialization.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func generateAs2805KekValidation(
+        kekValidationType: As2805KekValidationType,
+        keyIdentifier: String,
+        randomKeySendVariantMask: RandomKeySendVariantMask,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GenerateAs2805KekValidationOutput {
+        let input = GenerateAs2805KekValidationInput(
+            kekValidationType: kekValidationType, 
+            keyIdentifier: keyIdentifier, 
+            randomKeySendVariantMask: randomKeySendVariantMask
+        )
+        return try await self.generateAs2805KekValidation(input, logger: logger)
+    }
+
     /// Generates card-related validation data using algorithms such as Card Verification Values (CVV/CVV2), Dynamic Card Verification Values (dCVV/dCVV2), or Card Security Codes (CSC). For more information, see Generate card data in the Amazon Web Services Payment Cryptography User Guide. This operation generates a CVV or CSC value that is printed on a payment credit or debit card during card production. The CVV or CSC, PAN (Primary Account Number) and expiration date of the card are required to check its validity during transaction processing. To begin this operation, a CVK (Card Verification Key) encryption key is required. You can use CreateKey or ImportKey to establish a CVK within Amazon Web Services Payment Cryptography. The KeyModesOfUse should be set to Generate and Verify for a CVK encryption key.  For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     ImportKey     VerifyCardValidationData
     @Sendable
     @inlinable
@@ -193,7 +228,7 @@ public struct PaymentCryptographyData: AWSService {
         return try await self.generateCardValidationData(input, logger: logger)
     }
 
-    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.  You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and the key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     VerifyMac
+    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.  You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and the key must have KeyModesOfUse set to Generate. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     VerifyMac
     @Sendable
     @inlinable
     public func generateMac(_ input: GenerateMacInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GenerateMacOutput {
@@ -206,7 +241,7 @@ public struct PaymentCryptographyData: AWSService {
             logger: logger
         )
     }
-    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.  You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and the key must have KeyModesOfUse set to Generate and Verify. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     VerifyMac
+    /// Generates a Message Authentication Code (MAC) cryptogram within Amazon Web Services Payment Cryptography.  You can use this operation to authenticate card-related data by using known data values to generate MAC for data validation between the sending and receiving parties. This operation uses message data, a secret encryption key and MAC algorithm to generate a unique MAC value for transmission. The receiving party of the MAC must use the same message data, secret encryption key and MAC algorithm to reproduce another MAC value for comparision. You can use this operation to generate a DUPKT, CMAC, HMAC or EMV MAC by setting generation attributes and algorithm to the associated values. The MAC generation encryption key must have valid values for KeyUsage such as TR31_M7_HMAC_KEY for HMAC generation, and the key must have KeyModesOfUse set to Generate. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     VerifyMac
     ///
     /// Parameters:
     ///   - generationAttributes: The attributes and data values to use for MAC generation within Amazon Web Services Payment Cryptography.
@@ -298,7 +333,7 @@ public struct PaymentCryptographyData: AWSService {
     ///   - encryptionWrappedKey: 
     ///   - generationAttributes: The attributes and values to use for PIN, PVV, or PIN Offset generation.
     ///   - generationKeyIdentifier: The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for pin data generation.
-    ///   - pinBlockFormat: The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption. It is similar to ISO_Format_3 but doubles the pin block length by padding with fill digit A and random values from 10 to 15.
+    ///   - pinBlockFormat: The PIN encoding format for pin data generation as specified in ISO 9564. Amazon Web Services Payment Cryptography supports ISO_Format_0, ISO_Format_3 and ISO_Format_4. The ISO_Format_0 PIN block format is equivalent to the ANSI X9.8, VISA-1, and ECI-1 PIN block formats. It is similar to a VISA-4 PIN block format. It supports a PIN from 4 to 12 digits in length. The ISO_Format_3 PIN block format is the same as ISO_Format_0 except that the fill digits are random values from 10 to 15. The ISO_Format_4 PIN block format is the only one supporting AES encryption.
     ///   - pinDataLength: The length of PIN under generation.
     ///   - primaryAccountNumber: The Primary Account Number (PAN), a unique identifier for a payment credit or debit card that associates the card with a specific account holder.
     ///   - logger: Logger use during operation
@@ -372,7 +407,7 @@ public struct PaymentCryptographyData: AWSService {
         return try await self.reEncryptData(input, logger: logger)
     }
 
-    /// Translates an encryption key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as Pin Encryption Key (PEK) generated for each transaction and wrapped with an ECDH (Elliptic Curve Diffie-Hellman) derived wrapping key to another KEK (Key Encryption Key) wrapping key.  Before using this operation, you must first request the public key certificate of the ECC key pair generated within Amazon Web Services Payment Cryptography to establish an ECDH key agreement. In TranslateKeyData, the service uses its own ECC key pair, public certificate of receiving ECC key pair, and the key derivation parameters to generate a derived key. The service uses this derived key to unwrap the incoming transaction key received as a TR31WrappedKeyBlock and re-wrap using a user provided KEK to generate an outgoing Tr31WrappedKeyBlock. For more information on establishing ECDH derived keys, see the Creating keys in the Amazon Web Services Payment Cryptography User Guide. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     GetPublicCertificate     ImportKey
+    /// Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as PEK generated for each transaction and wrapped with an ECDH derived wrapping key to another KEK wrapping key.  Before using this operation, you must first request the public key certificate of the ECC key pair generated within Amazon Web Services Payment Cryptography to establish an ECDH key agreement. In TranslateKeyData, the service uses its own ECC key pair, public certificate of receiving ECC key pair, and the key derivation parameters to generate a derived key. The service uses this derived key to unwrap the incoming transaction key received as a TR31WrappedKeyBlock and re-wrap using a user provided KEK to generate an outgoing Tr31WrappedKeyBlock. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     GetPublicCertificate     ImportKey
     @Sendable
     @inlinable
     public func translateKeyMaterial(_ input: TranslateKeyMaterialInput, logger: Logger = AWSClient.loggingDisabled) async throws -> TranslateKeyMaterialOutput {
@@ -385,11 +420,11 @@ public struct PaymentCryptographyData: AWSService {
             logger: logger
         )
     }
-    /// Translates an encryption key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as Pin Encryption Key (PEK) generated for each transaction and wrapped with an ECDH (Elliptic Curve Diffie-Hellman) derived wrapping key to another KEK (Key Encryption Key) wrapping key.  Before using this operation, you must first request the public key certificate of the ECC key pair generated within Amazon Web Services Payment Cryptography to establish an ECDH key agreement. In TranslateKeyData, the service uses its own ECC key pair, public certificate of receiving ECC key pair, and the key derivation parameters to generate a derived key. The service uses this derived key to unwrap the incoming transaction key received as a TR31WrappedKeyBlock and re-wrap using a user provided KEK to generate an outgoing Tr31WrappedKeyBlock. For more information on establishing ECDH derived keys, see the Creating keys in the Amazon Web Services Payment Cryptography User Guide. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     GetPublicCertificate     ImportKey
+    /// Translates an cryptographic key between different wrapping keys without importing the key into Amazon Web Services Payment Cryptography. This operation can be used when key material is frequently rotated, such as during every card transaction, and there is a need to avoid importing short-lived keys into Amazon Web Services Payment Cryptography. It translates short-lived transaction keys such as PEK generated for each transaction and wrapped with an ECDH derived wrapping key to another KEK wrapping key.  Before using this operation, you must first request the public key certificate of the ECC key pair generated within Amazon Web Services Payment Cryptography to establish an ECDH key agreement. In TranslateKeyData, the service uses its own ECC key pair, public certificate of receiving ECC key pair, and the key derivation parameters to generate a derived key. The service uses this derived key to unwrap the incoming transaction key received as a TR31WrappedKeyBlock and re-wrap using a user provided KEK to generate an outgoing Tr31WrappedKeyBlock. For information about valid keys for this operation, see Understanding key attributes and Key types for specific data operations in the Amazon Web Services Payment Cryptography User Guide.   Cross-account use: This operation can't be used across different Amazon Web Services accounts.  Related operations:     CreateKey     GetPublicCertificate     ImportKey
     ///
     /// Parameters:
     ///   - incomingKeyMaterial: Parameter information of the TR31WrappedKeyBlock containing the transaction key.
-    ///   - keyCheckValueAlgorithm: The key check value (KCV) algorithm used for calculating the KCV.
+    ///   - keyCheckValueAlgorithm: The key check value (KCV) algorithm used for calculating the KCV of the derived key.
     ///   - outgoingKeyMaterial: Parameter information of the wrapping key used to wrap the transaction key in the outgoing TR31WrappedKeyBlock.
     ///   - logger: Logger use during operation
     @inlinable
@@ -424,6 +459,7 @@ public struct PaymentCryptographyData: AWSService {
     ///
     /// Parameters:
     ///   - encryptedPinBlock: The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
+    ///   - incomingAs2805Attributes: The attributes and values to use for incoming AS2805 encryption key for PIN block translation.
     ///   - incomingDukptAttributes: The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
     ///   - incomingKeyIdentifier: The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK. For dynamic keys, it is the keyARN of KEK of the TR-31 wrapped PEK. For ECDH, it is the keyARN of the asymmetric ECC key.
     ///   - incomingTranslationAttributes: The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography.
@@ -436,6 +472,7 @@ public struct PaymentCryptographyData: AWSService {
     @inlinable
     public func translatePinData(
         encryptedPinBlock: String,
+        incomingAs2805Attributes: As2805PekDerivationAttributes? = nil,
         incomingDukptAttributes: DukptDerivationAttributes? = nil,
         incomingKeyIdentifier: String,
         incomingTranslationAttributes: TranslationIsoFormats,
@@ -448,6 +485,7 @@ public struct PaymentCryptographyData: AWSService {
     ) async throws -> TranslatePinDataOutput {
         let input = TranslatePinDataInput(
             encryptedPinBlock: encryptedPinBlock, 
+            incomingAs2805Attributes: incomingAs2805Attributes, 
             incomingDukptAttributes: incomingDukptAttributes, 
             incomingKeyIdentifier: incomingKeyIdentifier, 
             incomingTranslationAttributes: incomingTranslationAttributes, 

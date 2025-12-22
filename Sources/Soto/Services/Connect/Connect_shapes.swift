@@ -559,6 +559,8 @@ extension Connect {
         case queue = "QUEUE"
         case routingProfile = "ROUTING_PROFILE"
         case routingStepExpression = "ROUTING_STEP_EXPRESSION"
+        case subtype = "SUBTYPE"
+        case validationTestType = "VALIDATION_TEST_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -9019,18 +9021,26 @@ extension Connect {
     }
 
     public struct CurrentMetric: AWSEncodableShape & AWSDecodableShape {
+        /// Out of the box current metrics or custom metrics can be referenced via this field. This field is a valid AWS Connect Arn or a UUID.
+        public let metricId: String?
         /// The name of the metric.
         public let name: CurrentMetricName?
-        /// The unit for the metric.
+        ///  The Unit parameter is not supported for custom metrics.  The unit for the metric.
         public let unit: Unit?
 
         @inlinable
-        public init(name: CurrentMetricName? = nil, unit: Unit? = nil) {
+        public init(metricId: String? = nil, name: CurrentMetricName? = nil, unit: Unit? = nil) {
+            self.metricId = metricId
             self.name = name
             self.unit = unit
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.metricId, name: "metricId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(arn:[a-z0-9-]+:connect:[a-z0-9-]+:(?:([0-9]{12}):instance/[a-z0-9-]+/metric/[a-z0-9-]+(?::[a-z0-9-]+)?|aws:metric/[A-Z_]+))$")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case metricId = "MetricId"
             case name = "Name"
             case unit = "Unit"
         }
@@ -9147,7 +9157,7 @@ extension Connect {
         public let description: String?
         /// The unique identifier for the data table. Does not include version aliases.
         public let id: String
-        /// The AWS region where the data table was last modified, used for region replication.
+        /// The Amazon Web Services Region where the data table was last modified, used for region replication.
         public let lastModifiedRegion: String?
         /// The timestamp when the data table or any of its properties were last modified.
         public let lastModifiedTime: Date
@@ -9231,7 +9241,7 @@ extension Connect {
         public let dataTableId: String?
         /// An optional description explaining the purpose and usage of this attribute.
         public let description: String?
-        /// The AWS region where this attribute was last modified, used for region replication.
+        /// The Amazon Web Services Region where this attribute was last modified, used for region replication.
         public let lastModifiedRegion: String?
         /// The timestamp when this attribute was last modified.
         public let lastModifiedTime: Date?
@@ -12283,14 +12293,20 @@ extension Connect {
         public let routingProfile: RoutingProfileReference?
         /// The expression of a step in a routing criteria.
         public let routingStepExpression: String?
+        /// The subtype of the channel used for the contact.
+        public let subtype: String?
+        /// The testing and simulation type
+        public let validationTestType: String?
 
         @inlinable
-        public init(agentStatus: AgentStatusIdentifier? = nil, channel: Channel? = nil, queue: QueueReference? = nil, routingProfile: RoutingProfileReference? = nil, routingStepExpression: String? = nil) {
+        public init(agentStatus: AgentStatusIdentifier? = nil, channel: Channel? = nil, queue: QueueReference? = nil, routingProfile: RoutingProfileReference? = nil, routingStepExpression: String? = nil, subtype: String? = nil, validationTestType: String? = nil) {
             self.agentStatus = agentStatus
             self.channel = channel
             self.queue = queue
             self.routingProfile = routingProfile
             self.routingStepExpression = routingStepExpression
+            self.subtype = subtype
+            self.validationTestType = validationTestType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12299,6 +12315,8 @@ extension Connect {
             case queue = "Queue"
             case routingProfile = "RoutingProfile"
             case routingStepExpression = "RoutingStepExpression"
+            case subtype = "Subtype"
+            case validationTestType = "ValidationTestType"
         }
     }
 
@@ -15099,14 +15117,20 @@ extension Connect {
         public let routingProfiles: [String]?
         /// A list of expressions as a filter, in which an expression is an object of a step in a routing criteria.
         public let routingStepExpressions: [String]?
+        /// A list of up to 10 subtypes can be provided.
+        public let subtypes: [String]?
+        /// A list of up to 10 validationTestTypes can be provided.
+        public let validationTestTypes: [String]?
 
         @inlinable
-        public init(agentStatuses: [String]? = nil, channels: [Channel]? = nil, queues: [String]? = nil, routingProfiles: [String]? = nil, routingStepExpressions: [String]? = nil) {
+        public init(agentStatuses: [String]? = nil, channels: [Channel]? = nil, queues: [String]? = nil, routingProfiles: [String]? = nil, routingStepExpressions: [String]? = nil, subtypes: [String]? = nil, validationTestTypes: [String]? = nil) {
             self.agentStatuses = agentStatuses
             self.channels = channels
             self.queues = queues
             self.routingProfiles = routingProfiles
             self.routingStepExpressions = routingStepExpressions
+            self.subtypes = subtypes
+            self.validationTestTypes = validationTestTypes
         }
 
         public func validate(name: String) throws {
@@ -15120,6 +15144,12 @@ extension Connect {
                 try validate($0, name: "routingStepExpressions[]", parent: name, min: 1)
             }
             try self.validate(self.routingStepExpressions, name: "routingStepExpressions", parent: name, max: 50)
+            try self.subtypes?.forEach {
+                try validate($0, name: "subtypes[]", parent: name, max: 100)
+                try validate($0, name: "subtypes[]", parent: name, min: 1)
+            }
+            try self.validate(self.subtypes, name: "subtypes", parent: name, max: 10)
+            try self.validate(self.validationTestTypes, name: "validationTestTypes", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -15128,6 +15158,8 @@ extension Connect {
             case queues = "Queues"
             case routingProfiles = "RoutingProfiles"
             case routingStepExpressions = "RoutingStepExpressions"
+            case subtypes = "Subtypes"
+            case validationTestTypes = "ValidationTestTypes"
         }
     }
 
@@ -15399,11 +15431,11 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataRequest: AWSEncodableShape {
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+        /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
         public let currentMetrics: [CurrentMetric]
-        /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
+        /// The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
         public let filters: Filters
-        /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
+        /// Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
         public let groupings: [Grouping]?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -15439,6 +15471,9 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.currentMetrics.forEach {
+                try $0.validate(name: "\(name).currentMetrics[]")
+            }
             try self.filters.validate(name: "\(name).filters")
             try self.validate(self.groupings, name: "groupings", parent: name, max: 2)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
@@ -19272,7 +19307,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersV2Request: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
+        /// The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
         public let instanceId: String?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -26718,7 +26753,7 @@ extension Connect {
         public let contactFlowId: String
         /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
         public let customerId: String?
-        /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
+        /// A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms.
         public let disconnectOnCustomerExit: [DisconnectOnCustomerExitParticipantType]?
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
@@ -27158,31 +27193,33 @@ extension Connect {
         public let attributes: [String: String]?
         /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
         public let chatDurationInMinutes: Int?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
         public let clientToken: String?
         /// The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
         public let contactFlowId: String
         public let destinationEndpoint: Endpoint
         public let initialSystemMessage: ChatMessage?
+        public let initialTemplatedSystemMessage: TemplatedMessageConfig?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let participantDetails: ParticipantDetails?
         /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
         public let relatedContactId: String?
-        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
+        /// A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
         public let segmentAttributes: [String: SegmentAttributeValue]
         public let sourceEndpoint: Endpoint
         /// The supported chat message content types. Supported types are:    text/plain     text/markdown     application/json, application/vnd.amazonaws.connect.message.interactive     application/vnd.amazonaws.connect.message.interactive.response    Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:    [text/plain, text/markdown, application/json]     [text/markdown, text/plain]     [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
         public let supportedMessagingContentTypes: [String]?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartOutboundChatContactRequest.idempotencyToken(), contactFlowId: String, destinationEndpoint: Endpoint, initialSystemMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue], sourceEndpoint: Endpoint, supportedMessagingContentTypes: [String]? = nil) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartOutboundChatContactRequest.idempotencyToken(), contactFlowId: String, destinationEndpoint: Endpoint, initialSystemMessage: ChatMessage? = nil, initialTemplatedSystemMessage: TemplatedMessageConfig? = nil, instanceId: String, participantDetails: ParticipantDetails? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue], sourceEndpoint: Endpoint, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
             self.destinationEndpoint = destinationEndpoint
             self.initialSystemMessage = initialSystemMessage
+            self.initialTemplatedSystemMessage = initialTemplatedSystemMessage
             self.instanceId = instanceId
             self.participantDetails = participantDetails
             self.relatedContactId = relatedContactId
@@ -27203,6 +27240,7 @@ extension Connect {
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
             try self.destinationEndpoint.validate(name: "\(name).destinationEndpoint")
             try self.initialSystemMessage?.validate(name: "\(name).initialSystemMessage")
+            try self.initialTemplatedSystemMessage?.validate(name: "\(name).initialTemplatedSystemMessage")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.participantDetails?.validate(name: "\(name).participantDetails")
@@ -27227,6 +27265,7 @@ extension Connect {
             case contactFlowId = "ContactFlowId"
             case destinationEndpoint = "DestinationEndpoint"
             case initialSystemMessage = "InitialSystemMessage"
+            case initialTemplatedSystemMessage = "InitialTemplatedSystemMessage"
             case instanceId = "InstanceId"
             case participantDetails = "ParticipantDetails"
             case relatedContactId = "RelatedContactId"
@@ -32903,7 +32942,7 @@ extension Connect {
         public let description: String?
         /// The unique identifier of the workspace.
         public let id: String
-        /// The AWS Region where the workspace was last modified.
+        /// The Amazon Web Services Region where the workspace was last modified.
         public let lastModifiedRegion: String?
         /// The timestamp when the workspace was last modified.
         public let lastModifiedTime: Date
@@ -33121,7 +33160,7 @@ extension Connect {
         public let arn: String?
         /// The unique identifier of the workspace.
         public let id: String?
-        /// The AWS Region where the workspace was last modified.
+        /// The Amazon Web Services Region where the workspace was last modified.
         public let lastModifiedRegion: String?
         /// The timestamp when the workspace was last modified.
         public let lastModifiedTime: Date?

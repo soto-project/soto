@@ -434,6 +434,7 @@ let package = Package(
         .library(name: "SotoWAFRegional", targets: ["SotoWAFRegional"]),
         .library(name: "SotoWAFV2", targets: ["SotoWAFV2"]),
         .library(name: "SotoWellArchitected", targets: ["SotoWellArchitected"]),
+        .library(name: "SotoWickr", targets: ["SotoWickr"]),
         .library(name: "SotoWisdom", targets: ["SotoWisdom"]),
         .library(name: "SotoWorkDocs", targets: ["SotoWorkDocs"]),
         .library(name: "SotoWorkMail", targets: ["SotoWorkMail"]),
@@ -2882,6 +2883,12 @@ let package = Package(
             name: "SotoWellArchitected",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/WellArchitected",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoWickr",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/Wickr",
             swiftSettings: swiftSettings
         ),
         .target(

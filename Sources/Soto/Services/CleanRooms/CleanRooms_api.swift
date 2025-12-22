@@ -2792,6 +2792,41 @@ public struct CleanRooms: AWSService {
         return try await self.updateCollaboration(input, logger: logger)
     }
 
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    @Sendable
+    @inlinable
+    public func updateCollaborationChangeRequest(_ input: UpdateCollaborationChangeRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCollaborationChangeRequestOutput {
+        try await self.client.execute(
+            operation: "UpdateCollaborationChangeRequest", 
+            path: "/collaborations/{collaborationIdentifier}/changeRequests/{changeRequestIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    ///
+    /// Parameters:
+    ///   - action: The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    ///   - changeRequestIdentifier: The unique identifier of the specific change request to be updated within the collaboration.
+    ///   - collaborationIdentifier: The unique identifier of the collaboration that contains the change request to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCollaborationChangeRequest(
+        action: ChangeRequestAction,
+        changeRequestIdentifier: String,
+        collaborationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCollaborationChangeRequestOutput {
+        let input = UpdateCollaborationChangeRequestInput(
+            action: action, 
+            changeRequestIdentifier: changeRequestIdentifier, 
+            collaborationIdentifier: collaborationIdentifier
+        )
+        return try await self.updateCollaborationChangeRequest(input, logger: logger)
+    }
+
     /// Provides the details necessary to update a configured audience model association.
     @Sendable
     @inlinable
