@@ -279,6 +279,7 @@ extension S3 {
         case intelligentTieringAccessTier = "IntelligentTieringAccessTier"
         case isMultipartUploaded = "IsMultipartUploaded"
         case lastModifiedDate = "LastModifiedDate"
+        case lifecycleExpirationDate = "LifecycleExpirationDate"
         case objectAccessControlList = "ObjectAccessControlList"
         case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
         case objectLockMode = "ObjectLockMode"

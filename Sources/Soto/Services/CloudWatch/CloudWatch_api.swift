@@ -59,9 +59,10 @@ public struct CloudWatch: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
+            amzTarget: "GraniteServiceVersion20100801",
             serviceName: "CloudWatch",
             serviceIdentifier: "monitoring",
-            serviceProtocol: .query,
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2010-08-01",
             endpoint: endpoint,
             variantEndpoints: Self.variantEndpoints,

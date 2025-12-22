@@ -229,6 +229,31 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum CommandParameterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case binary = "BINARY"
+        case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case integer = "INTEGER"
+        case long = "LONG"
+        case string = "STRING"
+        case unsignedlong = "UNSIGNEDLONG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CommandParameterValueComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equals = "EQUALS"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanEquals = "GREATER_THAN_EQUALS"
+        case inRange = "IN_RANGE"
+        case inSet = "IN_SET"
+        case lessThan = "LESS_THAN"
+        case lessThanEquals = "LESS_THAN_EQUALS"
+        case notEquals = "NOT_EQUALS"
+        case notInRange = "NOT_IN_RANGE"
+        case notInSet = "NOT_IN_SET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThan = "greater-than"
         case greaterThanEquals = "greater-than-equals"
@@ -519,6 +544,12 @@ extension IoT {
         case createPending = "CREATE_PENDING"
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cbor = "CBOR"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
@@ -2120,6 +2151,51 @@ extension IoT {
         }
     }
 
+    public struct AwsJsonSubstitutionCommandPreprocessorConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Converts the command preprocessor result to the format defined by this parameter, before sending it to the device.
+        public let outputFormat: OutputFormat
+
+        @inlinable
+        public init(outputFormat: OutputFormat) {
+            self.outputFormat = outputFormat
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputFormat = "outputFormat"
+        }
+    }
+
+    public struct BatchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of time (in milliseconds) that an outgoing call waits for other calls with which it batches messages of the same type. The higher the setting, the longer the latency of the batched HTTP Action will be.
+        public let maxBatchOpenMs: Int?
+        /// The maximum number of messages that are batched together in a single action execution.
+        public let maxBatchSize: Int?
+        /// Maximum size of a message batch, in bytes.
+        public let maxBatchSizeBytes: Int?
+
+        @inlinable
+        public init(maxBatchOpenMs: Int? = nil, maxBatchSize: Int? = nil, maxBatchSizeBytes: Int? = nil) {
+            self.maxBatchOpenMs = maxBatchOpenMs
+            self.maxBatchSize = maxBatchSize
+            self.maxBatchSizeBytes = maxBatchSizeBytes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxBatchOpenMs, name: "maxBatchOpenMs", parent: name, max: 200)
+            try self.validate(self.maxBatchOpenMs, name: "maxBatchOpenMs", parent: name, min: 5)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 10)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 2)
+            try self.validate(self.maxBatchSizeBytes, name: "maxBatchSizeBytes", parent: name, max: 131072)
+            try self.validate(self.maxBatchSizeBytes, name: "maxBatchSizeBytes", parent: name, min: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxBatchOpenMs = "maxBatchOpenMs"
+            case maxBatchSize = "maxBatchSize"
+            case maxBatchSizeBytes = "maxBatchSizeBytes"
+        }
+    }
+
     public struct Behavior: AWSEncodableShape & AWSDecodableShape {
         /// The criteria that determine if a device is behaving normally in regard to the metric.  In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously.
         public let criteria: BehaviorCriteria?
@@ -2988,15 +3064,21 @@ extension IoT {
         public let description: String?
         /// The name of a specific parameter used in a command and command execution.
         public let name: String
-        /// The value used to describe the command. When you assign a value to a parameter, it will override any default value that you had already specified.
+        /// The type of the command parameter.
+        public let type: CommandParameterType?
+        /// Parameter value that overrides the default value, if set.
         public let value: CommandParameterValue?
+        /// The list of conditions that a command parameter value must satisfy to create a command execution.
+        public let valueConditions: [CommandParameterValueCondition]?
 
         @inlinable
-        public init(defaultValue: CommandParameterValue? = nil, description: String? = nil, name: String, value: CommandParameterValue? = nil) {
+        public init(defaultValue: CommandParameterValue? = nil, description: String? = nil, name: String, type: CommandParameterType? = nil, value: CommandParameterValue? = nil, valueConditions: [CommandParameterValueCondition]? = nil) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
+            self.type = type
             self.value = value
+            self.valueConditions = valueConditions
         }
 
         public func validate(name: String) throws {
@@ -3007,13 +3089,19 @@ extension IoT {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[.$a-zA-Z0-9_-]+$")
             try self.value?.validate(name: "\(name).value")
+            try self.valueConditions?.forEach {
+                try $0.validate(name: "\(name).valueConditions[]")
+            }
+            try self.validate(self.valueConditions, name: "valueConditions", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultValue = "defaultValue"
             case description = "description"
             case name = "name"
+            case type = "type"
             case value = "value"
+            case valueConditions = "valueConditions"
         }
     }
 
@@ -3063,6 +3151,97 @@ extension IoT {
         }
     }
 
+    public struct CommandParameterValueComparisonOperand: AWSEncodableShape & AWSDecodableShape {
+        /// An operand of number value type, defined as a string.
+        public let number: String?
+        /// An operand of numerical range value type.
+        public let numberRange: CommandParameterValueNumberRange?
+        /// A List of operands of numerical value type, defined as strings.
+        public let numbers: [String]?
+        /// An operand of string value type.
+        public let string: String?
+        /// A List of operands of string value type.
+        public let strings: [String]?
+
+        @inlinable
+        public init(number: String? = nil, numberRange: CommandParameterValueNumberRange? = nil, numbers: [String]? = nil, string: String? = nil, strings: [String]? = nil) {
+            self.number = number
+            self.numberRange = numberRange
+            self.numbers = numbers
+            self.string = string
+            self.strings = strings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.number, name: "number", parent: name, min: 1)
+            try self.numberRange?.validate(name: "\(name).numberRange")
+            try self.numbers?.forEach {
+                try validate($0, name: "numbers[]", parent: name, min: 1)
+            }
+            try self.validate(self.numbers, name: "numbers", parent: name, max: 10)
+            try self.validate(self.numbers, name: "numbers", parent: name, min: 1)
+            try self.validate(self.string, name: "string", parent: name, min: 1)
+            try self.strings?.forEach {
+                try validate($0, name: "strings[]", parent: name, min: 1)
+            }
+            try self.validate(self.strings, name: "strings", parent: name, max: 10)
+            try self.validate(self.strings, name: "strings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case number = "number"
+            case numberRange = "numberRange"
+            case numbers = "numbers"
+            case string = "string"
+            case strings = "strings"
+        }
+    }
+
+    public struct CommandParameterValueCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The comparison operator for the command parameter.  IN_RANGE, and NOT_IN_RANGE operators include boundary values.
+        public let comparisonOperator: CommandParameterValueComparisonOperator
+        /// The comparison operand for the command parameter.
+        public let operand: CommandParameterValueComparisonOperand
+
+        @inlinable
+        public init(comparisonOperator: CommandParameterValueComparisonOperator, operand: CommandParameterValueComparisonOperand) {
+            self.comparisonOperator = comparisonOperator
+            self.operand = operand
+        }
+
+        public func validate(name: String) throws {
+            try self.operand.validate(name: "\(name).operand")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonOperator = "comparisonOperator"
+            case operand = "operand"
+        }
+    }
+
+    public struct CommandParameterValueNumberRange: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum value of a numerical range of a command parameter value.
+        public let max: String
+        /// The minimum value of a numerical range of a command parameter value.
+        public let min: String
+
+        @inlinable
+        public init(max: String, min: String) {
+            self.max = max
+            self.min = min
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.max, name: "max", parent: name, min: 1)
+            try self.validate(self.min, name: "min", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case max = "max"
+            case min = "min"
+        }
+    }
+
     public struct CommandPayload: AWSEncodableShape & AWSDecodableShape {
         /// The static payload file for the command.
         public let content: AWSBase64Data?
@@ -3082,6 +3261,20 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case content = "content"
             case contentType = "contentType"
+        }
+    }
+
+    public struct CommandPreprocessor: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for the JSON substitution preprocessor.
+        public let awsJsonSubstitution: AwsJsonSubstitutionCommandPreprocessorConfig?
+
+        @inlinable
+        public init(awsJsonSubstitution: AwsJsonSubstitutionCommandPreprocessorConfig? = nil) {
+            self.awsJsonSubstitution = awsJsonSubstitution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsJsonSubstitution = "awsJsonSubstitution"
         }
     }
 
@@ -3138,7 +3331,7 @@ extension IoT {
     }
 
     public struct ConfigurationDetails: AWSDecodableShape {
-        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer-managed KMS key, the value of configurationStatus must be HEALTHY.
+        /// The health status of KMS key and KMS access role. If either KMS key or KMS access role is UNHEALTHY, the return value will be UNHEALTHY. To use a customer managed KMS key, the value of configurationStatus must be HEALTHY.
         public let configurationStatus: ConfigurationStatus?
         /// The error code that indicates either the KMS key or the KMS access role is UNHEALTHY.  Valid values: KMS_KEY_VALIDATION_ERROR and ROLE_VALIDATION_ERROR.
         public let errorCode: String?
@@ -3536,25 +3729,31 @@ extension IoT {
         public let description: String?
         /// The user-friendly name in the console for the command. This name doesn't have to be unique. You can update the user-friendly name after you define it.
         public let displayName: String?
-        /// A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
+        /// A list of parameters that are used by StartCommandExecution API for execution payload generation.
         public let mandatoryParameters: [CommandParameter]?
         /// The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
         public let namespace: CommandNamespace?
-        /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the  instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
+        /// The payload object for the static command. You can upload a static payload file from your local storage that contains the instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
         public let payload: CommandPayload?
-        /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources  for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
+        /// The payload template for the dynamic command.  This parameter is required for dynamic commands where the command execution placeholders are supplied either from mandatoryParameters or when StartCommandExecution is invoked.
+        public let payloadTemplate: String?
+        /// Configuration that determines how payloadTemplate is processed to generate command execution payload.  This parameter is required for dynamic commands, along with payloadTemplate, and mandatoryParameters.
+        public let preprocessor: CommandPreprocessor?
+        /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources  for generating the payload for the command. This field is not supported when you use the AWS-IoT namespace.
         public let roleArn: String?
         /// Name-value pairs that are used as metadata to manage a command.
         public let tags: [Tag]?
 
         @inlinable
-        public init(commandId: String, description: String? = nil, displayName: String? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(commandId: String, description: String? = nil, displayName: String? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, payloadTemplate: String? = nil, preprocessor: CommandPreprocessor? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.commandId = commandId
             self.description = description
             self.displayName = displayName
             self.mandatoryParameters = mandatoryParameters
             self.namespace = namespace
             self.payload = payload
+            self.payloadTemplate = payloadTemplate
+            self.preprocessor = preprocessor
             self.roleArn = roleArn
             self.tags = tags
         }
@@ -3568,6 +3767,8 @@ extension IoT {
             try container.encodeIfPresent(self.mandatoryParameters, forKey: .mandatoryParameters)
             try container.encodeIfPresent(self.namespace, forKey: .namespace)
             try container.encodeIfPresent(self.payload, forKey: .payload)
+            try container.encodeIfPresent(self.payloadTemplate, forKey: .payloadTemplate)
+            try container.encodeIfPresent(self.preprocessor, forKey: .preprocessor)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -3585,6 +3786,7 @@ extension IoT {
             }
             try self.validate(self.mandatoryParameters, name: "mandatoryParameters", parent: name, min: 1)
             try self.payload?.validate(name: "\(name).payload")
+            try self.validate(self.payloadTemplate, name: "payloadTemplate", parent: name, max: 32768)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.tags?.forEach {
@@ -3598,6 +3800,8 @@ extension IoT {
             case mandatoryParameters = "mandatoryParameters"
             case namespace = "namespace"
             case payload = "payload"
+            case payloadTemplate = "payloadTemplate"
+            case preprocessor = "preprocessor"
             case roleArn = "roleArn"
             case tags = "tags"
         }
@@ -7570,11 +7774,11 @@ extension IoT {
     public struct DescribeEncryptionConfigurationResponse: AWSDecodableShape {
         /// The encryption configuration details that include the status information of the KMS key and the KMS access role.
         public let configurationDetails: ConfigurationDetails?
-        /// The type of the Amazon Web Services Key Management Service (KMS) key.
+        /// The type of the KMS key.
         public let encryptionType: EncryptionType?
-        /// The ARN of the customer-managed KMS key.
-        public let kmsAccessRoleArn: String?
         /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
+        public let kmsAccessRoleArn: String?
+        /// The ARN of the customer managed KMS key.
         public let kmsKeyArn: String?
         /// The date when encryption configuration is last updated.
         public let lastModifiedDate: Date?
@@ -9794,13 +9998,17 @@ extension IoT {
         public let namespace: CommandNamespace?
         /// The payload object that you provided for the command.
         public let payload: CommandPayload?
+        /// The payload template for the dynamic command.
+        public let payloadTemplate: String?
         /// Indicates whether the command is being deleted.
         public let pendingDeletion: Bool?
+        /// Configuration that determines how payloadTemplate is processed to generate command execution payload.
+        public let preprocessor: CommandPreprocessor?
         /// The IAM role that you provided when creating the command with AWS-IoT-FleetWise as the namespace.
         public let roleArn: String?
 
         @inlinable
-        public init(commandArn: String? = nil, commandId: String? = nil, createdAt: Date? = nil, deprecated: Bool? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, pendingDeletion: Bool? = nil, roleArn: String? = nil) {
+        public init(commandArn: String? = nil, commandId: String? = nil, createdAt: Date? = nil, deprecated: Bool? = nil, description: String? = nil, displayName: String? = nil, lastUpdatedAt: Date? = nil, mandatoryParameters: [CommandParameter]? = nil, namespace: CommandNamespace? = nil, payload: CommandPayload? = nil, payloadTemplate: String? = nil, pendingDeletion: Bool? = nil, preprocessor: CommandPreprocessor? = nil, roleArn: String? = nil) {
             self.commandArn = commandArn
             self.commandId = commandId
             self.createdAt = createdAt
@@ -9811,7 +10019,9 @@ extension IoT {
             self.mandatoryParameters = mandatoryParameters
             self.namespace = namespace
             self.payload = payload
+            self.payloadTemplate = payloadTemplate
             self.pendingDeletion = pendingDeletion
+            self.preprocessor = preprocessor
             self.roleArn = roleArn
         }
 
@@ -9826,7 +10036,9 @@ extension IoT {
             case mandatoryParameters = "mandatoryParameters"
             case namespace = "namespace"
             case payload = "payload"
+            case payloadTemplate = "payloadTemplate"
             case pendingDeletion = "pendingDeletion"
+            case preprocessor = "preprocessor"
             case roleArn = "roleArn"
         }
     }
@@ -10553,7 +10765,21 @@ extension IoT {
     }
 
     public struct GetV2LoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
+        ///  The flag is used to get all the event types and their respective configuration that event-based logging supports.
+        public let verbose: Bool?
+
+        @inlinable
+        public init(verbose: Bool? = nil) {
+            self.verbose = verbose
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.verbose, key: "verbose")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct GetV2LoggingOptionsResponse: AWSDecodableShape {
@@ -10561,19 +10787,23 @@ extension IoT {
         public let defaultLogLevel: LogLevel?
         /// Disables all logs.
         public let disableAllLogs: Bool?
+        ///  The list of event configurations that override account-level logging.
+        public let eventConfigurations: [LogEventConfiguration]?
         /// The IAM role ARN IoT uses to write to your CloudWatch logs.
         public let roleArn: String?
 
         @inlinable
-        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
+        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, eventConfigurations: [LogEventConfiguration]? = nil, roleArn: String? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.disableAllLogs = disableAllLogs
+            self.eventConfigurations = eventConfigurations
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultLogLevel = "defaultLogLevel"
             case disableAllLogs = "disableAllLogs"
+            case eventConfigurations = "eventConfigurations"
             case roleArn = "roleArn"
         }
     }
@@ -10599,22 +10829,29 @@ extension IoT {
     public struct HttpAction: AWSEncodableShape & AWSDecodableShape {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public let auth: HttpAuthorization?
+        /// The configuration settings for batching. For more information, see  Batching HTTP action messages.
+        public let batchConfig: BatchConfig?
         /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
         public let confirmationUrl: String?
+        /// Whether to process the HTTP action messages into a single request. Value can be true or false.
+        public let enableBatching: Bool?
         /// The HTTP headers to send with the message data.
         public let headers: [HttpActionHeader]?
         /// The endpoint URL. If substitution templates are used in the URL, you must also specify a confirmationUrl. If this is a new destination, a new TopicRuleDestination is created if possible.
         public let url: String
 
         @inlinable
-        public init(auth: HttpAuthorization? = nil, confirmationUrl: String? = nil, headers: [HttpActionHeader]? = nil, url: String) {
+        public init(auth: HttpAuthorization? = nil, batchConfig: BatchConfig? = nil, confirmationUrl: String? = nil, enableBatching: Bool? = nil, headers: [HttpActionHeader]? = nil, url: String) {
             self.auth = auth
+            self.batchConfig = batchConfig
             self.confirmationUrl = confirmationUrl
+            self.enableBatching = enableBatching
             self.headers = headers
             self.url = url
         }
 
         public func validate(name: String) throws {
+            try self.batchConfig?.validate(name: "\(name).batchConfig")
             try self.validate(self.confirmationUrl, name: "confirmationUrl", parent: name, max: 2000)
             try self.headers?.forEach {
                 try $0.validate(name: "\(name).headers[]")
@@ -10625,7 +10862,9 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case auth = "auth"
+            case batchConfig = "batchConfig"
             case confirmationUrl = "confirmationUrl"
+            case enableBatching = "enableBatching"
             case headers = "headers"
             case url = "url"
         }
@@ -15103,6 +15342,36 @@ extension IoT {
         }
     }
 
+    public struct LogEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The type of event to log. These include event types like Connect, Publish, and Disconnect.
+        public let eventType: String
+        ///  CloudWatch Log Group for event-based logging. Specifies where log events should be sent. The log destination for event-based logging overrides default Log Group for the specified event type and applies to all resources associated with that event.
+        public let logDestination: String?
+        ///  The logging level for the specified event type. Determines the verbosity of log messages generated for this event type.
+        public let logLevel: LogLevel?
+
+        @inlinable
+        public init(eventType: String, logDestination: String? = nil, logLevel: LogLevel? = nil) {
+            self.eventType = eventType
+            self.logDestination = logDestination
+            self.logLevel = logLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventType, name: "eventType", parent: name, max: 512)
+            try self.validate(self.eventType, name: "eventType", parent: name, min: 1)
+            try self.validate(self.logDestination, name: "logDestination", parent: name, max: 512)
+            try self.validate(self.logDestination, name: "logDestination", parent: name, min: 1)
+            try self.validate(self.logDestination, name: "logDestination", parent: name, pattern: "^[.\\-_/#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "eventType"
+            case logDestination = "logDestination"
+            case logLevel = "logLevel"
+        }
+    }
+
     public struct LogTarget: AWSEncodableShape & AWSDecodableShape {
         /// The target name.
         public let targetName: String?
@@ -17355,19 +17624,29 @@ extension IoT {
         public let defaultLogLevel: LogLevel?
         /// If true all logs are disabled. The default is false.
         public let disableAllLogs: Bool?
+        ///  The list of event configurations that override account-level logging.
+        public let eventConfigurations: [LogEventConfiguration]?
         /// The ARN of the role that allows IoT to write to Cloudwatch logs.
         public let roleArn: String?
 
         @inlinable
-        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, roleArn: String? = nil) {
+        public init(defaultLogLevel: LogLevel? = nil, disableAllLogs: Bool? = nil, eventConfigurations: [LogEventConfiguration]? = nil, roleArn: String? = nil) {
             self.defaultLogLevel = defaultLogLevel
             self.disableAllLogs = disableAllLogs
+            self.eventConfigurations = eventConfigurations
             self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.eventConfigurations?.forEach {
+                try $0.validate(name: "\(name).eventConfigurations[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultLogLevel = "defaultLogLevel"
             case disableAllLogs = "disableAllLogs"
+            case eventConfigurations = "eventConfigurations"
             case roleArn = "roleArn"
         }
     }
@@ -18105,7 +18384,7 @@ extension IoT {
         public let policyNamesToAdd: [String]?
         /// When testing custom authorization, the policies specified here are treated as if they are not attached to the principal being authorized.
         public let policyNamesToSkip: [String]?
-        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
+        /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId) and CognitoId (region:id).
         public let principal: String?
 
         @inlinable
@@ -19806,11 +20085,11 @@ extension IoT {
     }
 
     public struct UpdateEncryptionConfigurationRequest: AWSEncodableShape {
-        /// The type of the Amazon Web Services Key Management Service (KMS) key.
+        /// The type of the KMS key.
         public let encryptionType: EncryptionType
         /// The Amazon Resource Name (ARN) of the IAM role assumed by Amazon Web Services IoT Core to call KMS on behalf of the customer.
         public let kmsAccessRoleArn: String?
-        /// The ARN of the customer-managed KMS key.
+        /// The ARN of the customer managedKMS key.
         public let kmsKeyArn: String?
 
         @inlinable

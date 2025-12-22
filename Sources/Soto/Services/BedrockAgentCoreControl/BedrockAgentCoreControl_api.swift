@@ -440,6 +440,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - credentialProviderConfigurations: The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
     ///   - description: The description of the gateway target.
     ///   - gatewayIdentifier: The identifier of the gateway to create a target for.
+    ///   - metadataConfiguration: Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
     ///   - name: The name of the gateway target. The name must be unique within the gateway.
     ///   - targetConfiguration: The configuration settings for the target, including endpoint information and schema definitions.
     ///   - logger: Logger use during operation
@@ -449,6 +450,7 @@ public struct BedrockAgentCoreControl: AWSService {
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
+        metadataConfiguration: MetadataConfiguration? = nil,
         name: String,
         targetConfiguration: TargetConfiguration,
         logger: Logger = AWSClient.loggingDisabled        
@@ -458,6 +460,7 @@ public struct BedrockAgentCoreControl: AWSService {
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 
+            metadataConfiguration: metadataConfiguration, 
             name: name, 
             targetConfiguration: targetConfiguration
         )
@@ -2741,6 +2744,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
     ///   - description: The updated description for the gateway target.
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
+    ///   - metadataConfiguration: Configuration for HTTP header and query parameter propagation to the gateway target.
     ///   - name: The updated name for the gateway target.
     ///   - targetConfiguration: 
     ///   - targetId: The unique identifier of the gateway target to update.
@@ -2750,6 +2754,7 @@ public struct BedrockAgentCoreControl: AWSService {
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
+        metadataConfiguration: MetadataConfiguration? = nil,
         name: String,
         targetConfiguration: TargetConfiguration,
         targetId: String,
@@ -2759,6 +2764,7 @@ public struct BedrockAgentCoreControl: AWSService {
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 
+            metadataConfiguration: metadataConfiguration, 
             name: name, 
             targetConfiguration: targetConfiguration, 
             targetId: targetId

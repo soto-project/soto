@@ -421,7 +421,7 @@ extension Route53Resolver {
     }
 
     public struct AssociateResolverRuleRequest: AWSEncodableShape {
-        /// A name for the association that you're creating between a Resolver rule and a VPC.
+        /// A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public let name: String?
         /// The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use
         /// 			ListResolverRules.
@@ -663,8 +663,7 @@ extension Route53Resolver {
     }
 
     public struct CreateFirewallRuleResponse: AWSDecodableShape {
-        /// The
-        /// 			firewall rule that you just created.
+        /// The firewall rule that you just created.
         public let firewallRule: FirewallRule?
 
         @inlinable
@@ -773,6 +772,11 @@ extension Route53Resolver {
         /// 			endpoint type is applied to all IP addresses.
         ///
         public let resolverEndpointType: ResolverEndpointType?
+        /// Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints.
+        /// 		When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint.
+        /// 		When set to false, metrics are not published. Default is false.  Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+        /// 	endpoint RNI enhanced metrics. For more information, see Detailed metrics.
+        public let rniEnhancedMetricsEnabled: Bool?
         /// The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify
         /// 			must include one or more inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver endpoints).
         /// 			Inbound and outbound rules must allow TCP and UDP access. For inbound access, open port 53. For outbound access, open the port
@@ -783,9 +787,14 @@ extension Route53Resolver {
         public let securityGroupIds: [String]
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
+        /// Specifies whether target name server metrics are enabled for the outbound Resolver endpoints.
+        /// 		When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint.
+        /// 		When set to false, metrics are not published. Default is false. This is not supported for inbound Resolver endpoints.  Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+        /// 	endpoint target name server metrics. For more information, see Detailed metrics.
+        public let targetNameServerMetricsEnabled: Bool?
 
         @inlinable
-        public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String], tags: [Tag]? = nil) {
+        public init(creatorRequestId: String, direction: ResolverEndpointDirection, ipAddresses: [IpAddressRequest], name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String], tags: [Tag]? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
             self.creatorRequestId = creatorRequestId
             self.direction = direction
             self.ipAddresses = ipAddresses
@@ -794,8 +803,10 @@ extension Route53Resolver {
             self.preferredInstanceType = preferredInstanceType
             self.protocols = protocols
             self.resolverEndpointType = resolverEndpointType
+            self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
             self.securityGroupIds = securityGroupIds
             self.tags = tags
+            self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
         }
 
         public func validate(name: String) throws {
@@ -834,8 +845,10 @@ extension Route53Resolver {
             case preferredInstanceType = "PreferredInstanceType"
             case protocols = "Protocols"
             case resolverEndpointType = "ResolverEndpointType"
+            case rniEnhancedMetricsEnabled = "RniEnhancedMetricsEnabled"
             case securityGroupIds = "SecurityGroupIds"
             case tags = "Tags"
+            case targetNameServerMetricsEnabled = "TargetNameServerMetricsEnabled"
         }
     }
 
@@ -923,7 +936,7 @@ extension Route53Resolver {
         /// 			multiple Resolver rules (example.com and www.example.com), outbound DNS queries are routed using the Resolver rule that contains
         /// 			the most specific domain name (www.example.com).
         public let domainName: String?
-        /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
+        /// A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public let name: String?
         /// The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify
         /// 			in TargetIps.
@@ -936,6 +949,9 @@ extension Route53Resolver {
         /// A list of the tag keys and values that you want to associate with the endpoint.
         public let tags: [Tag]?
         /// The IPs that you want Resolver to forward DNS queries to. You can specify either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a space.  TargetIps is available only when the value of Rule type is FORWARD.
+        /// 			You should not provide TargetIps when the Rule type is DELEGATE.  when creating a DELEGATE rule, you must not provide the TargetIps parameter. If you provide the TargetIps,
+        /// 			you may receive an ERROR message similar to "Delegate resolver rules need to specify a nameserver name".
+        /// 			This error means you should not provide TargetIps.
         public let targetIps: [TargetAddress]?
 
         @inlinable
@@ -3698,6 +3714,10 @@ extension Route53Resolver {
         /// 			The Resolver endpoint IP address type.
         ///
         public let resolverEndpointType: ResolverEndpointType?
+        /// Indicates whether RNI enhanced metrics are enabled for the Resolver endpoint.
+        /// 		When enabled, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint.
+        /// 		When disabled, these metrics are not published.
+        public let rniEnhancedMetricsEnabled: Bool?
         /// The ID of one or more security groups that control access to this VPC. The security group must include one or more inbound rules
         /// 			(for inbound endpoints) or outbound rules (for outbound endpoints). Inbound and outbound rules must allow TCP and UDP access.
         /// 			For inbound access, open port 53. For outbound access, open the port that you're using for DNS queries on your network.
@@ -3715,9 +3735,13 @@ extension Route53Resolver {
         public let status: ResolverEndpointStatus?
         /// A detailed description of the status of the Resolver endpoint.
         public let statusMessage: String?
+        /// Indicates whether target name server metrics are enabled for the outbound Resolver endpoint.
+        /// 		When enabled, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint.
+        /// 		When disabled, these metrics are not published. This feature is not supported for inbound Resolver endpoint.
+        public let targetNameServerMetricsEnabled: Bool?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil) {
+        public init(arn: String? = nil, creationTime: String? = nil, creatorRequestId: String? = nil, direction: ResolverEndpointDirection? = nil, hostVPCId: String? = nil, id: String? = nil, ipAddressCount: Int? = nil, modificationTime: String? = nil, name: String? = nil, outpostArn: String? = nil, preferredInstanceType: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, securityGroupIds: [String]? = nil, status: ResolverEndpointStatus? = nil, statusMessage: String? = nil, targetNameServerMetricsEnabled: Bool? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.creatorRequestId = creatorRequestId
@@ -3731,9 +3755,11 @@ extension Route53Resolver {
             self.preferredInstanceType = preferredInstanceType
             self.protocols = protocols
             self.resolverEndpointType = resolverEndpointType
+            self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.statusMessage = statusMessage
+            self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3750,9 +3776,11 @@ extension Route53Resolver {
             case preferredInstanceType = "PreferredInstanceType"
             case protocols = "Protocols"
             case resolverEndpointType = "ResolverEndpointType"
+            case rniEnhancedMetricsEnabled = "RniEnhancedMetricsEnabled"
             case securityGroupIds = "SecurityGroupIds"
             case status = "Status"
             case statusMessage = "StatusMessage"
+            case targetNameServerMetricsEnabled = "TargetNameServerMetricsEnabled"
         }
     }
 
@@ -3871,7 +3899,7 @@ extension Route53Resolver {
         public let id: String?
         /// The date and time that the Resolver rule was last updated, in Unix time format and Coordinated Universal Time (UTC).
         public let modificationTime: String?
-        /// The name for the Resolver rule, which you specified when you created the Resolver rule.
+        /// The name for the Resolver rule, which you specified when you created the Resolver rule. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public let name: String?
         /// When a rule is shared with another Amazon Web Services account, the account ID of the account that the rule is shared with.
         public let ownerId: String?
@@ -3938,7 +3966,7 @@ extension Route53Resolver {
         /// 			AssociateResolverRule
         /// 			request.
         public let id: String?
-        /// The name of an association between a Resolver rule and a VPC.
+        /// The name of an association between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public let name: String?
         /// The ID of the Resolver rule that you associated with the VPC that is specified by VPCId.
         public let resolverRuleId: String?
@@ -3970,7 +3998,7 @@ extension Route53Resolver {
     }
 
     public struct ResolverRuleConfig: AWSEncodableShape {
-        /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console.
+        /// The new name for the Resolver rule. The name that you specify appears in the Resolver dashboard in the Route 53 console.  The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
         public let name: String?
         /// The ID of the new outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify in
         /// 			TargetIps.
@@ -4633,17 +4661,29 @@ extension Route53Resolver {
         /// 			Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
         /// 		 Updating to IPV6 type isn't currently supported.
         public let resolverEndpointType: ResolverEndpointType?
+        /// Updates whether RNI enhanced metrics are enabled for the Resolver endpoints.
+        /// 		When set to true, one-minute granular metrics are published in CloudWatch for each RNI associated with this endpoint.
+        /// 		When set to false, metrics are not published.  Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+        /// 	endpoint RNI enhanced metrics. For more information, see Detailed metrics.
+        public let rniEnhancedMetricsEnabled: Bool?
+        /// Updates whether target name server metrics are enabled for the outbound Resolver endpoints.
+        /// 		When set to true, one-minute granular metrics are published in CloudWatch for each target name server associated with this endpoint.
+        /// 		When set to false, metrics are not published. This setting is not supported for inbound Resolver endpoints.  Standard CloudWatch pricing and charges are applied for using the Route 53 Resolver
+        /// 	endpoint target name server metrics. For more information, see Detailed metrics.
+        public let targetNameServerMetricsEnabled: Bool?
         /// 			Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack.
         /// 			If you don't specify an IPv6 address, one will be automatically chosen from your subnet.
         ///
         public let updateIpAddresses: [UpdateIpAddress]?
 
         @inlinable
-        public init(name: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointId: String, resolverEndpointType: ResolverEndpointType? = nil, updateIpAddresses: [UpdateIpAddress]? = nil) {
+        public init(name: String? = nil, protocols: [`Protocol`]? = nil, resolverEndpointId: String, resolverEndpointType: ResolverEndpointType? = nil, rniEnhancedMetricsEnabled: Bool? = nil, targetNameServerMetricsEnabled: Bool? = nil, updateIpAddresses: [UpdateIpAddress]? = nil) {
             self.name = name
             self.protocols = protocols
             self.resolverEndpointId = resolverEndpointId
             self.resolverEndpointType = resolverEndpointType
+            self.rniEnhancedMetricsEnabled = rniEnhancedMetricsEnabled
+            self.targetNameServerMetricsEnabled = targetNameServerMetricsEnabled
             self.updateIpAddresses = updateIpAddresses
         }
 
@@ -4665,6 +4705,8 @@ extension Route53Resolver {
             case protocols = "Protocols"
             case resolverEndpointId = "ResolverEndpointId"
             case resolverEndpointType = "ResolverEndpointType"
+            case rniEnhancedMetricsEnabled = "RniEnhancedMetricsEnabled"
+            case targetNameServerMetricsEnabled = "TargetNameServerMetricsEnabled"
             case updateIpAddresses = "UpdateIpAddresses"
         }
     }

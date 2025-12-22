@@ -45,6 +45,15 @@ extension BedrockDataAutomation {
         public var description: String { return self.rawValue }
     }
 
+    public enum BlueprintOptimizationJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clientError = "ClientError"
+        case created = "Created"
+        case inProgress = "InProgress"
+        case serviceError = "ServiceError"
+        case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BlueprintStage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case development = "DEVELOPMENT"
         case live = "LIVE"
@@ -397,11 +406,14 @@ extension BedrockDataAutomation {
         public let kmsKeyId: String?
         @CustomCoding<ISO8601DateCoder>
         public var lastModifiedTime: Date
+        public let optimizationSamples: [BlueprintOptimizationSample]?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var optimizationTime: Date?
         public let schema: String
         public let type: `Type`
 
         @inlinable
-        public init(blueprintArn: String, blueprintName: String, blueprintStage: BlueprintStage? = nil, blueprintVersion: String? = nil, creationTime: Date, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, schema: String, type: `Type`) {
+        public init(blueprintArn: String, blueprintName: String, blueprintStage: BlueprintStage? = nil, blueprintVersion: String? = nil, creationTime: Date, kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date, optimizationSamples: [BlueprintOptimizationSample]? = nil, optimizationTime: Date? = nil, schema: String, type: `Type`) {
             self.blueprintArn = blueprintArn
             self.blueprintName = blueprintName
             self.blueprintStage = blueprintStage
@@ -410,6 +422,8 @@ extension BedrockDataAutomation {
             self.kmsEncryptionContext = kmsEncryptionContext
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
+            self.optimizationSamples = optimizationSamples
+            self.optimizationTime = optimizationTime
             self.schema = schema
             self.type = type
         }
@@ -423,6 +437,8 @@ extension BedrockDataAutomation {
             case kmsEncryptionContext = "kmsEncryptionContext"
             case kmsKeyId = "kmsKeyId"
             case lastModifiedTime = "lastModifiedTime"
+            case optimizationSamples = "optimizationSamples"
+            case optimizationTime = "optimizationTime"
             case schema = "schema"
             case type = "type"
         }
@@ -482,6 +498,70 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct BlueprintOptimizationObject: AWSEncodableShape {
+        /// Arn of blueprint.
+        public let blueprintArn: String
+        /// Stage of blueprint.
+        public let stage: BlueprintStage?
+
+        @inlinable
+        public init(blueprintArn: String, stage: BlueprintStage? = nil) {
+            self.blueprintArn = blueprintArn
+            self.stage = stage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, max: 128)
+            try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprintArn = "blueprintArn"
+            case stage = "stage"
+        }
+    }
+
+    public struct BlueprintOptimizationOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// S3 object.
+        public let s3Object: S3Object
+
+        @inlinable
+        public init(s3Object: S3Object) {
+            self.s3Object = s3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Object.validate(name: "\(name).s3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Object = "s3Object"
+        }
+    }
+
+    public struct BlueprintOptimizationSample: AWSEncodableShape & AWSDecodableShape {
+        /// S3 Object of the asset
+        public let assetS3Object: S3Object
+        /// Ground truth for the Blueprint and Asset combination
+        public let groundTruthS3Object: S3Object
+
+        @inlinable
+        public init(assetS3Object: S3Object, groundTruthS3Object: S3Object) {
+            self.assetS3Object = assetS3Object
+            self.groundTruthS3Object = groundTruthS3Object
+        }
+
+        public func validate(name: String) throws {
+            try self.assetS3Object.validate(name: "\(name).assetS3Object")
+            try self.groundTruthS3Object.validate(name: "\(name).groundTruthS3Object")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetS3Object = "assetS3Object"
+            case groundTruthS3Object = "groundTruthS3Object"
+        }
+    }
+
     public struct BlueprintSummary: AWSDecodableShape {
         public let blueprintArn: String
         public let blueprintName: String?
@@ -523,6 +603,52 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case state = "state"
         }
+    }
+
+    public struct CopyBlueprintStageRequest: AWSEncodableShape {
+        /// Blueprint to be copied
+        public let blueprintArn: String
+        /// Client token for idempotency
+        public let clientToken: String?
+        /// Source stage to copy from
+        public let sourceStage: BlueprintStage
+        /// Target stage to copy to
+        public let targetStage: BlueprintStage
+
+        @inlinable
+        public init(blueprintArn: String, clientToken: String? = CopyBlueprintStageRequest.idempotencyToken(), sourceStage: BlueprintStage, targetStage: BlueprintStage) {
+            self.blueprintArn = blueprintArn
+            self.clientToken = clientToken
+            self.sourceStage = sourceStage
+            self.targetStage = targetStage
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.blueprintArn, key: "blueprintArn")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.sourceStage, forKey: .sourceStage)
+            try container.encode(self.targetStage, forKey: .targetStage)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, max: 128)
+            try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 33)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case sourceStage = "sourceStage"
+            case targetStage = "targetStage"
+        }
+    }
+
+    public struct CopyBlueprintStageResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateBlueprintRequest: AWSEncodableShape {
@@ -1065,6 +1191,56 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct GetBlueprintOptimizationStatusRequest: AWSEncodableShape {
+        /// Invocation arn.
+        public let invocationArn: String
+
+        @inlinable
+        public init(invocationArn: String) {
+            self.invocationArn = invocationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.invocationArn, key: "invocationArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, max: 128)
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, min: 1)
+            try self.validate(self.invocationArn, name: "invocationArn", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:blueprint-optimization-invocation/[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetBlueprintOptimizationStatusResponse: AWSDecodableShape {
+        /// Error Message.
+        public let errorMessage: String?
+        /// Error Type.
+        public let errorType: String?
+        /// Output configuration.
+        public let outputConfiguration: BlueprintOptimizationOutputConfiguration?
+        /// Job Status.
+        public let status: BlueprintOptimizationJobStatus?
+
+        @inlinable
+        public init(errorMessage: String? = nil, errorType: String? = nil, outputConfiguration: BlueprintOptimizationOutputConfiguration? = nil, status: BlueprintOptimizationJobStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+            self.outputConfiguration = outputConfiguration
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "errorMessage"
+            case errorType = "errorType"
+            case outputConfiguration = "outputConfiguration"
+            case status = "status"
+        }
+    }
+
     public struct GetBlueprintRequest: AWSEncodableShape {
         /// ARN generated at the server side when a Blueprint is created
         public let blueprintArn: String
@@ -1254,6 +1430,70 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct InvokeBlueprintOptimizationAsyncRequest: AWSEncodableShape {
+        /// Blueprint to be optimized
+        public let blueprint: BlueprintOptimizationObject
+        /// Data automation profile ARN
+        public let dataAutomationProfileArn: String
+        /// Encryption configuration.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// Output configuration where the results should be placed
+        public let outputConfiguration: BlueprintOptimizationOutputConfiguration
+        /// List of Blueprint Optimization Samples
+        public let samples: [BlueprintOptimizationSample]
+        /// List of tags.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(blueprint: BlueprintOptimizationObject, dataAutomationProfileArn: String, encryptionConfiguration: EncryptionConfiguration? = nil, outputConfiguration: BlueprintOptimizationOutputConfiguration, samples: [BlueprintOptimizationSample], tags: [Tag]? = nil) {
+            self.blueprint = blueprint
+            self.dataAutomationProfileArn = dataAutomationProfileArn
+            self.encryptionConfiguration = encryptionConfiguration
+            self.outputConfiguration = outputConfiguration
+            self.samples = samples
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.blueprint.validate(name: "\(name).blueprint")
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, max: 128)
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, min: 1)
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.samples.forEach {
+                try $0.validate(name: "\(name).samples[]")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blueprint = "blueprint"
+            case dataAutomationProfileArn = "dataAutomationProfileArn"
+            case encryptionConfiguration = "encryptionConfiguration"
+            case outputConfiguration = "outputConfiguration"
+            case samples = "samples"
+            case tags = "tags"
+        }
+    }
+
+    public struct InvokeBlueprintOptimizationAsyncResponse: AWSDecodableShape {
+        /// ARN of the blueprint optimization job
+        public let invocationArn: String
+
+        @inlinable
+        public init(invocationArn: String) {
+            self.invocationArn = invocationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationArn = "invocationArn"
+        }
+    }
+
     public struct ListBlueprintsRequest: AWSEncodableShape {
         public let blueprintArn: String?
         public let blueprintStageFilter: BlueprintStageFilter?
@@ -1370,7 +1610,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1478,6 +1718,32 @@ extension BedrockDataAutomation {
         private enum CodingKeys: String, CodingKey {
             case piiEntityTypes = "piiEntityTypes"
             case redactionMaskMode = "redactionMaskMode"
+        }
+    }
+
+    public struct S3Object: AWSEncodableShape & AWSDecodableShape {
+        /// S3 uri.
+        public let s3Uri: String
+        /// S3 object version.
+        public let version: String?
+
+        @inlinable
+        public init(s3Uri: String, version: String? = nil) {
+            self.s3Uri = s3Uri
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.version, name: "version", parent: name, max: 1024)
+            try self.validate(self.version, name: "version", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "s3Uri"
+            case version = "version"
         }
     }
 
@@ -1592,7 +1858,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -1638,7 +1904,7 @@ extension BedrockDataAutomation {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-iso|-iso-[a-z]|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project|blueprint-optimization-invocation)/[a-zA-Z0-9-]{12,36}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

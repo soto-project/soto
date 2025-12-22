@@ -134,6 +134,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases for an application.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         public let monitoringConfiguration: MonitoringConfiguration?
@@ -161,7 +163,7 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, identityCenterConfiguration: IdentityCenterConfiguration? = nil, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, identityCenterConfiguration: IdentityCenterConfiguration? = nil, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
@@ -172,6 +174,7 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -198,6 +201,7 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -483,6 +487,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases to use when running an application.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -505,7 +511,7 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
@@ -514,6 +520,7 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -579,6 +586,7 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -941,6 +949,20 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case livyEndpointEnabled = "livyEndpointEnabled"
             case studioEnabled = "studioEnabled"
+        }
+    }
+
+    public struct JobLevelCostAllocationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables job level cost allocation for the application.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 
@@ -2025,6 +2047,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that contains new interactive use cases when the application is updated.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -2040,7 +2064,7 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
@@ -2050,6 +2074,7 @@ extension EMRServerless {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.networkConfiguration = networkConfiguration
@@ -2071,6 +2096,7 @@ extension EMRServerless {
             try container.encodeIfPresent(self.imageConfiguration, forKey: .imageConfiguration)
             try container.encodeIfPresent(self.initialCapacity, forKey: .initialCapacity)
             try container.encodeIfPresent(self.interactiveConfiguration, forKey: .interactiveConfiguration)
+            try container.encodeIfPresent(self.jobLevelCostAllocationConfiguration, forKey: .jobLevelCostAllocationConfiguration)
             try container.encodeIfPresent(self.maximumCapacity, forKey: .maximumCapacity)
             try container.encodeIfPresent(self.monitoringConfiguration, forKey: .monitoringConfiguration)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
@@ -2123,6 +2149,7 @@ extension EMRServerless {
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case networkConfiguration = "networkConfiguration"

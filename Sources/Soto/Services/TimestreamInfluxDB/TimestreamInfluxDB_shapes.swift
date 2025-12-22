@@ -37,7 +37,11 @@ extension TimestreamInfluxDB {
         case deleting = "DELETING"
         case failed = "FAILED"
         case maintenance = "MAINTENANCE"
+        case partiallyAvailable = "PARTIALLY_AVAILABLE"
+        case rebootFailed = "REBOOT_FAILED"
+        case rebooting = "REBOOTING"
         case updating = "UPDATING"
+        case updatingInstanceType = "UPDATING_INSTANCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -132,6 +136,8 @@ extension TimestreamInfluxDB {
         case failed = "FAILED"
         case maintenance = "MAINTENANCE"
         case modifying = "MODIFYING"
+        case rebootFailed = "REBOOT_FAILED"
+        case rebooting = "REBOOTING"
         case updating = "UPDATING"
         case updatingDeploymentType = "UPDATING_DEPLOYMENT_TYPE"
         case updatingInstanceType = "UPDATING_INSTANCE_TYPE"
@@ -362,7 +368,7 @@ extension TimestreamInfluxDB {
                 try validate($0, name: "vpcSubnetIds[]", parent: name, max: 64)
                 try validate($0, name: "vpcSubnetIds[]", parent: name, pattern: "^subnet-[a-z0-9]+$")
             }
-            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, max: 3)
+            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, max: 6)
             try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, min: 1)
         }
 
@@ -501,7 +507,7 @@ extension TimestreamInfluxDB {
                 try validate($0, name: "vpcSubnetIds[]", parent: name, max: 64)
                 try validate($0, name: "vpcSubnetIds[]", parent: name, pattern: "^subnet-[a-z0-9]+$")
             }
-            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, max: 3)
+            try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, max: 6)
             try self.validate(self.vpcSubnetIds, name: "vpcSubnetIds", parent: name, min: 1)
         }
 
@@ -2095,6 +2101,167 @@ extension TimestreamInfluxDB {
 
         private enum CodingKeys: String, CodingKey {
             case s3Configuration = "s3Configuration"
+        }
+    }
+
+    public struct RebootDbClusterInput: AWSEncodableShape {
+        /// Service-generated unique identifier of the DB cluster to reboot.
+        public let dbClusterId: String
+        /// A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot.
+        public let instanceIds: [String]?
+
+        @inlinable
+        public init(dbClusterId: String, instanceIds: [String]? = nil) {
+            self.dbClusterId = dbClusterId
+            self.instanceIds = instanceIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, max: 64)
+            try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, min: 3)
+            try self.validate(self.dbClusterId, name: "dbClusterId", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            try self.instanceIds?.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, max: 64)
+                try validate($0, name: "instanceIds[]", parent: name, min: 3)
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^[a-zA-Z0-9]+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterId = "dbClusterId"
+            case instanceIds = "instanceIds"
+        }
+    }
+
+    public struct RebootDbClusterOutput: AWSDecodableShape {
+        /// The status of the DB Cluster.
+        public let dbClusterStatus: ClusterStatus?
+
+        @inlinable
+        public init(dbClusterStatus: ClusterStatus? = nil) {
+            self.dbClusterStatus = dbClusterStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbClusterStatus = "dbClusterStatus"
+        }
+    }
+
+    public struct RebootDbInstanceInput: AWSEncodableShape {
+        /// The id of the DB instance to reboot.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 64)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 3)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "identifier"
+        }
+    }
+
+    public struct RebootDbInstanceOutput: AWSDecodableShape {
+        /// The amount of storage allocated for your DB storage type (in gibibytes).
+        public let allocatedStorage: Int?
+        /// The Amazon Resource Name (ARN) of the DB instance.
+        public let arn: String
+        /// The Availability Zone in which the DB instance resides.
+        public let availabilityZone: String?
+        /// Specifies the DbCluster to which this DbInstance belongs to.
+        public let dbClusterId: String?
+        /// The Timestream for InfluxDB instance type that InfluxDB runs on.
+        public let dbInstanceType: DbInstanceType?
+        /// The id of the DB parameter group assigned to your DB instance.
+        public let dbParameterGroupIdentifier: String?
+        /// The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
+        public let dbStorageType: DbStorageType?
+        /// Specifies whether the Timestream for InfluxDB is deployed as Single-AZ or with a MultiAZ Standby for High availability.
+        public let deploymentType: DeploymentType?
+        /// The endpoint used to connect to InfluxDB. The default InfluxDB port is 8086.
+        public let endpoint: String?
+        /// A service-generated unique identifier.
+        public let id: String
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        public let influxAuthParametersSecretArn: String?
+        /// Specifies the DbInstance's role in the cluster.
+        public let instanceMode: InstanceMode?
+        /// Specifies the DbInstance's roles in the cluster.
+        public let instanceModes: [InstanceMode]?
+        /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
+        public let logDeliveryConfiguration: LogDeliveryConfiguration?
+        /// The customer-supplied name that uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
+        public let name: String
+        /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+        public let networkType: NetworkType?
+        /// The port number on which InfluxDB accepts connections.
+        public let port: Int?
+        /// Indicates if the DB instance has a public IP to facilitate access.
+        public let publiclyAccessible: Bool?
+        /// The Availability Zone in which the standby instance is located when deploying with a MultiAZ standby instance.
+        public let secondaryAvailabilityZone: String?
+        /// The status of the DB instance.
+        public let status: Status?
+        /// A list of VPC security group IDs associated with the DB instance.
+        public let vpcSecurityGroupIds: [String]?
+        /// A list of VPC subnet IDs associated with the DB instance.
+        public let vpcSubnetIds: [String]
+
+        @inlinable
+        public init(allocatedStorage: Int? = nil, arn: String, availabilityZone: String? = nil, dbClusterId: String? = nil, dbInstanceType: DbInstanceType? = nil, dbParameterGroupIdentifier: String? = nil, dbStorageType: DbStorageType? = nil, deploymentType: DeploymentType? = nil, endpoint: String? = nil, id: String, influxAuthParametersSecretArn: String? = nil, instanceMode: InstanceMode? = nil, instanceModes: [InstanceMode]? = nil, logDeliveryConfiguration: LogDeliveryConfiguration? = nil, name: String, networkType: NetworkType? = nil, port: Int? = nil, publiclyAccessible: Bool? = nil, secondaryAvailabilityZone: String? = nil, status: Status? = nil, vpcSecurityGroupIds: [String]? = nil, vpcSubnetIds: [String]) {
+            self.allocatedStorage = allocatedStorage
+            self.arn = arn
+            self.availabilityZone = availabilityZone
+            self.dbClusterId = dbClusterId
+            self.dbInstanceType = dbInstanceType
+            self.dbParameterGroupIdentifier = dbParameterGroupIdentifier
+            self.dbStorageType = dbStorageType
+            self.deploymentType = deploymentType
+            self.endpoint = endpoint
+            self.id = id
+            self.influxAuthParametersSecretArn = influxAuthParametersSecretArn
+            self.instanceMode = instanceMode
+            self.instanceModes = instanceModes
+            self.logDeliveryConfiguration = logDeliveryConfiguration
+            self.name = name
+            self.networkType = networkType
+            self.port = port
+            self.publiclyAccessible = publiclyAccessible
+            self.secondaryAvailabilityZone = secondaryAvailabilityZone
+            self.status = status
+            self.vpcSecurityGroupIds = vpcSecurityGroupIds
+            self.vpcSubnetIds = vpcSubnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allocatedStorage = "allocatedStorage"
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case dbClusterId = "dbClusterId"
+            case dbInstanceType = "dbInstanceType"
+            case dbParameterGroupIdentifier = "dbParameterGroupIdentifier"
+            case dbStorageType = "dbStorageType"
+            case deploymentType = "deploymentType"
+            case endpoint = "endpoint"
+            case id = "id"
+            case influxAuthParametersSecretArn = "influxAuthParametersSecretArn"
+            case instanceMode = "instanceMode"
+            case instanceModes = "instanceModes"
+            case logDeliveryConfiguration = "logDeliveryConfiguration"
+            case name = "name"
+            case networkType = "networkType"
+            case port = "port"
+            case publiclyAccessible = "publiclyAccessible"
+            case secondaryAvailabilityZone = "secondaryAvailabilityZone"
+            case status = "status"
+            case vpcSecurityGroupIds = "vpcSecurityGroupIds"
+            case vpcSubnetIds = "vpcSubnetIds"
         }
     }
 

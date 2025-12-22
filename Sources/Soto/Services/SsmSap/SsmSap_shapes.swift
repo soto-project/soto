@@ -131,6 +131,7 @@ extension SsmSap {
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
+        case stopping = "STOPPING"
         case unknown = "UNKNOWN"
         case warning = "WARNING"
         public var description: String { return self.rawValue }

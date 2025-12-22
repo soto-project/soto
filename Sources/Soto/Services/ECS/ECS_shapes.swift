@@ -112,6 +112,12 @@ extension ECS {
         public var description: String { return self.rawValue }
     }
 
+    public enum CapacityOptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case onDemand = "ON_DEMAND"
+        case spot = "SPOT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CapacityProviderField: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case tags = "TAGS"
         public var description: String { return self.rawValue }
@@ -559,6 +565,7 @@ extension ECS {
         case containerInsights = "containerInsights"
         case containerInstanceLongArnFormat = "containerInstanceLongArnFormat"
         case defaultLogDriverMode = "defaultLogDriverMode"
+        case fargateEventWindows = "fargateEventWindows"
         case fargateFipsMode = "fargateFIPSMode"
         case fargateTaskRetirementWaitPeriod = "fargateTaskRetirementWaitPeriod"
         case guardDutyActivate = "guardDutyActivate"
@@ -5198,6 +5205,13 @@ extension ECS {
     }
 
     public struct InstanceLaunchTemplate: AWSEncodableShape & AWSDecodableShape {
+        /// The capacity option type. This determines whether
+        /// 			Amazon ECS launches On-Demand or Spot Instances for your managed instance
+        /// 			capacity provider. Valid values are:    ON_DEMAND - Launches standard On-Demand Instances.  On-Demand Instances provide predictable pricing and availability.    SPOT - Launches Spot Instances that use spare Amazon EC2 capacity
+        /// 					at reduced cost. Spot Instances can be interrupted by Amazon EC2 with a two-minute
+        /// 					notification when the capacity is needed back.   The default is On-Demand For more information about Amazon EC2 capacity options, see Instance purchasing
+        /// 				options in the Amazon EC2 User Guide.
+        public let capacityOptionType: CapacityOptionType?
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to
         /// 			Amazon ECS Managed Instances. This instance profile must include the necessary
         /// 			permissions for your tasks to access Amazon Web Services services and
@@ -5224,7 +5238,8 @@ extension ECS {
         public let storageConfiguration: ManagedInstancesStorageConfiguration?
 
         @inlinable
-        public init(ec2InstanceProfileArn: String, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+        public init(capacityOptionType: CapacityOptionType? = nil, ec2InstanceProfileArn: String, instanceRequirements: InstanceRequirementsRequest? = nil, monitoring: ManagedInstancesMonitoringOptions? = nil, networkConfiguration: ManagedInstancesNetworkConfiguration, storageConfiguration: ManagedInstancesStorageConfiguration? = nil) {
+            self.capacityOptionType = capacityOptionType
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
@@ -5238,6 +5253,7 @@ extension ECS {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityOptionType = "capacityOptionType"
             case ec2InstanceProfileArn = "ec2InstanceProfileArn"
             case instanceRequirements = "instanceRequirements"
             case monitoring = "monitoring"
@@ -7607,7 +7623,7 @@ extension ECS {
         /// 					wait time to retire a Fargate task. For information about the Fargate tasks
         /// 					maintenance, see Amazon Web
         /// 							Services Fargate task maintenance in the
-        /// 						Amazon ECS Developer Guide.    tagResourceAuthorization - Amazon ECS is introducing tagging
+        /// 						Amazon ECS Developer Guide.    fargateEventWindows - When  Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.    tagResourceAuthorization - Amazon ECS is introducing tagging
         /// 					authorization for resource creation. Users must have permissions for actions
         /// 					that create the resource, such as ecsCreateCluster. If tags are
         /// 					specified when you create a resource, Amazon Web Services performs
@@ -7718,7 +7734,7 @@ extension ECS {
         /// 					wait time to retire a Fargate task. For information about the Fargate tasks
         /// 					maintenance, see Amazon Web
         /// 							Services Fargate task maintenance in the
-        /// 						Amazon ECS Developer Guide.    tagResourceAuthorization - Amazon ECS is introducing tagging
+        /// 						Amazon ECS Developer Guide.    fargateEventWindows - When  Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateEventWindows to use EC2 Event Windows associated with Fargate tasks to configure time windows for task retirement.    tagResourceAuthorization - Amazon ECS is introducing tagging
         /// 					authorization for resource creation. Users must have permissions for actions
         /// 					that create the resource, such as ecsCreateCluster. If tags are
         /// 					specified when you create a resource, Amazon Web Services performs

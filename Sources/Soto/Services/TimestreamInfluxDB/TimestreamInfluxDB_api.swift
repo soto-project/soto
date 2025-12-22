@@ -579,6 +579,67 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Reboots a Timestream for InfluxDB cluster.
+    @Sendable
+    @inlinable
+    public func rebootDbCluster(_ input: RebootDbClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootDbClusterOutput {
+        try await self.client.execute(
+            operation: "RebootDbCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reboots a Timestream for InfluxDB cluster.
+    ///
+    /// Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster to reboot.
+    ///   - instanceIds: A list of service-generated unique DB Instance Ids belonging to the DB Cluster to reboot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rebootDbCluster(
+        dbClusterId: String,
+        instanceIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RebootDbClusterOutput {
+        let input = RebootDbClusterInput(
+            dbClusterId: dbClusterId, 
+            instanceIds: instanceIds
+        )
+        return try await self.rebootDbCluster(input, logger: logger)
+    }
+
+    /// Reboots a Timestream for InfluxDB instance.
+    @Sendable
+    @inlinable
+    public func rebootDbInstance(_ input: RebootDbInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> RebootDbInstanceOutput {
+        try await self.client.execute(
+            operation: "RebootDbInstance", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Reboots a Timestream for InfluxDB instance.
+    ///
+    /// Parameters:
+    ///   - identifier: The id of the DB instance to reboot.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func rebootDbInstance(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RebootDbInstanceOutput {
+        let input = RebootDbInstanceInput(
+            identifier: identifier
+        )
+        return try await self.rebootDbInstance(input, logger: logger)
+    }
+
     /// Tags are composed of a Key/Value pairs. You can use tags to categorize and track your Timestream for InfluxDB resources.
     @Sendable
     @inlinable
