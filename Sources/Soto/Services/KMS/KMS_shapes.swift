@@ -108,6 +108,11 @@ extension KMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum DryRunModifierType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ignoreCiphertext = "IGNORE_CIPHERTEXT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
@@ -729,10 +734,12 @@ extension KMS {
     }
 
     public struct DecryptRequest: AWSEncodableShape {
-        /// Ciphertext to be decrypted. The blob includes metadata.
-        public let ciphertextBlob: AWSBase64Data
+        /// Ciphertext to be decrypted. The blob includes metadata. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT.
+        public let ciphertextBlob: AWSBase64Data?
         /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
         public let dryRun: Bool?
+        /// Specifies the modifiers to apply to the dry run operation. DryRunModifiers is an optional parameter that only applies when DryRun is  set to true. When set to IGNORE_CIPHERTEXT, KMS performs only authorization validation without ciphertext validation. This allows you to test permissions  without requiring a valid ciphertext blob. To learn more about how to use this parameter, see Testing your  permissions in the Key Management Service Developer Guide.
+        public let dryRunModifiers: [DryRunModifierType]?
         /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric encryption KMS keys.
         public let encryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for cryptographic operations with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
@@ -742,15 +749,16 @@ extension KMS {
         public let encryptionContext: [String: String]?
         /// A list of grant tokens.  Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
-        /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let keyId: String?
         /// A signed attestation document from an Amazon Web Services Nitro enclave or NitroTPM, and the encryption algorithm to use with the public key in the attestation document. The only valid encryption algorithm is RSAES_OAEP_SHA_256.  This parameter supports the Amazon Web Services Nitro Enclaves SDK or any Amazon Web Services SDK for Amazon Web Services Nitro Enclaves. It supports any Amazon Web Services SDK for Amazon Web Services NitroTPM.  When you use this parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with the public key in the attestation document, and returns the resulting ciphertext in the CiphertextForRecipient field in the response. This ciphertext can be decrypted only with the private key in the attested environment. The Plaintext field in the response is null or empty. For information about the interaction between KMS and Amazon Web Services Nitro Enclaves or Amazon Web Services NitroTPM, see Cryptographic attestation support in KMS in the Key Management Service Developer Guide.
         public let recipient: RecipientInfo?
 
         @inlinable
-        public init(ciphertextBlob: AWSBase64Data, dryRun: Bool? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil, recipient: RecipientInfo? = nil) {
+        public init(ciphertextBlob: AWSBase64Data? = nil, dryRun: Bool? = nil, dryRunModifiers: [DryRunModifierType]? = nil, encryptionAlgorithm: EncryptionAlgorithmSpec? = nil, encryptionContext: [String: String]? = nil, grantTokens: [String]? = nil, keyId: String? = nil, recipient: RecipientInfo? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.dryRun = dryRun
+            self.dryRunModifiers = dryRunModifiers
             self.encryptionAlgorithm = encryptionAlgorithm
             self.encryptionContext = encryptionContext
             self.grantTokens = grantTokens
@@ -774,6 +782,7 @@ extension KMS {
         private enum CodingKeys: String, CodingKey {
             case ciphertextBlob = "CiphertextBlob"
             case dryRun = "DryRun"
+            case dryRunModifiers = "DryRunModifiers"
             case encryptionAlgorithm = "EncryptionAlgorithm"
             case encryptionContext = "EncryptionContext"
             case grantTokens = "GrantTokens"
@@ -2661,8 +2670,8 @@ extension KMS {
     }
 
     public struct ReEncryptRequest: AWSEncodableShape {
-        /// Ciphertext of the data to reencrypt.
-        public let ciphertextBlob: AWSBase64Data
+        /// Ciphertext of the data to reencrypt. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT.
+        public let ciphertextBlob: AWSBase64Data?
         /// Specifies the encryption algorithm that KMS will use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT, represents the encryption algorithm used for symmetric encryption KMS keys. This parameter is required only when the destination KMS key is an asymmetric KMS key.
         public let destinationEncryptionAlgorithm: EncryptionAlgorithmSpec?
         /// Specifies that encryption context to use when the reencrypting the data.  Do not include confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.  A destination encryption context is valid only when the destination KMS key is a symmetric encryption KMS key. The standard ciphertext format for asymmetric KMS keys does not include fields for metadata. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
@@ -2674,6 +2683,8 @@ extension KMS {
         public let destinationKeyId: String
         /// Checks if your request will succeed. DryRun is an optional parameter.  To learn more about how to use this parameter, see Testing your permissions in the Key Management Service Developer Guide.
         public let dryRun: Bool?
+        /// Specifies the modifiers to apply to the dry run operation. DryRunModifiers is an optional parameter that only applies when DryRun is  set to true. When set to IGNORE_CIPHERTEXT, KMS performs only authorization validation without ciphertext validation. This allows you to test permissions  without requiring a valid ciphertext blob. To learn more about how to use this parameter, see Testing your  permissions in the Key Management Service Developer Guide.
+        public let dryRunModifiers: [DryRunModifierType]?
         /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see Grant token and Using a grant token in the Key Management Service Developer Guide.
         public let grantTokens: [String]?
         /// Specifies the encryption algorithm that KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric encryption KMS keys. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key.
@@ -2683,16 +2694,17 @@ extension KMS {
         /// only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see
         /// Encryption context in the Key Management Service Developer Guide.
         public let sourceEncryptionContext: [String: String]?
-        /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
+        /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias name and alias ARN, use ListAliases.
         public let sourceKeyId: String?
 
         @inlinable
-        public init(ciphertextBlob: AWSBase64Data, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, dryRun: Bool? = nil, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
+        public init(ciphertextBlob: AWSBase64Data? = nil, destinationEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, destinationEncryptionContext: [String: String]? = nil, destinationKeyId: String, dryRun: Bool? = nil, dryRunModifiers: [DryRunModifierType]? = nil, grantTokens: [String]? = nil, sourceEncryptionAlgorithm: EncryptionAlgorithmSpec? = nil, sourceEncryptionContext: [String: String]? = nil, sourceKeyId: String? = nil) {
             self.ciphertextBlob = ciphertextBlob
             self.destinationEncryptionAlgorithm = destinationEncryptionAlgorithm
             self.destinationEncryptionContext = destinationEncryptionContext
             self.destinationKeyId = destinationKeyId
             self.dryRun = dryRun
+            self.dryRunModifiers = dryRunModifiers
             self.grantTokens = grantTokens
             self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
             self.sourceEncryptionContext = sourceEncryptionContext
@@ -2719,6 +2731,7 @@ extension KMS {
             case destinationEncryptionContext = "DestinationEncryptionContext"
             case destinationKeyId = "DestinationKeyId"
             case dryRun = "DryRun"
+            case dryRunModifiers = "DryRunModifiers"
             case grantTokens = "GrantTokens"
             case sourceEncryptionAlgorithm = "SourceEncryptionAlgorithm"
             case sourceEncryptionContext = "SourceEncryptionContext"

@@ -114,6 +114,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncodingProfile: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contributionH264Default = "CONTRIBUTION_H264_DEFAULT"
+        case distributionH264Default = "DISTRIBUTION_H264_DEFAULT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntitlementStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -134,6 +140,7 @@ extension MediaConnect {
 
     public enum FlowSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case large = "LARGE"
+        case large4X = "LARGE_4X"
         case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
@@ -1724,7 +1731,7 @@ extension MediaConnect {
         public let minLatency: Int?
         ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
-        ///  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
         /// A quality setting for the NDI Speed HQ encoder.
         public let ndiSpeedHqQuality: Int?
@@ -2289,9 +2296,10 @@ extension MediaConnect {
     public struct CreateFlowRequest: AWSEncodableShape {
         ///  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
         public let availabilityZone: String?
+        public let encodingConfig: EncodingConfig?
         ///  The entitlements that you want to grant on a flow.
         public let entitlements: [GrantEntitlementRequest]?
-        ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI sources or outputs on the flow.
         public let flowSize: FlowSize?
         ///  The key-value pairs that can be used to tag and organize the flow.
         public let flowTags: [String: String]?
@@ -2301,7 +2309,7 @@ extension MediaConnect {
         public let mediaStreams: [AddMediaStreamRequest]?
         ///  The name of the flow.
         public let name: String?
-        ///  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        ///  Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
         public let ndiConfig: NdiConfig?
         ///  The outputs that you want to add to this flow.
         public let outputs: [AddOutputRequest]?
@@ -2317,8 +2325,9 @@ extension MediaConnect {
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, flowSize: FlowSize? = nil, flowTags: [String: String]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, encodingConfig: EncodingConfig? = nil, entitlements: [GrantEntitlementRequest]? = nil, flowSize: FlowSize? = nil, flowTags: [String: String]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
+            self.encodingConfig = encodingConfig
             self.entitlements = entitlements
             self.flowSize = flowSize
             self.flowTags = flowTags
@@ -2346,6 +2355,7 @@ extension MediaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
+            case encodingConfig = "encodingConfig"
             case entitlements = "entitlements"
             case flowSize = "flowSize"
             case flowTags = "flowTags"
@@ -2425,7 +2435,7 @@ extension MediaConnect {
         public let maximumBitrate: Int64
         /// The name of the router input.
         public let name: String
-        /// The AWS Region for the router input. Defaults to the current region if not specified.
+        /// The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
         public let regionName: String?
         /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
         public let routingScope: RoutingScope
@@ -2492,7 +2502,7 @@ extension MediaConnect {
         public let configuration: RouterNetworkInterfaceConfiguration
         /// The name of the router network interface.
         public let name: String
-        /// The AWS Region for the router network interface. Defaults to the current region if not specified.
+        /// The Amazon Web Services Region for the router network interface. Defaults to the current region if not specified.
         public let regionName: String?
         /// Key-value pairs that can be used to tag and organize this router network interface.
         public let tags: [String: String]?
@@ -2542,7 +2552,7 @@ extension MediaConnect {
         public let maximumBitrate: Int64
         /// The name of the router output.
         public let name: String
-        /// The AWS Region for the router output. Defaults to the current region if not specified.
+        /// The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
         public let regionName: String?
         /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
         public let routingScope: RoutingScope
@@ -2976,15 +2986,18 @@ extension MediaConnect {
         public let flowArn: String?
         ///  Provides a status code and message regarding issues found with the flow source metadata.
         public let messages: [MessageDetail]?
+        ///  The NDI® specific information about the flow's source. This includes the current active NDI sender, a list of all discovered NDI senders, the associated media streams for the active NDI sender, and any relevant status messages.
+        public let ndiInfo: NdiSourceMetadataInfo?
         ///  The timestamp of the most recent change in metadata for this flow’s source.
         public let timestamp: Date?
         ///  Information about the flow's transport media.
         public let transportMediaInfo: TransportMediaInfo?
 
         @inlinable
-        public init(flowArn: String? = nil, messages: [MessageDetail]? = nil, timestamp: Date? = nil, transportMediaInfo: TransportMediaInfo? = nil) {
+        public init(flowArn: String? = nil, messages: [MessageDetail]? = nil, ndiInfo: NdiSourceMetadataInfo? = nil, timestamp: Date? = nil, transportMediaInfo: TransportMediaInfo? = nil) {
             self.flowArn = flowArn
             self.messages = messages
+            self.ndiInfo = ndiInfo
             self.timestamp = timestamp
             self.transportMediaInfo = transportMediaInfo
         }
@@ -2992,6 +3005,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn = "flowArn"
             case messages = "messages"
+            case ndiInfo = "ndiInfo"
             case timestamp = "timestamp"
             case transportMediaInfo = "transportMediaInfo"
         }
@@ -3227,6 +3241,24 @@ extension MediaConnect {
         }
     }
 
+    public struct EncodingConfig: AWSEncodableShape & AWSDecodableShape {
+        ///  The encoding profile to use when transcoding the NDI source content to a transport stream. You can change this value while the flow is running.
+        public let encodingProfile: EncodingProfile?
+        ///  The maximum video bitrate to use when transcoding the NDI source to a transport stream. This parameter enables you to override the default video bitrate within the encoding profile's supported range.   The supported range is 10,000,000 - 50,000,000 bits per second (bps). If you don't specify a value, MediaConnect uses the default value of 20,000,000 bps.
+        public let videoMaxBitrate: Int?
+
+        @inlinable
+        public init(encodingProfile: EncodingProfile? = nil, videoMaxBitrate: Int? = nil) {
+            self.encodingProfile = encodingProfile
+            self.videoMaxBitrate = videoMaxBitrate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encodingProfile = "encodingProfile"
+            case videoMaxBitrate = "videoMaxBitrate"
+        }
+    }
+
     public struct EncodingParameters: AWSDecodableShape {
         ///  A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
         public let compressionFactor: Double?
@@ -3449,11 +3481,13 @@ extension MediaConnect {
         public let description: String?
         ///  The IP address from which video will be sent to output destinations.
         public let egressIp: String?
+        ///  The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution.
+        public let encodingConfig: EncodingConfig?
         ///  The entitlements in this flow.
         public let entitlements: [Entitlement]?
         ///  The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String?
-        ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        ///  Determines the processing capacity and feature set of the flow.
         public let flowSize: FlowSize?
         ///  The maintenance settings for the flow.
         public let maintenance: Maintenance?
@@ -3461,7 +3495,7 @@ extension MediaConnect {
         public let mediaStreams: [MediaStream]?
         ///  The name of the flow.
         public let name: String?
-        /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
         public let ndiConfig: NdiConfig?
         ///  The outputs in this flow.
         public let outputs: [Output]?
@@ -3479,10 +3513,11 @@ extension MediaConnect {
         public let vpcInterfaces: [VpcInterface]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, flowSize: FlowSize? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, encodingConfig: EncodingConfig? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, flowSize: FlowSize? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
+            self.encodingConfig = encodingConfig
             self.entitlements = entitlements
             self.flowArn = flowArn
             self.flowSize = flowSize
@@ -3503,6 +3538,7 @@ extension MediaConnect {
             case availabilityZone = "availabilityZone"
             case description = "description"
             case egressIp = "egressIp"
+            case encodingConfig = "encodingConfig"
             case entitlements = "entitlements"
             case flowArn = "flowArn"
             case flowSize = "flowSize"
@@ -4834,7 +4870,7 @@ extension MediaConnect {
         public let name: String
         /// The ARN of the network interface associated with the router input.
         public let networkInterfaceArn: String?
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         public let regionName: String
         /// The number of router outputs that are associated with this router input.
         public let routedOutputs: Int
@@ -4900,7 +4936,7 @@ extension MediaConnect {
         public let name: String
         /// The type of the router network interface.
         public let networkInterfaceType: RouterNetworkInterfaceType
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         public let regionName: String
         /// The current state of the router network interface.
         public let state: RouterNetworkInterfaceState
@@ -4958,7 +4994,7 @@ extension MediaConnect {
         public let networkInterfaceArn: String?
         /// The type of the router output.
         public let outputType: RouterOutputType
-        /// The AWS Region where the router output is located.
+        /// The AAmazon Web Services Region where the router output is located.
         public let regionName: String
         /// The ARN of the router input associated with the output.
         public let routedInputArn: String?
@@ -5473,7 +5509,7 @@ extension MediaConnect {
         public let machineName: String?
         /// A list of up to three NDI discovery server configurations. While not required by the API, this configuration is necessary for NDI functionality to work properly.
         public let ndiDiscoveryServers: [NdiDiscoveryServerConfig]?
-        /// A setting that controls whether NDI outputs can be used in the flow. Must be ENABLED to add NDI outputs. Default is DISABLED.
+        /// A setting that controls whether NDI® sources or outputs can be used in the flow.   The default value is DISABLED. This value must be set as ENABLED for your flow to support NDI sources or outputs.
         public let ndiState: NdiState?
 
         @inlinable
@@ -5509,6 +5545,116 @@ extension MediaConnect {
             case discoveryServerAddress = "discoveryServerAddress"
             case discoveryServerPort = "discoveryServerPort"
             case vpcInterfaceAdapter = "vpcInterfaceAdapter"
+        }
+    }
+
+    public struct NdiMediaInfo: AWSDecodableShape {
+        ///  A list of the individual media streams that make up the NDI source. This includes details about each stream's codec, resolution, frame rate, audio channels, and other parameters.
+        public let streams: [NdiMediaStreamInfo]?
+
+        @inlinable
+        public init(streams: [NdiMediaStreamInfo]? = nil) {
+            self.streams = streams
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streams = "streams"
+        }
+    }
+
+    public struct NdiMediaStreamInfo: AWSDecodableShape {
+        ///  The number of audio channels in the stream. Used when the streamType is Audio.
+        public let channels: Int?
+        ///  The codec used for the media stream. For NDI sources, use speed-hq.
+        public let codec: String?
+        ///  The number of video frames displayed per second. Used when the streamType is Video.
+        public let frameRate: String?
+        ///  The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
+        public let frameResolution: FrameResolution?
+        ///  The number of audio samples captured per second, measured in kilohertz (kHz). Used when the streamType is Audio.
+        public let sampleRate: Int?
+        ///  The method used to display video frames. Used when the streamType is Video.
+        public let scanMode: ScanMode?
+        ///  A unique identifier for the media stream.
+        public let streamId: Int?
+        ///  The type of media stream (for example, Video or Audio).
+        public let streamType: String?
+
+        @inlinable
+        public init(channels: Int? = nil, codec: String? = nil, frameRate: String? = nil, frameResolution: FrameResolution? = nil, sampleRate: Int? = nil, scanMode: ScanMode? = nil, streamId: Int? = nil, streamType: String? = nil) {
+            self.channels = channels
+            self.codec = codec
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.sampleRate = sampleRate
+            self.scanMode = scanMode
+            self.streamId = streamId
+            self.streamType = streamType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "channels"
+            case codec = "codec"
+            case frameRate = "frameRate"
+            case frameResolution = "frameResolution"
+            case sampleRate = "sampleRate"
+            case scanMode = "scanMode"
+            case streamId = "streamId"
+            case streamType = "streamType"
+        }
+    }
+
+    public struct NdiSourceInfo: AWSDecodableShape {
+        ///  The name of the upstream NDI sender.
+        public let sourceName: String?
+
+        @inlinable
+        public init(sourceName: String? = nil) {
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "sourceName"
+        }
+    }
+
+    public struct NdiSourceMetadataInfo: AWSDecodableShape {
+        ///  The connected NDI sender that's currently sending source content to the flow's NDI source.
+        public let activeSource: NdiSourceInfo?
+        ///  A list of the available upstream NDI senders aggregated from all of your configured discovery servers.
+        public let discoveredSources: [NdiSourceInfo]?
+        ///  Detailed information about the media streams (video, audio, and so on) that are part of the active NDI source.
+        public let mediaInfo: NdiMediaInfo?
+        ///  Any status messages or error codes related to the NDI source and its metadata.
+        public let messages: [MessageDetail]?
+
+        @inlinable
+        public init(activeSource: NdiSourceInfo? = nil, discoveredSources: [NdiSourceInfo]? = nil, mediaInfo: NdiMediaInfo? = nil, messages: [MessageDetail]? = nil) {
+            self.activeSource = activeSource
+            self.discoveredSources = discoveredSources
+            self.mediaInfo = mediaInfo
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeSource = "activeSource"
+            case discoveredSources = "discoveredSources"
+            case mediaInfo = "mediaInfo"
+            case messages = "messages"
+        }
+    }
+
+    public struct NdiSourceSettings: AWSEncodableShape & AWSDecodableShape {
+        ///  The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
+        public let sourceName: String?
+
+        @inlinable
+        public init(sourceName: String? = nil) {
+            self.sourceName = sourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceName = "sourceName"
         }
     }
 
@@ -5583,7 +5729,7 @@ extension MediaConnect {
         public let outputArn: String?
         ///  An indication of whether the output is transmitting data or not.
         public let outputStatus: OutputStatus?
-        /// The IP address of the device that is currently receiving content from this output.    For outputs that use protocols where you specify the destination (such as SRT Caller or Zixi Push), this value matches the configured destination address.   For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.    Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI outputs, and CDI/ST2110 outputs.    The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
+        /// The IP address of the device that is currently receiving content from this output.    For outputs that use protocols where you specify the destination (such as SRT Caller or Zixi Push), this value matches the configured destination address.   For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.    Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI® sources and outputs, and CDI/ST2110 outputs.    The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
         public let peerIpAddress: String?
         ///  The port to use when content is distributed to this output.
         public let port: Int?
@@ -6271,7 +6417,7 @@ extension MediaConnect {
         public let messages: [RouterInputMessage]
         /// The name of the router input.
         public let name: String
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         public let regionName: String
         /// The number of router outputs associated with the router input.
         public let routedOutputs: Int
@@ -6448,7 +6594,7 @@ extension MediaConnect {
         public let name: String
         /// The type of the router network interface.
         public let networkInterfaceType: RouterNetworkInterfaceType
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         public let regionName: String
         /// The current state of the router network interface.
         public let state: RouterNetworkInterfaceState
@@ -6517,7 +6663,7 @@ extension MediaConnect {
         public let name: String
         /// The type of the router output.
         public let outputType: RouterOutputType
-        /// The AWS Region where the router output is located.
+        /// The Amazon Web Services Region where the router output is located.
         public let regionName: String
         /// The Amazon Resource Name (ARN) of the router input associated with the output.
         public let routedInputArn: String?
@@ -6648,9 +6794,9 @@ extension MediaConnect {
     }
 
     public struct SecretsManagerEncryptionKeyConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the IAM role assumed by MediaConnect to access the AWS Secrets Manager secret.
+        /// The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret.
         public let roleArn: String
-        /// The ARN of the AWS Secrets Manager secret used for transit encryption.
+        /// The ARN of the Secrets Manager secret used for transit encryption.
         public let secretArn: String
 
         @inlinable
@@ -6711,6 +6857,8 @@ extension MediaConnect {
         public let minLatency: Int?
         ///  The name of the source.
         public let name: String?
+        ///  The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public let ndiSourceSettings: NdiSourceSettings?
         ///  The protocol that is used by the source.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// Indicates whether to enable or disable router integration when setting a flow source.
@@ -6735,7 +6883,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, sourceTags: [String: String]? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, gatewayBridgeSource: SetGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, sourceTags: [String: String]? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -6747,6 +6895,7 @@ extension MediaConnect {
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiSourceSettings = ndiSourceSettings
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -6776,6 +6925,7 @@ extension MediaConnect {
             case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case ndiSourceSettings = "ndiSourceSettings"
             case `protocol` = "protocol"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitDecryption = "routerIntegrationTransitDecryption"
@@ -7566,8 +7716,10 @@ extension MediaConnect {
         public let maxSyncBuffer: Int?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
+        ///  The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public let ndiSourceSettings: NdiSourceSettings?
         /// A quality setting for the NDI Speed HQ encoder.
         public let ndiSpeedHqQuality: Int?
         ///  The protocol that is used by the source or output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
@@ -7588,13 +7740,14 @@ extension MediaConnect {
         public let streamId: String?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSourceSettings: NdiSourceSettings? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
             self.ndiProgramName = ndiProgramName
+            self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -7613,6 +7766,7 @@ extension MediaConnect {
             case maxSyncBuffer = "maxSyncBuffer"
             case minLatency = "minLatency"
             case ndiProgramName = "ndiProgramName"
+            case ndiSourceSettings = "ndiSourceSettings"
             case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
@@ -8258,7 +8412,7 @@ extension MediaConnect {
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
         ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        ///  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        ///  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public let ndiProgramName: String?
         /// A quality setting for the NDI Speed HQ encoder.
         public let ndiSpeedHqQuality: Int?
@@ -8387,13 +8541,14 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowRequest: AWSEncodableShape {
+        public let encodingConfig: EncodingConfig?
         ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
         ///  Determines the processing capacity and feature set of the flow.
         public let flowSize: FlowSize?
         ///  The maintenance setting of the flow.
         public let maintenance: UpdateMaintenance?
-        ///  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        ///  Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
         public let ndiConfig: NdiConfig?
         ///  The settings for source failover.
         public let sourceFailoverConfig: UpdateFailoverConfig?
@@ -8401,7 +8556,8 @@ extension MediaConnect {
         public let sourceMonitoringConfig: MonitoringConfig?
 
         @inlinable
-        public init(flowArn: String, flowSize: FlowSize? = nil, maintenance: UpdateMaintenance? = nil, ndiConfig: NdiConfig? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
+        public init(encodingConfig: EncodingConfig? = nil, flowArn: String, flowSize: FlowSize? = nil, maintenance: UpdateMaintenance? = nil, ndiConfig: NdiConfig? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
+            self.encodingConfig = encodingConfig
             self.flowArn = flowArn
             self.flowSize = flowSize
             self.maintenance = maintenance
@@ -8413,6 +8569,7 @@ extension MediaConnect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.encodingConfig, forKey: .encodingConfig)
             request.encodePath(self.flowArn, key: "FlowArn")
             try container.encodeIfPresent(self.flowSize, forKey: .flowSize)
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
@@ -8426,6 +8583,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case encodingConfig = "encodingConfig"
             case flowSize = "flowSize"
             case maintenance = "maintenance"
             case ndiConfig = "ndiConfig"
@@ -8471,6 +8629,8 @@ extension MediaConnect {
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
+        ///  The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public let ndiSourceSettings: NdiSourceSettings?
         /// The protocol that the source uses to deliver the content to MediaConnect.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// Indicates whether to enable or disable router integration for this flow source.
@@ -8495,7 +8655,7 @@ extension MediaConnect {
         public let whitelistCidr: String?
 
         @inlinable
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, gatewayBridgeSource: UpdateGatewayBridgeSourceRequest? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, ndiSourceSettings: NdiSourceSettings? = nil, protocol: `Protocol`? = nil, routerIntegrationState: State? = nil, routerIntegrationTransitDecryption: FlowTransitEncryption? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -8507,6 +8667,7 @@ extension MediaConnect {
             self.maxSyncBuffer = maxSyncBuffer
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
+            self.ndiSourceSettings = ndiSourceSettings
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -8534,6 +8695,7 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maxSyncBuffer, forKey: .maxSyncBuffer)
             try container.encodeIfPresent(self.mediaStreamSourceConfigurations, forKey: .mediaStreamSourceConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.ndiSourceSettings, forKey: .ndiSourceSettings)
             try container.encodeIfPresent(self.`protocol`, forKey: .`protocol`)
             try container.encodeIfPresent(self.routerIntegrationState, forKey: .routerIntegrationState)
             try container.encodeIfPresent(self.routerIntegrationTransitDecryption, forKey: .routerIntegrationTransitDecryption)
@@ -8563,6 +8725,7 @@ extension MediaConnect {
             case maxSyncBuffer = "maxSyncBuffer"
             case mediaStreamSourceConfigurations = "mediaStreamSourceConfigurations"
             case minLatency = "minLatency"
+            case ndiSourceSettings = "ndiSourceSettings"
             case `protocol` = "protocol"
             case routerIntegrationState = "routerIntegrationState"
             case routerIntegrationTransitDecryption = "routerIntegrationTransitDecryption"
@@ -8577,7 +8740,7 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowSourceResponse: AWSDecodableShape {
-        /// The ARN of the flow that you was updated.
+        /// The ARN of the flow that you updated.
         public let flowArn: String?
         /// The details of the sources that are assigned to the flow.
         public let source: Source?

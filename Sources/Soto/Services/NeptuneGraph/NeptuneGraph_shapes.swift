@@ -269,7 +269,7 @@ extension NeptuneGraph {
     }
 
     public struct CancelImportTaskOutput: AWSDecodableShape {
-        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
@@ -705,7 +705,7 @@ extension NeptuneGraph {
         public let subnetIds: [String]?
         ///  The VPC in which the private graph endpoint needs to be created.
         public let vpcId: String?
-        /// Security groups to be attached to the private graph endpoint..
+        /// Security groups to be attached to the private graph endpoint.
         public let vpcSecurityGroupIds: [String]?
 
         @inlinable
@@ -752,7 +752,7 @@ extension NeptuneGraph {
         public let status: PrivateGraphEndpointStatus
         /// Subnets in which the private graph endpoint ENIs are created.
         public let subnetIds: [String]
-        /// Endpoint ID of the prviate grpah endpoint.
+        /// Endpoint ID of the private graph endpoint.
         public let vpcEndpointId: String?
         /// VPC in which the private graph endpoint is created.
         public let vpcId: String
@@ -1530,7 +1530,7 @@ extension NeptuneGraph {
     public struct GetImportTaskOutput: AWSDecodableShape {
         /// The number of the current attempts to execute the import task.
         public let attemptNumber: Int?
-        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?
@@ -2828,7 +2828,7 @@ extension NeptuneGraph {
         public let blankNodeHandling: BlankNodeHandling?
         /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
         public let failOnError: Bool?
-        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
@@ -2882,7 +2882,7 @@ extension NeptuneGraph {
     }
 
     public struct StartImportTaskOutput: AWSDecodableShape {
-        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+        /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
         public let format: Format?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphId: String?

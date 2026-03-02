@@ -110,7 +110,7 @@ public struct SocialMessaging: AWSService {
         return try await self.associateWhatsAppBusinessAccount(input, logger: logger)
     }
 
-    /// Creates a new WhatsApp message template from a custom definition.
+    /// Creates a new WhatsApp message template from a custom definition.  Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
     @Sendable
     @inlinable
     public func createWhatsAppMessageTemplate(_ input: CreateWhatsAppMessageTemplateInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWhatsAppMessageTemplateOutput {
@@ -123,7 +123,7 @@ public struct SocialMessaging: AWSService {
             logger: logger
         )
     }
-    /// Creates a new WhatsApp message template from a custom definition.
+    /// Creates a new WhatsApp message template from a custom definition.  Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
     ///
     /// Parameters:
     ///   - id: The ID of the WhatsApp Business Account to associate with this template.
@@ -292,7 +292,7 @@ public struct SocialMessaging: AWSService {
     /// Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - id: The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use ListLinkedWhatsAppBusinessAccounts to list all WABAs and their details.
+    ///   - id: The unique identifier of your WhatsApp Business Account. WABA identifiers are formatted as waba-01234567890123456789012345678901. Use ListLinkedWhatsAppBusinessAccounts to list all WABAs  and their details.
     ///   - logger: Logger use during operation
     @inlinable
     public func disassociateWhatsAppBusinessAccount(
@@ -334,7 +334,7 @@ public struct SocialMessaging: AWSService {
         return try await self.getLinkedWhatsAppBusinessAccount(input, logger: logger)
     }
 
-    /// Use your WhatsApp phone number id to get the WABA account id and phone number details.
+    /// Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
     @Sendable
     @inlinable
     public func getLinkedWhatsAppBusinessAccountPhoneNumber(_ input: GetLinkedWhatsAppBusinessAccountPhoneNumberInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
@@ -347,10 +347,10 @@ public struct SocialMessaging: AWSService {
             logger: logger
         )
     }
-    /// Use your WhatsApp phone number id to get the WABA account id and phone number details.
+    /// Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
     ///
     /// Parameters:
-    ///   - id: The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount to find a phone number's id.
+    ///   - id: The unique identifier of the phone number. Phone number identifiers are formatted as phone-number-id-01234567890123456789012345678901. Use GetLinkedWhatsAppBusinessAccount  to find a phone number's id.
     ///   - logger: Logger use during operation
     @inlinable
     public func getLinkedWhatsAppBusinessAccountPhoneNumber(
@@ -752,22 +752,28 @@ public struct SocialMessaging: AWSService {
     /// Updates an existing WhatsApp message template.
     ///
     /// Parameters:
+    ///   - ctaUrlLinkTrackingOptedOut: When true, disables click tracking for call-to-action URL buttons in the template.
     ///   - id: The ID of the WhatsApp Business Account associated with this template.
     ///   - metaTemplateId: The numeric ID of the template assigned by Meta.
+    ///   - parameterFormat: The format specification for parameters in the template, this can be either 'named' or 'positional'.
     ///   - templateCategory: The new category for the template (for example, UTILITY or MARKETING).
     ///   - templateComponents: The updated components of the template as a JSON blob (maximum 3000 characters).
     ///   - logger: Logger use during operation
     @inlinable
     public func updateWhatsAppMessageTemplate(
+        ctaUrlLinkTrackingOptedOut: Bool? = nil,
         id: String,
         metaTemplateId: String,
+        parameterFormat: String? = nil,
         templateCategory: String? = nil,
         templateComponents: AWSBase64Data? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWhatsAppMessageTemplateOutput {
         let input = UpdateWhatsAppMessageTemplateInput(
+            ctaUrlLinkTrackingOptedOut: ctaUrlLinkTrackingOptedOut, 
             id: id, 
             metaTemplateId: metaTemplateId, 
+            parameterFormat: parameterFormat, 
             templateCategory: templateCategory, 
             templateComponents: templateComponents
         )

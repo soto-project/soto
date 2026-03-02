@@ -120,6 +120,14 @@ extension CloudWatchLogs {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IndexSource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case logGroup = "LOG_GROUP"
@@ -752,6 +760,56 @@ extension CloudWatchLogs {
         }
     }
 
+    public struct CancelImportTaskRequest: AWSEncodableShape {
+        /// The ID of the import task to cancel.
+        public let importId: String
+
+        @inlinable
+        public init(importId: String) {
+            self.importId = importId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importId, name: "importId", parent: name, max: 256)
+            try self.validate(self.importId, name: "importId", parent: name, min: 1)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[\\-a-zA-Z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId = "importId"
+        }
+    }
+
+    public struct CancelImportTaskResponse: AWSDecodableShape {
+        /// The timestamp when the import task was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The ID of the cancelled import task.
+        public let importId: String?
+        /// Statistics about the import progress at the time of cancellation.
+        public let importStatistics: ImportStatistics?
+        /// The final status of the import task. This will be set to CANCELLED.
+        public let importStatus: ImportStatus?
+        /// The timestamp when the import task was cancelled, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+
+        @inlinable
+        public init(creationTime: Int64? = nil, importId: String? = nil, importStatistics: ImportStatistics? = nil, importStatus: ImportStatus? = nil, lastUpdatedTime: Int64? = nil) {
+            self.creationTime = creationTime
+            self.importId = importId
+            self.importStatistics = importStatistics
+            self.importStatus = importStatus
+            self.lastUpdatedTime = lastUpdatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case importId = "importId"
+            case importStatistics = "importStatistics"
+            case importStatus = "importStatus"
+            case lastUpdatedTime = "lastUpdatedTime"
+        }
+    }
+
     public struct ConfigurationTemplate: AWSDecodableShape {
         /// The action permissions that a caller needs to have to be able to successfully create a delivery source on the desired resource type when calling PutDeliverySource.
         public let allowedActionForAllowVendedLogsDeliveryForResource: String?
@@ -1009,6 +1067,55 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case taskId = "taskId"
+        }
+    }
+
+    public struct CreateImportTaskRequest: AWSEncodableShape {
+        /// Optional filters to constrain the import by CloudTrail event time. Times are specified in Unix timestamp milliseconds. The range of data being imported must be within the specified source's retention period.
+        public let importFilter: ImportFilter?
+        /// The ARN of the IAM role that grants CloudWatch Logs permission to import from the CloudTrail Lake Event Data Store.
+        public let importRoleArn: String
+        /// The ARN of the source to import from.
+        public let importSourceArn: String
+
+        @inlinable
+        public init(importFilter: ImportFilter? = nil, importRoleArn: String, importSourceArn: String) {
+            self.importFilter = importFilter
+            self.importRoleArn = importRoleArn
+            self.importSourceArn = importSourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.importFilter?.validate(name: "\(name).importFilter")
+            try self.validate(self.importRoleArn, name: "importRoleArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importFilter = "importFilter"
+            case importRoleArn = "importRoleArn"
+            case importSourceArn = "importSourceArn"
+        }
+    }
+
+    public struct CreateImportTaskResponse: AWSDecodableShape {
+        /// The timestamp when the import task was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// The ARN of the CloudWatch Logs log group created as the destination for the imported events.
+        public let importDestinationArn: String?
+        /// A unique identifier for the import task.
+        public let importId: String?
+
+        @inlinable
+        public init(creationTime: Int64? = nil, importDestinationArn: String? = nil, importId: String? = nil) {
+            self.creationTime = creationTime
+            self.importDestinationArn = importDestinationArn
+            self.importId = importId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case importDestinationArn = "importDestinationArn"
+            case importId = "importId"
         }
     }
 
@@ -2351,6 +2458,124 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case fieldIndexes = "fieldIndexes"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeImportTaskBatchesRequest: AWSEncodableShape {
+        /// Optional filter to list import batches by their status. Accepts multiple status values: IN_PROGRESS, CANCELLED, COMPLETED and FAILED.
+        public let batchImportStatus: [ImportStatus]?
+        /// The ID of the import task to get batch information for.
+        public let importId: String
+        /// The maximum number of import batches to return in the response. Default: 10
+        public let limit: Int?
+        /// The pagination token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(batchImportStatus: [ImportStatus]? = nil, importId: String, limit: Int? = nil, nextToken: String? = nil) {
+            self.batchImportStatus = batchImportStatus
+            self.importId = importId
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importId, name: "importId", parent: name, max: 256)
+            try self.validate(self.importId, name: "importId", parent: name, min: 1)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[\\-a-zA-Z0-9]+$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchImportStatus = "batchImportStatus"
+            case importId = "importId"
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeImportTaskBatchesResponse: AWSDecodableShape {
+        /// The list of import batches that match the request filters.
+        public let importBatches: [ImportBatch]?
+        /// The ID of the import task.
+        public let importId: String?
+        /// The ARN of the source being imported from.
+        public let importSourceArn: String?
+        /// The token to use when requesting the next set of results. Not present if there are no additional results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(importBatches: [ImportBatch]? = nil, importId: String? = nil, importSourceArn: String? = nil, nextToken: String? = nil) {
+            self.importBatches = importBatches
+            self.importId = importId
+            self.importSourceArn = importSourceArn
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importBatches = "importBatches"
+            case importId = "importId"
+            case importSourceArn = "importSourceArn"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeImportTasksRequest: AWSEncodableShape {
+        /// Optional filter to describe a specific import task by its ID.
+        public let importId: String?
+        /// Optional filter to list imports from a specific source
+        public let importSourceArn: String?
+        /// Optional filter to list imports by their status. Valid values are IN_PROGRESS, CANCELLED, COMPLETED and FAILED.
+        public let importStatus: ImportStatus?
+        /// The maximum number of import tasks to return in the response. Default: 50
+        public let limit: Int?
+        /// The pagination token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(importId: String? = nil, importSourceArn: String? = nil, importStatus: ImportStatus? = nil, limit: Int? = nil, nextToken: String? = nil) {
+            self.importId = importId
+            self.importSourceArn = importSourceArn
+            self.importStatus = importStatus
+            self.limit = limit
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.importId, name: "importId", parent: name, max: 256)
+            try self.validate(self.importId, name: "importId", parent: name, min: 1)
+            try self.validate(self.importId, name: "importId", parent: name, pattern: "^[\\-a-zA-Z0-9]+$")
+            try self.validate(self.limit, name: "limit", parent: name, max: 50)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importId = "importId"
+            case importSourceArn = "importSourceArn"
+            case importStatus = "importStatus"
+            case limit = "limit"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeImportTasksResponse: AWSDecodableShape {
+        /// The list of import tasks that match the request filters.
+        public let imports: [Import]?
+        /// The token to use when requesting the next set of results. Not present if there are no additional results to retrieve.
+        public let nextToken: String?
+
+        @inlinable
+        public init(imports: [Import]? = nil, nextToken: String? = nil) {
+            self.imports = imports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imports = "imports"
             case nextToken = "nextToken"
         }
     }
@@ -4078,6 +4303,111 @@ extension CloudWatchLogs {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct Import: AWSDecodableShape {
+        /// The timestamp when the import task was created, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let creationTime: Int64?
+        /// Error message related to any failed imports
+        public let errorMessage: String?
+        /// The ARN of the managed CloudWatch Logs log group where the events are being imported to.
+        public let importDestinationArn: String?
+        /// The filter criteria used for this import task.
+        public let importFilter: ImportFilter?
+        /// The unique identifier of the import task.
+        public let importId: String?
+        /// The ARN of the CloudTrail Lake Event Data Store being imported from.
+        public let importSourceArn: String?
+        /// Statistics about the import progress
+        public let importStatistics: ImportStatistics?
+        /// The current status of the import task. Valid values are IN_PROGRESS, CANCELLED, COMPLETED and FAILED.
+        public let importStatus: ImportStatus?
+        /// The timestamp when the import task was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let lastUpdatedTime: Int64?
+
+        @inlinable
+        public init(creationTime: Int64? = nil, errorMessage: String? = nil, importDestinationArn: String? = nil, importFilter: ImportFilter? = nil, importId: String? = nil, importSourceArn: String? = nil, importStatistics: ImportStatistics? = nil, importStatus: ImportStatus? = nil, lastUpdatedTime: Int64? = nil) {
+            self.creationTime = creationTime
+            self.errorMessage = errorMessage
+            self.importDestinationArn = importDestinationArn
+            self.importFilter = importFilter
+            self.importId = importId
+            self.importSourceArn = importSourceArn
+            self.importStatistics = importStatistics
+            self.importStatus = importStatus
+            self.lastUpdatedTime = lastUpdatedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case errorMessage = "errorMessage"
+            case importDestinationArn = "importDestinationArn"
+            case importFilter = "importFilter"
+            case importId = "importId"
+            case importSourceArn = "importSourceArn"
+            case importStatistics = "importStatistics"
+            case importStatus = "importStatus"
+            case lastUpdatedTime = "lastUpdatedTime"
+        }
+    }
+
+    public struct ImportBatch: AWSDecodableShape {
+        /// The unique identifier of the import batch.
+        public let batchId: String
+        /// The error message if the batch failed to import. Only present when status is FAILED.
+        public let errorMessage: String?
+        /// The current status of the import batch. Valid values are IN_PROGRESS, CANCELLED, COMPLETED and FAILED.
+        public let status: ImportStatus
+
+        @inlinable
+        public init(batchId: String, errorMessage: String? = nil, status: ImportStatus) {
+            self.batchId = batchId
+            self.errorMessage = errorMessage
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchId = "batchId"
+            case errorMessage = "errorMessage"
+            case status = "status"
+        }
+    }
+
+    public struct ImportFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The end of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let endEventTime: Int64?
+        /// The start of the time range for events to import, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
+        public let startEventTime: Int64?
+
+        @inlinable
+        public init(endEventTime: Int64? = nil, startEventTime: Int64? = nil) {
+            self.endEventTime = endEventTime
+            self.startEventTime = startEventTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endEventTime, name: "endEventTime", parent: name, min: 0)
+            try self.validate(self.startEventTime, name: "startEventTime", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endEventTime = "endEventTime"
+            case startEventTime = "startEventTime"
+        }
+    }
+
+    public struct ImportStatistics: AWSDecodableShape {
+        /// The total number of bytes that have been imported to the managed log group.
+        public let bytesImported: Int64?
+
+        @inlinable
+        public init(bytesImported: Int64? = nil) {
+            self.bytesImported = bytesImported
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesImported = "bytesImported"
         }
     }
 
@@ -5885,15 +6215,15 @@ extension CloudWatchLogs {
     }
 
     public struct PutAccountPolicyRequest: AWSEncodableShape {
-        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see Types of data that you can mask. The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a filtered stream of log events.    Distribution The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.    Transformer policy  A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see  Processors that you can use.   Field index policy  A field index filter policy can include the following attribute in a JSON block:    Fields The array of field indexes to create.   It must contain at least one field index. The following is an example of an index policy document that creates two indexes, RequestId and TransactionId.  "policyDocument": "{ \"Fields\": [ \"RequestId\", \"TransactionId\" ] }"
+        /// Specify the policy, in JSON.  Data protection policy  A data protection policy must include two JSON blocks:   The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see Types of data that you can mask. The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.   The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.   For an example data protection policy, see the Examples section on this page.  The contents of the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the policyDocument can also include Name, Description, and Version fields. The Name is different than the operation's policyName parameter, and is used as a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in policyDocument can be up to 30,720 characters long.  Subscription filter policy  A subscription filter policy can include the following attributes in a JSON block:    DestinationArn The ARN of the destination to deliver log events to. Supported destinations are:   An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.   An Firehose data stream in the same account as the subscription policy, for same-account delivery.   A Lambda function in the same account as the subscription policy, for same-account delivery.   A logical destination in a different account created with PutDestination, for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.      RoleArn The ARN of an IAM role that grants CloudWatch Logs permissions to deliver ingested log events to the destination stream. You don't need to provide the ARN when you are working with a logical destination for cross-account delivery.    FilterPattern A filter pattern for subscribing to a filtered stream of log events.    Distribution The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to Random for a more even distribution. This property is only applicable when the destination is an Kinesis Data Streams data stream.    Transformer policy  A transformer policy must include one JSON block with the array of processors and their configurations. For more information about available processors, see  Processors that you can use.   Field index policy  A field index filter policy can include the following attribute in a JSON block:    Fields The array of field indexes to create.    FieldsV2 The object of field indexes to create along with it's type.   It must contain at least one field index. The following is an example of an index policy document that creates indexes with different types.  "policyDocument": "{ \"Fields\": [ \"TransactionId\" ], \"FieldsV2\": {\"RequestId\": {\"type\": \"FIELD_INDEX\"}, \"APIName\": {\"type\": \"FACET\"}, \"StatusCode\": {\"type\": \"FACET\"}}}"  You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive.
         public let policyDocument: String
-        /// A name for the policy. This must be unique within the account.
+        /// A name for the policy. This must be unique within the account and cannot start with aws/.
         public let policyName: String
         /// The type of policy that you're creating or updating.
         public let policyType: PolicyType
         /// Currently the only valid value for this parameter is ALL, which specifies that the data protection policy applies to all log groups in the account. If you omit this parameter, the default of ALL is used.
         public let scope: Scope?
-        /// Use this parameter to apply the new policy to a subset of log groups in the account. Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY or TRANSFORMER_POLICYfor policyType. If policyType is SUBSCRIPTION_FILTER_POLICY, the only supported selectionCriteria filter is LogGroupName NOT IN []  If policyType is FIELD_INDEX_POLICY or TRANSFORMER_POLICY, the only supported selectionCriteria filter is LogGroupNamePrefix  The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POLICY is useful to help prevent infinite loops. For more information, see Log recursion prevention.
+        /// Use this parameter to apply the new policy to a subset of log groups in the account or a data source name and type combination.   Specifying selectionCriteria is valid only when you specify SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY or TRANSFORMER_POLICYfor policyType.   If policyType is SUBSCRIPTION_FILTER_POLICY, the only supported selectionCriteria filter is LogGroupName NOT IN []    If policyType is TRANSFORMER_POLICY, the only supported selectionCriteria filter is LogGroupNamePrefix    If policyType is FIELD_INDEX_POLICY, the supported selectionCriteria filters are:    LogGroupNamePrefix     DataSourceName AND DataSourceType    When you specify selectionCriteria for a field index policy you can use either LogGroupNamePrefix by itself or DataSourceName and DataSourceType together.   The selectionCriteria string can be up to 25KB in length. The length is determined by using its UTF-8 bytes. Using the selectionCriteria parameter with SUBSCRIPTION_FILTER_POLICY is useful to help prevent infinite loops. For more information, see Log recursion prevention.
         public let selectionCriteria: String?
 
         @inlinable
@@ -6074,7 +6404,7 @@ extension CloudWatchLogs {
     }
 
     public struct PutDeliverySourceRequest: AWSEncodableShape {
-        /// Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
+        /// Defines the type of log that the source is sending.   For Amazon Bedrock Agents, the valid values are APPLICATION_LOGS and EVENT_LOGS.   For Amazon Bedrock Knowledge Bases, the valid value is APPLICATION_LOGS.   For Amazon Bedrock AgentCore Runtime, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Tools, the valid values are APPLICATION_LOGS, USAGE_LOGS and TRACES.   For Amazon Bedrock AgentCore Identity, the valid values are APPLICATION_LOGS and TRACES.   For Amazon Bedrock AgentCore Gateway, the valid values are APPLICATION_LOGS and TRACES.   For CloudFront, the valid value is ACCESS_LOGS.   For Amazon CodeWhisperer, the valid value is EVENT_LOGS.   For Elemental MediaPackage, the valid values are EGRESS_ACCESS_LOGS and INGRESS_ACCESS_LOGS.   For Elemental MediaTailor, the valid values are AD_DECISION_SERVER_LOGS, MANIFEST_SERVICE_LOGS, and TRANSCODE_LOGS.   For Entity Resolution, the valid value is WORKFLOW_LOGS.   For IAM Identity Center, the valid value is ERROR_LOGS.   For Network Firewall Proxy, the valid values are ALERT_LOGS, ALLOW_LOGS, and DENY_LOGS.   For Network Load Balancer, the valid value is NLB_ACCESS_LOGS.   For PCS, the valid values are PCS_SCHEDULER_LOGS and PCS_JOBCOMP_LOGS.   For Quick Suite, the valid values are CHAT_LOGS and FEEDBACK_LOGS.   For Amazon Web Services RTB Fabric, the valid values is APPLICATION_LOGS.   For Amazon Q, the valid values are EVENT_LOGS and SYNC_JOB_LOGS.   For Amazon SES mail manager, the valid values are APPLICATION_LOGS and TRAFFIC_POLICY_DEBUG_LOGS.   For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, WORKMAIL_MAILBOX_ACCESS_LOGS, and WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS.   For Amazon VPC Route Server, the valid value is EVENT_LOGS.
         public let logType: String
         /// A name for this delivery source. This name must be unique for all delivery sources in your account.
         public let name: String
@@ -6220,7 +6550,7 @@ extension CloudWatchLogs {
     public struct PutIndexPolicyRequest: AWSEncodableShape {
         /// Specify either the log group name or log group ARN to apply this field index policy to. If you specify an ARN, use the format arn:aws:logs:region:account-id:log-group:log_group_name Don't include an * at the end.
         public let logGroupIdentifier: String
-        /// The index policy document, in JSON format. The following is an example of an index policy document that creates two indexes, RequestId and TransactionId.  "policyDocument": "{ "Fields": [ "RequestId", "TransactionId" ] }"  The policy document must include at least one field index. For more information about the fields that can be included and other restrictions, see Field index syntax and quotas.
+        /// The index policy document, in JSON format. The following is an example of an index policy document that creates indexes with different types.  "policyDocument": "{"Fields": [ "TransactionId" ], "FieldsV2": {"RequestId": {"type": "FIELD_INDEX"}, "APIName": {"type": "FACET"}, "StatusCode": {"type": "FACET"}}}"  You can use FieldsV2 to specify the type for each field. Supported types are FIELD_INDEX and FACET. Field names within Fields and FieldsV2 must be mutually exclusive. The policy document must include at least one field index. For more information about the fields that can be included and other restrictions, see Field index syntax and quotas.
         public let policyDocument: String
 
         @inlinable

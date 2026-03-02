@@ -2165,3 +2165,267 @@ extension Transcribe.ListVocabularyFiltersRequest: AWSPaginateToken {
         )
     }
 }
+
+// MARK: Waiters
+
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+extension Transcribe {
+    /// Waiter for operation ``getCallAnalyticsJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCallAnalyticsJobCompleted(
+        _ input: GetCallAnalyticsJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetCallAnalyticsJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("callAnalyticsJob.callAnalyticsJobStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("callAnalyticsJob.callAnalyticsJobStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getCallAnalyticsJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getCallAnalyticsJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - callAnalyticsJobName: The name of the Call Analytics job you want information about. Job names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilCallAnalyticsJobCompleted(
+        callAnalyticsJobName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetCallAnalyticsJobRequest(
+            callAnalyticsJobName: callAnalyticsJobName
+        )
+        try await self.waitUntilCallAnalyticsJobCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``describeLanguageModel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLanguageModelCompleted(
+        _ input: DescribeLanguageModelRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<DescribeLanguageModelRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("languageModel.modelStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("languageModel.modelStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(120),
+            command: self.describeLanguageModel
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``describeLanguageModel(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - modelName: The name of the custom language model you want information about. Model names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilLanguageModelCompleted(
+        modelName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DescribeLanguageModelRequest(
+            modelName: modelName
+        )
+        try await self.waitUntilLanguageModelCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getMedicalScribeJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalScribeJobCompleted(
+        _ input: GetMedicalScribeJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetMedicalScribeJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("medicalScribeJob.medicalScribeJobStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("medicalScribeJob.medicalScribeJobStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getMedicalScribeJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getMedicalScribeJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - medicalScribeJobName: The name of the Medical Scribe job you want information about. Job names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalScribeJobCompleted(
+        medicalScribeJobName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetMedicalScribeJobRequest(
+            medicalScribeJobName: medicalScribeJobName
+        )
+        try await self.waitUntilMedicalScribeJobCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getMedicalTranscriptionJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalTranscriptionJobCompleted(
+        _ input: GetMedicalTranscriptionJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetMedicalTranscriptionJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("medicalTranscriptionJob.transcriptionJobStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("medicalTranscriptionJob.transcriptionJobStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getMedicalTranscriptionJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getMedicalTranscriptionJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - medicalTranscriptionJobName: The name of the medical transcription job you want information about. Job names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalTranscriptionJobCompleted(
+        medicalTranscriptionJobName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetMedicalTranscriptionJobRequest(
+            medicalTranscriptionJobName: medicalTranscriptionJobName
+        )
+        try await self.waitUntilMedicalTranscriptionJobCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getMedicalVocabulary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalVocabularyReady(
+        _ input: GetMedicalVocabularyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetMedicalVocabularyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("vocabularyState", expected: "READY")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("vocabularyState", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getMedicalVocabulary
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getMedicalVocabulary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - vocabularyName: The name of the custom medical vocabulary you want information about. Custom medical vocabulary names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilMedicalVocabularyReady(
+        vocabularyName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetMedicalVocabularyRequest(
+            vocabularyName: vocabularyName
+        )
+        try await self.waitUntilMedicalVocabularyReady(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getTranscriptionJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilTranscriptionJobCompleted(
+        _ input: GetTranscriptionJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetTranscriptionJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("transcriptionJob.transcriptionJobStatus", expected: "COMPLETED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("transcriptionJob.transcriptionJobStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getTranscriptionJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getTranscriptionJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - transcriptionJobName: The name of the transcription job you want information about. Job names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilTranscriptionJobCompleted(
+        transcriptionJobName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetTranscriptionJobRequest(
+            transcriptionJobName: transcriptionJobName
+        )
+        try await self.waitUntilTranscriptionJobCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getVocabulary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilVocabularyReady(
+        _ input: GetVocabularyRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetVocabularyRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("vocabularyState", expected: "READY")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("vocabularyState", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(10),
+            command: self.getVocabulary
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getVocabulary(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - vocabularyName: The name of the custom vocabulary you want information about. Custom vocabulary names are case sensitive.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilVocabularyReady(
+        vocabularyName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetVocabularyRequest(
+            vocabularyName: vocabularyName
+        )
+        try await self.waitUntilVocabularyReady(input, logger: logger)
+    }
+}

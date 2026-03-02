@@ -400,6 +400,58 @@ extension Artifact {
         }
     }
 
+    public struct ListReportVersionsRequest: AWSEncodableShape {
+        /// Maximum number of resources to return in the paginated response.
+        public let maxResults: Int?
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+        /// Unique resource ID for the report resource.
+        public let reportId: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, reportId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.reportId = reportId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.reportId, key: "reportId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.reportId, name: "reportId", parent: name, pattern: "^report-[a-zA-Z0-9]{16}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReportVersionsResponse: AWSDecodableShape {
+        /// Pagination token to request the next page of resources.
+        public let nextToken: String?
+        /// List of report resources.
+        public let reports: [ReportSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, reports: [ReportSummary]) {
+            self.nextToken = nextToken
+            self.reports = reports
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reports = "reports"
+        }
+    }
+
     public struct ListReportsRequest: AWSEncodableShape {
         /// Maximum number of resources to return in the paginated response.
         public let maxResults: Int?

@@ -830,6 +830,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR6I12Xlarge = "ml.r6i.12xlarge"
         case mlR6I16Xlarge = "ml.r6i.16xlarge"
@@ -875,6 +876,20 @@ extension SageMaker {
     public enum ClusterNodeRecovery: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case automatic = "Automatic"
         case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterSlurmConfigStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case managed = "Managed"
+        case merge = "Merge"
+        case overwrite = "Overwrite"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ClusterSlurmNodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compute = "Compute"
+        case controller = "Controller"
+        case login = "Login"
         public var description: String { return self.rawValue }
     }
 
@@ -1338,6 +1353,12 @@ extension SageMaker {
     public enum IPAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dualstack = "dualstack"
         case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdleResourceSharing: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -2342,6 +2363,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG7E12Xlarge = "ml.g7e.12xlarge"
+        case mlG7E24Xlarge = "ml.g7e.24xlarge"
+        case mlG7E2Xlarge = "ml.g7e.2xlarge"
+        case mlG7E48Xlarge = "ml.g7e.48xlarge"
+        case mlG7E4Xlarge = "ml.g7e.4xlarge"
+        case mlG7E8Xlarge = "ml.g7e.8xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -2863,6 +2890,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
@@ -2995,6 +3023,13 @@ extension SageMaker {
         case pending = "Pending"
         case scheduled = "Scheduled"
         case stopped = "Stopped"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SchedulerConfigComponent: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fairShare = "FairShare"
+        case idleResourceSharing = "IdleResourceSharing"
+        case priorityClasses = "PriorityClasses"
         public var description: String { return self.rawValue }
     }
 
@@ -3463,6 +3498,12 @@ extension SageMaker {
         case mlG6E8Xlarge = "ml.g6e.8xlarge"
         case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
+        case mlG7E12Xlarge = "ml.g7e.12xlarge"
+        case mlG7E24Xlarge = "ml.g7e.24xlarge"
+        case mlG7E2Xlarge = "ml.g7e.2xlarge"
+        case mlG7E48Xlarge = "ml.g7e.48xlarge"
+        case mlG7E4Xlarge = "ml.g7e.4xlarge"
+        case mlG7E8Xlarge = "ml.g7e.8xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -3506,6 +3547,7 @@ extension SageMaker {
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlP6B20048Xlarge = "ml.p6-b200.48xlarge"
+        case mlP6B30048Xlarge = "ml.p6-b300.48xlarge"
         case mlP6EGb20036Xlarge = "ml.p6e-gb200.36xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
@@ -3927,6 +3969,66 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case tabularResolvedAttributes = "TabularResolvedAttributes"
             case textGenerationResolvedAttributes = "TextGenerationResolvedAttributes"
+        }
+    }
+
+    public enum ClusterInstanceStorageConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
+        case ebsVolumeConfig(ClusterEbsVolumeConfig)
+        /// Defines the configuration for attaching an Amazon FSx for Lustre file system to the instances in the SageMaker HyperPod cluster instance group.
+        case fsxLustreConfig(ClusterFsxLustreConfig)
+        /// Defines the configuration for attaching an Amazon FSx for OpenZFS file system to the instances in the SageMaker HyperPod cluster instance group.
+        case fsxOpenZfsConfig(ClusterFsxOpenZfsConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .ebsVolumeConfig:
+                let value = try container.decode(ClusterEbsVolumeConfig.self, forKey: .ebsVolumeConfig)
+                self = .ebsVolumeConfig(value)
+            case .fsxLustreConfig:
+                let value = try container.decode(ClusterFsxLustreConfig.self, forKey: .fsxLustreConfig)
+                self = .fsxLustreConfig(value)
+            case .fsxOpenZfsConfig:
+                let value = try container.decode(ClusterFsxOpenZfsConfig.self, forKey: .fsxOpenZfsConfig)
+                self = .fsxOpenZfsConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .ebsVolumeConfig(let value):
+                try container.encode(value, forKey: .ebsVolumeConfig)
+            case .fsxLustreConfig(let value):
+                try container.encode(value, forKey: .fsxLustreConfig)
+            case .fsxOpenZfsConfig(let value):
+                try container.encode(value, forKey: .fsxOpenZfsConfig)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .ebsVolumeConfig(let value):
+                try value.validate(name: "\(name).ebsVolumeConfig")
+            case .fsxLustreConfig(let value):
+                try value.validate(name: "\(name).fsxLustreConfig")
+            case .fsxOpenZfsConfig(let value):
+                try value.validate(name: "\(name).fsxOpenZfsConfig")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ebsVolumeConfig = "EbsVolumeConfig"
+            case fsxLustreConfig = "FsxLustreConfig"
+            case fsxOpenZfsConfig = "FsxOpenZfsConfig"
         }
     }
 
@@ -6714,7 +6816,7 @@ extension SageMaker {
     }
 
     public struct BedrockCustomModelDeploymentMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the metadata for the Amazon Bedrock custom model deployment.
+        ///  The Amazon Resource Name (ARN) for the Amazon Bedrock custom model deployment.
         public let arn: String?
 
         @inlinable
@@ -6728,7 +6830,7 @@ extension SageMaker {
     }
 
     public struct BedrockCustomModelMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock custom model metadata.
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock custom model.
         public let arn: String?
 
         @inlinable
@@ -6742,7 +6844,7 @@ extension SageMaker {
     }
 
     public struct BedrockModelImportMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock model import metadata.
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock model import.
         public let arn: String?
 
         @inlinable
@@ -6756,7 +6858,7 @@ extension SageMaker {
     }
 
     public struct BedrockProvisionedModelThroughputMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock provisioned model throughput metadata.
+        ///  The Amazon Resource Name (ARN) of the Amazon Bedrock provisioned model throughput.
         public let arn: String?
 
         @inlinable
@@ -7930,6 +8032,67 @@ extension SageMaker {
         }
     }
 
+    public struct ClusterFsxLustreConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The DNS name of the Amazon FSx for Lustre file system.
+        public let dnsName: String
+        /// The mount name of the Amazon FSx for Lustre file system.
+        public let mountName: String
+        /// The local path where the Amazon FSx for Lustre file system is mounted on instances.
+        public let mountPath: String?
+
+        @inlinable
+        public init(dnsName: String, mountName: String, mountPath: String? = nil) {
+            self.dnsName = dnsName
+            self.mountName = mountName
+            self.mountPath = mountPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dnsName, name: "dnsName", parent: name, max: 275)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, min: 16)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, pattern: "^((fs|fc)i?-[0-9a-f]{8,}\\..{4,253})$")
+            try self.validate(self.mountName, name: "mountName", parent: name, max: 8)
+            try self.validate(self.mountName, name: "mountName", parent: name, min: 1)
+            try self.validate(self.mountName, name: "mountName", parent: name, pattern: "^([A-Za-z0-9_-]{1,8})$")
+            try self.validate(self.mountPath, name: "mountPath", parent: name, max: 1024)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, min: 1)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, pattern: "^/[a-zA-Z0-9._/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
+            case mountName = "MountName"
+            case mountPath = "MountPath"
+        }
+    }
+
+    public struct ClusterFsxOpenZfsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The DNS name of the Amazon FSx for OpenZFS file system.
+        public let dnsName: String
+        /// The local path where the Amazon FSx for OpenZFS file system is mounted on instances.
+        public let mountPath: String?
+
+        @inlinable
+        public init(dnsName: String, mountPath: String? = nil) {
+            self.dnsName = dnsName
+            self.mountPath = mountPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dnsName, name: "dnsName", parent: name, max: 275)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, min: 16)
+            try self.validate(self.dnsName, name: "dnsName", parent: name, pattern: "^((fs|fc)i?-[0-9a-f]{8,}\\..{4,253})$")
+            try self.validate(self.mountPath, name: "mountPath", parent: name, max: 1024)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, min: 1)
+            try self.validate(self.mountPath, name: "mountPath", parent: name, pattern: "^/[a-zA-Z0-9._/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsName = "DnsName"
+            case mountPath = "MountPath"
+        }
+    }
+
     public struct ClusterInstanceGroupDetails: AWSDecodableShape {
         /// A map indicating active operations currently in progress for the instance group of a SageMaker HyperPod cluster. When there is a scaling operation in progress, this map contains a key Scaling with value 1.
         public let activeOperations: [ActiveClusterOperationName: Int]?
@@ -7962,6 +8125,8 @@ extension SageMaker {
         public let overrideVpcConfig: VpcConfig?
         /// The configuration object of the schedule that SageMaker follows when updating the AMI.
         public let scheduledUpdateConfig: ScheduledUpdateConfig?
+        /// The Slurm configuration for the instance group.
+        public let slurmConfig: ClusterSlurmConfigDetails?
         /// Status of the last software udpate request. Status transitions follow these possible sequences:   Pending -&gt; InProgress -&gt; Succeeded   Pending -&gt; InProgress -&gt; RollbackInProgress -&gt; RollbackComplete   Pending -&gt; InProgress -&gt; RollbackInProgress -&gt; Failed
         public let softwareUpdateStatus: SoftwareUpdateStatus?
         /// The current status of the cluster instance group.    InService: The instance group is active and healthy.    Creating: The instance group is being provisioned.    Updating: The instance group is being updated.    Failed: The instance group has failed to provision or is no longer healthy.    Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.    Deleting: The instance group is being deleted.
@@ -7978,7 +8143,7 @@ extension SageMaker {
         public let trainingPlanStatus: String?
 
         @inlinable
-        public init(activeOperations: [ActiveClusterOperationName: Int]? = nil, activeSoftwareUpdateConfig: DeploymentConfiguration? = nil, capacityRequirements: ClusterCapacityRequirements? = nil, currentCount: Int? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfigDetails? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, softwareUpdateStatus: SoftwareUpdateStatus? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, targetStateCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
+        public init(activeOperations: [ActiveClusterOperationName: Int]? = nil, activeSoftwareUpdateConfig: DeploymentConfiguration? = nil, capacityRequirements: ClusterCapacityRequirements? = nil, currentCount: Int? = nil, currentImageId: String? = nil, desiredImageId: String? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfigDetails? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, slurmConfig: ClusterSlurmConfigDetails? = nil, softwareUpdateStatus: SoftwareUpdateStatus? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, targetStateCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
             self.activeOperations = activeOperations
             self.activeSoftwareUpdateConfig = activeSoftwareUpdateConfig
             self.capacityRequirements = capacityRequirements
@@ -7995,6 +8160,7 @@ extension SageMaker {
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.slurmConfig = slurmConfig
             self.softwareUpdateStatus = softwareUpdateStatus
             self.status = status
             self.targetCount = targetCount
@@ -8021,6 +8187,7 @@ extension SageMaker {
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
             case scheduledUpdateConfig = "ScheduledUpdateConfig"
+            case slurmConfig = "SlurmConfig"
             case softwareUpdateStatus = "SoftwareUpdateStatus"
             case status = "Status"
             case targetCount = "TargetCount"
@@ -8058,13 +8225,15 @@ extension SageMaker {
         public let overrideVpcConfig: VpcConfig?
         /// The configuration object of the schedule that SageMaker uses to update the AMI.
         public let scheduledUpdateConfig: ScheduledUpdateConfig?
+        /// Specifies the Slurm configuration for the instance group.
+        public let slurmConfig: ClusterSlurmConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
         /// The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
         public let trainingPlanArn: String?
 
         @inlinable
-        public init(capacityRequirements: ClusterCapacityRequirements? = nil, executionRole: String? = nil, imageId: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfig? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minInstanceCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
+        public init(capacityRequirements: ClusterCapacityRequirements? = nil, executionRole: String? = nil, imageId: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, kubernetesConfig: ClusterKubernetesConfig? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, minInstanceCount: Int? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, slurmConfig: ClusterSlurmConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
             self.capacityRequirements = capacityRequirements
             self.executionRole = executionRole
             self.imageId = imageId
@@ -8078,6 +8247,7 @@ extension SageMaker {
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
             self.scheduledUpdateConfig = scheduledUpdateConfig
+            self.slurmConfig = slurmConfig
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
         }
@@ -8097,7 +8267,7 @@ extension SageMaker {
             try self.instanceStorageConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
-            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 2)
+            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 4)
             try self.kubernetesConfig?.validate(name: "\(name).kubernetesConfig")
             try self.lifeCycleConfig?.validate(name: "\(name).lifeCycleConfig")
             try self.validate(self.minInstanceCount, name: "minInstanceCount", parent: name, max: 6758)
@@ -8106,6 +8276,7 @@ extension SageMaker {
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
             try self.scheduledUpdateConfig?.validate(name: "\(name).scheduledUpdateConfig")
+            try self.slurmConfig?.validate(name: "\(name).slurmConfig")
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, max: 2)
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, min: 1)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
@@ -8127,6 +8298,7 @@ extension SageMaker {
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
             case scheduledUpdateConfig = "ScheduledUpdateConfig"
+            case slurmConfig = "SlurmConfig"
             case threadsPerCore = "ThreadsPerCore"
             case trainingPlanArn = "TrainingPlanArn"
         }
@@ -8476,10 +8648,13 @@ extension SageMaker {
     public struct ClusterOrchestrator: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon EKS cluster used as the orchestrator for the SageMaker HyperPod cluster.
         public let eks: ClusterOrchestratorEksConfig?
+        /// The Slurm orchestrator configuration for the SageMaker HyperPod cluster.
+        public let slurm: ClusterOrchestratorSlurmConfig?
 
         @inlinable
-        public init(eks: ClusterOrchestratorEksConfig? = nil) {
+        public init(eks: ClusterOrchestratorEksConfig? = nil, slurm: ClusterOrchestratorSlurmConfig? = nil) {
             self.eks = eks
+            self.slurm = slurm
         }
 
         public func validate(name: String) throws {
@@ -8488,6 +8663,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case eks = "Eks"
+            case slurm = "Slurm"
         }
     }
 
@@ -8508,6 +8684,20 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clusterArn = "ClusterArn"
+        }
+    }
+
+    public struct ClusterOrchestratorSlurmConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The strategy for managing partitions for the Slurm configuration. Valid values are Managed, Overwrite, and Merge.
+        public let slurmConfigStrategy: ClusterSlurmConfigStrategy?
+
+        @inlinable
+        public init(slurmConfigStrategy: ClusterSlurmConfigStrategy? = nil) {
+            self.slurmConfigStrategy = slurmConfigStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slurmConfigStrategy = "SlurmConfigStrategy"
         }
     }
 
@@ -8625,7 +8815,7 @@ extension SageMaker {
             try self.instanceStorageConfigs?.forEach {
                 try $0.validate(name: "\(name).instanceStorageConfigs[]")
             }
-            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 2)
+            try self.validate(self.instanceStorageConfigs, name: "instanceStorageConfigs", parent: name, max: 4)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
@@ -8691,6 +8881,50 @@ extension SageMaker {
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case status = "Status"
+        }
+    }
+
+    public struct ClusterSlurmConfig: AWSEncodableShape {
+        /// The type of Slurm node for the instance group. Valid values are Controller, Worker, and Login.
+        public let nodeType: ClusterSlurmNodeType
+        /// The list of Slurm partition names that the instance group belongs to.
+        public let partitionNames: [String]?
+
+        @inlinable
+        public init(nodeType: ClusterSlurmNodeType, partitionNames: [String]? = nil) {
+            self.nodeType = nodeType
+            self.partitionNames = partitionNames
+        }
+
+        public func validate(name: String) throws {
+            try self.partitionNames?.forEach {
+                try validate($0, name: "partitionNames[]", parent: name, max: 1024)
+                try validate($0, name: "partitionNames[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            }
+            try self.validate(self.partitionNames, name: "partitionNames", parent: name, max: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeType = "NodeType"
+            case partitionNames = "PartitionNames"
+        }
+    }
+
+    public struct ClusterSlurmConfigDetails: AWSDecodableShape {
+        /// The type of Slurm node for the instance group. Valid values are Controller, Worker, and Login.
+        public let nodeType: ClusterSlurmNodeType
+        /// The list of Slurm partition names that the instance group belongs to.
+        public let partitionNames: [String]?
+
+        @inlinable
+        public init(nodeType: ClusterSlurmNodeType, partitionNames: [String]? = nil) {
+            self.nodeType = nodeType
+            self.partitionNames = partitionNames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeType = "NodeType"
+            case partitionNames = "PartitionNames"
         }
     }
 
@@ -9969,7 +10203,7 @@ extension SageMaker {
         public let nodeProvisioningMode: ClusterNodeProvisioningMode?
         /// The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
         public let nodeRecovery: ClusterNodeRecovery?
-        /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service cluster as the orchestrator.
+        /// The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, supported values are "Eks" and "Slurm", which is to use an Amazon Elastic Kubernetes Service or Slurm cluster as the orchestrator.  If you specify the Orchestrator field, you must provide exactly one orchestrator configuration: either Eks or Slurm. Specifying both or providing an empty configuration returns a validation error.
         public let orchestrator: ClusterOrchestrator?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         public let restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]?
@@ -17647,9 +17881,11 @@ extension SageMaker {
         public let schedulerConfig: SchedulerConfig?
         /// Status of the cluster policy.
         public let status: SchedulerResourceStatus?
+        /// Additional details about the status of the cluster policy. This field provides context when the policy is in a non-active state, such as during creation, updates, or if failures occur.
+        public let statusDetails: [SchedulerConfigComponent: SchedulerResourceStatus]?
 
         @inlinable
-        public init(clusterArn: String? = nil, clusterSchedulerConfigArn: String? = nil, clusterSchedulerConfigId: String? = nil, clusterSchedulerConfigVersion: Int? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, name: String? = nil, schedulerConfig: SchedulerConfig? = nil, status: SchedulerResourceStatus? = nil) {
+        public init(clusterArn: String? = nil, clusterSchedulerConfigArn: String? = nil, clusterSchedulerConfigId: String? = nil, clusterSchedulerConfigVersion: Int? = nil, createdBy: UserContext? = nil, creationTime: Date? = nil, description: String? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, name: String? = nil, schedulerConfig: SchedulerConfig? = nil, status: SchedulerResourceStatus? = nil, statusDetails: [SchedulerConfigComponent: SchedulerResourceStatus]? = nil) {
             self.clusterArn = clusterArn
             self.clusterSchedulerConfigArn = clusterSchedulerConfigArn
             self.clusterSchedulerConfigId = clusterSchedulerConfigId
@@ -17663,6 +17899,7 @@ extension SageMaker {
             self.name = name
             self.schedulerConfig = schedulerConfig
             self.status = status
+            self.statusDetails = statusDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -17679,6 +17916,7 @@ extension SageMaker {
             case name = "Name"
             case schedulerConfig = "SchedulerConfig"
             case status = "Status"
+            case statusDetails = "StatusDetails"
         }
     }
 
@@ -26911,7 +27149,7 @@ extension SageMaker {
     }
 
     public struct InferenceComponentMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the inference component metadata.
+        ///  The Amazon Resource Name (ARN) of the inference component.
         public let arn: String?
 
         @inlinable
@@ -28385,13 +28623,13 @@ extension SageMaker {
     }
 
     public struct LineageMetadata: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the lineage metadata action.
+        ///  The Amazon Resource Name (ARN) of the lineage action.
         public let actionArns: [String: String]?
-        ///  The Amazon Resource Name (ARN) of the lineage metadata artifact.
+        ///  The Amazon Resource Name (ARN) of the lineage artifact.
         public let artifactArns: [String: String]?
-        ///  The lineage metadata associations.
+        ///  The lineage associations.
         public let associations: [AssociationInfo]?
-        ///  The Amazon Resource Name (ARN) of the lineage metadata context.
+        ///  The Amazon Resource Name (ARN) of the lineage context.
         public let contextArns: [String: String]?
 
         @inlinable
@@ -35848,7 +36086,7 @@ extension SageMaker {
     public struct ModelPackageContainerDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The additional data source that is used during inference in the Docker container for your model package.
         public let additionalS3DataSource: AdditionalS3DataSource?
-        ///  The base model of the package.
+        ///  Identifies the foundation model that was used as the starting point for model customization.
         public let baseModel: BaseModel?
         /// The DNS host name for the Docker container.
         public let containerHostname: String?
@@ -35862,7 +36100,7 @@ extension SageMaker {
         public let image: String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
-        ///  The checkpoint of the model package.
+        ///  Specifies whether the model data is a training checkpoint.
         public let isCheckpoint: Bool?
         /// The ETag associated with Model Data URL.
         public let modelDataETag: String?
@@ -41360,7 +41598,7 @@ extension SageMaker {
             }
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 5)
             try self.instancePlacementConfig?.validate(name: "\(name).instancePlacementConfig")
-            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 3600)
+            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 21600)
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, min: 0)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, min: 50)
@@ -41392,7 +41630,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 3600)
+            try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, max: 21600)
             try self.validate(self.keepAlivePeriodInSeconds, name: "keepAlivePeriodInSeconds", parent: name, min: 0)
         }
 
@@ -41431,23 +41669,31 @@ extension SageMaker {
     }
 
     public struct ResourceSharingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The absolute limits on compute resources that can be borrowed from idle compute. When specified, these limits define the maximum amount of specific resource types (such as accelerators, vCPU, or memory) that an entity can borrow, regardless of the percentage-based BorrowLimit.
+        public let absoluteBorrowLimits: [ComputeQuotaResourceConfig]?
         /// The limit on how much idle compute can be borrowed.The values can be 1 - 500 percent of idle compute that the team is allowed to borrow. Default is 50.
         public let borrowLimit: Int?
         /// The strategy of how idle compute is shared within the cluster. The following are the options of strategies.    DontLend: entities do not lend idle compute.    Lend: entities can lend idle compute to entities that can borrow.    LendandBorrow: entities can lend idle compute and borrow idle compute from other entities.   Default is LendandBorrow.
         public let strategy: ResourceSharingStrategy?
 
         @inlinable
-        public init(borrowLimit: Int? = nil, strategy: ResourceSharingStrategy? = nil) {
+        public init(absoluteBorrowLimits: [ComputeQuotaResourceConfig]? = nil, borrowLimit: Int? = nil, strategy: ResourceSharingStrategy? = nil) {
+            self.absoluteBorrowLimits = absoluteBorrowLimits
             self.borrowLimit = borrowLimit
             self.strategy = strategy
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, max: 500)
+            try self.absoluteBorrowLimits?.forEach {
+                try $0.validate(name: "\(name).absoluteBorrowLimits[]")
+            }
+            try self.validate(self.absoluteBorrowLimits, name: "absoluteBorrowLimits", parent: name, max: 15)
+            try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, max: 10000)
             try self.validate(self.borrowLimit, name: "borrowLimit", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case absoluteBorrowLimits = "AbsoluteBorrowLimits"
             case borrowLimit = "BorrowLimit"
             case strategy = "Strategy"
         }
@@ -41943,12 +42189,15 @@ extension SageMaker {
     public struct SchedulerConfig: AWSEncodableShape & AWSDecodableShape {
         /// When enabled, entities borrow idle compute based on their assigned FairShareWeight. When disabled, entities borrow idle compute based on a first-come first-serve basis. Default is Enabled.
         public let fairShare: FairShare?
+        /// Configuration for sharing idle compute resources across entities in the cluster. When enabled, unallocated resources are automatically calculated and made available for entities to borrow.
+        public let idleResourceSharing: IdleResourceSharing?
         /// List of the priority classes, PriorityClass, of the cluster policy. When specified, these class configurations define how tasks are queued.
         public let priorityClasses: [PriorityClass]?
 
         @inlinable
-        public init(fairShare: FairShare? = nil, priorityClasses: [PriorityClass]? = nil) {
+        public init(fairShare: FairShare? = nil, idleResourceSharing: IdleResourceSharing? = nil, priorityClasses: [PriorityClass]? = nil) {
             self.fairShare = fairShare
+            self.idleResourceSharing = idleResourceSharing
             self.priorityClasses = priorityClasses
         }
 
@@ -41961,6 +42210,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case fairShare = "FairShare"
+            case idleResourceSharing = "IdleResourceSharing"
             case priorityClasses = "PriorityClasses"
         }
     }
@@ -43147,7 +43397,7 @@ extension SageMaker {
     public struct StartPipelineExecutionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String?
-        ///  The MLflow experiment name of the start execution.
+        ///  The MLflow experiment name of the pipeline execution.
         public let mlflowExperimentName: String?
         /// This configuration, if specified, overrides the parallelism configuration of the parent pipeline for this specific run.
         public let parallelismConfiguration: ParallelismConfiguration?
@@ -46018,14 +46268,18 @@ extension SageMaker {
     public struct UltraServerInfo: AWSDecodableShape {
         /// The unique identifier of the UltraServer.
         public let id: String?
+        /// The type of the UltraServer.
+        public let type: String?
 
         @inlinable
-        public init(id: String? = nil) {
+        public init(id: String? = nil, type: String? = nil) {
             self.id = id
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+            case type = "Type"
         }
     }
 
@@ -46300,13 +46554,14 @@ extension SageMaker {
         public let nodeProvisioningMode: ClusterNodeProvisioningMode?
         /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
         public let nodeRecovery: ClusterNodeRecovery?
+        public let orchestrator: ClusterOrchestrator?
         /// The specialized instance groups for training models like Amazon Nova to be created in the SageMaker HyperPod cluster.
         public let restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]?
         /// Updates the configuration for managed tier checkpointing on the HyperPod cluster. For example, you can enable or disable the feature and modify the percentage of cluster memory allocated for checkpoint storage.
         public let tieredStorageConfig: ClusterTieredStorageConfig?
 
         @inlinable
-        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeProvisioningMode: ClusterNodeProvisioningMode? = nil, nodeRecovery: ClusterNodeRecovery? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil) {
+        public init(autoScaling: ClusterAutoScalingConfig? = nil, clusterName: String? = nil, clusterRole: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeProvisioningMode: ClusterNodeProvisioningMode? = nil, nodeRecovery: ClusterNodeRecovery? = nil, orchestrator: ClusterOrchestrator? = nil, restrictedInstanceGroups: [ClusterRestrictedInstanceGroupSpecification]? = nil, tieredStorageConfig: ClusterTieredStorageConfig? = nil) {
             self.autoScaling = autoScaling
             self.clusterName = clusterName
             self.clusterRole = clusterRole
@@ -46314,6 +46569,7 @@ extension SageMaker {
             self.instanceGroupsToDelete = instanceGroupsToDelete
             self.nodeProvisioningMode = nodeProvisioningMode
             self.nodeRecovery = nodeRecovery
+            self.orchestrator = orchestrator
             self.restrictedInstanceGroups = restrictedInstanceGroups
             self.tieredStorageConfig = tieredStorageConfig
         }
@@ -46335,6 +46591,7 @@ extension SageMaker {
                 try validate($0, name: "instanceGroupsToDelete[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             }
             try self.validate(self.instanceGroupsToDelete, name: "instanceGroupsToDelete", parent: name, max: 100)
+            try self.orchestrator?.validate(name: "\(name).orchestrator")
             try self.restrictedInstanceGroups?.forEach {
                 try $0.validate(name: "\(name).restrictedInstanceGroups[]")
             }
@@ -46351,6 +46608,7 @@ extension SageMaker {
             case instanceGroupsToDelete = "InstanceGroupsToDelete"
             case nodeProvisioningMode = "NodeProvisioningMode"
             case nodeRecovery = "NodeRecovery"
+            case orchestrator = "Orchestrator"
             case restrictedInstanceGroups = "RestrictedInstanceGroups"
             case tieredStorageConfig = "TieredStorageConfig"
         }
@@ -49329,24 +49587,6 @@ extension SageMaker {
             case workforceArn = "WorkforceArn"
             case workteamArn = "WorkteamArn"
             case workteamName = "WorkteamName"
-        }
-    }
-
-    public struct ClusterInstanceStorageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the configuration for attaching additional Amazon Elastic Block Store (EBS) volumes to the instances in the SageMaker HyperPod cluster instance group. The additional EBS volume is attached to each instance within the SageMaker HyperPod cluster instance group and mounted to /opt/sagemaker.
-        public let ebsVolumeConfig: ClusterEbsVolumeConfig?
-
-        @inlinable
-        public init(ebsVolumeConfig: ClusterEbsVolumeConfig? = nil) {
-            self.ebsVolumeConfig = ebsVolumeConfig
-        }
-
-        public func validate(name: String) throws {
-            try self.ebsVolumeConfig?.validate(name: "\(name).ebsVolumeConfig")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case ebsVolumeConfig = "EbsVolumeConfig"
         }
     }
 

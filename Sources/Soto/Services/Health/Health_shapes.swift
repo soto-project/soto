@@ -244,7 +244,7 @@ extension Health {
     public struct DescribeAffectedEntitiesForOrganizationRequest: AWSEncodableShape {
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// If the results of a search are large, only a portion of the
         /// results are returned, and a nextToken pagination token is returned in the response. To
@@ -335,7 +335,7 @@ extension Health {
         public let filter: EntityFilter
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// If the results of a search are large, only a portion of the
         /// results are returned, and a nextToken pagination token is returned in the response. To
@@ -357,7 +357,7 @@ extension Health {
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: "^.{2,256}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,10000}$")
@@ -697,7 +697,7 @@ extension Health {
         public let filter: OrganizationEventFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// If the results of a search are large, only a portion of the
         /// results are returned, and a nextToken pagination token is returned in the response. To
@@ -759,7 +759,7 @@ extension Health {
         public let filter: EventFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
-        /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+        /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// If the results of a search are large, only a portion of the
         /// results are returned, and a nextToken pagination token is returned in the response. To
@@ -781,7 +781,7 @@ extension Health {
             try self.validate(self.locale, name: "locale", parent: name, min: 2)
             try self.validate(self.locale, name: "locale", parent: name, pattern: "^.{2,256}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,10000}$")
@@ -1181,7 +1181,7 @@ extension Health {
             try self.availabilityZones?.forEach {
                 try validate($0, name: "availabilityZones[]", parent: name, max: 18)
                 try validate($0, name: "availabilityZones[]", parent: name, min: 6)
-                try validate($0, name: "availabilityZones[]", parent: name, pattern: "^[a-z]{2}\\-[0-9a-z\\-]{4,16}$")
+                try validate($0, name: "availabilityZones[]", parent: name, pattern: "^[a-z]{2,4}\\-[0-9a-z\\-]{4,16}$")
             }
             try self.validate(self.endTimes, name: "endTimes", parent: name, max: 10)
             try self.validate(self.endTimes, name: "endTimes", parent: name, min: 1)

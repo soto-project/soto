@@ -1476,7 +1476,7 @@ public struct CostExplorer: AWSService {
     ///   - effectiveOn: The date when the cost category was effective.
     ///   - maxResults: The number of entries a paginated response contains.
     ///   - nextToken: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
-    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
+    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCostCategoryDefinitions(
@@ -2167,6 +2167,107 @@ extension CostExplorer {
         return self.getCostComparisonDriversPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``getReservationPurchaseRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getReservationPurchaseRecommendationPaginator(
+        _ input: GetReservationPurchaseRecommendationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetReservationPurchaseRecommendationRequest, GetReservationPurchaseRecommendationResponse> {
+        return .init(
+            input: input,
+            command: self.getReservationPurchaseRecommendation,
+            inputKey: \GetReservationPurchaseRecommendationRequest.nextPageToken,
+            outputKey: \GetReservationPurchaseRecommendationResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getReservationPurchaseRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The account ID that's associated with the recommendation.
+    ///   - accountScope: The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+    ///   - filter: 
+    ///   - lookbackPeriodInDays: The number of previous days that you want Amazon Web Services to consider when it calculates your recommendations.
+    ///   - pageSize: The number of recommendations that you want returned in a single response object.
+    ///   - paymentOption: The reservation purchase option that you want recommendations for.
+    ///   - service: The specific service that you want recommendations for.
+    ///   - serviceSpecification: The hardware specifications for the service instances that you want recommendations for, such as standard or convertible Amazon EC2 instances.
+    ///   - termInYears: The reservation term that you want recommendations for.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getReservationPurchaseRecommendationPaginator(
+        accountId: String? = nil,
+        accountScope: AccountScope? = nil,
+        filter: Expression? = nil,
+        lookbackPeriodInDays: LookbackPeriodInDays? = nil,
+        pageSize: Int? = nil,
+        paymentOption: PaymentOption? = nil,
+        service: String,
+        serviceSpecification: ServiceSpecification? = nil,
+        termInYears: TermInYears? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetReservationPurchaseRecommendationRequest, GetReservationPurchaseRecommendationResponse> {
+        let input = GetReservationPurchaseRecommendationRequest(
+            accountId: accountId, 
+            accountScope: accountScope, 
+            filter: filter, 
+            lookbackPeriodInDays: lookbackPeriodInDays, 
+            pageSize: pageSize, 
+            paymentOption: paymentOption, 
+            service: service, 
+            serviceSpecification: serviceSpecification, 
+            termInYears: termInYears
+        )
+        return self.getReservationPurchaseRecommendationPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getRightsizingRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRightsizingRecommendationPaginator(
+        _ input: GetRightsizingRecommendationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetRightsizingRecommendationRequest, GetRightsizingRecommendationResponse> {
+        return .init(
+            input: input,
+            command: self.getRightsizingRecommendation,
+            inputKey: \GetRightsizingRecommendationRequest.nextPageToken,
+            outputKey: \GetRightsizingRecommendationResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getRightsizingRecommendation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - configuration: You can use Configuration to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings that are associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
+    ///   - filter: 
+    ///   - pageSize: The number of recommendations that you want returned in a single response object.
+    ///   - service: The specific service that you want recommendations for. The only valid value for GetRightsizingRecommendation is "AmazonEC2".
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getRightsizingRecommendationPaginator(
+        configuration: RightsizingRecommendationConfiguration? = nil,
+        filter: Expression? = nil,
+        pageSize: Int? = nil,
+        service: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetRightsizingRecommendationRequest, GetRightsizingRecommendationResponse> {
+        let input = GetRightsizingRecommendationRequest(
+            configuration: configuration, 
+            filter: filter, 
+            pageSize: pageSize, 
+            service: service
+        )
+        return self.getRightsizingRecommendationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getSavingsPlansCoverage(_:logger:)``.
     ///
     /// - Parameters:
@@ -2263,6 +2364,46 @@ extension CostExplorer {
             timePeriod: timePeriod
         )
         return self.getSavingsPlansUtilizationDetailsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listCommitmentPurchaseAnalyses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommitmentPurchaseAnalysesPaginator(
+        _ input: ListCommitmentPurchaseAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCommitmentPurchaseAnalysesRequest, ListCommitmentPurchaseAnalysesResponse> {
+        return .init(
+            input: input,
+            command: self.listCommitmentPurchaseAnalyses,
+            inputKey: \ListCommitmentPurchaseAnalysesRequest.nextPageToken,
+            outputKey: \ListCommitmentPurchaseAnalysesResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCommitmentPurchaseAnalyses(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - analysisIds: The analysis IDs associated with the commitment purchase analyses.
+    ///   - analysisStatus: The status of the analysis.
+    ///   - pageSize: The number of analyses that you want returned in a single response object.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommitmentPurchaseAnalysesPaginator(
+        analysisIds: [String]? = nil,
+        analysisStatus: AnalysisStatus? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCommitmentPurchaseAnalysesRequest, ListCommitmentPurchaseAnalysesResponse> {
+        let input = ListCommitmentPurchaseAnalysesRequest(
+            analysisIds: analysisIds, 
+            analysisStatus: analysisStatus, 
+            pageSize: pageSize
+        )
+        return self.listCommitmentPurchaseAnalysesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listCostAllocationTagBackfillHistory(_:logger:)``.
@@ -2365,7 +2506,7 @@ extension CostExplorer {
     /// - Parameters:
     ///   - effectiveOn: The date when the cost category was effective.
     ///   - maxResults: The number of entries a paginated response contains.
-    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing.
+    ///   - supportedResourceTypes:  Filter cost category definitions that are supported by given resource types based on the latest version. If the filter is present, the result only includes Cost Categories that supports input resource type. If the filter isn't provided, no filtering is applied. The valid values are billing:rispgroupsharing and billing:billingview.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCostCategoryDefinitionsPaginator(
@@ -2417,6 +2558,46 @@ extension CostExplorer {
             maxResults: maxResults
         )
         return self.listCostCategoryResourceAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSavingsPlansPurchaseRecommendationGeneration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSavingsPlansPurchaseRecommendationGenerationPaginator(
+        _ input: ListSavingsPlansPurchaseRecommendationGenerationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSavingsPlansPurchaseRecommendationGenerationRequest, ListSavingsPlansPurchaseRecommendationGenerationResponse> {
+        return .init(
+            input: input,
+            command: self.listSavingsPlansPurchaseRecommendationGeneration,
+            inputKey: \ListSavingsPlansPurchaseRecommendationGenerationRequest.nextPageToken,
+            outputKey: \ListSavingsPlansPurchaseRecommendationGenerationResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSavingsPlansPurchaseRecommendationGeneration(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - generationStatus: The status of the recommendation generation.
+    ///   - pageSize: The number of recommendations that you want returned in a single response object.
+    ///   - recommendationIds: The IDs for each specific recommendation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSavingsPlansPurchaseRecommendationGenerationPaginator(
+        generationStatus: GenerationStatus? = nil,
+        pageSize: Int? = nil,
+        recommendationIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSavingsPlansPurchaseRecommendationGenerationRequest, ListSavingsPlansPurchaseRecommendationGenerationResponse> {
+        let input = ListSavingsPlansPurchaseRecommendationGenerationRequest(
+            generationStatus: generationStatus, 
+            pageSize: pageSize, 
+            recommendationIds: recommendationIds
+        )
+        return self.listSavingsPlansPurchaseRecommendationGenerationPaginator(input, logger: logger)
     }
 }
 
@@ -2489,6 +2670,37 @@ extension CostExplorer.GetCostComparisonDriversRequest: AWSPaginateToken {
     }
 }
 
+extension CostExplorer.GetReservationPurchaseRecommendationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetReservationPurchaseRecommendationRequest {
+        return .init(
+            accountId: self.accountId,
+            accountScope: self.accountScope,
+            filter: self.filter,
+            lookbackPeriodInDays: self.lookbackPeriodInDays,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            paymentOption: self.paymentOption,
+            service: self.service,
+            serviceSpecification: self.serviceSpecification,
+            termInYears: self.termInYears
+        )
+    }
+}
+
+extension CostExplorer.GetRightsizingRecommendationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetRightsizingRecommendationRequest {
+        return .init(
+            configuration: self.configuration,
+            filter: self.filter,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            service: self.service
+        )
+    }
+}
+
 extension CostExplorer.GetSavingsPlansCoverageRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CostExplorer.GetSavingsPlansCoverageRequest {
@@ -2515,6 +2727,18 @@ extension CostExplorer.GetSavingsPlansUtilizationDetailsRequest: AWSPaginateToke
             nextToken: token,
             sortBy: self.sortBy,
             timePeriod: self.timePeriod
+        )
+    }
+}
+
+extension CostExplorer.ListCommitmentPurchaseAnalysesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.ListCommitmentPurchaseAnalysesRequest {
+        return .init(
+            analysisIds: self.analysisIds,
+            analysisStatus: self.analysisStatus,
+            nextPageToken: token,
+            pageSize: self.pageSize
         )
     }
 }
@@ -2561,6 +2785,18 @@ extension CostExplorer.ListCostCategoryResourceAssociationsRequest: AWSPaginateT
             costCategoryArn: self.costCategoryArn,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension CostExplorer.ListSavingsPlansPurchaseRecommendationGenerationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.ListSavingsPlansPurchaseRecommendationGenerationRequest {
+        return .init(
+            generationStatus: self.generationStatus,
+            nextPageToken: token,
+            pageSize: self.pageSize,
+            recommendationIds: self.recommendationIds
         )
     }
 }

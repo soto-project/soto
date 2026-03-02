@@ -160,6 +160,7 @@ public struct Keyspaces: AWSService {
     ///   - tableName: The name of the table.
     ///   - tags: A list of key-value pair tags to be attached to the resource.  For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
     ///   - ttl: Enables Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
+    ///   - warmThroughputSpecification: Specifies the warm throughput settings for the table. Pre-warming a table helps you avoid capacity exceeded exceptions by pre-provisioning read and write capacity units to reduce cold start latency when your table receives traffic. For more information about pre-warming in Amazon Keyspaces, see Pre-warm a table in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTable(
@@ -177,6 +178,7 @@ public struct Keyspaces: AWSService {
         tableName: String,
         tags: [Tag]? = nil,
         ttl: TimeToLive? = nil,
+        warmThroughputSpecification: WarmThroughputSpecification? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTableResponse {
         let input = CreateTableRequest(
@@ -193,7 +195,8 @@ public struct Keyspaces: AWSService {
             schemaDefinition: schemaDefinition, 
             tableName: tableName, 
             tags: tags, 
-            ttl: ttl
+            ttl: ttl, 
+            warmThroughputSpecification: warmThroughputSpecification
         )
         return try await self.createTable(input, logger: logger)
     }
@@ -774,6 +777,7 @@ public struct Keyspaces: AWSService {
     ///   - replicaSpecifications: The Region specific settings of a multi-Regional table.
     ///   - tableName: The name of the table.
     ///   - ttl: Modifies Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
+    ///   - warmThroughputSpecification: Modifies the warm throughput settings for the table. You can update the read and write capacity units to adjust the pre-provisioned throughput.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateTable(
@@ -789,6 +793,7 @@ public struct Keyspaces: AWSService {
         replicaSpecifications: [ReplicaSpecification]? = nil,
         tableName: String,
         ttl: TimeToLive? = nil,
+        warmThroughputSpecification: WarmThroughputSpecification? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTableResponse {
         let input = UpdateTableRequest(
@@ -803,7 +808,8 @@ public struct Keyspaces: AWSService {
             pointInTimeRecovery: pointInTimeRecovery, 
             replicaSpecifications: replicaSpecifications, 
             tableName: tableName, 
-            ttl: ttl
+            ttl: ttl, 
+            warmThroughputSpecification: warmThroughputSpecification
         )
         return try await self.updateTable(input, logger: logger)
     }

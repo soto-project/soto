@@ -175,11 +175,10 @@ let package = Package(
         .library(name: "SotoElasticBeanstalk", targets: ["SotoElasticBeanstalk"]),
         .library(name: "SotoElasticLoadBalancing", targets: ["SotoElasticLoadBalancing"]),
         .library(name: "SotoElasticLoadBalancingV2", targets: ["SotoElasticLoadBalancingV2"]),
-        .library(name: "SotoElasticTranscoder", targets: ["SotoElasticTranscoder"]),
         .library(name: "SotoElasticsearchService", targets: ["SotoElasticsearchService"]),
+        .library(name: "SotoElementalInference", targets: ["SotoElementalInference"]),
         .library(name: "SotoEntityResolution", targets: ["SotoEntityResolution"]),
         .library(name: "SotoEventBridge", targets: ["SotoEventBridge"]),
-        .library(name: "SotoEvidently", targets: ["SotoEvidently"]),
         .library(name: "SotoEvs", targets: ["SotoEvs"]),
         .library(name: "SotoFIS", targets: ["SotoFIS"]),
         .library(name: "SotoFMS", targets: ["SotoFMS"]),
@@ -217,7 +216,6 @@ let package = Package(
         .library(name: "SotoInternetMonitor", targets: ["SotoInternetMonitor"]),
         .library(name: "SotoInvoicing", targets: ["SotoInvoicing"]),
         .library(name: "SotoIoT", targets: ["SotoIoT"]),
-        .library(name: "SotoIoTAnalytics", targets: ["SotoIoTAnalytics"]),
         .library(name: "SotoIoTDataPlane", targets: ["SotoIoTDataPlane"]),
         .library(name: "SotoIoTDeviceAdvisor", targets: ["SotoIoTDeviceAdvisor"]),
         .library(name: "SotoIoTEvents", targets: ["SotoIoTEvents"]),
@@ -405,6 +403,7 @@ let package = Package(
         .library(name: "SotoServiceQuotas", targets: ["SotoServiceQuotas"]),
         .library(name: "SotoShield", targets: ["SotoShield"]),
         .library(name: "SotoSigner", targets: ["SotoSigner"]),
+        .library(name: "SotoSignerData", targets: ["SotoSignerData"]),
         .library(name: "SotoSignin", targets: ["SotoSignin"]),
         .library(name: "SotoSimSpaceWeaver", targets: ["SotoSimSpaceWeaver"]),
         .library(name: "SotoSnowDeviceManagement", targets: ["SotoSnowDeviceManagement"]),
@@ -434,6 +433,7 @@ let package = Package(
         .library(name: "SotoWAFRegional", targets: ["SotoWAFRegional"]),
         .library(name: "SotoWAFV2", targets: ["SotoWAFV2"]),
         .library(name: "SotoWellArchitected", targets: ["SotoWellArchitected"]),
+        .library(name: "SotoWickr", targets: ["SotoWickr"]),
         .library(name: "SotoWisdom", targets: ["SotoWisdom"]),
         .library(name: "SotoWorkDocs", targets: ["SotoWorkDocs"]),
         .library(name: "SotoWorkMail", targets: ["SotoWorkMail"]),
@@ -445,7 +445,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.13.0")
+        .package(url: "https://github.com/soto-project/soto-core.git", from: "7.9.0")
     ],
     targets: [
         .target(
@@ -1331,15 +1331,15 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
-            name: "SotoElasticTranscoder",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/ElasticTranscoder",
-            swiftSettings: swiftSettings
-        ),
-        .target(
             name: "SotoElasticsearchService",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/ElasticsearchService",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoElementalInference",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/ElementalInference",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -1352,12 +1352,6 @@ let package = Package(
             name: "SotoEventBridge",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/EventBridge",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoEvidently",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/Evidently",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -1580,12 +1574,6 @@ let package = Package(
             name: "SotoIoT",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/IoT",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoIoTAnalytics",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/IoTAnalytics",
             swiftSettings: swiftSettings
         ),
         .target(
@@ -2711,6 +2699,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoSignerData",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/SignerData",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoSignin",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/Signin",
@@ -2882,6 +2876,12 @@ let package = Package(
             name: "SotoWellArchitected",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/WellArchitected",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoWickr",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/Wickr",
             swiftSettings: swiftSettings
         ),
         .target(

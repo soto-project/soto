@@ -237,7 +237,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - browserSigning: The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     ///   - description: The description of the browser.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the browser to access Amazon Web Services services.
     ///   - name: The name of the browser. The name must be unique within your account.
@@ -270,6 +270,44 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.createBrowser(input, logger: logger)
     }
 
+    /// Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
+    @Sendable
+    @inlinable
+    public func createBrowserProfile(_ input: CreateBrowserProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBrowserProfileResponse {
+        try await self.client.execute(
+            operation: "CreateBrowserProfile", 
+            path: "/browser-profiles", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a browser profile in Amazon Bedrock AgentCore. A browser profile stores persistent browser data such as cookies, local storage, session storage, and browsing history that can be saved from browser sessions and reused in subsequent sessions.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
+    ///   - description: A description of the browser profile. Use this field to describe the purpose or contents of the profile.
+    ///   - name: The name of the browser profile. The name must be unique within your account and can contain alphanumeric characters and underscores.
+    ///   - tags: A map of tag keys and values to assign to the browser profile. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createBrowserProfile(
+        clientToken: String? = CreateBrowserProfileRequest.idempotencyToken(),
+        description: String? = nil,
+        name: String,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateBrowserProfileResponse {
+        let input = CreateBrowserProfileRequest(
+            clientToken: clientToken, 
+            description: description, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createBrowserProfile(input, logger: logger)
+    }
+
     /// Creates a custom code interpreter.
     @Sendable
     @inlinable
@@ -286,7 +324,7 @@ public struct BedrockAgentCoreControl: AWSService {
     /// Creates a custom code interpreter.
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     ///   - description: The description of the code interpreter.
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the code interpreter to access Amazon Web Services services.
     ///   - name: The name of the code interpreter. The name must be unique within your account.
@@ -335,6 +373,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - evaluatorConfig:  The configuration for the evaluator, including LLM-as-a-Judge settings with instructions, rating scale, and model configuration.
     ///   - evaluatorName:  The name of the evaluator. Must be unique within your account.
     ///   - level:  The evaluation level that determines the scope of evaluation. Valid values are TOOL_CALL for individual tool invocations, TRACE for single request-response interactions, or SESSION for entire conversation sessions.
+    ///   - tags: A map of tag keys and values to assign to an AgentCore Evaluator. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createEvaluator(
@@ -343,6 +382,7 @@ public struct BedrockAgentCoreControl: AWSService {
         evaluatorConfig: EvaluatorConfig,
         evaluatorName: String,
         level: EvaluatorLevel,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEvaluatorResponse {
         let input = CreateEvaluatorRequest(
@@ -350,7 +390,8 @@ public struct BedrockAgentCoreControl: AWSService {
             description: description, 
             evaluatorConfig: evaluatorConfig, 
             evaluatorName: evaluatorName, 
-            level: level
+            level: level, 
+            tags: tags
         )
         return try await self.createEvaluator(input, logger: logger)
     }
@@ -440,6 +481,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - credentialProviderConfigurations: The credential provider configurations for the target. These configurations specify how the gateway authenticates with the target endpoint.
     ///   - description: The description of the gateway target.
     ///   - gatewayIdentifier: The identifier of the gateway to create a target for.
+    ///   - metadataConfiguration: Optional configuration for HTTP header and query parameter propagation to and from the gateway target.
     ///   - name: The name of the gateway target. The name must be unique within the gateway.
     ///   - targetConfiguration: The configuration settings for the target, including endpoint information and schema definitions.
     ///   - logger: Logger use during operation
@@ -449,6 +491,7 @@ public struct BedrockAgentCoreControl: AWSService {
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
+        metadataConfiguration: MetadataConfiguration? = nil,
         name: String,
         targetConfiguration: TargetConfiguration,
         logger: Logger = AWSClient.loggingDisabled        
@@ -458,6 +501,7 @@ public struct BedrockAgentCoreControl: AWSService {
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 
+            metadataConfiguration: metadataConfiguration, 
             name: name, 
             targetConfiguration: targetConfiguration
         )
@@ -576,6 +620,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - evaluators:  The list of evaluators to apply during online evaluation. Can include both built-in evaluators and custom evaluators created with CreateEvaluator.
     ///   - onlineEvaluationConfigName:  The name of the online evaluation configuration. Must be unique within your account.
     ///   - rule:  The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
+    ///   - tags: A map of tag keys and values to assign to an AgentCore Online Evaluation Config. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func createOnlineEvaluationConfig(
@@ -587,6 +632,7 @@ public struct BedrockAgentCoreControl: AWSService {
         evaluators: [EvaluatorReference],
         onlineEvaluationConfigName: String,
         rule: Rule,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateOnlineEvaluationConfigResponse {
         let input = CreateOnlineEvaluationConfigRequest(
@@ -597,7 +643,8 @@ public struct BedrockAgentCoreControl: AWSService {
             evaluationExecutionRoleArn: evaluationExecutionRoleArn, 
             evaluators: evaluators, 
             onlineEvaluationConfigName: onlineEvaluationConfigName, 
-            rule: rule
+            rule: rule, 
+            tags: tags
         )
         return try await self.createOnlineEvaluationConfig(input, logger: logger)
     }
@@ -842,6 +889,38 @@ public struct BedrockAgentCoreControl: AWSService {
             clientToken: clientToken
         )
         return try await self.deleteBrowser(input, logger: logger)
+    }
+
+    /// Deletes a browser profile.
+    @Sendable
+    @inlinable
+    public func deleteBrowserProfile(_ input: DeleteBrowserProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBrowserProfileResponse {
+        try await self.client.execute(
+            operation: "DeleteBrowserProfile", 
+            path: "/browser-profiles/{profileId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a browser profile.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - profileId: The unique identifier of the browser profile to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBrowserProfile(
+        clientToken: String? = DeleteBrowserProfileRequest.idempotencyToken(),
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBrowserProfileResponse {
+        let input = DeleteBrowserProfileRequest(
+            clientToken: clientToken, 
+            profileId: profileId
+        )
+        return try await self.deleteBrowserProfile(input, logger: logger)
     }
 
     /// Deletes a custom code interpreter.
@@ -1297,6 +1376,35 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.getBrowser(input, logger: logger)
     }
 
+    /// Gets information about a browser profile.
+    @Sendable
+    @inlinable
+    public func getBrowserProfile(_ input: GetBrowserProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBrowserProfileResponse {
+        try await self.client.execute(
+            operation: "GetBrowserProfile", 
+            path: "/browser-profiles/{profileId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a browser profile.
+    ///
+    /// Parameters:
+    ///   - profileId: The unique identifier of the browser profile to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBrowserProfile(
+        profileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBrowserProfileResponse {
+        let input = GetBrowserProfileRequest(
+            profileId: profileId
+        )
+        return try await self.getBrowserProfile(input, logger: logger)
+    }
+
     /// Gets information about a custom code interpreter.
     @Sendable
     @inlinable
@@ -1433,14 +1541,17 @@ public struct BedrockAgentCoreControl: AWSService {
     ///
     /// Parameters:
     ///   - memoryId: The unique identifier of the memory to retrieve.
+    ///   - view: The level of detail to return for the memory.
     ///   - logger: Logger use during operation
     @inlinable
     public func getMemory(
         memoryId: String,
+        view: MemoryView? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetMemoryOutput {
         let input = GetMemoryInput(
-            memoryId: memoryId
+            memoryId: memoryId, 
+            view: view
         )
         return try await self.getMemory(input, logger: logger)
     }
@@ -1815,6 +1926,38 @@ public struct BedrockAgentCoreControl: AWSService {
             nextToken: nextToken
         )
         return try await self.listApiKeyCredentialProviders(input, logger: logger)
+    }
+
+    /// Lists all browser profiles in your account.
+    @Sendable
+    @inlinable
+    public func listBrowserProfiles(_ input: ListBrowserProfilesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrowserProfilesResponse {
+        try await self.client.execute(
+            operation: "ListBrowserProfiles", 
+            path: "/browser-profiles", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all browser profiles in your account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - nextToken: A token to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listBrowserProfiles(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListBrowserProfilesResponse {
+        let input = ListBrowserProfilesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listBrowserProfiles(input, logger: logger)
     }
 
     /// Lists all custom browsers in your account.
@@ -2225,7 +2368,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.listPolicyGenerations(input, logger: logger)
     }
 
-    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -2238,7 +2381,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Lists the tags associated with the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which you want to list tags.
@@ -2423,7 +2566,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.synchronizeGatewayTargets(input, logger: logger)
     }
 
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -2436,7 +2579,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are also deleted.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -2455,7 +2598,7 @@ public struct BedrockAgentCoreControl: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -2468,7 +2611,7 @@ public struct BedrockAgentCoreControl: AWSService {
             logger: logger
         )
     }
-    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Code Interpreter tool, and Gateway.
+    /// Removes the specified tags from the specified resource.  This feature is currently available only for AgentCore Runtime, Browser, Browser Profile, Code Interpreter tool, and Gateway.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to untag.
@@ -2741,6 +2884,7 @@ public struct BedrockAgentCoreControl: AWSService {
     ///   - credentialProviderConfigurations: The updated credential provider configurations for the gateway target.
     ///   - description: The updated description for the gateway target.
     ///   - gatewayIdentifier: The unique identifier of the gateway associated with the target.
+    ///   - metadataConfiguration: Configuration for HTTP header and query parameter propagation to the gateway target.
     ///   - name: The updated name for the gateway target.
     ///   - targetConfiguration: 
     ///   - targetId: The unique identifier of the gateway target to update.
@@ -2750,6 +2894,7 @@ public struct BedrockAgentCoreControl: AWSService {
         credentialProviderConfigurations: [CredentialProviderConfiguration]? = nil,
         description: String? = nil,
         gatewayIdentifier: String,
+        metadataConfiguration: MetadataConfiguration? = nil,
         name: String,
         targetConfiguration: TargetConfiguration,
         targetId: String,
@@ -2759,6 +2904,7 @@ public struct BedrockAgentCoreControl: AWSService {
             credentialProviderConfigurations: credentialProviderConfigurations, 
             description: description, 
             gatewayIdentifier: gatewayIdentifier, 
+            metadataConfiguration: metadataConfiguration, 
             name: name, 
             targetConfiguration: targetConfiguration, 
             targetId: targetId
@@ -3154,6 +3300,40 @@ extension BedrockAgentCoreControl {
             maxResults: maxResults
         )
         return self.listApiKeyCredentialProvidersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listBrowserProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBrowserProfilesPaginator(
+        _ input: ListBrowserProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListBrowserProfilesRequest, ListBrowserProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listBrowserProfiles,
+            inputKey: \ListBrowserProfilesRequest.nextToken,
+            outputKey: \ListBrowserProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listBrowserProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listBrowserProfilesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListBrowserProfilesRequest, ListBrowserProfilesResponse> {
+        let input = ListBrowserProfilesRequest(
+            maxResults: maxResults
+        )
+        return self.listBrowserProfilesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listBrowsers(_:logger:)``.
@@ -3665,6 +3845,16 @@ extension BedrockAgentCoreControl.ListApiKeyCredentialProvidersRequest: AWSPagin
     }
 }
 
+extension BedrockAgentCoreControl.ListBrowserProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListBrowserProfilesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension BedrockAgentCoreControl.ListBrowsersRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> BedrockAgentCoreControl.ListBrowsersRequest {
@@ -3832,14 +4022,17 @@ extension BedrockAgentCoreControl {
     ///
     /// - Parameters:
     ///   - memoryId: The unique identifier of the memory to retrieve.
+    ///   - view: The level of detail to return for the memory.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilMemoryCreated(
         memoryId: String,
+        view: MemoryView? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = GetMemoryInput(
-            memoryId: memoryId
+            memoryId: memoryId, 
+            view: view
         )
         try await self.waitUntilMemoryCreated(input, logger: logger)
     }

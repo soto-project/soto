@@ -115,18 +115,21 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream.
     ///   - tags: A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. You can add up to 50 tags per resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func addTagsToStream(
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         tags: [String: String],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = AddTagsToStreamInput(
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName, 
             tags: tags
         )
@@ -195,18 +198,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - retentionPeriodHours: The new retention period of the stream, in hours. Must be less than the current retention period.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to modify.
     ///   - logger: Logger use during operation
     @inlinable
     public func decreaseStreamRetentionPeriod(
         retentionPeriodHours: Int,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DecreaseStreamRetentionPeriodInput(
             retentionPeriodHours: retentionPeriodHours, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.decreaseStreamRetentionPeriod(input, logger: logger)
@@ -229,14 +235,17 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the data stream or consumer.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteResourcePolicy(
         resourceARN: String,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteResourcePolicyInput(
-            resourceARN: resourceARN
+            resourceARN: resourceARN, 
+            streamId: streamId
         )
         return try await self.deleteResourcePolicy(input, logger: logger)
     }
@@ -259,18 +268,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - enforceConsumerDeletion: If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteStream(
         enforceConsumerDeletion: Bool? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeleteStreamInput(
             enforceConsumerDeletion: enforceConsumerDeletion, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.deleteStream(input, logger: logger)
@@ -295,18 +307,21 @@ public struct Kinesis: AWSService {
     ///   - consumerARN: The ARN returned by Kinesis Data Streams when you registered the consumer. If you don't know the ARN of the consumer that you want to deregister, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The description of a consumer contains its ARN.
     ///   - consumerName: The name that you gave to the consumer.
     ///   - streamARN: The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterStreamConsumer(
         consumerARN: String? = nil,
         consumerName: String? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = DeregisterStreamConsumerInput(
             consumerARN: consumerARN, 
             consumerName: consumerName, 
-            streamARN: streamARN
+            streamARN: streamARN, 
+            streamId: streamId
         )
         return try await self.deregisterStreamConsumer(input, logger: logger)
     }
@@ -382,6 +397,7 @@ public struct Kinesis: AWSService {
     ///   - exclusiveStartShardId: The shard ID of the shard to start with. Specify this parameter to indicate that you want to describe the stream starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior for DescribeStream is to describe the stream starting with the first shard in the stream.
     ///   - limit: The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to describe.
     ///   - logger: Logger use during operation
     @inlinable
@@ -389,6 +405,7 @@ public struct Kinesis: AWSService {
         exclusiveStartShardId: String? = nil,
         limit: Int? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeStreamOutput {
@@ -396,6 +413,7 @@ public struct Kinesis: AWSService {
             exclusiveStartShardId: exclusiveStartShardId, 
             limit: limit, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.describeStream(input, logger: logger)
@@ -420,18 +438,21 @@ public struct Kinesis: AWSService {
     ///   - consumerARN: The ARN returned by Kinesis Data Streams when you registered the consumer.
     ///   - consumerName: The name that you gave to the consumer.
     ///   - streamARN: The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeStreamConsumer(
         consumerARN: String? = nil,
         consumerName: String? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeStreamConsumerOutput {
         let input = DescribeStreamConsumerInput(
             consumerARN: consumerARN, 
             consumerName: consumerName, 
-            streamARN: streamARN
+            streamARN: streamARN, 
+            streamId: streamId
         )
         return try await self.describeStreamConsumer(input, logger: logger)
     }
@@ -453,16 +474,19 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeStreamSummary(
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DescribeStreamSummaryOutput {
         let input = DescribeStreamSummaryInput(
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.describeStreamSummary(input, logger: logger)
@@ -486,18 +510,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - shardLevelMetrics: List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the Kinesis data stream for which to disable enhanced monitoring.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableEnhancedMonitoring(
         shardLevelMetrics: [MetricsName],
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> EnhancedMonitoringOutput {
         let input = DisableEnhancedMonitoringInput(
             shardLevelMetrics: shardLevelMetrics, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.disableEnhancedMonitoring(input, logger: logger)
@@ -521,18 +548,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - shardLevelMetrics: List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.    IncomingBytes     IncomingRecords     OutgoingBytes     OutgoingRecords     WriteProvisionedThroughputExceeded     ReadProvisionedThroughputExceeded     IteratorAgeMilliseconds     ALL    For more information, see Monitoring the Amazon Kinesis Data Streams Service with Amazon CloudWatch in the Amazon Kinesis Data Streams Developer Guide.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream for which to enable enhanced monitoring.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableEnhancedMonitoring(
         shardLevelMetrics: [MetricsName],
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> EnhancedMonitoringOutput {
         let input = EnableEnhancedMonitoringInput(
             shardLevelMetrics: shardLevelMetrics, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.enableEnhancedMonitoring(input, logger: logger)
@@ -557,18 +587,21 @@ public struct Kinesis: AWSService {
     ///   - limit: The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, GetRecords throws InvalidArgumentException. The default value is 10,000.
     ///   - shardIterator: The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func getRecords(
         limit: Int? = nil,
         shardIterator: String,
         streamARN: String? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetRecordsOutput {
         let input = GetRecordsInput(
             limit: limit, 
             shardIterator: shardIterator, 
-            streamARN: streamARN
+            streamARN: streamARN, 
+            streamId: streamId
         )
         return try await self.getRecords(input, logger: logger)
     }
@@ -590,14 +623,17 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the data stream or consumer.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourcePolicy(
         resourceARN: String,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetResourcePolicyOutput {
         let input = GetResourcePolicyInput(
-            resourceARN: resourceARN
+            resourceARN: resourceARN, 
+            streamId: streamId
         )
         return try await self.getResourcePolicy(input, logger: logger)
     }
@@ -622,6 +658,7 @@ public struct Kinesis: AWSService {
     ///   - shardIteratorType: Determines how the shard iterator is used to start reading data records from the shard. The following are the valid Amazon Kinesis shard iterator types:   AT_SEQUENCE_NUMBER - Start reading from the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number, provided in the value StartingSequenceNumber.   AT_TIMESTAMP - Start reading from the position denoted by a specific time stamp, provided in the value Timestamp.   TRIM_HORIZON - Start reading at the last untrimmed record in the shard in the system, which is the oldest data record in the shard.   LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data in the shard.
     ///   - startingSequenceNumber: The sequence number of the data record in the shard from which to start reading. Used with shard iterator type AT_SEQUENCE_NUMBER and AFTER_SEQUENCE_NUMBER.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the Amazon Kinesis data stream.
     ///   - timestamp: The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
     ///   - logger: Logger use during operation
@@ -631,6 +668,7 @@ public struct Kinesis: AWSService {
         shardIteratorType: ShardIteratorType,
         startingSequenceNumber: String? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         timestamp: Date? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -640,6 +678,7 @@ public struct Kinesis: AWSService {
             shardIteratorType: shardIteratorType, 
             startingSequenceNumber: startingSequenceNumber, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName, 
             timestamp: timestamp
         )
@@ -664,18 +703,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - retentionPeriodHours: The new retention period of the stream, in hours. Must be more than the current retention period.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to modify.
     ///   - logger: Logger use during operation
     @inlinable
     public func increaseStreamRetentionPeriod(
         retentionPeriodHours: Int,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = IncreaseStreamRetentionPeriodInput(
             retentionPeriodHours: retentionPeriodHours, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.increaseStreamRetentionPeriod(input, logger: logger)
@@ -703,6 +745,7 @@ public struct Kinesis: AWSService {
     ///   - shardFilter: Enables you to filter out the response of the ListShards API. You can only specify one filter at a time.  If you use the ShardFilter parameter when invoking the ListShards API, the Type is the required property and must be specified. If you specify the AT_TRIM_HORIZON, FROM_TRIM_HORIZON, or AT_LATEST types, you do not need to specify either the ShardId or the Timestamp optional properties.  If you specify the AFTER_SHARD_ID type, you must also provide the value for the optional ShardId property. The ShardId property is identical in fuctionality to the ExclusiveStartShardId parameter of the ListShards API. When ShardId property is specified, the response includes the shards starting with the shard whose ID immediately follows the ShardId that you provided.  If you specify the AT_TIMESTAMP or FROM_TIMESTAMP_ID type, you must also provide the value for the optional Timestamp property. If you specify the AT_TIMESTAMP type, then all shards that were open at the provided timestamp are returned. If you specify the FROM_TIMESTAMP type, then all shards starting from the provided timestamp to TIP are returned.
     ///   - streamARN: The ARN of the stream.
     ///   - streamCreationTimestamp: Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
     ///   - logger: Logger use during operation
     @inlinable
@@ -713,6 +756,7 @@ public struct Kinesis: AWSService {
         shardFilter: ShardFilter? = nil,
         streamARN: String? = nil,
         streamCreationTimestamp: Date? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListShardsOutput {
@@ -723,6 +767,7 @@ public struct Kinesis: AWSService {
             shardFilter: shardFilter, 
             streamARN: streamARN, 
             streamCreationTimestamp: streamCreationTimestamp, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.listShards(input, logger: logger)
@@ -748,6 +793,7 @@ public struct Kinesis: AWSService {
     ///   - nextToken: When the number of consumers that are registered with the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of consumers that are registered with the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListStreamConsumers to list the next set of registered consumers. Don't specify StreamName or StreamCreationTimestamp if you specify NextToken because the latter unambiguously identifies the stream. You can optionally specify a value for the MaxResults parameter when you specify NextToken. If you specify a MaxResults value that is less than the number of consumers that the operation returns if you don't specify MaxResults, the response will contain a new NextToken value. You can use the new NextToken value in a subsequent call to the ListStreamConsumers operation to list the next set of consumers.  Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListStreamConsumers, you have 300 seconds to use that value. If you specify an expired token in a call to ListStreamConsumers, you get ExpiredNextTokenException.
     ///   - streamARN: The ARN of the Kinesis data stream for which you want to list the registered consumers. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
     ///   - streamCreationTimestamp: Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func listStreamConsumers(
@@ -755,13 +801,15 @@ public struct Kinesis: AWSService {
         nextToken: String? = nil,
         streamARN: String,
         streamCreationTimestamp: Date? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListStreamConsumersOutput {
         let input = ListStreamConsumersInput(
             maxResults: maxResults, 
             nextToken: nextToken, 
             streamARN: streamARN, 
-            streamCreationTimestamp: streamCreationTimestamp
+            streamCreationTimestamp: streamCreationTimestamp, 
+            streamId: streamId
         )
         return try await self.listStreamConsumers(input, logger: logger)
     }
@@ -818,14 +866,17 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
         resourceARN: String,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTagsForResourceOutput {
         let input = ListTagsForResourceInput(
-            resourceARN: resourceARN
+            resourceARN: resourceARN, 
+            streamId: streamId
         )
         return try await self.listTagsForResource(input, logger: logger)
     }
@@ -849,6 +900,7 @@ public struct Kinesis: AWSService {
     ///   - exclusiveStartTagKey: The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey.
     ///   - limit: The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream.
     ///   - logger: Logger use during operation
     @inlinable
@@ -856,6 +908,7 @@ public struct Kinesis: AWSService {
         exclusiveStartTagKey: String? = nil,
         limit: Int? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListTagsForStreamOutput {
@@ -863,6 +916,7 @@ public struct Kinesis: AWSService {
             exclusiveStartTagKey: exclusiveStartTagKey, 
             limit: limit, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.listTagsForStream(input, logger: logger)
@@ -887,6 +941,7 @@ public struct Kinesis: AWSService {
     ///   - adjacentShardToMerge: The shard ID of the adjacent shard for the merge.
     ///   - shardToMerge: The shard ID of the shard to combine with the adjacent shard for the merge.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream for the merge.
     ///   - logger: Logger use during operation
     @inlinable
@@ -894,6 +949,7 @@ public struct Kinesis: AWSService {
         adjacentShardToMerge: String,
         shardToMerge: String,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -901,6 +957,7 @@ public struct Kinesis: AWSService {
             adjacentShardToMerge: adjacentShardToMerge, 
             shardToMerge: shardToMerge, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.mergeShards(input, logger: logger)
@@ -922,11 +979,12 @@ public struct Kinesis: AWSService {
     /// Writes a single data record into an Amazon Kinesis data stream. Call PutRecord to send data into the stream for real-time ingestion and subsequent processing, one record at a time. Each shard can support writes up to 1,000 records per second, up to a maximum data write total of 10 MiB per second.  When invoking this API, you must use either the StreamARN or the StreamName parameter, or both. It is recommended that you use the StreamARN input parameter when you invoke this API.  You must specify the name of the stream that captures, stores, and transports the data; a partition key; and the data blob itself. The data blob can be any type of data; for example, a segment from a log file, geographic/location data, website clickstream data, and so on. The partition key is used by Kinesis Data Streams to distribute data across shards. Kinesis Data Streams segregates the data records that belong to a stream into multiple shards, using the partition key associated with each data record to determine the shard to which a given data record belongs. Partition keys are Unicode strings, with a maximum length limit of 256 characters for each key. An MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards using the hash key ranges of the shards. You can override hashing the partition key to determine the shard by explicitly specifying a hash value using the ExplicitHashKey parameter. For more information, see Adding Data to a Stream in the Amazon Kinesis Data Streams Developer Guide.  PutRecord returns the shard ID of where the data record was placed and the sequence number that was assigned to the data record. Sequence numbers increase over time and are specific to a shard within a stream, not across all shards within a stream. To guarantee strictly increasing ordering, write serially to a shard and use the SequenceNumberForOrdering parameter. For more information, see Adding Data to a Stream in the Amazon Kinesis Data Streams Developer Guide.  After you write a record to a stream, you cannot modify that record or its order within the stream.  If a PutRecord request cannot be processed because of insufficient provisioned throughput on the shard involved in the request, PutRecord throws ProvisionedThroughputExceededException.  By default, data records are accessible for 24 hours from the time that they are added to a stream. You can use IncreaseStreamRetentionPeriod or DecreaseStreamRetentionPeriod to modify this retention period.
     ///
     /// Parameters:
-    ///   - data: The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+    ///   - data: The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
     ///   - explicitHashKey: The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
     ///   - partitionKey: Determines which shard in the stream the data record is assigned to. Partition keys are Unicode strings with a maximum length limit of 256 characters for each key. Amazon Kinesis Data Streams uses the partition key as input to a hash function that maps the partition key and associated data to a specific shard. Specifically, an MD5 hash function is used to map partition keys to 128-bit integer values and to map associated data records to shards. As a result of this hashing mechanism, all data records with the same partition key map to the same shard within the stream.
     ///   - sequenceNumberForOrdering: Guarantees strictly increasing sequence numbers, for puts from the same client and to the same partition key. Usage: set the SequenceNumberForOrdering of record n to the sequence number of record n-1 (as returned in the result when putting record n-1). If this parameter is not set, records are coarsely ordered based on arrival time.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to put the data record into.
     ///   - logger: Logger use during operation
     @inlinable
@@ -936,6 +994,7 @@ public struct Kinesis: AWSService {
         partitionKey: String,
         sequenceNumberForOrdering: String? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutRecordOutput {
@@ -945,6 +1004,7 @@ public struct Kinesis: AWSService {
             partitionKey: partitionKey, 
             sequenceNumberForOrdering: sequenceNumberForOrdering, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.putRecord(input, logger: logger)
@@ -968,18 +1028,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - records: The records associated with the request.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The stream name associated with the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func putRecords(
         records: [PutRecordsRequestEntry],
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutRecordsOutput {
         let input = PutRecordsInput(
             records: records, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.putRecords(input, logger: logger)
@@ -1003,16 +1066,19 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - policy: Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.
     ///   - resourceARN: The Amazon Resource Name (ARN) of the data stream or consumer.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourcePolicy(
         policy: String,
         resourceARN: String,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = PutResourcePolicyInput(
             policy: policy, 
-            resourceARN: resourceARN
+            resourceARN: resourceARN, 
+            streamId: streamId
         )
         return try await self.putResourcePolicy(input, logger: logger)
     }
@@ -1035,18 +1101,21 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - consumerName: For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams.
     ///   - streamARN: The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - tags: A set of up to 50 key-value pairs. A tag consists of a required key and an optional value.
     ///   - logger: Logger use during operation
     @inlinable
     public func registerStreamConsumer(
         consumerName: String,
         streamARN: String,
+        streamId: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterStreamConsumerOutput {
         let input = RegisterStreamConsumerInput(
             consumerName: consumerName, 
             streamARN: streamARN, 
+            streamId: streamId, 
             tags: tags
         )
         return try await self.registerStreamConsumer(input, logger: logger)
@@ -1069,18 +1138,21 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream.
     ///   - tagKeys: A list of tag keys. Each corresponding tag is removed from the stream.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeTagsFromStream(
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         tagKeys: [String],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = RemoveTagsFromStreamInput(
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName, 
             tagKeys: tagKeys
         )
@@ -1106,6 +1178,7 @@ public struct Kinesis: AWSService {
     ///   - newStartingHashKey: A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
     ///   - shardToSplit: The shard ID of the shard to split.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream for the shard split.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1113,6 +1186,7 @@ public struct Kinesis: AWSService {
         newStartingHashKey: String,
         shardToSplit: String,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -1120,6 +1194,7 @@ public struct Kinesis: AWSService {
             newStartingHashKey: newStartingHashKey, 
             shardToSplit: shardToSplit, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.splitShard(input, logger: logger)
@@ -1144,6 +1219,7 @@ public struct Kinesis: AWSService {
     ///   - encryptionType: The encryption type to use. The only valid value is KMS.
     ///   - keyId: The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Data Streams: alias/aws/kinesis
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream for which to start encrypting records.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1151,6 +1227,7 @@ public struct Kinesis: AWSService {
         encryptionType: EncryptionType,
         keyId: String,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -1158,6 +1235,7 @@ public struct Kinesis: AWSService {
             encryptionType: encryptionType, 
             keyId: keyId, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.startStreamEncryption(input, logger: logger)
@@ -1182,6 +1260,7 @@ public struct Kinesis: AWSService {
     ///   - encryptionType: The encryption type. The only valid value is KMS.
     ///   - keyId: The GUID for the customer-managed Amazon Web Services KMS key to use for encryption. This value can be a globally unique identifier, a fully specified Amazon Resource Name (ARN) to either an alias or a key, or an alias name prefixed by "alias/".You can also use a master key owned by Kinesis Data Streams by specifying the alias aws/kinesis.   Key ARN example: arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012    Alias ARN example: arn:aws:kms:us-east-1:123456789012:alias/MyAliasName    Globally unique key ID example: 12345678-1234-1234-1234-123456789012    Alias name example: alias/MyAliasName    Master key owned by Kinesis Data Streams: alias/aws/kinesis
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream on which to stop encrypting records.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1189,6 +1268,7 @@ public struct Kinesis: AWSService {
         encryptionType: EncryptionType,
         keyId: String,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -1196,6 +1276,7 @@ public struct Kinesis: AWSService {
             encryptionType: encryptionType, 
             keyId: keyId, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         return try await self.stopStreamEncryption(input, logger: logger)
@@ -1220,18 +1301,21 @@ public struct Kinesis: AWSService {
     ///   - consumerARN: For this parameter, use the value you obtained when you called RegisterStreamConsumer.
     ///   - shardId: The ID of the shard you want to subscribe to. To see a list of all the shards for a given stream, use ListShards.
     ///   - startingPosition: The starting position in the data stream from which to start streaming.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func subscribeToShard(
         consumerARN: String,
         shardId: String,
         startingPosition: StartingPosition,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> SubscribeToShardOutput {
         let input = SubscribeToShardInput(
             consumerARN: consumerARN, 
             shardId: shardId, 
-            startingPosition: startingPosition
+            startingPosition: startingPosition, 
+            streamId: streamId
         )
         return try await self.subscribeToShard(input, logger: logger)
     }
@@ -1253,16 +1337,19 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - tags: An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
         resourceARN: String,
+        streamId: String? = nil,
         tags: [String: String],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = TagResourceInput(
             resourceARN: resourceARN, 
+            streamId: streamId, 
             tags: tags
         )
         return try await self.tagResource(input, logger: logger)
@@ -1285,16 +1372,19 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - resourceARN: The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - tagKeys: A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
         resourceARN: String,
+        streamId: String? = nil,
         tagKeys: [String],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UntagResourceInput(
             resourceARN: resourceARN, 
+            streamId: streamId, 
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
@@ -1347,16 +1437,19 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - maxRecordSizeInKiB: The maximum record size of a single record in KiB that you can write to, and read from a stream. Specify a value between 1024 and 10240 KiB (1 to 10 MiB). If you specify a value that is out of this range, UpdateMaxRecordSize sends back an ValidationException message.
     ///   - streamARN: The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMaxRecordSize(
         maxRecordSizeInKiB: Int,
         streamARN: String? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateMaxRecordSizeInput(
             maxRecordSizeInKiB: maxRecordSizeInKiB, 
-            streamARN: streamARN
+            streamARN: streamARN, 
+            streamId: streamId
         )
         return try await self.updateMaxRecordSize(input, logger: logger)
     }
@@ -1379,6 +1472,7 @@ public struct Kinesis: AWSService {
     /// Parameters:
     ///   - scalingType: The scaling type. Uniform scaling creates shards of equal size.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream.
     ///   - targetShardCount: The new number of shards. This value has the following default limits. By default, you cannot do the following:    Set this value to more than double your current shard count for a stream.   Set this value below half your current shard count for a stream.   Set this value to more than 10000 shards in a stream (the default limit for shard count per stream is 10000 per account per region), unless you request a limit increase.   Scale a stream with more than 10000 shards down unless you set this value to less than 10000 shards.
     ///   - logger: Logger use during operation
@@ -1386,6 +1480,7 @@ public struct Kinesis: AWSService {
     public func updateShardCount(
         scalingType: ScalingType,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         targetShardCount: Int,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1393,6 +1488,7 @@ public struct Kinesis: AWSService {
         let input = UpdateShardCountInput(
             scalingType: scalingType, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName, 
             targetShardCount: targetShardCount
         )
@@ -1416,18 +1512,21 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - streamARN:  Specifies the ARN of the data stream whose capacity mode you want to update.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamModeDetails:  Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
     ///   - warmThroughputMiBps: The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. This field is only valid when the stream mode is being updated to on-demand.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateStreamMode(
         streamARN: String,
+        streamId: String? = nil,
         streamModeDetails: StreamModeDetails,
         warmThroughputMiBps: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateStreamModeInput(
             streamARN: streamARN, 
+            streamId: streamId, 
             streamModeDetails: streamModeDetails, 
             warmThroughputMiBps: warmThroughputMiBps
         )
@@ -1451,18 +1550,21 @@ public struct Kinesis: AWSService {
     ///
     /// Parameters:
     ///   - streamARN: The ARN of the stream to be updated.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to be updated.
     ///   - warmThroughputMiBps: The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateStreamWarmThroughput(
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         warmThroughputMiBps: Int,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateStreamWarmThroughputOutput {
         let input = UpdateStreamWarmThroughputInput(
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName, 
             warmThroughputMiBps: warmThroughputMiBps
         )
@@ -1507,18 +1609,21 @@ extension Kinesis {
     ///   - maxResults: The maximum number of consumers that you want a single call of ListStreamConsumers to return. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     ///   - streamARN: The ARN of the Kinesis data stream for which you want to list the registered consumers. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
     ///   - streamCreationTimestamp: Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - logger: Logger used for logging
     @inlinable
     public func listStreamConsumersPaginator(
         maxResults: Int? = nil,
         streamARN: String,
         streamCreationTimestamp: Date? = nil,
+        streamId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListStreamConsumersInput, ListStreamConsumersOutput> {
         let input = ListStreamConsumersInput(
             maxResults: maxResults, 
             streamARN: streamARN, 
-            streamCreationTimestamp: streamCreationTimestamp
+            streamCreationTimestamp: streamCreationTimestamp, 
+            streamId: streamId
         )
         return self.listStreamConsumersPaginator(input, logger: logger)
     }
@@ -1568,7 +1673,8 @@ extension Kinesis.ListStreamConsumersInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             streamARN: self.streamARN,
-            streamCreationTimestamp: self.streamCreationTimestamp
+            streamCreationTimestamp: self.streamCreationTimestamp,
+            streamId: self.streamId
         )
     }
 }
@@ -1614,6 +1720,7 @@ extension Kinesis {
     ///   - exclusiveStartShardId: The shard ID of the shard to start with. Specify this parameter to indicate that you want to describe the stream starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior for DescribeStream is to describe the stream starting with the first shard in the stream.
     ///   - limit: The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to describe.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1621,6 +1728,7 @@ extension Kinesis {
         exclusiveStartShardId: String? = nil,
         limit: Int? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -1628,6 +1736,7 @@ extension Kinesis {
             exclusiveStartShardId: exclusiveStartShardId, 
             limit: limit, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         try await self.waitUntilStreamExists(input, logger: logger)
@@ -1659,6 +1768,7 @@ extension Kinesis {
     ///   - exclusiveStartShardId: The shard ID of the shard to start with. Specify this parameter to indicate that you want to describe the stream starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior for DescribeStream is to describe the stream starting with the first shard in the stream.
     ///   - limit: The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     ///   - streamARN: The ARN of the stream.
+    ///   - streamId: Not Implemented. Reserved for future use.
     ///   - streamName: The name of the stream to describe.
     ///   - logger: Logger used for logging
     @inlinable
@@ -1666,6 +1776,7 @@ extension Kinesis {
         exclusiveStartShardId: String? = nil,
         limit: Int? = nil,
         streamARN: String? = nil,
+        streamId: String? = nil,
         streamName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
@@ -1673,6 +1784,7 @@ extension Kinesis {
             exclusiveStartShardId: exclusiveStartShardId, 
             limit: limit, 
             streamARN: streamARN, 
+            streamId: streamId, 
             streamName: streamName
         )
         try await self.waitUntilStreamNotExists(input, logger: logger)

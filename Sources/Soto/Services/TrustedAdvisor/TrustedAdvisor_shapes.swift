@@ -68,6 +68,7 @@ extension TrustedAdvisor {
         case awsConfig = "aws_config"
         case computeOptimizer = "compute_optimizer"
         case costExplorer = "cost_explorer"
+        case costOptimizationHub = "cost_optimization_hub"
         case lse = "lse"
         case manual = "manual"
         case pse = "pse"
@@ -98,6 +99,11 @@ extension TrustedAdvisor {
         case error = "error"
         case ok = "ok"
         case warning = "warning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noDataOk = "no_data_ok"
         public var description: String { return self.rawValue }
     }
 
@@ -177,7 +183,7 @@ extension TrustedAdvisor {
             try self.recommendationResourceExclusions.forEach {
                 try $0.validate(name: "\(name).recommendationResourceExclusions[]")
             }
-            try self.validate(self.recommendationResourceExclusions, name: "recommendationResourceExclusions", parent: name, max: 100)
+            try self.validate(self.recommendationResourceExclusions, name: "recommendationResourceExclusions", parent: name, max: 25)
             try self.validate(self.recommendationResourceExclusions, name: "recommendationResourceExclusions", parent: name, min: 1)
         }
 
@@ -281,17 +287,21 @@ extension TrustedAdvisor {
     }
 
     public struct GetRecommendationRequest: AWSEncodableShape {
+        /// The ISO 639-1 code for the language that you want your recommendations to appear in.
+        public let language: RecommendationLanguage?
         /// The Recommendation identifier
         public let recommendationIdentifier: String
 
         @inlinable
-        public init(recommendationIdentifier: String) {
+        public init(language: RecommendationLanguage? = nil, recommendationIdentifier: String) {
+            self.language = language
             self.recommendationIdentifier = recommendationIdentifier
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.language, key: "language")
             request.encodePath(self.recommendationIdentifier, key: "recommendationIdentifier")
         }
 
@@ -588,6 +598,8 @@ extension TrustedAdvisor {
     public struct ListRecommendationResourcesRequest: AWSEncodableShape {
         /// The exclusion status of the resource
         public let exclusionStatus: ExclusionStatus?
+        /// The ISO 639-1 code for the language that you want your recommendations to appear in.
+        public let language: RecommendationLanguage?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -600,8 +612,9 @@ extension TrustedAdvisor {
         public let status: ResourceStatus?
 
         @inlinable
-        public init(exclusionStatus: ExclusionStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
+        public init(exclusionStatus: ExclusionStatus? = nil, language: RecommendationLanguage? = nil, maxResults: Int? = nil, nextToken: String? = nil, recommendationIdentifier: String, regionCode: String? = nil, status: ResourceStatus? = nil) {
             self.exclusionStatus = exclusionStatus
+            self.language = language
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.recommendationIdentifier = recommendationIdentifier
@@ -613,6 +626,7 @@ extension TrustedAdvisor {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.exclusionStatus, key: "exclusionStatus")
+            request.encodeQuery(self.language, key: "language")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodePath(self.recommendationIdentifier, key: "recommendationIdentifier")
@@ -656,6 +670,8 @@ extension TrustedAdvisor {
         public let beforeLastUpdatedAt: Date?
         /// The check identifier of the Recommendation
         public let checkIdentifier: String?
+        /// The ISO 639-1 code for the language that you want your recommendations to appear in.
+        public let language: RecommendationLanguage?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -670,11 +686,12 @@ extension TrustedAdvisor {
         public let type: RecommendationType?
 
         @inlinable
-        public init(afterLastUpdatedAt: Date? = nil, awsService: String? = nil, beforeLastUpdatedAt: Date? = nil, checkIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, source: RecommendationSource? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
+        public init(afterLastUpdatedAt: Date? = nil, awsService: String? = nil, beforeLastUpdatedAt: Date? = nil, checkIdentifier: String? = nil, language: RecommendationLanguage? = nil, maxResults: Int? = nil, nextToken: String? = nil, pillar: RecommendationPillar? = nil, source: RecommendationSource? = nil, status: RecommendationStatus? = nil, type: RecommendationType? = nil) {
             self.afterLastUpdatedAt = afterLastUpdatedAt
             self.awsService = awsService
             self.beforeLastUpdatedAt = beforeLastUpdatedAt
             self.checkIdentifier = checkIdentifier
+            self.language = language
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.pillar = pillar
@@ -690,6 +707,7 @@ extension TrustedAdvisor {
             request.encodeQuery(self.awsService, key: "awsService")
             request.encodeQuery(self.beforeLastUpdatedAt, key: "beforeLastUpdatedAt")
             request.encodeQuery(self.checkIdentifier, key: "checkIdentifier")
+            request.encodeQuery(self.language, key: "language")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.pillar, key: "pillar")
@@ -826,7 +844,7 @@ extension TrustedAdvisor {
         public let accountId: String?
         /// The ARN of the Recommendation Resource
         public let arn: String
-        /// The AWS resource identifier
+        /// The AWS resource identifier. There are certain checks that generate recommendation resources without an awsResourceId.
         public let awsResourceId: String
         /// The exclusion status of the Recommendation Resource
         public let exclusionStatus: ExclusionStatus?
@@ -970,6 +988,8 @@ extension TrustedAdvisor {
         public let source: RecommendationSource
         /// The status of the Recommendation
         public let status: RecommendationStatus
+        /// This attribute provides additional details about potential discrepancies in check status determination.
+        public let statusReason: StatusReason?
         /// Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority
         public let type: RecommendationType
         /// The person on whose behalf a Technical Account Manager (TAM) updated the recommendation. This information is only available when a Technical Account Manager takes an action on a recommendation managed by AWS Trusted Advisor Priority
@@ -982,7 +1002,7 @@ extension TrustedAdvisor {
         public let updateReasonCode: UpdateRecommendationLifecycleStageReasonCode?
 
         @inlinable
-        public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resolvedAt: Date? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType, updatedOnBehalfOf: String? = nil, updatedOnBehalfOfJobTitle: String? = nil, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
+        public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resolvedAt: Date? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, statusReason: StatusReason? = nil, type: RecommendationType, updatedOnBehalfOf: String? = nil, updatedOnBehalfOfJobTitle: String? = nil, updateReason: String? = nil, updateReasonCode: UpdateRecommendationLifecycleStageReasonCode? = nil) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -999,6 +1019,7 @@ extension TrustedAdvisor {
             self.resourcesAggregates = resourcesAggregates
             self.source = source
             self.status = status
+            self.statusReason = statusReason
             self.type = type
             self.updatedOnBehalfOf = updatedOnBehalfOf
             self.updatedOnBehalfOfJobTitle = updatedOnBehalfOfJobTitle
@@ -1023,6 +1044,7 @@ extension TrustedAdvisor {
             case resourcesAggregates = "resourcesAggregates"
             case source = "source"
             case status = "status"
+            case statusReason = "statusReason"
             case type = "type"
             case updatedOnBehalfOf = "updatedOnBehalfOf"
             case updatedOnBehalfOfJobTitle = "updatedOnBehalfOfJobTitle"
@@ -1090,7 +1112,7 @@ extension TrustedAdvisor {
     public struct RecommendationResourceSummary: AWSDecodableShape {
         /// The ARN of the Recommendation Resource
         public let arn: String
-        /// The AWS resource identifier
+        /// The AWS resource identifier. There are certain checks that generate recommendation resources without an awsResourceId.
         public let awsResourceId: String
         /// The exclusion status of the Recommendation Resource
         public let exclusionStatus: ExclusionStatus?
@@ -1136,20 +1158,24 @@ extension TrustedAdvisor {
     public struct RecommendationResourcesAggregates: AWSDecodableShape {
         /// The number of AWS resources that were flagged to have errors according to the Trusted Advisor check
         public let errorCount: Int64
+        /// The number of AWS resources belonging to this Trusted Advisor check that were excluded by the customer
+        public let excludedCount: Int64?
         /// The number of AWS resources that were flagged to be OK according to the Trusted Advisor check
         public let okCount: Int64
         /// The number of AWS resources that were flagged to have warning according to the Trusted Advisor check
         public let warningCount: Int64
 
         @inlinable
-        public init(errorCount: Int64, okCount: Int64, warningCount: Int64) {
+        public init(errorCount: Int64, excludedCount: Int64? = nil, okCount: Int64, warningCount: Int64) {
             self.errorCount = errorCount
+            self.excludedCount = excludedCount
             self.okCount = okCount
             self.warningCount = warningCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorCount = "errorCount"
+            case excludedCount = "excludedCount"
             case okCount = "okCount"
             case warningCount = "warningCount"
         }
@@ -1182,11 +1208,13 @@ extension TrustedAdvisor {
         public let source: RecommendationSource
         /// The status of the Recommendation
         public let status: RecommendationStatus
+        /// This attribute provides additional details about potential discrepancies in check status determination.
+        public let statusReason: StatusReason?
         /// Whether the Recommendation was automated or generated by AWS Trusted Advisor Priority
         public let type: RecommendationType
 
         @inlinable
-        public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, type: RecommendationType) {
+        public init(arn: String, awsServices: [String]? = nil, checkArn: String? = nil, createdAt: Date? = nil, id: String, lastUpdatedAt: Date? = nil, lifecycleStage: RecommendationLifecycleStage? = nil, name: String, pillars: [RecommendationPillar], pillarSpecificAggregates: RecommendationPillarSpecificAggregates? = nil, resourcesAggregates: RecommendationResourcesAggregates, source: RecommendationSource, status: RecommendationStatus, statusReason: StatusReason? = nil, type: RecommendationType) {
             self.arn = arn
             self.awsServices = awsServices
             self.checkArn = checkArn
@@ -1200,6 +1228,7 @@ extension TrustedAdvisor {
             self.resourcesAggregates = resourcesAggregates
             self.source = source
             self.status = status
+            self.statusReason = statusReason
             self.type = type
         }
 
@@ -1217,6 +1246,7 @@ extension TrustedAdvisor {
             case resourcesAggregates = "resourcesAggregates"
             case source = "source"
             case status = "status"
+            case statusReason = "statusReason"
             case type = "type"
         }
     }

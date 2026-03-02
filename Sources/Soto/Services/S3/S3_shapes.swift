@@ -279,6 +279,7 @@ extension S3 {
         case intelligentTieringAccessTier = "IntelligentTieringAccessTier"
         case isMultipartUploaded = "IsMultipartUploaded"
         case lastModifiedDate = "LastModifiedDate"
+        case lifecycleExpirationDate = "LifecycleExpirationDate"
         case objectAccessControlList = "ObjectAccessControlList"
         case objectLockLegalHoldStatus = "ObjectLockLegalHoldStatus"
         case objectLockMode = "ObjectLockMode"
@@ -9800,6 +9801,30 @@ extension S3 {
         }
     }
 
+    public struct SSEKMSEncryption: AWSEncodableShape {
+        ///  Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption  using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false.  Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryption with  SSE-KMS. For more information, see   Using Amazon S3 Bucket Keys in the Amazon S3 User Guide.  Valid Values: true | false
+        public let bucketKeyEnabled: Bool?
+        ///  Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption  type. Required if ObjectEncryption specifies SSEKMS.    You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't  supported.  Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+)
+        public let kmsKeyArn: String
+
+        @inlinable
+        public init(bucketKeyEnabled: Bool? = nil, kmsKeyArn: String) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[a-zA-Z0-9-]*:kms:[a-z0-9-]+:[0-9]{12}:key/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketKeyEnabled = "BucketKeyEnabled"
+            case kmsKeyArn = "KMSKeyArn"
+        }
+    }
+
     public struct SSES3: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -10345,6 +10370,74 @@ extension S3 {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateObjectEncryptionRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
+        public static let _xmlRootNodeName: String? = "ObjectEncryption"
+        ///  The name of the general purpose bucket that contains the specified object key name.  When you use this operation with an access point attached to a general purpose bucket, you  must either provide the alias of the access point in place of the bucket name or you must specify  the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct  requests to the access point hostname. The access point hostname takes the form   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com.  When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point  ARN in place of the bucket name. For more information about access point ARNs, see   Referencing access points in the Amazon S3 User Guide.
+        public let bucket: String
+        ///  Indicates the algorithm used to create the checksum for the object when you use an Amazon Web Services SDK. This header  doesn't provide any additional functionality if you don't use the SDK. When you send this header,  there must be a corresponding x-amz-checksum or x-amz-trailer header sent.  Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more  information, see  Checking object integrity  in the Amazon S3 User Guide.    If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm  parameter.
+        public let checksumAlgorithm: ChecksumAlgorithm?
+        ///  The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        public let contentMD5: String?
+        ///  The account ID of the expected bucket owner. If the account ID that you provide doesn't match the  actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden  (access denied).
+        public let expectedBucketOwner: String?
+        ///  The key name of the object that you want to update the server-side encryption type for.
+        public let key: String
+        ///  The updated server-side encryption type for this object. The UpdateObjectEncryption  operation supports the SSE-S3 and SSE-KMS encryption types.  Valid Values: SSES3 | SSEKMS
+        public let objectEncryption: ObjectEncryption
+        public let requestPayer: RequestPayer?
+        ///  The version ID of the object that you want to update the server-side encryption type for.
+        public let versionId: String?
+
+        @inlinable
+        public init(bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, objectEncryption: ObjectEncryption, requestPayer: RequestPayer? = nil, versionId: String? = nil) {
+            self.bucket = bucket
+            self.checksumAlgorithm = checksumAlgorithm
+            self.contentMD5 = contentMD5
+            self.expectedBucketOwner = expectedBucketOwner
+            self.key = key
+            self.objectEncryption = objectEncryption
+            self.requestPayer = requestPayer
+            self.versionId = versionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.bucket, key: "Bucket")
+            request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
+            request.encodeHeader(self.contentMD5, key: "Content-MD5")
+            request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
+            request.encodePath(self.key, key: "Key")
+            try container.encode(self.objectEncryption)
+            request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
+            request.encodeQuery(self.versionId, key: "versionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.objectEncryption.validate(name: "\(name).objectEncryption")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateObjectEncryptionResponse: AWSDecodableShape {
+        public let requestCharged: RequestCharged?
+
+        @inlinable
+        public init(requestCharged: RequestCharged? = nil) {
+            self.requestCharged = requestCharged
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct UploadPartCopyOutput: AWSDecodableShape {
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
@@ -10869,6 +10962,24 @@ extension S3 {
 
         private enum CodingKeys: CodingKey {}
     }
+
+    public struct ObjectEncryption: AWSEncodableShape {
+        ///  Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys  (SSE-KMS).
+        public let ssekms: SSEKMSEncryption?
+
+        @inlinable
+        public init(ssekms: SSEKMSEncryption? = nil) {
+            self.ssekms = ssekms
+        }
+
+        public func validate(name: String) throws {
+            try self.ssekms?.validate(name: "\(name).ssekms")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssekms = "SSE-KMS"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -10876,6 +10987,7 @@ extension S3 {
 /// Error enum for S3
 public struct S3ErrorType: AWSErrorType {
     enum Code: String {
+        case accessDenied = "AccessDenied"
         case bucketAlreadyExists = "BucketAlreadyExists"
         case bucketAlreadyOwnedByYou = "BucketAlreadyOwnedByYou"
         case encryptionTypeMismatch = "EncryptionTypeMismatch"
@@ -10910,6 +11022,8 @@ public struct S3ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  You might receive this error for several reasons. For details, see the description of this API  operation.
+    public static var accessDenied: Self { .init(.accessDenied) }
     /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
     /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
@@ -10920,7 +11034,7 @@ public struct S3ErrorType: AWSErrorType {
     public static var idempotencyParameterMismatch: Self { .init(.idempotencyParameterMismatch) }
     /// Object is archived and inaccessible until restored. If the object you are retrieving is stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must first restore a copy using RestoreObject. Otherwise, this operation returns an InvalidObjectState error. For information about restoring archived objects, see Restoring Archived Objects in the Amazon S3 User Guide.
     public static var invalidObjectState: Self { .init(.invalidObjectState) }
-    /// You may receive this error in multiple cases. Depending on the reason for the error, you may receive one of the messages below:   Cannot specify both a write offset value and user-defined object metadata for existing objects.   Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.   Request body cannot be empty when 'write offset' is specified.
+    /// A parameter or header in your request isn't valid. For details, see the description of this API  operation.
     public static var invalidRequest: Self { .init(.invalidRequest) }
     ///  The write offset value that you specified does not match the current object size.
     public static var invalidWriteOffset: Self { .init(.invalidWriteOffset) }

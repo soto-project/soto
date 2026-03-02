@@ -421,13 +421,14 @@ public struct MediaConnect: AWSService {
     ///
     /// Parameters:
     ///   - availabilityZone:  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
+    ///   - encodingConfig: 
     ///   - entitlements:  The entitlements that you want to grant on a flow.
-    ///   - flowSize:  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    ///   - flowSize:  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI sources or outputs on the flow.
     ///   - flowTags:  The key-value pairs that can be used to tag and organize the flow.
     ///   - maintenance:  The maintenance settings you want to use for the flow.
     ///   - mediaStreams:  The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
     ///   - name:  The name of the flow.
-    ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    ///   - ndiConfig:  Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     ///   - outputs:  The outputs that you want to add to this flow.
     ///   - source:  The settings for the source that you want to use for the new flow.
     ///   - sourceFailoverConfig:  The settings for source failover.
@@ -438,6 +439,7 @@ public struct MediaConnect: AWSService {
     @inlinable
     public func createFlow(
         availabilityZone: String? = nil,
+        encodingConfig: EncodingConfig? = nil,
         entitlements: [GrantEntitlementRequest]? = nil,
         flowSize: FlowSize? = nil,
         flowTags: [String: String]? = nil,
@@ -455,6 +457,7 @@ public struct MediaConnect: AWSService {
     ) async throws -> CreateFlowResponse {
         let input = CreateFlowRequest(
             availabilityZone: availabilityZone, 
+            encodingConfig: encodingConfig, 
             entitlements: entitlements, 
             flowSize: flowSize, 
             flowTags: flowTags, 
@@ -529,7 +532,7 @@ public struct MediaConnect: AWSService {
     ///   - maintenanceConfiguration: The maintenance configuration settings for the router input, including preferred maintenance windows and schedules.
     ///   - maximumBitrate: The maximum bitrate for the router input.
     ///   - name: The name of the router input.
-    ///   - regionName: The AWS Region for the router input. Defaults to the current region if not specified.
+    ///   - regionName: The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
     ///   - tags: Key-value pairs that can be used to tag and organize this router input.
     ///   - tier: The tier level for the router input.
@@ -585,7 +588,7 @@ public struct MediaConnect: AWSService {
     ///   - clientToken: A unique identifier for the request to ensure idempotency.
     ///   - configuration: The configuration settings for the router network interface.
     ///   - name: The name of the router network interface.
-    ///   - regionName: The AWS Region for the router network interface. Defaults to the current region if not specified.
+    ///   - regionName: The Amazon Web Services Region for the router network interface. Defaults to the current region if not specified.
     ///   - tags: Key-value pairs that can be used to tag and organize this router network interface.
     ///   - logger: Logger use during operation
     @inlinable
@@ -629,7 +632,7 @@ public struct MediaConnect: AWSService {
     ///   - maintenanceConfiguration: The maintenance configuration settings for the router output, including preferred maintenance windows and schedules.
     ///   - maximumBitrate: The maximum bitrate for the router output.
     ///   - name: The name of the router output.
-    ///   - regionName: The AWS Region for the router output. Defaults to the current region if not specified.
+    ///   - regionName: The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     ///   - routingScope: Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     ///   - tags: Key-value pairs that can be used to tag this router output.
     ///   - tier: The tier level for the router output.
@@ -2465,7 +2468,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridgeState(input, logger: logger)
     }
 
-    ///  Updates an existing flow.
+    ///  Updates an existing flow.   Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request.    If you have a MEDIUM flow and you want to change the flow source to NDI®:   First, use the UpdateFlow operation to upgrade the flow size to LARGE.    After that, you can then use the UpdateFlowSource operation to configure the NDI source.      If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:    First, use the UpdateFlowSource operation to change the flow source type.    After that, you can then use the UpdateFlow operation to downgrade the flow size to MEDIUM.
     @Sendable
     @inlinable
     public func updateFlow(_ input: UpdateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowResponse {
@@ -2478,18 +2481,20 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    ///  Updates an existing flow.
+    ///  Updates an existing flow.   Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request.    If you have a MEDIUM flow and you want to change the flow source to NDI®:   First, use the UpdateFlow operation to upgrade the flow size to LARGE.    After that, you can then use the UpdateFlowSource operation to configure the NDI source.      If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:    First, use the UpdateFlowSource operation to change the flow source type.    After that, you can then use the UpdateFlow operation to downgrade the flow size to MEDIUM.
     ///
     /// Parameters:
+    ///   - encodingConfig: 
     ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
     ///   - flowSize:  Determines the processing capacity and feature set of the flow.
     ///   - maintenance:  The maintenance setting of the flow.
-    ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    ///   - ndiConfig:  Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     ///   - sourceFailoverConfig:  The settings for source failover.
     ///   - sourceMonitoringConfig:  The settings for source monitoring.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlow(
+        encodingConfig: EncodingConfig? = nil,
         flowArn: String,
         flowSize: FlowSize? = nil,
         maintenance: UpdateMaintenance? = nil,
@@ -2499,6 +2504,7 @@ public struct MediaConnect: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateFlowResponse {
         let input = UpdateFlowRequest(
+            encodingConfig: encodingConfig, 
             flowArn: flowArn, 
             flowSize: flowSize, 
             maintenance: maintenance, 
@@ -2624,7 +2630,7 @@ public struct MediaConnect: AWSService {
     ///   - maxLatency:  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     ///   - mediaStreamOutputConfigurations:  The media streams that are associated with the output, and the parameters for those associations.
     ///   - minLatency:  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-    ///   - ndiProgramName:  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+    ///   - ndiProgramName:  A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     ///   - ndiSpeedHqQuality: A quality setting for the NDI Speed HQ encoder.
     ///   - outputArn:  The ARN of the output that you want to update.
     ///   - outputStatus:  An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
@@ -2692,7 +2698,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateFlowOutput(input, logger: logger)
     }
 
-    ///  Updates the source of a flow.
+    ///  Updates the source of a flow.   Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request.    If you have a MEDIUM flow and you want to change the flow source to NDI®:   First, use the UpdateFlow operation to upgrade the flow size to LARGE.    After that, you can then use the UpdateFlowSource operation to configure the NDI source.      If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:    First, use the UpdateFlowSource operation to change the flow source type.    After that, you can then use the UpdateFlow operation to downgrade the flow size to MEDIUM.
     @Sendable
     @inlinable
     public func updateFlowSource(_ input: UpdateFlowSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowSourceResponse {
@@ -2705,7 +2711,7 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    ///  Updates the source of a flow.
+    ///  Updates the source of a flow.   Because UpdateFlowSources and UpdateFlow are separate operations, you can't change both the source type AND the flow size in a single request.    If you have a MEDIUM flow and you want to change the flow source to NDI®:   First, use the UpdateFlow operation to upgrade the flow size to LARGE.    After that, you can then use the UpdateFlowSource operation to configure the NDI source.      If you're switching from an NDI source to a transport stream (TS) source and want to downgrade the flow size:    First, use the UpdateFlowSource operation to change the flow source type.    After that, you can then use the UpdateFlow operation to downgrade the flow size to MEDIUM.
     ///
     /// Parameters:
     ///   - decryption: The type of encryption that is used on the content ingested from the source.
@@ -2719,6 +2725,7 @@ public struct MediaConnect: AWSService {
     ///   - maxSyncBuffer: The size of the buffer (in milliseconds) to use to sync incoming source data.
     ///   - mediaStreamSourceConfigurations: The media stream that is associated with the source, and the parameters for that association.
     ///   - minLatency: The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+    ///   - ndiSourceSettings:  The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
     ///   - protocol: The protocol that the source uses to deliver the content to MediaConnect.   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     ///   - routerIntegrationState: Indicates whether to enable or disable router integration for this flow source.
     ///   - routerIntegrationTransitDecryption: The encryption configuration for the flow source when router integration is enabled.
@@ -2744,6 +2751,7 @@ public struct MediaConnect: AWSService {
         maxSyncBuffer: Int? = nil,
         mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil,
         minLatency: Int? = nil,
+        ndiSourceSettings: NdiSourceSettings? = nil,
         protocol: `Protocol`? = nil,
         routerIntegrationState: State? = nil,
         routerIntegrationTransitDecryption: FlowTransitEncryption? = nil,
@@ -2769,6 +2777,7 @@ public struct MediaConnect: AWSService {
             maxSyncBuffer: maxSyncBuffer, 
             mediaStreamSourceConfigurations: mediaStreamSourceConfigurations, 
             minLatency: minLatency, 
+            ndiSourceSettings: ndiSourceSettings, 
             protocol: `protocol`, 
             routerIntegrationState: routerIntegrationState, 
             routerIntegrationTransitDecryption: routerIntegrationTransitDecryption, 
@@ -3565,6 +3574,7 @@ extension MediaConnect {
                 .init(state: .success, matcher: try! JMESPathMatcher("routerInput.state", expected: "ACTIVE")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "STARTING")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "UPDATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerInput.state", expected: "MIGRATING")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("routerInput.state", expected: "ERROR")),
@@ -3686,6 +3696,7 @@ extension MediaConnect {
                 .init(state: .success, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ACTIVE")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "STARTING")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "UPDATING")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.state", expected: "MIGRATING")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("routerOutput.state", expected: "ERROR")),
@@ -3828,5 +3839,44 @@ extension MediaConnect {
             arn: arn
         )
         try await self.waitUntilOutputStandby(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputUnrouted(
+        _ input: GetRouterOutputRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetRouterOutputRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("routerOutput.routedState", expected: "UNROUTED")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("routerOutput.routedState", expected: "ROUTING")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+            ],
+            minDelayTime: .seconds(3),
+            command: self.getRouterOutput
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getRouterOutput(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the router output that you want to retrieve information about.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilOutputUnrouted(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetRouterOutputRequest(
+            arn: arn
+        )
+        try await self.waitUntilOutputUnrouted(input, logger: logger)
     }
 }

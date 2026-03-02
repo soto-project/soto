@@ -59,9 +59,10 @@ public struct CloudWatch: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
+            amzTarget: "GraniteServiceVersion20100801",
             serviceName: "CloudWatch",
             serviceIdentifier: "monitoring",
-            serviceProtocol: .query,
+            serviceProtocol: .json(version: "1.0"),
             apiVersion: "2010-08-01",
             endpoint: endpoint,
             variantEndpoints: Self.variantEndpoints,
@@ -90,6 +91,35 @@ public struct CloudWatch: AWSService {
     ]}
 
     // MARK: API Calls
+
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error.  Permissions  To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
+    @Sendable
+    @inlinable
+    public func deleteAlarmMuteRule(_ input: DeleteAlarmMuteRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAlarmMuteRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a specific alarm mute rule. When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger. This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error.  Permissions  To delete a mute rule, you need the cloudwatch:DeleteAlarmMuteRule permission on the alarm mute rule resource.
+    ///
+    /// Parameters:
+    ///   - alarmMuteRuleName: The name of the alarm mute rule to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAlarmMuteRule(
+        alarmMuteRuleName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAlarmMuteRuleInput(
+            alarmMuteRuleName: alarmMuteRuleName
+        )
+        return try await self.deleteAlarmMuteRule(input, logger: logger)
+    }
 
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify any incorrect alarm names, the alarms you specify with correct names are still deleted. Other syntax errors might result in no alarms being deleted. To confirm that alarms were deleted successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false.  Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
     @Sendable
@@ -616,6 +646,35 @@ public struct CloudWatch: AWSService {
         return try await self.enableInsightRules(input, logger: logger)
     }
 
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule:    SCHEDULED: The mute rule is configured and will become active in the future    ACTIVE: The mute rule is currently muting alarm actions    EXPIRED: The mute rule has passed its expiration date and will no longer become active    Permissions  To retrieve details for a mute rule, you need the cloudwatch:GetAlarmMuteRule permission on the alarm mute rule resource.
+    @Sendable
+    @inlinable
+    public func getAlarmMuteRule(_ input: GetAlarmMuteRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAlarmMuteRuleOutput {
+        try await self.client.execute(
+            operation: "GetAlarmMuteRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details for a specific alarm mute rule. This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata. The returned status indicates the current state of the mute rule:    SCHEDULED: The mute rule is configured and will become active in the future    ACTIVE: The mute rule is currently muting alarm actions    EXPIRED: The mute rule has passed its expiration date and will no longer become active    Permissions  To retrieve details for a mute rule, you need the cloudwatch:GetAlarmMuteRule permission on the alarm mute rule resource.
+    ///
+    /// Parameters:
+    ///   - alarmMuteRuleName: The name of the alarm mute rule to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAlarmMuteRule(
+        alarmMuteRuleName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAlarmMuteRuleOutput {
+        let input = GetAlarmMuteRuleInput(
+            alarmMuteRuleName: alarmMuteRuleName
+        )
+        return try await self.getAlarmMuteRule(input, logger: logger)
+    }
+
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
     @Sendable
     @inlinable
@@ -853,6 +912,44 @@ public struct CloudWatch: AWSService {
         return try await self.getMetricWidgetImage(input, logger: logger)
     }
 
+    /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls.  Permissions  To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission.
+    @Sendable
+    @inlinable
+    public func listAlarmMuteRules(_ input: ListAlarmMuteRulesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAlarmMuteRulesOutput {
+        try await self.client.execute(
+            operation: "ListAlarmMuteRules", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists alarm mute rules in your Amazon Web Services account and region. You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired. This operation supports pagination for accounts with many mute rules. Use the MaxRecords and NextToken parameters to retrieve results in multiple calls.  Permissions  To list mute rules, you need the cloudwatch:ListAlarmMuteRules permission.
+    ///
+    /// Parameters:
+    ///   - alarmName: Filter results to show only mute rules that target the specified alarm name.
+    ///   - maxRecords: The maximum number of mute rules to return in one call. The default is 50.
+    ///   - nextToken: The token returned from a previous call to indicate where to continue retrieving results.
+    ///   - statuses: Filter results to show only mute rules with the specified statuses. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAlarmMuteRules(
+        alarmName: String? = nil,
+        maxRecords: Int? = nil,
+        nextToken: String? = nil,
+        statuses: [AlarmMuteRuleStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAlarmMuteRulesOutput {
+        let input = ListAlarmMuteRulesInput(
+            alarmName: alarmName, 
+            maxRecords: maxRecords, 
+            nextToken: nextToken, 
+            statuses: statuses
+        )
+        return try await self.listAlarmMuteRules(input, logger: logger)
+    }
+
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed.   ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
     @Sendable
     @inlinable
@@ -1026,6 +1123,53 @@ public struct CloudWatch: AWSService {
             resourceARN: resourceARN
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
+    @Sendable
+    @inlinable
+    public func putAlarmMuteRule(_ input: PutAlarmMuteRuleInput, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutAlarmMuteRule", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or updates an alarm mute rule. Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted. You can create mute rules with recurring schedules using cron expressions or one-time mute windows using at expressions. Each mute rule can target up to 100 specific alarms by name. If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.  Permissions  To create or update a mute rule, you must have the cloudwatch:PutAlarmMuteRule permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets. For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting cloudwatch:PutAlarmMuteRule on the alarm mute rule resource (arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*), and another statement granting cloudwatch:PutAlarmMuteRule on the targeted alarm resources (arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm and arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm). You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as Team=TeamA.
+    ///
+    /// Parameters:
+    ///   - description: A description of the alarm mute rule that helps you identify its purpose.
+    ///   - expireDate: The date and time when the mute rule expires and is no longer evaluated. After this time, the rule status becomes EXPIRED and will no longer mute the targeted alarms. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    ///   - muteTargets: Specifies which alarms this rule applies to.
+    ///   - name: The name of the alarm mute rule. This name must be unique within your Amazon Web Services account and region.
+    ///   - rule: The configuration that defines when and how long alarms should be muted.
+    ///   - startDate: The date and time after which the mute rule takes effect. If not specified, the mute rule takes effect immediately upon creation and the mutes are applied as per the schedule expression. This date and time is interpreted according to the schedule timezone, or UTC if no timezone is specified.
+    ///   - tags: A list of key-value pairs to associate with the alarm mute rule. You can use tags to categorize and manage your mute rules.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAlarmMuteRule(
+        description: String? = nil,
+        expireDate: Date? = nil,
+        muteTargets: MuteTargets? = nil,
+        name: String? = nil,
+        rule: Rule? = nil,
+        startDate: Date? = nil,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutAlarmMuteRuleInput(
+            description: description, 
+            expireDate: expireDate, 
+            muteTargets: muteTargets, 
+            name: name, 
+            rule: rule, 
+            startDate: startDate, 
+            tags: tags
+        )
+        return try await self.putAlarmMuteRule(input, logger: logger)
     }
 
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model to display a band of expected normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account. You can specify the account ID in the object you specify in the SingleMetricAnomalyDetector parameter. For more information, see CloudWatch Anomaly Detection.
@@ -1823,6 +1967,46 @@ extension CloudWatch {
         return self.getMetricDataPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAlarmMuteRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAlarmMuteRulesPaginator(
+        _ input: ListAlarmMuteRulesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput> {
+        return .init(
+            input: input,
+            command: self.listAlarmMuteRules,
+            inputKey: \ListAlarmMuteRulesInput.nextToken,
+            outputKey: \ListAlarmMuteRulesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAlarmMuteRules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - alarmName: Filter results to show only mute rules that target the specified alarm name.
+    ///   - maxRecords: The maximum number of mute rules to return in one call. The default is 50.
+    ///   - statuses: Filter results to show only mute rules with the specified statuses. Valid values are SCHEDULED, ACTIVE, or EXPIRED.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAlarmMuteRulesPaginator(
+        alarmName: String? = nil,
+        maxRecords: Int? = nil,
+        statuses: [AlarmMuteRuleStatus]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAlarmMuteRulesInput, ListAlarmMuteRulesOutput> {
+        let input = ListAlarmMuteRulesInput(
+            alarmName: alarmName, 
+            maxRecords: maxRecords, 
+            statuses: statuses
+        )
+        return self.listAlarmMuteRulesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDashboards(_:logger:)``.
     ///
     /// - Parameters:
@@ -2051,6 +2235,18 @@ extension CloudWatch.GetMetricDataInput: AWSPaginateToken {
     }
 }
 
+extension CloudWatch.ListAlarmMuteRulesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudWatch.ListAlarmMuteRulesInput {
+        return .init(
+            alarmName: self.alarmName,
+            maxRecords: self.maxRecords,
+            nextToken: token,
+            statuses: self.statuses
+        )
+    }
+}
+
 extension CloudWatch.ListDashboardsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudWatch.ListDashboardsInput {
@@ -2159,6 +2355,43 @@ extension CloudWatch {
             stateValue: stateValue
         )
         try await self.waitUntilAlarmExists(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getAlarmMuteRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAlarmMuteRuleExists(
+        _ input: GetAlarmMuteRuleInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetAlarmMuteRuleInput, _>(
+            acceptors: [
+                .init(state: .success, matcher: AWSSuccessMatcher()),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+            ],
+            minDelayTime: .seconds(5),
+            command: self.getAlarmMuteRule
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getAlarmMuteRule(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - alarmMuteRuleName: The name of the alarm mute rule to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilAlarmMuteRuleExists(
+        alarmMuteRuleName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetAlarmMuteRuleInput(
+            alarmMuteRuleName: alarmMuteRuleName
+        )
+        try await self.waitUntilAlarmMuteRuleExists(input, logger: logger)
     }
 
     /// Waiter for operation ``describeAlarms(_:logger:)``.

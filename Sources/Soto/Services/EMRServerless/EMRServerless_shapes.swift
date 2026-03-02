@@ -126,6 +126,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The date and time when the application run was created.
         public let createdAt: Date
+        /// The configuration object that allows encrypting local disks.
+        public let diskEncryptionConfiguration: DiskEncryptionConfiguration?
         /// The IAM Identity Center configuration applied to enable trusted identity propagation.
         public let identityCenterConfiguration: IdentityCenterConfiguration?
         /// The image configuration applied to all worker types.
@@ -134,6 +136,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases for an application.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         public let monitoringConfiguration: MonitoringConfiguration?
@@ -161,17 +165,19 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecification]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, identityCenterConfiguration: IdentityCenterConfiguration? = nil, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, arn: String, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, createdAt: Date, diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil, identityCenterConfiguration: IdentityCenterConfiguration? = nil, imageConfiguration: ImageConfiguration? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, state: ApplicationState, stateDetails: String? = nil, tags: [String: String]? = nil, type: String, updatedAt: Date, workerTypeSpecifications: [String: WorkerTypeSpecification]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.arn = arn
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.createdAt = createdAt
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -194,10 +200,12 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case createdAt = "createdAt"
+            case diskEncryptionConfiguration = "diskEncryptionConfiguration"
             case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -443,12 +451,15 @@ extension EMRServerless {
     public struct ConfigurationOverrides: AWSEncodableShape & AWSDecodableShape {
         /// The override configurations for the application.
         public let applicationConfiguration: [Configuration]?
+        /// The override configuration to encrypt local disks.
+        public let diskEncryptionConfiguration: DiskEncryptionConfiguration?
         /// The override configurations for monitoring.
         public let monitoringConfiguration: MonitoringConfiguration?
 
         @inlinable
-        public init(applicationConfiguration: [Configuration]? = nil, monitoringConfiguration: MonitoringConfiguration? = nil) {
+        public init(applicationConfiguration: [Configuration]? = nil, diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil, monitoringConfiguration: MonitoringConfiguration? = nil) {
             self.applicationConfiguration = applicationConfiguration
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.monitoringConfiguration = monitoringConfiguration
         }
 
@@ -457,11 +468,13 @@ extension EMRServerless {
                 try $0.validate(name: "\(name).applicationConfiguration[]")
             }
             try self.validate(self.applicationConfiguration, name: "applicationConfiguration", parent: name, max: 100)
+            try self.diskEncryptionConfiguration?.validate(name: "\(name).diskEncryptionConfiguration")
             try self.monitoringConfiguration?.validate(name: "\(name).monitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case applicationConfiguration = "applicationConfiguration"
+            case diskEncryptionConfiguration = "diskEncryptionConfiguration"
             case monitoringConfiguration = "monitoringConfiguration"
         }
     }
@@ -475,6 +488,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to create. Its value must be unique for each request.
         public let clientToken: String
+        /// The configuration object that allows encrypting local disks.
+        public let diskEncryptionConfiguration: DiskEncryptionConfiguration?
         /// The IAM Identity Center Configuration accepts the Identity Center instance parameter required to enable trusted identity propagation. This configuration allows identity propagation between integrated services and the Identity Center instance.
         public let identityCenterConfiguration: IdentityCenterConfigurationInput?
         /// The image configuration for all worker types. You can either set this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
@@ -483,6 +498,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that enables the interactive use cases to use when running an application.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -505,15 +522,17 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = CreateApplicationRequest.idempotencyToken(), diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil, identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, name: String? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, tags: [String: String]? = nil, type: String, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.name = name
@@ -530,6 +549,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.diskEncryptionConfiguration?.validate(name: "\(name).diskEncryptionConfiguration")
             try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
@@ -575,10 +595,12 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case clientToken = "clientToken"
+            case diskEncryptionConfiguration = "diskEncryptionConfiguration"
             case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case name = "name"
@@ -640,6 +662,37 @@ extension EMRServerless {
 
     public struct DeleteApplicationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DiskEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the optional encryption context that will be used when encrypting the data. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data.
+        public let encryptionContext: [String: String]?
+        /// The KMS key ARN to encrypt local disks.
+        public let encryptionKeyArn: String?
+
+        @inlinable
+        public init(encryptionContext: [String: String]? = nil, encryptionKeyArn: String? = nil) {
+            self.encryptionContext = encryptionContext
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionContext?.forEach {
+                try validate($0.key, name: "encryptionContext.key", parent: name, max: 128)
+                try validate($0.key, name: "encryptionContext.key", parent: name, min: 1)
+                try validate($0.value, name: "encryptionContext[\"\($0.key)\"]", parent: name, max: 384)
+                try validate($0.value, name: "encryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+            }
+            try self.validate(self.encryptionContext, name: "encryptionContext", parent: name, max: 8)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 20)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^arn:(aws[a-zA-Z0-9-]*):kms:[a-zA-Z0-9\\-]*:([0-9]{12}):key\\/[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionContext = "encryptionContext"
+            case encryptionKeyArn = "encryptionKeyArn"
+        }
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
@@ -941,6 +994,20 @@ extension EMRServerless {
         private enum CodingKeys: String, CodingKey {
             case livyEndpointEnabled = "livyEndpointEnabled"
             case studioEnabled = "studioEnabled"
+        }
+    }
+
+    public struct JobLevelCostAllocationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables job level cost allocation for the application.
+        public let enabled: Bool?
+
+        @inlinable
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 
@@ -2017,6 +2084,8 @@ extension EMRServerless {
         public let autoStopConfiguration: AutoStopConfig?
         /// The client idempotency token of the application to update. Its value must be unique for each request.
         public let clientToken: String
+        /// The configuration object that allows encrypting local disks.
+        public let diskEncryptionConfiguration: DiskEncryptionConfiguration?
         /// Specifies the IAM Identity Center configuration used to enable or disable trusted identity propagation. When provided, this configuration determines how the application interacts with IAM Identity Center for user authentication and access control.
         public let identityCenterConfiguration: IdentityCenterConfigurationInput?
         /// The image configuration to be used for all worker types. You can either set this parameter or imageConfiguration for each worker type in WorkerTypeSpecificationInput.
@@ -2025,6 +2094,8 @@ extension EMRServerless {
         public let initialCapacity: [String: InitialCapacityConfig]?
         /// The interactive configuration object that contains new interactive use cases when the application is updated.
         public let interactiveConfiguration: InteractiveConfiguration?
+        /// The configuration object that enables job level cost allocation.
+        public let jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration?
         /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
         public let maximumCapacity: MaximumAllowedResources?
         /// The configuration setting for monitoring.
@@ -2040,16 +2111,18 @@ extension EMRServerless {
         public let workerTypeSpecifications: [String: WorkerTypeSpecificationInput]?
 
         @inlinable
-        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
+        public init(applicationId: String, architecture: Architecture? = nil, autoStartConfiguration: AutoStartConfig? = nil, autoStopConfiguration: AutoStopConfig? = nil, clientToken: String = UpdateApplicationRequest.idempotencyToken(), diskEncryptionConfiguration: DiskEncryptionConfiguration? = nil, identityCenterConfiguration: IdentityCenterConfigurationInput? = nil, imageConfiguration: ImageConfigurationInput? = nil, initialCapacity: [String: InitialCapacityConfig]? = nil, interactiveConfiguration: InteractiveConfiguration? = nil, jobLevelCostAllocationConfiguration: JobLevelCostAllocationConfiguration? = nil, maximumCapacity: MaximumAllowedResources? = nil, monitoringConfiguration: MonitoringConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, releaseLabel: String? = nil, runtimeConfiguration: [Configuration]? = nil, schedulerConfiguration: SchedulerConfiguration? = nil, workerTypeSpecifications: [String: WorkerTypeSpecificationInput]? = nil) {
             self.applicationId = applicationId
             self.architecture = architecture
             self.autoStartConfiguration = autoStartConfiguration
             self.autoStopConfiguration = autoStopConfiguration
             self.clientToken = clientToken
+            self.diskEncryptionConfiguration = diskEncryptionConfiguration
             self.identityCenterConfiguration = identityCenterConfiguration
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.interactiveConfiguration = interactiveConfiguration
+            self.jobLevelCostAllocationConfiguration = jobLevelCostAllocationConfiguration
             self.maximumCapacity = maximumCapacity
             self.monitoringConfiguration = monitoringConfiguration
             self.networkConfiguration = networkConfiguration
@@ -2067,10 +2140,12 @@ extension EMRServerless {
             try container.encodeIfPresent(self.autoStartConfiguration, forKey: .autoStartConfiguration)
             try container.encodeIfPresent(self.autoStopConfiguration, forKey: .autoStopConfiguration)
             try container.encode(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.diskEncryptionConfiguration, forKey: .diskEncryptionConfiguration)
             try container.encodeIfPresent(self.identityCenterConfiguration, forKey: .identityCenterConfiguration)
             try container.encodeIfPresent(self.imageConfiguration, forKey: .imageConfiguration)
             try container.encodeIfPresent(self.initialCapacity, forKey: .initialCapacity)
             try container.encodeIfPresent(self.interactiveConfiguration, forKey: .interactiveConfiguration)
+            try container.encodeIfPresent(self.jobLevelCostAllocationConfiguration, forKey: .jobLevelCostAllocationConfiguration)
             try container.encodeIfPresent(self.maximumCapacity, forKey: .maximumCapacity)
             try container.encodeIfPresent(self.monitoringConfiguration, forKey: .monitoringConfiguration)
             try container.encodeIfPresent(self.networkConfiguration, forKey: .networkConfiguration)
@@ -2087,6 +2162,7 @@ extension EMRServerless {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[A-Za-z0-9._-]+$")
+            try self.diskEncryptionConfiguration?.validate(name: "\(name).diskEncryptionConfiguration")
             try self.identityCenterConfiguration?.validate(name: "\(name).identityCenterConfiguration")
             try self.imageConfiguration?.validate(name: "\(name).imageConfiguration")
             try self.initialCapacity?.forEach {
@@ -2119,10 +2195,12 @@ extension EMRServerless {
             case autoStartConfiguration = "autoStartConfiguration"
             case autoStopConfiguration = "autoStopConfiguration"
             case clientToken = "clientToken"
+            case diskEncryptionConfiguration = "diskEncryptionConfiguration"
             case identityCenterConfiguration = "identityCenterConfiguration"
             case imageConfiguration = "imageConfiguration"
             case initialCapacity = "initialCapacity"
             case interactiveConfiguration = "interactiveConfiguration"
+            case jobLevelCostAllocationConfiguration = "jobLevelCostAllocationConfiguration"
             case maximumCapacity = "maximumCapacity"
             case monitoringConfiguration = "monitoringConfiguration"
             case networkConfiguration = "networkConfiguration"

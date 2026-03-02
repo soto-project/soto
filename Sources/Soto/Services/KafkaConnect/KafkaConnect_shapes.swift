@@ -99,6 +99,12 @@ extension KafkaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "DUAL"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkerConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
@@ -144,19 +150,22 @@ extension KafkaConnect {
     }
 
     public struct AutoScaling: AWSEncodableShape {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public let maxAutoscalingTaskCount: Int?
         /// The maximum number of workers allocated to the connector.
         public let maxWorkerCount: Int
         /// The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8.
         public let mcuCount: Int
         /// The minimum number of workers allocated to the connector.
         public let minWorkerCount: Int
-        /// The sacle-in policy for the connector.
+        /// The scale-in policy for the connector.
         public let scaleInPolicy: ScaleInPolicy?
-        /// The sacle-out policy for the connector.
+        /// The scale-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicy?
 
         @inlinable
-        public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicy? = nil, scaleOutPolicy: ScaleOutPolicy? = nil) {
+        public init(maxAutoscalingTaskCount: Int? = nil, maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicy? = nil, scaleOutPolicy: ScaleOutPolicy? = nil) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -172,6 +181,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxAutoscalingTaskCount = "maxAutoscalingTaskCount"
             case maxWorkerCount = "maxWorkerCount"
             case mcuCount = "mcuCount"
             case minWorkerCount = "minWorkerCount"
@@ -181,19 +191,22 @@ extension KafkaConnect {
     }
 
     public struct AutoScalingDescription: AWSDecodableShape {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public let maxAutoscalingTaskCount: Int?
         /// The maximum number of workers allocated to the connector.
         public let maxWorkerCount: Int?
         /// The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8.
         public let mcuCount: Int?
         /// The minimum number of workers allocated to the connector.
         public let minWorkerCount: Int?
-        /// The sacle-in policy for the connector.
+        /// The scale-in policy for the connector.
         public let scaleInPolicy: ScaleInPolicyDescription?
-        /// The sacle-out policy for the connector.&gt;
+        /// The scale-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicyDescription?
 
         @inlinable
-        public init(maxWorkerCount: Int? = nil, mcuCount: Int? = nil, minWorkerCount: Int? = nil, scaleInPolicy: ScaleInPolicyDescription? = nil, scaleOutPolicy: ScaleOutPolicyDescription? = nil) {
+        public init(maxAutoscalingTaskCount: Int? = nil, maxWorkerCount: Int? = nil, mcuCount: Int? = nil, minWorkerCount: Int? = nil, scaleInPolicy: ScaleInPolicyDescription? = nil, scaleOutPolicy: ScaleOutPolicyDescription? = nil) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -202,6 +215,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxAutoscalingTaskCount = "maxAutoscalingTaskCount"
             case maxWorkerCount = "maxWorkerCount"
             case mcuCount = "mcuCount"
             case minWorkerCount = "minWorkerCount"
@@ -211,19 +225,22 @@ extension KafkaConnect {
     }
 
     public struct AutoScalingUpdate: AWSEncodableShape {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public let maxAutoscalingTaskCount: Int?
         /// The target maximum number of workers allocated to the connector.
         public let maxWorkerCount: Int
         /// The target number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8.
         public let mcuCount: Int
         /// The target minimum number of workers allocated to the connector.
         public let minWorkerCount: Int
-        /// The target sacle-in policy for the connector.
+        /// The target scale-in policy for the connector.
         public let scaleInPolicy: ScaleInPolicyUpdate
-        /// The target sacle-out policy for the connector.
+        /// The target scale-out policy for the connector.
         public let scaleOutPolicy: ScaleOutPolicyUpdate
 
         @inlinable
-        public init(maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicyUpdate, scaleOutPolicy: ScaleOutPolicyUpdate) {
+        public init(maxAutoscalingTaskCount: Int? = nil, maxWorkerCount: Int = 0, mcuCount: Int = 0, minWorkerCount: Int = 0, scaleInPolicy: ScaleInPolicyUpdate, scaleOutPolicy: ScaleOutPolicyUpdate) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -239,6 +256,7 @@ extension KafkaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxAutoscalingTaskCount = "maxAutoscalingTaskCount"
             case maxWorkerCount = "maxWorkerCount"
             case mcuCount = "mcuCount"
             case minWorkerCount = "minWorkerCount"
@@ -423,6 +441,8 @@ extension KafkaConnect {
         public let kafkaConnectVersion: String?
         /// The settings for delivering connector logs to Amazon CloudWatch Logs.
         public let logDelivery: LogDeliveryDescription?
+        /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+        public let networkType: NetworkType?
         /// Specifies which plugins were used for this connector.
         public let plugins: [PluginDescription]?
         /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access Amazon Web Services resources.
@@ -431,7 +451,7 @@ extension KafkaConnect {
         public let workerConfiguration: WorkerConfigurationDescription?
 
         @inlinable
-        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
+        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, networkType: NetworkType? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorDescription = connectorDescription
@@ -444,6 +464,7 @@ extension KafkaConnect {
             self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
             self.kafkaConnectVersion = kafkaConnectVersion
             self.logDelivery = logDelivery
+            self.networkType = networkType
             self.plugins = plugins
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
             self.workerConfiguration = workerConfiguration
@@ -462,6 +483,7 @@ extension KafkaConnect {
             case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
             case kafkaConnectVersion = "kafkaConnectVersion"
             case logDelivery = "logDelivery"
+            case networkType = "networkType"
             case plugins = "plugins"
             case serviceExecutionRoleArn = "serviceExecutionRoleArn"
             case workerConfiguration = "workerConfiguration"
@@ -487,6 +509,8 @@ extension KafkaConnect {
         public let kafkaConnectVersion: String
         /// Details about log delivery.
         public let logDelivery: LogDelivery?
+        /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+        public let networkType: NetworkType?
         ///  Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object.
         public let plugins: [Plugin]
         /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access the Amazon Web Services resources that it needs. The types of resources depends on the logic of the connector. For example, a connector that has Amazon S3 as a destination must have permissions that allow it to write to the S3 destination bucket.
@@ -497,7 +521,7 @@ extension KafkaConnect {
         public let workerConfiguration: WorkerConfiguration?
 
         @inlinable
-        public init(capacity: Capacity, connectorConfiguration: [String: String], connectorDescription: String? = nil, connectorName: String, kafkaCluster: KafkaCluster, kafkaClusterClientAuthentication: KafkaClusterClientAuthentication, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit, kafkaConnectVersion: String, logDelivery: LogDelivery? = nil, plugins: [Plugin], serviceExecutionRoleArn: String, tags: [String: String]? = nil, workerConfiguration: WorkerConfiguration? = nil) {
+        public init(capacity: Capacity, connectorConfiguration: [String: String], connectorDescription: String? = nil, connectorName: String, kafkaCluster: KafkaCluster, kafkaClusterClientAuthentication: KafkaClusterClientAuthentication, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransit, kafkaConnectVersion: String, logDelivery: LogDelivery? = nil, networkType: NetworkType? = nil, plugins: [Plugin], serviceExecutionRoleArn: String, tags: [String: String]? = nil, workerConfiguration: WorkerConfiguration? = nil) {
             self.capacity = capacity
             self.connectorConfiguration = connectorConfiguration
             self.connectorDescription = connectorDescription
@@ -507,6 +531,7 @@ extension KafkaConnect {
             self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
             self.kafkaConnectVersion = kafkaConnectVersion
             self.logDelivery = logDelivery
+            self.networkType = networkType
             self.plugins = plugins
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
             self.tags = tags
@@ -540,6 +565,7 @@ extension KafkaConnect {
             case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
             case kafkaConnectVersion = "kafkaConnectVersion"
             case logDelivery = "logDelivery"
+            case networkType = "networkType"
             case plugins = "plugins"
             case serviceExecutionRoleArn = "serviceExecutionRoleArn"
             case tags = "tags"
@@ -1098,6 +1124,8 @@ extension KafkaConnect {
         public let kafkaConnectVersion: String?
         /// Details about delivering logs to Amazon CloudWatch Logs.
         public let logDelivery: LogDeliveryDescription?
+        /// The network type of the connector. It gives connectors connectivity to either IPv4 (IPV4) or IPv4 and IPv6 (DUAL) destinations. Defaults to IPV4.
+        public let networkType: NetworkType?
         /// Specifies which plugins were used for this connector.
         public let plugins: [PluginDescription]?
         /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access Amazon Web Services resources.
@@ -1108,7 +1136,7 @@ extension KafkaConnect {
         public let workerConfiguration: WorkerConfigurationDescription?
 
         @inlinable
-        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorConfiguration: [String: String]? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, stateDescription: StateDescription? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
+        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorConfiguration: [String: String]? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, networkType: NetworkType? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, stateDescription: StateDescription? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorConfiguration = connectorConfiguration
@@ -1122,6 +1150,7 @@ extension KafkaConnect {
             self.kafkaClusterEncryptionInTransit = kafkaClusterEncryptionInTransit
             self.kafkaConnectVersion = kafkaConnectVersion
             self.logDelivery = logDelivery
+            self.networkType = networkType
             self.plugins = plugins
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
             self.stateDescription = stateDescription
@@ -1142,6 +1171,7 @@ extension KafkaConnect {
             case kafkaClusterEncryptionInTransit = "kafkaClusterEncryptionInTransit"
             case kafkaConnectVersion = "kafkaConnectVersion"
             case logDelivery = "logDelivery"
+            case networkType = "networkType"
             case plugins = "plugins"
             case serviceExecutionRoleArn = "serviceExecutionRoleArn"
             case stateDescription = "stateDescription"

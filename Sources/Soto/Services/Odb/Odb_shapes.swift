@@ -367,6 +367,8 @@ extension Odb {
         public let exadataStorageInTBsLowestScaledValue: Double?
         /// The hostname for the Autonomous VM cluster.
         public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster.
+        public let iamRoles: [IamRole]?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public let isMtlsEnabledVmCluster: Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -425,7 +427,7 @@ extension Odb {
         public let totalContainerDatabases: Int?
 
         @inlinable
-        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
+        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
             self.autonomousDataStoragePercentage = autonomousDataStoragePercentage
             self.autonomousDataStorageSizeInTBs = autonomousDataStorageSizeInTBs
             self.availableAutonomousDataStorageSizeInTBs = availableAutonomousDataStorageSizeInTBs
@@ -449,6 +451,7 @@ extension Odb {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -503,6 +506,7 @@ extension Odb {
             case domain = "domain"
             case exadataStorageInTBsLowestScaledValue = "exadataStorageInTBsLowestScaledValue"
             case hostname = "hostname"
+            case iamRoles = "iamRoles"
             case isMtlsEnabledVmCluster = "isMtlsEnabledVmCluster"
             case licenseModel = "licenseModel"
             case maintenanceWindow = "maintenanceWindow"
@@ -599,6 +603,8 @@ extension Odb {
         public let exadataStorageInTBsLowestScaledValue: Double?
         /// The host name for the Autonomous VM cluster.
         public let hostname: String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster in the summary information.
+        public let iamRoles: [IamRole]?
         /// Indicates if mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public let isMtlsEnabledVmCluster: Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -657,7 +663,7 @@ extension Odb {
         public let totalContainerDatabases: Int?
 
         @inlinable
-        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
+        public init(autonomousDataStoragePercentage: Float? = nil, autonomousDataStorageSizeInTBs: Double? = nil, availableAutonomousDataStorageSizeInTBs: Double? = nil, availableContainerDatabases: Int? = nil, availableCpus: Float? = nil, cloudAutonomousVmClusterArn: String? = nil, cloudAutonomousVmClusterId: String, cloudExadataInfrastructureArn: String? = nil, cloudExadataInfrastructureId: String? = nil, computeModel: ComputeModel? = nil, cpuCoreCount: Int? = nil, cpuCoreCountPerNode: Int? = nil, cpuPercentage: Float? = nil, createdAt: Date? = nil, dataStorageSizeInGBs: Double? = nil, dataStorageSizeInTBs: Double? = nil, dbNodeStorageSizeInGBs: Int? = nil, dbServers: [String]? = nil, description: String? = nil, displayName: String? = nil, domain: String? = nil, exadataStorageInTBsLowestScaledValue: Double? = nil, hostname: String? = nil, iamRoles: [IamRole]? = nil, isMtlsEnabledVmCluster: Bool? = nil, licenseModel: LicenseModel? = nil, maintenanceWindow: MaintenanceWindow? = nil, maxAcdsLowestScaledValue: Int? = nil, memoryPerOracleComputeUnitInGBs: Int? = nil, memorySizeInGBs: Int? = nil, nodeCount: Int? = nil, nonProvisionableAutonomousContainerDatabases: Int? = nil, ocid: String? = nil, ociResourceAnchorName: String? = nil, ociUrl: String? = nil, odbNetworkArn: String? = nil, odbNetworkId: String? = nil, percentProgress: Float? = nil, provisionableAutonomousContainerDatabases: Int? = nil, provisionedAutonomousContainerDatabases: Int? = nil, provisionedCpus: Float? = nil, reclaimableCpus: Float? = nil, reservedCpus: Float? = nil, scanListenerPortNonTls: Int? = nil, scanListenerPortTls: Int? = nil, shape: String? = nil, status: ResourceStatus? = nil, statusReason: String? = nil, timeDatabaseSslCertificateExpires: Date? = nil, timeOrdsCertificateExpires: Date? = nil, timeZone: String? = nil, totalContainerDatabases: Int? = nil) {
             self.autonomousDataStoragePercentage = autonomousDataStoragePercentage
             self.autonomousDataStorageSizeInTBs = autonomousDataStorageSizeInTBs
             self.availableAutonomousDataStorageSizeInTBs = availableAutonomousDataStorageSizeInTBs
@@ -681,6 +687,7 @@ extension Odb {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -735,6 +742,7 @@ extension Odb {
             case domain = "domain"
             case exadataStorageInTBsLowestScaledValue = "exadataStorageInTBsLowestScaledValue"
             case hostname = "hostname"
+            case iamRoles = "iamRoles"
             case isMtlsEnabledVmCluster = "isMtlsEnabledVmCluster"
             case licenseModel = "licenseModel"
             case maintenanceWindow = "maintenanceWindow"
@@ -2019,16 +2027,19 @@ extension Odb {
         public let peerNetworkCidrsToBeAdded: [String]?
         /// The unique identifier of the peer network. This can be either a VPC ID or another ODB network ID.
         public let peerNetworkId: String
+        /// The unique identifier of the VPC route table for which a route to the ODB network is automatically created during peering connection establishment.
+        public let peerNetworkRouteTableIds: [String]?
         /// The tags to assign to the ODB peering connection.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateOdbPeeringConnectionInput.idempotencyToken(), displayName: String? = nil, odbNetworkId: String, peerNetworkCidrsToBeAdded: [String]? = nil, peerNetworkId: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateOdbPeeringConnectionInput.idempotencyToken(), displayName: String? = nil, odbNetworkId: String, peerNetworkCidrsToBeAdded: [String]? = nil, peerNetworkId: String, peerNetworkRouteTableIds: [String]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.displayName = displayName
             self.odbNetworkId = odbNetworkId
             self.peerNetworkCidrsToBeAdded = peerNetworkCidrsToBeAdded
             self.peerNetworkId = peerNetworkId
+            self.peerNetworkRouteTableIds = peerNetworkRouteTableIds
             self.tags = tags
         }
 
@@ -2048,6 +2059,11 @@ extension Odb {
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, max: 2048)
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, min: 6)
             try self.validate(self.peerNetworkId, name: "peerNetworkId", parent: name, pattern: "^(arn:(?:aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[a-z0-9-]+:[a-z0-9-]*:[0-9]+:[a-z0-9-]+/[a-zA-Z0-9_~.-]{6,64}|[a-zA-Z0-9_~.-]{6,64})$")
+            try self.peerNetworkRouteTableIds?.forEach {
+                try validate($0, name: "peerNetworkRouteTableIds[]", parent: name, pattern: "^rtb-[a-z0-9]{8,17}$")
+            }
+            try self.validate(self.peerNetworkRouteTableIds, name: "peerNetworkRouteTableIds", parent: name, max: 1)
+            try self.validate(self.peerNetworkRouteTableIds, name: "peerNetworkRouteTableIds", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2063,6 +2079,7 @@ extension Odb {
             case odbNetworkId = "odbNetworkId"
             case peerNetworkCidrsToBeAdded = "peerNetworkCidrsToBeAdded"
             case peerNetworkId = "peerNetworkId"
+            case peerNetworkRouteTableIds = "peerNetworkRouteTableIds"
             case tags = "tags"
         }
     }

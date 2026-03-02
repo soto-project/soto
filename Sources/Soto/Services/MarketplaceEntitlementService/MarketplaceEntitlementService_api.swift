@@ -93,7 +93,7 @@ public struct MarketplaceEntitlementService: AWSService {
 
     // MARK: API Calls
 
-    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, or product dimensions.   The CustomerIdentifier parameter is on path for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request.
+    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, license ARN, or product dimensions.
     @Sendable
     @inlinable
     public func getEntitlements(_ input: GetEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetEntitlementsResult {
@@ -106,10 +106,10 @@ public struct MarketplaceEntitlementService: AWSService {
             logger: logger
         )
     }
-    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, or product dimensions.   The CustomerIdentifier parameter is on path for deprecation. Use CustomerAWSAccountID instead. These parameters are mutually exclusive. You can't specify both CustomerIdentifier and CustomerAWSAccountID in the same request.
+    /// GetEntitlements retrieves entitlement values for a given product. The results can be filtered based on customer identifier, AWS account ID, license ARN, or product dimensions.
     ///
     /// Parameters:
-    ///   - filter: Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountID are mutually exclusive. You can't specify both in the same request.
+    ///   - filter: Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountId are mutually exclusive parameters. You must use one or the other, but not both in the same request.   If you're migrating an existing integration, use Account Feeds to map CustomerIdentifier to CustomerAWSAccountId, and Agreements Feeds to map CustomerAWSAccountId and LicenseArn.
     ///   - maxResults: The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
     ///   - nextToken: For paginated calls to GetEntitlements, pass the NextToken from the previous GetEntitlementsResult.
     ///   - productCode: Product code is used to uniquely identify a product in AWS Marketplace. The product code will be provided by AWS Marketplace when the product listing is created.
@@ -166,7 +166,7 @@ extension MarketplaceEntitlementService {
     /// Return PaginatorSequence for operation ``getEntitlements(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filter: Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountID are mutually exclusive. You can't specify both in the same request.
+    ///   - filter: Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountId are mutually exclusive parameters. You must use one or the other, but not both in the same request.   If you're migrating an existing integration, use Account Feeds to map CustomerIdentifier to CustomerAWSAccountId, and Agreements Feeds to map CustomerAWSAccountId and LicenseArn.
     ///   - maxResults: The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
     ///   - productCode: Product code is used to uniquely identify a product in AWS Marketplace. The product code will be provided by AWS Marketplace when the product listing is created.
     ///   - logger: Logger used for logging

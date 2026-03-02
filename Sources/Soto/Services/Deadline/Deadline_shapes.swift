@@ -65,6 +65,8 @@ extension Deadline {
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allNotEquals = "ALL_NOT_EQUALS"
+        case anyEquals = "ANY_EQUALS"
         case equal = "EQUAL"
         case greaterThan = "GREATER_THAN"
         case greaterThanEqualTo = "GREATER_THAN_EQUAL_TO"
@@ -271,6 +273,12 @@ extension Deadline {
         case idle = "IDLE"
         case scheduling = "SCHEDULING"
         case schedulingBlocked = "SCHEDULING_BLOCKED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RangeConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contiguous = "CONTIGUOUS"
+        case noncontiguous = "NONCONTIGUOUS"
         public var description: String { return self.rawValue }
     }
 
@@ -484,7 +492,7 @@ extension Deadline {
         case envEnter(AssignedEnvironmentEnterSessionActionDefinition)
         /// The environment a session exits from.
         case envExit(AssignedEnvironmentExitSessionActionDefinition)
-        /// The job attachment to sync with an assigned session action.
+        /// The job attachments to sync for the assigned session action.
         case syncInputJobAttachments(AssignedSyncInputJobAttachmentsSessionActionDefinition)
         /// The task run.
         case taskRun(AssignedTaskRunSessionActionDefinition)
@@ -788,6 +796,8 @@ extension Deadline {
         case searchTermFilter(SearchTermFilterExpression)
         /// Filters by a string.
         case stringFilter(StringFilterExpression)
+        /// Filters by a list of strings.
+        case stringListFilter(StringListFilterExpression)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -802,6 +812,8 @@ extension Deadline {
                 try container.encode(value, forKey: .searchTermFilter)
             case .stringFilter(let value):
                 try container.encode(value, forKey: .stringFilter)
+            case .stringListFilter(let value):
+                try container.encode(value, forKey: .stringListFilter)
             }
         }
 
@@ -815,6 +827,8 @@ extension Deadline {
                 try value.validate(name: "\(name).searchTermFilter")
             case .stringFilter(let value):
                 try value.validate(name: "\(name).stringFilter")
+            case .stringListFilter(let value):
+                try value.validate(name: "\(name).stringListFilter")
             default:
                 break
             }
@@ -826,6 +840,7 @@ extension Deadline {
             case parameterFilter = "parameterFilter"
             case searchTermFilter = "searchTermFilter"
             case stringFilter = "stringFilter"
+            case stringListFilter = "stringListFilter"
         }
     }
 
@@ -861,7 +876,7 @@ extension Deadline {
         case envEnter(EnvironmentEnterSessionActionDefinition)
         /// The environment to exit from.
         case envExit(EnvironmentExitSessionActionDefinition)
-        /// The job attachments to sync with a session action.
+        /// The session action definition for syncing input job attachments.
         case syncInputJobAttachments(SyncInputJobAttachmentsSessionActionDefinition)
         /// The task run in the session.
         case taskRun(TaskRunSessionActionDefinition)
@@ -904,7 +919,7 @@ extension Deadline {
         case envEnter(EnvironmentEnterSessionActionDefinitionSummary)
         /// The environment to exit from.
         case envExit(EnvironmentExitSessionActionDefinitionSummary)
-        /// The job attachments to sync with the session action definition.
+        /// The session action definition summary for syncing input job attachments.
         case syncInputJobAttachments(SyncInputJobAttachmentsSessionActionDefinitionSummary)
         /// The task run.
         case taskRun(TaskRunSessionActionDefinitionSummary)
@@ -1031,9 +1046,9 @@ extension Deadline {
     // MARK: Shapes
 
     public struct AcceleratorCapabilities: AWSEncodableShape & AWSDecodableShape {
-        /// The number of GPU accelerators specified for worker hosts in this fleet.
+        /// The number of GPU accelerators specified for worker hosts in this fleet.  You must specify either acceleratorCapabilities.count.max or allowedInstanceTypes when using accelerator capabilities. If you don't specify a maximum count, Amazon Web Services Deadline Cloud uses the instance types you specify in allowedInstanceTypes to determine the maximum number of accelerators.
         public let count: AcceleratorCountRange?
-        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
+        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Amazon Web Services Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.    You must specify at least one accelerator selection.   You cannot specify the same accelerator name multiple times in the selections list.   All accelerators in the selections must use the same runtime version.
         public let selections: [AcceleratorSelection]
 
         @inlinable
@@ -1081,9 +1096,9 @@ extension Deadline {
     }
 
     public struct AcceleratorSelection: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r570 as the runtime. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU    a10g - NVIDIA A10G Tensor Core GPU    l4 - NVIDIA L4 Tensor Core GPU    l40s - NVIDIA L40S Tensor Core GPU
+        /// The name of the chip used by the GPU accelerator. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU (16 GiB memory)    a10g - NVIDIA A10G Tensor Core GPU (24 GiB memory)    l4 - NVIDIA L4 Tensor Core GPU (24 GiB memory)    l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)
         public let name: AcceleratorName
-        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r570 - NVIDIA vGPU software 18     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r570 - NVIDIA vGPU software 18     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception.  Not all runtimes are compatible with all accelerator types:    t4 and a10g: Support all runtimes (grid:r570, grid:r535)    l4 and l40s: Only support grid:r570 and newer   All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet.   When you specify latest, it resolves to grid:r570 for all currently supported accelerators.
         public let runtime: String?
 
         @inlinable
@@ -1236,7 +1251,7 @@ extension Deadline {
     }
 
     public struct AssignedSyncInputJobAttachmentsSessionActionDefinition: AWSDecodableShape {
-        /// The step ID.
+        /// The step ID for the assigned sync input job attachments session action.
         public let stepId: String?
 
         @inlinable
@@ -1720,9 +1735,9 @@ extension Deadline {
     }
 
     public struct Attachments: AWSEncodableShape & AWSDecodableShape {
-        /// The file system.
+        /// The file system location for the attachments.
         public let fileSystem: JobAttachmentsFileSystem?
-        /// A list of manifests which describe job attachment configurations.
+        /// The manifest properties for the attachments.
         public let manifests: [ManifestProperties]
 
         @inlinable
@@ -2067,11 +2082,13 @@ extension Deadline {
         public let farmId: String
         /// The schedule to associate with this budget.
         public let schedule: BudgetSchedule
+        /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+        public let tags: [String: String]?
         /// The queue ID provided to this budget to track usage.
         public let usageTrackingResource: UsageTrackingResource
 
         @inlinable
-        public init(actions: [BudgetActionToAdd], approximateDollarLimit: Float, clientToken: String? = CreateBudgetRequest.idempotencyToken(), description: String? = nil, displayName: String, farmId: String, schedule: BudgetSchedule, usageTrackingResource: UsageTrackingResource) {
+        public init(actions: [BudgetActionToAdd], approximateDollarLimit: Float, clientToken: String? = CreateBudgetRequest.idempotencyToken(), description: String? = nil, displayName: String, farmId: String, schedule: BudgetSchedule, tags: [String: String]? = nil, usageTrackingResource: UsageTrackingResource) {
             self.actions = actions
             self.approximateDollarLimit = approximateDollarLimit
             self.clientToken = clientToken
@@ -2079,6 +2096,7 @@ extension Deadline {
             self.displayName = displayName
             self.farmId = farmId
             self.schedule = schedule
+            self.tags = tags
             self.usageTrackingResource = usageTrackingResource
         }
 
@@ -2092,6 +2110,7 @@ extension Deadline {
             try container.encode(self.displayName, forKey: .displayName)
             request.encodePath(self.farmId, key: "farmId")
             try container.encode(self.schedule, forKey: .schedule)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encode(self.usageTrackingResource, forKey: .usageTrackingResource)
         }
 
@@ -2116,6 +2135,7 @@ extension Deadline {
             case description = "description"
             case displayName = "displayName"
             case schedule = "schedule"
+            case tags = "tags"
             case usageTrackingResource = "usageTrackingResource"
         }
     }
@@ -2294,6 +2314,8 @@ extension Deadline {
         public let attachments: Attachments?
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
+        /// A custom description to override the job description derived from the job template.
+        public let descriptionOverride: String?
         /// The farm ID of the farm to connect to the job.
         public let farmId: String
         /// The number of task failures before the job stops running and is marked as FAILED.
@@ -2302,6 +2324,8 @@ extension Deadline {
         public let maxRetriesPerTask: Int?
         /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
         public let maxWorkerCount: Int?
+        /// A custom name to override the job name derived from the job template.
+        public let nameOverride: String?
         /// The parameters for the job.
         public let parameters: [String: JobParameter]?
         /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -2312,6 +2336,8 @@ extension Deadline {
         public let sourceJobId: String?
         /// The storage profile ID for the storage profile to connect to the job.
         public let storageProfileId: String?
+        /// The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+        public let tags: [String: String]?
         /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
         public let targetTaskRunStatus: CreateJobTargetTaskRunStatus?
         /// The job template to use for this job.
@@ -2320,18 +2346,21 @@ extension Deadline {
         public let templateType: JobTemplateType?
 
         @inlinable
-        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String? = nil, templateType: JobTemplateType? = nil) {
+        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), descriptionOverride: String? = nil, farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, nameOverride: String? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, storageProfileId: String? = nil, tags: [String: String]? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String? = nil, templateType: JobTemplateType? = nil) {
             self.attachments = attachments
             self.clientToken = clientToken
+            self.descriptionOverride = descriptionOverride
             self.farmId = farmId
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
             self.maxWorkerCount = maxWorkerCount
+            self.nameOverride = nameOverride
             self.parameters = parameters
             self.priority = priority
             self.queueId = queueId
             self.sourceJobId = sourceJobId
             self.storageProfileId = storageProfileId
+            self.tags = tags
             self.targetTaskRunStatus = targetTaskRunStatus
             self.template = template
             self.templateType = templateType
@@ -2342,15 +2371,18 @@ extension Deadline {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.attachments, forKey: .attachments)
             request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.descriptionOverride, forKey: .descriptionOverride)
             request.encodePath(self.farmId, key: "farmId")
             try container.encodeIfPresent(self.maxFailedTasksCount, forKey: .maxFailedTasksCount)
             try container.encodeIfPresent(self.maxRetriesPerTask, forKey: .maxRetriesPerTask)
             try container.encodeIfPresent(self.maxWorkerCount, forKey: .maxWorkerCount)
+            try container.encodeIfPresent(self.nameOverride, forKey: .nameOverride)
             try container.encodeIfPresent(self.parameters, forKey: .parameters)
             try container.encode(self.priority, forKey: .priority)
             request.encodePath(self.queueId, key: "queueId")
             try container.encodeIfPresent(self.sourceJobId, forKey: .sourceJobId)
             try container.encodeIfPresent(self.storageProfileId, forKey: .storageProfileId)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
             try container.encodeIfPresent(self.targetTaskRunStatus, forKey: .targetTaskRunStatus)
             try container.encodeIfPresent(self.template, forKey: .template)
             try container.encodeIfPresent(self.templateType, forKey: .templateType)
@@ -2360,6 +2392,7 @@ extension Deadline {
             try self.attachments?.validate(name: "\(name).attachments")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.descriptionOverride, name: "descriptionOverride", parent: name, max: 2048)
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, max: 2147483647)
             try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, min: 0)
@@ -2367,6 +2400,8 @@ extension Deadline {
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
+            try self.validate(self.nameOverride, name: "nameOverride", parent: name, max: 128)
+            try self.validate(self.nameOverride, name: "nameOverride", parent: name, min: 1)
             try self.parameters?.forEach {
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
@@ -2381,13 +2416,16 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case attachments = "attachments"
+            case descriptionOverride = "descriptionOverride"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
             case maxWorkerCount = "maxWorkerCount"
+            case nameOverride = "nameOverride"
             case parameters = "parameters"
             case priority = "priority"
             case sourceJobId = "sourceJobId"
             case storageProfileId = "storageProfileId"
+            case tags = "tags"
             case targetTaskRunStatus = "targetTaskRunStatus"
             case template = "template"
             case templateType = "templateType"
@@ -2555,9 +2593,9 @@ extension Deadline {
         public let clientToken: String?
         /// The name that you give the monitor that is displayed in the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
-        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
+        /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
         public let identityCenterInstanceArn: String
-        /// The Amazon Resource Name (ARN) of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
+        /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
         public let roleArn: String
         /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let subdomain: String
@@ -2605,7 +2643,7 @@ extension Deadline {
     }
 
     public struct CreateMonitorResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that IAM Identity Center assigns to the monitor.
+        /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
         public let identityCenterApplicationArn: String
         /// The unique identifier of the monitor.
         public let monitorId: String
@@ -2994,13 +3032,13 @@ extension Deadline {
     }
 
     public struct CustomerManagedFleetConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Auto Scaling mode for the customer managed fleet configuration.
+        /// The Auto Scaling mode for the customer managed fleet.
         public let mode: AutoScalingMode
-        /// The storage profile ID.
+        /// The storage profile ID for the customer managed fleet.
         public let storageProfileId: String?
-        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched.  When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        /// The tag propagation mode for the customer managed fleet.
         public let tagPropagationMode: TagPropagationMode?
-        /// The worker capabilities for a customer managed fleet configuration.
+        /// The worker capabilities for the customer managed fleet.
         public let workerCapabilities: CustomerManagedWorkerCapabilities
 
         @inlinable
@@ -4315,7 +4353,7 @@ extension Deadline {
         /// The farm ID of the farm to get.
         public let farmId: String
         /// The ARN of the KMS key used on the farm.
-        public let kmsKeyArn: String
+        public let kmsKeyArn: String?
         /// The date and time the resource was updated.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
@@ -4323,7 +4361,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, kmsKeyArn: String, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, description: String? = nil, displayName: String, farmId: String, kmsKeyArn: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
@@ -4634,7 +4672,7 @@ extension Deadline {
         public let statusMessage: String
         /// The subnet IDs.
         public let subnetIds: [String]?
-        /// The VCP(virtual private cloud) ID associated with the license endpoint.
+        /// The VPC (virtual private cloud) ID associated with the license endpoint.
         public let vpcId: String?
 
         @inlinable
@@ -4772,13 +4810,13 @@ extension Deadline {
         public let createdBy: String
         /// The name used to identify the monitor on the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
-        /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
+        /// The Amazon Resource Name that the IAM Identity Center assigned to the monitor when it was created.
         public let identityCenterApplicationArn: String
-        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance responsible for authenticating monitor users.
+        /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         public let identityCenterInstanceArn: String
         /// The unique identifier for the monitor.
         public let monitorId: String
-        /// The Amazon Resource Name (ARN) of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
+        /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
         public let roleArn: String
         /// The subdomain used for the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let subdomain: String
@@ -5375,6 +5413,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5711,7 +5750,7 @@ extension Deadline {
         public var endedAt: Date?
         /// The number of times that the task failed and was retried.
         public let failureRetryCount: Int?
-        /// The latest session ID for the task.
+        /// The latest session action ID for the task.
         public let latestSessionActionId: String?
         /// The parameters for the task.
         public let parameters: [String: TaskParameterValue]?
@@ -6229,7 +6268,7 @@ extension Deadline {
         /// The date and time the resource started running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
         /// The total number of times tasks from the job failed and were retried.
         public let taskFailureRetryCount: Int?
@@ -6323,7 +6362,7 @@ extension Deadline {
         /// The date and time the resource started running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var startedAt: Date?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
         /// The total number of times tasks from the job failed and were retried.
         public let taskFailureRetryCount: Int?
@@ -6390,7 +6429,7 @@ extension Deadline {
         public let status: LicenseEndpointStatus?
         /// The status message of the license endpoint.
         public let statusMessage: String?
-        /// The VCP(virtual private cloud) ID associated with the license endpoint.
+        /// The VPC (virtual private cloud) ID associated with the license endpoint.
         public let vpcId: String?
 
         @inlinable
@@ -6483,6 +6522,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6537,6 +6577,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6587,6 +6628,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6636,6 +6678,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -6694,6 +6737,7 @@ extension Deadline {
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6758,6 +6802,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -6820,6 +6865,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -6880,6 +6926,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -6939,6 +6986,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -6988,6 +7036,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7038,6 +7087,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7088,6 +7138,7 @@ extension Deadline {
             try self.validate(self.licenseEndpointId, name: "licenseEndpointId", parent: name, pattern: "^le-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7133,6 +7184,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7187,6 +7239,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7247,6 +7300,7 @@ extension Deadline {
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7307,6 +7361,7 @@ extension Deadline {
             try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7362,6 +7417,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7421,6 +7477,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.principalId, name: "principalId", parent: name, max: 47)
             try self.validate(self.principalId, name: "principalId", parent: name, min: 1)
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
@@ -7491,6 +7548,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^session-[0-9a-f]{32}$")
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^task-[0-9a-f]{32}-(0|([1-9][0-9]{0,9}))$")
@@ -7553,6 +7611,7 @@ extension Deadline {
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.workerId, name: "workerId", parent: name, pattern: "^worker-[0-9a-f]{32}$")
         }
 
@@ -7613,6 +7672,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7675,6 +7735,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
         }
@@ -7738,6 +7799,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
         }
@@ -7799,6 +7861,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7854,6 +7917,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
@@ -7905,6 +7969,7 @@ extension Deadline {
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8000,6 +8065,7 @@ extension Deadline {
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.stepId, name: "stepId", parent: name, pattern: "^step-[0-9a-f]{32}$")
         }
@@ -8057,6 +8123,7 @@ extension Deadline {
             try self.validate(self.fleetId, name: "fleetId", parent: name, pattern: "^fleet-[0-9a-f]{32}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8206,13 +8273,13 @@ extension Deadline {
         public let createdBy: String
         /// The name of the monitor that displays on the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         public let displayName: String
-        /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
+        /// The Amazon Resource Name that the IAM Identity Center assigned to the monitor when it was created.
         public let identityCenterApplicationArn: String
-        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance responsible for authenticating monitor users.
+        /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         public let identityCenterInstanceArn: String
         /// The unique identifier for the monitor.
         public let monitorId: String
-        /// The Amazon Resource Name (ARN) of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
+        /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
         public let roleArn: String
         /// The subdomain used for the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
         public let subdomain: String
@@ -8677,13 +8744,11 @@ extension Deadline {
     public struct SearchJobsRequest: AWSEncodableShape {
         /// The farm ID of the job.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The search terms for a resource.
         public let filterExpressions: SearchGroupedFilterExpressions?
-        /// Defines how far into the scrollable list to start the return of results.
+        /// The offset for the search results.
         public let itemOffset: Int
-        /// Specifies the number of items per page for the resource.
+        /// Specifies the number of results to return.
         public let pageSize: Int?
         /// The queue ID to use in the job search.
         public let queueIds: [String]
@@ -8734,7 +8799,7 @@ extension Deadline {
     public struct SearchJobsResponse: AWSDecodableShape {
         /// The jobs in the search.
         public let jobs: [JobSearchSummary]
-        /// The next incremental starting point after the defined itemOffset.
+        /// The next item offset for the search results.
         public let nextItemOffset: Int?
         /// The total number of results in the search.
         public let totalResults: Int
@@ -8756,15 +8821,13 @@ extension Deadline {
     public struct SearchStepsRequest: AWSEncodableShape {
         /// The farm ID to use for the step search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The search terms for a resource.
         public let filterExpressions: SearchGroupedFilterExpressions?
-        /// Defines how far into the scrollable list to start the return of results.
+        /// The offset for the search results.
         public let itemOffset: Int
         /// The job ID to use in the step search.
         public let jobId: String?
-        /// Specifies the number of items per page for the resource.
+        /// Specifies the number of results to return.
         public let pageSize: Int?
         /// The queue IDs in the step search.
         public let queueIds: [String]
@@ -8817,7 +8880,7 @@ extension Deadline {
     }
 
     public struct SearchStepsResponse: AWSDecodableShape {
-        /// The next incremental starting point after the defined itemOffset.
+        /// The next item offset for the search results.
         public let nextItemOffset: Int?
         /// The steps in the search.
         public let steps: [StepSearchSummary]
@@ -8841,15 +8904,13 @@ extension Deadline {
     public struct SearchTasksRequest: AWSEncodableShape {
         /// The farm ID of the task.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The search terms for a resource.
         public let filterExpressions: SearchGroupedFilterExpressions?
-        /// Defines how far into the scrollable list to start the return of results.
+        /// The offset for the search results.
         public let itemOffset: Int
         /// The job ID for the task search.
         public let jobId: String?
-        /// Specifies the number of items per page for the resource.
+        /// Specifies the number of results to return.
         public let pageSize: Int?
         /// The queue IDs to include in the search.
         public let queueIds: [String]
@@ -8902,7 +8963,7 @@ extension Deadline {
     }
 
     public struct SearchTasksResponse: AWSDecodableShape {
-        /// The next incremental starting point after the defined itemOffset.
+        /// The next item offset for the search results.
         public let nextItemOffset: Int?
         /// Tasks in the search.
         public let tasks: [TaskSearchSummary]
@@ -8949,15 +9010,13 @@ extension Deadline {
     public struct SearchWorkersRequest: AWSEncodableShape {
         /// The farm ID in the workers search.
         public let farmId: String
-        /// The filter expression, AND or OR, to use
-        /// when searching among a group of search strings in a resource.
-        /// You can use two groupings per search each within parenthesis ().
+        /// The search terms for a resource.
         public let filterExpressions: SearchGroupedFilterExpressions?
         /// The fleet ID of the workers to search for.
         public let fleetIds: [String]
-        /// Defines how far into the scrollable list to start the return of results.
+        /// The offset for the search results.
         public let itemOffset: Int
-        /// Specifies the number of items per page for the resource.
+        /// Specifies the number of results to return.
         public let pageSize: Int?
         /// The search terms for a resource.
         public let sortExpressions: [SearchSortExpression]?
@@ -9004,7 +9063,7 @@ extension Deadline {
     }
 
     public struct SearchWorkersResponse: AWSDecodableShape {
-        /// The next incremental starting point after the defined itemOffset.
+        /// The next item offset for the search results.
         public let nextItemOffset: Int?
         /// The total number of results in the search.
         public let totalResults: Int
@@ -9026,13 +9085,13 @@ extension Deadline {
     }
 
     public struct ServiceManagedEc2FleetConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon EC2 instance capabilities.
+        /// The instance capabilities for the service managed EC2 fleet.
         public let instanceCapabilities: ServiceManagedEc2InstanceCapabilities
-        /// The Amazon EC2 market type.
+        /// The instance market options for the service managed EC2 fleet.
         public let instanceMarketOptions: ServiceManagedEc2InstanceMarketOptions
-        /// The storage profile ID.
+        /// The storage profile ID for the service managed EC2 fleet.
         public let storageProfileId: String?
-        /// The VPC configuration details for a service managed Amazon EC2 fleet.
+        /// The VPC configuration for the service managed EC2 fleet.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
@@ -9096,7 +9155,8 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.acceleratorCapabilities?.validate(name: "\(name).acceleratorCapabilities")
             try self.allowedInstanceTypes?.forEach {
-                try validate($0, name: "allowedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, max: 100)
+                try validate($0, name: "allowedInstanceTypes[]", parent: name, min: 1)
             }
             try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, max: 100)
             try self.validate(self.allowedInstanceTypes, name: "allowedInstanceTypes", parent: name, min: 1)
@@ -9111,7 +9171,8 @@ extension Deadline {
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 15)
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, min: 1)
             try self.excludedInstanceTypes?.forEach {
-                try validate($0, name: "excludedInstanceTypes[]", parent: name, pattern: "^[a-zA-Z0-9]+\\.[a-zA-Z0-9]+$")
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, max: 100)
+                try validate($0, name: "excludedInstanceTypes[]", parent: name, min: 1)
             }
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, max: 100)
             try self.validate(self.excludedInstanceTypes, name: "excludedInstanceTypes", parent: name, min: 1)
@@ -9615,20 +9676,46 @@ extension Deadline {
     }
 
     public struct StepParameter: AWSDecodableShape {
+        /// The configuration for task chunking.
+        public let chunks: StepParameterChunks?
         /// The name of the parameter.
         public let name: String
         /// The data type of the parameter.
         public let type: StepParameterType
 
         @inlinable
-        public init(name: String, type: StepParameterType) {
+        public init(chunks: StepParameterChunks? = nil, name: String, type: StepParameterType) {
+            self.chunks = chunks
             self.name = name
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case chunks = "chunks"
             case name = "name"
             case type = "type"
+        }
+    }
+
+    public struct StepParameterChunks: AWSDecodableShape {
+        /// The number of tasks to combine into a single chunk by default.
+        public let defaultTaskCount: Int
+        /// Specifies whether the chunked ranges must be contiguous or can have gaps between them.
+        public let rangeConstraint: RangeConstraint
+        /// The number of seconds to aim for when forming chunks.
+        public let targetRuntimeSeconds: Int?
+
+        @inlinable
+        public init(defaultTaskCount: Int, rangeConstraint: RangeConstraint, targetRuntimeSeconds: Int? = nil) {
+            self.defaultTaskCount = defaultTaskCount
+            self.rangeConstraint = rangeConstraint
+            self.targetRuntimeSeconds = targetRuntimeSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultTaskCount = "defaultTaskCount"
+            case rangeConstraint = "rangeConstraint"
+            case targetRuntimeSeconds = "targetRuntimeSeconds"
         }
     }
 
@@ -9676,7 +9763,7 @@ extension Deadline {
         public var startedAt: Date?
         /// The step ID.
         public let stepId: String?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public let targetTaskRunStatus: StepTargetTaskRunStatus?
         /// The total number of times tasks from the step failed and were retried.
         public let taskFailureRetryCount: Int?
@@ -9754,7 +9841,7 @@ extension Deadline {
         public var startedAt: Date?
         /// The step ID.
         public let stepId: String
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public let targetTaskRunStatus: StepTargetTaskRunStatus?
         /// The total number of times tasks from the step failed and were retried.
         public let taskFailureRetryCount: Int?
@@ -9855,8 +9942,39 @@ extension Deadline {
         }
     }
 
+    public struct StringListFilterExpression: AWSEncodableShape {
+        /// The field name to search.
+        public let name: String
+        /// The type of comparison to use for this search.
+        public let `operator`: ComparisonOperator
+        /// The list of string values to search for.
+        public let values: [String]
+
+        @inlinable
+        public init(name: String, operator: ComparisonOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 16)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case `operator` = "operator"
+            case values = "values"
+        }
+    }
+
     public struct SyncInputJobAttachmentsSessionActionDefinition: AWSDecodableShape {
-        /// The step ID for the step in the job attachment.
+        /// The step ID for the sync input job attachments session action.
         public let stepId: String?
 
         @inlinable
@@ -9870,7 +9988,7 @@ extension Deadline {
     }
 
     public struct SyncInputJobAttachmentsSessionActionDefinitionSummary: AWSDecodableShape {
-        /// The step ID of the step in the job attachment.
+        /// The step ID for the sync input job attachments session action summary.
         public let stepId: String?
 
         @inlinable
@@ -9999,6 +10117,8 @@ extension Deadline {
         public let failureRetryCount: Int?
         /// The job ID.
         public let jobId: String?
+        /// The latest session action ID for the task.
+        public let latestSessionActionId: String?
         /// The parameters to search for.
         public let parameters: [String: TaskParameterValue]?
         /// The queue ID.
@@ -10021,10 +10141,11 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(endedAt: Date? = nil, failureRetryCount: Int? = nil, jobId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String? = nil, runStatus: TaskRunStatus? = nil, startedAt: Date? = nil, stepId: String? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(endedAt: Date? = nil, failureRetryCount: Int? = nil, jobId: String? = nil, latestSessionActionId: String? = nil, parameters: [String: TaskParameterValue]? = nil, queueId: String? = nil, runStatus: TaskRunStatus? = nil, startedAt: Date? = nil, stepId: String? = nil, targetRunStatus: TaskTargetRunStatus? = nil, taskId: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
             self.jobId = jobId
+            self.latestSessionActionId = latestSessionActionId
             self.parameters = parameters
             self.queueId = queueId
             self.runStatus = runStatus
@@ -10040,6 +10161,7 @@ extension Deadline {
             case endedAt = "endedAt"
             case failureRetryCount = "failureRetryCount"
             case jobId = "jobId"
+            case latestSessionActionId = "latestSessionActionId"
             case parameters = "parameters"
             case queueId = "queueId"
             case runStatus = "runStatus"
@@ -10063,7 +10185,7 @@ extension Deadline {
         public var endedAt: Date?
         /// The number of times that the task failed and was retried.
         public let failureRetryCount: Int?
-        /// The latest session action for the task.
+        /// The latest session action ID for the task.
         public let latestSessionActionId: String?
         /// The task parameters.
         public let parameters: [String: TaskParameterValue]?
@@ -10389,6 +10511,8 @@ extension Deadline {
     public struct UpdateJobRequest: AWSEncodableShape {
         /// The unique token which the server uses to recognize retries of the same request.
         public let clientToken: String?
+        /// The updated job description.
+        public let description: String?
         /// The farm ID of the job to update.
         public let farmId: String
         /// The job ID to update.
@@ -10401,7 +10525,9 @@ extension Deadline {
         public let maxRetriesPerTask: Int?
         /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
         public let maxWorkerCount: Int?
-        /// The job priority to update.
+        /// The updated job name.
+        public let name: String?
+        /// The updated job priority.
         public let priority: Int?
         /// The queue ID of the job to update.
         public let queueId: String
@@ -10409,14 +10535,16 @@ extension Deadline {
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
 
         @inlinable
-        public init(clientToken: String? = UpdateJobRequest.idempotencyToken(), farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
+        public init(clientToken: String? = UpdateJobRequest.idempotencyToken(), description: String? = nil, farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
             self.clientToken = clientToken
+            self.description = description
             self.farmId = farmId
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
             self.maxWorkerCount = maxWorkerCount
+            self.name = name
             self.priority = priority
             self.queueId = queueId
             self.targetTaskRunStatus = targetTaskRunStatus
@@ -10426,12 +10554,14 @@ extension Deadline {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.farmId, key: "farmId")
             request.encodePath(self.jobId, key: "jobId")
             try container.encodeIfPresent(self.lifecycleStatus, forKey: .lifecycleStatus)
             try container.encodeIfPresent(self.maxFailedTasksCount, forKey: .maxFailedTasksCount)
             try container.encodeIfPresent(self.maxRetriesPerTask, forKey: .maxRetriesPerTask)
             try container.encodeIfPresent(self.maxWorkerCount, forKey: .maxWorkerCount)
+            try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.priority, forKey: .priority)
             request.encodePath(self.queueId, key: "queueId")
             try container.encodeIfPresent(self.targetTaskRunStatus, forKey: .targetTaskRunStatus)
@@ -10440,6 +10570,7 @@ extension Deadline {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
             try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, max: 2147483647)
@@ -10448,16 +10579,20 @@ extension Deadline {
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
             try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "description"
             case lifecycleStatus = "lifecycleStatus"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
             case maxWorkerCount = "maxWorkerCount"
+            case name = "name"
             case priority = "priority"
             case targetTaskRunStatus = "targetTaskRunStatus"
         }
@@ -10524,7 +10659,7 @@ extension Deadline {
         public let displayName: String?
         /// The unique identifier of the monitor to update.
         public let monitorId: String
-        /// The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
+        /// The Amazon Resource Name of the new IAM role to use with the monitor.
         public let roleArn: String?
         /// The new value of the subdomain to use when forming the monitor URL.
         public let subdomain: String?
@@ -11342,6 +11477,7 @@ extension Deadline {
                 try validate($0, name: "resourceConfigurationArns[]", parent: name, max: 2048)
                 try validate($0, name: "resourceConfigurationArns[]", parent: name, min: 1)
             }
+            try self.validate(self.resourceConfigurationArns, name: "resourceConfigurationArns", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {

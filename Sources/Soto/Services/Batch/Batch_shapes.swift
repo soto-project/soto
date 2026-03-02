@@ -274,18 +274,22 @@ extension Batch {
         public let size: Int?
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
         public let statusSummary: [String: Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public let statusSummaryLastUpdatedAt: Int64?
 
         @inlinable
-        public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil) {
+        public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil, statusSummaryLastUpdatedAt: Int64? = nil) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case index = "index"
             case size = "size"
             case statusSummary = "statusSummary"
+            case statusSummaryLastUpdatedAt = "statusSummaryLastUpdatedAt"
         }
     }
 
@@ -294,16 +298,24 @@ extension Batch {
         public let index: Int?
         /// The size of the array job. This parameter is returned for parent array jobs.
         public let size: Int?
+        /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
+        public let statusSummary: [String: Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public let statusSummaryLastUpdatedAt: Int64?
 
         @inlinable
-        public init(index: Int? = nil, size: Int? = nil) {
+        public init(index: Int? = nil, size: Int? = nil, statusSummary: [String: Int]? = nil, statusSummaryLastUpdatedAt: Int64? = nil) {
             self.index = index
             self.size = size
+            self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
 
         private enum CodingKeys: String, CodingKey {
             case index = "index"
             case size = "size"
+            case statusSummary = "statusSummary"
+            case statusSummaryLastUpdatedAt = "statusSummaryLastUpdatedAt"
         }
     }
 
@@ -580,6 +592,8 @@ extension Batch {
         public let minvCpus: Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let placementGroup: String?
+        /// The scaling policy configuration for the compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        public let scalingPolicy: ComputeScalingPolicy?
         /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. One or more security groups must be specified, either in securityGroupIds or using a launch template referenced in launchTemplate. This parameter is required for jobs that are running on Fargate resources and must contain at least one security group. Fargate doesn't support launch templates. If security groups are specified using both securityGroupIds and launchTemplate, the values in securityGroupIds are used.
         public let securityGroupIds: [String]?
         /// The Amazon Resource Name (ARN) of the Amazon EC2 Spot Fleet IAM role applied to a SPOT compute environment. This role is required if the allocation strategy set to BEST_FIT or if the allocation strategy isn't specified. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.   To tag your Spot Instances on creation, the Spot Fleet IAM role specified here must use the newer AmazonEC2SpotFleetTaggingRole managed policy. The previously recommended AmazonEC2SpotFleetRole managed policy doesn't have the required permissions to tag Spot Instances. For more information, see Spot instances not tagged on creation in the Batch User Guide.
@@ -592,7 +606,7 @@ extension Batch {
         public let type: CRType?
 
         @inlinable
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -605,6 +619,7 @@ extension Batch {
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
+            self.scalingPolicy = scalingPolicy
             self.securityGroupIds = securityGroupIds
             self.spotIamFleetRole = spotIamFleetRole
             self.subnets = subnets
@@ -614,7 +629,7 @@ extension Batch {
 
         @available(*, deprecated, message: "Members imageId have been deprecated")
         @inlinable
-        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
+        public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -627,6 +642,7 @@ extension Batch {
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
+            self.scalingPolicy = scalingPolicy
             self.securityGroupIds = securityGroupIds
             self.spotIamFleetRole = spotIamFleetRole
             self.subnets = subnets
@@ -653,6 +669,7 @@ extension Batch {
             case maxvCpus = "maxvCpus"
             case minvCpus = "minvCpus"
             case placementGroup = "placementGroup"
+            case scalingPolicy = "scalingPolicy"
             case securityGroupIds = "securityGroupIds"
             case spotIamFleetRole = "spotIamFleetRole"
             case subnets = "subnets"
@@ -686,6 +703,8 @@ extension Batch {
         public let minvCpus: Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see Placement groups in the Amazon EC2 User Guide for Linux Instances. When updating a compute environment, changing the placement group requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public let placementGroup: String?
+        /// The scaling policy configuration for the compute environment.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        public let scalingPolicy: ComputeScalingPolicy?
         /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. This parameter is required for Fargate compute resources, where it can contain up to 5 security groups. For Fargate compute resources, providing an empty list is handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the security groups from the compute resource. When updating a compute environment, changing the Amazon EC2 security groups requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.
         public let securityGroupIds: [String]?
         /// The VPC subnets where the compute resources are launched. Fargate compute resources can contain up to 16 subnets. For Fargate compute resources, providing an empty list will be handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the VPC subnets from the compute resource. For more information, see VPCs and subnets in the Amazon VPC User Guide. When updating a compute environment, changing the VPC subnets requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see  Local Zones in the Amazon EC2 User Guide for Linux Instances, Amazon EKS and Amazon Web Services Local Zones in the Amazon EKS User Guide and  Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
@@ -698,7 +717,7 @@ extension Batch {
         public let updateToLatestImageVersion: Bool?
 
         @inlinable
-        public init(allocationStrategy: CRUpdateAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil, updateToLatestImageVersion: Bool? = nil) {
+        public init(allocationStrategy: CRUpdateAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2Configuration: [Ec2Configuration]? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String? = nil, instanceTypes: [String]? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int? = nil, minvCpus: Int? = nil, placementGroup: String? = nil, scalingPolicy: ComputeScalingPolicy? = nil, securityGroupIds: [String]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil, type: CRType? = nil, updateToLatestImageVersion: Bool? = nil) {
             self.allocationStrategy = allocationStrategy
             self.bidPercentage = bidPercentage
             self.desiredvCpus = desiredvCpus
@@ -711,6 +730,7 @@ extension Batch {
             self.maxvCpus = maxvCpus
             self.minvCpus = minvCpus
             self.placementGroup = placementGroup
+            self.scalingPolicy = scalingPolicy
             self.securityGroupIds = securityGroupIds
             self.subnets = subnets
             self.tags = tags
@@ -737,11 +757,26 @@ extension Batch {
             case maxvCpus = "maxvCpus"
             case minvCpus = "minvCpus"
             case placementGroup = "placementGroup"
+            case scalingPolicy = "scalingPolicy"
             case securityGroupIds = "securityGroupIds"
             case subnets = "subnets"
             case tags = "tags"
             case type = "type"
             case updateToLatestImageVersion = "updateToLatestImageVersion"
+        }
+    }
+
+    public struct ComputeScalingPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The minimum time (in minutes) that Batch keeps instances running in the compute environment  after their jobs complete. For each instance, the delay period begins when the last job finishes.  If no new jobs are placed on the instance during this delay, Batch terminates the instance once  the delay expires. Valid Range: Minimum value of 20. Maximum value of 10080. Use 0 to unset and disable the scale down delay.  The scale down delay does not apply to:   Instances being replaced during infrastructure updates   Newly launched instances that have not yet run any jobs   Spot instances reclaimed due to interruption
+        public let minScaleDownDelayMinutes: Int?
+
+        @inlinable
+        public init(minScaleDownDelayMinutes: Int? = nil) {
+            self.minScaleDownDelayMinutes = minScaleDownDelayMinutes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minScaleDownDelayMinutes = "minScaleDownDelayMinutes"
         }
     }
 
@@ -1851,6 +1886,8 @@ extension Batch {
     public struct DescribeServiceJobResponse: AWSDecodableShape {
         /// A list of job attempts associated with the service job.
         public let attempts: [ServiceJobAttemptDetail]?
+        /// The configured capacity for the service job, such as the number of instances. The number of instances should be the same value as the serviceRequestPayload.InstanceCount field.
+        public let capacityUsage: [ServiceJobCapacityUsageDetail]?
         /// The Unix timestamp (in milliseconds) for when the service job was created.
         public let createdAt: Int64?
         /// Indicates whether the service job has been terminated.
@@ -1867,6 +1904,8 @@ extension Batch {
         public let latestAttempt: LatestServiceJobAttempt?
         /// The retry strategy to use for failed service jobs that are submitted with this service job.
         public let retryStrategy: ServiceJobRetryStrategy?
+        /// The Unix timestamp (in milliseconds) for when the service job was scheduled. This represents when the service job was dispatched to SageMaker and the service job transitioned to the SCHEDULED state.
+        public let scheduledAt: Int64?
         /// The scheduling priority of the service job.
         public let schedulingPriority: Int?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
@@ -1889,8 +1928,9 @@ extension Batch {
         public let timeoutConfig: ServiceJobTimeout?
 
         @inlinable
-        public init(attempts: [ServiceJobAttemptDetail]? = nil, createdAt: Int64? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
+        public init(attempts: [ServiceJobAttemptDetail]? = nil, capacityUsage: [ServiceJobCapacityUsageDetail]? = nil, createdAt: Int64? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, retryStrategy: ServiceJobRetryStrategy? = nil, scheduledAt: Int64? = nil, schedulingPriority: Int? = nil, serviceJobType: ServiceJobType? = nil, serviceRequestPayload: String? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeoutConfig: ServiceJobTimeout? = nil) {
             self.attempts = attempts
+            self.capacityUsage = capacityUsage
             self.createdAt = createdAt
             self.isTerminated = isTerminated
             self.jobArn = jobArn
@@ -1899,6 +1939,7 @@ extension Batch {
             self.jobQueue = jobQueue
             self.latestAttempt = latestAttempt
             self.retryStrategy = retryStrategy
+            self.scheduledAt = scheduledAt
             self.schedulingPriority = schedulingPriority
             self.serviceJobType = serviceJobType
             self.serviceRequestPayload = serviceRequestPayload
@@ -1913,6 +1954,7 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case attempts = "attempts"
+            case capacityUsage = "capacityUsage"
             case createdAt = "createdAt"
             case isTerminated = "isTerminated"
             case jobArn = "jobArn"
@@ -1921,6 +1963,7 @@ extension Batch {
             case jobQueue = "jobQueue"
             case latestAttempt = "latestAttempt"
             case retryStrategy = "retryStrategy"
+            case scheduledAt = "scheduledAt"
             case schedulingPriority = "schedulingPriority"
             case serviceJobType = "serviceJobType"
             case serviceRequestPayload = "serviceRequestPayload"
@@ -2894,6 +2937,42 @@ extension Batch {
         }
     }
 
+    public struct FairshareCapacityUsage: AWSDecodableShape {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used, measured in the units specified by capacityUnit.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct FairshareCapacityUtilization: AWSDecodableShape {
+        /// The capacity usage information for this share, including the unit of measure and quantity being used. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public let capacityUsage: [FairshareCapacityUsage]?
+        /// The share identifier for the fairshare scheduling job queue.
+        public let shareIdentifier: String?
+
+        @inlinable
+        public init(capacityUsage: [FairshareCapacityUsage]? = nil, shareIdentifier: String? = nil) {
+            self.capacityUsage = capacityUsage
+            self.shareIdentifier = shareIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUsage = "capacityUsage"
+            case shareIdentifier = "shareIdentifier"
+        }
+    }
+
     public struct FairsharePolicy: AWSEncodableShape & AWSDecodableShape {
         /// A value used to reserve some of the available maximum vCPU for share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares is the number of active share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one share identifier. It reserves 25% if there are two share identifiers. It reserves 12.5% if there are three share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three share identifiers. The minimum value is 0 and the maximum value is 99.
         public let computeReservation: Int?
@@ -2913,6 +2992,24 @@ extension Batch {
             case computeReservation = "computeReservation"
             case shareDecaySeconds = "shareDecaySeconds"
             case shareDistribution = "shareDistribution"
+        }
+    }
+
+    public struct FairshareUtilizationDetail: AWSDecodableShape {
+        /// The total number of active shares in the fairshare scheduling job queue that are currently utilizing capacity.
+        public let activeShareCount: Int64?
+        /// A list of the top 20 shares with the highest capacity utilization, ordered by usage amount.
+        public let topCapacityUtilization: [FairshareCapacityUtilization]?
+
+        @inlinable
+        public init(activeShareCount: Int64? = nil, topCapacityUtilization: [FairshareCapacityUtilization]? = nil) {
+            self.activeShareCount = activeShareCount
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeShareCount = "activeShareCount"
+            case topCapacityUtilization = "topCapacityUtilization"
         }
     }
 
@@ -3001,14 +3098,18 @@ extension Batch {
     public struct GetJobQueueSnapshotResponse: AWSDecodableShape {
         /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
         public let frontOfQueue: FrontOfQueueDetail?
+        /// The job queue's capacity utilization, including total usage and breakdown by fairshare scheduling queue.
+        public let queueUtilization: QueueSnapshotUtilizationDetail?
 
         @inlinable
-        public init(frontOfQueue: FrontOfQueueDetail? = nil) {
+        public init(frontOfQueue: FrontOfQueueDetail? = nil, queueUtilization: QueueSnapshotUtilizationDetail? = nil) {
             self.frontOfQueue = frontOfQueue
+            self.queueUtilization = queueUtilization
         }
 
         private enum CodingKeys: String, CodingKey {
             case frontOfQueue = "frontOfQueue"
+            case queueUtilization = "queueUtilization"
         }
     }
 
@@ -3037,6 +3138,24 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
+        }
+    }
+
+    public struct JobCapacityUsageSummary: AWSDecodableShape {
+        /// The unit of measure for the capacity usage. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used by the job, measured in the units specified by capacityUnit.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
         }
     }
 
@@ -3357,6 +3476,8 @@ extension Batch {
     public struct JobSummary: AWSDecodableShape {
         /// The array properties of the job, if it's an array job.
         public let arrayProperties: ArrayPropertiesSummary?
+        /// The configured capacity usage information for this job, including the unit of measure and quantity of resources.
+        public let capacityUsage: [JobCapacityUsageSummary]?
         /// An object that represents the details of the container that's associated with the job.
         public let container: ContainerSummary?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -3371,6 +3492,10 @@ extension Batch {
         public let jobName: String?
         /// The node properties for a single node in a job summary list.  This isn't applicable to jobs that are running on Fargate resources.
         public let nodeProperties: NodePropertiesSummary?
+        /// The Unix timestamp (in milliseconds) for when the job was scheduled for execution. For more information on job statues, see Service job status in the Batch User Guide.
+        public let scheduledAt: Int64?
+        /// The share identifier for the fairshare scheduling queue that this job is associated with.
+        public let shareIdentifier: String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         public let startedAt: Int64?
         /// The current status for the job.
@@ -3381,8 +3506,9 @@ extension Batch {
         public let stoppedAt: Int64?
 
         @inlinable
-        public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(arrayProperties: ArrayPropertiesSummary? = nil, capacityUsage: [JobCapacityUsageSummary]? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, nodeProperties: NodePropertiesSummary? = nil, scheduledAt: Int64? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.arrayProperties = arrayProperties
+            self.capacityUsage = capacityUsage
             self.container = container
             self.createdAt = createdAt
             self.jobArn = jobArn
@@ -3390,6 +3516,8 @@ extension Batch {
             self.jobId = jobId
             self.jobName = jobName
             self.nodeProperties = nodeProperties
+            self.scheduledAt = scheduledAt
+            self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
             self.status = status
             self.statusReason = statusReason
@@ -3398,6 +3526,7 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case arrayProperties = "arrayProperties"
+            case capacityUsage = "capacityUsage"
             case container = "container"
             case createdAt = "createdAt"
             case jobArn = "jobArn"
@@ -3405,6 +3534,8 @@ extension Batch {
             case jobId = "jobId"
             case jobName = "jobName"
             case nodeProperties = "nodeProperties"
+            case scheduledAt = "scheduledAt"
+            case shareIdentifier = "shareIdentifier"
             case startedAt = "startedAt"
             case status = "status"
             case statusReason = "statusReason"
@@ -3671,7 +3802,7 @@ extension Batch {
         public let jobStatus: String?
         /// The total amount of the consumable resource that is available.
         public let quantity: Int64?
-        /// The fair-share scheduling policy identifier for the job.
+        /// The fair-share scheduling identifier for the job.
         public let shareIdentifier: String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned  from the STARTING state to the RUNNING state.
         public let startedAt: Int64?
@@ -3711,11 +3842,11 @@ extension Batch {
     public struct ListJobsRequest: AWSEncodableShape {
         /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
         public let arrayJobId: String?
-        /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first.  JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  JOB_DEFINITION  The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+        /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first.  The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.   JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  JOB_DEFINITION  The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  SHARE_IDENTIFIER  The value for the filter is the fairshare scheduling share identifier.
         public let filters: [KeyValuesPair]?
         /// The name or full Amazon Resource Name (ARN) of the job queue used to list jobs.
         public let jobQueue: String?
-        /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned.
+        /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are returned.  Array job parents are updated to PENDING when any child job is updated to RUNNABLE and remain in PENDING status while child jobs are running. To view these jobs, filter by PENDING status until all child jobs reach a terminal state.
         public let jobStatus: JobStatus?
         /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:   The minimum value is 1.    When --job-status is used, Batch returns up to 1000 values.    When --filters is used, Batch returns up to 100 values.   If neither parameter is used, then ListJobs returns up to 1000 results (jobs that are in the RUNNING status) and a nextToken value, if applicable.
         public let maxResults: Int?
@@ -3801,11 +3932,16 @@ extension Batch {
     }
 
     public struct ListServiceJobsRequest: AWSEncodableShape {
-        /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first.  JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+        /// The filter to apply to the query. Only one filter can be used at a time. When the
+        /// 	            filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The results are sorted by the
+        /// 	                createdAt field, with the most recent jobs being first.  The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.   JOB_NAME  The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version.  BEFORE_CREATED_AT  The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  AFTER_CREATED_AT  The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.  SHARE_IDENTIFIER  The value for the filter is the fairshare scheduling share identifier.
         public let filters: [KeyValuesPair]?
         /// The name or ARN of the job queue with which to list service jobs.
         public let jobQueue: String?
-        /// The job status with which to filter service jobs.
+        /// The job status used to filter service jobs in the specified queue. If the filters
+        /// 	            parameter is specified, the jobStatus parameter is ignored and jobs with any
+        /// 	            status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are
+        /// 	            returned.  The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.
         public let jobStatus: ServiceJobStatus?
         /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -4128,6 +4264,46 @@ extension Batch {
         }
     }
 
+    public struct QueueSnapshotCapacityUsage: AWSDecodableShape {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is the instance type.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used in the queue snapshot, measured in the units specified by capacityUnit.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct QueueSnapshotUtilizationDetail: AWSDecodableShape {
+        /// The utilization information for a fairshare scheduling job queues, including active share count and top capacity utilization by share.
+        public let fairshareUtilization: FairshareUtilizationDetail?
+        /// The Unix timestamp (in milliseconds) for when the queue utilization information was last updated.
+        public let lastUpdatedAt: Int64?
+        /// The total capacity usage for the entire job queue, for both first-in, first-out (FIFO) and fairshare scheduling job queue.
+        public let totalCapacityUsage: [QueueSnapshotCapacityUsage]?
+
+        @inlinable
+        public init(fairshareUtilization: FairshareUtilizationDetail? = nil, lastUpdatedAt: Int64? = nil, totalCapacityUsage: [QueueSnapshotCapacityUsage]? = nil) {
+            self.fairshareUtilization = fairshareUtilization
+            self.lastUpdatedAt = lastUpdatedAt
+            self.totalCapacityUsage = totalCapacityUsage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fairshareUtilization = "fairshareUtilization"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case totalCapacityUsage = "totalCapacityUsage"
+        }
+    }
+
     public struct RegisterJobDefinitionRequest: AWSEncodableShape {
         /// Contains a list of consumable resources required by the job.
         public let consumableResourceProperties: ConsumableResourceProperties?
@@ -4438,6 +4614,42 @@ extension Batch {
         }
     }
 
+    public struct ServiceJobCapacityUsageDetail: AWSDecodableShape {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct ServiceJobCapacityUsageSummary: AWSDecodableShape {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is the instance type.
+        public let capacityUnit: String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public let quantity: Double?
+
+        @inlinable
+        public init(capacityUnit: String? = nil, quantity: Double? = nil) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacityUnit = "capacityUnit"
+            case quantity = "quantity"
+        }
+    }
+
     public struct ServiceJobEvaluateOnExit: AWSEncodableShape & AWSDecodableShape {
         /// The action to take if the service job exits with the specified condition. Valid values are RETRY and EXIT.
         public let action: ServiceJobRetryAction?
@@ -4475,6 +4687,8 @@ extension Batch {
     }
 
     public struct ServiceJobSummary: AWSDecodableShape {
+        /// The capacity usage information for this service job, including the unit of measure and quantity of resources being used.
+        public let capacityUsage: [ServiceJobCapacityUsageSummary]?
         /// The Unix timestamp (in milliseconds) for when the service job was created.
         public let createdAt: Int64?
         /// The Amazon Resource Name (ARN) of the service job.
@@ -4485,6 +4699,8 @@ extension Batch {
         public let jobName: String?
         /// Information about the latest attempt for the service job.
         public let latestAttempt: LatestServiceJobAttempt?
+        /// The Unix timestamp (in milliseconds) for when the service job was scheduled for execution.
+        public let scheduledAt: Int64?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
         public let serviceJobType: ServiceJobType?
         /// The share identifier for the job.
@@ -4499,12 +4715,14 @@ extension Batch {
         public let stoppedAt: Int64?
 
         @inlinable
-        public init(createdAt: Int64? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, serviceJobType: ServiceJobType? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(capacityUsage: [ServiceJobCapacityUsageSummary]? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, latestAttempt: LatestServiceJobAttempt? = nil, scheduledAt: Int64? = nil, serviceJobType: ServiceJobType? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: ServiceJobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+            self.capacityUsage = capacityUsage
             self.createdAt = createdAt
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.latestAttempt = latestAttempt
+            self.scheduledAt = scheduledAt
             self.serviceJobType = serviceJobType
             self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
@@ -4514,11 +4732,13 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capacityUsage = "capacityUsage"
             case createdAt = "createdAt"
             case jobArn = "jobArn"
             case jobId = "jobId"
             case jobName = "jobName"
             case latestAttempt = "latestAttempt"
+            case scheduledAt = "scheduledAt"
             case serviceJobType = "serviceJobType"
             case shareIdentifier = "shareIdentifier"
             case startedAt = "startedAt"

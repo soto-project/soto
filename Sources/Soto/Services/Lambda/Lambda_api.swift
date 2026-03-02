@@ -428,6 +428,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
     ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache Kafka, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     ///   - kmsKeyArn:  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    ///   - loggingConfig: (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see Event source mapping logging.
     ///   - maximumBatchingWindowInSeconds: The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     ///   - maximumRecordAgeInSeconds: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     ///   - maximumRetryAttempts: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
@@ -458,6 +459,7 @@ public struct Lambda: AWSService {
         functionName: String,
         functionResponseTypes: [FunctionResponseType]? = nil,
         kmsKeyArn: String? = nil,
+        loggingConfig: EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Int? = nil,
         maximumRecordAgeInSeconds: Int? = nil,
         maximumRetryAttempts: Int? = nil,
@@ -488,6 +490,7 @@ public struct Lambda: AWSService {
             functionName: functionName, 
             functionResponseTypes: functionResponseTypes, 
             kmsKeyArn: kmsKeyArn, 
+            loggingConfig: loggingConfig, 
             maximumBatchingWindowInSeconds: maximumBatchingWindowInSeconds, 
             maximumRecordAgeInSeconds: maximumRecordAgeInSeconds, 
             maximumRetryAttempts: maximumRetryAttempts, 
@@ -3101,6 +3104,7 @@ public struct Lambda: AWSService {
     ///   - functionName: The name or ARN of the Lambda function.  Name formats     Function name – MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
     ///   - functionResponseTypes: (Kinesis, DynamoDB Streams, Amazon MSK, self-managed Apache Kafka, and Amazon SQS) A list of current response type enums applied to the event source mapping.
     ///   - kmsKeyArn:  The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's filter criteria. By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
+    ///   - loggingConfig: 
     ///   - maximumBatchingWindowInSeconds: The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     ///   - maximumRecordAgeInSeconds: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
     ///   - maximumRetryAttempts: (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
@@ -3125,6 +3129,7 @@ public struct Lambda: AWSService {
         functionName: String? = nil,
         functionResponseTypes: [FunctionResponseType]? = nil,
         kmsKeyArn: String? = nil,
+        loggingConfig: EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Int? = nil,
         maximumRecordAgeInSeconds: Int? = nil,
         maximumRetryAttempts: Int? = nil,
@@ -3149,6 +3154,7 @@ public struct Lambda: AWSService {
             functionName: functionName, 
             functionResponseTypes: functionResponseTypes, 
             kmsKeyArn: kmsKeyArn, 
+            loggingConfig: loggingConfig, 
             maximumBatchingWindowInSeconds: maximumBatchingWindowInSeconds, 
             maximumRecordAgeInSeconds: maximumRecordAgeInSeconds, 
             maximumRetryAttempts: maximumRetryAttempts, 

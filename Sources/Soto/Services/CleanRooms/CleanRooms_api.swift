@@ -282,6 +282,7 @@ public struct CleanRooms: AWSService {
     ///   - creatorPaymentConfiguration: The collaboration creator's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
     ///   - dataEncryptionMetadata: The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
     ///   - description: A description of the collaboration provided by the collaboration owner.
+    ///   - isMetricsEnabled: An indicator as to whether metrics have been enabled or disabled for the collaboration. When true, collaboration members can opt in to Amazon CloudWatch metrics for their membership queries. The default value is false.
     ///   - jobLogStatus: Specifies whether job logs are enabled for this collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - members: A list of initial members, not including the creator. This list is immutable.
     ///   - name: The display name for a collaboration.
@@ -299,6 +300,7 @@ public struct CleanRooms: AWSService {
         creatorPaymentConfiguration: PaymentConfiguration? = nil,
         dataEncryptionMetadata: DataEncryptionMetadata? = nil,
         description: String,
+        isMetricsEnabled: Bool? = nil,
         jobLogStatus: CollaborationJobLogStatus? = nil,
         members: [MemberSpecification],
         name: String,
@@ -316,6 +318,7 @@ public struct CleanRooms: AWSService {
             creatorPaymentConfiguration: creatorPaymentConfiguration, 
             dataEncryptionMetadata: dataEncryptionMetadata, 
             description: description, 
+            isMetricsEnabled: isMetricsEnabled, 
             jobLogStatus: jobLogStatus, 
             members: members, 
             name: name, 
@@ -672,6 +675,7 @@ public struct CleanRooms: AWSService {
     ///   - collaborationIdentifier: The unique ID for the associated collaboration.
     ///   - defaultJobResultConfiguration: The default job result configuration that determines how job results are protected and managed within this membership. This configuration applies to all jobs.
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
+    ///   - isMetricsEnabled: An indicator as to whether Amazon CloudWatch metrics have been enabled or disabled for the membership. Amazon CloudWatch metrics are only available when the collaboration has metrics enabled. This option can be set by collaboration members who have the ability to run queries (analysis runners) or by members who are configured as payers. When true, metrics about query execution are collected in Amazon CloudWatch. The default value is false.
     ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - paymentConfiguration: The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
     ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
@@ -682,6 +686,7 @@ public struct CleanRooms: AWSService {
         collaborationIdentifier: String,
         defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil,
+        isMetricsEnabled: Bool? = nil,
         jobLogStatus: MembershipJobLogStatus? = nil,
         paymentConfiguration: MembershipPaymentConfiguration? = nil,
         queryLogStatus: MembershipQueryLogStatus,
@@ -692,6 +697,7 @@ public struct CleanRooms: AWSService {
             collaborationIdentifier: collaborationIdentifier, 
             defaultJobResultConfiguration: defaultJobResultConfiguration, 
             defaultResultConfiguration: defaultResultConfiguration, 
+            isMetricsEnabled: isMetricsEnabled, 
             jobLogStatus: jobLogStatus, 
             paymentConfiguration: paymentConfiguration, 
             queryLogStatus: queryLogStatus, 
@@ -2790,6 +2796,41 @@ public struct CleanRooms: AWSService {
             name: name
         )
         return try await self.updateCollaboration(input, logger: logger)
+    }
+
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    @Sendable
+    @inlinable
+    public func updateCollaborationChangeRequest(_ input: UpdateCollaborationChangeRequestInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateCollaborationChangeRequestOutput {
+        try await self.client.execute(
+            operation: "UpdateCollaborationChangeRequest", 
+            path: "/collaborations/{collaborationIdentifier}/changeRequests/{changeRequestIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing collaboration change request. This operation allows approval actions for pending change requests in collaborations (APPROVE, DENY, CANCEL, COMMIT). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    ///
+    /// Parameters:
+    ///   - action: The action to perform on the change request. Valid values include APPROVE (approve the change), DENY (reject the change), CANCEL (cancel the request), and COMMIT (commit after the request is approved). For change requests without automatic approval, a member in the collaboration can manually APPROVE or DENY a change request. The collaboration owner can manually CANCEL or COMMIT a change request.
+    ///   - changeRequestIdentifier: The unique identifier of the specific change request to be updated within the collaboration.
+    ///   - collaborationIdentifier: The unique identifier of the collaboration that contains the change request to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCollaborationChangeRequest(
+        action: ChangeRequestAction,
+        changeRequestIdentifier: String,
+        collaborationIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateCollaborationChangeRequestOutput {
+        let input = UpdateCollaborationChangeRequestInput(
+            action: action, 
+            changeRequestIdentifier: changeRequestIdentifier, 
+            collaborationIdentifier: collaborationIdentifier
+        )
+        return try await self.updateCollaborationChangeRequest(input, logger: logger)
     }
 
     /// Provides the details necessary to update a configured audience model association.

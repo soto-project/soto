@@ -364,9 +364,10 @@ public struct TranscribeStreaming: AWSService {
     ///   - mediaSampleRateHertz: The sample rate of the input audio (in hertz). Low-quality audio, such as telephone audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
     ///   - numberOfChannels: Specify the number of channels in your audio stream. This value must be  2, as only two channels are supported. If your audio doesn't contain  multiple channels, do not include this parameter in your request. If you include NumberOfChannels in your request, you must also  include EnableChannelIdentification.
     ///   - partialResultsStability: Specify the level of stability to use when you enable partial results stabilization  (EnablePartialResultsStabilization). Low stability provides the highest accuracy. High stability transcribes faster, but with slightly lower accuracy. For more information, see Partial-result  stabilization.
-    ///   - piiEntityTypes: Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. Values must be comma-separated and can include: ADDRESS,  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL,  NAME, PHONE, PIN,  SSN, or ALL. Note that if you include PiiEntityTypes in your request, you must also include  ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or  ContentIdentificationType in your request, but do not include  PiiEntityTypes, all PII is redacted or identified.
+    ///   - piiEntityTypes: Specify which types of personally identifiable information (PII) you want to redact in your  transcript. You can include as many types as you'd like, or you can select  ALL. Values must be comma-separated and can include: ADDRESS,  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, CREDIT_DEBIT_NUMBER, EMAIL,  NAME, PHONE, PIN,  SSN, AGE, DATE_TIME, LICENSE_PLATE, PASSPORT_NUMBER, PASSWORD, USERNAME, VEHICLE_IDENTIFICATION_NUMBER, or ALL. Note that if you include PiiEntityTypes in your request, you must also include  ContentIdentificationType or ContentRedactionType. If you include ContentRedactionType or  ContentIdentificationType in your request, but do not include  PiiEntityTypes, all PII is redacted or identified.
     ///   - preferredLanguage: Specify a preferred language from the subset of languages codes you specified in  LanguageOptions. You can only use this parameter if you've included IdentifyLanguage and LanguageOptions in your request.
     ///   - sessionId: Specify a name for your transcription session. If you don't include this parameter in your request,  Amazon Transcribe generates an ID and returns it in the response.
+    ///   - sessionResumeWindow: Specify the time window, in minutes, during which your transcription session can be resumed, measured from the stream start time. This optional parameter accepts integer values from 1 to 300 (5 hours). For example, if your stream starts at 1 PM and you specify a SessionResumeWindow of 30 minutes, you can reconnect to the session as many times as you want until 1:30 PM.
     ///   - showSpeakerLabel: Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning  labels the speech from individual speakers in your media file. For more information, see Partitioning speakers (diarization).
     ///   - vocabularyFilterMethod: Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     ///   - vocabularyFilterName: Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription.  This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead.  For more information, see Using vocabulary filtering with unwanted  words.
@@ -393,6 +394,7 @@ public struct TranscribeStreaming: AWSService {
         piiEntityTypes: String? = nil,
         preferredLanguage: LanguageCode? = nil,
         sessionId: String? = nil,
+        sessionResumeWindow: Int? = nil,
         showSpeakerLabel: Bool? = nil,
         vocabularyFilterMethod: VocabularyFilterMethod? = nil,
         vocabularyFilterName: String? = nil,
@@ -419,6 +421,7 @@ public struct TranscribeStreaming: AWSService {
             piiEntityTypes: piiEntityTypes, 
             preferredLanguage: preferredLanguage, 
             sessionId: sessionId, 
+            sessionResumeWindow: sessionResumeWindow, 
             showSpeakerLabel: showSpeakerLabel, 
             vocabularyFilterMethod: vocabularyFilterMethod, 
             vocabularyFilterName: vocabularyFilterName, 

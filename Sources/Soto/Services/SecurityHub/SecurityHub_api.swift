@@ -24,10 +24,10 @@ import Foundation
 
 /// Service object for interacting with AWS SecurityHub service.
 ///
-/// Security Hub provides you with a comprehensive view of your security state in Amazon Web Services and helps you assess your Amazon Web Services environment against security industry standards and best practices. Security Hub collects security data across Amazon Web Services accounts, Amazon Web Services services, and supported third-party products and helps you analyze your security trends and identify the highest priority security issues. To help you manage the security state of your organization, Security Hub supports multiple security standards. These include the Amazon Web Services Foundational Security Best Practices (FSBP) standard developed by Amazon Web Services, and external compliance frameworks such as the Center for Internet Security (CIS), the Payment Card Industry Data Security Standard (PCI DSS), and the National Institute of Standards and Technology (NIST). Each standard includes several security controls, each of which represents a security best practice. Security Hub runs checks against security controls and generates control findings to help you assess your compliance against security best practices. In addition to generating control findings, Security Hub also receives findings from other Amazon Web Services services, such as Amazon GuardDuty and Amazon Inspector, and supported third-party products. This gives you a single pane of glass into a variety of security-related issues. You can also send Security Hub findings to other Amazon Web Services services and supported third-party products. Security Hub offers automation features that help you triage and remediate security issues. For example, you can use automation rules to automatically update critical findings when a security check fails. You can also leverage the integration with Amazon EventBridge  to trigger automatic responses to specific findings. This guide, the Security Hub API Reference, provides information about the Security Hub API. This includes supported resources, HTTP methods, parameters, and schemas. If you're new to Security Hub, you might find it helpful to also review the  Security Hub User Guide . The user guide explains key concepts and provides procedures that demonstrate how to use Security Hub features. It also provides information about topics such as integrating Security Hub with other Amazon Web Services services. In addition to interacting with Security Hub  by making calls to the Security Hub API, you can use a current version of an Amazon Web Services command line tool or SDK. Amazon Web Services provides tools and SDKs that consist of libraries and sample code for various languages and platforms, such as PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide convenient, programmatic access to Security Hub  and other Amazon Web Services services . They also handle tasks such as signing requests, managing errors, and retrying requests automatically. For information about installing and using the Amazon Web Services  tools and SDKs, see Tools to Build on Amazon Web Services. With the exception of operations that are related to central configuration, Security Hub API requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, call the same API operation in each Region in which you want to apply the change. When you use central configuration,
-/// API requests for enabling Security Hub, standards, and controls are executed in the home Region and all linked Regions. For a list of
+/// Security Hub CSPM provides you with a comprehensive view of your security state in Amazon Web Services and helps you assess your Amazon Web Services environment against security industry standards and best practices. Security Hub CSPM collects security data across Amazon Web Services accounts, Amazon Web Services services, and supported third-party products and helps you analyze your security trends and identify the highest priority security issues. To help you manage the security state of your organization, Security Hub CSPM supports multiple security standards. These include the Amazon Web Services Foundational Security Best Practices (FSBP) standard developed by Amazon Web Services, and external compliance frameworks such as the Center for Internet Security (CIS), the Payment Card Industry Data Security Standard (PCI DSS), and the National Institute of Standards and Technology (NIST). Each standard includes several security controls, each of which represents a security best practice. Security Hub CSPM runs checks against security controls and generates control findings to help you assess your compliance against security best practices. In addition to generating control findings, Security Hub CSPM also receives findings from other Amazon Web Services services, such as Amazon GuardDuty and Amazon Inspector, and supported third-party products. This gives you a single pane of glass into a variety of security-related issues. You can also send Security Hub CSPM findings to other Amazon Web Services services and supported third-party products. Security Hub CSPM offers automation features that help you triage and remediate security issues. For example, you can use automation rules to automatically update critical findings when a security check fails. You can also leverage the integration with Amazon EventBridge  to trigger automatic responses to specific findings. This guide, the Security Hub CSPM API Reference, provides information about the Security Hub CSPM API. This includes supported resources, HTTP methods, parameters, and schemas. If you're new to Security Hub CSPM, you might find it helpful to also review the  Security Hub CSPM User Guide . The user guide explains key concepts and provides procedures that demonstrate how to use Security Hub CSPM features. It also provides information about topics such as integrating Security Hub CSPM with other Amazon Web Services services. In addition to interacting with Security Hub CSPM  by making calls to the Security Hub CSPM API, you can use a current version of an Amazon Web Services command line tool or SDK. Amazon Web Services provides tools and SDKs that consist of libraries and sample code for various languages and platforms, such as PowerShell, Java, Go, Python, C++, and .NET. These tools and SDKs provide convenient, programmatic access to Security Hub CSPM  and other Amazon Web Services services . They also handle tasks such as signing requests, managing errors, and retrying requests automatically. For information about installing and using the Amazon Web Services  tools and SDKs, see Tools to Build on Amazon Web Services. With the exception of operations that are related to central configuration, Security Hub CSPM API requests are executed only in the Amazon Web Services Region that is currently active or in the specific Amazon Web Services Region that you specify in your request. Any configuration or settings change that results from the operation is applied only to that Region. To make the same change in other Regions, call the same API operation in each Region in which you want to apply the change. When you use central configuration,
+/// API requests for enabling Security Hub CSPM, standards, and controls are executed in the home Region and all linked Regions. For a list of
 /// central configuration operations, see the Central configuration
-/// terms and concepts section of the Security Hub User Guide. The following throttling limits apply to Security Hub API operations.    BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.    GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.    BatchImportFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
+/// terms and concepts section of the Security Hub CSPM User Guide. The following throttling limits apply to Security Hub CSPM API operations.    BatchEnableStandards - RateLimit of 1 request per second. BurstLimit of 1 request per second.    GetFindings - RateLimit of 3 requests per second. BurstLimit of 6 requests per second.    BatchImportFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    BatchUpdateFindings - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.    UpdateStandardsControl - RateLimit of 1 request per second. BurstLimit of 5 requests per second.   All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
 public struct SecurityHub: AWSService {
     // MARK: Member variables
 
@@ -129,7 +129,7 @@ public struct SecurityHub: AWSService {
 
     // MARK: API Calls
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @Sendable
     @inlinable
     public func acceptAdministratorInvitation(_ input: AcceptAdministratorInvitationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AcceptAdministratorInvitationResponse {
@@ -142,11 +142,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
     /// Parameters:
-    ///   - administratorId: The account ID of the Security Hub administrator account that sent the invitation.
-    ///   - invitationId: The identifier of the invitation sent from the Security Hub administrator account.
+    ///   - administratorId: The account ID of the Security Hub CSPM administrator account that sent the invitation.
+    ///   - invitationId: The identifier of the invitation sent from the Security Hub CSPM administrator account.
     ///   - logger: Logger use during operation
     @inlinable
     public func acceptAdministratorInvitation(
@@ -161,7 +161,7 @@ public struct SecurityHub: AWSService {
         return try await self.acceptAdministratorInvitation(input, logger: logger)
     }
 
-    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub CSPM console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     @Sendable
     @inlinable
@@ -175,11 +175,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub CSPM console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     ///
     /// Parameters:
-    ///   - invitationId: The identifier of the invitation sent from the Security Hub administrator account.
-    ///   - masterId: The account ID of the Security Hub administrator account that sent the invitation.
+    ///   - invitationId: The identifier of the invitation sent from the Security Hub CSPM administrator account.
+    ///   - masterId: The account ID of the Security Hub CSPM administrator account that sent the invitation.
     ///   - logger: Logger use during operation
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
     @inlinable
@@ -224,7 +224,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchDeleteAutomationRules(input, logger: logger)
     }
 
-    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub User Guide.
+    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub CSPM User Guide.
     @Sendable
     @inlinable
     public func batchDisableStandards(_ input: BatchDisableStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDisableStandardsResponse {
@@ -237,7 +237,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub User Guide.
+    /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the Security Hub CSPM User Guide.
     ///
     /// Parameters:
     ///   - standardsSubscriptionArns: The ARNs of the standards subscriptions to disable.
@@ -253,7 +253,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchDisableStandards(input, logger: logger)
     }
 
-    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub User Guide.
+    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub CSPM User Guide.
     @Sendable
     @inlinable
     public func batchEnableStandards(_ input: BatchEnableStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchEnableStandardsResponse {
@@ -266,7 +266,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub User Guide.
+    /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the Security Standards section of the Security Hub CSPM User Guide.
     ///
     /// Parameters:
     ///   - standardsSubscriptionRequests: The list of standards checks to enable.
@@ -311,7 +311,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchGetAutomationRules(input, logger: logger)
     }
 
-    ///  Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
+    ///  Returns associations between an Security Hub CSPM configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     @Sendable
     @inlinable
     public func batchGetConfigurationPolicyAssociations(_ input: BatchGetConfigurationPolicyAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetConfigurationPolicyAssociationsResponse {
@@ -324,7 +324,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
+    ///  Returns associations between an Security Hub CSPM configuration and a batch of target accounts, organizational units, or the root. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. A configuration can refer to a configuration policy or to a self-managed configuration.
     ///
     /// Parameters:
     ///   - configurationPolicyAssociationIdentifiers:  Specifies one or more target account IDs, organizational unit (OU) IDs, or the root ID to retrieve associations for.
@@ -398,7 +398,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchGetStandardsControlAssociations(input, logger: logger)
     }
 
-    /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub.  BatchImportFindings must be called by one of the following:   The Amazon Web Services account that is associated with a finding if you are using the default product ARN or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.   An Amazon Web Services account that Security Hub has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.   The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow    Finding providers also should not use BatchImportFindings to update the following attributes.    Confidence     Criticality     RelatedFindings     Severity     Types    Instead, finding providers use FindingProviderFields to provide values for these attributes.
+    /// Imports security findings generated by a finding provider into Security Hub CSPM. This action is requested by the finding provider to import its findings into Security Hub CSPM.  BatchImportFindings must be called by one of the following:   The Amazon Web Services account that is associated with a finding if you are using the default product ARN or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.   An Amazon Web Services account that Security Hub CSPM has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.   The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub CSPM customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow    Finding providers also should not use BatchImportFindings to update the following attributes.    Confidence     Criticality     RelatedFindings     Severity     Types    Instead, finding providers use FindingProviderFields to provide values for these attributes.
     @Sendable
     @inlinable
     public func batchImportFindings(_ input: BatchImportFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchImportFindingsResponse {
@@ -411,7 +411,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub.  BatchImportFindings must be called by one of the following:   The Amazon Web Services account that is associated with a finding if you are using the default product ARN or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.   An Amazon Web Services account that Security Hub has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.   The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow    Finding providers also should not use BatchImportFindings to update the following attributes.    Confidence     Criticality     RelatedFindings     Severity     Types    Instead, finding providers use FindingProviderFields to provide values for these attributes.
+    /// Imports security findings generated by a finding provider into Security Hub CSPM. This action is requested by the finding provider to import its findings into Security Hub CSPM.  BatchImportFindings must be called by one of the following:   The Amazon Web Services account that is associated with a finding if you are using the default product ARN or are a partner sending findings from within a customer's Amazon Web Services account. In these cases, the identifier of the account that you are calling BatchImportFindings from needs to be the same as the AwsAccountId attribute for the finding.   An Amazon Web Services account that Security Hub CSPM has allow-listed for an official partner integration. In this case, you can call BatchImportFindings from the allow-listed account and send findings from different customer accounts in the same batch.   The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb. After a finding is created, BatchImportFindings cannot be used to update the following finding fields and objects, which Security Hub CSPM customers use to manage their investigation workflow.    Note     UserDefinedFields     VerificationState     Workflow    Finding providers also should not use BatchImportFindings to update the following attributes.    Confidence     Criticality     RelatedFindings     Severity     Types    Instead, finding providers use FindingProviderFields to provide values for these attributes.
     ///
     /// Parameters:
     ///   - findings: A list of findings to import. To successfully import a finding, it must follow the Amazon Web Services Security Finding Format. Maximum of 100 findings per request.
@@ -456,7 +456,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateAutomationRules(input, logger: logger)
     }
 
-    ///  Used by Security Hub customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request.   You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    ///  Used by Security Hub CSPM customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub CSPM to process your request and update each finding specified in the request.   You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see Configuring access to BatchUpdateFindings in the Security Hub CSPM User Guide.
     @Sendable
     @inlinable
     public func batchUpdateFindings(_ input: BatchUpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateFindingsResponse {
@@ -469,7 +469,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Used by Security Hub customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request.   You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see Configuring access to BatchUpdateFindings in the Security Hub User Guide.
+    ///  Used by Security Hub CSPM customers to update information about their investigation into one or more findings. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. A member account can update findings only for their own account. Administrator and member accounts can use this operation to update the following fields and objects for one or more findings:     Confidence     Criticality     Note     RelatedFindings     Severity     Types     UserDefinedFields     VerificationState     Workflow     If you use this operation to update a finding, your updates don’t affect the value for the UpdatedAt field of the finding. Also note that it can take several minutes for Security Hub CSPM to process your request and update each finding specified in the request.   You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. For more information see Configuring access to BatchUpdateFindings in the Security Hub CSPM User Guide.
     ///
     /// Parameters:
     ///   - confidence: The updated value for the finding confidence. Confidence is defined as the likelihood that a finding accurately identifies the behavior or issue that it was intended to identify. Confidence is scored on a 0-100 basis using a ratio scale, where 0 means zero percent confidence and 100 means 100 percent confidence.
@@ -582,7 +582,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchUpdateStandardsControlAssociations(input, logger: logger)
     }
 
-    /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+    /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events.
     @Sendable
     @inlinable
     public func createActionTarget(_ input: CreateActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateActionTargetResponse {
@@ -595,7 +595,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+    /// Creates a custom action target in Security Hub CSPM. You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions in Amazon CloudWatch Events.
     ///
     /// Parameters:
     ///   - description: The description for the custom action target.
@@ -672,12 +672,12 @@ public struct SecurityHub: AWSService {
     ///
     /// Parameters:
     ///   - actions:  One or more actions to update finding fields if a finding matches the conditions specified in Criteria.
-    ///   - criteria:  A set of ASFF finding field attributes and corresponding expected values that Security Hub uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub applies the rule action to the finding.
+    ///   - criteria:  A set of ASFF finding field attributes and corresponding expected values that Security Hub CSPM uses to filter findings. If a rule is enabled and a finding matches the conditions specified in this parameter, Security Hub CSPM applies the rule action to the finding.
     ///   - description:  A description of the rule.
-    ///   - isTerminal: Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
+    ///   - isTerminal: Specifies whether a rule is the last to be applied with respect to a finding that matches the rule criteria. This is useful when a finding matches the criteria for multiple rules, and each rule has different actions. If a rule is terminal, Security Hub CSPM applies the rule action to a finding that matches the rule criteria and doesn't evaluate other rules for the finding. By default, a rule isn't terminal.
     ///   - ruleName:  The name of the rule.
-    ///   - ruleOrder: An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub applies rules with lower values for this parameter first.
-    ///   - ruleStatus:  Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
+    ///   - ruleOrder: An integer ranging from 1 to 1000 that represents the order in which the rule action is applied to findings. Security Hub CSPM applies rules with lower values for this parameter first.
+    ///   - ruleStatus:  Whether the rule is active after it is created. If this parameter is equal to ENABLED, Security Hub CSPM starts applying the rule to findings and finding updates after the rule is created. To change the value of this parameter after creating a rule, use  BatchUpdateAutomationRules .
     ///   - tags:  User-defined tags associated with an automation rule.
     ///   - logger: Logger use during operation
     @inlinable
@@ -755,7 +755,7 @@ public struct SecurityHub: AWSService {
         return try await self.createAutomationRuleV2(input, logger: logger)
     }
 
-    ///  Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Creates a configuration policy with the defined configuration. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func createConfigurationPolicy(_ input: CreateConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConfigurationPolicyResponse {
@@ -768,13 +768,13 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Creates a configuration policy with the defined configuration. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
-    ///   - configurationPolicy:  An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).
+    ///   - configurationPolicy:  An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).
     ///   - description:  The description of the configuration policy.
     ///   - name:  The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
-    ///   - tags:  User-defined tags associated with a configuration policy. For more information, see Tagging Security Hub resources in the Security Hub user guide.
+    ///   - tags:  User-defined tags associated with a configuration policy. For more information, see Tagging Security Hub CSPM resources in the Security Hub CSPM user guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConfigurationPolicy(
@@ -837,7 +837,7 @@ public struct SecurityHub: AWSService {
         return try await self.createConnectorV2(input, logger: logger)
     }
 
-    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the Security Hub User Guide.
+    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub CSPM in the Security Hub CSPM User Guide.
     @Sendable
     @inlinable
     public func createFindingAggregator(_ input: CreateFindingAggregatorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFindingAggregatorResponse {
@@ -850,10 +850,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the Security Hub User Guide.
+    ///  The aggregation Region is now called the home Region.  Used to enable cross-Region aggregation. This operation can be invoked from the home Region only. For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub CSPM in the Security Hub CSPM User Guide.
     ///
     /// Parameters:
-    ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
+    ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region.  An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     ///   - logger: Logger use during operation
     @inlinable
@@ -869,7 +869,7 @@ public struct SecurityHub: AWSService {
         return try await self.createFindingAggregator(input, logger: logger)
     }
 
-    /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+    /// Creates a custom insight in Security Hub CSPM. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     @Sendable
     @inlinable
     public func createInsight(_ input: CreateInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInsightResponse {
@@ -882,7 +882,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+    /// Creates a custom insight in Security Hub CSPM. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
     ///
     /// Parameters:
     ///   - filters: One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.
@@ -904,7 +904,7 @@ public struct SecurityHub: AWSService {
         return try await self.createInsight(input, logger: logger)
     }
 
-    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
+    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub CSPM is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub CSPM.   This action can only be used by an account that has Security Hub CSPM enabled. To enable Security Hub CSPM, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub CSPM. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub CSPM.   If the organization account does not have Security Hub CSPM enabled, then Security Hub CSPM and the default standards are automatically enabled. Note that Security Hub CSPM cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub CSPM before the administrator account enables it as a member account.   For organization accounts that already have Security Hub CSPM enabled, Security Hub CSPM does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     @Sendable
     @inlinable
     public func createMembers(_ input: CreateMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMembersResponse {
@@ -917,10 +917,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub.   This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub.   If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.   For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
+    /// Creates a member association in Security Hub CSPM between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account.  CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:   Security Hub CSPM is not configured to automatically add new organization accounts.   The account was disassociated or deleted in Security Hub CSPM.   This action can only be used by an account that has Security Hub CSPM enabled. To enable Security Hub CSPM, you can use the EnableSecurityHub operation. For accounts that are not organization members, you create the account association and then send an invitation to the member account. To send the invitation, you use the InviteMembers operation. If the account owner accepts the invitation, the account becomes a member account in Security Hub CSPM. Accounts that are managed using Organizations don't receive an invitation. They automatically become a member account in Security Hub CSPM.   If the organization account does not have Security Hub CSPM enabled, then Security Hub CSPM and the default standards are automatically enabled. Note that Security Hub CSPM cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub CSPM before the administrator account enables it as a member account.   For organization accounts that already have Security Hub CSPM enabled, Security Hub CSPM does not make any other changes to those accounts. It does not change their enabled standards or controls.   A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
     ///
     /// Parameters:
-    ///   - accountDetails: The list of accounts to associate with the Security Hub administrator account. For each account, the list includes the account ID and optionally the email address.
+    ///   - accountDetails: The list of accounts to associate with the Security Hub CSPM administrator account. For each account, the list includes the account ID and optionally the email address.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMembers(
@@ -971,7 +971,7 @@ public struct SecurityHub: AWSService {
         return try await self.createTicketV2(input, logger: logger)
     }
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Declines invitations to become a Security Hub CSPM member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     @Sendable
     @inlinable
     public func declineInvitations(_ input: DeclineInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeclineInvitationsResponse {
@@ -984,7 +984,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Declines invitations to become a Security Hub member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Declines invitations to become a Security Hub CSPM member account. A prospective member account uses this operation to decline an invitation to become a member. Only member accounts that aren't part of an Amazon Web Services organization should use this operation. Organization accounts don't receive invitations.
     ///
     /// Parameters:
     ///   - accountIds: The list of prospective member account IDs for which to decline an invitation.
@@ -1000,7 +1000,7 @@ public struct SecurityHub: AWSService {
         return try await self.declineInvitations(input, logger: logger)
     }
 
-    /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+    /// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     @Sendable
     @inlinable
     public func deleteActionTarget(_ input: DeleteActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteActionTargetResponse {
@@ -1013,7 +1013,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+    /// Deletes a custom action target from Security Hub CSPM. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
     ///
     /// Parameters:
     ///   - actionTargetArn: The Amazon Resource Name (ARN) of the custom action target to delete.
@@ -1087,7 +1087,7 @@ public struct SecurityHub: AWSService {
         return try await self.deleteAutomationRuleV2(input, logger: logger)
     }
 
-    ///  Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
+    ///  Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     @Sendable
     @inlinable
     public func deleteConfigurationPolicy(_ input: DeleteConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConfigurationPolicyResponse {
@@ -1100,7 +1100,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
+    ///  Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts, organizational units, or the root by invoking the StartConfigurationPolicyDisassociation operation.
     ///
     /// Parameters:
     ///   - identifier:  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
@@ -1205,7 +1205,7 @@ public struct SecurityHub: AWSService {
         return try await self.deleteInsight(input, logger: logger)
     }
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     @Sendable
     @inlinable
     public func deleteInvitations(_ input: DeleteInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInvitationsResponse {
@@ -1218,7 +1218,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Deletes invitations to become a Security Hub member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Deletes invitations to become a Security Hub CSPM member account. A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts. This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization. Organization accounts don't receive invitations.
     ///
     /// Parameters:
     ///   - accountIds: The list of member account IDs that received the invitations you want to delete.
@@ -1234,7 +1234,7 @@ public struct SecurityHub: AWSService {
         return try await self.deleteInvitations(input, logger: logger)
     }
 
-    /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
+    /// Deletes the specified member accounts from Security Hub CSPM. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     @Sendable
     @inlinable
     public func deleteMembers(_ input: DeleteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMembersResponse {
@@ -1247,7 +1247,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified member accounts from Security Hub. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
+    /// Deletes the specified member accounts from Security Hub CSPM. You can invoke this API only to delete accounts that became members through invitation. You can't invoke this API to delete accounts that belong to an Organizations organization.
     ///
     /// Parameters:
     ///   - accountIds: The list of account IDs for the member accounts to delete.
@@ -1263,7 +1263,7 @@ public struct SecurityHub: AWSService {
         return try await self.deleteMembers(input, logger: logger)
     }
 
-    /// Returns a list of the custom action targets in Security Hub in your account.
+    /// Returns a list of the custom action targets in Security Hub CSPM in your account.
     @Sendable
     @inlinable
     public func describeActionTargets(_ input: DescribeActionTargetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeActionTargetsResponse {
@@ -1276,7 +1276,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the custom action targets in Security Hub in your account.
+    /// Returns a list of the custom action targets in Security Hub CSPM in your account.
     ///
     /// Parameters:
     ///   - actionTargetArns: A list of custom action target ARNs for the custom action targets to retrieve.
@@ -1298,7 +1298,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeActionTargets(input, logger: logger)
     }
 
-    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub CSPM.
     @Sendable
     @inlinable
     public func describeHub(_ input: DescribeHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeHubResponse {
@@ -1311,7 +1311,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+    /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub CSPM.
     ///
     /// Parameters:
     ///   - hubArn: The ARN of the Hub resource to retrieve.
@@ -1327,7 +1327,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeHub(input, logger: logger)
     }
 
-    /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Returns information about the way your organization is configured in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     @Sendable
     @inlinable
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOrganizationConfigurationResponse {
@@ -1340,7 +1340,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the way your organization is configured in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Returns information about the way your organization is configured in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1353,7 +1353,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeOrganizationConfiguration(input, logger: logger)
     }
 
-    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub CSPM. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     @Sendable
     @inlinable
     public func describeProducts(_ input: DescribeProductsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeProductsResponse {
@@ -1366,7 +1366,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
+    /// Returns information about product integrations in Security Hub CSPM. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you don't provide an integration ARN, then the results include all of the available product integrations.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
@@ -1446,7 +1446,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeSecurityHubV2(input, logger: logger)
     }
 
-    /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
+    /// Returns a list of the available standards in Security Hub CSPM. For each standard, the results include the standard ARN, the name, and a description.
     @Sendable
     @inlinable
     public func describeStandards(_ input: DescribeStandardsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStandardsResponse {
@@ -1459,7 +1459,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
+    /// Returns a list of the available standards in Security Hub CSPM. For each standard, the results include the standard ARN, the name, and a description.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of standards to return.
@@ -1513,7 +1513,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeStandardsControls(input, logger: logger)
     }
 
-    /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+    /// Disables the integration of the specified product with Security Hub CSPM. After the integration is disabled, findings from that product are no longer sent to Security Hub CSPM.
     @Sendable
     @inlinable
     public func disableImportFindingsForProduct(_ input: DisableImportFindingsForProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableImportFindingsForProductResponse {
@@ -1526,7 +1526,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+    /// Disables the integration of the specified product with Security Hub CSPM. After the integration is disabled, findings from that product are no longer sent to Security Hub CSPM.
     ///
     /// Parameters:
     ///   - productSubscriptionArn: The ARN of the integrated product to disable the integration for.
@@ -1542,7 +1542,7 @@ public struct SecurityHub: AWSService {
         return try await self.disableImportFindingsForProduct(input, logger: logger)
     }
 
-    /// Disables a Security Hub administrator account. Can only be called by the organization management account.
+    /// Disables a Security Hub CSPM administrator account. Can only be called by the organization management account.
     @Sendable
     @inlinable
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationAdminAccountResponse {
@@ -1555,11 +1555,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Disables a Security Hub administrator account. Can only be called by the organization management account.
+    /// Disables a Security Hub CSPM administrator account. Can only be called by the organization management account.
     ///
     /// Parameters:
-    ///   - adminAccountId: The Amazon Web Services account identifier of the Security Hub administrator account.
-    ///   - feature: The feature for which the delegated admin account is disabled. Defaults to Security Hub if not specified.
+    ///   - adminAccountId: The Amazon Web Services account identifier of the Security Hub CSPM administrator account.
+    ///   - feature: The feature for which the delegated admin account is disabled. Defaults to Security Hub CSPM if not specified.
     ///   - logger: Logger use during operation
     @inlinable
     public func disableOrganizationAdminAccount(
@@ -1574,7 +1574,7 @@ public struct SecurityHub: AWSService {
         return try await self.disableOrganizationAdminAccount(input, logger: logger)
     }
 
-    /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    /// Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all Regions, you must submit one request per Region where you have enabled Security Hub CSPM. You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator. When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub CSPM.
     @Sendable
     @inlinable
     public func disableSecurityHub(_ input: DisableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableSecurityHubResponse {
@@ -1587,7 +1587,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. You can't disable Security Hub in an account that is currently the Security Hub administrator. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    /// Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all Regions, you must submit one request per Region where you have enabled Security Hub CSPM. You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator. When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub CSPM.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1626,7 +1626,7 @@ public struct SecurityHub: AWSService {
         return try await self.disableSecurityHubV2(input, logger: logger)
     }
 
-    /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @Sendable
     @inlinable
     public func disassociateFromAdministratorAccount(_ input: DisassociateFromAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateFromAdministratorAccountResponse {
@@ -1639,7 +1639,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1652,7 +1652,7 @@ public struct SecurityHub: AWSService {
         return try await self.disassociateFromAdministratorAccount(input, logger: logger)
     }
 
-    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub CSPM console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
     @Sendable
     @inlinable
@@ -1666,7 +1666,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub CSPM console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub CSPM member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1709,7 +1709,7 @@ public struct SecurityHub: AWSService {
         return try await self.disassociateMembers(input, logger: logger)
     }
 
-    /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
+    /// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is applied.
     @Sendable
     @inlinable
     public func enableImportFindingsForProduct(_ input: EnableImportFindingsForProductRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableImportFindingsForProductResponse {
@@ -1722,7 +1722,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
+    /// Enables the integration of a partner product with Security Hub CSPM. Integrated products send findings to Security Hub CSPM. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub CSPM is applied.
     ///
     /// Parameters:
     ///   - productArn: The ARN of the product to enable the integration for.
@@ -1738,7 +1738,7 @@ public struct SecurityHub: AWSService {
         return try await self.enableImportFindingsForProduct(input, logger: logger)
     }
 
-    /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
+    /// Designates the Security Hub CSPM administrator account for an organization. Can only be called by the organization management account.
     @Sendable
     @inlinable
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationAdminAccountResponse {
@@ -1751,11 +1751,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
+    /// Designates the Security Hub CSPM administrator account for an organization. Can only be called by the organization management account.
     ///
     /// Parameters:
-    ///   - adminAccountId: The Amazon Web Services account identifier of the account to designate as the Security Hub administrator account.
-    ///   - feature: The feature for which the delegated admin account is enabled. Defaults to Security Hub if not specified.
+    ///   - adminAccountId: The Amazon Web Services account identifier of the account to designate as the Security Hub CSPM administrator account.
+    ///   - feature: The feature for which the delegated admin account is enabled. Defaults to Security Hub CSPM if not specified.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableOrganizationAdminAccount(
@@ -1770,7 +1770,7 @@ public struct SecurityHub: AWSService {
         return try await self.enableOrganizationAdminAccount(input, logger: logger)
     }
 
-    /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:   Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices   Other standards are not automatically enabled.  To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the setup information in the Security Hub User Guide.
+    /// Enables Security Hub CSPM for your account in the current Region or the Region you specify in the request. When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings from other services that are integrated with Security Hub CSPM. When you use the EnableSecurityHub operation to enable Security Hub CSPM, you also automatically enable the following standards:   Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices   Other standards are not automatically enabled.  To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub CSPM, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the setup information in the Security Hub CSPM User Guide.
     @Sendable
     @inlinable
     public func enableSecurityHub(_ input: EnableSecurityHubRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableSecurityHubResponse {
@@ -1783,12 +1783,12 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:   Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices   Other standards are not automatically enabled.  To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the setup information in the Security Hub User Guide.
+    /// Enables Security Hub CSPM for your account in the current Region or the Region you specify in the request. When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings from other services that are integrated with Security Hub CSPM. When you use the EnableSecurityHub operation to enable Security Hub CSPM, you also automatically enable the following standards:   Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0   Amazon Web Services Foundational Security Best Practices   Other standards are not automatically enabled.  To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub CSPM, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the setup information in the Security Hub CSPM User Guide.
     ///
     /// Parameters:
-    ///   - controlFindingGenerator: This field, used when enabling Security Hub, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub on or after February 23, 2023.
-    ///   - enableDefaultStandards: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
-    ///   - tags: The tags to add to the hub resource when you enable Security Hub.
+    ///   - controlFindingGenerator: This field, used when enabling Security Hub CSPM, specifies whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. The value for this field in a member account matches the value in the administrator account. For accounts that aren't part of an organization, the default value of this field is SECURITY_CONTROL if you enabled Security Hub CSPM on or after February 23, 2023.
+    ///   - enableDefaultStandards: Whether to enable the security standards that Security Hub CSPM has designated as automatically enabled. If you don't provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
+    ///   - tags: The tags to add to the hub resource when you enable Security Hub CSPM.
     ///   - logger: Logger use during operation
     @inlinable
     public func enableSecurityHub(
@@ -1834,7 +1834,7 @@ public struct SecurityHub: AWSService {
         return try await self.enableSecurityHubV2(input, logger: logger)
     }
 
-    /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     @inlinable
     public func getAdministratorAccount(_ input: GetAdministratorAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAdministratorAccountResponse {
@@ -1847,7 +1847,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1918,7 +1918,7 @@ public struct SecurityHub: AWSService {
         return try await self.getAutomationRuleV2(input, logger: logger)
     }
 
-    ///  Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Provides information about a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func getConfigurationPolicy(_ input: GetConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationPolicyResponse {
@@ -1931,7 +1931,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Provides information about a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - identifier:  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
@@ -1947,7 +1947,7 @@ public struct SecurityHub: AWSService {
         return try await self.getConfigurationPolicy(input, logger: logger)
     }
 
-    ///  Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func getConfigurationPolicyAssociation(_ input: GetConfigurationPolicyAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConfigurationPolicyAssociationResponse {
@@ -1960,7 +1960,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Returns the association between a configuration and a target account, organizational unit, or the root. The configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - target:  The target account ID, organizational unit ID, or the root ID to retrieve the association for.
@@ -2071,7 +2071,7 @@ public struct SecurityHub: AWSService {
         return try await self.getFindingAggregator(input, logger: logger)
     }
 
-    ///  Returns the history of a Security Hub finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
+    ///  Returns the history of a Security Hub CSPM finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
     @Sendable
     @inlinable
     public func getFindingHistory(_ input: GetFindingHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingHistoryResponse {
@@ -2084,14 +2084,14 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Returns the history of a Security Hub finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
+    ///  Returns the history of a Security Hub CSPM finding. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the CreatedAt and UpdatedAt fields.  This operation might return fewer results than the maximum number of results (MaxResults) specified in a request, even when more results are available. If this occurs, the response includes a NextToken value, which you should use to retrieve the next set of results in the response. The presence of a NextToken value in a response doesn't necessarily indicate that the results are incomplete. However, you should continue to specify a NextToken value until you receive a response that doesn't include this value.
     ///
     /// Parameters:
-    ///   - endTime:  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+    ///   - endTime:  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
     ///   - findingIdentifier: 
-    ///   - maxResults:  The maximum number of results to be returned. If you don’t provide it, Security Hub returns up to 100 results of finding history.
-    ///   - nextToken:  A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub returns up to 100 results of finding history for each request.
-    ///   - startTime: A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+    ///   - maxResults:  The maximum number of results to be returned. If you don’t provide it, Security Hub CSPM returns up to 100 results of finding history.
+    ///   - nextToken:  A token for pagination purposes. Provide NULL as the initial value. In subsequent requests, provide the token included in the response to get up to an additional 100 results of finding history. If you don’t provide NextToken, Security Hub CSPM returns up to 100 results of finding history for each request.
+    ///   - startTime: A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
     ///   - logger: Logger use during operation
     @inlinable
     public func getFindingHistory(
@@ -2264,7 +2264,7 @@ public struct SecurityHub: AWSService {
         return try await self.getFindingsV2(input, logger: logger)
     }
 
-    /// Lists the results of the Security Hub insight specified by the insight ARN.
+    /// Lists the results of the Security Hub CSPM insight specified by the insight ARN.
     @Sendable
     @inlinable
     public func getInsightResults(_ input: GetInsightResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInsightResultsResponse {
@@ -2277,7 +2277,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Lists the results of the Security Hub insight specified by the insight ARN.
+    /// Lists the results of the Security Hub CSPM insight specified by the insight ARN.
     ///
     /// Parameters:
     ///   - insightArn: The ARN of the insight for which to return results.
@@ -2328,7 +2328,7 @@ public struct SecurityHub: AWSService {
         return try await self.getInsights(input, logger: logger)
     }
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     @Sendable
     @inlinable
     public func getInvitationsCount(_ input: GetInvitationsCountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvitationsCountResponse {
@@ -2341,7 +2341,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Returns the count of all Security Hub membership invitations that were sent to the calling member account, not including the currently accepted invitation.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Returns the count of all Security Hub CSPM membership invitations that were sent to the calling member account, not including the currently accepted invitation.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -2354,7 +2354,7 @@ public struct SecurityHub: AWSService {
         return try await self.getInvitationsCount(input, logger: logger)
     }
 
-    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub CSPM console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
     @Sendable
     @inlinable
@@ -2368,7 +2368,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub CSPM console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub CSPM administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -2382,7 +2382,7 @@ public struct SecurityHub: AWSService {
         return try await self.getMasterAccount(input, logger: logger)
     }
 
-    /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     @Sendable
     @inlinable
     public func getMembers(_ input: GetMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMembersResponse {
@@ -2395,10 +2395,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
+    /// Returns the details for the Security Hub CSPM member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub CSPM administrator account for an organization or an administrator account that enabled Security Hub CSPM manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
     ///
     /// Parameters:
-    ///   - accountIds: The list of account IDs for the Security Hub member accounts to return the details for.
+    ///   - accountIds: The list of account IDs for the Security Hub CSPM member accounts to return the details for.
     ///   - logger: Logger use during operation
     @inlinable
     public func getMembers(
@@ -2554,7 +2554,7 @@ public struct SecurityHub: AWSService {
         return try await self.getSecurityControlDefinition(input, logger: logger)
     }
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub CSPM. When the account owner enables Security Hub CSPM and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     @Sendable
     @inlinable
     public func inviteMembers(_ input: InviteMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InviteMembersResponse {
@@ -2567,10 +2567,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that the invitation is sent from. This operation is only used to invite accounts that don't belong to an Amazon Web Services organization. Organization accounts don't receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub CSPM. When the account owner enables Security Hub CSPM and accepts the invitation to become a member account, the administrator account can view the findings generated in the member account.
     ///
     /// Parameters:
-    ///   - accountIds: The list of account IDs of the Amazon Web Services accounts to invite to Security Hub as members.
+    ///   - accountIds: The list of account IDs of the Amazon Web Services accounts to invite to Security Hub CSPM as members.
     ///   - logger: Logger use during operation
     @inlinable
     public func inviteMembers(
@@ -2679,7 +2679,7 @@ public struct SecurityHub: AWSService {
         return try await self.listAutomationRulesV2(input, logger: logger)
     }
 
-    ///  Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
+    ///  Lists the configuration policies that the Security Hub CSPM delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func listConfigurationPolicies(_ input: ListConfigurationPoliciesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationPoliciesResponse {
@@ -2692,7 +2692,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Lists the configuration policies that the Security Hub delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
+    ///  Lists the configuration policies that the Security Hub CSPM delegated administrator has created for your organization. Only the delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - maxResults:  The maximum number of results that's returned by ListConfigurationPolicies in each page of the response. When this parameter is used, ListConfigurationPolicies returns the specified number of results in a single page and a NextToken response element. You can see the remaining results of the initial request by sending another ListConfigurationPolicies request with the returned NextToken value. A valid range for MaxResults is between 1 and 100.
@@ -2711,7 +2711,7 @@ public struct SecurityHub: AWSService {
         return try await self.listConfigurationPolicies(input, logger: logger)
     }
 
-    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func listConfigurationPolicyAssociations(_ input: ListConfigurationPolicyAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConfigurationPolicyAssociationsResponse {
@@ -2724,7 +2724,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Provides information about the associations for your configuration policies and self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - filters:  Options for filtering the ListConfigurationPolicyAssociations response. You can filter by the Amazon Resource Name (ARN) or universally unique identifier (UUID) of a configuration, AssociationType, or AssociationStatus.
@@ -2784,7 +2784,7 @@ public struct SecurityHub: AWSService {
         return try await self.listConnectorsV2(input, logger: logger)
     }
 
-    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub CSPM.
     @Sendable
     @inlinable
     public func listEnabledProductsForImport(_ input: ListEnabledProductsForImportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEnabledProductsForImportResponse {
@@ -2797,7 +2797,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+    /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub CSPM.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response.
@@ -2850,7 +2850,7 @@ public struct SecurityHub: AWSService {
         return try await self.listFindingAggregators(input, logger: logger)
     }
 
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Lists all Security Hub CSPM membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     @Sendable
     @inlinable
     public func listInvitations(_ input: ListInvitationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvitationsResponse {
@@ -2863,7 +2863,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  We recommend using Organizations instead of Security Hub invitations to manage your member accounts. For information, see Managing Security Hub administrator and member accounts with Organizations in the Security Hub User Guide.  Lists all Security Hub membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
+    ///  We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts. For information, see Managing Security Hub CSPM administrator and member accounts with Organizations in the Security Hub CSPM User Guide.  Lists all Security Hub CSPM membership invitations that were sent to the calling account. Only accounts that are managed by invitation can use this operation. Accounts that are managed using the integration with Organizations don't receive invitations.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response.
@@ -2882,7 +2882,7 @@ public struct SecurityHub: AWSService {
         return try await self.listInvitations(input, logger: logger)
     }
 
-    /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+    /// Lists details about all member accounts for the current Security Hub CSPM administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     @Sendable
     @inlinable
     public func listMembers(_ input: ListMembersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersResponse {
@@ -2895,7 +2895,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+    /// Lists details about all member accounts for the current Security Hub CSPM administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to return in the response.
@@ -2917,7 +2917,7 @@ public struct SecurityHub: AWSService {
         return try await self.listMembers(input, logger: logger)
     }
 
-    /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+    /// Lists the Security Hub CSPM administrator accounts. Can only be called by the organization management account.
     @Sendable
     @inlinable
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOrganizationAdminAccountsResponse {
@@ -2930,10 +2930,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+    /// Lists the Security Hub CSPM administrator accounts. Can only be called by the organization management account.
     ///
     /// Parameters:
-    ///   - feature: The feature where the delegated administrator account is listed. Defaults to Security Hub if not specified.
+    ///   - feature: The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM if not specified.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - nextToken: The token that is required for pagination. On your first call to the ListOrganizationAdminAccounts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
     ///   - logger: Logger use during operation
@@ -3003,7 +3003,7 @@ public struct SecurityHub: AWSService {
     ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.  This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
     /// Parameters:
-    ///   - maxResults:  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
+    ///   - maxResults:  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub CSPM standards that you've enabled in the calling account.
     ///   - nextToken:  Optional pagination parameter.
     ///   - securityControlId:  The identifier of the control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) that you want to determine the enablement status of in each enabled standard.
     ///   - logger: Logger use during operation
@@ -3083,7 +3083,7 @@ public struct SecurityHub: AWSService {
         return try await self.registerConnectorV2(input, logger: logger)
     }
 
-    ///  Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func startConfigurationPolicyAssociation(_ input: StartConfigurationPolicyAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigurationPolicyAssociationResponse {
@@ -3096,7 +3096,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Associates a target account, organizational unit, or the root with a specified configuration. The target can be associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - configurationPolicyIdentifier:  The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
@@ -3115,7 +3115,7 @@ public struct SecurityHub: AWSService {
         return try await self.startConfigurationPolicyAssociation(input, logger: logger)
     }
 
-    ///  Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func startConfigurationPolicyDisassociation(_ input: StartConfigurationPolicyDisassociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartConfigurationPolicyDisassociationResponse {
@@ -3128,7 +3128,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Disassociates a target account, organizational unit, or the root from a specified configuration. When you disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
     ///   - configurationPolicyIdentifier:  The Amazon Resource Name (ARN) of a configuration policy, the universally unique identifier (UUID) of a configuration policy, or a value of SELF_MANAGED_SECURITY_HUB for a self-managed configuration.
@@ -3211,7 +3211,7 @@ public struct SecurityHub: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the name and description of a custom action target in Security Hub.
+    /// Updates the name and description of a custom action target in Security Hub CSPM.
     @Sendable
     @inlinable
     public func updateActionTarget(_ input: UpdateActionTargetRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateActionTargetResponse {
@@ -3224,7 +3224,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Updates the name and description of a custom action target in Security Hub.
+    /// Updates the name and description of a custom action target in Security Hub CSPM.
     ///
     /// Parameters:
     ///   - actionTargetArn: The ARN of the custom action target to update.
@@ -3328,7 +3328,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateAutomationRuleV2(input, logger: logger)
     }
 
-    ///  Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Updates a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     @Sendable
     @inlinable
     public func updateConfigurationPolicy(_ input: UpdateConfigurationPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConfigurationPolicyResponse {
@@ -3341,10 +3341,10 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Updates a configuration policy. Only the Security Hub delegated administrator can invoke this operation from the home Region.
+    ///  Updates a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region.
     ///
     /// Parameters:
-    ///   - configurationPolicy:  An object that defines how Security Hub is configured. It includes whether Security Hub is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub enables all other controls (including newly released controls).  When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
+    ///   - configurationPolicy:  An object that defines how Security Hub CSPM is configured. It includes whether Security Hub CSPM is enabled or disabled, a list of enabled security standards, a list of enabled or disabled security controls, and a list of custom parameter values for specified controls. If you provide a list of security controls that are enabled in the configuration policy, Security Hub CSPM disables all other controls (including newly released controls). If you provide a list of security controls that are disabled in the configuration policy, Security Hub CSPM enables all other controls (including newly released controls).  When updating a configuration policy, provide a complete list of standards that you want to enable and a complete list of controls that you want to enable or disable. The updated configuration replaces the current configuration.
     ///   - description:  The description of the configuration policy.
     ///   - identifier:  The Amazon Resource Name (ARN) or universally unique identifier (UUID) of the configuration policy.
     ///   - name:  The name of the configuration policy. Alphanumeric characters and the following ASCII characters are permitted: -, ., !, *, /.
@@ -3421,7 +3421,7 @@ public struct SecurityHub: AWSService {
     ///
     /// Parameters:
     ///   - findingAggregatorArn: The ARN of the finding aggregator. To obtain the ARN, use ListFindingAggregators.
-    ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub is enabled. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub also automatically aggregates findings from new Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
+    ///   - regionLinkingMode: Indicates whether to aggregate findings from all of the available Regions in the current partition. Also determines whether to automatically aggregate findings from new Regions as Security Hub CSPM supports them and you opt into them. The selected option also determines how to use the Regions provided in the Regions list. The options are as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub CSPM is enabled. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.     ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security Hub CSPM is enabled, except for the Regions listed in the Regions parameter. When you choose this option, Security Hub CSPM also automatically aggregates findings from new Regions as Security Hub CSPM supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates findings only from the Regions listed in the Regions parameter. Security Hub CSPM does not automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data because no Regions are selected as linked Regions.
     ///   - regions: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a space-separated list of Regions that don't replicate and send findings to the home Region. If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions that do replicate and send findings to the home Region. An InvalidInputException error results if you populate this field while RegionLinkingMode is NO_REGIONS.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3439,7 +3439,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateFindingAggregator(input, logger: logger)
     }
 
-    ///  UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
+    ///  UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub CSPM aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub CSPM doesn't record updates made with UpdateFindings in the finding history.
     @Sendable
     @inlinable
     public func updateFindings(_ input: UpdateFindingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFindingsResponse {
@@ -3452,7 +3452,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub doesn't record updates made with UpdateFindings in the finding history.
+    ///  UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the BatchUpdateFindings operation. The UpdateFindings operation updates the Note and RecordState of the Security Hub CSPM aggregated findings that the filter attributes specify. Any member account that can view the finding can also see the update to the finding. Finding updates made with UpdateFindings aren't persisted if the same finding is later updated by the finding provider through the BatchImportFindings operation. In addition, Security Hub CSPM doesn't record updates made with UpdateFindings in the finding history.
     ///
     /// Parameters:
     ///   - filters: A collection of attributes that specify which findings you want to update.
@@ -3474,7 +3474,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateFindings(input, logger: logger)
     }
 
-    /// Updates the Security Hub insight identified by the specified insight ARN.
+    /// Updates the Security Hub CSPM insight identified by the specified insight ARN.
     @Sendable
     @inlinable
     public func updateInsight(_ input: UpdateInsightRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateInsightResponse {
@@ -3487,7 +3487,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Updates the Security Hub insight identified by the specified insight ARN.
+    /// Updates the Security Hub CSPM insight identified by the specified insight ARN.
     ///
     /// Parameters:
     ///   - filters: The updated filters that define this insight.
@@ -3512,7 +3512,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateInsight(input, logger: logger)
     }
 
-    /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     @Sendable
     @inlinable
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateOrganizationConfigurationResponse {
@@ -3525,11 +3525,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of your organization in Security Hub. Only the Security Hub administrator account can invoke this operation.
+    /// Updates the configuration of your organization in Security Hub CSPM. Only the Security Hub CSPM administrator account can invoke this operation.
     ///
     /// Parameters:
-    ///   - autoEnable: Whether to automatically enable Security Hub in new member accounts when they join the organization. If set to true, then Security Hub is automatically enabled in new accounts. If set to false, then Security Hub isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub is enabled and associate the policy with new organization accounts.
-    ///   - autoEnableStandards: Whether to automatically enable Security Hub default standards in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
+    ///   - autoEnable: Whether to automatically enable Security Hub CSPM in new member accounts when they join the organization. If set to true, then Security Hub CSPM is automatically enabled in new accounts. If set to false, then Security Hub CSPM isn't enabled in new accounts automatically. The default value is false. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to false and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which Security Hub CSPM is enabled and associate the policy with new organization accounts.
+    ///   - autoEnableStandards: Whether to automatically enable Security Hub CSPM default standards in new member accounts when they join the organization. The default value of this parameter is equal to DEFAULT. If equal to DEFAULT, then Security Hub CSPM default standards are automatically enabled for new member accounts. If equal to NONE, then default standards are not automatically enabled for new member accounts. If the ConfigurationType of your organization is set to CENTRAL, then this field is set to NONE and can't be changed in the home Region and linked Regions. However, in that case, the delegated administrator can create a configuration policy in which specific security standards are enabled and associate the policy with new organization accounts.
     ///   - organizationConfiguration: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -3582,7 +3582,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateSecurityControl(input, logger: logger)
     }
 
-    /// Updates configuration options for Security Hub.
+    /// Updates configuration options for Security Hub CSPM.
     @Sendable
     @inlinable
     public func updateSecurityHubConfiguration(_ input: UpdateSecurityHubConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSecurityHubConfigurationResponse {
@@ -3595,11 +3595,11 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Updates configuration options for Security Hub.
+    /// Updates configuration options for Security Hub CSPM.
     ///
     /// Parameters:
-    ///   - autoEnableControls: Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.  When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub will maintain that designation regardless of whether you have AutoEnableControls set to true.
-    ///   - controlFindingGenerator: Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
+    ///   - autoEnableControls: Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false.  When you automatically enable new controls, you can interact with the controls in the console and programmatically immediately after release. However, automatically enabled controls have a temporary default status of DISABLED. It can take up to several days for Security Hub CSPM to process the control release and designate the control as ENABLED in your account. During the processing period, you can manually enable or disable a control, and Security Hub CSPM will maintain that designation regardless of whether you have AutoEnableControls set to true.
+    ///   - controlFindingGenerator: Updates whether the calling account has consolidated control findings turned on. If the value for this field is set to SECURITY_CONTROL, Security Hub CSPM generates a single finding for a control check even when the check applies to multiple enabled standards. If the value for this field is set to STANDARD_CONTROL, Security Hub CSPM generates separate findings for a control check when the check applies to multiple enabled standards. For accounts that are part of an organization, this value can only be updated in the administrator account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSecurityHubConfiguration(
@@ -3900,10 +3900,10 @@ extension SecurityHub {
     /// Return PaginatorSequence for operation ``getFindingHistory(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - endTime:  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+    ///   - endTime:  An ISO 8601-formatted timestamp that indicates the end time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
     ///   - findingIdentifier: 
-    ///   - maxResults:  The maximum number of results to be returned. If you don’t provide it, Security Hub returns up to 100 results of finding history.
-    ///   - startTime: A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub, see Timestamps.
+    ///   - maxResults:  The maximum number of results to be returned. If you don’t provide it, Security Hub CSPM returns up to 100 results of finding history.
+    ///   - startTime: A timestamp that indicates the start time of the requested finding history. If you provide values for both StartTime and EndTime, Security Hub CSPM returns finding history for the specified time period. If you provide a value for StartTime but not for EndTime, Security Hub CSPM returns finding history from the StartTime to the time at which the API is called. If you provide a value for EndTime but not for StartTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the EndTime. If you provide neither StartTime nor EndTime, Security Hub CSPM returns finding history from the CreatedAt timestamp of the finding to the time at which the API is called. In all of these scenarios, the response is limited to 100 results. For more information about the validation and formatting of timestamp fields in Security Hub CSPM, see Timestamps.
     ///   - logger: Logger used for logging
     @inlinable
     public func getFindingHistoryPaginator(
@@ -4430,7 +4430,7 @@ extension SecurityHub {
     /// Return PaginatorSequence for operation ``listOrganizationAdminAccounts(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - feature: The feature where the delegated administrator account is listed. Defaults to Security Hub if not specified.
+    ///   - feature: The feature where the delegated administrator account is listed. Defaults to Security Hub CSPM if not specified.
     ///   - maxResults: The maximum number of items to return in the response.
     ///   - logger: Logger used for logging
     @inlinable
@@ -4504,7 +4504,7 @@ extension SecurityHub {
     /// Return PaginatorSequence for operation ``listStandardsControlAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
+    ///   - maxResults:  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub CSPM standards that you've enabled in the calling account.
     ///   - securityControlId:  The identifier of the control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) that you want to determine the enablement status of in each enabled standard.
     ///   - logger: Logger used for logging
     @inlinable

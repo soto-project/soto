@@ -304,7 +304,7 @@ public struct Route53Resolver: AWSService {
     /// 			CreateResolverRule.
     ///
     /// Parameters:
-    ///   - name: A name for the association that you're creating between a Resolver rule and a VPC.
+    ///   - name: A name for the association that you're creating between a Resolver rule and a VPC. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
     ///   - resolverRuleId: The ID of the Resolver rule that you want to associate with the VPC. To list the existing Resolver rules, use
     ///   - vpcId: The ID of the VPC that you want to associate the Resolver rule with.
     ///   - logger: Logger use during operation
@@ -533,8 +533,10 @@ public struct Route53Resolver: AWSService {
     ///   - preferredInstanceType: The  instance type. If you specify this, you must also specify a value for the OutpostArn.
     ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
     ///   - resolverEndpointType: 			For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
+    ///   - rniEnhancedMetricsEnabled: Specifies whether RNI enhanced metrics are enabled for the Resolver endpoints.
     ///   - securityGroupIds: The ID of one or more security groups that you want to use to control access to this VPC. The security group that you specify
     ///   - tags: A list of the tag keys and values that you want to associate with the endpoint.
+    ///   - targetNameServerMetricsEnabled: Specifies whether target name server metrics are enabled for the outbound Resolver endpoints.
     ///   - logger: Logger use during operation
     @inlinable
     public func createResolverEndpoint(
@@ -546,8 +548,10 @@ public struct Route53Resolver: AWSService {
         preferredInstanceType: String? = nil,
         protocols: [`Protocol`]? = nil,
         resolverEndpointType: ResolverEndpointType? = nil,
+        rniEnhancedMetricsEnabled: Bool? = nil,
         securityGroupIds: [String],
         tags: [Tag]? = nil,
+        targetNameServerMetricsEnabled: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateResolverEndpointResponse {
         let input = CreateResolverEndpointRequest(
@@ -559,8 +563,10 @@ public struct Route53Resolver: AWSService {
             preferredInstanceType: preferredInstanceType, 
             protocols: protocols, 
             resolverEndpointType: resolverEndpointType, 
+            rniEnhancedMetricsEnabled: rniEnhancedMetricsEnabled, 
             securityGroupIds: securityGroupIds, 
-            tags: tags
+            tags: tags, 
+            targetNameServerMetricsEnabled: targetNameServerMetricsEnabled
         )
         return try await self.createResolverEndpoint(input, logger: logger)
     }
@@ -632,7 +638,7 @@ public struct Route53Resolver: AWSService {
     ///   - creatorRequestId: A unique string that identifies the request and that allows failed requests to be retried
     ///   - delegationRecord: 			DNS queries with the delegation records that match this domain name are forwarded to the resolvers on your
     ///   - domainName: DNS queries for this domain name are forwarded to the IP addresses that you specify in TargetIps. If a query matches
-    ///   - name: A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console.
+    ///   - name: A friendly name that lets you easily find a rule in the Resolver dashboard in the Route 53 console. The name can be up to 64 characters long and can contain letters (a-z, A-Z), numbers (0-9), hyphens (-), underscores (_), and spaces. The name cannot consist of only numbers.
     ///   - resolverEndpointId: The ID of the outbound Resolver endpoint that you want to use to route DNS queries to the IP addresses that you specify
     ///   - ruleType: When you want to forward DNS queries for specified domain name to resolvers on your network, specify FORWARD or DELEGATE. When you have a forwarding rule to forward DNS queries for a domain to your network and you want Resolver to process queries for
     ///   - tags: A list of the tag keys and values that you want to associate with the endpoint.
@@ -2574,6 +2580,8 @@ public struct Route53Resolver: AWSService {
     ///   - protocols: 			The protocols you want to use for the endpoint. DoH-FIPS is applicable for default inbound endpoints only.
     ///   - resolverEndpointId: The ID of the Resolver endpoint that you want to update.
     ///   - resolverEndpointType: 			Specifies the endpoint type for what type of IP address the endpoint uses to forward DNS queries.
+    ///   - rniEnhancedMetricsEnabled: Updates whether RNI enhanced metrics are enabled for the Resolver endpoints.
+    ///   - targetNameServerMetricsEnabled: Updates whether target name server metrics are enabled for the outbound Resolver endpoints.
     ///   - updateIpAddresses: 			Specifies the IPv6 address when you update the Resolver endpoint from IPv4 to dual-stack.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2582,6 +2590,8 @@ public struct Route53Resolver: AWSService {
         protocols: [`Protocol`]? = nil,
         resolverEndpointId: String,
         resolverEndpointType: ResolverEndpointType? = nil,
+        rniEnhancedMetricsEnabled: Bool? = nil,
+        targetNameServerMetricsEnabled: Bool? = nil,
         updateIpAddresses: [UpdateIpAddress]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateResolverEndpointResponse {
@@ -2590,6 +2600,8 @@ public struct Route53Resolver: AWSService {
             protocols: protocols, 
             resolverEndpointId: resolverEndpointId, 
             resolverEndpointType: resolverEndpointType, 
+            rniEnhancedMetricsEnabled: rniEnhancedMetricsEnabled, 
+            targetNameServerMetricsEnabled: targetNameServerMetricsEnabled, 
             updateIpAddresses: updateIpAddresses
         )
         return try await self.updateResolverEndpoint(input, logger: logger)

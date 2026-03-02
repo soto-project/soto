@@ -96,8 +96,8 @@ public struct KeyspacesStreams: AWSService {
     /// Retrieves data records from a specified shard in an Amazon Keyspaces data stream. This operation returns a collection of data records from the shard, including the primary key columns and information about modifications made to the captured table data. Each record represents a single data modification in the Amazon Keyspaces table and includes metadata about when the change occurred.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of records to return in a single GetRecords request. Default value is 1000. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
-    ///   - shardIterator:  The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator operation. Each shard iterator is valid for 15 minutes after creation.
+    ///   - maxResults:  The maximum number of records to return in a single GetRecords request. The default value is 100. You can specify a limit between 1 and 1000, but the actual number returned might be less than the specified maximum if the size of the data for the returned records exceeds the internal size limit.
+    ///   - shardIterator:  The unique identifier of the shard iterator. A shard iterator specifies the position in the shard from which you want to start reading data records sequentially. You obtain this value by calling the GetShardIterator  operation. Each shard iterator is valid for 15 minutes after creation.
     ///   - logger: Logger use during operation
     @inlinable
     public func getRecords(
@@ -130,7 +130,7 @@ public struct KeyspacesStreams: AWSService {
     /// Parameters:
     ///   - sequenceNumber:  The sequence number of the data record in the shard from which to start reading. Required if ShardIteratorType is AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER. This parameter is ignored for other iterator types.
     ///   - shardId:  The identifier of the shard within the stream. The shard ID uniquely identifies a subset of the stream's data records that you want to access.
-    ///   - shardIteratorType:  Determines how the shard iterator is positioned. Must be one of the following:    TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard.    AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number.    LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data.
+    ///   - shardIteratorType:  Determines how the shard iterator is positioned. Must be one of the following:     TRIM_HORIZON - Start reading at the last untrimmed record in the shard, which is the oldest data record in the shard.    AT_SEQUENCE_NUMBER - Start reading exactly from the specified sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the specified sequence number.     LATEST - Start reading just after the most recent record in the shard, so that you always read the most recent data.
     ///   - streamArn:  The Amazon Resource Name (ARN) of the stream for which to get the shard iterator. The ARN uniquely identifies the stream within Amazon Keyspaces.
     ///   - logger: Logger use during operation
     @inlinable
@@ -166,9 +166,9 @@ public struct KeyspacesStreams: AWSService {
     /// Returns detailed information about a specific data capture stream for an Amazon Keyspaces table. The information includes the stream's Amazon Resource Name (ARN), creation time, current status, retention period, shard composition, and associated table details. This operation helps you monitor and manage the configuration of your Amazon Keyspaces data streams.
     ///
     /// Parameters:
-    ///   - maxResults:  The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 100.
-    ///   - nextToken:  An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
-    ///   - shardFilter:  Optional filter criteria to apply when retrieving shards. You can filter shards based on their state or other attributes to narrow down the results returned by the GetStream operation.
+    ///   - maxResults:  The maximum number of shard objects to return in a single GetStream request. The default value is 100. The minimum value is 1 and the maximum value is 100.
+    ///   - nextToken:  An optional pagination token provided by a previous GetStream operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxResults.
+    ///   - shardFilter:  Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of children shards to narrow down the results returned by the GetStream operation.
     ///   - streamArn:  The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about.
     ///   - logger: Logger use during operation
     @inlinable
@@ -205,7 +205,7 @@ public struct KeyspacesStreams: AWSService {
     ///
     /// Parameters:
     ///   - keyspaceName:  The name of the keyspace for which to list streams. If specified, only streams associated with tables in this keyspace are returned. If omitted, streams from all keyspaces are included in the results.
-    ///   - maxResults:  The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+    ///   - maxResults:  The maximum number of streams to return in a single ListStreams request. The default value is 100. The minimum value is 1 and the maximum value is 100.
     ///   - nextToken:  An optional pagination token provided by a previous ListStreams operation. If this parameter is specified, the response includes only records beyond the token, up to the value specified by maxResults.
     ///   - tableName:  The name of the table for which to list streams. Must be used together with keyspaceName. If specified, only streams associated with this specific table are returned.
     ///   - logger: Logger use during operation
@@ -261,8 +261,8 @@ extension KeyspacesStreams {
     /// Return PaginatorSequence for operation ``getStream(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults:  The maximum number of shard objects to return in a single GetStream request. Default value is 100. The minimum value is 1 and the maximum value is 100.
-    ///   - shardFilter:  Optional filter criteria to apply when retrieving shards. You can filter shards based on their state or other attributes to narrow down the results returned by the GetStream operation.
+    ///   - maxResults:  The maximum number of shard objects to return in a single GetStream request. The default value is 100. The minimum value is 1 and the maximum value is 100.
+    ///   - shardFilter:  Optional filter criteria to apply when retrieving shards. You can filter shards based on their parent shardID to get a list of children shards to narrow down the results returned by the GetStream operation.
     ///   - streamArn:  The Amazon Resource Name (ARN) of the stream for which detailed information is requested. This uniquely identifies the specific stream you want to get information about.
     ///   - logger: Logger used for logging
     @inlinable
@@ -302,7 +302,7 @@ extension KeyspacesStreams {
     ///
     /// - Parameters:
     ///   - keyspaceName:  The name of the keyspace for which to list streams. If specified, only streams associated with tables in this keyspace are returned. If omitted, streams from all keyspaces are included in the results.
-    ///   - maxResults:  The maximum number of streams to return in a single ListStreams request. Default value is 100. The minimum value is 1 and the maximum value is 100.
+    ///   - maxResults:  The maximum number of streams to return in a single ListStreams request. The default value is 100. The minimum value is 1 and the maximum value is 100.
     ///   - tableName:  The name of the table for which to list streams. Must be used together with keyspaceName. If specified, only streams associated with this specific table are returned.
     ///   - logger: Logger used for logging
     @inlinable

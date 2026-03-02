@@ -333,11 +333,14 @@ public struct MediaLive: AWSService {
     ///   - cdiInputSpecification: Specification of CDI inputs for this channel
     ///   - channelClass: The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
     ///   - channelEngineVersion: The desired engine version for this channel.
+    ///   - channelSecurityGroups: A list of IDs for all the Input Security Groups attached to the channel.
     ///   - destinations: 
     ///   - dryRun: 
     ///   - encoderSettings: 
+    ///   - inferenceSettings: Include this setting to include Elemental Inference features in this channel.
     ///   - inputAttachments: List of input attachments for channel.
     ///   - inputSpecification: Specification of network and file inputs for this channel
+    ///   - linkedChannelSettings: The linked channel settings for the channel.
     ///   - logLevel: The log level to write to CloudWatch Logs.
     ///   - maintenance: Maintenance settings for this channel.
     ///   - name: Name of channel.
@@ -352,11 +355,14 @@ public struct MediaLive: AWSService {
         cdiInputSpecification: CdiInputSpecification? = nil,
         channelClass: ChannelClass? = nil,
         channelEngineVersion: ChannelEngineVersionRequest? = nil,
+        channelSecurityGroups: [String]? = nil,
         destinations: [OutputDestination]? = nil,
         dryRun: Bool? = nil,
         encoderSettings: EncoderSettings? = nil,
+        inferenceSettings: InferenceSettings? = nil,
         inputAttachments: [InputAttachment]? = nil,
         inputSpecification: InputSpecification? = nil,
+        linkedChannelSettings: LinkedChannelSettings? = nil,
         logLevel: LogLevel? = nil,
         maintenance: MaintenanceCreateSettings? = nil,
         name: String? = nil,
@@ -371,11 +377,14 @@ public struct MediaLive: AWSService {
             cdiInputSpecification: cdiInputSpecification, 
             channelClass: channelClass, 
             channelEngineVersion: channelEngineVersion, 
+            channelSecurityGroups: channelSecurityGroups, 
             destinations: destinations, 
             dryRun: dryRun, 
             encoderSettings: encoderSettings, 
+            inferenceSettings: inferenceSettings, 
             inputAttachments: inputAttachments, 
             inputSpecification: inputSpecification, 
+            linkedChannelSettings: linkedChannelSettings, 
             logLevel: logLevel, 
             maintenance: maintenance, 
             name: name, 
@@ -3739,11 +3748,14 @@ public struct MediaLive: AWSService {
     ///   - cdiInputSpecification: Specification of CDI inputs for this channel
     ///   - channelEngineVersion: Channel engine version for this channel
     ///   - channelId: channel ID
+    ///   - channelSecurityGroups: A list of IDs for all the Input Security Groups attached to the channel.
     ///   - destinations: A list of output destinations for this channel.
     ///   - dryRun: 
     ///   - encoderSettings: The encoder settings for this channel.
+    ///   - inferenceSettings: Include this setting to include Elemental Inference features in this channel.
     ///   - inputAttachments: 
     ///   - inputSpecification: Specification of network and file inputs for this channel
+    ///   - linkedChannelSettings: The linked channel settings for the channel.
     ///   - logLevel: The log level to write to CloudWatch Logs.
     ///   - maintenance: Maintenance settings for this channel.
     ///   - name: The name of the channel.
@@ -3755,11 +3767,14 @@ public struct MediaLive: AWSService {
         cdiInputSpecification: CdiInputSpecification? = nil,
         channelEngineVersion: ChannelEngineVersionRequest? = nil,
         channelId: String,
+        channelSecurityGroups: [String]? = nil,
         destinations: [OutputDestination]? = nil,
         dryRun: Bool? = nil,
         encoderSettings: EncoderSettings? = nil,
+        inferenceSettings: InferenceSettings? = nil,
         inputAttachments: [InputAttachment]? = nil,
         inputSpecification: InputSpecification? = nil,
+        linkedChannelSettings: LinkedChannelSettings? = nil,
         logLevel: LogLevel? = nil,
         maintenance: MaintenanceUpdateSettings? = nil,
         name: String? = nil,
@@ -3771,11 +3786,14 @@ public struct MediaLive: AWSService {
             cdiInputSpecification: cdiInputSpecification, 
             channelEngineVersion: channelEngineVersion, 
             channelId: channelId, 
+            channelSecurityGroups: channelSecurityGroups, 
             destinations: destinations, 
             dryRun: dryRun, 
             encoderSettings: encoderSettings, 
+            inferenceSettings: inferenceSettings, 
             inputAttachments: inputAttachments, 
             inputSpecification: inputSpecification, 
+            linkedChannelSettings: linkedChannelSettings, 
             logLevel: logLevel, 
             maintenance: maintenance, 
             name: name, 

@@ -266,10 +266,12 @@ extension AppStream {
         case amazonLinux2 = "AMAZON_LINUX2"
         case rhel8 = "RHEL8"
         case rockyLinux8 = "ROCKY_LINUX8"
+        case ubuntuPro2404 = "UBUNTU_PRO_2404"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
         case windowsServer2022 = "WINDOWS_SERVER_2022"
+        case windowsServer2025 = "WINDOWS_SERVER_2025"
         public var description: String { return self.rawValue }
     }
 
@@ -511,6 +513,8 @@ extension AppStream {
         public let createdTime: Date?
         /// The description of the app block builder.
         public let description: String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the app block builder.
+        public let disableIMDSV1: Bool?
         /// The display name of the app block builder.
         public let displayName: String?
         /// Indicates whether default internet access is enabled for the app block builder.
@@ -531,12 +535,13 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appBlockBuilderErrors: [ResourceError]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, state: AppBlockBuilderState? = nil, stateChangeReason: AppBlockBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appBlockBuilderErrors: [ResourceError]? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, state: AppBlockBuilderState? = nil, stateChangeReason: AppBlockBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appBlockBuilderErrors = appBlockBuilderErrors
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.iamRoleArn = iamRoleArn
@@ -554,6 +559,7 @@ extension AppStream {
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case displayName = "DisplayName"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
             case iamRoleArn = "IamRoleArn"
@@ -1154,6 +1160,8 @@ extension AppStream {
         public let accessEndpoints: [AccessEndpoint]?
         /// The description of the app block builder.
         public let description: String?
+        /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+        public let disableIMDSV1: Bool?
         /// The display name of the app block builder.
         public let displayName: String?
         /// Enables or disables default internet access for the app block builder.
@@ -1172,9 +1180,10 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: AppBlockBuilderPlatformType? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.iamRoleArn = iamRoleArn
@@ -1211,6 +1220,7 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case accessEndpoints = "AccessEndpoints"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case displayName = "DisplayName"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
             case iamRoleArn = "IamRoleArn"
@@ -1366,7 +1376,7 @@ extension AppStream {
         public let launchPath: String?
         /// The name of the application. This name is visible to users when display name is not specified.
         public let name: String?
-        /// The platforms the application supports. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        /// The platforms the application supports. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
         public let platforms: [PlatformType]?
         /// The tags assigned to the application.
         public let tags: [String: String]?
@@ -1607,6 +1617,8 @@ extension AppStream {
         public let computeCapacity: ComputeCapacity?
         /// The description to display.
         public let description: String?
+        /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.  Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+        public let disableIMDSV1: Bool?
         /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
@@ -1625,7 +1637,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum concurrent sessions of the Elastic fleet. This is required for Elastic fleets, and not allowed for other fleet types.
         public let maxConcurrentSessions: Int?
@@ -1635,7 +1647,7 @@ extension AppStream {
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String?
-        /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        /// The fleet platform. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
         public let platform: PlatformType?
         /// The configuration for the root volume of fleet instances. Use this to customize storage capacity from 200 GB up to 500 GB based on your application requirements.
         public let rootVolumeConfig: VolumeConfig?
@@ -1651,9 +1663,10 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -1706,6 +1719,7 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case computeCapacity = "ComputeCapacity"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"
@@ -1751,6 +1765,8 @@ extension AppStream {
         public let appstreamAgentVersion: String?
         /// The description to display.
         public let description: String?
+        /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.  Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+        public let disableIMDSV1: Bool?
         /// The image builder name to display.
         public let displayName: String?
         /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -1763,7 +1779,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the image builder.
         public let imageName: String?
-        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type to use when launching the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// A unique name for the image builder.
         public let name: String?
@@ -1779,10 +1795,11 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, rootVolumeConfig: VolumeConfig? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, name: String? = nil, rootVolumeConfig: VolumeConfig? = nil, softwaresToInstall: [String]? = nil, softwaresToUninstall: [String]? = nil, tags: [String: String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -1836,6 +1853,7 @@ extension AppStream {
             case accessEndpoints = "AccessEndpoints"
             case appstreamAgentVersion = "AppstreamAgentVersion"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
@@ -4023,6 +4041,8 @@ extension AppStream {
         public let createdTime: Date?
         /// The description to display.
         public let description: String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the fleet.
+        public let disableIMDSV1: Bool?
         /// The amount of time that a streaming session remains active after users disconnect. If they try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance. Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
@@ -4043,7 +4063,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for the fleet.
         public let maxConcurrentSessions: Int?
@@ -4069,11 +4089,12 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, computeCapacityStatus: ComputeCapacityStatus? = nil, createdTime: Date? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -4103,6 +4124,7 @@ extension AppStream {
             case computeCapacityStatus = "ComputeCapacityStatus"
             case createdTime = "CreatedTime"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"
@@ -4221,7 +4243,7 @@ extension AppStream {
         public let state: ImageState?
         /// The reason why the last state change occurred.
         public let stateChangeReason: ImageStateChangeReason?
-        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:   General Purpose   Compute Optimized   Memory Optimized   Graphics   Graphics Design   Graphics Pro   Graphics G4   Graphics G5
+        /// The supported instances families that determine which image a customer can use when the customer launches a fleet or image builder. The following instances families are supported:   General Purpose   Compute Optimized   Memory Optimized   Graphics G4   Graphics G5   Graphics G6
         public let supportedInstanceFamilies: [String]?
         /// Indicates whether the image is public or private.
         public let visibility: VisibilityType?
@@ -4291,6 +4313,8 @@ extension AppStream {
         public let createdTime: Date?
         /// The description to display.
         public let description: String?
+        /// Indicates whether Instance Metadata Service Version 1 (IMDSv1) is disabled for the image builder.
+        public let disableIMDSV1: Bool?
         /// The image builder name to display.
         public let displayName: String?
         /// The name of the directory and organizational unit (OU) to use to join the image builder to a Microsoft Active Directory domain.
@@ -4303,7 +4327,7 @@ extension AppStream {
         public let imageArn: String?
         /// The image builder errors.
         public let imageBuilderErrors: [ResourceError]?
-        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
+        /// The instance type for the image builder. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge
         public let instanceType: String?
         /// Indicates whether the image builder is using the latest WorkSpaces Applications agent version or not.
         public let latestAppstreamAgentVersion: LatestAppstreamAgentVersion?
@@ -4322,12 +4346,13 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, appstreamAgentVersion: String? = nil, arn: String? = nil, createdTime: Date? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, imageArn: String? = nil, imageBuilderErrors: [ResourceError]? = nil, instanceType: String? = nil, latestAppstreamAgentVersion: LatestAppstreamAgentVersion? = nil, name: String? = nil, networkAccessConfiguration: NetworkAccessConfiguration? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, state: ImageBuilderState? = nil, stateChangeReason: ImageBuilderStateChangeReason? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.appstreamAgentVersion = appstreamAgentVersion
             self.arn = arn
             self.createdTime = createdTime
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
@@ -4351,6 +4376,7 @@ extension AppStream {
             case arn = "Arn"
             case createdTime = "CreatedTime"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
@@ -5376,6 +5402,8 @@ extension AppStream {
         public let attributesToDelete: [AppBlockBuilderAttribute]?
         /// The description of the app block builder.
         public let description: String?
+        /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.
+        public let disableIMDSV1: Bool?
         /// The display name of the app block builder.
         public let displayName: String?
         /// Enables or disables default internet access for the app block builder.
@@ -5392,10 +5420,11 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(accessEndpoints: [AccessEndpoint]? = nil, attributesToDelete: [AppBlockBuilderAttribute]? = nil, description: String? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(accessEndpoints: [AccessEndpoint]? = nil, attributesToDelete: [AppBlockBuilderAttribute]? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, displayName: String? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, instanceType: String? = nil, name: String? = nil, platform: PlatformType? = nil, vpcConfig: VpcConfig? = nil) {
             self.accessEndpoints = accessEndpoints
             self.attributesToDelete = attributesToDelete
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.displayName = displayName
             self.enableDefaultInternetAccess = enableDefaultInternetAccess
             self.iamRoleArn = iamRoleArn
@@ -5423,6 +5452,7 @@ extension AppStream {
             case accessEndpoints = "AccessEndpoints"
             case attributesToDelete = "AttributesToDelete"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case displayName = "DisplayName"
             case enableDefaultInternetAccess = "EnableDefaultInternetAccess"
             case iamRoleArn = "IamRoleArn"
@@ -5628,6 +5658,8 @@ extension AppStream {
         public let deleteVpcConfig: Bool?
         /// The description to display.
         public let description: String?
+        /// Set to true to disable Instance Metadata Service Version 1 (IMDSv1) and enforce IMDSv2. Set to false to enable both IMDSv1 and IMDSv2.  Before disabling IMDSv1, ensure your WorkSpaces Applications images are running the agent version or managed image update released on or after January 16, 2024 to support IMDSv2 enforcement.
+        public let disableIMDSV1: Bool?
         /// The amount of time that a streaming session remains active after users disconnect. If users try to reconnect to the streaming session after a disconnection or network interruption within this time interval, they are connected to their previous session. Otherwise, they are connected to a new session with a new streaming instance.  Specify a value between 60 and 36000.
         public let disconnectTimeoutInSeconds: Int?
         /// The fleet name to display.
@@ -5644,7 +5676,7 @@ extension AppStream {
         public let imageArn: String?
         /// The name of the image used to create the fleet.
         public let imageName: String?
-        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+        /// The instance type to use when launching fleet instances. The following instance types are available:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge   stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge   stream.memory.z1d.12xlarge   stream.graphics.g4dn.xlarge   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.12xlarge   stream.graphics.g5.24xlarge   stream.graphics.g6.xlarge   stream.graphics.g6.2xlarge   stream.graphics.g6.4xlarge   stream.graphics.g6.8xlarge   stream.graphics.g6.16xlarge   stream.graphics.g6.12xlarge   stream.graphics.g6.24xlarge   stream.graphics.gr6.4xlarge   stream.graphics.gr6.8xlarge   stream.graphics.g6f.large   stream.graphics.g6f.xlarge   stream.graphics.g6f.2xlarge   stream.graphics.g6f.4xlarge   stream.graphics.gr6f.4xlarge   The following instance types are available for Elastic fleets:   stream.standard.small   stream.standard.medium   stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
         public let instanceType: String?
         /// The maximum number of concurrent sessions for a fleet.
         public let maxConcurrentSessions: Int?
@@ -5654,7 +5686,7 @@ extension AppStream {
         public let maxUserDurationInSeconds: Int?
         /// A unique name for the fleet.
         public let name: String?
-        /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
+        /// The platform of the fleet. WINDOWS_SERVER_2019, AMAZON_LINUX2 and UBUNTU_PRO_2404 are supported for Elastic fleets.
         public let platform: PlatformType?
         /// The updated configuration for the root volume of fleet instances. Note that volume size cannot be decreased below the image volume size.
         public let rootVolumeConfig: VolumeConfig?
@@ -5668,11 +5700,12 @@ extension AppStream {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = nil
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -5696,11 +5729,12 @@ extension AppStream {
 
         @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
         @inlinable
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disableIMDSV1: Bool? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxSessionsPerInstance: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, rootVolumeConfig: VolumeConfig? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = deleteVpcConfig
             self.description = description
+            self.disableIMDSV1 = disableIMDSV1
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
             self.displayName = displayName
             self.domainJoinInfo = domainJoinInfo
@@ -5744,6 +5778,7 @@ extension AppStream {
             case computeCapacity = "ComputeCapacity"
             case deleteVpcConfig = "DeleteVpcConfig"
             case description = "Description"
+            case disableIMDSV1 = "DisableIMDSV1"
             case disconnectTimeoutInSeconds = "DisconnectTimeoutInSeconds"
             case displayName = "DisplayName"
             case domainJoinInfo = "DomainJoinInfo"

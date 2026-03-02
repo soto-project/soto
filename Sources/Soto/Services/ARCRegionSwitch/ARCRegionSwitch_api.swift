@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS ARCRegionSwitch service.
 ///
-/// Amazon Application Recovery Controller (ARC) Region switch helps you to quickly and reliably shift traffic away from an impaired Amazon Web Services Region to a healthy Region. With Region switch, you can create plans that define the steps to shift traffic for your application from one Amazon Web Services Region to another. You can test your plans in practice mode before using them in a real recovery scenario. Region switch provides a structured approach to multi-Region failover, helping you to meet your recovery time objectives (RTOs) and maintain business continuity during regional disruptions. For more information, see Region switch in ARC in the Amazon Application Recovery Controller User Guide.
+/// Amazon Application Recovery Controller (ARC) Region switch helps you to quickly and reliably shift traffic away from an impaired Amazon Web Services Region to a healthy Region. With Region switch, you can create plans that define the steps to shift traffic for your application from one Amazon Web Services Region to another. Region switch provides a structured approach to multi-Region failover, helping you to meet your recovery time objectives (RTOs) and maintain business continuity during regional disruptions. For more information, see Region switch in ARC in the Amazon Application Recovery Controller User Guide.
 public struct ARCRegionSwitch: AWSService {
     // MARK: Member variables
 
@@ -179,6 +179,7 @@ public struct ARCRegionSwitch: AWSService {
     ///   - recoveryApproach: The recovery approach for a Region switch plan, which can be active/active (activeActive) or active/passive (activePassive).
     ///   - recoveryTimeObjectiveMinutes: Optionally, you can specify an recovery time objective for a Region switch plan, in minutes.
     ///   - regions: An array that specifies the Amazon Web Services Regions for a Region switch plan. Specify two Regions.
+    ///   - reportConfiguration: 
     ///   - tags: The tags to apply to the Region switch plan.
     ///   - triggers: The triggers associated with a Region switch plan.
     ///   - workflows: An array of workflows included in a Region switch plan.
@@ -193,6 +194,7 @@ public struct ARCRegionSwitch: AWSService {
         recoveryApproach: RecoveryApproach,
         recoveryTimeObjectiveMinutes: Int? = nil,
         regions: [String],
+        reportConfiguration: ReportConfiguration? = nil,
         tags: [String: String]? = nil,
         triggers: [Trigger]? = nil,
         workflows: [Workflow],
@@ -207,6 +209,7 @@ public struct ARCRegionSwitch: AWSService {
             recoveryApproach: recoveryApproach, 
             recoveryTimeObjectiveMinutes: recoveryTimeObjectiveMinutes, 
             regions: regions, 
+            reportConfiguration: reportConfiguration, 
             tags: tags, 
             triggers: triggers, 
             workflows: workflows
@@ -558,6 +561,47 @@ public struct ARCRegionSwitch: AWSService {
         return try await self.listRoute53HealthChecks(input, logger: logger)
     }
 
+    /// List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
+    @Sendable
+    @inlinable
+    public func listRoute53HealthChecksInRegion(_ input: ListRoute53HealthChecksInRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRoute53HealthChecksInRegionResponse {
+        try await self.client.execute(
+            operation: "ListRoute53HealthChecksInRegion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
+    ///
+    /// Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+    ///   - hostedZoneId: The hosted zone ID for the health checks.
+    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - nextToken: Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.
+    ///   - recordName: The record name for the health checks.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRoute53HealthChecksInRegion(
+        arn: String,
+        hostedZoneId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        recordName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRoute53HealthChecksInRegionResponse {
+        let input = ListRoute53HealthChecksInRegionRequest(
+            arn: arn, 
+            hostedZoneId: hostedZoneId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            recordName: recordName
+        )
+        return try await self.listRoute53HealthChecksInRegion(input, logger: logger)
+    }
+
     /// Lists the tags attached to a Region switch resource.
     @Sendable
     @inlinable
@@ -587,7 +631,7 @@ public struct ARCRegionSwitch: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode. In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+    /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
     @Sendable
     @inlinable
     public func startPlanExecution(_ input: StartPlanExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartPlanExecutionResponse {
@@ -600,14 +644,15 @@ public struct ARCRegionSwitch: AWSService {
             logger: logger
         )
     }
-    /// Starts the execution of a Region switch plan. You can execute a plan in either PRACTICE or RECOVERY mode. In PRACTICE mode, the execution simulates the steps without making actual changes to your application's traffic routing. In RECOVERY mode, the execution performs actual changes to shift traffic between Regions.
+    /// Starts the execution of a Region switch plan. You can execute a plan in either graceful or ungraceful mode. Specifing ungraceful mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
     ///
     /// Parameters:
-    ///   - action: The action to perform. Valid values are ACTIVATE (to shift traffic to the target Region) or DEACTIVATE (to shift traffic away from the target Region).
+    ///   - action: The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
     ///   - comment: An optional comment explaining why the plan execution is being started.
     ///   - latestVersion: A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
-    ///   - mode: The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+    ///   - mode: The plan execution mode. Valid values are graceful, for starting the execution in graceful mode, or ungraceful, for starting the execution in ungraceful mode.
     ///   - planArn: The Amazon Resource Name (ARN) of the plan to execute.
+    ///   - recoveryExecutionId: The execution identifier of the recovery execution that ran in the opposite region post-recovery is ran in. Required when starting a post-recovery execution.
     ///   - targetRegion: The Amazon Web Services Region to target with this execution. This is the Region that traffic will be shifted to or from, depending on the action.
     ///   - logger: Logger use during operation
     @inlinable
@@ -617,6 +662,7 @@ public struct ARCRegionSwitch: AWSService {
         latestVersion: String? = nil,
         mode: ExecutionMode? = nil,
         planArn: String,
+        recoveryExecutionId: String? = nil,
         targetRegion: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartPlanExecutionResponse {
@@ -626,6 +672,7 @@ public struct ARCRegionSwitch: AWSService {
             latestVersion: latestVersion, 
             mode: mode, 
             planArn: planArn, 
+            recoveryExecutionId: recoveryExecutionId, 
             targetRegion: targetRegion
         )
         return try await self.startPlanExecution(input, logger: logger)
@@ -716,6 +763,7 @@ public struct ARCRegionSwitch: AWSService {
     ///   - description: The updated description for the Region switch plan.
     ///   - executionRole: The updated IAM role ARN that grants Region switch the permissions needed to execute the plan steps.
     ///   - recoveryTimeObjectiveMinutes: The updated target recovery time objective (RTO) in minutes for the plan.
+    ///   - reportConfiguration: The updated report configuration for the plan.
     ///   - triggers: The updated conditions that can automatically trigger the execution of the plan.
     ///   - workflows: The updated workflows for the Region switch plan.
     ///   - logger: Logger use during operation
@@ -726,6 +774,7 @@ public struct ARCRegionSwitch: AWSService {
         description: String? = nil,
         executionRole: String,
         recoveryTimeObjectiveMinutes: Int? = nil,
+        reportConfiguration: ReportConfiguration? = nil,
         triggers: [Trigger]? = nil,
         workflows: [Workflow],
         logger: Logger = AWSClient.loggingDisabled        
@@ -736,6 +785,7 @@ public struct ARCRegionSwitch: AWSService {
             description: description, 
             executionRole: executionRole, 
             recoveryTimeObjectiveMinutes: recoveryTimeObjectiveMinutes, 
+            reportConfiguration: reportConfiguration, 
             triggers: triggers, 
             workflows: workflows
         )
@@ -1105,6 +1155,49 @@ extension ARCRegionSwitch {
         )
         return self.listRoute53HealthChecksPaginator(input, logger: logger)
     }
+
+    /// Return PaginatorSequence for operation ``listRoute53HealthChecksInRegion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRoute53HealthChecksInRegionPaginator(
+        _ input: ListRoute53HealthChecksInRegionRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRoute53HealthChecksInRegionRequest, ListRoute53HealthChecksInRegionResponse> {
+        return .init(
+            input: input,
+            command: self.listRoute53HealthChecksInRegion,
+            inputKey: \ListRoute53HealthChecksInRegionRequest.nextToken,
+            outputKey: \ListRoute53HealthChecksInRegionResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRoute53HealthChecksInRegion(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn: The Amazon Resource Name (ARN) of the Arc Region Switch Plan.
+    ///   - hostedZoneId: The hosted zone ID for the health checks.
+    ///   - maxResults: The number of objects that you want to return with this call.
+    ///   - recordName: The record name for the health checks.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRoute53HealthChecksInRegionPaginator(
+        arn: String,
+        hostedZoneId: String? = nil,
+        maxResults: Int? = nil,
+        recordName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRoute53HealthChecksInRegionRequest, ListRoute53HealthChecksInRegionResponse> {
+        let input = ListRoute53HealthChecksInRegionRequest(
+            arn: arn, 
+            hostedZoneId: hostedZoneId, 
+            maxResults: maxResults, 
+            recordName: recordName
+        )
+        return self.listRoute53HealthChecksInRegionPaginator(input, logger: logger)
+    }
 }
 
 extension ARCRegionSwitch.GetPlanEvaluationStatusRequest: AWSPaginateToken {
@@ -1171,6 +1264,19 @@ extension ARCRegionSwitch.ListPlansRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension ARCRegionSwitch.ListRoute53HealthChecksInRegionRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ARCRegionSwitch.ListRoute53HealthChecksInRegionRequest {
+        return .init(
+            arn: self.arn,
+            hostedZoneId: self.hostedZoneId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            recordName: self.recordName
         )
     }
 }

@@ -494,6 +494,7 @@ extension GuardDuty {
 
     public enum ScanStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
+        case allFilesSkippedOrFailed = "ALL_FILES_SKIPPED_OR_FAILED"
         case amiSnapshotLimitExceeded = "AMI_SNAPSHOT_LIMIT_EXCEEDED"
         case baseCreatedAfterTarget = "BASE_CREATED_AFTER_TARGET"
         case baseResourceNotScanned = "BASE_RESOURCE_NOT_SCANNED"
@@ -8419,6 +8420,8 @@ extension GuardDuty {
         public let dbInstanceArn: String?
         /// The identifier associated to the database instance that was involved in the finding.
         public let dbInstanceIdentifier: String?
+        /// The unique ID of the database resource involved in the activity that prompted GuardDuty to generate the finding.
+        public let dbiResourceId: String?
         /// The database engine of the database instance involved in the finding.
         public let engine: String?
         /// The version of the database engine that was involved in the finding.
@@ -8427,10 +8430,11 @@ extension GuardDuty {
         public let tags: [Tag]?
 
         @inlinable
-        public init(dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, tags: [Tag]? = nil) {
+        public init(dbClusterIdentifier: String? = nil, dbInstanceArn: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, engine: String? = nil, engineVersion: String? = nil, tags: [Tag]? = nil) {
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbInstanceArn = dbInstanceArn
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.dbiResourceId = dbiResourceId
             self.engine = engine
             self.engineVersion = engineVersion
             self.tags = tags
@@ -8440,6 +8444,7 @@ extension GuardDuty {
             case dbClusterIdentifier = "dbClusterIdentifier"
             case dbInstanceArn = "dbInstanceArn"
             case dbInstanceIdentifier = "dbInstanceIdentifier"
+            case dbiResourceId = "dbiResourceId"
             case engine = "engine"
             case engineVersion = "engineVersion"
             case tags = "tags"

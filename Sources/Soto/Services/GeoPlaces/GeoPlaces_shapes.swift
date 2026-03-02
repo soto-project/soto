@@ -89,6 +89,7 @@ extension GeoPlaces {
         case block = "Block"
         case country = "Country"
         case district = "District"
+        case inferredSecondaryAddress = "InferredSecondaryAddress"
         case interpolatedAddress = "InterpolatedAddress"
         case intersection = "Intersection"
         case locality = "Locality"
@@ -245,7 +246,7 @@ extension GeoPlaces {
     // MARK: Shapes
 
     public struct AccessPoint: AWSDecodableShape {
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
 
         @inlinable
@@ -297,7 +298,7 @@ extension GeoPlaces {
         public let postalCode: String?
         /// The region or state results should be present in.  Example: North Rhine-Westphalia.
         public let region: Region?
-        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor.
+        /// Components that correspond to secondary identifiers on an Address. Secondary address components include information such as Suite or Unit Number, Building, or Floor.  Coverage for Address.SecondaryAddressComponents is available in the following countries: AUS, CAN, NZL, USA, PRI
         public let secondaryAddressComponents: [SecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public let street: String?
@@ -369,7 +370,7 @@ extension GeoPlaces {
         public let postalCode: Double?
         /// The region or state results should be to be present in.  Example: North Rhine-Westphalia.
         public let region: Double?
-        /// Match scores for the secondary address components in the result.
+        /// Match scores for the secondary address components in the result.  Coverage for this functionality is available in the following countries: AUS, AUT, BRA, CAN, ESP, FRA, GBR, IDN, IND, NZL, TUR, TWN, USA.
         public let secondaryAddressComponents: [SecondaryAddressComponentMatchScore]?
         /// Name of sub-block.  Example: Sunny Mansion 203 sub-block: 4
         public let subBlock: Double?
@@ -585,7 +586,7 @@ extension GeoPlaces {
     public struct AutocompleteRequest: AWSEncodableShape {
         /// A list of optional additional parameters that can be requested for each result.
         public let additionalFeatures: [AutocompleteAdditionalFeature]?
-        /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+        /// The position in longitude and latitude that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: AutocompleteFilter?
@@ -595,7 +596,7 @@ extension GeoPlaces {
         public let key: String?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public let language: String?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 5
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
@@ -877,7 +878,7 @@ extension GeoPlaces {
     }
 
     public struct FilterCircle: AWSEncodableShape {
-        /// The center position, in longitude and latitude, of the FilterCircle.
+        /// The center position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let center: [Double]
         /// The radius, in meters, of the FilterCircle.
         public let radius: Int64
@@ -988,7 +989,7 @@ extension GeoPlaces {
         public let postalCode: [ParsedQueryComponent]?
         /// The region or state results should be present in.  Example: North Rhine-Westphalia.
         public let region: [ParsedQueryComponent]?
-        /// Parsed secondary address components from the provided query text.
+        /// Parsed secondary address components from the provided query text.  Coverage for ParsedQuery.Address.SecondaryAddressComponents is available in the following countries: AUS, AUT, BRA, CAN, ESP, FRA, GBR, HKG, IDN, IND, NZL, TUR, TWN, USA
         public let secondaryAddressComponents: [ParsedQuerySecondaryAddressComponent]?
         /// The name of the street results should be present in.
         public let street: [ParsedQueryComponent]?
@@ -1078,7 +1079,7 @@ extension GeoPlaces {
     public struct GeocodeRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone, that can be requested for each result.
         public let additionalFeatures: [GeocodeAdditionalFeature]?
-        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: GeocodeFilter?
@@ -1088,12 +1089,12 @@ extension GeoPlaces {
         public let key: String?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public let language: String?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 20
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
         public let queryComponents: GeocodeQueryComponents?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.
         public let queryText: String?
 
         @inlinable
@@ -1126,7 +1127,7 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 2)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
             try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
@@ -1153,7 +1154,7 @@ extension GeoPlaces {
     }
 
     public struct GeocodeResponse: AWSDecodableShape {
-        /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
+        /// The pricing bucket for which the query is charged at, or the maximum pricing bucket when the query is charged per item within the query. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
         /// List of places or results returned for a query.
         public let resultItems: [GeocodeResultItem]?
@@ -1177,7 +1178,7 @@ extension GeoPlaces {
     }
 
     public struct GeocodeResultItem: AWSDecodableShape {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// The place's address.
         public let address: Address?
@@ -1205,11 +1206,11 @@ extension GeoPlaces {
         public let placeType: PlaceType
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// Contains details about the postal code of the place/result.
         public let postalCodeDetails: [PostalCodeDetails]?
-        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.  Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
         public let secondaryAddresses: [RelatedPlace]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -1298,7 +1299,7 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 4)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 5)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
@@ -1312,7 +1313,7 @@ extension GeoPlaces {
     }
 
     public struct GetPlaceResponse: AWSDecodableShape {
-        /// Position of the access point in (lng,lat).
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public let accessRestrictions: [AccessRestriction]?
@@ -1342,13 +1343,13 @@ extension GeoPlaces {
         public let placeType: PlaceType
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// Contains details about the postal code of the place/result.
         public let postalCodeDetails: [PostalCodeDetails]?
         /// The pricing bucket for which the query is charged at. For more information on pricing, please visit Amazon Location Service Pricing.
         public let pricingBucket: String
-        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.
+        /// All secondary addresses that are associated with a main address. A secondary address is one that includes secondary designators, such as a Suite or Unit Number, Building, or Floor information.  Coverage for this functionality is available in the following countries: AUS, CAN, NZL, USA, PRI.
         public let secondaryAddresses: [RelatedPlace]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -1453,7 +1454,7 @@ extension GeoPlaces {
     }
 
     public struct Intersection: AWSDecodableShape {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         public let address: Address?
         /// The distance in meters from the QueryPosition.
@@ -1462,7 +1463,7 @@ extension GeoPlaces {
         public let mapView: [Double]?
         /// The PlaceId of the place result.
         public let placeId: String
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// The distance from the routing position of the nearby address to the street result.
         public let routeDistance: Int64?
@@ -1748,14 +1749,14 @@ extension GeoPlaces {
     }
 
     public struct RelatedPlace: AWSDecodableShape {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         public let address: Address?
         /// The PlaceId of the place result.
         public let placeId: String
         /// A PlaceType is a category that the result place must belong to.
         public let placeType: PlaceType
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// The localized display name of this result item based on request parameter language.
         public let title: String
@@ -1804,25 +1805,28 @@ extension GeoPlaces {
         public let additionalFeatures: [ReverseGeocodeAdditionalFeature]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: ReverseGeocodeFilter?
+        /// The heading in degrees from true north in a navigation context. The heading is measured as the angle clockwise from the North direction. Example: North is 0 degrees, East is 90 degrees, South is 180 degrees, and West is 270 degrees.
+        public let heading: Double?
         /// Indicates if the results will be stored. Defaults to SingleUse, if left empty.  Storing the response of an ReverseGeocode query is required to comply with service terms, but charged at a higher cost per request. Please review the user agreement and service pricing structure to determine the correct setting for your use case.
         public let intendedUse: ReverseGeocodeIntendedUse?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public let language: String?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 1
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
         public let queryPosition: [Double]
         /// The maximum distance in meters from the QueryPosition from which a result will be returned.
         public let queryRadius: Int64?
 
         @inlinable
-        public init(additionalFeatures: [ReverseGeocodeAdditionalFeature]? = nil, filter: ReverseGeocodeFilter? = nil, intendedUse: ReverseGeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryPosition: [Double], queryRadius: Int64? = nil) {
+        public init(additionalFeatures: [ReverseGeocodeAdditionalFeature]? = nil, filter: ReverseGeocodeFilter? = nil, heading: Double? = nil, intendedUse: ReverseGeocodeIntendedUse? = nil, key: String? = nil, language: String? = nil, maxResults: Int? = nil, politicalView: String? = nil, queryPosition: [Double], queryRadius: Int64? = nil) {
             self.additionalFeatures = additionalFeatures
             self.filter = filter
+            self.heading = heading
             self.intendedUse = intendedUse
             self.key = key
             self.language = language
@@ -1837,6 +1841,7 @@ extension GeoPlaces {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.additionalFeatures, forKey: .additionalFeatures)
             try container.encodeIfPresent(self.filter, forKey: .filter)
+            try container.encodeIfPresent(self.heading, forKey: .heading)
             try container.encodeIfPresent(self.intendedUse, forKey: .intendedUse)
             request.encodeQuery(self.key, key: "key")
             try container.encodeIfPresent(self.language, forKey: .language)
@@ -1847,9 +1852,11 @@ extension GeoPlaces {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 2)
+            try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, max: 3)
             try self.validate(self.additionalFeatures, name: "additionalFeatures", parent: name, min: 1)
             try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.heading, name: "heading", parent: name, max: 360.0)
+            try self.validate(self.heading, name: "heading", parent: name, min: 0.0)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
             try self.validate(self.language, name: "language", parent: name, max: 35)
             try self.validate(self.language, name: "language", parent: name, min: 2)
@@ -1865,6 +1872,7 @@ extension GeoPlaces {
         private enum CodingKeys: String, CodingKey {
             case additionalFeatures = "AdditionalFeatures"
             case filter = "Filter"
+            case heading = "Heading"
             case intendedUse = "IntendedUse"
             case language = "Language"
             case maxResults = "MaxResults"
@@ -1899,7 +1907,7 @@ extension GeoPlaces {
     }
 
     public struct ReverseGeocodeResultItem: AWSDecodableShape {
-        /// Position of the access point represented by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// The place's address.
         public let address: Address?
@@ -1921,7 +1929,7 @@ extension GeoPlaces {
         public let placeType: PlaceType
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// Contains details about the postal code of the place/result.
         public let postalCodeDetails: [PostalCodeDetails]?
@@ -2045,13 +2053,13 @@ extension GeoPlaces {
         public let key: String?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public let language: String?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 20
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in [lng, lat] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude] for which you are querying nearby results for. Results closer to the position will be ranked higher then results further away from the position
         public let queryPosition: [Double]
         /// The maximum distance in meters from the QueryPosition from which a result will be returned.  The fields QueryText, and QueryID are mutually exclusive.
         public let queryRadius: Int64?
@@ -2146,7 +2154,7 @@ extension GeoPlaces {
     }
 
     public struct SearchNearbyResultItem: AWSDecodableShape {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public let accessRestrictions: [AccessRestriction]?
@@ -2176,7 +2184,7 @@ extension GeoPlaces {
         public let placeType: PlaceType
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -2264,7 +2272,7 @@ extension GeoPlaces {
     public struct SearchTextRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone, that can be requested for each result.
         public let additionalFeatures: [SearchTextAdditionalFeature]?
-        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  Exactly one of the following fields must be set: BiasPosition, Filter.BoundingBox, or Filter.Circle.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SearchTextFilter?
@@ -2274,15 +2282,15 @@ extension GeoPlaces {
         public let key: String?
         /// A list of BCP 47 compliant language codes for the results to be rendered in. If there is no data for the result in the requested language, data will be returned in the default language for the entry.
         public let language: String?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 20
         public let maxResults: Int?
         /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page.
         public let nextToken: String?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API.  The fields QueryText, and QueryID are mutually exclusive.
+        /// The query Id returned by the suggest API. If passed in the request, the SearchText API will preform a SearchText query with the improved query terms for the original query made to the suggest API.  Exactly one of the following fields must be set: QueryText or QueryId.
         public let queryId: String?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  Exactly one of the following fields must be set: QueryText or QueryId.
         public let queryText: String?
 
         @inlinable
@@ -2376,7 +2384,7 @@ extension GeoPlaces {
     }
 
     public struct SearchTextResultItem: AWSDecodableShape {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public let accessRestrictions: [AccessRestriction]?
@@ -2406,7 +2414,7 @@ extension GeoPlaces {
         public let placeType: PlaceType
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -2458,15 +2466,19 @@ extension GeoPlaces {
     }
 
     public struct SecondaryAddressComponent: AWSDecodableShape {
+        /// The designator of the secondary address component. Example: Apt.
+        public let designator: String?
         /// Number that uniquely identifies a secondary address.
         public let number: String
 
         @inlinable
-        public init(number: String) {
+        public init(designator: String? = nil, number: String) {
+            self.designator = designator
             self.number = number
         }
 
         private enum CodingKeys: String, CodingKey {
+            case designator = "Designator"
             case number = "Number"
         }
     }
@@ -2630,7 +2642,7 @@ extension GeoPlaces {
     }
 
     public struct SuggestPlaceResult: AWSDecodableShape {
-        /// Position of the access point represent by longitude and latitude.
+        /// Position of the access point in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let accessPoints: [AccessPoint]?
         /// Indicates known access restrictions on a vehicle access point. The index correlates to an access point and indicates if access through this point has some form of restriction.
         public let accessRestrictions: [AccessRestriction]?
@@ -2654,7 +2666,7 @@ extension GeoPlaces {
         public let placeType: PlaceType?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The position, in longitude and latitude.
+        /// The position in World Geodetic System (WGS 84) format: [longitude, latitude].
         public let position: [Double]?
         /// The time zone in which the place is located.
         public let timeZone: TimeZone?
@@ -2716,7 +2728,7 @@ extension GeoPlaces {
     public struct SuggestRequest: AWSEncodableShape {
         /// A list of optional additional parameters, such as time zone, that can be requested for each result.
         public let additionalFeatures: [SuggestAdditionalFeature]?
-        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WSG84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
+        /// The position, in longitude and latitude, that the results should be close to. Typically, place results returned are ranked higher the closer they are to this position. Stored in [lng, lat] and in the WGS 84 format.  The fields BiasPosition, FilterBoundingBox, and FilterCircle are mutually exclusive.
         public let biasPosition: [Double]?
         /// A structure which contains a set of inclusion/exclusion properties that results must possess in order to be returned as a result.
         public let filter: SuggestFilter?
@@ -2728,11 +2740,11 @@ extension GeoPlaces {
         public let language: String?
         /// Maximum number of query terms to be returned for use with a search text query.
         public let maxQueryRefinements: Int?
-        /// An optional limit for the number of results returned in a single call.
+        /// An optional limit for the number of results returned in a single call. Default value: 20
         public let maxResults: Int?
         /// The alpha-2 or alpha-3 character code for the political view of a country. The political view applies to the results of the request to represent unresolved territorial claims through the point of view of the specified country.
         public let politicalView: String?
-        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText, and QueryID are mutually exclusive.
+        /// The free-form text query to match addresses against. This is usually a partially typed address from an end user in an address box or form.  The fields QueryText and QueryID are mutually exclusive.
         public let queryText: String
 
         @inlinable

@@ -323,7 +323,7 @@ public struct BackupGateway: AWSService {
         return try await self.getHypervisor(input, logger: logger)
     }
 
-    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
     @Sendable
     @inlinable
     public func getHypervisorPropertyMappings(_ input: GetHypervisorPropertyMappingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetHypervisorPropertyMappingsOutput {
@@ -336,7 +336,7 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action retrieves the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// Parameters:
     ///   - hypervisorArn: The Amazon Resource Name (ARN) of the hypervisor.
@@ -585,7 +585,7 @@ public struct BackupGateway: AWSService {
         return try await self.putBandwidthRateLimitSchedule(input, logger: logger)
     }
 
-    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
     @Sendable
     @inlinable
     public func putHypervisorPropertyMappings(_ input: PutHypervisorPropertyMappingsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> PutHypervisorPropertyMappingsOutput {
@@ -598,12 +598,12 @@ public struct BackupGateway: AWSService {
             logger: logger
         )
     }
-    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    /// This action sets the property mappings for the specified hypervisor.  A hypervisor property mapping displays the relationship of entity properties  available from the hypervisor to the properties available in Amazon Web Services.
     ///
     /// Parameters:
     ///   - hypervisorArn: The Amazon Resource Name (ARN) of the hypervisor.
     ///   - iamRoleArn: The Amazon Resource Name (ARN) of the IAM role.
-    ///   - vmwareToAwsTagMappings: This action requests the mappings of on-premises VMware tags to the  Amazon Web Services tags.
+    ///   - vmwareToAwsTagMappings: This action requests the mappings of VMware tags to the  Amazon Web Services tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func putHypervisorPropertyMappings(

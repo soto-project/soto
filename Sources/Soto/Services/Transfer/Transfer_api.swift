@@ -1957,6 +1957,7 @@ public struct Transfer: AWSService {
     ///
     /// Parameters:
     ///   - connectorId: The unique identifier for the connector.
+    ///   - customHttpHeaders: An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner.
     ///   - localDirectoryPath: For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
     ///   - remoteDirectoryPath: For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
     ///   - retrieveFilePaths: One or more source paths for the partner's SFTP server. Each string represents a source file path for one inbound file transfer.
@@ -1965,6 +1966,7 @@ public struct Transfer: AWSService {
     @inlinable
     public func startFileTransfer(
         connectorId: String,
+        customHttpHeaders: [CustomHttpHeader]? = nil,
         localDirectoryPath: String? = nil,
         remoteDirectoryPath: String? = nil,
         retrieveFilePaths: [String]? = nil,
@@ -1973,6 +1975,7 @@ public struct Transfer: AWSService {
     ) async throws -> StartFileTransferResponse {
         let input = StartFileTransferRequest(
             connectorId: connectorId, 
+            customHttpHeaders: customHttpHeaders, 
             localDirectoryPath: localDirectoryPath, 
             remoteDirectoryPath: remoteDirectoryPath, 
             retrieveFilePaths: retrieveFilePaths, 

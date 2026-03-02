@@ -377,6 +377,41 @@ public struct Connect: AWSService {
         return try await self.associateFlow(input, logger: logger)
     }
 
+    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    @Sendable
+    @inlinable
+    public func associateHoursOfOperations(_ input: AssociateHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "AssociateHoursOfOperations", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/associate-hours", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier of the child hours of operation.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - parentHoursOfOperationConfigs: The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateHoursOfOperations(
+        hoursOfOperationId: String,
+        instanceId: String,
+        parentHoursOfOperationConfigs: [ParentHoursOfOperationConfig],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = AssociateHoursOfOperationsRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            parentHoursOfOperationConfigs: parentHoursOfOperationConfigs
+        )
+        return try await self.associateHoursOfOperations(input, logger: logger)
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
     @Sendable
     @inlinable
@@ -572,7 +607,7 @@ public struct Connect: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - manualAssignmentQueueConfigs: The manual assignment queues to associate with this routing profile.
+    ///   - manualAssignmentQueueConfigs: The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
     ///   - queueConfigs: The queues to associate with this routing profile.
     ///   - routingProfileId: The identifier of the routing profile.
     ///   - logger: Logger use during operation
@@ -1500,7 +1535,7 @@ public struct Connect: AWSService {
         return try await self.createContactFlowVersion(input, logger: logger)
     }
 
-    /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using AWS Service Quotas.
+    /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
     @Sendable
     @inlinable
     public func createDataTable(_ input: CreateDataTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataTableResponse {
@@ -1513,7 +1548,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using AWS Service Quotas.
+    /// Creates a new data table with the specified properties. Supports the creation of all table properties except for attributes and values. A table with no attributes and values is a valid state for a table. The number of tables per instance is limited to 100 per instance. Customers can request an increase by using Amazon Web Services Service Quotas.
     ///
     /// Parameters:
     ///   - description: An optional description for the data table. Must conform to Connect human readable string specification and have 0-250 characters. Whitespace must be trimmed first.
@@ -1661,6 +1696,7 @@ public struct Connect: AWSService {
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - items: Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
     ///   - languageConfiguration: Configuration for language settings of the evaluation form.
+    ///   - reviewConfiguration: Configuration information about evaluation reviews.
     ///   - scoringStrategy: A scoring strategy of the evaluation form.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - targetConfiguration: Configuration that specifies the target for the evaluation form.
@@ -1675,6 +1711,7 @@ public struct Connect: AWSService {
         instanceId: String,
         items: [EvaluationFormItem],
         languageConfiguration: EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: EvaluationReviewConfiguration? = nil,
         scoringStrategy: EvaluationFormScoringStrategy? = nil,
         tags: [String: String]? = nil,
         targetConfiguration: EvaluationFormTargetConfiguration? = nil,
@@ -1689,6 +1726,7 @@ public struct Connect: AWSService {
             instanceId: instanceId, 
             items: items, 
             languageConfiguration: languageConfiguration, 
+            reviewConfiguration: reviewConfiguration, 
             scoringStrategy: scoringStrategy, 
             tags: tags, 
             targetConfiguration: targetConfiguration, 
@@ -1717,6 +1755,7 @@ public struct Connect: AWSService {
     ///   - description: The description of the hours of operation.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of the hours of operation.
+    ///   - parentHoursOfOperationConfigs: Configuration for parent hours of operations. Eg: ResourceArn.  For more information about parent hours of operations, see Link overrides from different hours of operation in the Administrator Guide.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - timeZone: The time zone of the hours of operation.
     ///   - logger: Logger use during operation
@@ -1726,6 +1765,7 @@ public struct Connect: AWSService {
         description: String? = nil,
         instanceId: String,
         name: String,
+        parentHoursOfOperationConfigs: [ParentHoursOfOperationConfig]? = nil,
         tags: [String: String]? = nil,
         timeZone: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1735,6 +1775,7 @@ public struct Connect: AWSService {
             description: description, 
             instanceId: instanceId, 
             name: name, 
+            parentHoursOfOperationConfigs: parentHoursOfOperationConfigs, 
             tags: tags, 
             timeZone: timeZone
         )
@@ -1764,6 +1805,8 @@ public struct Connect: AWSService {
     ///   - hoursOfOperationId: The identifier for the hours of operation
     ///   - instanceId: The identifier of the Amazon Connect instance.
     ///   - name: The name of the hours of operation override.
+    ///   - overrideType: Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see Build your list of overrides in the Administrator Guide.
+    ///   - recurrenceConfig: Configuration for a recurring event.
     ///   - logger: Logger use during operation
     @inlinable
     public func createHoursOfOperationOverride(
@@ -1774,6 +1817,8 @@ public struct Connect: AWSService {
         hoursOfOperationId: String,
         instanceId: String,
         name: String,
+        overrideType: OverrideType? = nil,
+        recurrenceConfig: RecurrenceConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateHoursOfOperationOverrideResponse {
         let input = CreateHoursOfOperationOverrideRequest(
@@ -1783,7 +1828,9 @@ public struct Connect: AWSService {
             effectiveTill: effectiveTill, 
             hoursOfOperationId: hoursOfOperationId, 
             instanceId: instanceId, 
-            name: name
+            name: name, 
+            overrideType: overrideType, 
+            recurrenceConfig: recurrenceConfig
         )
         return try await self.createHoursOfOperationOverride(input, logger: logger)
     }
@@ -1884,6 +1931,56 @@ public struct Connect: AWSService {
             tags: tags
         )
         return try await self.createIntegrationAssociation(input, logger: logger)
+    }
+
+    /// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
+    @Sendable
+    @inlinable
+    public func createNotification(_ input: CreateNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotificationResponse {
+        try await self.client.execute(
+            operation: "CreateNotification", 
+            path: "/notifications/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new notification to be delivered to specified recipients. Notifications can include localized content with links, and an optional expiration time. Recipients can be specified as individual user ARNs or instance ARNs to target all users in an instance.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - content: The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports links. Maximum 250 characters per locale.
+    ///   - expiresAt: The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from creation.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - predefinedNotificationId: 
+    ///   - priority: The priority level of the notification. Valid values are HIGH and LOW. High priority notifications are displayed above low priority notifications.
+    ///   - recipients: A list of Amazon Resource Names (ARNs) identifying the recipients of the notification. Can include user ARNs or instance ARNs to target all users in an instance. Maximum of 200 recipients.
+    ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createNotification(
+        clientToken: String? = CreateNotificationRequest.idempotencyToken(),
+        content: [LocaleCode: String],
+        expiresAt: Date? = nil,
+        instanceId: String,
+        predefinedNotificationId: String? = nil,
+        priority: ConfigurableNotificationPriority? = nil,
+        recipients: [String],
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateNotificationResponse {
+        let input = CreateNotificationRequest(
+            clientToken: clientToken, 
+            content: content, 
+            expiresAt: expiresAt, 
+            instanceId: instanceId, 
+            predefinedNotificationId: predefinedNotificationId, 
+            priority: priority, 
+            recipients: recipients, 
+            tags: tags
+        )
+        return try await self.createNotification(input, logger: logger)
     }
 
     /// Adds a new participant into an on-going chat contact or webRTC call. For more information, see Customize chat flow experiences by integrating custom participants or Enable multi-user web, in-app, and video calling.
@@ -2205,7 +2302,7 @@ public struct Connect: AWSService {
     ///   - defaultOutboundQueueId: The default outbound queue for the routing profile.
     ///   - description: Description of the routing profile. Must not be more than 250 characters.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - manualAssignmentQueueConfigs: The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
+    ///   - manualAssignmentQueueConfigs: The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
     ///   - mediaConcurrencies: The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     ///   - name: The name of the routing profile. Must not be more than 127 characters.
     ///   - queueConfigs: The inbound queues associated with the routing profile. If no queue is added, the agent can make only outbound calls. The limit of 10 array members applies to the maximum number of RoutingProfileQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
@@ -2403,6 +2500,65 @@ public struct Connect: AWSService {
         return try await self.createTaskTemplate(input, logger: logger)
     }
 
+    /// Creates a test case with its content and metadata for the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func createTestCase(_ input: CreateTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTestCaseResponse {
+        try await self.client.execute(
+            operation: "CreateTestCase", 
+            path: "/test-cases/{InstanceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a test case with its content and metadata for the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - content: The JSON string that represents the content of the test.
+    ///   - description: The description of the test.
+    ///   - entryPoint: Defines the starting point for your test.
+    ///   - initializationData: Defines the initial custom attributes for your test.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - lastModifiedRegion: The region in which the resource was last modified
+    ///   - lastModifiedTime: The time at which the resource was last modified.
+    ///   - name: The name of the test.
+    ///   - status: Indicates the test status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content.
+    ///   - tags: The tags used to organize, track, or control access for this resource.
+    ///   - testCaseId: Id of the test case if you want to create it in a replica region using Amazon Connect Global Resiliency
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTestCase(
+        content: String,
+        description: String? = nil,
+        entryPoint: TestCaseEntryPoint? = nil,
+        initializationData: String? = nil,
+        instanceId: String,
+        lastModifiedRegion: String? = nil,
+        lastModifiedTime: Date? = nil,
+        name: String,
+        status: TestCaseStatus? = nil,
+        tags: [String: String]? = nil,
+        testCaseId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTestCaseResponse {
+        let input = CreateTestCaseRequest(
+            content: content, 
+            description: description, 
+            entryPoint: entryPoint, 
+            initializationData: initializationData, 
+            instanceId: instanceId, 
+            lastModifiedRegion: lastModifiedRegion, 
+            lastModifiedTime: lastModifiedTime, 
+            name: name, 
+            status: status, 
+            tags: tags, 
+            testCaseId: testCaseId
+        )
+        return try await self.createTestCase(input, logger: logger)
+    }
+
     /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated.  The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
     /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about creating traffic distribution groups, see Set up traffic distribution groups in the Amazon Connect Administrator Guide.
@@ -2486,7 +2642,7 @@ public struct Connect: AWSService {
         return try await self.createUseCase(input, logger: logger)
     }
 
-    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
     @Sendable
     @inlinable
     public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateUserResponse {
@@ -2499,45 +2655,60 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance.  Certain UserIdentityInfo parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management.   Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:    PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs     PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs     PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs     PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs    We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration.  For information about how to create users using the Amazon Connect admin website, see Add Users in the Amazon Connect Administrator Guide.
     ///
     /// Parameters:
+    ///   - afterContactWorkConfigs: The list of after contact work (ACW) timeout configuration settings for each channel.
+    ///   - autoAcceptConfigs: The list of auto-accept configuration settings for each channel.
     ///   - directoryUserId: The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     ///   - hierarchyGroupId: The identifier of the hierarchy group for the user.
     ///   - identityInfo: The information about the identity of the user.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - password: The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
-    ///   - phoneConfig: The phone settings for the user.
+    ///   - persistentConnectionConfigs: The list of persistent connection configuration settings for each channel.
+    ///   - phoneConfig: The phone settings for the user. This parameter is optional. If not provided, the user can be configured using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs.
+    ///   - phoneNumberConfigs: The list of phone number configuration settings for each channel.
     ///   - routingProfileId: The identifier of the routing profile for the user.
     ///   - securityProfileIds: The identifier of the security profile for the user.
     ///   - tags: The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     ///   - username: The user name for the account. For instances not using SAML for identity management, the user name can include up to 20 characters. If you are using SAML for identity management, the user name can include up to 64 characters from [a-zA-Z0-9_-.\@]+. Username can include @ only if used in an email format. For example:   Correct: testuser   Correct: testuser@example.com   Incorrect: testuser@example
+    ///   - voiceEnhancementConfigs: The list of voice enhancement configuration settings for each channel.
     ///   - logger: Logger use during operation
     @inlinable
     public func createUser(
+        afterContactWorkConfigs: [AfterContactWorkConfigPerChannel]? = nil,
+        autoAcceptConfigs: [AutoAcceptConfig]? = nil,
         directoryUserId: String? = nil,
         hierarchyGroupId: String? = nil,
         identityInfo: UserIdentityInfo? = nil,
         instanceId: String,
         password: String? = nil,
-        phoneConfig: UserPhoneConfig,
+        persistentConnectionConfigs: [PersistentConnectionConfig]? = nil,
+        phoneConfig: UserPhoneConfig? = nil,
+        phoneNumberConfigs: [PhoneNumberConfig]? = nil,
         routingProfileId: String,
         securityProfileIds: [String],
         tags: [String: String]? = nil,
         username: String,
+        voiceEnhancementConfigs: [VoiceEnhancementConfig]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserResponse {
         let input = CreateUserRequest(
+            afterContactWorkConfigs: afterContactWorkConfigs, 
+            autoAcceptConfigs: autoAcceptConfigs, 
             directoryUserId: directoryUserId, 
             hierarchyGroupId: hierarchyGroupId, 
             identityInfo: identityInfo, 
             instanceId: instanceId, 
             password: password, 
+            persistentConnectionConfigs: persistentConnectionConfigs, 
             phoneConfig: phoneConfig, 
+            phoneNumberConfigs: phoneNumberConfigs, 
             routingProfileId: routingProfileId, 
             securityProfileIds: securityProfileIds, 
             tags: tags, 
-            username: username
+            username: username, 
+            voiceEnhancementConfigs: voiceEnhancementConfigs
         )
         return try await self.createUser(input, logger: logger)
     }
@@ -3337,6 +3508,38 @@ public struct Connect: AWSService {
         return try await self.deleteIntegrationAssociation(input, logger: logger)
     }
 
+    /// Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
+    @Sendable
+    @inlinable
+    public func deleteNotification(_ input: DeleteNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteNotificationResponse {
+        try await self.client.execute(
+            operation: "DeleteNotification", 
+            path: "/notifications/{InstanceId}/{NotificationId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a notification. Once deleted, the notification is no longer visible to all users and cannot be managed through the Admin Website or APIs.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - notificationId: The unique identifier for the notification to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteNotification(
+        instanceId: String,
+        notificationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteNotificationResponse {
+        let input = DeleteNotificationRequest(
+            instanceId: instanceId, 
+            notificationId: notificationId
+        )
+        return try await self.deleteNotification(input, logger: logger)
+    }
+
     /// Deletes a predefined attribute from the specified Amazon Connect instance.
     @Sendable
     @inlinable
@@ -3626,6 +3829,38 @@ public struct Connect: AWSService {
             taskTemplateId: taskTemplateId
         )
         return try await self.deleteTaskTemplate(input, logger: logger)
+    }
+
+    /// Deletes the test case that has already been created for the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func deleteTestCase(_ input: DeleteTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTestCaseResponse {
+        try await self.client.execute(
+            operation: "DeleteTestCase", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the test case that has already been created for the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - testCaseId: The identifier of the test case to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTestCase(
+        instanceId: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTestCaseResponse {
+        let input = DeleteTestCaseRequest(
+            instanceId: instanceId, 
+            testCaseId: testCaseId
+        )
+        return try await self.deleteTestCase(input, logger: logger)
     }
 
     /// Deletes a traffic distribution group. This API can be called only in the Region where the traffic distribution group is created. For more information about deleting traffic distribution groups, see Delete traffic distribution groups in the Amazon Connect Administrator Guide.
@@ -4483,6 +4718,38 @@ public struct Connect: AWSService {
         return try await self.describeInstanceStorageConfig(input, logger: logger)
     }
 
+    /// Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
+    @Sendable
+    @inlinable
+    public func describeNotification(_ input: DescribeNotificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNotificationResponse {
+        try await self.client.execute(
+            operation: "DescribeNotification", 
+            path: "/notifications/{InstanceId}/{NotificationId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves detailed information about a specific notification, including its content, priority, recipients, and metadata.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - notificationId: The unique identifier for the notification.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeNotification(
+        instanceId: String,
+        notificationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeNotificationResponse {
+        let input = DescribeNotificationRequest(
+            instanceId: instanceId, 
+            notificationId: notificationId
+        )
+        return try await self.describeNotification(input, logger: logger)
+    }
+
     /// Gets details and status of a phone number that’s claimed to your Amazon Connect instance or traffic distribution group.  If the number is claimed to a traffic distribution group, and you are calling in the Amazon Web Services Region where the traffic distribution group was created, you can use either a phone number ARN or UUID value for the PhoneNumberId URI request parameter. However, if the number is claimed to a traffic distribution group and you are calling this API in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you receive a ResourceNotFoundException.
     @Sendable
     @inlinable
@@ -4734,6 +5001,41 @@ public struct Connect: AWSService {
             securityProfileId: securityProfileId
         )
         return try await self.describeSecurityProfile(input, logger: logger)
+    }
+
+    /// Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func describeTestCase(_ input: DescribeTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeTestCaseResponse {
+        try await self.client.execute(
+            operation: "DescribeTestCase", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes the specified test case and allows you to get the content and metadata of the test case for the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - status: The status of the test case version to retrieve. If not specified, returns the published version if available, otherwise returns the saved version.
+    ///   - testCaseId: The identifier of the test case.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeTestCase(
+        instanceId: String,
+        status: TestCaseStatus? = nil,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeTestCaseResponse {
+        let input = DescribeTestCaseRequest(
+            instanceId: instanceId, 
+            status: status, 
+            testCaseId: testCaseId
+        )
+        return try await self.describeTestCase(input, logger: logger)
     }
 
     /// Gets details and status of a traffic distribution group.
@@ -5133,6 +5435,41 @@ public struct Connect: AWSService {
             resourceType: resourceType
         )
         return try await self.disassociateFlow(input, logger: logger)
+    }
+
+    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    @Sendable
+    @inlinable
+    public func disassociateHoursOfOperations(_ input: DisassociateHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DisassociateHoursOfOperations", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/disassociate-hours", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a set of hours of operations with another hours of operation. Refer to Administrator Guide  here  for more information on inheriting overrides from parent hours of operation(s).
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier of the child hours of operation.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - parentHoursOfOperationIds: The Amazon Resource Names (ARNs) of the parent hours of operation resources to disassociate with the child hours of operation resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateHoursOfOperations(
+        hoursOfOperationId: String,
+        instanceId: String,
+        parentHoursOfOperationIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DisassociateHoursOfOperationsRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            parentHoursOfOperationIds: parentHoursOfOperationIds
+        )
+        return try await self.disassociateHoursOfOperations(input, logger: logger)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Removes the storage type configurations for the specified resource type and association ID.
@@ -5564,7 +5901,7 @@ public struct Connect: AWSService {
         return try await self.dismissUserContact(input, logger: logger)
     }
 
-    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: AWS API Standards.
+    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API Standards.
     @Sendable
     @inlinable
     public func evaluateDataTableValues(_ input: EvaluateDataTableValuesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EvaluateDataTableValuesResponse {
@@ -5577,7 +5914,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: AWS API Standards.
+    /// Evaluates values at the time of the request and returns them. It considers the request's timezone or the table's timezone, in that order, when accessing time based tables. When a value is accessed, the accessor's identity and the time of access are saved alongside the value to help identify values that are actively in use. The term "Batch" is not included in the operation name since it does not meet all the criteria for a batch operation as specified in Batch Operations: Amazon Web Services API Standards.
     ///
     /// Parameters:
     ///   - dataTableId: The unique identifier for the data table. Must also accept the table ARN with or without a version alias.
@@ -5678,7 +6015,7 @@ public struct Connect: AWSService {
         return try await self.getContactAttributes(input, logger: logger)
     }
 
-    /// Retrieves the position of the contact in the queue.  Use cases  Following are common uses cases for position in queue:   Understand the expected wait experience of a contact.   Inform customers of their position in queue and potentially offer a callback.   Make data-driven routing decisions between primary and alternative queues.   Enhance queue visibility and leverage agent proficiencies to streamline contact routing.    Important things to know    The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the position by using flows and attributes.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
+    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
     @Sendable
     @inlinable
     public func getContactMetrics(_ input: GetContactMetricsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetContactMetricsResponse {
@@ -5691,12 +6028,12 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the position of the contact in the queue.  Use cases  Following are common uses cases for position in queue:   Understand the expected wait experience of a contact.   Inform customers of their position in queue and potentially offer a callback.   Make data-driven routing decisions between primary and alternative queues.   Enhance queue visibility and leverage agent proficiencies to streamline contact routing.    Important things to know    The only way to retrieve the position of the contact in queue is by using this API. You can't retrieve the position by using flows and attributes.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
+    /// Retrieves contact metric data for a specified contact.  Use cases  Following are common use cases for position in queue and estimated wait time:   Customer-Facing Wait Time Announcements - Display or announce the estimated wait time and position in queue to customers before or during their queue experience.    Callback Offerings - Offer customers a callback option when the estimated wait time or position in queue exceeds a defined threshold.    Queue Routing Decisions - Route incoming contacts to less congested queues by comparing estimated wait time and position in queue across multiple queues.    Self-Service Deflection - Redirect customers to self-service options like chatbots or FAQs when estimated wait time is high or position in queue is unfavorable.     Important things to know    Metrics are only available while the contact is actively in queue.   For more information, see the Position in queue metric in the Amazon Connect Administrator Guide.     Endpoints: See Amazon Connect endpoints and quotas.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
-    ///   - metrics: A list of contact-level metrics to retrieve.
+    ///   - metrics: A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
     ///   - logger: Logger use during operation
     @inlinable
     public func getContactMetrics(
@@ -5729,9 +6066,9 @@ public struct Connect: AWSService {
     /// Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Metrics definitions in the Amazon Connect Administrator Guide.  When you make a successful API request, you can expect the following metric values in the response:    Metric value is null: The calculation cannot be performed due to divide by zero or insufficient data    Metric value is a number (including 0) of defined type: The number provided is the calculation result    MetricResult list is empty: The request cannot find any data in the system   The following guidelines can help you work with the API:   Each dimension in the metric response must contain a value   Each item in MetricResult must include all requested metrics   If the response is slow due to large result sets, try these approaches:   Add filters to reduce the amount of data returned
     ///
     /// Parameters:
-    ///   - currentMetrics: The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
-    ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
-    ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
+    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+    ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
+    ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
@@ -6068,6 +6405,41 @@ public struct Connect: AWSService {
             taskTemplateId: taskTemplateId
         )
         return try await self.getTaskTemplate(input, logger: logger)
+    }
+
+    /// Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
+    @Sendable
+    @inlinable
+    public func getTestCaseExecutionSummary(_ input: GetTestCaseExecutionSummaryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTestCaseExecutionSummaryResponse {
+        try await self.client.execute(
+            operation: "GetTestCaseExecutionSummary", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/summary", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves an overview of a test execution that includes the status of the execution, start and end time, and observation summary.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - testCaseExecutionId: The identifier of the test case execution.
+    ///   - testCaseId: The identifier of the test case.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTestCaseExecutionSummary(
+        instanceId: String,
+        testCaseExecutionId: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTestCaseExecutionSummaryResponse {
+        let input = GetTestCaseExecutionSummaryRequest(
+            instanceId: instanceId, 
+            testCaseExecutionId: testCaseExecutionId, 
+            testCaseId: testCaseId
+        )
+        return try await self.getTestCaseExecutionSummary(input, logger: logger)
     }
 
     /// Retrieves the current traffic distribution for a given traffic distribution group.
@@ -6437,6 +6809,44 @@ public struct Connect: AWSService {
         return try await self.listBots(input, logger: logger)
     }
 
+    /// Provides information about the child hours of operations for the specified parent hours of operation. For more information about child hours of operations, see Link overrides from different hours of operation in the Administrator Guide.
+    @Sendable
+    @inlinable
+    public func listChildHoursOfOperations(_ input: ListChildHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChildHoursOfOperationsResponse {
+        try await self.client.execute(
+            operation: "ListChildHoursOfOperations", 
+            path: "/hours-of-operations/{InstanceId}/{HoursOfOperationId}/hours", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides information about the child hours of operations for the specified parent hours of operation. For more information about child hours of operations, see Link overrides from different hours of operation in the Administrator Guide.
+    ///
+    /// Parameters:
+    ///   - hoursOfOperationId: The identifier of the parent hours of operation.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listChildHoursOfOperations(
+        hoursOfOperationId: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListChildHoursOfOperationsResponse {
+        let input = ListChildHoursOfOperationsRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listChildHoursOfOperations(input, logger: logger)
+    }
+
     /// Lists contact evaluations in the specified Amazon Connect instance.
     @Sendable
     @inlinable
@@ -6700,7 +7110,7 @@ public struct Connect: AWSService {
         return try await self.listContactReferences(input, logger: logger)
     }
 
-    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using AWS Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration.
+    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration.
     @Sendable
     @inlinable
     public func listDataTableAttributes(_ input: ListDataTableAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataTableAttributesResponse {
@@ -6713,7 +7123,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using AWS Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration.
+    /// Returns all attributes for a specified data table. A maximum of 100 attributes per data table is allowed. Customers can request an increase by using Amazon Web Services Service Quotas. The response can be filtered by specific attribute IDs for CloudFormation integration.
     ///
     /// Parameters:
     ///   - attributeIds: Optional list of specific attribute IDs to retrieve. Used for CloudFormation to effectively describe attributes by ID. If NextToken is provided, this parameter is ignored.
@@ -7343,6 +7753,41 @@ public struct Connect: AWSService {
         return try await self.listLexBots(input, logger: logger)
     }
 
+    /// Retrieves a paginated list of all notifications in the Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func listNotifications(_ input: ListNotificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotificationsResponse {
+        try await self.client.execute(
+            operation: "ListNotifications", 
+            path: "/notifications/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of all notifications in the Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. Valid range is 1-100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listNotifications(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListNotificationsResponse {
+        let input = ListNotificationsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listNotifications(input, logger: logger)
+    }
+
     /// Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    We recommend using ListPhoneNumbersV2 to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.    The phone number Arn value that is returned from each of the items in the PhoneNumberSummaryList cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the ListPhoneNumbersV2 API. It returns the new phone number ARN that can be used to tag phone number resources.
     @Sendable
     @inlinable
@@ -7400,7 +7845,7 @@ public struct Connect: AWSService {
     /// Lists phone numbers claimed to your Amazon Connect instance or traffic distribution group. If the provided TargetArn is a traffic distribution group, you can call this API in both Amazon Web Services Regions associated with traffic distribution group. For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.    When given an instance ARN, ListPhoneNumbersV2 returns only the phone numbers claimed to the instance.   When given a traffic distribution group ARN ListPhoneNumbersV2 returns only the phone numbers claimed to the traffic distribution group.
     ///
     /// Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
+    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous
     ///   - phoneNumberCountryCodes: The ISO country code.
@@ -8065,6 +8510,135 @@ public struct Connect: AWSService {
         return try await self.listTaskTemplates(input, logger: logger)
     }
 
+    /// Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func listTestCaseExecutionRecords(_ input: ListTestCaseExecutionRecordsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestCaseExecutionRecordsResponse {
+        try await self.client.execute(
+            operation: "ListTestCaseExecutionRecords", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/records", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists detailed steps of test case execution that includes all observations along with actions taken and data associated in the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - status: Filter execution records by status.
+    ///   - testCaseExecutionId: The identifier of the test case execution.
+    ///   - testCaseId: The identifier of the test case.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestCaseExecutionRecords(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        status: TestCaseExecutionStatus? = nil,
+        testCaseExecutionId: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestCaseExecutionRecordsResponse {
+        let input = ListTestCaseExecutionRecordsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            status: status, 
+            testCaseExecutionId: testCaseExecutionId, 
+            testCaseId: testCaseId
+        )
+        return try await self.listTestCaseExecutionRecords(input, logger: logger)
+    }
+
+    /// Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func listTestCaseExecutions(_ input: ListTestCaseExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestCaseExecutionsResponse {
+        try await self.client.execute(
+            operation: "ListTestCaseExecutions", 
+            path: "/test-case-executions/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all test case executions and allows filtering by test case id, test case name, start time, end time or status of the execution for the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - endTime: Filter executions that started before this time.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - startTime: Filter executions that started after this time.
+    ///   - status: Filter executions by status.
+    ///   - testCaseId: Filter executions by test case identifier.
+    ///   - testCaseName: Filter executions by test case name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestCaseExecutions(
+        endTime: Date? = nil,
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        startTime: Date? = nil,
+        status: TestCaseExecutionStatus? = nil,
+        testCaseId: String? = nil,
+        testCaseName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestCaseExecutionsResponse {
+        let input = ListTestCaseExecutionsRequest(
+            endTime: endTime, 
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            startTime: startTime, 
+            status: status, 
+            testCaseId: testCaseId, 
+            testCaseName: testCaseName
+        )
+        return try await self.listTestCaseExecutions(input, logger: logger)
+    }
+
+    /// Lists the test cases present in the specific Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func listTestCases(_ input: ListTestCasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTestCasesResponse {
+        try await self.client.execute(
+            operation: "ListTestCases", 
+            path: "/test-cases-summary/{InstanceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the test cases present in the specific Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTestCases(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTestCasesResponse {
+        let input = ListTestCasesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTestCases(input, logger: logger)
+    }
+
     /// Lists traffic distribution group users.
     @Sendable
     @inlinable
@@ -8206,6 +8780,44 @@ public struct Connect: AWSService {
             nextToken: nextToken
         )
         return try await self.listUserHierarchyGroups(input, logger: logger)
+    }
+
+    /// Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
+    @Sendable
+    @inlinable
+    public func listUserNotifications(_ input: ListUserNotificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListUserNotificationsResponse {
+        try await self.client.execute(
+            operation: "ListUserNotifications", 
+            path: "/users/{InstanceId}/{UserId}/notifications", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a paginated list of notifications for a specific user, including the notification status for that user.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. Valid range is 1-1000.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response to retrieve the next page of results.
+    ///   - userId: The identifier of the user.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listUserNotifications(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        userId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListUserNotificationsResponse {
+        let input = ListUserNotificationsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            userId: userId
+        )
+        return try await self.listUserNotifications(input, logger: logger)
     }
 
     /// Lists proficiencies associated with a user.
@@ -8804,7 +9416,7 @@ public struct Connect: AWSService {
         return try await self.searchAvailablePhoneNumbers(input, logger: logger)
     }
 
-    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds. Contact Evaluations may not be fully backfilled with historical data in all regions yet, however all recently created Contact Evaluations should be available for search.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
     @Sendable
     @inlinable
     public func searchContactEvaluations(_ input: SearchContactEvaluationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchContactEvaluationsResponse {
@@ -8817,7 +9429,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds. Contact Evaluations may not be fully backfilled with historical data in all regions yet, however all recently created Contact Evaluations should be available for search.    Endpoints: See Amazon Connect endpoints and quotas.
+    /// Searches contact evaluations in an Amazon Connect instance, with optional filtering.   Use cases  Following are common uses cases for this API:   Find contact evaluations by using specific search criteria.   Find contact evaluations that are tagged with a specific set of tags.    Important things to know    A Search operation, unlike a List operation, takes time to index changes to resource (create, update or delete). If you don't see updated information for recently changed contact evaluations, try calling the API again in a few seconds.    Endpoints: See Amazon Connect endpoints and quotas.
     ///
     /// Parameters:
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -9176,6 +9788,47 @@ public struct Connect: AWSService {
         return try await self.searchHoursOfOperations(input, logger: logger)
     }
 
+    /// Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
+    @Sendable
+    @inlinable
+    public func searchNotifications(_ input: SearchNotificationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchNotificationsResponse {
+        try await self.client.execute(
+            operation: "SearchNotifications", 
+            path: "/search-notifications", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for notifications based on specified criteria and filters. Returns a paginated list of notifications matching the search parameters, ordered by descending creation time. Supports filtering by content and tags.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. Valid range is 1-100.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response to retrieve the next page of results.
+    ///   - searchCriteria: The search criteria to apply when searching for notifications. Supports filtering by notification ID and message content using comparison types such as STARTS_WITH, CONTAINS, and EXACT.
+    ///   - searchFilter: Filters to apply to the search results, such as tag-based filters.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchNotifications(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchCriteria: NotificationSearchCriteria? = nil,
+        searchFilter: NotificationSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchNotificationsResponse {
+        let input = SearchNotificationsRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return try await self.searchNotifications(input, logger: logger)
+    }
+
     /// Searches predefined attributes that meet certain criteria. A predefined attribute is made up of a name and a value. You can use predefined attributes for:   Routing proficiency (for example, agent certification) that has predefined values (for example, a list of possible certifications). For more information, see Create predefined attributes for routing contacts to agents.   Contact information that varies between transfers or conferences, such as the name of the business unit handling the contact. For more information, see Use contact segment attributes.   For the predefined attributes per instance quota, see Amazon Connect quotas.  Endpoints: See Amazon Connect endpoints and quotas.
     @Sendable
     @inlinable
@@ -9458,6 +10111,47 @@ public struct Connect: AWSService {
             searchFilter: searchFilter
         )
         return try await self.searchSecurityProfiles(input, logger: logger)
+    }
+
+    /// Searches for test cases in the specified Amazon Connect instance, with optional filtering.
+    @Sendable
+    @inlinable
+    public func searchTestCases(_ input: SearchTestCasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchTestCasesResponse {
+        try await self.client.execute(
+            operation: "SearchTestCases", 
+            path: "/search-test-cases", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Searches for test cases in the specified Amazon Connect instance, with optional filtering.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous
+    ///   - searchCriteria: The search criteria to be used to return test cases.
+    ///   - searchFilter: Filters to be applied to search results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func searchTestCases(
+        instanceId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        searchCriteria: TestCaseSearchCriteria? = nil,
+        searchFilter: TestCaseSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SearchTestCasesResponse {
+        let input = SearchTestCasesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return try await self.searchTestCases(input, logger: logger)
     }
 
     /// Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The UserHierarchyGroup with "LevelId": "0" is the foundation for building levels on top of an instance. It is not user-definable, nor is it visible in the UI.
@@ -9874,7 +10568,7 @@ public struct Connect: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactFlowId: The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
     ///   - customerId: The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
-    ///   - disconnectOnCustomerExit: A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms. Valid value: AGENT. With the DisconnectOnCustomerExit parameter, you can configure automatic agent disconnection when end customers end the chat, ensuring that disconnect flows are triggered consistently regardless of which participant disconnects first.
+    ///   - disconnectOnCustomerExit: A list of participant types to automatically disconnect when the end customer ends the chat session, allowing them to continue through disconnect flows such as surveys or feedback forms.
     ///   - initialMessage: The initial message to be sent to the newly created chat.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantConfiguration:  The configuration of the participant.
@@ -10147,7 +10841,7 @@ public struct Connect: AWSService {
         return try await self.startEmailContact(input, logger: logger)
     }
 
-    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS contact by using the StartOutboundChatContact Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through AWS End User Messaging SMS
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
     @Sendable
     @inlinable
     public func startOutboundChatContact(_ input: StartOutboundChatContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartOutboundChatContactResponse {
@@ -10160,19 +10854,20 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Initiates a new outbound SMS contact to a customer. Response of this API provides the ContactId of the outbound SMS contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new SMS contact created. This API can be used to initiate outbound SMS contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS contact by using the StartOutboundChatContact Flow Action. For more information about using SMS in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through AWS End User Messaging SMS
+    /// Initiates a new outbound SMS or WhatsApp contact to a customer. Response of this API provides the ContactId of the outbound SMS or WhatsApp contact created.  SourceEndpoint only supports Endpoints with CONNECT_PHONENUMBER_ARN as Type and DestinationEndpoint only supports Endpoints with TELEPHONE_NUMBER as Type. ContactFlowId initiates the flow to manage the new contact created. This API can be used to initiate outbound SMS or WhatsApp contacts for an agent, or it can also deflect an ongoing contact to an outbound SMS or WhatsApp contact by using the StartOutboundChatContact Flow Action. For more information about using SMS or WhatsApp in Amazon Connect, see the following topics in the Amazon Connect Administrator Guide:    Set up SMS messaging     Request an SMS-enabled phone number through Amazon Web Services End User Messaging SMS     Set up WhatsApp Business messaging
     ///
     /// Parameters:
     ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes.
     ///   - chatDurationInMinutes: The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minimum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
-    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned.
     ///   - contactFlowId: The identifier of the flow for the call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/123ec456-a007-89c0-1234-xxxxxxxxxxxx
     ///   - destinationEndpoint: 
     ///   - initialSystemMessage: 
+    ///   - initialTemplatedSystemMessage: 
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - participantDetails: 
     ///   - relatedContactId: The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
-    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:Guide and connect:SMS.
+    ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows.   Attribute keys can include only alphanumeric, -, and _.   This field can be used to show channel subtype, such as connect:SMS and connect:WhatsApp.
     ///   - sourceEndpoint: 
     ///   - supportedMessagingContentTypes: The supported chat message content types. Supported types are:    text/plain     text/markdown     application/json, application/vnd.amazonaws.connect.message.interactive     application/vnd.amazonaws.connect.message.interactive.response    Content types must always contain text/plain. You can then put any other supported type in the list. For example, all the following lists are valid because they contain text/plain:    [text/plain, text/markdown, application/json]     [text/markdown, text/plain]     [text/plain, application/json, application/vnd.amazonaws.connect.message.interactive.response]
     ///   - logger: Logger use during operation
@@ -10184,6 +10879,7 @@ public struct Connect: AWSService {
         contactFlowId: String,
         destinationEndpoint: Endpoint,
         initialSystemMessage: ChatMessage? = nil,
+        initialTemplatedSystemMessage: TemplatedMessageConfig? = nil,
         instanceId: String,
         participantDetails: ParticipantDetails? = nil,
         relatedContactId: String? = nil,
@@ -10199,6 +10895,7 @@ public struct Connect: AWSService {
             contactFlowId: contactFlowId, 
             destinationEndpoint: destinationEndpoint, 
             initialSystemMessage: initialSystemMessage, 
+            initialTemplatedSystemMessage: initialTemplatedSystemMessage, 
             instanceId: instanceId, 
             participantDetails: participantDetails, 
             relatedContactId: relatedContactId, 
@@ -10381,6 +11078,7 @@ public struct Connect: AWSService {
     /// Initiates a flow to start a new task contact. For more information about task contacts, see Concepts: Tasks in Amazon Connect in the Amazon Connect Administrator Guide.  When using PreviousContactId and RelatedContactId input parameters, note the following:    PreviousContactId    Any updates to user-defined task contact attributes on any contact linked through the same PreviousContactId will affect every contact in the chain.   There can be a maximum of 12 linked task contacts in a chain. That is, 12 task contacts can be created that share the same PreviousContactId.      RelatedContactId    Copies contact attributes from the related task contact to the new contact.   Any update on attributes in a new task contact does not update attributes on previous contact.   There’s no limit on the number of task contacts that can be created that use the same RelatedContactId.     In addition, when calling StartTaskContact include only one of these parameters: ContactFlowID, QuickConnectID, or TaskTemplateID. Only one parameter is required as long as the task template has a flow configured to run it. If more than one parameter is specified, or only the TaskTemplateID is specified but it does not have a flow configured, the request returns an error because Amazon Connect cannot identify the unique flow to run when the task is created. A ServiceQuotaExceededException occurs when the number of open tasks exceeds the active tasks quota or there are already 12 tasks referencing the same PreviousContactId. For more information about service quotas for task contacts, see Amazon Connect service quotas in the Amazon Connect Administrator Guide.
     ///
     /// Parameters:
+    ///   - attachments: List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
     ///   - attributes: A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - contactFlowId: The identifier of the flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
@@ -10397,6 +11095,7 @@ public struct Connect: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startTaskContact(
+        attachments: [TaskAttachment]? = nil,
         attributes: [String: String]? = nil,
         clientToken: String? = StartTaskContactRequest.idempotencyToken(),
         contactFlowId: String? = nil,
@@ -10413,6 +11112,7 @@ public struct Connect: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartTaskContactResponse {
         let input = StartTaskContactRequest(
+            attachments: attachments, 
             attributes: attributes, 
             clientToken: clientToken, 
             contactFlowId: contactFlowId, 
@@ -10428,6 +11128,41 @@ public struct Connect: AWSService {
             taskTemplateId: taskTemplateId
         )
         return try await self.startTaskContact(input, logger: logger)
+    }
+
+    /// Starts executing a published test case.
+    @Sendable
+    @inlinable
+    public func startTestCaseExecution(_ input: StartTestCaseExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartTestCaseExecutionResponse {
+        try await self.client.execute(
+            operation: "StartTestCaseExecution", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}/start-execution", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts executing a published test case.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - testCaseId: The identifier of the test case to execute.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startTestCaseExecution(
+        clientToken: String? = nil,
+        instanceId: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartTestCaseExecutionResponse {
+        let input = StartTestCaseExecutionRequest(
+            clientToken: clientToken, 
+            instanceId: instanceId, 
+            testCaseId: testCaseId
+        )
+        return try await self.startTestCaseExecution(input, logger: logger)
     }
 
     /// Places an inbound in-app, web, or video call to a contact, and then initiates the flow. It performs the actions in the flow that are specified (in ContactFlowId) and present in the Amazon Connect instance (specified as InstanceId).
@@ -10621,6 +11356,44 @@ public struct Connect: AWSService {
             streamingId: streamingId
         )
         return try await self.stopContactStreaming(input, logger: logger)
+    }
+
+    /// Stops a running test execution.
+    @Sendable
+    @inlinable
+    public func stopTestCaseExecution(_ input: StopTestCaseExecutionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopTestCaseExecutionResponse {
+        try await self.client.execute(
+            operation: "StopTestCaseExecution", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}/{TestCaseExecutionId}/stop-execution", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a running test execution.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - testCaseExecutionId: The identifier of the test case execution to stop.
+    ///   - testCaseId: The identifier of the test case.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopTestCaseExecution(
+        clientToken: String? = nil,
+        instanceId: String,
+        testCaseExecutionId: String,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopTestCaseExecutionResponse {
+        let input = StopTestCaseExecutionRequest(
+            clientToken: clientToken, 
+            instanceId: instanceId, 
+            testCaseExecutionId: testCaseExecutionId, 
+            testCaseId: testCaseId
+        )
+        return try await self.stopTestCaseExecution(input, logger: logger)
     }
 
     /// Submits a contact evaluation in the specified Amazon Connect instance. Answers included in the request are merged with existing answers for the given evaluation. If no answers or notes are passed, the evaluation is submitted with the existing answers and notes. You can delete an answer or note by passing an empty object ({}) to the question identifier.  If a contact evaluation is already in submitted state, this operation will trigger a resubmission.
@@ -11626,6 +12399,7 @@ public struct Connect: AWSService {
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - items: Items that are part of the evaluation form.  The total number of sections and questions must not exceed 100 each.  Questions must be contained in a section.
     ///   - languageConfiguration: Configuration for language settings of the evaluation form.
+    ///   - reviewConfiguration: Configuration for evaluation review settings of the evaluation form.
     ///   - scoringStrategy: A scoring strategy of the evaluation form.
     ///   - targetConfiguration: Configuration that specifies the target for the evaluation form.
     ///   - title: A title of the evaluation form.
@@ -11642,6 +12416,7 @@ public struct Connect: AWSService {
         instanceId: String,
         items: [EvaluationFormItem],
         languageConfiguration: EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: EvaluationReviewConfiguration? = nil,
         scoringStrategy: EvaluationFormScoringStrategy? = nil,
         targetConfiguration: EvaluationFormTargetConfiguration? = nil,
         title: String,
@@ -11658,6 +12433,7 @@ public struct Connect: AWSService {
             instanceId: instanceId, 
             items: items, 
             languageConfiguration: languageConfiguration, 
+            reviewConfiguration: reviewConfiguration, 
             scoringStrategy: scoringStrategy, 
             targetConfiguration: targetConfiguration, 
             title: title
@@ -11733,6 +12509,8 @@ public struct Connect: AWSService {
     ///   - hoursOfOperationOverrideId: The identifier for the hours of operation override.
     ///   - instanceId: The identifier of the Amazon Connect instance.
     ///   - name: The name of the hours of operation override.
+    ///   - overrideType: Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see Build your list of overrides in the Administrator Guide.
+    ///   - recurrenceConfig: Configuration for a recurring event.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateHoursOfOperationOverride(
@@ -11744,6 +12522,8 @@ public struct Connect: AWSService {
         hoursOfOperationOverrideId: String,
         instanceId: String,
         name: String? = nil,
+        overrideType: OverrideType? = nil,
+        recurrenceConfig: RecurrenceConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateHoursOfOperationOverrideRequest(
@@ -11754,7 +12534,9 @@ public struct Connect: AWSService {
             hoursOfOperationId: hoursOfOperationId, 
             hoursOfOperationOverrideId: hoursOfOperationOverrideId, 
             instanceId: instanceId, 
-            name: name
+            name: name, 
+            overrideType: overrideType, 
+            recurrenceConfig: recurrenceConfig
         )
         return try await self.updateHoursOfOperationOverride(input, logger: logger)
     }
@@ -11836,6 +12618,41 @@ public struct Connect: AWSService {
             storageConfig: storageConfig
         )
         return try await self.updateInstanceStorageConfig(input, logger: logger)
+    }
+
+    /// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
+    @Sendable
+    @inlinable
+    public func updateNotificationContent(_ input: UpdateNotificationContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNotificationContentResponse {
+        try await self.client.execute(
+            operation: "UpdateNotificationContent", 
+            path: "/notifications/{InstanceId}/{NotificationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the localized content of an existing notification. This operation applies to all users for whom the notification was sent.
+    ///
+    /// Parameters:
+    ///   - content: The updated localized content of the notification. A map of locale codes and values. Maximum 500 characters per locale.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - notificationId: The unique identifier for the notification to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateNotificationContent(
+        content: [LocaleCode: String],
+        instanceId: String,
+        notificationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateNotificationContentResponse {
+        let input = UpdateNotificationContentRequest(
+            content: content, 
+            instanceId: instanceId, 
+            notificationId: notificationId
+        )
+        return try await self.updateNotificationContent(input, logger: logger)
     }
 
     /// Instructs Amazon Connect to resume the authentication process. The subsequent actions depend on the request body contents:    If a code is provided: Connect retrieves the identity information from Amazon Cognito and imports it into Connect Customer Profiles.    If an error is provided: The error branch of the Authenticate Customer block is executed.    The API returns a success response to acknowledge the request. However, the interaction and exchange of identity information occur asynchronously after the response is returned.
@@ -12692,6 +13509,62 @@ public struct Connect: AWSService {
         return try await self.updateTaskTemplate(input, logger: logger)
     }
 
+    /// Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
+    @Sendable
+    @inlinable
+    public func updateTestCase(_ input: UpdateTestCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTestCaseResponse {
+        try await self.client.execute(
+            operation: "UpdateTestCase", 
+            path: "/test-cases/{InstanceId}/{TestCaseId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates any of the metadata for a test case, such as the name, description, and status or content of an existing test case. This API doesn't allow customers to update the tags of the test case resource for the specified Amazon Connect instance.
+    ///
+    /// Parameters:
+    ///   - content: The JSON string that represents the content of the test.
+    ///   - description: The description of the test case.
+    ///   - entryPoint: Defines the starting point for your test.
+    ///   - initializationData: Defines the test attributes for precise data representation.
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - lastModifiedRegion: The region in which the resource was last modified
+    ///   - lastModifiedTime: The time at which the resource was last modified.
+    ///   - name: The name of the test case.
+    ///   - status: Indicates the test status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content.
+    ///   - testCaseId: The identifier of the test case to update.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTestCase(
+        content: String? = nil,
+        description: String? = nil,
+        entryPoint: TestCaseEntryPoint? = nil,
+        initializationData: String? = nil,
+        instanceId: String,
+        lastModifiedRegion: String? = nil,
+        lastModifiedTime: Date? = nil,
+        name: String? = nil,
+        status: TestCaseStatus? = nil,
+        testCaseId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTestCaseResponse {
+        let input = UpdateTestCaseRequest(
+            content: content, 
+            description: description, 
+            entryPoint: entryPoint, 
+            initializationData: initializationData, 
+            instanceId: instanceId, 
+            lastModifiedRegion: lastModifiedRegion, 
+            lastModifiedTime: lastModifiedTime, 
+            name: name, 
+            status: status, 
+            testCaseId: testCaseId
+        )
+        return try await self.updateTestCase(input, logger: logger)
+    }
+
     /// Updates the traffic distribution for a given traffic distribution group.   When you shift telephony traffic, also shift agents and/or agent sign-ins to ensure they can handle the calls in the other Region. If you don't shift the agents, voice calls will go to the shifted Region but there won't be any agents available to receive the calls.   The SignInConfig distribution is available only on a
     /// default TrafficDistributionGroup (see the IsDefault parameter in the
     /// TrafficDistributionGroup data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.  For more information about updating a traffic distribution group, see Update telephony traffic distribution across Amazon Web Services Regions in the Amazon Connect Administrator Guide.
@@ -12732,6 +13605,53 @@ public struct Connect: AWSService {
             telephonyConfig: telephonyConfig
         )
         return try await self.updateTrafficDistribution(input, logger: logger)
+    }
+
+    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings.  This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
+    @Sendable
+    @inlinable
+    public func updateUserConfig(_ input: UpdateUserConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "UpdateUserConfig", 
+            path: "/users/{InstanceId}/{UserId}/config", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings.  This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
+    ///
+    /// Parameters:
+    ///   - afterContactWorkConfigs: The list of after contact work (ACW) timeout configuration settings for each channel. ACW timeout specifies how many seconds agents have for after contact work, such as entering notes about the contact. The minimum setting is 1 second, and the maximum is 2,000,000 seconds (24 days). Enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
+    ///   - autoAcceptConfigs: The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - persistentConnectionConfigs: The list of persistent connection configuration settings for each channel.
+    ///   - phoneNumberConfigs: The list of phone number configuration settings for each channel.
+    ///   - userId: The identifier of the user account.
+    ///   - voiceEnhancementConfigs: The list of voice enhancement configuration settings for each channel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateUserConfig(
+        afterContactWorkConfigs: [AfterContactWorkConfigPerChannel]? = nil,
+        autoAcceptConfigs: [AutoAcceptConfig]? = nil,
+        instanceId: String,
+        persistentConnectionConfigs: [PersistentConnectionConfig]? = nil,
+        phoneNumberConfigs: [PhoneNumberConfig]? = nil,
+        userId: String,
+        voiceEnhancementConfigs: [VoiceEnhancementConfig]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = UpdateUserConfigRequest(
+            afterContactWorkConfigs: afterContactWorkConfigs, 
+            autoAcceptConfigs: autoAcceptConfigs, 
+            instanceId: instanceId, 
+            persistentConnectionConfigs: persistentConnectionConfigs, 
+            phoneNumberConfigs: phoneNumberConfigs, 
+            userId: userId, 
+            voiceEnhancementConfigs: voiceEnhancementConfigs
+        )
+        return try await self.updateUserConfig(input, logger: logger)
     }
 
     /// Assigns the specified hierarchy group to the specified user.
@@ -12871,7 +13791,51 @@ public struct Connect: AWSService {
         return try await self.updateUserIdentityInfo(input, logger: logger)
     }
 
-    /// Updates the phone configuration settings for the specified user.
+    /// Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
+    @Sendable
+    @inlinable
+    public func updateUserNotificationStatus(_ input: UpdateUserNotificationStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateUserNotificationStatusResponse {
+        try await self.client.execute(
+            operation: "UpdateUserNotificationStatus", 
+            path: "/users/{InstanceId}/{UserId}/notifications/{NotificationId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the status of a notification for a specific user, such as marking it as read or hidden. Users can only update notification status for notifications that have been sent to them. READ status deprioritizes the notification and greys it out, while HIDDEN status removes it from the notification widget.
+    ///
+    /// Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - lastModifiedRegion: The AWS Region where the notification status was last modified. Used for cross-region replication.
+    ///   - lastModifiedTime: The timestamp when the notification status was last modified. Used for cross-region replication and optimistic locking.
+    ///   - notificationId: The unique identifier for the notification.
+    ///   - status: The new status for the notification. Valid values are READ, UNREAD, and HIDDEN.
+    ///   - userId: The identifier of the user whose notification status is being updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateUserNotificationStatus(
+        instanceId: String,
+        lastModifiedRegion: String? = nil,
+        lastModifiedTime: Date? = nil,
+        notificationId: String,
+        status: NotificationStatus,
+        userId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateUserNotificationStatusResponse {
+        let input = UpdateUserNotificationStatusRequest(
+            instanceId: instanceId, 
+            lastModifiedRegion: lastModifiedRegion, 
+            lastModifiedTime: lastModifiedTime, 
+            notificationId: notificationId, 
+            status: status, 
+            userId: userId
+        )
+        return try await self.updateUserNotificationStatus(input, logger: logger)
+    }
+
+    /// Updates the phone configuration settings for the specified user.  We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
     @Sendable
     @inlinable
     public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12884,7 +13848,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Updates the phone configuration settings for the specified user.
+    /// Updates the phone configuration settings for the specified user.  We recommend using the UpdateUserConfig API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
     ///
     /// Parameters:
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -13326,9 +14290,9 @@ extension Connect {
     /// Return PaginatorSequence for operation ``getCurrentMetricData(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - currentMetrics: The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
-    ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
-    ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
+    ///   - currentMetrics: The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see Metrics definitions in the Amazon Connect Administrator Guide.  MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request.   AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   ESTIMATED_WAIT_TIME  Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:    Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]   Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].    OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS.  When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+    ///   - filters: The filters to apply to returned metrics. You can filter up to the following limits:   Queues: 100   Routing profiles: 100   Channels: 3 (VOICE, CHAT, and TASK channels are supported.)   RoutingStepExpressions: 50   AgentStatuses: 50   Subtypes: 10   ValidationTestTypes: 10   Metric data is retrieved only for the resources associated with the queues or routing profiles, and by any channels included in the filter. (You cannot filter by both queue AND routing profile.) You can include both resource IDs and resource ARNs in the same request. When using AgentStatuses as filter make sure Queues is added as primary filter. When using Subtypes as filter make sure Queues is added as primary filter. When using ValidationTestTypes as filter make sure Queues is added as primary filter. When using the RoutingStepExpression filter, you need to pass exactly one QueueId. The filter is also case sensitive so when using the RoutingStepExpression filter, grouping by ROUTING_STEP_EXPRESSION is required. Currently tagging is only supported on the resources that are passed in the filter.
+    ///   - groupings: Defines the level of aggregation for metrics data by a dimension(s). Its similar to sorting items into buckets based on a common characteristic, then counting or calculating something for each bucket. For example, when grouped by QUEUE, the metrics returned apply to each queue rather than aggregated for all queues.  The grouping list is an ordered list, with the first item in the list defined as the primary grouping. If no grouping is included in the request, the aggregation happens at the instance-level.   If you group by CHANNEL, you should include a Channels filter. VOICE, CHAT, and TASK channels are supported.   If you group by AGENT_STATUS, you must include the QUEUE as the primary grouping and use queue filter. When you group by AGENT_STATUS, the only metric available is the AGENTS_ONLINE metric.   If you group by SUBTYPE or VALIDATION_TEST_TYPE as secondary grouping then you must include QUEUE as  primary grouping and use Queue as filter   If you group by ROUTING_PROFILE, you must include either a queue or routing profile filter. In addition, a routing profile filter is required for metrics CONTACTS_SCHEDULED, CONTACTS_IN_QUEUE, and  OLDEST_CONTACT_AGE.   When using the RoutingStepExpression filter, group by ROUTING_STEP_EXPRESSION is required.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - sortCriteria: The way to sort the resulting response based on metrics. You can enter one sort criteria. By default resources are sorted based on AGENTS_ONLINE, DESCENDING. The metric collection is sorted based on the input metrics. Note the following:   Sorting on SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
@@ -13653,6 +14617,46 @@ extension Connect {
             maxResults: maxResults
         )
         return self.listBotsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listChildHoursOfOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChildHoursOfOperationsPaginator(
+        _ input: ListChildHoursOfOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListChildHoursOfOperationsRequest, ListChildHoursOfOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.listChildHoursOfOperations,
+            inputKey: \ListChildHoursOfOperationsRequest.nextToken,
+            outputKey: \ListChildHoursOfOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listChildHoursOfOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - hoursOfOperationId: The identifier of the parent hours of operation.
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listChildHoursOfOperationsPaginator(
+        hoursOfOperationId: String,
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListChildHoursOfOperationsRequest, ListChildHoursOfOperationsResponse> {
+        let input = ListChildHoursOfOperationsRequest(
+            hoursOfOperationId: hoursOfOperationId, 
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listChildHoursOfOperationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listContactEvaluations(_:logger:)``.
@@ -14144,6 +15148,49 @@ extension Connect {
         return self.listDefaultVocabulariesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listEntitySecurityProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEntitySecurityProfilesPaginator(
+        _ input: ListEntitySecurityProfilesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListEntitySecurityProfilesRequest, ListEntitySecurityProfilesResponse> {
+        return .init(
+            input: input,
+            command: self.listEntitySecurityProfiles,
+            inputKey: \ListEntitySecurityProfilesRequest.nextToken,
+            outputKey: \ListEntitySecurityProfilesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listEntitySecurityProfiles(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - entityArn:  ARN of a Q in Connect AI Agent.
+    ///   - entityType:  Only supported type is AI_AGENT.
+    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults:  The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listEntitySecurityProfilesPaginator(
+        entityArn: String,
+        entityType: EntityType,
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListEntitySecurityProfilesRequest, ListEntitySecurityProfilesResponse> {
+        let input = ListEntitySecurityProfilesRequest(
+            entityArn: entityArn, 
+            entityType: entityType, 
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listEntitySecurityProfilesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listEvaluationFormVersions(_:logger:)``.
     ///
     /// - Parameters:
@@ -14630,7 +15677,7 @@ extension Connect {
     /// Return PaginatorSequence for operation ``listPhoneNumbersV2(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same AWS Region as the request.
+    ///   - instanceId: The identifier of the Amazon Connect instance that phone numbers are claimed to. You can find the instance ID in the Amazon Resource Name (ARN) of the instance. If both TargetArn and InstanceId are not provided, this API lists numbers claimed to all the Amazon Connect instances belonging to your account in the same Amazon Web Services Region as the request.
     ///   - maxResults: The maximum number of results to return per page.
     ///   - phoneNumberCountryCodes: The ISO country code.
     ///   - phoneNumberPrefix: The prefix of the phone number. If provided, it must contain + as part of the country code.
@@ -15135,6 +16182,46 @@ extension Connect {
         return self.listSecurityProfileApplicationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSecurityProfileFlowModules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSecurityProfileFlowModulesPaginator(
+        _ input: ListSecurityProfileFlowModulesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfileFlowModulesRequest, ListSecurityProfileFlowModulesResponse> {
+        return .init(
+            input: input,
+            command: self.listSecurityProfileFlowModules,
+            inputKey: \ListSecurityProfileFlowModulesRequest.nextToken,
+            outputKey: \ListSecurityProfileFlowModulesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSecurityProfileFlowModules(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId:  The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults:  The maximum number of results to return per page. The default MaxResult size is 100.
+    ///   - securityProfileId:  The identifier for the security profile.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSecurityProfileFlowModulesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        securityProfileId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSecurityProfileFlowModulesRequest, ListSecurityProfileFlowModulesResponse> {
+        let input = ListSecurityProfileFlowModulesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            securityProfileId: securityProfileId
+        )
+        return self.listSecurityProfileFlowModulesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSecurityProfilePermissions(_:logger:)``.
     ///
     /// - Parameters:
@@ -15253,6 +16340,43 @@ extension Connect {
             status: status
         )
         return self.listTaskTemplatesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestCasesPaginator(
+        _ input: ListTestCasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTestCasesRequest, ListTestCasesResponse> {
+        return .init(
+            input: input,
+            command: self.listTestCases,
+            inputKey: \ListTestCasesRequest.nextToken,
+            outputKey: \ListTestCasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTestCasesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTestCasesRequest, ListTestCasesResponse> {
+        let input = ListTestCasesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults
+        )
+        return self.listTestCasesPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listTrafficDistributionGroupUsers(_:logger:)``.
@@ -16291,6 +17415,49 @@ extension Connect {
         return self.searchSecurityProfilesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``searchTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTestCasesPaginator(
+        _ input: SearchTestCasesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<SearchTestCasesRequest, SearchTestCasesResponse> {
+        return .init(
+            input: input,
+            command: self.searchTestCases,
+            inputKey: \SearchTestCasesRequest.nextToken,
+            outputKey: \SearchTestCasesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``searchTestCases(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    ///   - maxResults: The maximum number of results to return per page.
+    ///   - searchCriteria: The search criteria to be used to return test cases.
+    ///   - searchFilter: Filters to be applied to search results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func searchTestCasesPaginator(
+        instanceId: String,
+        maxResults: Int? = nil,
+        searchCriteria: TestCaseSearchCriteria? = nil,
+        searchFilter: TestCaseSearchFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<SearchTestCasesRequest, SearchTestCasesResponse> {
+        let input = SearchTestCasesRequest(
+            instanceId: instanceId, 
+            maxResults: maxResults, 
+            searchCriteria: searchCriteria, 
+            searchFilter: searchFilter
+        )
+        return self.searchTestCasesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``searchUserHierarchyGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -16673,6 +17840,18 @@ extension Connect.ListBotsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListChildHoursOfOperationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListChildHoursOfOperationsRequest {
+        return .init(
+            hoursOfOperationId: self.hoursOfOperationId,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListContactEvaluationsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.ListContactEvaluationsRequest {
@@ -16814,6 +17993,19 @@ extension Connect.ListDefaultVocabulariesRequest: AWSPaginateToken {
         return .init(
             instanceId: self.instanceId,
             languageCode: self.languageCode,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Connect.ListEntitySecurityProfilesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListEntitySecurityProfilesRequest {
+        return .init(
+            entityArn: self.entityArn,
+            entityType: self.entityType,
+            instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -17117,6 +18309,18 @@ extension Connect.ListSecurityProfileApplicationsRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListSecurityProfileFlowModulesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfileFlowModulesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
+        )
+    }
+}
+
 extension Connect.ListSecurityProfilePermissionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.ListSecurityProfilePermissionsRequest {
@@ -17149,6 +18353,17 @@ extension Connect.ListTaskTemplatesRequest: AWSPaginateToken {
             name: self.name,
             nextToken: token,
             status: self.status
+        )
+    }
+}
+
+extension Connect.ListTestCasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.ListTestCasesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -17455,6 +18670,19 @@ extension Connect.SearchRoutingProfilesRequest: AWSPaginateToken {
 extension Connect.SearchSecurityProfilesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Connect.SearchSecurityProfilesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchTestCasesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Connect.SearchTestCasesRequest {
         return .init(
             instanceId: self.instanceId,
             maxResults: self.maxResults,

@@ -871,30 +871,36 @@ public struct Neptune: AWSService {
     /// Creates a Neptune global database spread across multiple Amazon Regions. The global database contains a single primary cluster with read-write capability, and read-only secondary clusters that receive data from the primary cluster through high-speed replication performed by the Neptune storage subsystem. You can create a global database that is initially empty, and then add a primary cluster and secondary clusters to it, or you can specify an existing Neptune cluster during the create operation to become the primary cluster of the global database.
     ///
     /// Parameters:
+    ///   - databaseName: The name for the new global database (up to 64 alpha-numeric characters.
     ///   - deletionProtection: The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     ///   - engine: The name of the database engine to be used in the global database. Valid values: neptune
     ///   - engineVersion: The Neptune engine version to be used by the global database. Valid values: 1.2.0.0 or above.
     ///   - globalClusterIdentifier: The cluster identifier of the new global database cluster.
     ///   - sourceDBClusterIdentifier: (Optional) The Amazon Resource Name (ARN) of an existing Neptune DB cluster to use as the primary cluster of the new global database.
     ///   - storageEncrypted: The storage encryption setting for the new global database cluster.
+    ///   - tags: Tags to assign to the global cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGlobalCluster(
+        databaseName: String? = nil,
         deletionProtection: Bool? = nil,
         engine: String? = nil,
         engineVersion: String? = nil,
         globalClusterIdentifier: String? = nil,
         sourceDBClusterIdentifier: String? = nil,
         storageEncrypted: Bool? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGlobalClusterResult {
         let input = CreateGlobalClusterMessage(
+            databaseName: databaseName, 
             deletionProtection: deletionProtection, 
             engine: engine, 
             engineVersion: engineVersion, 
             globalClusterIdentifier: globalClusterIdentifier, 
             sourceDBClusterIdentifier: sourceDBClusterIdentifier, 
-            storageEncrypted: storageEncrypted
+            storageEncrypted: storageEncrypted, 
+            tags: tags
         )
         return try await self.createGlobalCluster(input, logger: logger)
     }

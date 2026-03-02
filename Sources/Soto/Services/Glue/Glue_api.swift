@@ -2460,6 +2460,35 @@ public struct Glue: AWSService {
         return try await self.deleteConnection(input, logger: logger)
     }
 
+    /// Deletes a custom connection type in Glue. The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types.
+    @Sendable
+    @inlinable
+    public func deleteConnectionType(_ input: DeleteConnectionTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConnectionTypeResponse {
+        try await self.client.execute(
+            operation: "DeleteConnectionType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a custom connection type in Glue. The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types.
+    ///
+    /// Parameters:
+    ///   - connectionType: The name of the connection type to delete. Must reference an existing registered connection type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectionType(
+        connectionType: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConnectionTypeResponse {
+        let input = DeleteConnectionTypeRequest(
+            connectionType: connectionType
+        )
+        return try await self.deleteConnectionType(input, logger: logger)
+    }
+
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     @Sendable
     @inlinable
@@ -3277,7 +3306,7 @@ public struct Glue: AWSService {
         return try await self.deleteWorkflow(input, logger: logger)
     }
 
-    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
+    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue. The response includes authentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based connection types registered via RegisterConnectionType. See also: ListConnectionTypes, RegisterConnectionType, DeleteConnectionType
     @Sendable
     @inlinable
     public func describeConnectionType(_ input: DescribeConnectionTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectionTypeResponse {
@@ -3290,7 +3319,7 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue.
+    /// The DescribeConnectionType API provides full details of the supported options for a given connection type in Glue. The response includes authentication configuration details that show supported authentication types and properties, and RestConfiguration for custom REST-based connection types registered via RegisterConnectionType. See also: ListConnectionTypes, RegisterConnectionType, DeleteConnectionType
     ///
     /// Parameters:
     ///   - connectionType: The name of the connection type to be described.
@@ -4920,6 +4949,38 @@ public struct Glue: AWSService {
         return try await self.getMapping(input, logger: logger)
     }
 
+    /// Get the associated metadata/information for a task run, given a task run ID.
+    @Sendable
+    @inlinable
+    public func getMaterializedViewRefreshTaskRun(_ input: GetMaterializedViewRefreshTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMaterializedViewRefreshTaskRunResponse {
+        try await self.client.execute(
+            operation: "GetMaterializedViewRefreshTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the associated metadata/information for a task run, given a task run ID.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+    ///   - materializedViewRefreshTaskRunId: The identifier for the particular materialized view refresh task run.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMaterializedViewRefreshTaskRun(
+        catalogId: String,
+        materializedViewRefreshTaskRunId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMaterializedViewRefreshTaskRunResponse {
+        let input = GetMaterializedViewRefreshTaskRunRequest(
+            catalogId: catalogId, 
+            materializedViewRefreshTaskRunId: materializedViewRefreshTaskRunId
+        )
+        return try await self.getMaterializedViewRefreshTaskRun(input, logger: logger)
+    }
+
     /// Retrieves information about a specified partition.
     @Sendable
     @inlinable
@@ -6270,7 +6331,7 @@ public struct Glue: AWSService {
         return try await self.listColumnStatisticsTaskRuns(input, logger: logger)
     }
 
-    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
+    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type, including both built-in connection types and custom connection types registered via RegisterConnectionType. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API. See also: DescribeConnectionType, RegisterConnectionType, DeleteConnectionType
     @Sendable
     @inlinable
     public func listConnectionTypes(_ input: ListConnectionTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionTypesResponse {
@@ -6283,7 +6344,7 @@ public struct Glue: AWSService {
             logger: logger
         )
     }
-    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API.
+    /// The ListConnectionTypes API provides a discovery mechanism to learn available connection types in Glue. The response contains a list of connection types with high-level details of what is supported for each connection type, including both built-in connection types and custom connection types registered via RegisterConnectionType. The connection types listed are the set of supported options for the ConnectionType value in the CreateConnection API. See also: DescribeConnectionType, RegisterConnectionType, DeleteConnectionType
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return.
@@ -6820,6 +6881,47 @@ public struct Glue: AWSService {
             tags: tags
         )
         return try await self.listMLTransforms(input, logger: logger)
+    }
+
+    /// List all task runs for a particular account.
+    @Sendable
+    @inlinable
+    public func listMaterializedViewRefreshTaskRuns(_ input: ListMaterializedViewRefreshTaskRunsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMaterializedViewRefreshTaskRunsResponse {
+        try await self.client.execute(
+            operation: "ListMaterializedViewRefreshTaskRuns", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all task runs for a particular account.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+    ///   - databaseName: The database where the table resides.
+    ///   - maxResults: The maximum size of the response.
+    ///   - nextToken: A continuation token, if this is a continuation call.
+    ///   - tableName: The name of the table for which statistics is generated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMaterializedViewRefreshTaskRuns(
+        catalogId: String,
+        databaseName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        tableName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMaterializedViewRefreshTaskRunsResponse {
+        let input = ListMaterializedViewRefreshTaskRunsRequest(
+            catalogId: catalogId, 
+            databaseName: databaseName, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            tableName: tableName
+        )
+        return try await self.listMaterializedViewRefreshTaskRuns(input, logger: logger)
     }
 
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
@@ -7404,6 +7506,53 @@ public struct Glue: AWSService {
             schemaVersionNumber: schemaVersionNumber
         )
         return try await self.querySchemaVersionMetadata(input, logger: logger)
+    }
+
+    /// Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connectors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors. The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection properties, authentication configuration, and REST configuration with entity definitions. Once registered, customers can create connections using this connection type and work with them the same way as natively supported Glue connectors. Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT Bearer, Authorization Code), and Custom Auth configurations.
+    @Sendable
+    @inlinable
+    public func registerConnectionType(_ input: RegisterConnectionTypeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterConnectionTypeResponse {
+        try await self.client.execute(
+            operation: "RegisterConnectionType", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Registers a custom connection type in Glue based on the configuration provided. This operation enables customers to configure custom connectors for any data source with REST-based APIs, eliminating the need for building custom Lambda connectors. The registered connection type stores details about how requests and responses are interpreted by REST sources, including connection properties, authentication configuration, and REST configuration with entity definitions. Once registered, customers can create connections using this connection type and work with them the same way as natively supported Glue connectors. Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT Bearer, Authorization Code), and Custom Auth configurations.
+    ///
+    /// Parameters:
+    ///   - connectionProperties: Defines the base URL and additional request parameters needed during connection creation for this connection type.
+    ///   - connectionType: The name of the connection type. Must be between 1 and 255 characters and must be prefixed with "REST-" to indicate it is a REST-based connector.
+    ///   - connectorAuthenticationConfiguration: Defines the supported authentication types and required properties for this connection type, including Basic, OAuth2, and Custom authentication methods.
+    ///   - description: A description of the connection type. Can be up to 2048 characters and provides details about the purpose and functionality of the connection type.
+    ///   - integrationType: The integration type for the connection. Currently only "REST" protocol is supported.
+    ///   - restConfiguration: Defines the HTTP request and response configuration, validation endpoint, and entity configurations for REST API interactions.
+    ///   - tags: The tags you assign to the connection type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerConnectionType(
+        connectionProperties: ConnectionPropertiesConfiguration,
+        connectionType: String,
+        connectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration,
+        description: String? = nil,
+        integrationType: IntegrationType,
+        restConfiguration: RestConfiguration,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterConnectionTypeResponse {
+        let input = RegisterConnectionTypeRequest(
+            connectionProperties: connectionProperties, 
+            connectionType: connectionType, 
+            connectorAuthenticationConfiguration: connectorAuthenticationConfiguration, 
+            description: description, 
+            integrationType: integrationType, 
+            restConfiguration: restConfiguration, 
+            tags: tags
+        )
+        return try await self.registerConnectionType(input, logger: logger)
     }
 
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
@@ -8087,6 +8236,44 @@ public struct Glue: AWSService {
         return try await self.startMLLabelingSetGenerationTaskRun(input, logger: logger)
     }
 
+    /// Starts a materialized view refresh task run, for a specified table and columns.
+    @Sendable
+    @inlinable
+    public func startMaterializedViewRefreshTaskRun(_ input: StartMaterializedViewRefreshTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMaterializedViewRefreshTaskRunResponse {
+        try await self.client.execute(
+            operation: "StartMaterializedViewRefreshTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a materialized view refresh task run, for a specified table and columns.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - fullRefresh: Specifies whether this is a full refresh of the task run.
+    ///   - tableName: The name of the table to generate run the materialized view refresh task.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMaterializedViewRefreshTaskRun(
+        catalogId: String,
+        databaseName: String,
+        fullRefresh: Bool? = nil,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMaterializedViewRefreshTaskRunResponse {
+        let input = StartMaterializedViewRefreshTaskRunRequest(
+            catalogId: catalogId, 
+            databaseName: databaseName, 
+            fullRefresh: fullRefresh, 
+            tableName: tableName
+        )
+        return try await self.startMaterializedViewRefreshTaskRun(input, logger: logger)
+    }
+
     /// Starts an existing trigger. See Triggering Jobs for information about how different types of trigger are started.
     @Sendable
     @inlinable
@@ -8268,6 +8455,41 @@ public struct Glue: AWSService {
             crawlerName: crawlerName
         )
         return try await self.stopCrawlerSchedule(input, logger: logger)
+    }
+
+    /// Stops a materialized view refresh task run, for a specified table and columns.
+    @Sendable
+    @inlinable
+    public func stopMaterializedViewRefreshTaskRun(_ input: StopMaterializedViewRefreshTaskRunRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopMaterializedViewRefreshTaskRunResponse {
+        try await self.client.execute(
+            operation: "StopMaterializedViewRefreshTaskRun", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a materialized view refresh task run, for a specified table and columns.
+    ///
+    /// Parameters:
+    ///   - catalogId: The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+    ///   - databaseName: The name of the database where the table resides.
+    ///   - tableName: The name of the table to generate statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopMaterializedViewRefreshTaskRun(
+        catalogId: String,
+        databaseName: String,
+        tableName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopMaterializedViewRefreshTaskRunResponse {
+        let input = StopMaterializedViewRefreshTaskRunRequest(
+            catalogId: catalogId, 
+            databaseName: databaseName, 
+            tableName: tableName
+        )
+        return try await self.stopMaterializedViewRefreshTaskRun(input, logger: logger)
     }
 
     /// Stops the session.
@@ -11058,6 +11280,49 @@ extension Glue {
         return self.listMLTransformsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMaterializedViewRefreshTaskRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMaterializedViewRefreshTaskRunsPaginator(
+        _ input: ListMaterializedViewRefreshTaskRunsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMaterializedViewRefreshTaskRunsRequest, ListMaterializedViewRefreshTaskRunsResponse> {
+        return .init(
+            input: input,
+            command: self.listMaterializedViewRefreshTaskRuns,
+            inputKey: \ListMaterializedViewRefreshTaskRunsRequest.nextToken,
+            outputKey: \ListMaterializedViewRefreshTaskRunsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMaterializedViewRefreshTaskRuns(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - catalogId: The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+    ///   - databaseName: The database where the table resides.
+    ///   - maxResults: The maximum size of the response.
+    ///   - tableName: The name of the table for which statistics is generated.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMaterializedViewRefreshTaskRunsPaginator(
+        catalogId: String,
+        databaseName: String? = nil,
+        maxResults: Int? = nil,
+        tableName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMaterializedViewRefreshTaskRunsRequest, ListMaterializedViewRefreshTaskRunsResponse> {
+        let input = ListMaterializedViewRefreshTaskRunsRequest(
+            catalogId: catalogId, 
+            databaseName: databaseName, 
+            maxResults: maxResults, 
+            tableName: tableName
+        )
+        return self.listMaterializedViewRefreshTaskRunsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRegistries(_:logger:)``.
     ///
     /// - Parameters:
@@ -11841,6 +12106,19 @@ extension Glue.ListMLTransformsRequest: AWSPaginateToken {
             nextToken: token,
             sort: self.sort,
             tags: self.tags
+        )
+    }
+}
+
+extension Glue.ListMaterializedViewRefreshTaskRunsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Glue.ListMaterializedViewRefreshTaskRunsRequest {
+        return .init(
+            catalogId: self.catalogId,
+            databaseName: self.databaseName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            tableName: self.tableName
         )
     }
 }

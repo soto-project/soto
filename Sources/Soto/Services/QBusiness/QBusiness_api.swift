@@ -529,7 +529,7 @@ public struct QBusiness: AWSService {
     ///   - identityType: The authentication type being used by a Amazon Q Business application.
     ///   - personalizationConfiguration: Configuration information about chat response personalization. For more information, see Personalizing chat responses
     ///   - qAppsConfiguration: An option to allow end users to create and use Amazon Q Apps in the web experience.
-    ///   - quickSightConfiguration: The Amazon QuickSight configuration for an Amazon Q Business application that uses QuickSight for authentication. This configuration is required if your application uses QuickSight as the identity provider. For more information, see Creating an Amazon QuickSight integrated application.
+    ///   - quickSightConfiguration: The Amazon Quick Suite configuration for an Amazon Q Business application that uses Quick Suite for authentication. This configuration is required if your application uses Quick Suite as the identity provider. For more information, see Creating an Amazon Quick Suite integrated application.
     ///   - roleArn:  The Amazon Resource Name (ARN) of an IAM role with permissions to access your Amazon CloudWatch logs and metrics. If this property is not specified, Amazon Q Business will create a service linked role (SLR) and use it as the application's role.
     ///   - tags: A list of key-value pairs that identify or categorize your Amazon Q Business application. You can also use tags to help control access to the application. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
     ///   - logger: Logger use during operation

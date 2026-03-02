@@ -142,6 +142,7 @@ public struct BedrockRuntime: AWSService {
     ///   - inferenceConfig: Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
     ///   - messages: The messages that you want to send to the model.
     ///   - modelId: Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
+    ///   - outputConfig: Output configuration for a model response.
     ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
@@ -157,6 +158,7 @@ public struct BedrockRuntime: AWSService {
         inferenceConfig: InferenceConfiguration? = nil,
         messages: [Message]? = nil,
         modelId: String,
+        outputConfig: OutputConfig? = nil,
         performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
         requestMetadata: [String: String]? = nil,
@@ -172,6 +174,7 @@ public struct BedrockRuntime: AWSService {
             inferenceConfig: inferenceConfig, 
             messages: messages, 
             modelId: modelId, 
+            outputConfig: outputConfig, 
             performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
             requestMetadata: requestMetadata, 
@@ -204,6 +207,7 @@ public struct BedrockRuntime: AWSService {
     ///   - inferenceConfig: Inference parameters to pass to the model. Converse and ConverseStream support a base set of inference parameters. If you need to pass additional parameters that the model supports, use the additionalModelRequestFields request field.
     ///   - messages: The messages that you want to send to the model.
     ///   - modelId: Specifies the model or throughput with which to run inference, or the prompt resource to use in inference. The value depends on the resource that you use:   If you use a base model, specify the model ID or its ARN. For a list of model IDs for base models, see Amazon Bedrock base model IDs (on-demand throughput) in the Amazon Bedrock User Guide.   If you use an inference profile, specify the inference profile ID or its ARN. For a list of inference profile IDs, see Supported Regions and models for cross-region inference in the Amazon Bedrock User Guide.   If you use a provisioned model, specify the ARN of the Provisioned Throughput. For more information, see Run inference using a Provisioned Throughput in the Amazon Bedrock User Guide.   If you use a custom model, first purchase Provisioned Throughput for it. Then specify the ARN of the resulting provisioned model. For more information, see Use a custom model in Amazon Bedrock in the Amazon Bedrock User Guide.   To include a prompt that was defined in Prompt management, specify the ARN of the prompt version to use.   The Converse API doesn't support imported models.
+    ///   - outputConfig: Output configuration for a model response.
     ///   - performanceConfig: Model performance settings for the request.
     ///   - promptVariables: Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
     ///   - requestMetadata: Key-value pairs that you can use to filter invocation logs.
@@ -219,6 +223,7 @@ public struct BedrockRuntime: AWSService {
         inferenceConfig: InferenceConfiguration? = nil,
         messages: [Message]? = nil,
         modelId: String,
+        outputConfig: OutputConfig? = nil,
         performanceConfig: PerformanceConfiguration? = nil,
         promptVariables: [String: PromptVariableValues]? = nil,
         requestMetadata: [String: String]? = nil,
@@ -234,6 +239,7 @@ public struct BedrockRuntime: AWSService {
             inferenceConfig: inferenceConfig, 
             messages: messages, 
             modelId: modelId, 
+            outputConfig: outputConfig, 
             performanceConfig: performanceConfig, 
             promptVariables: promptVariables, 
             requestMetadata: requestMetadata, 

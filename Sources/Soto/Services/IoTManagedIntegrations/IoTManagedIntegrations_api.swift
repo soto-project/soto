@@ -98,6 +98,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     ///   - connectorDestinationId: The identifier of the connector destination.
     ///   - description: A description of the account association request.
+    ///   - generalAuthorization: The General Authorization reference by authorization material name.
     ///   - name: The name of the destination for the new account association.
     ///   - tags: A set of key/value pairs that are used to manage the account association.
     ///   - logger: Logger use during operation
@@ -106,6 +107,7 @@ public struct IoTManagedIntegrations: AWSService {
         clientToken: String? = CreateAccountAssociationRequest.idempotencyToken(),
         connectorDestinationId: String,
         description: String? = nil,
+        generalAuthorization: GeneralAuthorizationName? = nil,
         name: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -114,6 +116,7 @@ public struct IoTManagedIntegrations: AWSService {
             clientToken: clientToken, 
             connectorDestinationId: connectorDestinationId, 
             description: description, 
+            generalAuthorization: generalAuthorization, 
             name: name, 
             tags: tags
         )
@@ -188,12 +191,12 @@ public struct IoTManagedIntegrations: AWSService {
     @inlinable
     public func createConnectorDestination(
         authConfig: AuthConfig,
-        authType: AuthType,
+        authType: AuthType? = nil,
         clientToken: String? = CreateConnectorDestinationRequest.idempotencyToken(),
         cloudConnectorId: String,
         description: String? = nil,
         name: String? = nil,
-        secretsManager: SecretsManager,
+        secretsManager: SecretsManager? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConnectorDestinationResponse {
         let input = CreateConnectorDestinationRequest(
@@ -341,7 +344,7 @@ public struct IoTManagedIntegrations: AWSService {
     /// Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
     ///
     /// Parameters:
-    ///   - authenticationMaterial: The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
+    ///   - authenticationMaterial: The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code.
     ///   - authenticationMaterialType: The type of authentication material used for device connectivity setup requests.
     ///   - brand: The brand of the device.
     ///   - capabilities: The capabilities of the device such as light bulb.
@@ -357,6 +360,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - role: The type of device used. This will be the hub controller, cloud device, or AWS IoT device.
     ///   - serialNumber: The serial number of the device.
     ///   - tags: A set of key/value pairs that are used to manage the managed thing.
+    ///   - wiFiSimpleSetupConfiguration: The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func createManagedThing(
@@ -376,6 +380,7 @@ public struct IoTManagedIntegrations: AWSService {
         role: Role,
         serialNumber: String? = nil,
         tags: [String: String]? = nil,
+        wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateManagedThingResponse {
         let input = CreateManagedThingRequest(
@@ -394,7 +399,8 @@ public struct IoTManagedIntegrations: AWSService {
             owner: owner, 
             role: role, 
             serialNumber: serialNumber, 
-            tags: tags
+            tags: tags, 
+            wiFiSimpleSetupConfiguration: wiFiSimpleSetupConfiguration
         )
         return try await self.createManagedThing(input, logger: logger)
     }
@@ -551,6 +557,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///
     /// Parameters:
     ///   - caCertificate: The id of the certificate authority (CA) certificate.
+    ///   - claimCertificate: The claim certificate.
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     ///   - name: The name of the provisioning template.
     ///   - provisioningType: The type of provisioning workflow the device uses for onboarding to IoT managed integrations.
@@ -559,6 +566,7 @@ public struct IoTManagedIntegrations: AWSService {
     @inlinable
     public func createProvisioningProfile(
         caCertificate: String? = nil,
+        claimCertificate: String? = nil,
         clientToken: String? = CreateProvisioningProfileRequest.idempotencyToken(),
         name: String? = nil,
         provisioningType: ProvisioningType,
@@ -567,6 +575,7 @@ public struct IoTManagedIntegrations: AWSService {
     ) async throws -> CreateProvisioningProfileResponse {
         let input = CreateProvisioningProfileRequest(
             caCertificate: caCertificate, 
+            claimCertificate: claimCertificate, 
             clientToken: clientToken, 
             name: name, 
             provisioningType: provisioningType, 
@@ -1943,7 +1952,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - nextToken: A token that can be used to retrieve the next set of results.
     ///   - ownerFilter: Filter on device owners when listing managed things.
     ///   - parentControllerIdentifierFilter: Filter on a parent controller id for a managed thing.
-    ///   - provisioningStatusFilter: Filter on the status of the device.
+    ///   - provisioningStatusFilter: Filter on the status of the device. For more information, see Device Provisioning.
     ///   - roleFilter: Filter on the type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     ///   - serialNumberFilter: Filter on the serial number of the device.
     ///   - logger: Logger use during operation
@@ -2186,7 +2195,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.listSchemaVersions(input, logger: logger)
     }
 
-    /// List tags for the specified resource.
+    /// Lists the tags for a specified resource.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -2199,10 +2208,10 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// List tags for the specified resource.
+    /// Lists the tags for a specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the resource for which to list tags.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to list tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -2276,7 +2285,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.putHubConfiguration(input, logger: logger)
     }
 
-    /// Set the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Set the runtime log configuration for a specific managed thing.
     @Sendable
     @inlinable
     public func putRuntimeLogConfiguration(_ input: PutRuntimeLogConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2289,7 +2298,7 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Set the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Set the runtime log configuration for a specific managed thing.
     ///
     /// Parameters:
     ///   - managedThingId: The id for a managed thing.
@@ -2541,9 +2550,12 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - authenticationMaterial: The authentication material required to start the local device discovery job request.
     ///   - authenticationMaterialType: The type of authentication material used for device discovery jobs.
     ///   - clientToken: An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
+    ///   - connectorDeviceIdList: Used as a filter for PLA discoveries.
     ///   - controllerIdentifier: The id of the end-user's IoT hub.
     ///   - customProtocolDetail: Additional protocol-specific details required for device discovery, which vary based on the discovery type.  For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
     ///   - discoveryType: The discovery type supporting the type of device to be discovered in the device discovery task request.
+    ///   - endDeviceIdentifier: The unique id of the end device for capability rediscovery.  This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
+    ///   - protocol: The protocol type for capability rediscovery (ZWAVE, ZIGBEE, or CUSTOM).  This parameter is only available when the discovery type is CONTROLLER_CAPABILITY_REDISCOVERY.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDeviceDiscovery(
@@ -2551,9 +2563,12 @@ public struct IoTManagedIntegrations: AWSService {
         authenticationMaterial: String? = nil,
         authenticationMaterialType: DiscoveryAuthMaterialType? = nil,
         clientToken: String? = nil,
+        connectorDeviceIdList: [String]? = nil,
         controllerIdentifier: String? = nil,
         customProtocolDetail: [String: String]? = nil,
         discoveryType: DiscoveryType,
+        endDeviceIdentifier: String? = nil,
+        protocol: ProtocolType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartDeviceDiscoveryResponse {
         let input = StartDeviceDiscoveryRequest(
@@ -2561,14 +2576,17 @@ public struct IoTManagedIntegrations: AWSService {
             authenticationMaterial: authenticationMaterial, 
             authenticationMaterialType: authenticationMaterialType, 
             clientToken: clientToken, 
+            connectorDeviceIdList: connectorDeviceIdList, 
             controllerIdentifier: controllerIdentifier, 
             customProtocolDetail: customProtocolDetail, 
-            discoveryType: discoveryType
+            discoveryType: discoveryType, 
+            endDeviceIdentifier: endDeviceIdentifier, 
+            protocol: `protocol`
         )
         return try await self.startDeviceDiscovery(input, logger: logger)
     }
 
-    /// Add tags for the specified resource.
+    /// Adds tags to a specified resource.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -2581,11 +2599,11 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Add tags for the specified resource.
+    /// Adds tags to a specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the resource to which to add tags.
-    ///   - tags: A set of key/value pairs that are used to manage the resource
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which to add tags.
+    ///   - tags: A set of key/value pairs that are used to manage the resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -2600,7 +2618,7 @@ public struct IoTManagedIntegrations: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Remove tags for the specified resource.
+    /// Removes tags from a specified resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -2613,10 +2631,10 @@ public struct IoTManagedIntegrations: AWSService {
             logger: logger
         )
     }
-    /// Remove tags for the specified resource.
+    /// Removes tags from a specified resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The ARN of the resource to which to add tags.
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource from which to remove tags.
     ///   - tagKeys: A list of tag keys to remove from the resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2848,6 +2866,7 @@ public struct IoTManagedIntegrations: AWSService {
     ///   - name: The name of the managed thing representing the physical device.
     ///   - owner: Owner of the device, usually an indication of whom the device belongs to. This value should not contain personal identifiable information.
     ///   - serialNumber: The serial number of the device.
+    ///   - wiFiSimpleSetupConfiguration: The Wi-Fi Simple Setup configuration for the managed thing, which defines provisioning capabilities and timeout settings.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateManagedThing(
@@ -2864,6 +2883,7 @@ public struct IoTManagedIntegrations: AWSService {
         name: String? = nil,
         owner: String? = nil,
         serialNumber: String? = nil,
+        wiFiSimpleSetupConfiguration: WiFiSimpleSetupConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws {
         let input = UpdateManagedThingRequest(
@@ -2879,7 +2899,8 @@ public struct IoTManagedIntegrations: AWSService {
             model: model, 
             name: name, 
             owner: owner, 
-            serialNumber: serialNumber
+            serialNumber: serialNumber, 
+            wiFiSimpleSetupConfiguration: wiFiSimpleSetupConfiguration
         )
         return try await self.updateManagedThing(input, logger: logger)
     }
@@ -3368,7 +3389,7 @@ extension IoTManagedIntegrations {
     ///   - maxResults: The maximum number of results to return at one time.
     ///   - ownerFilter: Filter on device owners when listing managed things.
     ///   - parentControllerIdentifierFilter: Filter on a parent controller id for a managed thing.
-    ///   - provisioningStatusFilter: Filter on the status of the device.
+    ///   - provisioningStatusFilter: Filter on the status of the device. For more information, see Device Provisioning.
     ///   - roleFilter: Filter on the type of device used. This will be the Amazon Web Services hub controller, cloud device, or IoT device.
     ///   - serialNumberFilter: Filter on the serial number of the device.
     ///   - logger: Logger used for logging

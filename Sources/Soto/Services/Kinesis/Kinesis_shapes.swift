@@ -177,14 +177,17 @@ extension Kinesis {
     public struct AddTagsToStreamInput: AWSEncodableShape {
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream.
         public let streamName: String?
         /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. You can add up to 50 tags per resource.
         public let tags: [String: String]
 
         @inlinable
-        public init(streamARN: String? = nil, streamName: String? = nil, tags: [String: String]) {
+        public init(streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, tags: [String: String]) {
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
             self.tags = tags
         }
@@ -193,6 +196,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -207,6 +213,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
             case tags = "Tags"
         }
@@ -343,13 +350,16 @@ extension Kinesis {
         public let retentionPeriodHours: Int
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to modify.
         public let streamName: String?
 
         @inlinable
-        public init(retentionPeriodHours: Int, streamARN: String? = nil, streamName: String? = nil) {
+        public init(retentionPeriodHours: Int, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -357,6 +367,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -365,6 +378,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case retentionPeriodHours = "RetentionPeriodHours"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -372,20 +386,27 @@ extension Kinesis {
     public struct DeleteResourcePolicyInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the data stream or consumer.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(resourceARN: String) {
+        public init(resourceARN: String, streamId: String? = nil) {
             self.resourceARN = resourceARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -394,13 +415,16 @@ extension Kinesis {
         public let enforceConsumerDeletion: Bool?
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to delete.
         public let streamName: String?
 
         @inlinable
-        public init(enforceConsumerDeletion: Bool? = nil, streamARN: String? = nil, streamName: String? = nil) {
+        public init(enforceConsumerDeletion: Bool? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.enforceConsumerDeletion = enforceConsumerDeletion
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -408,6 +432,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -416,6 +443,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case enforceConsumerDeletion = "EnforceConsumerDeletion"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -427,12 +455,15 @@ extension Kinesis {
         public let consumerName: String?
         /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil) {
+        public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil, streamId: String? = nil) {
             self.consumerARN = consumerARN
             self.consumerName = consumerName
             self.streamARN = streamARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -445,12 +476,16 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerARN = "ConsumerARN"
             case consumerName = "ConsumerName"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -509,12 +544,15 @@ extension Kinesis {
         public let consumerName: String?
         /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil) {
+        public init(consumerARN: String? = nil, consumerName: String? = nil, streamARN: String? = nil, streamId: String? = nil) {
             self.consumerARN = consumerARN
             self.consumerName = consumerName
             self.streamARN = streamARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -527,12 +565,16 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerARN = "ConsumerARN"
             case consumerName = "ConsumerName"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -557,14 +599,17 @@ extension Kinesis {
         public let limit: Int?
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to describe.
         public let streamName: String?
 
         @inlinable
-        public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, streamARN: String? = nil, streamName: String? = nil) {
+        public init(exclusiveStartShardId: String? = nil, limit: Int? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.limit = limit
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -577,6 +622,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -586,6 +634,7 @@ extension Kinesis {
             case exclusiveStartShardId = "ExclusiveStartShardId"
             case limit = "Limit"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -607,12 +656,15 @@ extension Kinesis {
     public struct DescribeStreamSummaryInput: AWSEncodableShape {
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to describe.
         public let streamName: String?
 
         @inlinable
-        public init(streamARN: String? = nil, streamName: String? = nil) {
+        public init(streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -620,6 +672,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -627,6 +682,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -650,13 +706,16 @@ extension Kinesis {
         public let shardLevelMetrics: [MetricsName]
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the Kinesis data stream for which to disable enhanced monitoring.
         public let streamName: String?
 
         @inlinable
-        public init(shardLevelMetrics: [MetricsName], streamARN: String? = nil, streamName: String? = nil) {
+        public init(shardLevelMetrics: [MetricsName], streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -666,6 +725,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -674,6 +736,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case shardLevelMetrics = "ShardLevelMetrics"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -683,13 +746,16 @@ extension Kinesis {
         public let shardLevelMetrics: [MetricsName]
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream for which to enable enhanced monitoring.
         public let streamName: String?
 
         @inlinable
-        public init(shardLevelMetrics: [MetricsName], streamARN: String? = nil, streamName: String? = nil) {
+        public init(shardLevelMetrics: [MetricsName], streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.shardLevelMetrics = shardLevelMetrics
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -699,6 +765,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -707,6 +776,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case shardLevelMetrics = "ShardLevelMetrics"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -758,12 +828,15 @@ extension Kinesis {
         public let shardIterator: String
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(limit: Int? = nil, shardIterator: String, streamARN: String? = nil) {
+        public init(limit: Int? = nil, shardIterator: String, streamARN: String? = nil, streamId: String? = nil) {
             self.limit = limit
             self.shardIterator = shardIterator
             self.streamARN = streamARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -774,12 +847,16 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case limit = "Limit"
             case shardIterator = "ShardIterator"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -812,20 +889,27 @@ extension Kinesis {
     public struct GetResourcePolicyInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the data stream or consumer.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(resourceARN: String) {
+        public init(resourceARN: String, streamId: String? = nil) {
             self.resourceARN = resourceARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -852,17 +936,20 @@ extension Kinesis {
         public let startingSequenceNumber: String?
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the Amazon Kinesis data stream.
         public let streamName: String?
         /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: Date?
 
         @inlinable
-        public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamARN: String? = nil, streamName: String? = nil, timestamp: Date? = nil) {
+        public init(shardId: String, shardIteratorType: ShardIteratorType, startingSequenceNumber: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, timestamp: Date? = nil) {
             self.shardId = shardId
             self.shardIteratorType = shardIteratorType
             self.startingSequenceNumber = startingSequenceNumber
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
             self.timestamp = timestamp
         }
@@ -875,6 +962,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -885,6 +975,7 @@ extension Kinesis {
             case shardIteratorType = "ShardIteratorType"
             case startingSequenceNumber = "StartingSequenceNumber"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
             case timestamp = "Timestamp"
         }
@@ -927,13 +1018,16 @@ extension Kinesis {
         public let retentionPeriodHours: Int
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to modify.
         public let streamName: String?
 
         @inlinable
-        public init(retentionPeriodHours: Int, streamARN: String? = nil, streamName: String? = nil) {
+        public init(retentionPeriodHours: Int, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -941,6 +1035,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -949,6 +1046,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case retentionPeriodHours = "RetentionPeriodHours"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1063,17 +1161,20 @@ extension Kinesis {
         public let streamARN: String?
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
         public let streamCreationTimestamp: Date?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the data stream whose shards you want to list.  You cannot specify this parameter if you specify the NextToken parameter.
         public let streamName: String?
 
         @inlinable
-        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shardFilter: ShardFilter? = nil, streamARN: String? = nil, streamCreationTimestamp: Date? = nil, streamName: String? = nil) {
+        public init(exclusiveStartShardId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shardFilter: ShardFilter? = nil, streamARN: String? = nil, streamCreationTimestamp: Date? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.exclusiveStartShardId = exclusiveStartShardId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.shardFilter = shardFilter
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1089,6 +1190,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1101,6 +1205,7 @@ extension Kinesis {
             case shardFilter = "ShardFilter"
             case streamARN = "StreamARN"
             case streamCreationTimestamp = "StreamCreationTimestamp"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1132,13 +1237,16 @@ extension Kinesis {
         public let streamARN: String
         /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for.  You can't specify this parameter if you specify the NextToken parameter.
         public let streamCreationTimestamp: Date?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String, streamCreationTimestamp: Date? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, streamARN: String, streamCreationTimestamp: Date? = nil, streamId: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -1149,6 +1257,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1156,6 +1267,7 @@ extension Kinesis {
             case nextToken = "NextToken"
             case streamARN = "StreamARN"
             case streamCreationTimestamp = "StreamCreationTimestamp"
+            case streamId = "StreamId"
         }
     }
 
@@ -1235,20 +1347,27 @@ extension Kinesis {
     public struct ListTagsForResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(resourceARN: String) {
+        public init(resourceARN: String, streamId: String? = nil) {
             self.resourceARN = resourceARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -1273,14 +1392,17 @@ extension Kinesis {
         public let limit: Int?
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream.
         public let streamName: String?
 
         @inlinable
-        public init(exclusiveStartTagKey: String? = nil, limit: Int? = nil, streamARN: String? = nil, streamName: String? = nil) {
+        public init(exclusiveStartTagKey: String? = nil, limit: Int? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.exclusiveStartTagKey = exclusiveStartTagKey
             self.limit = limit
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1292,6 +1414,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1301,6 +1426,7 @@ extension Kinesis {
             case exclusiveStartTagKey = "ExclusiveStartTagKey"
             case limit = "Limit"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1330,14 +1456,17 @@ extension Kinesis {
         public let shardToMerge: String
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream for the merge.
         public let streamName: String?
 
         @inlinable
-        public init(adjacentShardToMerge: String, shardToMerge: String, streamARN: String? = nil, streamName: String? = nil) {
+        public init(adjacentShardToMerge: String, shardToMerge: String, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.adjacentShardToMerge = adjacentShardToMerge
             self.shardToMerge = shardToMerge
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1351,6 +1480,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1360,6 +1492,7 @@ extension Kinesis {
             case adjacentShardToMerge = "AdjacentShardToMerge"
             case shardToMerge = "ShardToMerge"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1405,7 +1538,7 @@ extension Kinesis {
     }
 
     public struct PutRecordInput: AWSEncodableShape {
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
         public let data: AWSBase64Data
         /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
         public let explicitHashKey: String?
@@ -1415,16 +1548,19 @@ extension Kinesis {
         public let sequenceNumberForOrdering: String?
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to put the data record into.
         public let streamName: String?
 
         @inlinable
-        public init(data: AWSBase64Data, explicitHashKey: String? = nil, partitionKey: String, sequenceNumberForOrdering: String? = nil, streamARN: String? = nil, streamName: String? = nil) {
+        public init(data: AWSBase64Data, explicitHashKey: String? = nil, partitionKey: String, sequenceNumberForOrdering: String? = nil, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.data = data
             self.explicitHashKey = explicitHashKey
             self.partitionKey = partitionKey
             self.sequenceNumberForOrdering = sequenceNumberForOrdering
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1437,6 +1573,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1448,6 +1587,7 @@ extension Kinesis {
             case partitionKey = "PartitionKey"
             case sequenceNumberForOrdering = "SequenceNumberForOrdering"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1479,13 +1619,16 @@ extension Kinesis {
         public let records: [PutRecordsRequestEntry]
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The stream name associated with the request.
         public let streamName: String?
 
         @inlinable
-        public init(records: [PutRecordsRequestEntry], streamARN: String? = nil, streamName: String? = nil) {
+        public init(records: [PutRecordsRequestEntry], streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.records = records
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1498,6 +1641,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1506,6 +1652,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case records = "Records"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1533,7 +1680,7 @@ extension Kinesis {
     }
 
     public struct PutRecordsRequestEntry: AWSEncodableShape {
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
         public let data: AWSBase64Data
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
         public let explicitHashKey: String?
@@ -1592,22 +1739,29 @@ extension Kinesis {
         public let policy: String
         /// The Amazon Resource Name (ARN) of the data stream or consumer.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(policy: String, resourceARN: String) {
+        public init(policy: String, resourceARN: String, streamId: String? = nil) {
             self.policy = policy
             self.resourceARN = resourceARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -1646,13 +1800,16 @@ extension Kinesis {
         public let consumerName: String
         /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let streamARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// A set of up to 50 key-value pairs. A tag consists of a required key and an optional value.
         public let tags: [String: String]?
 
         @inlinable
-        public init(consumerName: String, streamARN: String, tags: [String: String]? = nil) {
+        public init(consumerName: String, streamARN: String, streamId: String? = nil, tags: [String: String]? = nil) {
             self.consumerName = consumerName
             self.streamARN = streamARN
+            self.streamId = streamId
             self.tags = tags
         }
 
@@ -1663,6 +1820,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1675,6 +1835,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case consumerName = "ConsumerName"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case tags = "Tags"
         }
     }
@@ -1696,14 +1857,17 @@ extension Kinesis {
     public struct RemoveTagsFromStreamInput: AWSEncodableShape {
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream.
         public let streamName: String?
         /// A list of tag keys. Each corresponding tag is removed from the stream.
         public let tagKeys: [String]
 
         @inlinable
-        public init(streamARN: String? = nil, streamName: String? = nil, tagKeys: [String]) {
+        public init(streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, tagKeys: [String]) {
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
             self.tagKeys = tagKeys
         }
@@ -1712,6 +1876,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1725,6 +1892,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
             case tagKeys = "TagKeys"
         }
@@ -1841,14 +2009,17 @@ extension Kinesis {
         public let shardToSplit: String
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream for the shard split.
         public let streamName: String?
 
         @inlinable
-        public init(newStartingHashKey: String, shardToSplit: String, streamARN: String? = nil, streamName: String? = nil) {
+        public init(newStartingHashKey: String, shardToSplit: String, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.newStartingHashKey = newStartingHashKey
             self.shardToSplit = shardToSplit
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1860,6 +2031,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1869,6 +2043,7 @@ extension Kinesis {
             case newStartingHashKey = "NewStartingHashKey"
             case shardToSplit = "ShardToSplit"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1880,14 +2055,17 @@ extension Kinesis {
         public let keyId: String
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream for which to start encrypting records.
         public let streamName: String?
 
         @inlinable
-        public init(encryptionType: EncryptionType, keyId: String, streamARN: String? = nil, streamName: String? = nil) {
+        public init(encryptionType: EncryptionType, keyId: String, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.encryptionType = encryptionType
             self.keyId = keyId
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1897,6 +2075,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1906,6 +2087,7 @@ extension Kinesis {
             case encryptionType = "EncryptionType"
             case keyId = "KeyId"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -1943,14 +2125,17 @@ extension Kinesis {
         public let keyId: String
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream on which to stop encrypting records.
         public let streamName: String?
 
         @inlinable
-        public init(encryptionType: EncryptionType, keyId: String, streamARN: String? = nil, streamName: String? = nil) {
+        public init(encryptionType: EncryptionType, keyId: String, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil) {
             self.encryptionType = encryptionType
             self.keyId = keyId
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
         }
 
@@ -1960,6 +2145,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -1969,6 +2157,7 @@ extension Kinesis {
             case encryptionType = "EncryptionType"
             case keyId = "KeyId"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
         }
     }
@@ -2046,6 +2235,8 @@ extension Kinesis {
         public let streamARN: String
         /// The approximate time that the stream was created.
         public let streamCreationTimestamp: Date
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         ///  Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand ycapacity mode and a provisioned capacity mode for your data streams.
         public let streamModeDetails: StreamModeDetails?
         /// The name of the stream being described.
@@ -2056,7 +2247,7 @@ extension Kinesis {
         public let warmThroughput: WarmThroughputObject?
 
         @inlinable
-        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, maxRecordSizeInKiB: Int? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus, warmThroughput: WarmThroughputObject? = nil) {
+        public init(consumerCount: Int? = nil, encryptionType: EncryptionType? = nil, enhancedMonitoring: [EnhancedMetrics], keyId: String? = nil, maxRecordSizeInKiB: Int? = nil, openShardCount: Int, retentionPeriodHours: Int, streamARN: String, streamCreationTimestamp: Date, streamId: String? = nil, streamModeDetails: StreamModeDetails? = nil, streamName: String, streamStatus: StreamStatus, warmThroughput: WarmThroughputObject? = nil) {
             self.consumerCount = consumerCount
             self.encryptionType = encryptionType
             self.enhancedMonitoring = enhancedMonitoring
@@ -2066,6 +2257,7 @@ extension Kinesis {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamId = streamId
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
             self.streamStatus = streamStatus
@@ -2082,6 +2274,7 @@ extension Kinesis {
             case retentionPeriodHours = "RetentionPeriodHours"
             case streamARN = "StreamARN"
             case streamCreationTimestamp = "StreamCreationTimestamp"
+            case streamId = "StreamId"
             case streamModeDetails = "StreamModeDetails"
             case streamName = "StreamName"
             case streamStatus = "StreamStatus"
@@ -2164,12 +2357,15 @@ extension Kinesis {
         public let shardId: String
         /// The starting position in the data stream from which to start streaming.
         public let startingPosition: StartingPosition
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(consumerARN: String, shardId: String, startingPosition: StartingPosition) {
+        public init(consumerARN: String, shardId: String, startingPosition: StartingPosition, streamId: String? = nil) {
             self.consumerARN = consumerARN
             self.shardId = shardId
             self.startingPosition = startingPosition
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -2180,12 +2376,16 @@ extension Kinesis {
             try self.validate(self.shardId, name: "shardId", parent: name, min: 1)
             try self.validate(self.shardId, name: "shardId", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
             try self.startingPosition.validate(name: "\(name).startingPosition")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerARN = "ConsumerARN"
             case shardId = "ShardId"
             case startingPosition = "StartingPosition"
+            case streamId = "StreamId"
         }
     }
 
@@ -2227,12 +2427,15 @@ extension Kinesis {
     public struct TagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
         public let tags: [String: String]
 
         @inlinable
-        public init(resourceARN: String, tags: [String: String]) {
+        public init(resourceARN: String, streamId: String? = nil, tags: [String: String]) {
             self.resourceARN = resourceARN
+            self.streamId = streamId
             self.tags = tags
         }
 
@@ -2240,6 +2443,9 @@ extension Kinesis {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2251,6 +2457,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
             case tags = "Tags"
         }
     }
@@ -2258,12 +2465,15 @@ extension Kinesis {
     public struct UntagResourceInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
         public let resourceARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
         public let tagKeys: [String]
 
         @inlinable
-        public init(resourceARN: String, tagKeys: [String]) {
+        public init(resourceARN: String, streamId: String? = nil, tagKeys: [String]) {
             self.resourceARN = resourceARN
+            self.streamId = streamId
             self.tagKeys = tagKeys
         }
 
@@ -2271,6 +2481,9 @@ extension Kinesis {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 2048)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:.*stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -2281,6 +2494,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
+            case streamId = "StreamId"
             case tagKeys = "TagKeys"
         }
     }
@@ -2318,11 +2532,14 @@ extension Kinesis {
         public let maxRecordSizeInKiB: Int
         /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
 
         @inlinable
-        public init(maxRecordSizeInKiB: Int, streamARN: String? = nil) {
+        public init(maxRecordSizeInKiB: Int, streamARN: String? = nil, streamId: String? = nil) {
             self.maxRecordSizeInKiB = maxRecordSizeInKiB
             self.streamARN = streamARN
+            self.streamId = streamId
         }
 
         public func validate(name: String) throws {
@@ -2331,11 +2548,15 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxRecordSizeInKiB = "MaxRecordSizeInKiB"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
         }
     }
 
@@ -2344,15 +2565,18 @@ extension Kinesis {
         public let scalingType: ScalingType
         /// The ARN of the stream.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream.
         public let streamName: String?
         /// The new number of shards. This value has the following default limits. By default, you cannot do the following:    Set this value to more than double your current shard count for a stream.   Set this value below half your current shard count for a stream.   Set this value to more than 10000 shards in a stream (the default limit for shard count per stream is 10000 per account per region), unless you request a limit increase.   Scale a stream with more than 10000 shards down unless you set this value to less than 10000 shards.
         public let targetShardCount: Int
 
         @inlinable
-        public init(scalingType: ScalingType, streamARN: String? = nil, streamName: String? = nil, targetShardCount: Int) {
+        public init(scalingType: ScalingType, streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, targetShardCount: Int) {
             self.scalingType = scalingType
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
             self.targetShardCount = targetShardCount
         }
@@ -2361,6 +2585,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2370,6 +2597,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case scalingType = "ScalingType"
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
             case targetShardCount = "TargetShardCount"
         }
@@ -2404,14 +2632,17 @@ extension Kinesis {
     public struct UpdateStreamModeInput: AWSEncodableShape {
         ///  Specifies the ARN of the data stream whose capacity mode you want to update.
         public let streamARN: String
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         ///  Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         public let streamModeDetails: StreamModeDetails
         /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations. This field is only valid when the stream mode is being updated to on-demand.
         public let warmThroughputMiBps: Int?
 
         @inlinable
-        public init(streamARN: String, streamModeDetails: StreamModeDetails, warmThroughputMiBps: Int? = nil) {
+        public init(streamARN: String, streamId: String? = nil, streamModeDetails: StreamModeDetails, warmThroughputMiBps: Int? = nil) {
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamModeDetails = streamModeDetails
             self.warmThroughputMiBps = warmThroughputMiBps
         }
@@ -2420,11 +2651,15 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.warmThroughputMiBps, name: "warmThroughputMiBps", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamModeDetails = "StreamModeDetails"
             case warmThroughputMiBps = "WarmThroughputMiBps"
         }
@@ -2433,14 +2668,17 @@ extension Kinesis {
     public struct UpdateStreamWarmThroughputInput: AWSEncodableShape {
         /// The ARN of the stream to be updated.
         public let streamARN: String?
+        /// Not Implemented. Reserved for future use.
+        public let streamId: String?
         /// The name of the stream to be updated.
         public let streamName: String?
         /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
         public let warmThroughputMiBps: Int
 
         @inlinable
-        public init(streamARN: String? = nil, streamName: String? = nil, warmThroughputMiBps: Int) {
+        public init(streamARN: String? = nil, streamId: String? = nil, streamName: String? = nil, warmThroughputMiBps: Int) {
             self.streamARN = streamARN
+            self.streamId = streamId
             self.streamName = streamName
             self.warmThroughputMiBps = warmThroughputMiBps
         }
@@ -2449,6 +2687,9 @@ extension Kinesis {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 2048)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "^arn:aws.*:kinesis:.*:\\d{12}:stream/\\S+$")
+            try self.validate(self.streamId, name: "streamId", parent: name, max: 24)
+            try self.validate(self.streamId, name: "streamId", parent: name, min: 1)
+            try self.validate(self.streamId, name: "streamId", parent: name, pattern: "^[a-z0-9]{20}-[a-z0-9]{3}$")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 128)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -2457,6 +2698,7 @@ extension Kinesis {
 
         private enum CodingKeys: String, CodingKey {
             case streamARN = "StreamARN"
+            case streamId = "StreamId"
             case streamName = "StreamName"
             case warmThroughputMiBps = "WarmThroughputMiBps"
         }

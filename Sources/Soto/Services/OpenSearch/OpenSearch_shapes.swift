@@ -277,6 +277,7 @@ extension OpenSearch {
         case data = "Data"
         case master = "Master"
         case ultrawarm = "Ultrawarm"
+        case warm = "Warm"
         public var description: String { return self.rawValue }
     }
 
@@ -2837,10 +2838,10 @@ extension OpenSearch {
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
-            var container = encoder.container(keyedBy: CodingKeys.self)
+            _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.domainName, key: "DomainName")
-            try container.encodeIfPresent(self.maxResults, forKey: .maxResults)
-            try container.encodeIfPresent(self.nextToken, forKey: .nextToken)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
@@ -2850,10 +2851,7 @@ extension OpenSearch {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case maxResults = "MaxResults"
-            case nextToken = "NextToken"
-        }
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeDomainAutoTunesResponse: AWSDecodableShape {

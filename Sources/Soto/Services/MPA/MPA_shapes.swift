@@ -30,6 +30,11 @@ extension MPA {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdditionalSecurityRequirement: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approverVerificationRequired = "APPROVER_VERIFICATION_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApprovalTeamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleting = "DELETING"
@@ -93,6 +98,17 @@ extension MPA {
         public var description: String { return self.rawValue }
     }
 
+    public enum MfaSyncStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inSync = "IN_SYNC"
+        case outOfSync = "OUT_OF_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MfaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case emailOtp = "EMAIL_OTP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Operator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case between = "BETWEEN"
         case contains = "CONTAINS"
@@ -145,6 +161,11 @@ extension MPA {
         case configurationChanged = "CONFIGURATION_CHANGED"
         case expired = "EXPIRED"
         case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case synchronizeMfaDevices = "SYNCHRONIZE_MFA_DEVICES"
         public var description: String { return self.rawValue }
     }
 
@@ -213,7 +234,7 @@ extension MPA {
         public let description: String
         /// Name of the team.
         public let name: String
-        /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+        /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources.
         public let policies: [PolicyReference]
         /// Tags you want to attach to the team.
         public let tags: [String: String]?
@@ -471,7 +492,7 @@ extension MPA {
         public let numberOfApprovers: Int?
         /// A PendingUpdate object. Contains details for the pending updates for the team, if applicable.
         public let pendingUpdate: PendingUpdate?
-        /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+        /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources.
         public let policies: [PolicyReference]?
         /// Status for the team. For more information, see Team health in the Multi-party approval User Guide.
         public let status: ApprovalTeamStatus?
@@ -525,6 +546,8 @@ extension MPA {
     public struct GetApprovalTeamResponseApprover: AWSDecodableShape {
         /// ID for the approver.
         public let approverId: String?
+        /// Multi-factor authentication configuration for the approver
+        public let mfaMethods: [MfaMethod]?
         /// ID for the user.
         public let primaryIdentityId: String?
         /// Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers.
@@ -536,8 +559,9 @@ extension MPA {
         public var responseTime: Date?
 
         @inlinable
-        public init(approverId: String? = nil, primaryIdentityId: String? = nil, primaryIdentitySourceArn: String? = nil, primaryIdentityStatus: IdentityStatus? = nil, responseTime: Date? = nil) {
+        public init(approverId: String? = nil, mfaMethods: [MfaMethod]? = nil, primaryIdentityId: String? = nil, primaryIdentitySourceArn: String? = nil, primaryIdentityStatus: IdentityStatus? = nil, responseTime: Date? = nil) {
             self.approverId = approverId
+            self.mfaMethods = mfaMethods
             self.primaryIdentityId = primaryIdentityId
             self.primaryIdentitySourceArn = primaryIdentitySourceArn
             self.primaryIdentityStatus = primaryIdentityStatus
@@ -546,6 +570,7 @@ extension MPA {
 
         private enum CodingKeys: String, CodingKey {
             case approverId = "ApproverId"
+            case mfaMethods = "MfaMethods"
             case primaryIdentityId = "PrimaryIdentityId"
             case primaryIdentitySourceArn = "PrimaryIdentitySourceArn"
             case primaryIdentityStatus = "PrimaryIdentityStatus"
@@ -638,7 +663,7 @@ extension MPA {
     }
 
     public struct GetPolicyVersionResponse: AWSDecodableShape {
-        /// A PolicyVersion object. Contains details for the version of the policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+        /// A PolicyVersion object. Contains details for the version of the policy. Policies define the permissions for team resources.
         public let policyVersion: PolicyVersion
 
         @inlinable
@@ -737,6 +762,8 @@ extension MPA {
         public let actionCompletionStrategy: ActionCompletionStrategy?
         /// Name of the protected operation.
         public let actionName: String?
+        /// A list of AdditionalSecurityRequirement applied to the session.
+        public let additionalSecurityRequirements: [AdditionalSecurityRequirement]?
         /// An ApprovalStrategyResponse object. Contains details for how the team grants approval
         public let approvalStrategy: ApprovalStrategyResponse?
         /// Amazon Resource Name (ARN) for the approval team.
@@ -784,9 +811,10 @@ extension MPA {
         public let statusMessage: String?
 
         @inlinable
-        public init(actionCompletionStrategy: ActionCompletionStrategy? = nil, actionName: String? = nil, approvalStrategy: ApprovalStrategyResponse? = nil, approvalTeamArn: String? = nil, approvalTeamName: String? = nil, approverResponses: [GetSessionResponseApproverResponse]? = nil, completionTime: Date? = nil, description: String? = nil, executionStatus: SessionExecutionStatus? = nil, expirationTime: Date? = nil, initiationTime: Date? = nil, metadata: [String: String]? = nil, numberOfApprovers: Int? = nil, protectedResourceArn: String? = nil, requesterAccountId: String? = nil, requesterComment: String? = nil, requesterPrincipalArn: String? = nil, requesterRegion: String? = nil, requesterServicePrincipal: String? = nil, sessionArn: String? = nil, status: SessionStatus? = nil, statusCode: SessionStatusCode? = nil, statusMessage: String? = nil) {
+        public init(actionCompletionStrategy: ActionCompletionStrategy? = nil, actionName: String? = nil, additionalSecurityRequirements: [AdditionalSecurityRequirement]? = nil, approvalStrategy: ApprovalStrategyResponse? = nil, approvalTeamArn: String? = nil, approvalTeamName: String? = nil, approverResponses: [GetSessionResponseApproverResponse]? = nil, completionTime: Date? = nil, description: String? = nil, executionStatus: SessionExecutionStatus? = nil, expirationTime: Date? = nil, initiationTime: Date? = nil, metadata: [String: String]? = nil, numberOfApprovers: Int? = nil, protectedResourceArn: String? = nil, requesterAccountId: String? = nil, requesterComment: String? = nil, requesterPrincipalArn: String? = nil, requesterRegion: String? = nil, requesterServicePrincipal: String? = nil, sessionArn: String? = nil, status: SessionStatus? = nil, statusCode: SessionStatusCode? = nil, statusMessage: String? = nil) {
             self.actionCompletionStrategy = actionCompletionStrategy
             self.actionName = actionName
+            self.additionalSecurityRequirements = additionalSecurityRequirements
             self.approvalStrategy = approvalStrategy
             self.approvalTeamArn = approvalTeamArn
             self.approvalTeamName = approvalTeamName
@@ -813,6 +841,7 @@ extension MPA {
         private enum CodingKeys: String, CodingKey {
             case actionCompletionStrategy = "ActionCompletionStrategy"
             case actionName = "ActionName"
+            case additionalSecurityRequirements = "AdditionalSecurityRequirements"
             case approvalStrategy = "ApprovalStrategy"
             case approvalTeamArn = "ApprovalTeamArn"
             case approvalTeamName = "ApprovalTeamName"
@@ -1164,7 +1193,7 @@ extension MPA {
     public struct ListPoliciesResponse: AWSDecodableShape {
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a next call to the operation to get more output. You can repeat this until the NextToken response element returns null.
         public let nextToken: String?
-        /// An array of Policy objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+        /// An array of Policy objects. Contains a list of policies that define the permissions for team resources.
         public let policies: [Policy]?
 
         @inlinable
@@ -1216,7 +1245,7 @@ extension MPA {
     public struct ListPolicyVersionsResponse: AWSDecodableShape {
         /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a next call to the operation to get more output. You can repeat this until the NextToken response element returns null.
         public let nextToken: String?
-        /// An array of PolicyVersionSummary objects. Contains details for the version of the policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see How other services work with Multi-party approval in the Multi-party approval User Guide.
+        /// An array of PolicyVersionSummary objects. Contains details for the version of the policies that define the permissions for team resources.
         public let policyVersions: [PolicyVersionSummary]?
 
         @inlinable
@@ -1374,6 +1403,8 @@ extension MPA {
         public let actionCompletionStrategy: ActionCompletionStrategy?
         /// Name of the protected operation.
         public let actionName: String?
+        /// A list of AdditionalSecurityRequirement applied to the session.
+        public let additionalSecurityRequirements: [AdditionalSecurityRequirement]?
         /// Amazon Resource Name (ARN) for the approval team.
         public let approvalTeamArn: String?
         /// Name of the approval team.
@@ -1409,9 +1440,10 @@ extension MPA {
         public let statusMessage: String?
 
         @inlinable
-        public init(actionCompletionStrategy: ActionCompletionStrategy? = nil, actionName: String? = nil, approvalTeamArn: String? = nil, approvalTeamName: String? = nil, completionTime: Date? = nil, description: String? = nil, expirationTime: Date? = nil, initiationTime: Date? = nil, protectedResourceArn: String? = nil, requesterAccountId: String? = nil, requesterPrincipalArn: String? = nil, requesterRegion: String? = nil, requesterServicePrincipal: String? = nil, sessionArn: String? = nil, status: SessionStatus? = nil, statusCode: SessionStatusCode? = nil, statusMessage: String? = nil) {
+        public init(actionCompletionStrategy: ActionCompletionStrategy? = nil, actionName: String? = nil, additionalSecurityRequirements: [AdditionalSecurityRequirement]? = nil, approvalTeamArn: String? = nil, approvalTeamName: String? = nil, completionTime: Date? = nil, description: String? = nil, expirationTime: Date? = nil, initiationTime: Date? = nil, protectedResourceArn: String? = nil, requesterAccountId: String? = nil, requesterPrincipalArn: String? = nil, requesterRegion: String? = nil, requesterServicePrincipal: String? = nil, sessionArn: String? = nil, status: SessionStatus? = nil, statusCode: SessionStatusCode? = nil, statusMessage: String? = nil) {
             self.actionCompletionStrategy = actionCompletionStrategy
             self.actionName = actionName
+            self.additionalSecurityRequirements = additionalSecurityRequirements
             self.approvalTeamArn = approvalTeamArn
             self.approvalTeamName = approvalTeamName
             self.completionTime = completionTime
@@ -1432,6 +1464,7 @@ extension MPA {
         private enum CodingKeys: String, CodingKey {
             case actionCompletionStrategy = "ActionCompletionStrategy"
             case actionName = "ActionName"
+            case additionalSecurityRequirements = "AdditionalSecurityRequirements"
             case approvalTeamArn = "ApprovalTeamArn"
             case approvalTeamName = "ApprovalTeamName"
             case completionTime = "CompletionTime"
@@ -1483,6 +1516,24 @@ extension MPA {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct MfaMethod: AWSDecodableShape {
+        /// Indicates if the approver's MFA device is in-sync with the Identity Source
+        public let syncStatus: MfaSyncStatus
+        /// The type of MFA configuration used by the approver
+        public let type: MfaType
+
+        @inlinable
+        public init(syncStatus: MfaSyncStatus, type: MfaType) {
+            self.syncStatus = syncStatus
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case syncStatus = "SyncStatus"
+            case type = "Type"
         }
     }
 
@@ -1843,13 +1894,16 @@ extension MPA {
         public let arn: String
         /// Description for the team.
         public let description: String?
+        /// A list of UpdateAction to perform when updating the team.
+        public let updateActions: [UpdateAction]?
 
         @inlinable
-        public init(approvalStrategy: ApprovalStrategy? = nil, approvers: [ApprovalTeamRequestApprover]? = nil, arn: String, description: String? = nil) {
+        public init(approvalStrategy: ApprovalStrategy? = nil, approvers: [ApprovalTeamRequestApprover]? = nil, arn: String, description: String? = nil, updateActions: [UpdateAction]? = nil) {
             self.approvalStrategy = approvalStrategy
             self.approvers = approvers
             self.arn = arn
             self.description = description
+            self.updateActions = updateActions
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1859,6 +1913,7 @@ extension MPA {
             try container.encodeIfPresent(self.approvers, forKey: .approvers)
             request.encodePath(self.arn, key: "Arn")
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.updateActions, forKey: .updateActions)
         }
 
         public func validate(name: String) throws {
@@ -1872,12 +1927,14 @@ extension MPA {
             try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-[^:]+)?:mpa:[a-z0-9-]{1,20}:[0-9]{12}:approval-team/[a-zA-Z0-9._-]+$")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.updateActions, name: "updateActions", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case approvalStrategy = "ApprovalStrategy"
             case approvers = "Approvers"
             case description = "Description"
+            case updateActions = "UpdateActions"
         }
     }
 

@@ -38,6 +38,8 @@ extension PcaConnectorScep {
         case privatecaAccessDenied = "PRIVATECA_ACCESS_DENIED"
         case privatecaInvalidState = "PRIVATECA_INVALID_STATE"
         case privatecaResourceNotFound = "PRIVATECA_RESOURCE_NOT_FOUND"
+        case vpcEndpointDnsEntriesNotFound = "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
+        case vpcEndpointResourceNotFound = "VPC_ENDPOINT_RESOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -317,13 +319,16 @@ extension PcaConnectorScep {
         public let mobileDeviceManagement: MobileDeviceManagement?
         /// The key-value pairs to associate with the resource.
         public let tags: [String: String]?
+        /// If you don't supply a value, by default Connector for SCEP creates a connector accessible over the public internet. If you provide a VPC endpoint ID, creates a connector accessible only through that specific VPC endpoint.
+        public let vpcEndpointId: String?
 
         @inlinable
-        public init(certificateAuthorityArn: String, clientToken: String? = CreateConnectorRequest.idempotencyToken(), mobileDeviceManagement: MobileDeviceManagement? = nil, tags: [String: String]? = nil) {
+        public init(certificateAuthorityArn: String, clientToken: String? = CreateConnectorRequest.idempotencyToken(), mobileDeviceManagement: MobileDeviceManagement? = nil, tags: [String: String]? = nil, vpcEndpointId: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.clientToken = clientToken
             self.mobileDeviceManagement = mobileDeviceManagement
             self.tags = tags
+            self.vpcEndpointId = vpcEndpointId
         }
 
         public func validate(name: String) throws {
@@ -334,6 +339,9 @@ extension PcaConnectorScep {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.mobileDeviceManagement?.validate(name: "\(name).mobileDeviceManagement")
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, max: 22)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, min: 13)
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[0-9a-f]{8}([0-9a-f]{9})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -341,6 +349,7 @@ extension PcaConnectorScep {
             case clientToken = "ClientToken"
             case mobileDeviceManagement = "MobileDeviceManagement"
             case tags = "Tags"
+            case vpcEndpointId = "VpcEndpointId"
         }
     }
 

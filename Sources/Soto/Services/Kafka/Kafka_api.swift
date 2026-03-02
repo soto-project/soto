@@ -347,6 +347,47 @@ public struct Kafka: AWSService {
         return try await self.createReplicator(input, logger: logger)
     }
 
+    /// Creates a topic in the specified MSK cluster.
+    @Sendable
+    @inlinable
+    public func createTopic(_ input: CreateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTopicResponse {
+        try await self.client.execute(
+            operation: "CreateTopic", 
+            path: "/v1/clusters/{ClusterArn}/topics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a topic in the specified MSK cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - configs: Topic configurations encoded as a Base64 string.
+    ///   - partitionCount: The number of partitions for the topic.
+    ///   - replicationFactor: The replication factor for the topic.
+    ///   - topicName: The name of the topic to create.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createTopic(
+        clusterArn: String,
+        configs: String? = nil,
+        partitionCount: Int? = nil,
+        replicationFactor: Int? = nil,
+        topicName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateTopicResponse {
+        let input = CreateTopicRequest(
+            clusterArn: clusterArn, 
+            configs: configs, 
+            partitionCount: partitionCount, 
+            replicationFactor: replicationFactor, 
+            topicName: topicName
+        )
+        return try await self.createTopic(input, logger: logger)
+    }
+
     /// Creates a new MSK VPC connection.
     @Sendable
     @inlinable
@@ -511,6 +552,38 @@ public struct Kafka: AWSService {
             replicatorArn: replicatorArn
         )
         return try await self.deleteReplicator(input, logger: logger)
+    }
+
+    /// Deletes a topic in the specified MSK cluster.
+    @Sendable
+    @inlinable
+    public func deleteTopic(_ input: DeleteTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTopicResponse {
+        try await self.client.execute(
+            operation: "DeleteTopic", 
+            path: "/v1/clusters/{ClusterArn}/topics/{TopicName}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a topic in the specified MSK cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - topicName: The name of the topic to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteTopic(
+        clusterArn: String,
+        topicName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteTopicResponse {
+        let input = DeleteTopicRequest(
+            clusterArn: clusterArn, 
+            topicName: topicName
+        )
+        return try await self.deleteTopic(input, logger: logger)
     }
 
     /// Deletes a MSK VPC connection.
@@ -2023,6 +2096,44 @@ public struct Kafka: AWSService {
             volumeSizeGB: volumeSizeGB
         )
         return try await self.updateStorage(input, logger: logger)
+    }
+
+    /// Updates the configuration of the specified topic.
+    @Sendable
+    @inlinable
+    public func updateTopic(_ input: UpdateTopicRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTopicResponse {
+        try await self.client.execute(
+            operation: "UpdateTopic", 
+            path: "/v1/clusters/{ClusterArn}/topics/{TopicName}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the configuration of the specified topic.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    ///   - configs: The new topic configurations encoded as a Base64 string.
+    ///   - partitionCount: The new total number of partitions for the topic.
+    ///   - topicName: The name of the topic to update configuration for.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateTopic(
+        clusterArn: String,
+        configs: String? = nil,
+        partitionCount: Int? = nil,
+        topicName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateTopicResponse {
+        let input = UpdateTopicRequest(
+            clusterArn: clusterArn, 
+            configs: configs, 
+            partitionCount: partitionCount, 
+            topicName: topicName
+        )
+        return try await self.updateTopic(input, logger: logger)
     }
 }
 

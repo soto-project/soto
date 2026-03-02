@@ -83,6 +83,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dual = "DUAL"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NodeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case broker = "BROKER"
         public var description: String { return self.rawValue }
@@ -558,6 +564,24 @@ extension Kafka {
         }
     }
 
+    public struct ClusterConnectivityException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
+        }
+    }
+
     public struct ClusterInfo: AWSDecodableShape {
         /// Arn of active cluster operation.
         public let activeOperationArn: String?
@@ -822,15 +846,23 @@ extension Kafka {
     }
 
     public struct ClusterOperationV2Serverless: AWSDecodableShape {
+        /// Describes the cluster's attributes before any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public let sourceClusterInfo: ServerlessConnectivityInfo?
+        /// Describes the cluster's attributes after any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public let targetClusterInfo: ServerlessConnectivityInfo?
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public let vpcConnectionInfo: VpcConnectionInfoServerless?
 
         @inlinable
-        public init(vpcConnectionInfo: VpcConnectionInfoServerless? = nil) {
+        public init(sourceClusterInfo: ServerlessConnectivityInfo? = nil, targetClusterInfo: ServerlessConnectivityInfo? = nil, vpcConnectionInfo: VpcConnectionInfoServerless? = nil) {
+            self.sourceClusterInfo = sourceClusterInfo
+            self.targetClusterInfo = targetClusterInfo
             self.vpcConnectionInfo = vpcConnectionInfo
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sourceClusterInfo = "sourceClusterInfo"
+            case targetClusterInfo = "targetClusterInfo"
             case vpcConnectionInfo = "vpcConnectionInfo"
         }
     }
@@ -992,18 +1024,22 @@ extension Kafka {
     }
 
     public struct ConnectivityInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public let networkType: NetworkType?
         /// Public access control for brokers.
         public let publicAccess: PublicAccess?
         /// VPC connectivity access control for brokers.
         public let vpcConnectivity: VpcConnectivity?
 
         @inlinable
-        public init(publicAccess: PublicAccess? = nil, vpcConnectivity: VpcConnectivity? = nil) {
+        public init(networkType: NetworkType? = nil, publicAccess: PublicAccess? = nil, vpcConnectivity: VpcConnectivity? = nil) {
+            self.networkType = networkType
             self.publicAccess = publicAccess
             self.vpcConnectivity = vpcConnectivity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case networkType = "networkType"
             case publicAccess = "publicAccess"
             case vpcConnectivity = "vpcConnectivity"
         }
@@ -1076,6 +1112,24 @@ extension Kafka {
             case consumerGroupsToReplicate = "consumerGroupsToReplicate"
             case detectAndCopyNewConsumerGroups = "detectAndCopyNewConsumerGroups"
             case synchroniseConsumerGroupOffsets = "synchroniseConsumerGroupOffsets"
+        }
+    }
+
+    public struct ControllerMovedException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
         }
     }
 
@@ -1367,6 +1421,72 @@ extension Kafka {
         }
     }
 
+    public struct CreateTopicRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// Topic configurations encoded as a Base64 string.
+        public let configs: String?
+        /// The number of partitions for the topic.
+        public let partitionCount: Int?
+        /// The replication factor for the topic.
+        public let replicationFactor: Int?
+        /// The name of the topic to create.
+        public let topicName: String?
+
+        @inlinable
+        public init(clusterArn: String, configs: String? = nil, partitionCount: Int? = nil, replicationFactor: Int? = nil, topicName: String? = nil) {
+            self.clusterArn = clusterArn
+            self.configs = configs
+            self.partitionCount = partitionCount
+            self.replicationFactor = replicationFactor
+            self.topicName = topicName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.configs, forKey: .configs)
+            try container.encodeIfPresent(self.partitionCount, forKey: .partitionCount)
+            try container.encodeIfPresent(self.replicationFactor, forKey: .replicationFactor)
+            try container.encodeIfPresent(self.topicName, forKey: .topicName)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.partitionCount, name: "partitionCount", parent: name, min: 1)
+            try self.validate(self.replicationFactor, name: "replicationFactor", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configs = "configs"
+            case partitionCount = "partitionCount"
+            case replicationFactor = "replicationFactor"
+            case topicName = "topicName"
+        }
+    }
+
+    public struct CreateTopicResponse: AWSDecodableShape {
+        /// The status of the topic creation.
+        public let status: TopicState?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The name of the topic that was created.
+        public let topicName: String?
+
+        @inlinable
+        public init(status: TopicState? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.status = status
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case topicArn = "topicArn"
+            case topicName = "topicName"
+        }
+    }
+
     public struct CreateVpcConnectionRequest: AWSEncodableShape {
         /// The authentication type of VPC connection.
         public let authentication: String?
@@ -1579,6 +1699,50 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case replicatorArn = "replicatorArn"
             case replicatorState = "replicatorState"
+        }
+    }
+
+    public struct DeleteTopicRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The name of the topic to delete.
+        public let topicName: String
+
+        @inlinable
+        public init(clusterArn: String, topicName: String) {
+            self.clusterArn = clusterArn
+            self.topicName = topicName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            request.encodePath(self.topicName, key: "TopicName")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTopicResponse: AWSDecodableShape {
+        /// The status of the topic deletion.
+        public let status: TopicState?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The name of the topic that was deleted.
+        public let topicName: String?
+
+        @inlinable
+        public init(status: TopicState? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.status = status
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case topicArn = "topicArn"
+            case topicName = "topicName"
         }
     }
 
@@ -2257,6 +2421,8 @@ extension Kafka {
     public struct GetBootstrapBrokersResponse: AWSDecodableShape {
         /// A string containing one or more hostname:port pairs.
         public let bootstrapBrokerString: String?
+        /// A string that contains one or more DNS names (or IP) and port pairs for IPv6 connectivity.
+        public let bootstrapBrokerStringIpv6: String?
         /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
         public let bootstrapBrokerStringPublicSaslIam: String?
         /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
@@ -2265,10 +2431,16 @@ extension Kafka {
         public let bootstrapBrokerStringPublicTls: String?
         /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
         public let bootstrapBrokerStringSaslIam: String?
+        /// A string that contains one or more DNS names (or IP) and SASL IAM port pairs for IPv6 connectivity.
+        public let bootstrapBrokerStringSaslIamIpv6: String?
         /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
         public let bootstrapBrokerStringSaslScram: String?
+        /// A string that contains one or more DNS names (or IP) and SASL SCRAM port pairs for IPv6 connectivity.
+        public let bootstrapBrokerStringSaslScramIpv6: String?
         /// A string containing one or more DNS names (or IP) and TLS port pairs.
         public let bootstrapBrokerStringTls: String?
+        /// A string that contains one or more DNS names (or IP) and TLS port pairs for IPv6 connectivity.
+        public let bootstrapBrokerStringTlsIpv6: String?
         /// A string containing one or more DNS names (or IP) and SASL/IAM port pairs for VPC connectivity.
         public let bootstrapBrokerStringVpcConnectivitySaslIam: String?
         /// A string containing one or more DNS names (or IP) and SASL/SCRAM port pairs for VPC connectivity.
@@ -2277,14 +2449,18 @@ extension Kafka {
         public let bootstrapBrokerStringVpcConnectivityTls: String?
 
         @inlinable
-        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringPublicSaslIam: String? = nil, bootstrapBrokerStringPublicSaslScram: String? = nil, bootstrapBrokerStringPublicTls: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringTls: String? = nil, bootstrapBrokerStringVpcConnectivitySaslIam: String? = nil, bootstrapBrokerStringVpcConnectivitySaslScram: String? = nil, bootstrapBrokerStringVpcConnectivityTls: String? = nil) {
+        public init(bootstrapBrokerString: String? = nil, bootstrapBrokerStringIpv6: String? = nil, bootstrapBrokerStringPublicSaslIam: String? = nil, bootstrapBrokerStringPublicSaslScram: String? = nil, bootstrapBrokerStringPublicTls: String? = nil, bootstrapBrokerStringSaslIam: String? = nil, bootstrapBrokerStringSaslIamIpv6: String? = nil, bootstrapBrokerStringSaslScram: String? = nil, bootstrapBrokerStringSaslScramIpv6: String? = nil, bootstrapBrokerStringTls: String? = nil, bootstrapBrokerStringTlsIpv6: String? = nil, bootstrapBrokerStringVpcConnectivitySaslIam: String? = nil, bootstrapBrokerStringVpcConnectivitySaslScram: String? = nil, bootstrapBrokerStringVpcConnectivityTls: String? = nil) {
             self.bootstrapBrokerString = bootstrapBrokerString
+            self.bootstrapBrokerStringIpv6 = bootstrapBrokerStringIpv6
             self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
             self.bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScram
             self.bootstrapBrokerStringPublicTls = bootstrapBrokerStringPublicTls
             self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
+            self.bootstrapBrokerStringSaslIamIpv6 = bootstrapBrokerStringSaslIamIpv6
             self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
+            self.bootstrapBrokerStringSaslScramIpv6 = bootstrapBrokerStringSaslScramIpv6
             self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
+            self.bootstrapBrokerStringTlsIpv6 = bootstrapBrokerStringTlsIpv6
             self.bootstrapBrokerStringVpcConnectivitySaslIam = bootstrapBrokerStringVpcConnectivitySaslIam
             self.bootstrapBrokerStringVpcConnectivitySaslScram = bootstrapBrokerStringVpcConnectivitySaslScram
             self.bootstrapBrokerStringVpcConnectivityTls = bootstrapBrokerStringVpcConnectivityTls
@@ -2292,12 +2468,16 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case bootstrapBrokerString = "bootstrapBrokerString"
+            case bootstrapBrokerStringIpv6 = "bootstrapBrokerStringIpv6"
             case bootstrapBrokerStringPublicSaslIam = "bootstrapBrokerStringPublicSaslIam"
             case bootstrapBrokerStringPublicSaslScram = "bootstrapBrokerStringPublicSaslScram"
             case bootstrapBrokerStringPublicTls = "bootstrapBrokerStringPublicTls"
             case bootstrapBrokerStringSaslIam = "bootstrapBrokerStringSaslIam"
+            case bootstrapBrokerStringSaslIamIpv6 = "bootstrapBrokerStringSaslIamIpv6"
             case bootstrapBrokerStringSaslScram = "bootstrapBrokerStringSaslScram"
+            case bootstrapBrokerStringSaslScramIpv6 = "bootstrapBrokerStringSaslScramIpv6"
             case bootstrapBrokerStringTls = "bootstrapBrokerStringTls"
+            case bootstrapBrokerStringTlsIpv6 = "bootstrapBrokerStringTlsIpv6"
             case bootstrapBrokerStringVpcConnectivitySaslIam = "bootstrapBrokerStringVpcConnectivitySaslIam"
             case bootstrapBrokerStringVpcConnectivitySaslScram = "bootstrapBrokerStringVpcConnectivitySaslScram"
             case bootstrapBrokerStringVpcConnectivityTls = "bootstrapBrokerStringVpcConnectivityTls"
@@ -2369,6 +2549,24 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case compatibleKafkaVersions = "compatibleKafkaVersions"
+        }
+    }
+
+    public struct GroupSubscribedToTopicException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
         }
     }
 
@@ -2505,6 +2703,42 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case amazonMskCluster = "amazonMskCluster"
             case kafkaClusterAlias = "kafkaClusterAlias"
+        }
+    }
+
+    public struct KafkaRequestException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
+        }
+    }
+
+    public struct KafkaTimeoutException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
         }
     }
 
@@ -3332,6 +3566,24 @@ extension Kafka {
         }
     }
 
+    public struct NotControllerException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
+        }
+    }
+
     public struct NotFoundException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
@@ -3610,6 +3862,24 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case currentVersion = "currentVersion"
+        }
+    }
+
+    public struct ReassignmentInProgressException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
         }
     }
 
@@ -3927,17 +4197,21 @@ extension Kafka {
     public struct Serverless: AWSDecodableShape {
         /// Includes all client authentication information.
         public let clientAuthentication: ServerlessClientAuthentication?
+        /// Describes the cluster's connectivity information, such as its network type, which is IPv4 or DUAL.
+        public let connectivityInfo: ServerlessConnectivityInfo?
         /// The configuration of the Amazon VPCs for the cluster.
         public let vpcConfigs: [VpcConfig]?
 
         @inlinable
-        public init(clientAuthentication: ServerlessClientAuthentication? = nil, vpcConfigs: [VpcConfig]? = nil) {
+        public init(clientAuthentication: ServerlessClientAuthentication? = nil, connectivityInfo: ServerlessConnectivityInfo? = nil, vpcConfigs: [VpcConfig]? = nil) {
             self.clientAuthentication = clientAuthentication
+            self.connectivityInfo = connectivityInfo
             self.vpcConfigs = vpcConfigs
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientAuthentication = "clientAuthentication"
+            case connectivityInfo = "connectivityInfo"
             case vpcConfigs = "vpcConfigs"
         }
     }
@@ -3953,6 +4227,20 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case sasl = "sasl"
+        }
+    }
+
+    public struct ServerlessConnectivityInfo: AWSDecodableShape {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public let networkType: NetworkType?
+
+        @inlinable
+        public init(networkType: NetworkType? = nil) {
+            self.networkType = networkType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkType = "networkType"
         }
     }
 
@@ -4083,6 +4371,24 @@ extension Kafka {
     }
 
     public struct TooManyRequestsException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
+        }
+    }
+
+    public struct TopicExistsException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
         /// The description of the error.
@@ -4257,6 +4563,24 @@ extension Kafka {
     }
 
     public struct UnauthorizedException: AWSErrorShape {
+        /// The parameter that caused the error.
+        public let invalidParameter: String?
+        /// The description of the error.
+        public let message: String?
+
+        @inlinable
+        public init(invalidParameter: String? = nil, message: String? = nil) {
+            self.invalidParameter = invalidParameter
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameter = "invalidParameter"
+            case message = "message"
+        }
+    }
+
+    public struct UnknownTopicOrPartitionException: AWSErrorShape {
         /// The parameter that caused the error.
         public let invalidParameter: String?
         /// The description of the error.
@@ -4936,6 +5260,61 @@ extension Kafka {
         }
     }
 
+    public struct UpdateTopicRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+        /// The new topic configurations encoded as a Base64 string.
+        public let configs: String?
+        /// The new total number of partitions for the topic.
+        public let partitionCount: Int?
+        /// The name of the topic to update configuration for.
+        public let topicName: String
+
+        @inlinable
+        public init(clusterArn: String, configs: String? = nil, partitionCount: Int? = nil, topicName: String) {
+            self.clusterArn = clusterArn
+            self.configs = configs
+            self.partitionCount = partitionCount
+            self.topicName = topicName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.clusterArn, key: "ClusterArn")
+            try container.encodeIfPresent(self.configs, forKey: .configs)
+            try container.encodeIfPresent(self.partitionCount, forKey: .partitionCount)
+            request.encodePath(self.topicName, key: "TopicName")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configs = "configs"
+            case partitionCount = "partitionCount"
+        }
+    }
+
+    public struct UpdateTopicResponse: AWSDecodableShape {
+        /// The status of the topic update.
+        public let status: TopicState?
+        /// The Amazon Resource Name (ARN) of the topic.
+        public let topicArn: String?
+        /// The name of the topic whose configuration was updated.
+        public let topicName: String?
+
+        @inlinable
+        public init(status: TopicState? = nil, topicArn: String? = nil, topicName: String? = nil) {
+            self.status = status
+            self.topicArn = topicArn
+            self.topicName = topicName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case topicArn = "topicArn"
+            case topicName = "topicName"
+        }
+    }
+
     public struct UserIdentity: AWSDecodableShape {
         /// A unique identifier for the requester that calls the API operation.
         public let principalId: String?
@@ -5190,13 +5569,22 @@ extension Kafka {
 public struct KafkaErrorType: AWSErrorType {
     enum Code: String {
         case badRequestException = "BadRequestException"
+        case clusterConnectivityException = "ClusterConnectivityException"
         case conflictException = "ConflictException"
+        case controllerMovedException = "ControllerMovedException"
         case forbiddenException = "ForbiddenException"
+        case groupSubscribedToTopicException = "GroupSubscribedToTopicException"
         case internalServerErrorException = "InternalServerErrorException"
+        case kafkaRequestException = "KafkaRequestException"
+        case kafkaTimeoutException = "KafkaTimeoutException"
+        case notControllerException = "NotControllerException"
         case notFoundException = "NotFoundException"
+        case reassignmentInProgressException = "ReassignmentInProgressException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case tooManyRequestsException = "TooManyRequestsException"
+        case topicExistsException = "TopicExistsException"
         case unauthorizedException = "UnauthorizedException"
+        case unknownTopicOrPartitionException = "UnknownTopicOrPartitionException"
     }
 
     private let error: Code
@@ -5220,31 +5608,58 @@ public struct KafkaErrorType: AWSErrorType {
     /// Returns information about an error.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// Returns information about an error.
+    public static var clusterConnectivityException: Self { .init(.clusterConnectivityException) }
+    /// Returns information about an error.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Returns information about an error.
+    public static var controllerMovedException: Self { .init(.controllerMovedException) }
     /// Returns information about an error.
     public static var forbiddenException: Self { .init(.forbiddenException) }
     /// Returns information about an error.
+    public static var groupSubscribedToTopicException: Self { .init(.groupSubscribedToTopicException) }
+    /// Returns information about an error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// Returns information about an error.
+    public static var kafkaRequestException: Self { .init(.kafkaRequestException) }
+    /// Returns information about an error.
+    public static var kafkaTimeoutException: Self { .init(.kafkaTimeoutException) }
+    /// Returns information about an error.
+    public static var notControllerException: Self { .init(.notControllerException) }
+    /// Returns information about an error.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Returns information about an error.
+    public static var reassignmentInProgressException: Self { .init(.reassignmentInProgressException) }
     /// Returns information about an error.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// Returns information about an error.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// Returns information about an error.
+    public static var topicExistsException: Self { .init(.topicExistsException) }
+    /// Returns information about an error.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// Returns information about an error.
+    public static var unknownTopicOrPartitionException: Self { .init(.unknownTopicOrPartitionException) }
 }
 
 extension KafkaErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "BadRequestException": Kafka.BadRequestException.self,
+        "ClusterConnectivityException": Kafka.ClusterConnectivityException.self,
         "ConflictException": Kafka.ConflictException.self,
+        "ControllerMovedException": Kafka.ControllerMovedException.self,
         "ForbiddenException": Kafka.ForbiddenException.self,
+        "GroupSubscribedToTopicException": Kafka.GroupSubscribedToTopicException.self,
         "InternalServerErrorException": Kafka.InternalServerErrorException.self,
+        "KafkaRequestException": Kafka.KafkaRequestException.self,
+        "KafkaTimeoutException": Kafka.KafkaTimeoutException.self,
+        "NotControllerException": Kafka.NotControllerException.self,
         "NotFoundException": Kafka.NotFoundException.self,
+        "ReassignmentInProgressException": Kafka.ReassignmentInProgressException.self,
         "ServiceUnavailableException": Kafka.ServiceUnavailableException.self,
         "TooManyRequestsException": Kafka.TooManyRequestsException.self,
-        "UnauthorizedException": Kafka.UnauthorizedException.self
+        "TopicExistsException": Kafka.TopicExistsException.self,
+        "UnauthorizedException": Kafka.UnauthorizedException.self,
+        "UnknownTopicOrPartitionException": Kafka.UnknownTopicOrPartitionException.self
     ]
 }
 

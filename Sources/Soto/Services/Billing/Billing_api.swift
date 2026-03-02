@@ -128,7 +128,7 @@ public struct Billing: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
-    ///   - dataFilterExpression:  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+    ///   - dataFilterExpression:  See Expression. Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
     ///   - description:  The description of the billing view.
     ///   - name:  The name of the billing view.
     ///   - resourceTags: A list of key value map specifying tags associated to the billing view being created.
@@ -472,7 +472,7 @@ public struct Billing: AWSService {
     ///
     /// Parameters:
     ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
-    ///   - dataFilterExpression: See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+    ///   - dataFilterExpression: See Expression. Billing view only supports LINKED_ACCOUNT, Tags, and CostCategories.
     ///   - description:  The description of the billing view.
     ///   - name:  The name of the billing view.
     ///   - logger: Logger use during operation

@@ -94,12 +94,12 @@ public struct LaunchWizard: AWSService {
     /// Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the Clone deployment action on.
     ///
     /// Parameters:
-    ///   - deploymentPatternName: The name of the deployment pattern supported by a given workload. You can use the  ListWorkloadDeploymentPatterns operation to discover supported values for this parameter.
+    ///   - deploymentPatternName: The name of the deployment pattern supported by a given workload. You can use the  ListWorkloadDeploymentPatterns  operation to discover supported values for this parameter.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - name: The name of the deployment.
-    ///   - specifications: The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern operation.
+    ///   - specifications: The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern  operation.
     ///   - tags: The tags to add to the deployment.
-    ///   - workloadName: The name of the workload. You can use the  ListWorkloads operation to discover supported values for this parameter.
+    ///   - workloadName: The name of the workload. You can use the  ListWorkloads  operation to discover supported values for this parameter.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDeployment(
@@ -178,6 +178,41 @@ public struct LaunchWizard: AWSService {
             deploymentId: deploymentId
         )
         return try await self.getDeployment(input, logger: logger)
+    }
+
+    /// Returns information about a deployment pattern version.
+    @Sendable
+    @inlinable
+    public func getDeploymentPatternVersion(_ input: GetDeploymentPatternVersionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDeploymentPatternVersionOutput {
+        try await self.client.execute(
+            operation: "GetDeploymentPatternVersion", 
+            path: "/getDeploymentPatternVersion", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about a deployment pattern version.
+    ///
+    /// Parameters:
+    ///   - deploymentPatternName: The name of the deployment pattern. You can use the  ListWorkloadDeploymentPatterns  operation to discover supported values for this parameter.
+    ///   - deploymentPatternVersionName: The name of the deployment pattern version.
+    ///   - workloadName: The name of the workload. You can use the  ListWorkloads  operation to discover supported values for this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDeploymentPatternVersion(
+        deploymentPatternName: String,
+        deploymentPatternVersionName: String,
+        workloadName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDeploymentPatternVersionOutput {
+        let input = GetDeploymentPatternVersionInput(
+            deploymentPatternName: deploymentPatternName, 
+            deploymentPatternVersionName: deploymentPatternVersionName, 
+            workloadName: workloadName
+        )
+        return try await self.getDeploymentPatternVersion(input, logger: logger)
     }
 
     /// Returns information about a workload.
@@ -274,6 +309,47 @@ public struct LaunchWizard: AWSService {
             nextToken: nextToken
         )
         return try await self.listDeploymentEvents(input, logger: logger)
+    }
+
+    /// Lists the deployment pattern versions.
+    @Sendable
+    @inlinable
+    public func listDeploymentPatternVersions(_ input: ListDeploymentPatternVersionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDeploymentPatternVersionsOutput {
+        try await self.client.execute(
+            operation: "ListDeploymentPatternVersions", 
+            path: "/listDeploymentPatternVersions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the deployment pattern versions.
+    ///
+    /// Parameters:
+    ///   - deploymentPatternName: The name of the deployment pattern. You can use the  ListWorkloadDeploymentPatterns  operation to discover supported values for this parameter.
+    ///   - filters: Filters to apply when listing deployment pattern versions.
+    ///   - maxResults: The maximum number of deployment pattern versions to list.
+    ///   - nextToken: The token for the next set of results.
+    ///   - workloadName: The name of the workload. You can use the  ListWorkloads  operation to discover supported values for this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDeploymentPatternVersions(
+        deploymentPatternName: String,
+        filters: [DeploymentPatternVersionFilter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        workloadName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDeploymentPatternVersionsOutput {
+        let input = ListDeploymentPatternVersionsInput(
+            deploymentPatternName: deploymentPatternName, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            workloadName: workloadName
+        )
+        return try await self.listDeploymentPatternVersions(input, logger: logger)
     }
 
     /// Lists the deployments that have been created.
@@ -470,6 +546,50 @@ public struct LaunchWizard: AWSService {
         )
         return try await self.untagResource(input, logger: logger)
     }
+
+    /// Updates a deployment.
+    @Sendable
+    @inlinable
+    public func updateDeployment(_ input: UpdateDeploymentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDeploymentOutput {
+        try await self.client.execute(
+            operation: "UpdateDeployment", 
+            path: "/updateDeployment", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a deployment.
+    ///
+    /// Parameters:
+    ///   - deploymentId: The ID of the deployment.
+    ///   - deploymentPatternVersionName: The name of the deployment pattern version.
+    ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    ///   - force: Forces the update even if validation warnings are present.
+    ///   - specifications: The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see SAP deployment specifications. To retrieve the specifications required to create a deployment for other workloads, use the  GetWorkloadDeploymentPattern  operation.
+    ///   - workloadVersionName: The name of the workload version.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDeployment(
+        deploymentId: String,
+        deploymentPatternVersionName: String? = nil,
+        dryRun: Bool? = nil,
+        force: Bool? = nil,
+        specifications: [String: String],
+        workloadVersionName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDeploymentOutput {
+        let input = UpdateDeploymentInput(
+            deploymentId: deploymentId, 
+            deploymentPatternVersionName: deploymentPatternVersionName, 
+            dryRun: dryRun, 
+            force: force, 
+            specifications: specifications, 
+            workloadVersionName: workloadVersionName
+        )
+        return try await self.updateDeployment(input, logger: logger)
+    }
 }
 
 extension LaunchWizard {
@@ -520,6 +640,49 @@ extension LaunchWizard {
             maxResults: maxResults
         )
         return self.listDeploymentEventsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDeploymentPatternVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeploymentPatternVersionsPaginator(
+        _ input: ListDeploymentPatternVersionsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDeploymentPatternVersionsInput, ListDeploymentPatternVersionsOutput> {
+        return .init(
+            input: input,
+            command: self.listDeploymentPatternVersions,
+            inputKey: \ListDeploymentPatternVersionsInput.nextToken,
+            outputKey: \ListDeploymentPatternVersionsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDeploymentPatternVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - deploymentPatternName: The name of the deployment pattern. You can use the  ListWorkloadDeploymentPatterns  operation to discover supported values for this parameter.
+    ///   - filters: Filters to apply when listing deployment pattern versions.
+    ///   - maxResults: The maximum number of deployment pattern versions to list.
+    ///   - workloadName: The name of the workload. You can use the  ListWorkloads  operation to discover supported values for this parameter.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDeploymentPatternVersionsPaginator(
+        deploymentPatternName: String,
+        filters: [DeploymentPatternVersionFilter]? = nil,
+        maxResults: Int? = nil,
+        workloadName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDeploymentPatternVersionsInput, ListDeploymentPatternVersionsOutput> {
+        let input = ListDeploymentPatternVersionsInput(
+            deploymentPatternName: deploymentPatternName, 
+            filters: filters, 
+            maxResults: maxResults, 
+            workloadName: workloadName
+        )
+        return self.listDeploymentPatternVersionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listDeployments(_:logger:)``.
@@ -638,6 +801,19 @@ extension LaunchWizard.ListDeploymentEventsInput: AWSPaginateToken {
             deploymentId: self.deploymentId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension LaunchWizard.ListDeploymentPatternVersionsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> LaunchWizard.ListDeploymentPatternVersionsInput {
+        return .init(
+            deploymentPatternName: self.deploymentPatternName,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            workloadName: self.workloadName
         )
     }
 }

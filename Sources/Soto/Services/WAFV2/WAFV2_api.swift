@@ -1265,6 +1265,62 @@ public struct WAFV2: AWSService {
         return try await self.getSampledRequests(input, logger: logger)
     }
 
+    /// Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a specified web ACL and time window.  You can use this operation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths.  The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
+    @Sendable
+    @inlinable
+    public func getTopPathStatisticsByTraffic(_ input: GetTopPathStatisticsByTrafficRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTopPathStatisticsByTrafficResponse {
+        try await self.client.execute(
+            operation: "GetTopPathStatisticsByTraffic", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves aggregated statistics about the top URI paths accessed by bot traffic for a specified web ACL and time window.  You can use this operation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths.  The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
+    ///
+    /// Parameters:
+    ///   - botCategory: Filters the results to include only traffic from bots in the specified category. For example, you can filter by ai  to see only AI crawler traffic, or search_engine to see only search engine bot traffic.  When you apply this filter, the Source field is populated in the response.
+    ///   - botName: Filters the results to include only traffic from the specified bot. For example, you can filter by gptbot or googlebot.  When you apply this filter, the Source field is populated in the response.
+    ///   - botOrganization: Filters the results to include only traffic from bots belonging to the specified organization. For example, you can filter by openai or google.  When you apply this filter, the Source field is populated in the response.
+    ///   - limit: The maximum number of path statistics to return. Valid values are 1 to 100.
+    ///   - nextMarker: When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects,  provide the marker from the prior call in your next request.
+    ///   - numberOfTopTrafficBotsPerPath: The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10.
+    ///   - scope: Specifies whether the web ACL is for an Amazon Web Services CloudFront distribution or for a regional application.  A regional application can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool,  an Amazon Web Services App Runner service, or an Amazon Web Services Verified Access instance.
+    ///   - timeWindow: The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL.
+    ///   - uriPathPrefix: A URI path prefix to filter the results. When you specify this parameter, the operation returns statistics for individual URIs within the specified path prefix.  For example, if you specify /api, the response includes statistics for paths like /api/v1/users and /api/v2/orders.  If you don't specify this parameter, the operation returns top-level path statistics.
+    ///   - webAclArn: The Amazon Resource Name (ARN) of the web ACL for which you want to retrieve path statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTopPathStatisticsByTraffic(
+        botCategory: String? = nil,
+        botName: String? = nil,
+        botOrganization: String? = nil,
+        limit: Int,
+        nextMarker: String? = nil,
+        numberOfTopTrafficBotsPerPath: Int,
+        scope: Scope,
+        timeWindow: TimeWindow,
+        uriPathPrefix: String? = nil,
+        webAclArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTopPathStatisticsByTrafficResponse {
+        let input = GetTopPathStatisticsByTrafficRequest(
+            botCategory: botCategory, 
+            botName: botName, 
+            botOrganization: botOrganization, 
+            limit: limit, 
+            nextMarker: nextMarker, 
+            numberOfTopTrafficBotsPerPath: numberOfTopTrafficBotsPerPath, 
+            scope: scope, 
+            timeWindow: timeWindow, 
+            uriPathPrefix: uriPathPrefix, 
+            webAclArn: webAclArn
+        )
+        return try await self.getTopPathStatisticsByTraffic(input, logger: logger)
+    }
+
     /// Retrieves the specified WebACL.
     @Sendable
     @inlinable

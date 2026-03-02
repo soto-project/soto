@@ -3246,6 +3246,7 @@ public struct CustomerProfiles: AWSService {
     ///   - maxProfileObjectCount: The amount of profile object max count assigned to the object type
     ///   - objectTypeName: The name of the profile object type.
     ///   - sourceLastUpdatedTimestampFormat: The format of your sourceLastUpdatedTimestamp that was previously set up.
+    ///   - sourcePriority: An integer that determines the priority of this object type when data from multiple sources is ingested. Lower values take priority. Object types without a specified source priority default to the lowest priority.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - templateId: A unique identifier for the object template. For some attributes in the request, the service will use the default value from the object template when TemplateId is present. If these attributes are present in the request, the service may return a BadRequestException. These attributes include: AllowProfileCreation, SourceLastUpdatedTimestampFormat, Fields, and Keys. For example, if AllowProfileCreation is set to true when TemplateId is set, the service may return a BadRequestException.
     ///   - logger: Logger use during operation
@@ -3261,6 +3262,7 @@ public struct CustomerProfiles: AWSService {
         maxProfileObjectCount: Int? = nil,
         objectTypeName: String,
         sourceLastUpdatedTimestampFormat: String? = nil,
+        sourcePriority: Int? = nil,
         tags: [String: String]? = nil,
         templateId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3276,6 +3278,7 @@ public struct CustomerProfiles: AWSService {
             maxProfileObjectCount: maxProfileObjectCount, 
             objectTypeName: objectTypeName, 
             sourceLastUpdatedTimestampFormat: sourceLastUpdatedTimestampFormat, 
+            sourcePriority: sourcePriority, 
             tags: tags, 
             templateId: templateId
         )

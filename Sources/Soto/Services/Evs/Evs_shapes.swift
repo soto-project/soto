@@ -75,6 +75,7 @@ extension Evs {
 
     public enum VcfVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case vcf521 = "VCF-5.2.1"
+        case vcf522 = "VCF-5.2.2"
         public var description: String { return self.rawValue }
     }
 
@@ -143,7 +144,7 @@ extension Evs {
         public let impairedSince: Date?
         ///  The check result.
         public let result: CheckResult?
-        /// The check type. Amazon EVS performs the following checks.    KEY_REUSE: checks that the VCF license key is not used by another Amazon EVS environment. This check fails if a used license is added to the environment.    KEY_COVERAGE: checks that your VCF license key allocates sufficient vCPU cores for all deployed hosts. The check fails when any assigned hosts in the EVS environment are not covered by license keys, or when any unassigned hosts cannot be covered by available vCPU cores in keys.    REACHABILITY: checks that the Amazon EVS control plane has a persistent connection to SDDC Manager. If Amazon EVS cannot reach the environment, this check fails.    HOST_COUNT: Checks that your environment has a minimum of 4 hosts, which is a requirement for VCF 5.2.1. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-16 hosts.
+        /// The check type. Amazon EVS performs the following checks.    KEY_REUSE: checks that the VCF license key is not used by another Amazon EVS environment. This check fails if a used license is added to the environment.    KEY_COVERAGE: checks that your VCF license key allocates sufficient vCPU cores for all deployed hosts. The check fails when any assigned hosts in the EVS environment are not covered by license keys, or when any unassigned hosts cannot be covered by available vCPU cores in keys.    REACHABILITY: checks that the Amazon EVS control plane has a persistent connection to SDDC Manager. If Amazon EVS cannot reach the environment, this check fails.    HOST_COUNT: Checks that your environment has a minimum of 4 hosts. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-16 hosts.
         public let type: CheckType?
 
         @inlinable
@@ -188,13 +189,16 @@ extension Evs {
         public let clientToken: String?
         /// A unique ID for the environment that the host is added to.
         public let environmentId: String
+        /// The ESX version to use for the host.
+        public let esxVersion: String?
         /// The host that is created and added to the environment.
         public let host: HostInfoForCreate
 
         @inlinable
-        public init(clientToken: String? = CreateEnvironmentHostRequest.idempotencyToken(), environmentId: String, host: HostInfoForCreate) {
+        public init(clientToken: String? = CreateEnvironmentHostRequest.idempotencyToken(), environmentId: String, esxVersion: String? = nil, host: HostInfoForCreate) {
             self.clientToken = clientToken
             self.environmentId = environmentId
+            self.esxVersion = esxVersion
             self.host = host
         }
 
@@ -203,12 +207,14 @@ extension Evs {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^(env-[a-zA-Z0-9]{10})$")
+            try self.validate(self.esxVersion, name: "esxVersion", parent: name, max: 128)
             try self.host.validate(name: "\(name).host")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case environmentId = "environmentId"
+            case esxVersion = "esxVersion"
             case host = "host"
         }
     }
@@ -238,7 +244,7 @@ extension Evs {
         public let connectivityInfo: ConnectivityInfo
         /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
         public let environmentName: String?
-        /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+        /// The ESX hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
         public let hosts: [HostInfoForCreate]
         /// The initial VLAN subnets for the Amazon EVS environment.  For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
         public let initialVlans: InitialVlans
@@ -258,9 +264,9 @@ extension Evs {
         public let termsAccepted: Bool
         /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
         public let vcfHostnames: VcfHostnames
-        ///  The VCF version to use for the environment. Amazon EVS only supports VCF version 5.2.1 at this time.
+        ///  The VCF version to use for the environment.
         public let vcfVersion: VcfVersion
-        /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the {evws} subnets.
+        /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations.  Ensure that you specify a VPC that is adequately sized to accommodate the Amazon EVS subnets.
         public let vpcId: String
 
         @inlinable
@@ -685,6 +691,28 @@ extension Evs {
         }
     }
 
+    public struct GetVersionsRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetVersionsResponse: AWSDecodableShape {
+        /// A list of EC2 instance types and their available ESX versions.
+        public let instanceTypeEsxVersions: [InstanceTypeEsxVersionsInfo]
+        /// A list of VCF versions with their availability status, default ESX version, and instance types.
+        public let vcfVersions: [VcfVersionInfo]
+
+        @inlinable
+        public init(instanceTypeEsxVersions: [InstanceTypeEsxVersionsInfo], vcfVersions: [VcfVersionInfo]) {
+            self.instanceTypeEsxVersions = instanceTypeEsxVersions
+            self.vcfVersions = vcfVersions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceTypeEsxVersions = "instanceTypeEsxVersions"
+            case vcfVersions = "vcfVersions"
+        }
+    }
+
     public struct Host: AWSDecodableShape {
         ///  The date and time that the host was created.
         public let createdAt: Date?
@@ -696,7 +724,7 @@ extension Evs {
         public let hostName: String?
         ///  The state of the host.
         public let hostState: HostState?
-        /// The EC2 instance type of the host.  EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+        /// The EC2 instance type of the host.  Currently, Amazon EVS supports only the i4i.metal instance type.   EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
         public let instanceType: InstanceType?
         /// The IP address of the host.
         public let ipAddress: String?
@@ -748,7 +776,7 @@ extension Evs {
         public let dedicatedHostId: String?
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         public let hostName: String
-        /// The EC2 instance type that represents the host.
+        /// The EC2 instance type that represents the host.  Currently, Amazon EVS supports only the i4i.metal instance type.
         public let instanceType: InstanceType
         /// The name of the SSH key that is used to access the host.
         public let keyName: String
@@ -811,7 +839,7 @@ extension Evs {
         public let expansionVlan1: InitialVlanInfo
         /// An additional VLAN subnet that can be used to extend VCF capabilities once configured. For example, you can configure an expansion VLAN subnet to use NSX Federation for centralized management and synchronization of multiple NSX deployments across different locations.
         public let expansionVlan2: InitialVlanInfo
-        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following requirements must be met:   Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration.   The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block.   Must have at least three Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
+        /// The HCX VLAN subnet. This VLAN subnet allows the HCX Interconnnect (IX) and HCX Network Extension (NE) to reach their peers and enable HCX Service Mesh creation. If you plan to use a public HCX VLAN subnet, the following requirements must be met:   Must have a /28 netmask and be allocated from the IPAM public pool. Required for HCX internet access configuration.   The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block.   Must have at least two Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
         public let hcx: InitialVlanInfo
         /// A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true.
         public let hcxNetworkAclId: String?
@@ -819,13 +847,13 @@ extension Evs {
         public let isHcxPublic: Bool?
         ///  The NSX uplink VLAN subnet. This VLAN subnet allows connectivity to the NSX overlay network.
         public let nsxUplink: InitialVlanInfo
-        ///  The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
+        ///  The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESX hosts and communicating with VMware vCenter Server.
         public let vmkManagement: InitialVlanInfo
         /// The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines.
         public let vmManagement: InitialVlanInfo
         ///  The vMotion VLAN subnet. This VLAN subnet carries traffic for vSphere vMotion.
         public let vMotion: InitialVlanInfo
-        ///  The vSAN VLAN subnet. This VLAN subnet carries the communication between ESXi hosts to implement a vSAN shared storage pool.
+        ///  The vSAN VLAN subnet. This VLAN subnet carries the communication between ESX hosts to implement a vSAN shared storage pool.
         public let vSan: InitialVlanInfo
         ///  The VTEP VLAN subnet. This VLAN subnet handles internal network traffic between virtual machines within a VCF instance.
         public let vTep: InitialVlanInfo
@@ -875,6 +903,24 @@ extension Evs {
             case vMotion = "vMotion"
             case vSan = "vSan"
             case vTep = "vTep"
+        }
+    }
+
+    public struct InstanceTypeEsxVersionsInfo: AWSDecodableShape {
+        /// The list of ESX versions offered for this instance type.
+        public let esxVersions: [String]
+        /// The EC2 instance type.
+        public let instanceType: InstanceType
+
+        @inlinable
+        public init(esxVersions: [String], instanceType: InstanceType) {
+            self.esxVersions = esxVersions
+            self.instanceType = instanceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case esxVersions = "esxVersions"
+            case instanceType = "instanceType"
         }
     }
 
@@ -1351,6 +1397,32 @@ extension Evs {
         }
     }
 
+    public struct VcfVersionInfo: AWSDecodableShape {
+        /// The default ESX version for this VCF version. It is based on Broadcom's Bill Of Materials (BOM).
+        public let defaultEsxVersion: String
+        /// EC2 instance types provided by Amazon EVS for this VCF version for creating environments.
+        public let instanceTypes: [InstanceType]
+        /// The status for this VCF version. Valid values are:    AVAILABLE - This VCF version is available to you.    RESTRICTED - This VCF version has limited availability.     If the version you need shows RESTRICTED, and you require, check out VCF versions and EC2 instance types provided by Amazon EVS for more information.
+        public let status: String
+        /// The VCF version number.
+        public let vcfVersion: VcfVersion
+
+        @inlinable
+        public init(defaultEsxVersion: String, instanceTypes: [InstanceType], status: String, vcfVersion: VcfVersion) {
+            self.defaultEsxVersion = defaultEsxVersion
+            self.instanceTypes = instanceTypes
+            self.status = status
+            self.vcfVersion = vcfVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultEsxVersion = "defaultEsxVersion"
+            case instanceTypes = "instanceTypes"
+            case status = "status"
+            case vcfVersion = "vcfVersion"
+        }
+    }
+
     public struct Vlan: AWSDecodableShape {
         /// The availability zone of the VLAN.
         public let availabilityZone: String?
@@ -1415,6 +1487,7 @@ extension Evs {
 /// Error enum for Evs
 public struct EvsErrorType: AWSErrorType {
     enum Code: String {
+        case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case tagPolicyException = "TagPolicyException"
@@ -1441,13 +1514,15 @@ public struct EvsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An internal server error occurred. Retry your request.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of one or more Amazon EVS resources exceeds the maximum allowed. For a list of Amazon EVS quotas, see Amazon EVS endpoints and quotas in the Amazon EVS User Guide. Delete some resources or request an increase in your service quota. To request an increase, see Amazon Web Services Service Quotas in the Amazon Web Services General Reference Guide.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     ///   TagPolicyException is deprecated. See  ValidationException  instead.  The request doesn't comply with IAM tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
-    /// The operation couldn't be performed because the service is throttling requests. This exception is thrown when there are too many requests accepted concurrently from the service endpoint.
+    /// The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
     public static var throttlingException: Self { .init(.throttlingException) }
     ///   TooManyTagsException is deprecated. See  ServiceQuotaExceededException  instead.  A service resource associated with the request has more than 200 tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }

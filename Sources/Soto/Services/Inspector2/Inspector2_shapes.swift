@@ -688,6 +688,7 @@ extension Inspector2 {
 
     public enum Runtime: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dotnetcore31 = "DOTNETCORE_3_1"
+        case dotnet10 = "DOTNET_10"
         case dotnet6 = "DOTNET_6"
         case dotnet7 = "DOTNET_7"
         case go1X = "GO_1_X"
@@ -700,6 +701,7 @@ extension Inspector2 {
         case nodejs14X = "NODEJS_14_X"
         case nodejs16X = "NODEJS_16_X"
         case nodejs18X = "NODEJS_18_X"
+        case nodejs24X = "NODEJS_24_X"
         case python310 = "PYTHON_3_10"
         case python311 = "PYTHON_3_11"
         case python37 = "PYTHON_3_7"

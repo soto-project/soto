@@ -85,12 +85,16 @@ extension RAM {
         case disassociated = "DISASSOCIATED"
         case disassociating = "DISASSOCIATING"
         case failed = "FAILED"
+        case restoring = "RESTORING"
+        case suspended = "SUSPENDED"
+        case suspending = "SUSPENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceShareAssociationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case principal = "PRINCIPAL"
         case resource = "RESOURCE"
+        case source = "SOURCE"
         public var description: String { return self.rawValue }
     }
 
@@ -216,13 +220,13 @@ extension RAM {
     public struct AssociateResourceShareRequest: AWSEncodableShape {
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
-        /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+        /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
         /// Specifies a list of Amazon Resource Names (ARNs) of the resources that you want to share. This can be null if you want to add only principals.
         public let resourceArns: [String]?
         /// Specifies the Amazon Resource Name (ARN) of the resource share that you want to add principals or resources to.
         public let resourceShareArn: String
-        /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+        /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
         public let sources: [String]?
 
         @inlinable
@@ -303,6 +307,44 @@ extension RAM {
         }
     }
 
+    public struct AssociatedSource: AWSDecodableShape {
+        /// The date and time when the source association was created.
+        public let creationTime: Date?
+        /// The date and time when the source association was last updated.
+        public let lastUpdatedTime: Date?
+        /// The Amazon Resource Name (ARN) of the resource share that contains the source association.
+        public let resourceShareArn: String?
+        /// The identifier of the source. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+        public let sourceId: String?
+        /// The type of source.
+        public let sourceType: String?
+        /// The current status of the source association.
+        public let status: String?
+        /// A message about the status of the source association.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil, sourceId: String? = nil, sourceType: String? = nil, status: String? = nil, statusMessage: String? = nil) {
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceShareArn = resourceShareArn
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "creationTime"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case resourceShareArn = "resourceShareArn"
+            case sourceId = "sourceId"
+            case sourceType = "sourceType"
+            case status = "status"
+            case statusMessage = "statusMessage"
+        }
+    }
+
     public struct CreatePermissionRequest: AWSEncodableShape {
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
@@ -310,7 +352,7 @@ extension RAM {
         public let name: String
         /// A string in JSON format string that contains the following elements of a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions that are allowed by this customer managed permission. The list must contain only actions that are supported by the specified resource type. For a list of all actions supported by each resource type, see Actions, resources, and condition keys for Amazon Web Services services in the Identity and Access Management User Guide.    Condition: (optional) specifies conditional  parameters that must evaluate to true when a user attempts an action for that  action to be allowed. For more information about the Condition element, see  IAM policies: Condition element in the Identity and Access Management User Guide.   This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates  the resource-based policy on each resource shared using this managed permission. The  Resource comes from the ARN of the specific resource that you are sharing.  The Principal comes from the list of identities added to the resource  share.
         public let policyTemplate: String
-        /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is not case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation.
+        /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet. To see the list of valid values for this parameter, query the ListResourceTypes operation. This value must match the display name of the resource  (available in ListResourceTypes).
         public let resourceType: String
         /// Specifies a list of one or more tag key and value pairs to attach to the permission.
         public let tags: [Tag]?
@@ -405,23 +447,26 @@ extension RAM {
         public let name: String
         /// Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
         public let permissionArns: [String]?
-        /// Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+        /// Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
         /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
         public let resourceArns: [String]?
-        /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+        /// Specifies the configuration of this resource share.
+        public let resourceShareConfiguration: ResourceShareConfiguration?
+        /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
         public let sources: [String]?
         /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareConfiguration: ResourceShareConfiguration? = nil, sources: [String]? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.clientToken = clientToken
             self.name = name
             self.permissionArns = permissionArns
             self.principals = principals
             self.resourceArns = resourceArns
+            self.resourceShareConfiguration = resourceShareConfiguration
             self.sources = sources
             self.tags = tags
         }
@@ -433,6 +478,7 @@ extension RAM {
             case permissionArns = "permissionArns"
             case principals = "principals"
             case resourceArns = "resourceArns"
+            case resourceShareConfiguration = "resourceShareConfiguration"
             case sources = "sources"
             case tags = "tags"
         }
@@ -631,13 +677,13 @@ extension RAM {
     public struct DisassociateResourceShareRequest: AWSEncodableShape {
         /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an IdempotentParameterMismatch error.
         public let clientToken: String?
-        /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+        /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
         /// Specifies a list of Amazon Resource Names (ARNs) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals associated with the resource share.
         public let resourceArns: [String]?
         /// Specifies Amazon Resource Name (ARN) of the resource share that you want to remove resources or principals from.
         public let resourceShareArn: String
-        /// Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
+        /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) to remove from the resource share. This enables granular management of source constraints while maintaining service principal associations. At least one source must remain when service principals are present.
         public let sources: [String]?
 
         @inlinable
@@ -1167,7 +1213,7 @@ extension RAM {
         public let maxResults: Int?
         /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
         public let nextToken: String?
-        /// Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
+        /// Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username    A service principal name, for example: service-id.amazonaws.com     Not all resource types can be shared with IAM roles and users.  For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
         /// Specifies that you want to list principal information for the resource share with the specified Amazon Resource Name (ARN).
         public let resourceArn: String?
@@ -1424,6 +1470,63 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case resources = "resources"
+        }
+    }
+
+    public struct ListSourceAssociationsRequest: AWSEncodableShape {
+        /// The status of the source associations that you want to retrieve.
+        public let associationStatus: ResourceShareAssociationStatus?
+        /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The pagination token that indicates the next set of results to retrieve.
+        public let nextToken: String?
+        /// The Amazon Resource Names (ARNs) of the resource shares for which you want to retrieve source associations.
+        public let resourceShareArns: [String]?
+        /// The identifier of the source for which you want to retrieve associations. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+        public let sourceId: String?
+        /// The type of source for which you want to retrieve associations.
+        public let sourceType: String?
+
+        @inlinable
+        public init(associationStatus: ResourceShareAssociationStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, sourceId: String? = nil, sourceType: String? = nil) {
+            self.associationStatus = associationStatus
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceShareArns = resourceShareArns
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationStatus = "associationStatus"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceShareArns = "resourceShareArns"
+            case sourceId = "sourceId"
+            case sourceType = "sourceType"
+        }
+    }
+
+    public struct ListSourceAssociationsResponse: AWSDecodableShape {
+        /// The pagination token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the source associations.
+        public let sourceAssociations: [AssociatedSource]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sourceAssociations: [AssociatedSource]? = nil) {
+            self.nextToken = nextToken
+            self.sourceAssociations = sourceAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sourceAssociations = "sourceAssociations"
         }
     }
 
@@ -1715,6 +1818,8 @@ extension RAM {
         public let owningAccountId: String?
         /// The Amazon Resource Name (ARN) of the resource share
         public let resourceShareArn: String?
+        /// The configuration of the resource share
+        public let resourceShareConfiguration: ResourceShareConfiguration?
         /// The current status of the resource share.
         public let status: ResourceShareStatus?
         /// A message about the status of the resource share.
@@ -1723,7 +1828,7 @@ extension RAM {
         public let tags: [Tag]?
 
         @inlinable
-        public init(allowExternalPrincipals: Bool? = nil, creationTime: Date? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
+        public init(allowExternalPrincipals: Bool? = nil, creationTime: Date? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, resourceShareConfiguration: ResourceShareConfiguration? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
             self.allowExternalPrincipals = allowExternalPrincipals
             self.creationTime = creationTime
             self.featureSet = featureSet
@@ -1731,6 +1836,7 @@ extension RAM {
             self.name = name
             self.owningAccountId = owningAccountId
             self.resourceShareArn = resourceShareArn
+            self.resourceShareConfiguration = resourceShareConfiguration
             self.status = status
             self.statusMessage = statusMessage
             self.tags = tags
@@ -1744,6 +1850,7 @@ extension RAM {
             case name = "name"
             case owningAccountId = "owningAccountId"
             case resourceShareArn = "resourceShareArn"
+            case resourceShareConfiguration = "resourceShareConfiguration"
             case status = "status"
             case statusMessage = "statusMessage"
             case tags = "tags"
@@ -1793,6 +1900,20 @@ extension RAM {
             case resourceShareName = "resourceShareName"
             case status = "status"
             case statusMessage = "statusMessage"
+        }
+    }
+
+    public struct ResourceShareConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether the consumer account retains access to the resource share after leaving the organization.
+        public let retainSharingOnAccountLeaveOrganization: Bool?
+
+        @inlinable
+        public init(retainSharingOnAccountLeaveOrganization: Bool? = nil) {
+            self.retainSharingOnAccountLeaveOrganization = retainSharingOnAccountLeaveOrganization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retainSharingOnAccountLeaveOrganization = "retainSharingOnAccountLeaveOrganization"
         }
     }
 
@@ -2264,7 +2385,7 @@ public struct RAMErrorType: AWSErrorType {
     public static var resourceShareInvitationArnNotFoundException: Self { .init(.resourceShareInvitationArnNotFoundException) }
     /// The operation failed because the specified invitation is past its expiration date and time.
     public static var resourceShareInvitationExpiredException: Self { .init(.resourceShareInvitationExpiredException) }
-    /// The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the RAM page in the Service Quotas console.
+    /// The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the RAM page in the Service Quotas console.
     public static var resourceShareLimitExceededException: Self { .init(.resourceShareLimitExceededException) }
     /// The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     public static var serverInternalException: Self { .init(.serverInternalException) }

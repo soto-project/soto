@@ -534,6 +534,7 @@ public struct Deadline: AWSService {
     ///   - displayName: The display name of the budget.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - farmId: The farm ID to include in this budget.
     ///   - schedule: The schedule to associate with this budget.
+    ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - usageTrackingResource: The queue ID provided to this budget to track usage.
     ///   - logger: Logger use during operation
     @inlinable
@@ -545,6 +546,7 @@ public struct Deadline: AWSService {
         displayName: String,
         farmId: String,
         schedule: BudgetSchedule,
+        tags: [String: String]? = nil,
         usageTrackingResource: UsageTrackingResource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBudgetResponse {
@@ -556,6 +558,7 @@ public struct Deadline: AWSService {
             displayName: displayName, 
             farmId: farmId, 
             schedule: schedule, 
+            tags: tags, 
             usageTrackingResource: usageTrackingResource
         )
         return try await self.createBudget(input, logger: logger)
@@ -679,15 +682,18 @@ public struct Deadline: AWSService {
     /// Parameters:
     ///   - attachments: The attachments for the job. Attach files required for the job to run to a render job.
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - descriptionOverride: A custom description to override the job description derived from the job template.
     ///   - farmId: The farm ID of the farm to connect to the job.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for each task.
     ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+    ///   - nameOverride: A custom name to override the job name derived from the job template.
     ///   - parameters: The parameters for the job.
     ///   - priority: The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     ///   - queueId: The ID of the queue that the job is submitted to.
     ///   - sourceJobId: The job ID for the source job.
     ///   - storageProfileId: The storage profile ID for the storage profile to connect to the job.
+    ///   - tags: The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - targetTaskRunStatus: The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
     ///   - template: The job template to use for this job.
     ///   - templateType: The file type for the job template.
@@ -696,15 +702,18 @@ public struct Deadline: AWSService {
     public func createJob(
         attachments: Attachments? = nil,
         clientToken: String? = CreateJobRequest.idempotencyToken(),
+        descriptionOverride: String? = nil,
         farmId: String,
         maxFailedTasksCount: Int? = nil,
         maxRetriesPerTask: Int? = nil,
         maxWorkerCount: Int? = nil,
+        nameOverride: String? = nil,
         parameters: [String: JobParameter]? = nil,
         priority: Int,
         queueId: String,
         sourceJobId: String? = nil,
         storageProfileId: String? = nil,
+        tags: [String: String]? = nil,
         targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil,
         template: String? = nil,
         templateType: JobTemplateType? = nil,
@@ -713,15 +722,18 @@ public struct Deadline: AWSService {
         let input = CreateJobRequest(
             attachments: attachments, 
             clientToken: clientToken, 
+            descriptionOverride: descriptionOverride, 
             farmId: farmId, 
             maxFailedTasksCount: maxFailedTasksCount, 
             maxRetriesPerTask: maxRetriesPerTask, 
             maxWorkerCount: maxWorkerCount, 
+            nameOverride: nameOverride, 
             parameters: parameters, 
             priority: priority, 
             queueId: queueId, 
             sourceJobId: sourceJobId, 
             storageProfileId: storageProfileId, 
+            tags: tags, 
             targetTaskRunStatus: targetTaskRunStatus, 
             template: template, 
             templateType: templateType
@@ -835,8 +847,8 @@ public struct Deadline: AWSService {
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
     ///   - displayName: The name that you give the monitor that is displayed in the Deadline Cloud console.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
-    ///   - identityCenterInstanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
-    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
+    ///   - identityCenterInstanceArn: The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
+    ///   - roleArn: The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     ///   - subdomain: The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
     ///   - tags: The tags to add to your monitor. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
@@ -3570,9 +3582,9 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the job.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
-    ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
-    ///   - pageSize: Specifies the number of items per page for the resource.
+    ///   - filterExpressions: The search terms for a resource.
+    ///   - itemOffset: The offset for the search results.
+    ///   - pageSize: Specifies the number of results to return.
     ///   - queueIds: The queue ID to use in the job search.
     ///   - sortExpressions: The search terms for a resource.
     ///   - logger: Logger use during operation
@@ -3615,10 +3627,10 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID to use for the step search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
-    ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
+    ///   - filterExpressions: The search terms for a resource.
+    ///   - itemOffset: The offset for the search results.
     ///   - jobId: The job ID to use in the step search.
-    ///   - pageSize: Specifies the number of items per page for the resource.
+    ///   - pageSize: Specifies the number of results to return.
     ///   - queueIds: The queue IDs in the step search.
     ///   - sortExpressions: The search terms for a resource.
     ///   - logger: Logger use during operation
@@ -3663,10 +3675,10 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID of the task.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
-    ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
+    ///   - filterExpressions: The search terms for a resource.
+    ///   - itemOffset: The offset for the search results.
     ///   - jobId: The job ID for the task search.
-    ///   - pageSize: Specifies the number of items per page for the resource.
+    ///   - pageSize: Specifies the number of results to return.
     ///   - queueIds: The queue IDs to include in the search.
     ///   - sortExpressions: The search terms for a resource.
     ///   - logger: Logger use during operation
@@ -3711,10 +3723,10 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - farmId: The farm ID in the workers search.
-    ///   - filterExpressions: The filter expression, AND or OR, to use
+    ///   - filterExpressions: The search terms for a resource.
     ///   - fleetIds: The fleet ID of the workers to search for.
-    ///   - itemOffset: Defines how far into the scrollable list to start the return of results.
-    ///   - pageSize: Specifies the number of items per page for the resource.
+    ///   - itemOffset: The offset for the search results.
+    ///   - pageSize: Specifies the number of results to return.
     ///   - sortExpressions: The search terms for a resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -4023,25 +4035,29 @@ public struct Deadline: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - description: The updated job description.
     ///   - farmId: The farm ID of the job to update.
     ///   - jobId: The job ID to update.
     ///   - lifecycleStatus: The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for a job.
     ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
-    ///   - priority: The job priority to update.
+    ///   - name: The updated job name.
+    ///   - priority: The updated job priority.
     ///   - queueId: The queue ID of the job to update.
     ///   - targetTaskRunStatus: The task status to update the job's tasks to.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateJob(
         clientToken: String? = UpdateJobRequest.idempotencyToken(),
+        description: String? = nil,
         farmId: String,
         jobId: String,
         lifecycleStatus: UpdateJobLifecycleStatus? = nil,
         maxFailedTasksCount: Int? = nil,
         maxRetriesPerTask: Int? = nil,
         maxWorkerCount: Int? = nil,
+        name: String? = nil,
         priority: Int? = nil,
         queueId: String,
         targetTaskRunStatus: JobTargetTaskRunStatus? = nil,
@@ -4049,12 +4065,14 @@ public struct Deadline: AWSService {
     ) async throws -> UpdateJobResponse {
         let input = UpdateJobRequest(
             clientToken: clientToken, 
+            description: description, 
             farmId: farmId, 
             jobId: jobId, 
             lifecycleStatus: lifecycleStatus, 
             maxFailedTasksCount: maxFailedTasksCount, 
             maxRetriesPerTask: maxRetriesPerTask, 
             maxWorkerCount: maxWorkerCount, 
+            name: name, 
             priority: priority, 
             queueId: queueId, 
             targetTaskRunStatus: targetTaskRunStatus
@@ -4123,7 +4141,7 @@ public struct Deadline: AWSService {
     /// Parameters:
     ///   - displayName: The new value to use for the monitor's display name.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     ///   - monitorId: The unique identifier of the monitor to update.
-    ///   - roleArn: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
+    ///   - roleArn: The Amazon Resource Name of the new IAM role to use with the monitor.
     ///   - subdomain: The new value of the subdomain to use when forming the monitor URL.
     ///   - logger: Logger use during operation
     @inlinable
@@ -6216,6 +6234,54 @@ extension Deadline {
     ///   - input: Input for operation
     ///   - logger: Logger used for logging
     @inlinable
+    public func waitUntilJobComplete(
+        _ input: GetJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "SUCCEEDED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "FAILED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "CANCELED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "SUSPENDED")),
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "NOT_COMPATIBLE")),
+                .init(state: .success, matcher: try! JMESPathMatcher("lifecycleStatus", expected: "ARCHIVED")),
+            ],
+            minDelayTime: .seconds(15),
+            maxDelayTime: .seconds(3600),
+            command: self.getJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The farm ID of the farm in the job.
+    ///   - jobId: The job ID.
+    ///   - queueId: The queue ID associated with the job.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilJobComplete(
+        farmId: String,
+        jobId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetJobRequest(
+            farmId: farmId, 
+            jobId: jobId, 
+            queueId: queueId
+        )
+        try await self.waitUntilJobComplete(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
     public func waitUntilJobCreateComplete(
         _ input: GetJobRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -6231,6 +6297,7 @@ extension Deadline {
                 .init(state: .failure, matcher: try! JMESPathMatcher("lifecycleStatus", expected: "CREATE_FAILED")),
             ],
             minDelayTime: .seconds(1),
+            maxDelayTime: .seconds(120),
             command: self.getJob
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
@@ -6255,6 +6322,54 @@ extension Deadline {
             queueId: queueId
         )
         try await self.waitUntilJobCreateComplete(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilJobSucceeded(
+        _ input: GetJobRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetJobRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("taskRunStatus", expected: "SUCCEEDED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("taskRunStatus", expected: "FAILED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("taskRunStatus", expected: "CANCELED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("taskRunStatus", expected: "SUSPENDED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("taskRunStatus", expected: "NOT_COMPATIBLE")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("lifecycleStatus", expected: "ARCHIVED")),
+            ],
+            minDelayTime: .seconds(15),
+            maxDelayTime: .seconds(3600),
+            command: self.getJob
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getJob(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The farm ID of the farm in the job.
+    ///   - jobId: The job ID.
+    ///   - queueId: The queue ID associated with the job.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilJobSucceeded(
+        farmId: String,
+        jobId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetJobRequest(
+            farmId: farmId, 
+            jobId: jobId, 
+            queueId: queueId
+        )
+        try await self.waitUntilJobSucceeded(input, logger: logger)
     }
 
     /// Waiter for operation ``getLicenseEndpoint(_:logger:)``.

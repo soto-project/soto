@@ -1180,6 +1180,7 @@ extension QuickSight {
         case decimal = "DECIMAL"
         case integer = "INTEGER"
         case json = "JSON"
+        case semistruct = "SEMISTRUCT"
         case string = "STRING"
         public var description: String { return self.rawValue }
     }
@@ -1728,6 +1729,28 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum SelfUpgradeAdminAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approve = "APPROVE"
+        case deny = "DENY"
+        case verify = "VERIFY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelfUpgradeRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "APPROVED"
+        case denied = "DENIED"
+        case pending = "PENDING"
+        case updateFailed = "UPDATE_FAILED"
+        case verifyFailed = "VERIFY_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SelfUpgradeStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case adminApproval = "ADMIN_APPROVAL"
+        case autoApproval = "AUTO_APPROVAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case athena = "ATHENA"
         case qbusiness = "QBUSINESS"
@@ -1770,6 +1793,12 @@ extension QuickSight {
         case scaleToContainer = "SCALE_TO_CONTAINER"
         case scaleToHeight = "SCALE_TO_HEIGHT"
         case scaleToWidth = "SCALE_TO_WIDTH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SheetLayoutGroupMemberType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case element = "ELEMENT"
+        case group = "GROUP"
         public var description: String { return self.rawValue }
     }
 
@@ -7627,22 +7656,130 @@ extension QuickSight {
         public let action: CapabilityState?
         /// The ability to add or run anomaly detection.
         public let addOrRunAnomalyDetectionForAnalyses: CapabilityState?
+        /// The ability to perform actions using Bedrock Agent connectors.
+        public let amazonBedrockARSAction: CapabilityState?
+        /// The ability to perform actions using Bedrock Runtime connectors.
+        public let amazonBedrockFSAction: CapabilityState?
+        /// The ability to perform actions using Bedrock Data Automation Runtime connectors.
+        public let amazonBedrockKRSAction: CapabilityState?
+        /// The ability to perform actions using Amazon S3 connectors.
+        public let amazonSThreeAction: CapabilityState?
         /// The ability to perform analysis-related actions.
         public let analysis: CapabilityState?
+        /// The ability to perform actions using Asana connectors.
+        public let asanaAction: CapabilityState?
         /// The ability to perform automate-related actions.
         public let automate: CapabilityState?
+        /// The ability to perform actions using BambooHR connectors.
+        public let bambooHRAction: CapabilityState?
+        /// The ability to perform actions using Box Agent connectors.
+        public let boxAgentAction: CapabilityState?
+        /// The ability to perform actions using Canva Agent connectors.
+        public let canvaAgentAction: CapabilityState?
         /// The ability to perform chat-related actions.
         public let chatAgent: CapabilityState?
+        /// The ability to perform actions using Comprehend connectors.
+        public let comprehendAction: CapabilityState?
+        /// The ability to perform actions using Comprehend Medical connectors.
+        public let comprehendMedicalAction: CapabilityState?
+        /// The ability to perform actions using Atlassian Confluence Cloud connectors.
+        public let confluenceAction: CapabilityState?
+        /// The ability to create and update Bedrock Agent actions.
+        public let createAndUpdateAmazonBedrockARSAction: CapabilityState?
+        /// The ability to create and update Bedrock Runtime actions.
+        public let createAndUpdateAmazonBedrockFSAction: CapabilityState?
+        /// The ability to create and update Bedrock Data Automation Runtime actions.
+        public let createAndUpdateAmazonBedrockKRSAction: CapabilityState?
+        /// The ability to create and update Amazon S3 actions.
+        public let createAndUpdateAmazonSThreeAction: CapabilityState?
+        /// The ability to create and update Asana actions.
+        public let createAndUpdateAsanaAction: CapabilityState?
+        /// The ability to create and update BambooHR actions.
+        public let createAndUpdateBambooHRAction: CapabilityState?
+        /// The ability to create and update Box Agent actions.
+        public let createAndUpdateBoxAgentAction: CapabilityState?
+        /// The ability to create and update Canva Agent actions.
+        public let createAndUpdateCanvaAgentAction: CapabilityState?
+        /// The ability to create and update Comprehend actions.
+        public let createAndUpdateComprehendAction: CapabilityState?
+        /// The ability to create and update Comprehend Medical actions.
+        public let createAndUpdateComprehendMedicalAction: CapabilityState?
+        /// The ability to create and update Atlassian Confluence Cloud actions.
+        public let createAndUpdateConfluenceAction: CapabilityState?
         /// The ability to create and update email reports.
         public let createAndUpdateDashboardEmailReports: CapabilityState?
         /// The ability to create and update datasets.
         public let createAndUpdateDatasets: CapabilityState?
         /// The ability to create and update data sources.
         public let createAndUpdateDataSources: CapabilityState?
+        /// The ability to create and update FactSet actions.
+        public let createAndUpdateFactSetAction: CapabilityState?
+        /// The ability to create and update REST API connection actions.
+        public let createAndUpdateGenericHTTPAction: CapabilityState?
+        /// The ability to create and update GitHub actions.
+        public let createAndUpdateGithubAction: CapabilityState?
+        /// The ability to create and update Google Calendar actions.
+        public let createAndUpdateGoogleCalendarAction: CapabilityState?
+        /// The ability to create and update Hubspot actions.
+        public let createAndUpdateHubspotAction: CapabilityState?
+        /// The ability to create and update HuggingFace actions.
+        public let createAndUpdateHuggingFaceAction: CapabilityState?
+        /// The ability to create and update Intercom actions.
+        public let createAndUpdateIntercomAction: CapabilityState?
+        /// The ability to create and update Jira actions.
+        public let createAndUpdateJiraAction: CapabilityState?
+        /// The ability to create and update Linear actions.
+        public let createAndUpdateLinearAction: CapabilityState?
+        /// The ability to create and update Model Context Protocol actions.
+        public let createAndUpdateMCPAction: CapabilityState?
+        /// The ability to create and update Monday actions.
+        public let createAndUpdateMondayAction: CapabilityState?
+        /// The ability to create and update Microsoft Outlook actions.
+        public let createAndUpdateMSExchangeAction: CapabilityState?
+        /// The ability to create and update Microsoft Teams actions.
+        public let createAndUpdateMSTeamsAction: CapabilityState?
+        /// The ability to create and update New Relic actions.
+        public let createAndUpdateNewRelicAction: CapabilityState?
+        /// The ability to create and update Notion actions.
+        public let createAndUpdateNotionAction: CapabilityState?
+        /// The ability to create and update Microsoft OneDrive actions.
+        public let createAndUpdateOneDriveAction: CapabilityState?
+        /// The ability to create and update OpenAPI Specification actions.
+        public let createAndUpdateOpenAPIAction: CapabilityState?
+        /// The ability to create and update PagerDuty Advance actions.
+        public let createAndUpdatePagerDutyAction: CapabilityState?
+        /// The ability to create and update Salesforce actions.
+        public let createAndUpdateSalesforceAction: CapabilityState?
+        /// The ability to create and update S&P Global Energy actions.
+        public let createAndUpdateSandPGlobalEnergyAction: CapabilityState?
+        /// The ability to create and update S&P Global Market Intelligence actions.
+        public let createAndUpdateSandPGMIAction: CapabilityState?
+        /// The ability to create and update SAP Bill of Materials actions.
+        public let createAndUpdateSAPBillOfMaterialAction: CapabilityState?
+        /// The ability to create and update SAP Business Partner actions.
+        public let createAndUpdateSAPBusinessPartnerAction: CapabilityState?
+        /// The ability to create and update SAP Material Stock actions.
+        public let createAndUpdateSAPMaterialStockAction: CapabilityState?
+        /// The ability to create and update SAP Physical Inventory actions.
+        public let createAndUpdateSAPPhysicalInventoryAction: CapabilityState?
+        /// The ability to create and update SAP Product Master actions.
+        public let createAndUpdateSAPProductMasterDataAction: CapabilityState?
+        /// The ability to create and update ServiceNow actions.
+        public let createAndUpdateServiceNowAction: CapabilityState?
+        /// The ability to create and update Microsoft SharePoint Online actions.
+        public let createAndUpdateSharePointAction: CapabilityState?
+        /// The ability to create and update Slack actions.
+        public let createAndUpdateSlackAction: CapabilityState?
+        /// The ability to create and update Smartsheet actions.
+        public let createAndUpdateSmartsheetAction: CapabilityState?
+        /// The ability to create and update Textract actions.
+        public let createAndUpdateTextractAction: CapabilityState?
         /// The ability to export to Create and Update themes.
         public let createAndUpdateThemes: CapabilityState?
         /// The ability to create and update threshold alerts.
         public let createAndUpdateThresholdAlerts: CapabilityState?
+        /// The ability to create and update Zendesk actions.
+        public let createAndUpdateZendeskAction: CapabilityState?
         /// The ability to create chat agents.
         public let createChatAgents: CapabilityState?
         /// The ability to create shared folders.
@@ -7663,12 +7800,48 @@ extension QuickSight {
         public let exportToPdf: CapabilityState?
         /// The ability to export to PDF files in scheduled email reports.
         public let exportToPdfInScheduledReports: CapabilityState?
+        /// The ability to perform actions using FactSet connectors.
+        public let factSetAction: CapabilityState?
         /// The ability to perform flow-related actions.
         public let flow: CapabilityState?
+        /// The ability to perform actions using REST API connection connectors.
+        public let genericHTTPAction: CapabilityState?
+        /// The ability to perform actions using GitHub connectors.
+        public let githubAction: CapabilityState?
+        /// The ability to perform actions using Google Calendar connectors.
+        public let googleCalendarAction: CapabilityState?
+        /// The ability to perform actions using Hubspot connectors.
+        public let hubspotAction: CapabilityState?
+        /// The ability to perform actions using HuggingFace connectors.
+        public let huggingFaceAction: CapabilityState?
         /// The ability to include content in scheduled email reports.
         public let includeContentInScheduledReportsEmail: CapabilityState?
+        /// The ability to perform actions using Intercom connectors.
+        public let intercomAction: CapabilityState?
+        /// The ability to perform actions using Jira connectors.
+        public let jiraAction: CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
         public let knowledgeBase: CapabilityState?
+        /// The ability to perform actions using Linear connectors.
+        public let linearAction: CapabilityState?
+        /// The ability to perform actions using Model Context Protocol connectors.
+        public let mcpAction: CapabilityState?
+        /// The ability to perform actions using Monday connectors.
+        public let mondayAction: CapabilityState?
+        /// The ability to perform actions using Microsoft Outlook connectors.
+        public let msExchangeAction: CapabilityState?
+        /// The ability to perform actions using Microsoft Teams connectors.
+        public let msTeamsAction: CapabilityState?
+        /// The ability to perform actions using New Relic connectors.
+        public let newRelicAction: CapabilityState?
+        /// The ability to perform actions using Notion connectors.
+        public let notionAction: CapabilityState?
+        /// The ability to perform actions using Microsoft OneDrive connectors.
+        public let oneDriveAction: CapabilityState?
+        /// The ability to perform actions using OpenAPI Specification connectors.
+        public let openAPIAction: CapabilityState?
+        /// The ability to perform actions using PagerDuty Advance connectors.
+        public let pagerDutyAction: CapabilityState?
         /// The ability to use UI Agent step to perform tasks on public websites.
         public let performFlowUiTask: CapabilityState?
         /// The ability to print reports.
@@ -7679,38 +7852,294 @@ extension QuickSight {
         public let renameSharedFolders: CapabilityState?
         /// The ability to perform research-related actions.
         public let research: CapabilityState?
+        /// The ability to perform actions using Salesforce connectors.
+        public let salesforceAction: CapabilityState?
+        /// The ability to perform actions using S&P Global Energy connectors.
+        public let sandPGlobalEnergyAction: CapabilityState?
+        /// The ability to perform actions using S&P Global Market Intelligence connectors.
+        public let sandPGMIAction: CapabilityState?
+        /// The ability to perform actions using SAP Bill of Materials connectors.
+        public let sapBillOfMaterialAction: CapabilityState?
+        /// The ability to perform actions using SAP Business Partner connectors.
+        public let sapBusinessPartnerAction: CapabilityState?
+        /// The ability to perform actions using SAP Material Stock connectors.
+        public let sapMaterialStockAction: CapabilityState?
+        /// The ability to perform actions using SAP Physical Inventory connectors.
+        public let sapPhysicalInventoryAction: CapabilityState?
+        /// The ability to perform actions using SAP Product Master connectors.
+        public let sapProductMasterDataAction: CapabilityState?
+        /// The ability to enable users to upgrade their user role.
+        public let selfUpgradeUserRole: CapabilityState?
+        /// The ability to perform actions using ServiceNow connectors.
+        public let serviceNowAction: CapabilityState?
+        /// The ability to share Bedrock Agent actions.
+        public let shareAmazonBedrockARSAction: CapabilityState?
+        /// The ability to share Bedrock Runtime actions.
+        public let shareAmazonBedrockFSAction: CapabilityState?
+        /// The ability to share Bedrock Data Automation Runtime actions.
+        public let shareAmazonBedrockKRSAction: CapabilityState?
+        /// The ability to share Amazon S3 actions.
+        public let shareAmazonSThreeAction: CapabilityState?
         /// The ability to share analyses.
         public let shareAnalyses: CapabilityState?
+        /// The ability to share Asana actions.
+        public let shareAsanaAction: CapabilityState?
+        /// The ability to share BambooHR actions.
+        public let shareBambooHRAction: CapabilityState?
+        /// The ability to share Box Agent actions.
+        public let shareBoxAgentAction: CapabilityState?
+        /// The ability to share Canva Agent actions.
+        public let shareCanvaAgentAction: CapabilityState?
+        /// The ability to share Comprehend actions.
+        public let shareComprehendAction: CapabilityState?
+        /// The ability to share Comprehend Medical actions.
+        public let shareComprehendMedicalAction: CapabilityState?
+        /// The ability to share Atlassian Confluence Cloud actions.
+        public let shareConfluenceAction: CapabilityState?
         /// The ability to share dashboards.
         public let shareDashboards: CapabilityState?
         /// The ability to share datasets.
         public let shareDatasets: CapabilityState?
         /// The ability to share data sources.
         public let shareDataSources: CapabilityState?
+        /// The ability to share FactSet actions.
+        public let shareFactSetAction: CapabilityState?
+        /// The ability to share REST API connection actions.
+        public let shareGenericHTTPAction: CapabilityState?
+        /// The ability to share GitHub actions.
+        public let shareGithubAction: CapabilityState?
+        /// The ability to share Google Calendar actions.
+        public let shareGoogleCalendarAction: CapabilityState?
+        /// The ability to share Hubspot actions.
+        public let shareHubspotAction: CapabilityState?
+        /// The ability to share HuggingFace actions.
+        public let shareHuggingFaceAction: CapabilityState?
+        /// The ability to share Intercom actions.
+        public let shareIntercomAction: CapabilityState?
+        /// The ability to share Jira actions.
+        public let shareJiraAction: CapabilityState?
+        /// The ability to share Linear actions.
+        public let shareLinearAction: CapabilityState?
+        /// The ability to share Model Context Protocol actions.
+        public let shareMCPAction: CapabilityState?
+        /// The ability to share Monday actions.
+        public let shareMondayAction: CapabilityState?
+        /// The ability to share Microsoft Outlook actions.
+        public let shareMSExchangeAction: CapabilityState?
+        /// The ability to share Microsoft Teams actions.
+        public let shareMSTeamsAction: CapabilityState?
+        /// The ability to share New Relic actions.
+        public let shareNewRelicAction: CapabilityState?
+        /// The ability to share Notion actions.
+        public let shareNotionAction: CapabilityState?
+        /// The ability to share Microsoft OneDrive actions.
+        public let shareOneDriveAction: CapabilityState?
+        /// The ability to share OpenAPI Specification actions.
+        public let shareOpenAPIAction: CapabilityState?
+        /// The ability to share PagerDuty Advance actions.
+        public let sharePagerDutyAction: CapabilityState?
+        /// The ability to perform actions using Microsoft SharePoint Online connectors.
+        public let sharePointAction: CapabilityState?
+        /// The ability to share Salesforce actions.
+        public let shareSalesforceAction: CapabilityState?
+        /// The ability to share S&P Global Energy actions.
+        public let shareSandPGlobalEnergyAction: CapabilityState?
+        /// The ability to share S&P Global Market Intelligence actions.
+        public let shareSandPGMIAction: CapabilityState?
+        /// The ability to share SAP Bill of Materials actions.
+        public let shareSAPBillOfMaterialAction: CapabilityState?
+        /// The ability to share SAP Business Partner actions.
+        public let shareSAPBusinessPartnerAction: CapabilityState?
+        /// The ability to share SAP Material Stock actions.
+        public let shareSAPMaterialStockAction: CapabilityState?
+        /// The ability to share SAP Physical Inventory actions.
+        public let shareSAPPhysicalInventoryAction: CapabilityState?
+        /// The ability to share SAP Product Master actions.
+        public let shareSAPProductMasterDataAction: CapabilityState?
+        /// The ability to share ServiceNow actions.
+        public let shareServiceNowAction: CapabilityState?
+        /// The ability to share Microsoft SharePoint Online actions.
+        public let shareSharePointAction: CapabilityState?
+        /// The ability to share Slack actions.
+        public let shareSlackAction: CapabilityState?
+        /// The ability to share Smartsheet actions.
+        public let shareSmartsheetAction: CapabilityState?
+        /// The ability to share Textract actions.
+        public let shareTextractAction: CapabilityState?
+        /// The ability to share Zendesk actions.
+        public let shareZendeskAction: CapabilityState?
+        /// The ability to perform actions using Slack connectors.
+        public let slackAction: CapabilityState?
+        /// The ability to perform actions using Smartsheet connectors.
+        public let smartsheetAction: CapabilityState?
         /// The ability to perform space-related actions.
         public let space: CapabilityState?
         /// The ability to subscribe to email reports.
         public let subscribeDashboardEmailReports: CapabilityState?
+        /// The ability to perform actions using Textract connectors.
+        public let textractAction: CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research.
         /// 	          Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public let useAgentWebSearch: CapabilityState?
+        /// The ability to use Bedrock Agent actions.
+        public let useAmazonBedrockARSAction: CapabilityState?
+        /// The ability to use Bedrock Runtime actions.
+        public let useAmazonBedrockFSAction: CapabilityState?
+        /// The ability to use Bedrock Data Automation Runtime actions.
+        public let useAmazonBedrockKRSAction: CapabilityState?
+        /// The ability to use Amazon S3 actions.
+        public let useAmazonSThreeAction: CapabilityState?
+        /// The ability to use Asana actions.
+        public let useAsanaAction: CapabilityState?
+        /// The ability to use BambooHR actions.
+        public let useBambooHRAction: CapabilityState?
         /// The ability to use Bedrock models for general knowledge step in flows.
         public let useBedrockModels: CapabilityState?
+        /// The ability to use Box Agent actions.
+        public let useBoxAgentAction: CapabilityState?
+        /// The ability to use Canva Agent actions.
+        public let useCanvaAgentAction: CapabilityState?
+        /// The ability to use Comprehend actions.
+        public let useComprehendAction: CapabilityState?
+        /// The ability to use Comprehend Medical actions.
+        public let useComprehendMedicalAction: CapabilityState?
+        /// The ability to use Atlassian Confluence Cloud actions.
+        public let useConfluenceAction: CapabilityState?
+        /// The ability to use FactSet actions.
+        public let useFactSetAction: CapabilityState?
+        /// The ability to use REST API connection actions.
+        public let useGenericHTTPAction: CapabilityState?
+        /// The ability to use GitHub actions.
+        public let useGithubAction: CapabilityState?
+        /// The ability to use Google Calendar actions.
+        public let useGoogleCalendarAction: CapabilityState?
+        /// The ability to use Hubspot actions.
+        public let useHubspotAction: CapabilityState?
+        /// The ability to use HuggingFace actions.
+        public let useHuggingFaceAction: CapabilityState?
+        /// The ability to use Intercom actions.
+        public let useIntercomAction: CapabilityState?
+        /// The ability to use Jira actions.
+        public let useJiraAction: CapabilityState?
+        /// The ability to use Linear actions.
+        public let useLinearAction: CapabilityState?
+        /// The ability to use Model Context Protocol actions.
+        public let useMCPAction: CapabilityState?
+        /// The ability to use Monday actions.
+        public let useMondayAction: CapabilityState?
+        /// The ability to use Microsoft Outlook actions.
+        public let useMSExchangeAction: CapabilityState?
+        /// The ability to use Microsoft Teams actions.
+        public let useMSTeamsAction: CapabilityState?
+        /// The ability to use New Relic actions.
+        public let useNewRelicAction: CapabilityState?
+        /// The ability to use Notion actions.
+        public let useNotionAction: CapabilityState?
+        /// The ability to use Microsoft OneDrive actions.
+        public let useOneDriveAction: CapabilityState?
+        /// The ability to use OpenAPI Specification actions.
+        public let useOpenAPIAction: CapabilityState?
+        /// The ability to use PagerDuty Advance actions.
+        public let usePagerDutyAction: CapabilityState?
+        /// The ability to use Salesforce actions.
+        public let useSalesforceAction: CapabilityState?
+        /// The ability to use S&P Global Energy actions.
+        public let useSandPGlobalEnergyAction: CapabilityState?
+        /// The ability to use S&P Global Market Intelligence actions.
+        public let useSandPGMIAction: CapabilityState?
+        /// The ability to use SAP Bill of Materials actions.
+        public let useSAPBillOfMaterialAction: CapabilityState?
+        /// The ability to use SAP Business Partner actions.
+        public let useSAPBusinessPartnerAction: CapabilityState?
+        /// The ability to use SAP Material Stock actions.
+        public let useSAPMaterialStockAction: CapabilityState?
+        /// The ability to use SAP Physical Inventory actions.
+        public let useSAPPhysicalInventoryAction: CapabilityState?
+        /// The ability to use SAP Product Master actions.
+        public let useSAPProductMasterDataAction: CapabilityState?
+        /// The ability to use ServiceNow actions.
+        public let useServiceNowAction: CapabilityState?
+        /// The ability to use Microsoft SharePoint Online actions.
+        public let useSharePointAction: CapabilityState?
+        /// The ability to use Slack actions.
+        public let useSlackAction: CapabilityState?
+        /// The ability to use Smartsheet actions.
+        public let useSmartsheetAction: CapabilityState?
+        /// The ability to use Textract actions.
+        public let useTextractAction: CapabilityState?
+        /// The ability to use Zendesk actions.
+        public let useZendeskAction: CapabilityState?
         /// The ability to view account SPICE capacity.
         public let viewAccountSPICECapacity: CapabilityState?
+        /// The ability to perform actions using Zendesk connectors.
+        public let zendeskAction: CapabilityState?
 
         @inlinable
-        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, analysis: CapabilityState? = nil, automate: CapabilityState? = nil, chatAgent: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, flow: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil) {
+        public init(action: CapabilityState? = nil, addOrRunAnomalyDetectionForAnalyses: CapabilityState? = nil, amazonBedrockARSAction: CapabilityState? = nil, amazonBedrockFSAction: CapabilityState? = nil, amazonBedrockKRSAction: CapabilityState? = nil, amazonSThreeAction: CapabilityState? = nil, analysis: CapabilityState? = nil, asanaAction: CapabilityState? = nil, automate: CapabilityState? = nil, bambooHRAction: CapabilityState? = nil, boxAgentAction: CapabilityState? = nil, canvaAgentAction: CapabilityState? = nil, chatAgent: CapabilityState? = nil, comprehendAction: CapabilityState? = nil, comprehendMedicalAction: CapabilityState? = nil, confluenceAction: CapabilityState? = nil, createAndUpdateAmazonBedrockARSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockFSAction: CapabilityState? = nil, createAndUpdateAmazonBedrockKRSAction: CapabilityState? = nil, createAndUpdateAmazonSThreeAction: CapabilityState? = nil, createAndUpdateAsanaAction: CapabilityState? = nil, createAndUpdateBambooHRAction: CapabilityState? = nil, createAndUpdateBoxAgentAction: CapabilityState? = nil, createAndUpdateCanvaAgentAction: CapabilityState? = nil, createAndUpdateComprehendAction: CapabilityState? = nil, createAndUpdateComprehendMedicalAction: CapabilityState? = nil, createAndUpdateConfluenceAction: CapabilityState? = nil, createAndUpdateDashboardEmailReports: CapabilityState? = nil, createAndUpdateDatasets: CapabilityState? = nil, createAndUpdateDataSources: CapabilityState? = nil, createAndUpdateFactSetAction: CapabilityState? = nil, createAndUpdateGenericHTTPAction: CapabilityState? = nil, createAndUpdateGithubAction: CapabilityState? = nil, createAndUpdateGoogleCalendarAction: CapabilityState? = nil, createAndUpdateHubspotAction: CapabilityState? = nil, createAndUpdateHuggingFaceAction: CapabilityState? = nil, createAndUpdateIntercomAction: CapabilityState? = nil, createAndUpdateJiraAction: CapabilityState? = nil, createAndUpdateLinearAction: CapabilityState? = nil, createAndUpdateMCPAction: CapabilityState? = nil, createAndUpdateMondayAction: CapabilityState? = nil, createAndUpdateMSExchangeAction: CapabilityState? = nil, createAndUpdateMSTeamsAction: CapabilityState? = nil, createAndUpdateNewRelicAction: CapabilityState? = nil, createAndUpdateNotionAction: CapabilityState? = nil, createAndUpdateOneDriveAction: CapabilityState? = nil, createAndUpdateOpenAPIAction: CapabilityState? = nil, createAndUpdatePagerDutyAction: CapabilityState? = nil, createAndUpdateSalesforceAction: CapabilityState? = nil, createAndUpdateSandPGlobalEnergyAction: CapabilityState? = nil, createAndUpdateSandPGMIAction: CapabilityState? = nil, createAndUpdateSAPBillOfMaterialAction: CapabilityState? = nil, createAndUpdateSAPBusinessPartnerAction: CapabilityState? = nil, createAndUpdateSAPMaterialStockAction: CapabilityState? = nil, createAndUpdateSAPPhysicalInventoryAction: CapabilityState? = nil, createAndUpdateSAPProductMasterDataAction: CapabilityState? = nil, createAndUpdateServiceNowAction: CapabilityState? = nil, createAndUpdateSharePointAction: CapabilityState? = nil, createAndUpdateSlackAction: CapabilityState? = nil, createAndUpdateSmartsheetAction: CapabilityState? = nil, createAndUpdateTextractAction: CapabilityState? = nil, createAndUpdateThemes: CapabilityState? = nil, createAndUpdateThresholdAlerts: CapabilityState? = nil, createAndUpdateZendeskAction: CapabilityState? = nil, createChatAgents: CapabilityState? = nil, createSharedFolders: CapabilityState? = nil, createSPICEDataset: CapabilityState? = nil, dashboard: CapabilityState? = nil, exportToCsv: CapabilityState? = nil, exportToCsvInScheduledReports: CapabilityState? = nil, exportToExcel: CapabilityState? = nil, exportToExcelInScheduledReports: CapabilityState? = nil, exportToPdf: CapabilityState? = nil, exportToPdfInScheduledReports: CapabilityState? = nil, factSetAction: CapabilityState? = nil, flow: CapabilityState? = nil, genericHTTPAction: CapabilityState? = nil, githubAction: CapabilityState? = nil, googleCalendarAction: CapabilityState? = nil, hubspotAction: CapabilityState? = nil, huggingFaceAction: CapabilityState? = nil, includeContentInScheduledReportsEmail: CapabilityState? = nil, intercomAction: CapabilityState? = nil, jiraAction: CapabilityState? = nil, knowledgeBase: CapabilityState? = nil, linearAction: CapabilityState? = nil, mcpAction: CapabilityState? = nil, mondayAction: CapabilityState? = nil, msExchangeAction: CapabilityState? = nil, msTeamsAction: CapabilityState? = nil, newRelicAction: CapabilityState? = nil, notionAction: CapabilityState? = nil, oneDriveAction: CapabilityState? = nil, openAPIAction: CapabilityState? = nil, pagerDutyAction: CapabilityState? = nil, performFlowUiTask: CapabilityState? = nil, printReports: CapabilityState? = nil, publishWithoutApproval: CapabilityState? = nil, renameSharedFolders: CapabilityState? = nil, research: CapabilityState? = nil, salesforceAction: CapabilityState? = nil, sandPGlobalEnergyAction: CapabilityState? = nil, sandPGMIAction: CapabilityState? = nil, sapBillOfMaterialAction: CapabilityState? = nil, sapBusinessPartnerAction: CapabilityState? = nil, sapMaterialStockAction: CapabilityState? = nil, sapPhysicalInventoryAction: CapabilityState? = nil, sapProductMasterDataAction: CapabilityState? = nil, selfUpgradeUserRole: CapabilityState? = nil, serviceNowAction: CapabilityState? = nil, shareAmazonBedrockARSAction: CapabilityState? = nil, shareAmazonBedrockFSAction: CapabilityState? = nil, shareAmazonBedrockKRSAction: CapabilityState? = nil, shareAmazonSThreeAction: CapabilityState? = nil, shareAnalyses: CapabilityState? = nil, shareAsanaAction: CapabilityState? = nil, shareBambooHRAction: CapabilityState? = nil, shareBoxAgentAction: CapabilityState? = nil, shareCanvaAgentAction: CapabilityState? = nil, shareComprehendAction: CapabilityState? = nil, shareComprehendMedicalAction: CapabilityState? = nil, shareConfluenceAction: CapabilityState? = nil, shareDashboards: CapabilityState? = nil, shareDatasets: CapabilityState? = nil, shareDataSources: CapabilityState? = nil, shareFactSetAction: CapabilityState? = nil, shareGenericHTTPAction: CapabilityState? = nil, shareGithubAction: CapabilityState? = nil, shareGoogleCalendarAction: CapabilityState? = nil, shareHubspotAction: CapabilityState? = nil, shareHuggingFaceAction: CapabilityState? = nil, shareIntercomAction: CapabilityState? = nil, shareJiraAction: CapabilityState? = nil, shareLinearAction: CapabilityState? = nil, shareMCPAction: CapabilityState? = nil, shareMondayAction: CapabilityState? = nil, shareMSExchangeAction: CapabilityState? = nil, shareMSTeamsAction: CapabilityState? = nil, shareNewRelicAction: CapabilityState? = nil, shareNotionAction: CapabilityState? = nil, shareOneDriveAction: CapabilityState? = nil, shareOpenAPIAction: CapabilityState? = nil, sharePagerDutyAction: CapabilityState? = nil, sharePointAction: CapabilityState? = nil, shareSalesforceAction: CapabilityState? = nil, shareSandPGlobalEnergyAction: CapabilityState? = nil, shareSandPGMIAction: CapabilityState? = nil, shareSAPBillOfMaterialAction: CapabilityState? = nil, shareSAPBusinessPartnerAction: CapabilityState? = nil, shareSAPMaterialStockAction: CapabilityState? = nil, shareSAPPhysicalInventoryAction: CapabilityState? = nil, shareSAPProductMasterDataAction: CapabilityState? = nil, shareServiceNowAction: CapabilityState? = nil, shareSharePointAction: CapabilityState? = nil, shareSlackAction: CapabilityState? = nil, shareSmartsheetAction: CapabilityState? = nil, shareTextractAction: CapabilityState? = nil, shareZendeskAction: CapabilityState? = nil, slackAction: CapabilityState? = nil, smartsheetAction: CapabilityState? = nil, space: CapabilityState? = nil, subscribeDashboardEmailReports: CapabilityState? = nil, textractAction: CapabilityState? = nil, useAgentWebSearch: CapabilityState? = nil, useAmazonBedrockARSAction: CapabilityState? = nil, useAmazonBedrockFSAction: CapabilityState? = nil, useAmazonBedrockKRSAction: CapabilityState? = nil, useAmazonSThreeAction: CapabilityState? = nil, useAsanaAction: CapabilityState? = nil, useBambooHRAction: CapabilityState? = nil, useBedrockModels: CapabilityState? = nil, useBoxAgentAction: CapabilityState? = nil, useCanvaAgentAction: CapabilityState? = nil, useComprehendAction: CapabilityState? = nil, useComprehendMedicalAction: CapabilityState? = nil, useConfluenceAction: CapabilityState? = nil, useFactSetAction: CapabilityState? = nil, useGenericHTTPAction: CapabilityState? = nil, useGithubAction: CapabilityState? = nil, useGoogleCalendarAction: CapabilityState? = nil, useHubspotAction: CapabilityState? = nil, useHuggingFaceAction: CapabilityState? = nil, useIntercomAction: CapabilityState? = nil, useJiraAction: CapabilityState? = nil, useLinearAction: CapabilityState? = nil, useMCPAction: CapabilityState? = nil, useMondayAction: CapabilityState? = nil, useMSExchangeAction: CapabilityState? = nil, useMSTeamsAction: CapabilityState? = nil, useNewRelicAction: CapabilityState? = nil, useNotionAction: CapabilityState? = nil, useOneDriveAction: CapabilityState? = nil, useOpenAPIAction: CapabilityState? = nil, usePagerDutyAction: CapabilityState? = nil, useSalesforceAction: CapabilityState? = nil, useSandPGlobalEnergyAction: CapabilityState? = nil, useSandPGMIAction: CapabilityState? = nil, useSAPBillOfMaterialAction: CapabilityState? = nil, useSAPBusinessPartnerAction: CapabilityState? = nil, useSAPMaterialStockAction: CapabilityState? = nil, useSAPPhysicalInventoryAction: CapabilityState? = nil, useSAPProductMasterDataAction: CapabilityState? = nil, useServiceNowAction: CapabilityState? = nil, useSharePointAction: CapabilityState? = nil, useSlackAction: CapabilityState? = nil, useSmartsheetAction: CapabilityState? = nil, useTextractAction: CapabilityState? = nil, useZendeskAction: CapabilityState? = nil, viewAccountSPICECapacity: CapabilityState? = nil, zendeskAction: CapabilityState? = nil) {
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.amazonBedrockARSAction = amazonBedrockARSAction
+            self.amazonBedrockFSAction = amazonBedrockFSAction
+            self.amazonBedrockKRSAction = amazonBedrockKRSAction
+            self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
+            self.asanaAction = asanaAction
             self.automate = automate
+            self.bambooHRAction = bambooHRAction
+            self.boxAgentAction = boxAgentAction
+            self.canvaAgentAction = canvaAgentAction
             self.chatAgent = chatAgent
+            self.comprehendAction = comprehendAction
+            self.comprehendMedicalAction = comprehendMedicalAction
+            self.confluenceAction = confluenceAction
+            self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
+            self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
+            self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
+            self.createAndUpdateAmazonSThreeAction = createAndUpdateAmazonSThreeAction
+            self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
+            self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
+            self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
+            self.createAndUpdateCanvaAgentAction = createAndUpdateCanvaAgentAction
+            self.createAndUpdateComprehendAction = createAndUpdateComprehendAction
+            self.createAndUpdateComprehendMedicalAction = createAndUpdateComprehendMedicalAction
+            self.createAndUpdateConfluenceAction = createAndUpdateConfluenceAction
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDatasets = createAndUpdateDatasets
             self.createAndUpdateDataSources = createAndUpdateDataSources
+            self.createAndUpdateFactSetAction = createAndUpdateFactSetAction
+            self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
+            self.createAndUpdateGithubAction = createAndUpdateGithubAction
+            self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
+            self.createAndUpdateHubspotAction = createAndUpdateHubspotAction
+            self.createAndUpdateHuggingFaceAction = createAndUpdateHuggingFaceAction
+            self.createAndUpdateIntercomAction = createAndUpdateIntercomAction
+            self.createAndUpdateJiraAction = createAndUpdateJiraAction
+            self.createAndUpdateLinearAction = createAndUpdateLinearAction
+            self.createAndUpdateMCPAction = createAndUpdateMCPAction
+            self.createAndUpdateMondayAction = createAndUpdateMondayAction
+            self.createAndUpdateMSExchangeAction = createAndUpdateMSExchangeAction
+            self.createAndUpdateMSTeamsAction = createAndUpdateMSTeamsAction
+            self.createAndUpdateNewRelicAction = createAndUpdateNewRelicAction
+            self.createAndUpdateNotionAction = createAndUpdateNotionAction
+            self.createAndUpdateOneDriveAction = createAndUpdateOneDriveAction
+            self.createAndUpdateOpenAPIAction = createAndUpdateOpenAPIAction
+            self.createAndUpdatePagerDutyAction = createAndUpdatePagerDutyAction
+            self.createAndUpdateSalesforceAction = createAndUpdateSalesforceAction
+            self.createAndUpdateSandPGlobalEnergyAction = createAndUpdateSandPGlobalEnergyAction
+            self.createAndUpdateSandPGMIAction = createAndUpdateSandPGMIAction
+            self.createAndUpdateSAPBillOfMaterialAction = createAndUpdateSAPBillOfMaterialAction
+            self.createAndUpdateSAPBusinessPartnerAction = createAndUpdateSAPBusinessPartnerAction
+            self.createAndUpdateSAPMaterialStockAction = createAndUpdateSAPMaterialStockAction
+            self.createAndUpdateSAPPhysicalInventoryAction = createAndUpdateSAPPhysicalInventoryAction
+            self.createAndUpdateSAPProductMasterDataAction = createAndUpdateSAPProductMasterDataAction
+            self.createAndUpdateServiceNowAction = createAndUpdateServiceNowAction
+            self.createAndUpdateSharePointAction = createAndUpdateSharePointAction
+            self.createAndUpdateSlackAction = createAndUpdateSlackAction
+            self.createAndUpdateSmartsheetAction = createAndUpdateSmartsheetAction
+            self.createAndUpdateTextractAction = createAndUpdateTextractAction
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createChatAgents = createChatAgents
             self.createSharedFolders = createSharedFolders
             self.createSPICEDataset = createSPICEDataset
@@ -7721,36 +8150,209 @@ extension QuickSight {
             self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
             self.exportToPdf = exportToPdf
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.factSetAction = factSetAction
             self.flow = flow
+            self.genericHTTPAction = genericHTTPAction
+            self.githubAction = githubAction
+            self.googleCalendarAction = googleCalendarAction
+            self.hubspotAction = hubspotAction
+            self.huggingFaceAction = huggingFaceAction
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.intercomAction = intercomAction
+            self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
+            self.linearAction = linearAction
+            self.mcpAction = mcpAction
+            self.mondayAction = mondayAction
+            self.msExchangeAction = msExchangeAction
+            self.msTeamsAction = msTeamsAction
+            self.newRelicAction = newRelicAction
+            self.notionAction = notionAction
+            self.oneDriveAction = oneDriveAction
+            self.openAPIAction = openAPIAction
+            self.pagerDutyAction = pagerDutyAction
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.salesforceAction = salesforceAction
+            self.sandPGlobalEnergyAction = sandPGlobalEnergyAction
+            self.sandPGMIAction = sandPGMIAction
+            self.sapBillOfMaterialAction = sapBillOfMaterialAction
+            self.sapBusinessPartnerAction = sapBusinessPartnerAction
+            self.sapMaterialStockAction = sapMaterialStockAction
+            self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
+            self.sapProductMasterDataAction = sapProductMasterDataAction
+            self.selfUpgradeUserRole = selfUpgradeUserRole
+            self.serviceNowAction = serviceNowAction
+            self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
+            self.shareAmazonBedrockFSAction = shareAmazonBedrockFSAction
+            self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
+            self.shareAmazonSThreeAction = shareAmazonSThreeAction
             self.shareAnalyses = shareAnalyses
+            self.shareAsanaAction = shareAsanaAction
+            self.shareBambooHRAction = shareBambooHRAction
+            self.shareBoxAgentAction = shareBoxAgentAction
+            self.shareCanvaAgentAction = shareCanvaAgentAction
+            self.shareComprehendAction = shareComprehendAction
+            self.shareComprehendMedicalAction = shareComprehendMedicalAction
+            self.shareConfluenceAction = shareConfluenceAction
             self.shareDashboards = shareDashboards
             self.shareDatasets = shareDatasets
             self.shareDataSources = shareDataSources
+            self.shareFactSetAction = shareFactSetAction
+            self.shareGenericHTTPAction = shareGenericHTTPAction
+            self.shareGithubAction = shareGithubAction
+            self.shareGoogleCalendarAction = shareGoogleCalendarAction
+            self.shareHubspotAction = shareHubspotAction
+            self.shareHuggingFaceAction = shareHuggingFaceAction
+            self.shareIntercomAction = shareIntercomAction
+            self.shareJiraAction = shareJiraAction
+            self.shareLinearAction = shareLinearAction
+            self.shareMCPAction = shareMCPAction
+            self.shareMondayAction = shareMondayAction
+            self.shareMSExchangeAction = shareMSExchangeAction
+            self.shareMSTeamsAction = shareMSTeamsAction
+            self.shareNewRelicAction = shareNewRelicAction
+            self.shareNotionAction = shareNotionAction
+            self.shareOneDriveAction = shareOneDriveAction
+            self.shareOpenAPIAction = shareOpenAPIAction
+            self.sharePagerDutyAction = sharePagerDutyAction
+            self.sharePointAction = sharePointAction
+            self.shareSalesforceAction = shareSalesforceAction
+            self.shareSandPGlobalEnergyAction = shareSandPGlobalEnergyAction
+            self.shareSandPGMIAction = shareSandPGMIAction
+            self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
+            self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
+            self.shareSAPMaterialStockAction = shareSAPMaterialStockAction
+            self.shareSAPPhysicalInventoryAction = shareSAPPhysicalInventoryAction
+            self.shareSAPProductMasterDataAction = shareSAPProductMasterDataAction
+            self.shareServiceNowAction = shareServiceNowAction
+            self.shareSharePointAction = shareSharePointAction
+            self.shareSlackAction = shareSlackAction
+            self.shareSmartsheetAction = shareSmartsheetAction
+            self.shareTextractAction = shareTextractAction
+            self.shareZendeskAction = shareZendeskAction
+            self.slackAction = slackAction
+            self.smartsheetAction = smartsheetAction
             self.space = space
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.textractAction = textractAction
             self.useAgentWebSearch = useAgentWebSearch
+            self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
+            self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
+            self.useAmazonBedrockKRSAction = useAmazonBedrockKRSAction
+            self.useAmazonSThreeAction = useAmazonSThreeAction
+            self.useAsanaAction = useAsanaAction
+            self.useBambooHRAction = useBambooHRAction
             self.useBedrockModels = useBedrockModels
+            self.useBoxAgentAction = useBoxAgentAction
+            self.useCanvaAgentAction = useCanvaAgentAction
+            self.useComprehendAction = useComprehendAction
+            self.useComprehendMedicalAction = useComprehendMedicalAction
+            self.useConfluenceAction = useConfluenceAction
+            self.useFactSetAction = useFactSetAction
+            self.useGenericHTTPAction = useGenericHTTPAction
+            self.useGithubAction = useGithubAction
+            self.useGoogleCalendarAction = useGoogleCalendarAction
+            self.useHubspotAction = useHubspotAction
+            self.useHuggingFaceAction = useHuggingFaceAction
+            self.useIntercomAction = useIntercomAction
+            self.useJiraAction = useJiraAction
+            self.useLinearAction = useLinearAction
+            self.useMCPAction = useMCPAction
+            self.useMondayAction = useMondayAction
+            self.useMSExchangeAction = useMSExchangeAction
+            self.useMSTeamsAction = useMSTeamsAction
+            self.useNewRelicAction = useNewRelicAction
+            self.useNotionAction = useNotionAction
+            self.useOneDriveAction = useOneDriveAction
+            self.useOpenAPIAction = useOpenAPIAction
+            self.usePagerDutyAction = usePagerDutyAction
+            self.useSalesforceAction = useSalesforceAction
+            self.useSandPGlobalEnergyAction = useSandPGlobalEnergyAction
+            self.useSandPGMIAction = useSandPGMIAction
+            self.useSAPBillOfMaterialAction = useSAPBillOfMaterialAction
+            self.useSAPBusinessPartnerAction = useSAPBusinessPartnerAction
+            self.useSAPMaterialStockAction = useSAPMaterialStockAction
+            self.useSAPPhysicalInventoryAction = useSAPPhysicalInventoryAction
+            self.useSAPProductMasterDataAction = useSAPProductMasterDataAction
+            self.useServiceNowAction = useServiceNowAction
+            self.useSharePointAction = useSharePointAction
+            self.useSlackAction = useSlackAction
+            self.useSmartsheetAction = useSmartsheetAction
+            self.useTextractAction = useTextractAction
+            self.useZendeskAction = useZendeskAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
+            self.zendeskAction = zendeskAction
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case addOrRunAnomalyDetectionForAnalyses = "AddOrRunAnomalyDetectionForAnalyses"
+            case amazonBedrockARSAction = "AmazonBedrockARSAction"
+            case amazonBedrockFSAction = "AmazonBedrockFSAction"
+            case amazonBedrockKRSAction = "AmazonBedrockKRSAction"
+            case amazonSThreeAction = "AmazonSThreeAction"
             case analysis = "Analysis"
+            case asanaAction = "AsanaAction"
             case automate = "Automate"
+            case bambooHRAction = "BambooHRAction"
+            case boxAgentAction = "BoxAgentAction"
+            case canvaAgentAction = "CanvaAgentAction"
             case chatAgent = "ChatAgent"
+            case comprehendAction = "ComprehendAction"
+            case comprehendMedicalAction = "ComprehendMedicalAction"
+            case confluenceAction = "ConfluenceAction"
+            case createAndUpdateAmazonBedrockARSAction = "CreateAndUpdateAmazonBedrockARSAction"
+            case createAndUpdateAmazonBedrockFSAction = "CreateAndUpdateAmazonBedrockFSAction"
+            case createAndUpdateAmazonBedrockKRSAction = "CreateAndUpdateAmazonBedrockKRSAction"
+            case createAndUpdateAmazonSThreeAction = "CreateAndUpdateAmazonSThreeAction"
+            case createAndUpdateAsanaAction = "CreateAndUpdateAsanaAction"
+            case createAndUpdateBambooHRAction = "CreateAndUpdateBambooHRAction"
+            case createAndUpdateBoxAgentAction = "CreateAndUpdateBoxAgentAction"
+            case createAndUpdateCanvaAgentAction = "CreateAndUpdateCanvaAgentAction"
+            case createAndUpdateComprehendAction = "CreateAndUpdateComprehendAction"
+            case createAndUpdateComprehendMedicalAction = "CreateAndUpdateComprehendMedicalAction"
+            case createAndUpdateConfluenceAction = "CreateAndUpdateConfluenceAction"
             case createAndUpdateDashboardEmailReports = "CreateAndUpdateDashboardEmailReports"
             case createAndUpdateDatasets = "CreateAndUpdateDatasets"
             case createAndUpdateDataSources = "CreateAndUpdateDataSources"
+            case createAndUpdateFactSetAction = "CreateAndUpdateFactSetAction"
+            case createAndUpdateGenericHTTPAction = "CreateAndUpdateGenericHTTPAction"
+            case createAndUpdateGithubAction = "CreateAndUpdateGithubAction"
+            case createAndUpdateGoogleCalendarAction = "CreateAndUpdateGoogleCalendarAction"
+            case createAndUpdateHubspotAction = "CreateAndUpdateHubspotAction"
+            case createAndUpdateHuggingFaceAction = "CreateAndUpdateHuggingFaceAction"
+            case createAndUpdateIntercomAction = "CreateAndUpdateIntercomAction"
+            case createAndUpdateJiraAction = "CreateAndUpdateJiraAction"
+            case createAndUpdateLinearAction = "CreateAndUpdateLinearAction"
+            case createAndUpdateMCPAction = "CreateAndUpdateMCPAction"
+            case createAndUpdateMondayAction = "CreateAndUpdateMondayAction"
+            case createAndUpdateMSExchangeAction = "CreateAndUpdateMSExchangeAction"
+            case createAndUpdateMSTeamsAction = "CreateAndUpdateMSTeamsAction"
+            case createAndUpdateNewRelicAction = "CreateAndUpdateNewRelicAction"
+            case createAndUpdateNotionAction = "CreateAndUpdateNotionAction"
+            case createAndUpdateOneDriveAction = "CreateAndUpdateOneDriveAction"
+            case createAndUpdateOpenAPIAction = "CreateAndUpdateOpenAPIAction"
+            case createAndUpdatePagerDutyAction = "CreateAndUpdatePagerDutyAction"
+            case createAndUpdateSalesforceAction = "CreateAndUpdateSalesforceAction"
+            case createAndUpdateSandPGlobalEnergyAction = "CreateAndUpdateSandPGlobalEnergyAction"
+            case createAndUpdateSandPGMIAction = "CreateAndUpdateSandPGMIAction"
+            case createAndUpdateSAPBillOfMaterialAction = "CreateAndUpdateSAPBillOfMaterialAction"
+            case createAndUpdateSAPBusinessPartnerAction = "CreateAndUpdateSAPBusinessPartnerAction"
+            case createAndUpdateSAPMaterialStockAction = "CreateAndUpdateSAPMaterialStockAction"
+            case createAndUpdateSAPPhysicalInventoryAction = "CreateAndUpdateSAPPhysicalInventoryAction"
+            case createAndUpdateSAPProductMasterDataAction = "CreateAndUpdateSAPProductMasterDataAction"
+            case createAndUpdateServiceNowAction = "CreateAndUpdateServiceNowAction"
+            case createAndUpdateSharePointAction = "CreateAndUpdateSharePointAction"
+            case createAndUpdateSlackAction = "CreateAndUpdateSlackAction"
+            case createAndUpdateSmartsheetAction = "CreateAndUpdateSmartsheetAction"
+            case createAndUpdateTextractAction = "CreateAndUpdateTextractAction"
             case createAndUpdateThemes = "CreateAndUpdateThemes"
             case createAndUpdateThresholdAlerts = "CreateAndUpdateThresholdAlerts"
+            case createAndUpdateZendeskAction = "CreateAndUpdateZendeskAction"
             case createChatAgents = "CreateChatAgents"
             case createSharedFolders = "CreateSharedFolders"
             case createSPICEDataset = "CreateSPICEDataset"
@@ -7761,23 +8363,142 @@ extension QuickSight {
             case exportToExcelInScheduledReports = "ExportToExcelInScheduledReports"
             case exportToPdf = "ExportToPdf"
             case exportToPdfInScheduledReports = "ExportToPdfInScheduledReports"
+            case factSetAction = "FactSetAction"
             case flow = "Flow"
+            case genericHTTPAction = "GenericHTTPAction"
+            case githubAction = "GithubAction"
+            case googleCalendarAction = "GoogleCalendarAction"
+            case hubspotAction = "HubspotAction"
+            case huggingFaceAction = "HuggingFaceAction"
             case includeContentInScheduledReportsEmail = "IncludeContentInScheduledReportsEmail"
+            case intercomAction = "IntercomAction"
+            case jiraAction = "JiraAction"
             case knowledgeBase = "KnowledgeBase"
+            case linearAction = "LinearAction"
+            case mcpAction = "MCPAction"
+            case mondayAction = "MondayAction"
+            case msExchangeAction = "MSExchangeAction"
+            case msTeamsAction = "MSTeamsAction"
+            case newRelicAction = "NewRelicAction"
+            case notionAction = "NotionAction"
+            case oneDriveAction = "OneDriveAction"
+            case openAPIAction = "OpenAPIAction"
+            case pagerDutyAction = "PagerDutyAction"
             case performFlowUiTask = "PerformFlowUiTask"
             case printReports = "PrintReports"
             case publishWithoutApproval = "PublishWithoutApproval"
             case renameSharedFolders = "RenameSharedFolders"
             case research = "Research"
+            case salesforceAction = "SalesforceAction"
+            case sandPGlobalEnergyAction = "SandPGlobalEnergyAction"
+            case sandPGMIAction = "SandPGMIAction"
+            case sapBillOfMaterialAction = "SAPBillOfMaterialAction"
+            case sapBusinessPartnerAction = "SAPBusinessPartnerAction"
+            case sapMaterialStockAction = "SAPMaterialStockAction"
+            case sapPhysicalInventoryAction = "SAPPhysicalInventoryAction"
+            case sapProductMasterDataAction = "SAPProductMasterDataAction"
+            case selfUpgradeUserRole = "SelfUpgradeUserRole"
+            case serviceNowAction = "ServiceNowAction"
+            case shareAmazonBedrockARSAction = "ShareAmazonBedrockARSAction"
+            case shareAmazonBedrockFSAction = "ShareAmazonBedrockFSAction"
+            case shareAmazonBedrockKRSAction = "ShareAmazonBedrockKRSAction"
+            case shareAmazonSThreeAction = "ShareAmazonSThreeAction"
             case shareAnalyses = "ShareAnalyses"
+            case shareAsanaAction = "ShareAsanaAction"
+            case shareBambooHRAction = "ShareBambooHRAction"
+            case shareBoxAgentAction = "ShareBoxAgentAction"
+            case shareCanvaAgentAction = "ShareCanvaAgentAction"
+            case shareComprehendAction = "ShareComprehendAction"
+            case shareComprehendMedicalAction = "ShareComprehendMedicalAction"
+            case shareConfluenceAction = "ShareConfluenceAction"
             case shareDashboards = "ShareDashboards"
             case shareDatasets = "ShareDatasets"
             case shareDataSources = "ShareDataSources"
+            case shareFactSetAction = "ShareFactSetAction"
+            case shareGenericHTTPAction = "ShareGenericHTTPAction"
+            case shareGithubAction = "ShareGithubAction"
+            case shareGoogleCalendarAction = "ShareGoogleCalendarAction"
+            case shareHubspotAction = "ShareHubspotAction"
+            case shareHuggingFaceAction = "ShareHuggingFaceAction"
+            case shareIntercomAction = "ShareIntercomAction"
+            case shareJiraAction = "ShareJiraAction"
+            case shareLinearAction = "ShareLinearAction"
+            case shareMCPAction = "ShareMCPAction"
+            case shareMondayAction = "ShareMondayAction"
+            case shareMSExchangeAction = "ShareMSExchangeAction"
+            case shareMSTeamsAction = "ShareMSTeamsAction"
+            case shareNewRelicAction = "ShareNewRelicAction"
+            case shareNotionAction = "ShareNotionAction"
+            case shareOneDriveAction = "ShareOneDriveAction"
+            case shareOpenAPIAction = "ShareOpenAPIAction"
+            case sharePagerDutyAction = "SharePagerDutyAction"
+            case sharePointAction = "SharePointAction"
+            case shareSalesforceAction = "ShareSalesforceAction"
+            case shareSandPGlobalEnergyAction = "ShareSandPGlobalEnergyAction"
+            case shareSandPGMIAction = "ShareSandPGMIAction"
+            case shareSAPBillOfMaterialAction = "ShareSAPBillOfMaterialAction"
+            case shareSAPBusinessPartnerAction = "ShareSAPBusinessPartnerAction"
+            case shareSAPMaterialStockAction = "ShareSAPMaterialStockAction"
+            case shareSAPPhysicalInventoryAction = "ShareSAPPhysicalInventoryAction"
+            case shareSAPProductMasterDataAction = "ShareSAPProductMasterDataAction"
+            case shareServiceNowAction = "ShareServiceNowAction"
+            case shareSharePointAction = "ShareSharePointAction"
+            case shareSlackAction = "ShareSlackAction"
+            case shareSmartsheetAction = "ShareSmartsheetAction"
+            case shareTextractAction = "ShareTextractAction"
+            case shareZendeskAction = "ShareZendeskAction"
+            case slackAction = "SlackAction"
+            case smartsheetAction = "SmartsheetAction"
             case space = "Space"
             case subscribeDashboardEmailReports = "SubscribeDashboardEmailReports"
+            case textractAction = "TextractAction"
             case useAgentWebSearch = "UseAgentWebSearch"
+            case useAmazonBedrockARSAction = "UseAmazonBedrockARSAction"
+            case useAmazonBedrockFSAction = "UseAmazonBedrockFSAction"
+            case useAmazonBedrockKRSAction = "UseAmazonBedrockKRSAction"
+            case useAmazonSThreeAction = "UseAmazonSThreeAction"
+            case useAsanaAction = "UseAsanaAction"
+            case useBambooHRAction = "UseBambooHRAction"
             case useBedrockModels = "UseBedrockModels"
+            case useBoxAgentAction = "UseBoxAgentAction"
+            case useCanvaAgentAction = "UseCanvaAgentAction"
+            case useComprehendAction = "UseComprehendAction"
+            case useComprehendMedicalAction = "UseComprehendMedicalAction"
+            case useConfluenceAction = "UseConfluenceAction"
+            case useFactSetAction = "UseFactSetAction"
+            case useGenericHTTPAction = "UseGenericHTTPAction"
+            case useGithubAction = "UseGithubAction"
+            case useGoogleCalendarAction = "UseGoogleCalendarAction"
+            case useHubspotAction = "UseHubspotAction"
+            case useHuggingFaceAction = "UseHuggingFaceAction"
+            case useIntercomAction = "UseIntercomAction"
+            case useJiraAction = "UseJiraAction"
+            case useLinearAction = "UseLinearAction"
+            case useMCPAction = "UseMCPAction"
+            case useMondayAction = "UseMondayAction"
+            case useMSExchangeAction = "UseMSExchangeAction"
+            case useMSTeamsAction = "UseMSTeamsAction"
+            case useNewRelicAction = "UseNewRelicAction"
+            case useNotionAction = "UseNotionAction"
+            case useOneDriveAction = "UseOneDriveAction"
+            case useOpenAPIAction = "UseOpenAPIAction"
+            case usePagerDutyAction = "UsePagerDutyAction"
+            case useSalesforceAction = "UseSalesforceAction"
+            case useSandPGlobalEnergyAction = "UseSandPGlobalEnergyAction"
+            case useSandPGMIAction = "UseSandPGMIAction"
+            case useSAPBillOfMaterialAction = "UseSAPBillOfMaterialAction"
+            case useSAPBusinessPartnerAction = "UseSAPBusinessPartnerAction"
+            case useSAPMaterialStockAction = "UseSAPMaterialStockAction"
+            case useSAPPhysicalInventoryAction = "UseSAPPhysicalInventoryAction"
+            case useSAPProductMasterDataAction = "UseSAPProductMasterDataAction"
+            case useServiceNowAction = "UseServiceNowAction"
+            case useSharePointAction = "UseSharePointAction"
+            case useSlackAction = "UseSlackAction"
+            case useSmartsheetAction = "UseSmartsheetAction"
+            case useTextractAction = "UseTextractAction"
+            case useZendeskAction = "UseZendeskAction"
             case viewAccountSPICECapacity = "ViewAccountSPICECapacity"
+            case zendeskAction = "ZendeskAction"
         }
     }
 
@@ -20664,6 +21385,65 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeSelfUpgradeConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration.
+        public let awsAccountId: String
+        /// The Quick Suite namespace that you want to describe the Quick Suite self-upgrade configuration for.
+        public let namespace: String
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSelfUpgradeConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The self-upgrade configuration for the Quick Suite account.
+        public let selfUpgradeConfiguration: SelfUpgradeConfiguration?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, selfUpgradeConfiguration: SelfUpgradeConfiguration? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.selfUpgradeConfiguration = selfUpgradeConfiguration
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.selfUpgradeConfiguration = try container.decodeIfPresent(SelfUpgradeConfiguration.self, forKey: .selfUpgradeConfiguration)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case selfUpgradeConfiguration = "SelfUpgradeConfiguration"
+        }
+    }
+
     public struct DescribeTemplateAliasRequest: AWSEncodableShape {
         /// The name of the template alias that you want to describe. If you name a specific alias, you
         /// 			describe the version that the alias points to. You can specify the latest version of the
@@ -23777,11 +24557,14 @@ extension QuickSight {
         public let canvasSizeOptions: FreeFormLayoutCanvasSizeOptions?
         /// The elements that are included in a free-form layout.
         public let elements: [FreeFormLayoutElement]
+        /// The groups that are included in a free-form layout.
+        public let groups: [SheetLayoutGroup]?
 
         @inlinable
-        public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions? = nil, elements: [FreeFormLayoutElement]) {
+        public init(canvasSizeOptions: FreeFormLayoutCanvasSizeOptions? = nil, elements: [FreeFormLayoutElement], groups: [SheetLayoutGroup]? = nil) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
+            self.groups = groups
         }
 
         public func validate(name: String) throws {
@@ -23789,11 +24572,16 @@ extension QuickSight {
                 try $0.validate(name: "\(name).elements[]")
             }
             try self.validate(self.elements, name: "elements", parent: name, max: 430)
+            try self.groups?.forEach {
+                try $0.validate(name: "\(name).groups[]")
+            }
+            try self.validate(self.groups, name: "groups", parent: name, max: 215)
         }
 
         private enum CodingKeys: String, CodingKey {
             case canvasSizeOptions = "CanvasSizeOptions"
             case elements = "Elements"
+            case groups = "Groups"
         }
     }
 
@@ -24472,7 +25260,7 @@ extension QuickSight {
         public let namespace: String
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
-        /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tagsin the Amazon Quick Sight User Guide.
+        /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using SessionTags in GenerateEmbedUrlForAnonymousUser,   Treat SessionTags as security credentials. Do not expose SessionTags to end users or client-side code.   Implement server-side controls. Ensure that SessionTags are set exclusively by your trusted backend services, not by parameters that end users can modify.   Protect SessionTags from enumeration. Ensure that users in one tenant cannot discover or guess sessionTag values belonging to other tenants.   Review your architecture. If downstream customers or partners are allowed to call the GenerateEmbedUrlForAnonymousUser API directly, evaluate whether those parties could specify sessionTag values for tenants they should not access.   Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see Using Row-Level Security (RLS) with Tags in the Amazon Quick Suite User Guide.
         public let sessionTags: [SessionTag]?
 
         @inlinable
@@ -26197,7 +26985,7 @@ extension QuickSight {
     }
 
     public struct GetIdentityContextResponse: AWSDecodableShape {
-        /// The identity context information for the user. This is an identity token that should be used as the ContextAssertion parameter in the STS AssumeRole API call to obtain identity enhanced AWS credentials.
+        /// The identity context information for the user. This is an identity token that should be used as the ContextAssertion parameter in the STS AssumeRole API call to obtain identity enhanced Amazon Web Services credentials.
         public let context: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String
@@ -27579,7 +28367,7 @@ extension QuickSight {
         public let name: String
         /// The sub data type of the column. Sub types are only available for decimal columns that are part of a SPICE dataset.
         public let subType: ColumnDataSubType?
-        /// The data type of the column.
+        /// The data type of the column.  Note: SEMISTRUCT represents Athena's map, row, and struct data types. It is supported when using the new data preparation experience.
         public let type: InputColumnDataType
 
         @inlinable
@@ -27883,6 +28671,23 @@ extension QuickSight {
     }
 
     public struct InvalidNextTokenException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidParameterException: AWSErrorShape {
         public let message: String?
         /// The Amazon Web Services request ID for this request.
         public let requestId: String?
@@ -30917,6 +31722,80 @@ extension QuickSight {
             case membersList = "MembersList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
+        }
+    }
+
+    public struct ListSelfUpgradesRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the self-upgrade requests.
+        public let awsAccountId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The Quick Suite namespace for the self-upgrade requests.
+        public let namespace: String
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(awsAccountId: String, maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodeQuery(self.maxResults, key: "max-results")
+            request.encodePath(self.namespace, key: "Namespace")
+            request.encodeQuery(self.nextToken, key: "next-token")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSelfUpgradesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no more results.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// A list of self-upgrade request details.
+        public let selfUpgradeRequestDetails: [SelfUpgradeRequestDetail]?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(nextToken: String? = nil, requestId: String? = nil, selfUpgradeRequestDetails: [SelfUpgradeRequestDetail]? = nil, status: Int? = nil) {
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.selfUpgradeRequestDetails = selfUpgradeRequestDetails
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.nextToken = try container.decodeIfPresent(String.self, forKey: .nextToken)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.selfUpgradeRequestDetails = try container.decodeIfPresent([SelfUpgradeRequestDetail].self, forKey: .selfUpgradeRequestDetails)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case selfUpgradeRequestDetails = "SelfUpgradeRequestDetails"
         }
     }
 
@@ -39087,6 +39966,66 @@ extension QuickSight {
         }
     }
 
+    public struct SelfUpgradeConfiguration: AWSDecodableShape {
+        /// Status set for the self-upgrade configuration for the Quick Suite account. It can contain the following values:    AUTO_APPROVAL: All the self-upgrade requests will be auto approved.    ADMIN_APPROVAL: All the self-upgrade requests will require admin approval.
+        public let selfUpgradeStatus: SelfUpgradeStatus?
+
+        @inlinable
+        public init(selfUpgradeStatus: SelfUpgradeStatus? = nil) {
+            self.selfUpgradeStatus = selfUpgradeStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selfUpgradeStatus = "SelfUpgradeStatus"
+        }
+    }
+
+    public struct SelfUpgradeRequestDetail: AWSDecodableShape {
+        /// The time when the self-upgrade request was created.
+        public let creationTime: Int64?
+        /// The time of the last update attempt for the self-upgrade request.
+        public let lastUpdateAttemptTime: Int64?
+        /// The reason for the last update failure, if applicable.
+        public let lastUpdateFailureReason: String?
+        /// The original role of the user before the upgrade.
+        public let originalRole: UserRole?
+        /// The role that the user is requesting to upgrade to.
+        public let requestedRole: UserRole?
+        /// An optional note explaining the reason for the self-upgrade request.
+        public let requestNote: String?
+        /// The status of the self-upgrade request.
+        public let requestStatus: SelfUpgradeRequestStatus?
+        /// The ID of the self-upgrade request.
+        public let upgradeRequestId: String?
+        /// The username of the user who initiated the self-upgrade request.
+        public let userName: String?
+
+        @inlinable
+        public init(creationTime: Int64? = nil, lastUpdateAttemptTime: Int64? = nil, lastUpdateFailureReason: String? = nil, originalRole: UserRole? = nil, requestedRole: UserRole? = nil, requestNote: String? = nil, requestStatus: SelfUpgradeRequestStatus? = nil, upgradeRequestId: String? = nil, userName: String? = nil) {
+            self.creationTime = creationTime
+            self.lastUpdateAttemptTime = lastUpdateAttemptTime
+            self.lastUpdateFailureReason = lastUpdateFailureReason
+            self.originalRole = originalRole
+            self.requestedRole = requestedRole
+            self.requestNote = requestNote
+            self.requestStatus = requestStatus
+            self.upgradeRequestId = upgradeRequestId
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastUpdateAttemptTime = "lastUpdateAttemptTime"
+            case lastUpdateFailureReason = "lastUpdateFailureReason"
+            case originalRole = "OriginalRole"
+            case requestedRole = "RequestedRole"
+            case requestNote = "RequestNote"
+            case requestStatus = "RequestStatus"
+            case upgradeRequestId = "UpgradeRequestId"
+            case userName = "UserName"
+        }
+    }
+
     public struct SemanticEntityType: AWSEncodableShape & AWSDecodableShape {
         /// The semantic entity sub type name.
         public let subTypeName: String?
@@ -39770,6 +40709,59 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct SheetLayoutGroup: AWSEncodableShape & AWSDecodableShape {
+        /// A unique identifier for the group.
+        public let id: String
+        /// The members of the group.
+        public let members: [SheetLayoutGroupMember]
+
+        @inlinable
+        public init(id: String, members: [SheetLayoutGroupMember]) {
+            self.id = id
+            self.members = members
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 512)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w\\-]+$")
+            try self.members.forEach {
+                try $0.validate(name: "\(name).members[]")
+            }
+            try self.validate(self.members, name: "members", parent: name, max: 430)
+            try self.validate(self.members, name: "members", parent: name, min: 2)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case members = "Members"
+        }
+    }
+
+    public struct SheetLayoutGroupMember: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier of the group member.
+        public let id: String
+        /// The type of the group member.
+        public let type: SheetLayoutGroupMemberType
+
+        @inlinable
+        public init(id: String, type: SheetLayoutGroupMemberType) {
+            self.id = id
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 512)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case type = "Type"
         }
     }
 
@@ -48315,6 +49307,136 @@ extension QuickSight {
         }
     }
 
+    public struct UpdateSelfUpgradeConfigurationRequest: AWSEncodableShape {
+        /// The ID of the Amazon Web Services account that contains the Quick Suite self-upgrade configuration that you want to update.
+        public let awsAccountId: String
+        /// The Quick Suite namespace that you want to update the Quick Suite self-upgrade configuration for.
+        public let namespace: String
+        /// The self-upgrade status that you want to set for the Quick Suite account.
+        public let selfUpgradeStatus: SelfUpgradeStatus
+
+        @inlinable
+        public init(awsAccountId: String, namespace: String, selfUpgradeStatus: SelfUpgradeStatus) {
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.selfUpgradeStatus = selfUpgradeStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encode(self.selfUpgradeStatus, forKey: .selfUpgradeStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case selfUpgradeStatus = "SelfUpgradeStatus"
+        }
+    }
+
+    public struct UpdateSelfUpgradeConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UpdateSelfUpgradeRequest: AWSEncodableShape {
+        /// The action to perform on the self-upgrade request. Valid values are APPROVE, DENY, or VERIFY.
+        public let action: SelfUpgradeAdminAction
+        /// The ID of the Amazon Web Services account that contains the self-upgrade request.
+        public let awsAccountId: String
+        /// The Quick Suite namespace for the self-upgrade request.
+        public let namespace: String
+        /// The ID of the self-upgrade request to update.
+        public let upgradeRequestId: String
+
+        @inlinable
+        public init(action: SelfUpgradeAdminAction, awsAccountId: String, namespace: String, upgradeRequestId: String) {
+            self.action = action
+            self.awsAccountId = awsAccountId
+            self.namespace = namespace
+            self.upgradeRequestId = upgradeRequestId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.action, forKey: .action)
+            request.encodePath(self.awsAccountId, key: "AwsAccountId")
+            request.encodePath(self.namespace, key: "Namespace")
+            try container.encode(self.upgradeRequestId, forKey: .upgradeRequestId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case upgradeRequestId = "UpgradeRequestId"
+        }
+    }
+
+    public struct UpdateSelfUpgradeResponse: AWSDecodableShape {
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// Details of the updated self-upgrade request.
+        public let selfUpgradeRequestDetail: SelfUpgradeRequestDetail?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        @inlinable
+        public init(requestId: String? = nil, selfUpgradeRequestDetail: SelfUpgradeRequestDetail? = nil, status: Int? = nil) {
+            self.requestId = requestId
+            self.selfUpgradeRequestDetail = selfUpgradeRequestDetail
+            self.status = status
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.selfUpgradeRequestDetail = try container.decodeIfPresent(SelfUpgradeRequestDetail.self, forKey: .selfUpgradeRequestDetail)
+            self.status = response.decodeStatus()
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestId = "RequestId"
+            case selfUpgradeRequestDetail = "SelfUpgradeRequestDetail"
+        }
+    }
+
     public struct UpdateTemplateAliasRequest: AWSEncodableShape {
         /// The alias of the template that you want to update. If you name a specific alias, you update
         /// 			the version that the alias points to. You can specify the latest version of the template
@@ -50839,6 +51961,7 @@ public struct QuickSightErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case invalidDataSetParameterValueException = "InvalidDataSetParameterValueException"
         case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
         case invalidParameterValueException = "InvalidParameterValueException"
         case invalidRequestException = "InvalidRequestException"
         case limitExceededException = "LimitExceededException"
@@ -50897,6 +52020,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var invalidDataSetParameterValueException: Self { .init(.invalidDataSetParameterValueException) }
     /// The NextToken value isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One or more parameter has a value that isn't valid.
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// One or more parameters has a value that isn't valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
     /// You don't have this feature activated for your account. To fix this issue, contact Amazon Web Services support.
@@ -50943,6 +52068,7 @@ extension QuickSightErrorType: AWSServiceErrorType {
         "InternalFailureException": QuickSight.InternalFailureException.self,
         "InvalidDataSetParameterValueException": QuickSight.InvalidDataSetParameterValueException.self,
         "InvalidNextTokenException": QuickSight.InvalidNextTokenException.self,
+        "InvalidParameterException": QuickSight.InvalidParameterException.self,
         "InvalidParameterValueException": QuickSight.InvalidParameterValueException.self,
         "InvalidRequestException": QuickSight.InvalidRequestException.self,
         "LimitExceededException": QuickSight.LimitExceededException.self,

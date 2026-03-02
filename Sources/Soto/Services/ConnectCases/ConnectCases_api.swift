@@ -185,7 +185,7 @@ public struct ConnectCases: AWSService {
         return try await self.batchPutFieldOptions(input, logger: logger)
     }
 
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     @Sendable
     @inlinable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
@@ -198,13 +198,14 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. When creating a case from a template that has tag propagation configurations, the specified tags are automatically applied to the case. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fields: An array of objects with field ID (matching ListFields/DescribeField) and value union data.
     ///   - performedBy: 
+    ///   - tags: A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     ///   - templateId: A unique identifier of a template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -213,6 +214,7 @@ public struct ConnectCases: AWSService {
         domainId: String,
         fields: [FieldValue],
         performedBy: UserUnion? = nil,
+        tags: [String: String]? = nil,
         templateId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCaseResponse {
@@ -221,6 +223,7 @@ public struct ConnectCases: AWSService {
             domainId: domainId, 
             fields: fields, 
             performedBy: performedBy, 
+            tags: tags, 
             templateId: templateId
         )
         return try await self.createCase(input, logger: logger)
@@ -309,6 +312,7 @@ public struct ConnectCases: AWSService {
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
     ///
     /// Parameters:
+    ///   - attributes: Union of field attributes.
     ///   - description: The description of the field.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - name: The name of the field.
@@ -316,6 +320,7 @@ public struct ConnectCases: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createField(
+        attributes: FieldAttributes? = nil,
         description: String? = nil,
         domainId: String,
         name: String,
@@ -323,6 +328,7 @@ public struct ConnectCases: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFieldResponse {
         let input = CreateFieldRequest(
+            attributes: attributes, 
             description: description, 
             domainId: domainId, 
             name: name, 
@@ -430,6 +436,7 @@ public struct ConnectCases: AWSService {
     ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template.
     ///   - rules: A list of case rules (also known as case field conditions) on a template.
     ///   - status: The status of the template.
+    ///   - tagPropagationConfigurations: Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
     ///   - logger: Logger use during operation
     @inlinable
     public func createTemplate(
@@ -440,6 +447,7 @@ public struct ConnectCases: AWSService {
         requiredFields: [RequiredField]? = nil,
         rules: [TemplateRule]? = nil,
         status: TemplateStatus? = nil,
+        tagPropagationConfigurations: [TagPropagationConfiguration]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateTemplateResponse {
         let input = CreateTemplateRequest(
@@ -449,7 +457,8 @@ public struct ConnectCases: AWSService {
             name: name, 
             requiredFields: requiredFields, 
             rules: rules, 
-            status: status
+            status: status, 
+            tagPropagationConfigurations: tagPropagationConfigurations
         )
         return try await self.createTemplate(input, logger: logger)
     }
@@ -547,7 +556,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteDomain(input, logger: logger)
     }
 
-    /// Deletes a field from a cases template. You can delete up to 100 fields per domain. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
+    /// Deletes a field from a cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     @Sendable
     @inlinable
     public func deleteField(_ input: DeleteFieldRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFieldResponse {
@@ -560,7 +569,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a field from a cases template. You can delete up to 100 fields per domain. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
+    /// Deletes a field from a cases template. After a field is deleted:   You can still retrieve the field by calling BatchGetField.   You cannot update a deleted field by calling UpdateField; it throws a ValidationException.   Deleted fields are not included in the ListFields response.   Calling CreateCase with a deleted field throws a ValidationException denoting which field identifiers in the request have been deleted.   Calling GetCase with a deleted field identifier returns the deleted field's value if one exists.   Calling UpdateCase with a deleted field ID throws a ValidationException if the case does not already contain a value for the deleted field. Otherwise it succeeds, allowing you to update or remove (using emptyValue: {}) the field's value from the case.    GetTemplate does not return field IDs for deleted fields.    GetLayout does not return field IDs for deleted fields.   Calling SearchCases with the deleted field ID as a filter returns any cases that have a value for the deleted field that matches the filter criteria.   Calling SearchCases with a searchTerm value that matches a deleted field's value on a case returns the case in the response.   Calling BatchPutFieldOptions with a deleted field ID throw a ValidationException.   Calling GetCaseEventConfiguration does not return field IDs for deleted fields.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -1479,6 +1488,7 @@ public struct ConnectCases: AWSService {
     /// Updates the properties of an existing field.
     ///
     /// Parameters:
+    ///   - attributes: Union of field attributes.
     ///   - description: The description of a field.
     ///   - domainId: The unique identifier of the Cases domain.
     ///   - fieldId: The unique identifier of a field.
@@ -1486,6 +1496,7 @@ public struct ConnectCases: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateField(
+        attributes: FieldAttributes? = nil,
         description: String? = nil,
         domainId: String,
         fieldId: String,
@@ -1493,6 +1504,7 @@ public struct ConnectCases: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateFieldResponse {
         let input = UpdateFieldRequest(
+            attributes: attributes, 
             description: description, 
             domainId: domainId, 
             fieldId: fieldId, 
@@ -1562,6 +1574,7 @@ public struct ConnectCases: AWSService {
     ///   - requiredFields: A list of fields that must contain a value for a case to be successfully created with this template.
     ///   - rules: A list of case rules (also known as case field conditions) on a template.
     ///   - status: The status of the template.
+    ///   - tagPropagationConfigurations: Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
     ///   - templateId: A unique identifier for the template.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1573,6 +1586,7 @@ public struct ConnectCases: AWSService {
         requiredFields: [RequiredField]? = nil,
         rules: [TemplateRule]? = nil,
         status: TemplateStatus? = nil,
+        tagPropagationConfigurations: [TagPropagationConfiguration]? = nil,
         templateId: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateTemplateResponse {
@@ -1584,6 +1598,7 @@ public struct ConnectCases: AWSService {
             requiredFields: requiredFields, 
             rules: rules, 
             status: status, 
+            tagPropagationConfigurations: tagPropagationConfigurations, 
             templateId: templateId
         )
         return try await self.updateTemplate(input, logger: logger)

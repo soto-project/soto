@@ -114,6 +114,12 @@ extension Keyspaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum WarmThroughputStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AutoScalingPolicy: AWSEncodableShape & AWSDecodableShape {
@@ -430,9 +436,11 @@ extension Keyspaces {
         public let tags: [Tag]?
         /// Enables Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
         public let ttl: TimeToLive?
+        /// Specifies the warm throughput settings for the table. Pre-warming a table helps you avoid capacity exceeded exceptions by pre-provisioning read and write capacity units to reduce cold start latency when your table receives traffic. For more information about pre-warming in Amazon Keyspaces, see Pre-warm a table in Amazon Keyspaces in the Amazon Keyspaces Developer Guide.
+        public let warmThroughputSpecification: WarmThroughputSpecification?
 
         @inlinable
-        public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, schemaDefinition: SchemaDefinition, tableName: String, tags: [Tag]? = nil, ttl: TimeToLive? = nil) {
+        public init(autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, schemaDefinition: SchemaDefinition, tableName: String, tags: [Tag]? = nil, ttl: TimeToLive? = nil, warmThroughputSpecification: WarmThroughputSpecification? = nil) {
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecification = capacitySpecification
             self.cdcSpecification = cdcSpecification
@@ -447,6 +455,7 @@ extension Keyspaces {
             self.tableName = tableName
             self.tags = tags
             self.ttl = ttl
+            self.warmThroughputSpecification = warmThroughputSpecification
         }
 
         public func validate(name: String) throws {
@@ -489,6 +498,7 @@ extension Keyspaces {
             case tableName = "tableName"
             case tags = "tags"
             case ttl = "ttl"
+            case warmThroughputSpecification = "warmThroughputSpecification"
         }
     }
 
@@ -862,9 +872,11 @@ extension Keyspaces {
         public let tableName: String
         /// The custom Time to Live settings of the specified table.
         public let ttl: TimeToLive?
+        /// The warm throughput settings for the table, including the current status and configured read and write capacity units.
+        public let warmThroughputSpecification: WarmThroughputSpecificationSummary?
 
         @inlinable
-        public init(capacitySpecification: CapacitySpecificationSummary? = nil, cdcSpecification: CdcSpecificationSummary? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, creationTimestamp: Date? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, latestStreamArn: String? = nil, pointInTimeRecovery: PointInTimeRecoverySummary? = nil, replicaSpecifications: [ReplicaSpecificationSummary]? = nil, resourceArn: String, schemaDefinition: SchemaDefinition? = nil, status: TableStatus? = nil, tableName: String, ttl: TimeToLive? = nil) {
+        public init(capacitySpecification: CapacitySpecificationSummary? = nil, cdcSpecification: CdcSpecificationSummary? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, comment: Comment? = nil, creationTimestamp: Date? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, latestStreamArn: String? = nil, pointInTimeRecovery: PointInTimeRecoverySummary? = nil, replicaSpecifications: [ReplicaSpecificationSummary]? = nil, resourceArn: String, schemaDefinition: SchemaDefinition? = nil, status: TableStatus? = nil, tableName: String, ttl: TimeToLive? = nil, warmThroughputSpecification: WarmThroughputSpecificationSummary? = nil) {
             self.capacitySpecification = capacitySpecification
             self.cdcSpecification = cdcSpecification
             self.clientSideTimestamps = clientSideTimestamps
@@ -881,6 +893,7 @@ extension Keyspaces {
             self.status = status
             self.tableName = tableName
             self.ttl = ttl
+            self.warmThroughputSpecification = warmThroughputSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -900,6 +913,7 @@ extension Keyspaces {
             case status = "status"
             case tableName = "tableName"
             case ttl = "ttl"
+            case warmThroughputSpecification = "warmThroughputSpecification"
         }
     }
 
@@ -1293,18 +1307,22 @@ extension Keyspaces {
         public let region: String?
         /// The status of the multi-Region table in the specified Amazon Web Services Region.
         public let status: TableStatus?
+        /// The warm throughput settings for this replica, including the current status and configured read and write capacity units.
+        public let warmThroughputSpecification: WarmThroughputSpecificationSummary?
 
         @inlinable
-        public init(capacitySpecification: CapacitySpecificationSummary? = nil, region: String? = nil, status: TableStatus? = nil) {
+        public init(capacitySpecification: CapacitySpecificationSummary? = nil, region: String? = nil, status: TableStatus? = nil, warmThroughputSpecification: WarmThroughputSpecificationSummary? = nil) {
             self.capacitySpecification = capacitySpecification
             self.region = region
             self.status = status
+            self.warmThroughputSpecification = warmThroughputSpecification
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacitySpecification = "capacitySpecification"
             case region = "region"
             case status = "status"
+            case warmThroughputSpecification = "warmThroughputSpecification"
         }
     }
 
@@ -1357,9 +1375,9 @@ extension Keyspaces {
     }
 
     public struct ResourceNotFoundException: AWSErrorShape {
-        /// Description of the error.
+        /// The specified resource was not found. Verify the resource identifier and ensure the resource exists and is in an ACTIVE state.
         public let message: String?
-        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn’t be found.
+        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn't be found.
         public let resourceArn: String?
 
         @inlinable
@@ -1733,9 +1751,11 @@ extension Keyspaces {
         public let tableName: String
         /// Modifies Time to Live custom settings for the table. The options are:    status:enabled     status:disabled    The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see Expiring data by using Amazon Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
         public let ttl: TimeToLive?
+        /// Modifies the warm throughput settings for the table. You can update the read and write capacity units to adjust the pre-provisioned throughput.
+        public let warmThroughputSpecification: WarmThroughputSpecification?
 
         @inlinable
-        public init(addColumns: [ColumnDefinition]? = nil, autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, tableName: String, ttl: TimeToLive? = nil) {
+        public init(addColumns: [ColumnDefinition]? = nil, autoScalingSpecification: AutoScalingSpecification? = nil, capacitySpecification: CapacitySpecification? = nil, cdcSpecification: CdcSpecification? = nil, clientSideTimestamps: ClientSideTimestamps? = nil, defaultTimeToLive: Int? = nil, encryptionSpecification: EncryptionSpecification? = nil, keyspaceName: String, pointInTimeRecovery: PointInTimeRecovery? = nil, replicaSpecifications: [ReplicaSpecification]? = nil, tableName: String, ttl: TimeToLive? = nil, warmThroughputSpecification: WarmThroughputSpecification? = nil) {
             self.addColumns = addColumns
             self.autoScalingSpecification = autoScalingSpecification
             self.capacitySpecification = capacitySpecification
@@ -1748,6 +1768,7 @@ extension Keyspaces {
             self.replicaSpecifications = replicaSpecifications
             self.tableName = tableName
             self.ttl = ttl
+            self.warmThroughputSpecification = warmThroughputSpecification
         }
 
         public func validate(name: String) throws {
@@ -1783,6 +1804,7 @@ extension Keyspaces {
             case replicaSpecifications = "replicaSpecifications"
             case tableName = "tableName"
             case ttl = "ttl"
+            case warmThroughputSpecification = "warmThroughputSpecification"
         }
     }
 
@@ -1797,6 +1819,46 @@ extension Keyspaces {
 
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct WarmThroughputSpecification: AWSEncodableShape {
+        /// The number of read capacity units per second to pre-warm the table for read capacity throughput. The minimum value is 1.
+        public let readUnitsPerSecond: Int64?
+        /// The number of write capacity units per second to pre-warm the table for write capacity throughput. The minimum value is 1.
+        public let writeUnitsPerSecond: Int64?
+
+        @inlinable
+        public init(readUnitsPerSecond: Int64? = nil, writeUnitsPerSecond: Int64? = nil) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readUnitsPerSecond = "readUnitsPerSecond"
+            case writeUnitsPerSecond = "writeUnitsPerSecond"
+        }
+    }
+
+    public struct WarmThroughputSpecificationSummary: AWSDecodableShape {
+        /// The number of read capacity units per second currently configured for warm throughput.
+        public let readUnitsPerSecond: Int64
+        /// The current status of the warm throughput configuration. Valid values are AVAILABLE when the configuration is active, and UPDATING when changes are being applied.
+        public let status: WarmThroughputStatus
+        /// The number of write capacity units per second currently configured for warm throughput.
+        public let writeUnitsPerSecond: Int64
+
+        @inlinable
+        public init(readUnitsPerSecond: Int64, status: WarmThroughputStatus, writeUnitsPerSecond: Int64) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case readUnitsPerSecond = "readUnitsPerSecond"
+            case status = "status"
+            case writeUnitsPerSecond = "writeUnitsPerSecond"
         }
     }
 }

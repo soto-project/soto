@@ -995,6 +995,28 @@ extension WAFV2 {
         }
     }
 
+    public struct BotStatistics: AWSDecodableShape {
+        /// The name of the bot. For example, gptbot or googlebot.
+        public let botName: String
+        /// The percentage of total requests to the associated path that came from this bot.
+        public let percentage: Double
+        /// The number of requests from this bot to the associated path within the specified time window.
+        public let requestCount: Int64
+
+        @inlinable
+        public init(botName: String, percentage: Double, requestCount: Int64) {
+            self.botName = botName
+            self.percentage = percentage
+            self.requestCount = requestCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botName = "BotName"
+            case percentage = "Percentage"
+            case requestCount = "RequestCount"
+        }
+    }
+
     public struct ByteMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// The part of the web request that you want WAF to inspect.
         public let fieldToMatch: FieldToMatch
@@ -2546,6 +2568,28 @@ extension WAFV2 {
         }
     }
 
+    public struct FilterSource: AWSDecodableShape {
+        /// The bot category that was used to filter the results. For example, ai or search_engine.
+        public let botCategory: String?
+        /// The bot name that was used to filter the results. For example, gptbot or googlebot.
+        public let botName: String?
+        /// The bot organization that was used to filter the results. For example, OpenAI or Google.
+        public let botOrganization: String?
+
+        @inlinable
+        public init(botCategory: String? = nil, botName: String? = nil, botOrganization: String? = nil) {
+            self.botCategory = botCategory
+            self.botName = botName
+            self.botOrganization = botOrganization
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botCategory = "BotCategory"
+            case botName = "BotName"
+            case botOrganization = "BotOrganization"
+        }
+    }
+
     public struct FirewallManagerRuleGroup: AWSDecodableShape {
         /// The processing guidance for an Firewall Manager rule. This is like a regular rule Statement, but it can only contain a rule group reference.
         public let firewallManagerStatement: FirewallManagerStatement
@@ -3158,6 +3202,107 @@ extension WAFV2 {
             case populationSize = "PopulationSize"
             case sampledRequests = "SampledRequests"
             case timeWindow = "TimeWindow"
+        }
+    }
+
+    public struct GetTopPathStatisticsByTrafficRequest: AWSEncodableShape {
+        /// Filters the results to include only traffic from bots in the specified category. For example, you can filter by ai  to see only AI crawler traffic, or search_engine to see only search engine bot traffic.  When you apply this filter, the Source field is populated in the response.
+        public let botCategory: String?
+        /// Filters the results to include only traffic from the specified bot. For example, you can filter by gptbot or googlebot.  When you apply this filter, the Source field is populated in the response.
+        public let botName: String?
+        /// Filters the results to include only traffic from bots belonging to the specified organization. For example, you can filter by openai or google.  When you apply this filter, the Source field is populated in the response.
+        public let botOrganization: String?
+        /// The maximum number of path statistics to return. Valid values are 1 to 100.
+        public let limit: Int
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects,  provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// The maximum number of top bots to include in the statistics for each path. Valid values are 1 to 10.
+        public let numberOfTopTrafficBotsPerPath: Int
+        /// Specifies whether the web ACL is for an Amazon Web Services CloudFront distribution or for a regional application.  A regional application can be an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool,  an Amazon Web Services App Runner service, or an Amazon Web Services Verified Access instance.
+        public let scope: Scope
+        /// The time window for which you want to retrieve path statistics. The time window must be within the data retention period for your web ACL.
+        public let timeWindow: TimeWindow
+        /// A URI path prefix to filter the results. When you specify this parameter, the operation returns statistics for individual URIs within the specified path prefix.  For example, if you specify /api, the response includes statistics for paths like /api/v1/users and /api/v2/orders.  If you don't specify this parameter, the operation returns top-level path statistics.
+        public let uriPathPrefix: String?
+        /// The Amazon Resource Name (ARN) of the web ACL for which you want to retrieve path statistics.
+        public let webAclArn: String
+
+        @inlinable
+        public init(botCategory: String? = nil, botName: String? = nil, botOrganization: String? = nil, limit: Int, nextMarker: String? = nil, numberOfTopTrafficBotsPerPath: Int, scope: Scope, timeWindow: TimeWindow, uriPathPrefix: String? = nil, webAclArn: String) {
+            self.botCategory = botCategory
+            self.botName = botName
+            self.botOrganization = botOrganization
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.numberOfTopTrafficBotsPerPath = numberOfTopTrafficBotsPerPath
+            self.scope = scope
+            self.timeWindow = timeWindow
+            self.uriPathPrefix = uriPathPrefix
+            self.webAclArn = webAclArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botCategory, name: "botCategory", parent: name, max: 256)
+            try self.validate(self.botCategory, name: "botCategory", parent: name, min: 1)
+            try self.validate(self.botCategory, name: "botCategory", parent: name, pattern: "\\S")
+            try self.validate(self.botName, name: "botName", parent: name, max: 256)
+            try self.validate(self.botName, name: "botName", parent: name, min: 1)
+            try self.validate(self.botName, name: "botName", parent: name, pattern: "\\S")
+            try self.validate(self.botOrganization, name: "botOrganization", parent: name, max: 256)
+            try self.validate(self.botOrganization, name: "botOrganization", parent: name, min: 1)
+            try self.validate(self.botOrganization, name: "botOrganization", parent: name, pattern: "\\S")
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
+            try self.validate(self.numberOfTopTrafficBotsPerPath, name: "numberOfTopTrafficBotsPerPath", parent: name, max: 10)
+            try self.validate(self.numberOfTopTrafficBotsPerPath, name: "numberOfTopTrafficBotsPerPath", parent: name, min: 1)
+            try self.validate(self.uriPathPrefix, name: "uriPathPrefix", parent: name, max: 512)
+            try self.validate(self.uriPathPrefix, name: "uriPathPrefix", parent: name, min: 1)
+            try self.validate(self.uriPathPrefix, name: "uriPathPrefix", parent: name, pattern: "^\\/[^ ]*$")
+            try self.validate(self.webAclArn, name: "webAclArn", parent: name, max: 2048)
+            try self.validate(self.webAclArn, name: "webAclArn", parent: name, min: 20)
+            try self.validate(self.webAclArn, name: "webAclArn", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botCategory = "BotCategory"
+            case botName = "BotName"
+            case botOrganization = "BotOrganization"
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case numberOfTopTrafficBotsPerPath = "NumberOfTopTrafficBotsPerPath"
+            case scope = "Scope"
+            case timeWindow = "TimeWindow"
+            case uriPathPrefix = "UriPathPrefix"
+            case webAclArn = "WebAclArn"
+        }
+    }
+
+    public struct GetTopPathStatisticsByTrafficResponse: AWSDecodableShape {
+        /// When you request a list of objects with a Limit setting, if the number of objects that  are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response.  To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// The list of path statistics, ordered by request count. Each entry includes the path, request count,  percentage of total traffic, and the top bots accessing that path.
+        public let pathStatistics: [PathStatistics]
+        /// Category-level aggregations for visualizing bot category to path relationships. This field is only populated when no bot filters are applied to the request.  Each entry includes the bot category and the paths accessed by bots in that category.
+        public let topCategories: [PathStatistics]?
+        /// The total number of requests that match the query criteria within the specified time window.
+        public let totalRequestCount: Int64
+
+        @inlinable
+        public init(nextMarker: String? = nil, pathStatistics: [PathStatistics], topCategories: [PathStatistics]? = nil, totalRequestCount: Int64) {
+            self.nextMarker = nextMarker
+            self.pathStatistics = pathStatistics
+            self.topCategories = topCategories
+            self.totalRequestCount = totalRequestCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case pathStatistics = "PathStatistics"
+            case topCategories = "TopCategories"
+            case totalRequestCount = "TotalRequestCount"
         }
     }
 
@@ -4813,6 +4958,36 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
+        }
+    }
+
+    public struct PathStatistics: AWSDecodableShape {
+        /// The URI path. For example, /api/ or /api/v1/users.
+        public let path: String
+        /// The percentage of total requests that were made to this path.
+        public let percentage: Double
+        /// The number of requests to this path within the specified time window.
+        public let requestCount: Int64
+        /// Information about the bot filter that was applied to generate these statistics. This field is only populated when you filter by bot category, organization, or name.
+        public let source: FilterSource?
+        /// The list of top bots accessing this path, ordered by request count. The number of bots included is determined by the  NumberOfTopTrafficBotsPerPath parameter in the request.
+        public let topBots: [BotStatistics]?
+
+        @inlinable
+        public init(path: String, percentage: Double, requestCount: Int64, source: FilterSource? = nil, topBots: [BotStatistics]? = nil) {
+            self.path = path
+            self.percentage = percentage
+            self.requestCount = requestCount
+            self.source = source
+            self.topBots = topBots
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path = "Path"
+            case percentage = "Percentage"
+            case requestCount = "RequestCount"
+            case source = "Source"
+            case topBots = "TopBots"
         }
     }
 

@@ -399,7 +399,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getAgentCard(input, logger: logger)
     }
 
-    /// Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
+    /// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
     @Sendable
     @inlinable
     public func getBrowserSession(_ input: GetBrowserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBrowserSessionResponse {
@@ -412,7 +412,7 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves detailed information about a specific browser session in Amazon Bedrock. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
+    /// Retrieves detailed information about a specific browser session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, associated streams, and metadata. To get a browser session, you must specify both the browser identifier and the session ID. The response includes information about the session's viewport configuration, timeout settings, and stream endpoints. The following operations are related to GetBrowserSession:    StartBrowserSession     ListBrowserSessions     StopBrowserSession
     ///
     /// Parameters:
     ///   - browserIdentifier: The unique identifier of the browser associated with the session.
@@ -431,7 +431,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.getBrowserSession(input, logger: logger)
     }
 
-    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession:    StartCodeInterpreterSession     ListCodeInterpreterSessions     StopCodeInterpreterSession
+    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession:    StartCodeInterpreterSession     ListCodeInterpreterSessions     StopCodeInterpreterSession
     @Sendable
     @inlinable
     public func getCodeInterpreterSession(_ input: GetCodeInterpreterSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCodeInterpreterSessionResponse {
@@ -444,7 +444,7 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession:    StartCodeInterpreterSession     ListCodeInterpreterSessions     StopCodeInterpreterSession
+    /// Retrieves detailed information about a specific code interpreter session in Amazon Bedrock AgentCore. This operation returns the session's configuration, current status, and metadata. To get a code interpreter session, you must specify both the code interpreter identifier and the session ID. The response includes information about the session's timeout settings and current status. The following operations are related to GetCodeInterpreterSession:    StartCodeInterpreterSession     ListCodeInterpreterSessions     StopCodeInterpreterSession
     ///
     /// Parameters:
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter associated with the session.
@@ -729,13 +729,13 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - accept: The desired MIME type for the response from the agent runtime. This tells the agent runtime what format to use for the response data. Common values include application/json for JSON data.
     ///   - accountId: The identifier of the Amazon Web Services account for the agent runtime resource.
-    ///   - agentRuntimeArn: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
+    ///   - agentRuntimeArn: The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock AgentCore.
     ///   - baggage: Additional context information for distributed tracing.
     ///   - contentType: The MIME type of the input data in the payload. This tells the agent runtime how to interpret the payload data. Common values include application/json for JSON data.
     ///   - mcpProtocolVersion: The version of the MCP protocol being used.
     ///   - mcpSessionId: The identifier of the MCP session.
     ///   - payload: The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
-    ///   - qualifier: The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+    ///   - qualifier: The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default version of the agent runtime.
     ///   - runtimeSessionId: The identifier of the runtime session.
     ///   - runtimeUserId: The identifier of the runtime user.
     ///   - traceId: The trace identifier for request tracking.
@@ -779,7 +779,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.invokeAgentRuntime(input, logger: logger)
     }
 
-    /// Executes code within an active code interpreter session in Amazon Bedrock. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Executes code within an active code interpreter session in Amazon Bedrock AgentCore. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:    StartCodeInterpreterSession     GetCodeInterpreterSession
     @Sendable
     @inlinable
     public func invokeCodeInterpreter(_ input: InvokeCodeInterpreterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeCodeInterpreterResponse {
@@ -792,7 +792,7 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Executes code within an active code interpreter session in Amazon Bedrock. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Executes code within an active code interpreter session in Amazon Bedrock AgentCore. This operation processes the provided code, runs it in a secure environment, and returns the execution results including output, errors, and generated visualizations. To execute code, you must specify the code interpreter identifier, session ID, and the code to run in the arguments parameter. The operation returns a stream containing the execution results, which can include text output, error messages, and data visualizations. This operation is subject to request rate limiting based on your account's service quotas. The following operations are related to InvokeCodeInterpreter:    StartCodeInterpreterSession     GetCodeInterpreterSession
     ///
     /// Parameters:
     ///   - arguments: The arguments for the code interpreter. This includes the code to execute and any additional parameters such as the programming language, whether to clear the execution context, and other execution options. The structure of this parameter depends on the specific code interpreter being used.
@@ -858,7 +858,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listActors(input, logger: logger)
     }
 
-    /// Retrieves a list of browser sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:    StartBrowserSession     GetBrowserSession
+    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:    StartBrowserSession     GetBrowserSession
     @Sendable
     @inlinable
     public func listBrowserSessions(_ input: ListBrowserSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBrowserSessionsResponse {
@@ -871,12 +871,12 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of browser sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:    StartBrowserSession     GetBrowserSession
+    /// Retrieves a list of browser sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by browser identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListBrowserSessions:    StartBrowserSession     GetBrowserSession
     ///
     /// Parameters:
     ///   - browserIdentifier: The unique identifier of the browser to list sessions for. If specified, only sessions for this browser are returned. If not specified, sessions for all browsers are returned.
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     ///   - status: The status of the browser sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     ///   - logger: Logger use during operation
     @inlinable
@@ -896,7 +896,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.listBrowserSessions(input, logger: logger)
     }
 
-    /// Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListCodeInterpreterSessions:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListCodeInterpreterSessions:    StartCodeInterpreterSession     GetCodeInterpreterSession
     @Sendable
     @inlinable
     public func listCodeInterpreterSessions(_ input: ListCodeInterpreterSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCodeInterpreterSessionsResponse {
@@ -909,12 +909,12 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a list of code interpreter sessions in Amazon Bedrock that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListCodeInterpreterSessions:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Retrieves a list of code interpreter sessions in Amazon Bedrock AgentCore that match the specified criteria. This operation returns summary information about each session, including identifiers, status, and timestamps. You can filter the results by code interpreter identifier and session status. The operation supports pagination to handle large result sets efficiently. We recommend using pagination to ensure that the operation returns quickly and successfully when retrieving large numbers of sessions. The following operations are related to ListCodeInterpreterSessions:    StartCodeInterpreterSession     GetCodeInterpreterSession
     ///
     /// Parameters:
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter to list sessions for. If specified, only sessions for this code interpreter are returned. If not specified, sessions for all code interpreters are returned.
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
-    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     ///   - status: The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1038,7 +1038,7 @@ public struct BedrockAgentCore: AWSService {
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
-    ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
+    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1116,7 +1116,7 @@ public struct BedrockAgentCore: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace to filter memory records by.
+    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
     ///   - nextToken: The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger use during operation
@@ -1139,7 +1139,51 @@ public struct BedrockAgentCore: AWSService {
         return try await self.retrieveMemoryRecords(input, logger: logger)
     }
 
-    /// Creates and initializes a browser session in Amazon Bedrock. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     StopBrowserSession
+    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession operation to initialize new sessions with the stored browser state. Browser profiles are useful for scenarios that require persistent authentication, maintaining user preferences across sessions, or continuing tasks that depend on previously stored browser data. The following operations are related to SaveBrowserSessionProfile:    StartBrowserSession     GetBrowserSession
+    @Sendable
+    @inlinable
+    public func saveBrowserSessionProfile(_ input: SaveBrowserSessionProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SaveBrowserSessionProfileResponse {
+        try await self.client.execute(
+            operation: "SaveBrowserSessionProfile", 
+            path: "/browser-profiles/{profileIdentifier}/save", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Saves the current state of a browser session as a reusable profile in Amazon Bedrock AgentCore. A browser profile captures persistent browser data such as cookies and local storage from an active session, enabling you to reuse this data in future browser sessions. To save a browser session profile, you must specify the profile identifier, browser identifier, and session ID. The session must be active when saving the profile. Once saved, the profile can be used with the StartBrowserSession operation to initialize new sessions with the stored browser state. Browser profiles are useful for scenarios that require persistent authentication, maintaining user preferences across sessions, or continuing tasks that depend on previously stored browser data. The following operations are related to SaveBrowserSessionProfile:    StartBrowserSession     GetBrowserSession
+    ///
+    /// Parameters:
+    ///   - browserIdentifier: The unique identifier of the browser associated with the session from which to save the profile.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
+    ///   - profileIdentifier: The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix.
+    ///   - sessionId: The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile.
+    ///   - traceId: The trace identifier for request tracking.
+    ///   - traceParent: The parent trace information for distributed tracing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func saveBrowserSessionProfile(
+        browserIdentifier: String,
+        clientToken: String? = SaveBrowserSessionProfileRequest.idempotencyToken(),
+        profileIdentifier: String,
+        sessionId: String,
+        traceId: String? = nil,
+        traceParent: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> SaveBrowserSessionProfileResponse {
+        let input = SaveBrowserSessionProfileRequest(
+            browserIdentifier: browserIdentifier, 
+            clientToken: clientToken, 
+            profileIdentifier: profileIdentifier, 
+            sessionId: sessionId, 
+            traceId: traceId, 
+            traceParent: traceParent
+        )
+        return try await self.saveBrowserSessionProfile(input, logger: logger)
+    }
+
+    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession
     @Sendable
     @inlinable
     public func startBrowserSession(_ input: StartBrowserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartBrowserSessionResponse {
@@ -1152,22 +1196,28 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Creates and initializes a browser session in Amazon Bedrock. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     StopBrowserSession
+    /// Creates and initializes a browser session in Amazon Bedrock AgentCore. The session enables agents to navigate and interact with web content, extract information from websites, and perform web-based tasks as part of their response generation. To create a session, you must specify a browser identifier and a name. You can also configure the viewport dimensions to control the visible area of web content. The session remains active until it times out or you explicitly stop it using the StopBrowserSession operation. The following operations are related to StartBrowserSession:    GetBrowserSession     UpdateBrowserStream     SaveBrowserSessionProfile     StopBrowserSession
     ///
     /// Parameters:
     ///   - browserIdentifier: The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    ///   - extensions: A list of browser extensions to load into the browser session.
     ///   - name: The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
+    ///   - profileConfiguration: The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
+    ///   - proxyConfiguration: Optional proxy configuration for routing browser traffic through customer-specified proxy servers. When provided, enables HTTP Basic authentication via Amazon Web Services Secrets Manager and domain-based routing rules. Requires secretsmanager:GetSecretValue IAM permission for the specified secret ARNs.
     ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     ///   - traceId: The trace identifier for request tracking.
     ///   - traceParent: The parent trace information for distributed tracing.
-    ///   - viewPort: The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
+    ///   - viewPort: The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock AgentCore uses a default viewport size.
     ///   - logger: Logger use during operation
     @inlinable
     public func startBrowserSession(
         browserIdentifier: String,
         clientToken: String? = StartBrowserSessionRequest.idempotencyToken(),
+        extensions: [BrowserExtension]? = nil,
         name: String? = nil,
+        profileConfiguration: BrowserProfileConfiguration? = nil,
+        proxyConfiguration: ProxyConfiguration? = nil,
         sessionTimeoutSeconds: Int? = nil,
         traceId: String? = nil,
         traceParent: String? = nil,
@@ -1177,7 +1227,10 @@ public struct BedrockAgentCore: AWSService {
         let input = StartBrowserSessionRequest(
             browserIdentifier: browserIdentifier, 
             clientToken: clientToken, 
+            extensions: extensions, 
             name: name, 
+            profileConfiguration: profileConfiguration, 
+            proxyConfiguration: proxyConfiguration, 
             sessionTimeoutSeconds: sessionTimeoutSeconds, 
             traceId: traceId, 
             traceParent: traceParent, 
@@ -1186,7 +1239,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.startBrowserSession(input, logger: logger)
     }
 
-    /// Creates and initializes a code interpreter session in Amazon Bedrock. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:    InvokeCodeInterpreter     GetCodeInterpreterSession     StopCodeInterpreterSession
+    /// Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:    InvokeCodeInterpreter     GetCodeInterpreterSession     StopCodeInterpreterSession
     @Sendable
     @inlinable
     public func startCodeInterpreterSession(_ input: StartCodeInterpreterSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCodeInterpreterSessionResponse {
@@ -1199,10 +1252,10 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Creates and initializes a code interpreter session in Amazon Bedrock. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:    InvokeCodeInterpreter     GetCodeInterpreterSession     StopCodeInterpreterSession
+    /// Creates and initializes a code interpreter session in Amazon Bedrock AgentCore. The session enables agents to execute code as part of their response generation, supporting programming languages such as Python for data analysis, visualization, and computation tasks. To create a session, you must specify a code interpreter identifier and a name. The session remains active until it times out or you explicitly stop it using the StopCodeInterpreterSession operation. The following operations are related to StartCodeInterpreterSession:    InvokeCodeInterpreter     GetCodeInterpreterSession     StopCodeInterpreterSession
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
     ///   - name: The name of the code interpreter session. This name helps you identify and manage the session. The name does not need to be unique.
     ///   - sessionTimeoutSeconds: The time in seconds after which the session automatically terminates if there is no activity. The default value is 900 seconds (15 minutes). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
@@ -1265,7 +1318,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.startMemoryExtractionJob(input, logger: logger)
     }
 
-    /// Terminates an active browser session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
+    /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
     @Sendable
     @inlinable
     public func stopBrowserSession(_ input: StopBrowserSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopBrowserSessionResponse {
@@ -1278,11 +1331,11 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Terminates an active browser session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
+    /// Terminates an active browser session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a browser session, you must specify both the browser identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartBrowserSession. The following operations are related to StopBrowserSession:    StartBrowserSession     GetBrowserSession
     ///
     /// Parameters:
     ///   - browserIdentifier: The unique identifier of the browser associated with the session.
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     ///   - sessionId: The unique identifier of the browser session to stop.
     ///   - traceId: The trace identifier for request tracking.
     ///   - traceParent: The parent trace information for distributed tracing.
@@ -1306,7 +1359,7 @@ public struct BedrockAgentCore: AWSService {
         return try await self.stopBrowserSession(input, logger: logger)
     }
 
-    /// Terminates an active code interpreter session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession. The following operations are related to StopCodeInterpreterSession:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Terminates an active code interpreter session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession. The following operations are related to StopCodeInterpreterSession:    StartCodeInterpreterSession     GetCodeInterpreterSession
     @Sendable
     @inlinable
     public func stopCodeInterpreterSession(_ input: StopCodeInterpreterSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopCodeInterpreterSessionResponse {
@@ -1319,10 +1372,10 @@ public struct BedrockAgentCore: AWSService {
             logger: logger
         )
     }
-    /// Terminates an active code interpreter session in Amazon Bedrock. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession. The following operations are related to StopCodeInterpreterSession:    StartCodeInterpreterSession     GetCodeInterpreterSession
+    /// Terminates an active code interpreter session in Amazon Bedrock AgentCore. This operation stops the session, releases associated resources, and makes the session unavailable for further use. To stop a code interpreter session, you must specify both the code interpreter identifier and the session ID. Once stopped, a session cannot be restarted; you must create a new session using StartCodeInterpreterSession. The following operations are related to StopCodeInterpreterSession:    StartCodeInterpreterSession     GetCodeInterpreterSession
     ///
     /// Parameters:
-    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     ///   - codeInterpreterIdentifier: The unique identifier of the code interpreter associated with the session.
     ///   - sessionId: The unique identifier of the code interpreter session to stop.
     ///   - traceId: The trace identifier for request tracking.
@@ -1587,7 +1640,7 @@ extension BedrockAgentCore {
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource for which to list memory records.
     ///   - memoryStrategyId: The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
-    ///   - namespace: The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
+    ///   - namespace: The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
     ///   - logger: Logger used for logging
     @inlinable
     public func listMemoryRecordsPaginator(
@@ -1669,7 +1722,7 @@ extension BedrockAgentCore {
     /// - Parameters:
     ///   - maxResults: The maximum number of results to return in a single call. The default value is 20.
     ///   - memoryId: The identifier of the AgentCore Memory resource from which to retrieve memory records.
-    ///   - namespace: The namespace to filter memory records by.
+    ///   - namespace: The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
     ///   - searchCriteria: The search criteria to use for finding relevant memory records. This includes the search query, memory strategy ID, and other search parameters.
     ///   - logger: Logger used for logging
     @inlinable

@@ -3361,21 +3361,21 @@ public struct QConnect: AWSService {
     ///   - aiAgentType: The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - configuration: The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
-    ///   - orchestratorConfigurationList: The updated list of orchestrator configurations for the assistant AI Agent.
+    ///   - orchestratorUseCase: The orchestrator use case for the AI Agent being added.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAssistantAIAgent(
         aiAgentType: AIAgentType,
         assistantId: String,
         configuration: AIAgentConfigurationData,
-        orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil,
+        orchestratorUseCase: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAssistantAIAgentResponse {
         let input = UpdateAssistantAIAgentRequest(
             aiAgentType: aiAgentType, 
             assistantId: assistantId, 
             configuration: configuration, 
-            orchestratorConfigurationList: orchestratorConfigurationList
+            orchestratorUseCase: orchestratorUseCase
         )
         return try await self.updateAssistantAIAgent(input, logger: logger)
     }

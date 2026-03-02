@@ -332,6 +332,8 @@ extension IdentityStore {
         public let preferredLanguage: String?
         /// A string containing a URL that might be associated with the user.
         public let profileUrl: String?
+        /// A list of Role objects containing roles associated with the user.
+        public let roles: [Role]?
         /// A string containing the time zone of the user.
         public let timezone: String?
         /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
@@ -344,7 +346,7 @@ extension IdentityStore {
         public let website: String?
 
         @inlinable
-        public init(addresses: [Address]? = nil, birthdate: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, userName: String? = nil, userType: String? = nil, website: String? = nil) {
+        public init(addresses: [Address]? = nil, birthdate: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, userName: String? = nil, userType: String? = nil, website: String? = nil) {
             self.addresses = addresses
             self.birthdate = birthdate
             self.displayName = displayName
@@ -358,6 +360,7 @@ extension IdentityStore {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.roles = roles
             self.timezone = timezone
             self.title = title
             self.userName = userName
@@ -415,6 +418,11 @@ extension IdentityStore {
             try self.validate(self.profileUrl, name: "profileUrl", parent: name, max: 1024)
             try self.validate(self.profileUrl, name: "profileUrl", parent: name, min: 1)
             try self.validate(self.profileUrl, name: "profileUrl", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
+            try self.roles?.forEach {
+                try $0.validate(name: "\(name).roles[]")
+            }
+            try self.validate(self.roles, name: "roles", parent: name, max: 1)
+            try self.validate(self.roles, name: "roles", parent: name, min: 1)
             try self.validate(self.timezone, name: "timezone", parent: name, max: 1024)
             try self.validate(self.timezone, name: "timezone", parent: name, min: 1)
             try self.validate(self.timezone, name: "timezone", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
@@ -446,6 +454,7 @@ extension IdentityStore {
             case photos = "Photos"
             case preferredLanguage = "PreferredLanguage"
             case profileUrl = "ProfileUrl"
+            case roles = "Roles"
             case timezone = "Timezone"
             case title = "Title"
             case userName = "UserName"
@@ -777,6 +786,8 @@ extension IdentityStore {
         public let preferredLanguage: String?
         /// A URL link for the user's profile.
         public let profileUrl: String?
+        /// The roles of the user.
+        public let roles: [Role]?
         /// The time zone for a user.
         public let timezone: String?
         /// A string containing the title of the user.
@@ -797,7 +808,7 @@ extension IdentityStore {
         public let website: String?
 
         @inlinable
-        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
+        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
             self.addresses = addresses
             self.birthdate = birthdate
             self.createdAt = createdAt
@@ -814,6 +825,7 @@ extension IdentityStore {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.roles = roles
             self.timezone = timezone
             self.title = title
             self.updatedAt = updatedAt
@@ -842,6 +854,7 @@ extension IdentityStore {
             case photos = "Photos"
             case preferredLanguage = "PreferredLanguage"
             case profileUrl = "ProfileUrl"
+            case roles = "Roles"
             case timezone = "Timezone"
             case title = "Title"
             case updatedAt = "UpdatedAt"
@@ -1650,6 +1663,37 @@ extension IdentityStore {
         }
     }
 
+    public struct Role: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean value representing whether this is the primary role for the associated resource.
+        public let primary: Bool?
+        /// A string representing the type of role. For example, "Work."
+        public let type: String?
+        /// A string containing a role name. For example, "Researcher."
+        public let value: String?
+
+        @inlinable
+        public init(primary: Bool? = nil, type: String? = nil, value: String? = nil) {
+            self.primary = primary
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, max: 1024)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\t\\n\\r  　]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primary = "Primary"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct ServiceQuotaExceededException: AWSErrorShape {
         public let message: String?
         /// The identifier for each request. This value is a globally unique ID that is generated by the identity store service for each sent request, and is then returned inside the exception if the request fails.
@@ -1804,6 +1848,8 @@ extension IdentityStore {
         public let preferredLanguage: String?
         /// A string containing a URL that might be associated with the user.
         public let profileUrl: String?
+        /// A list of Role objects containing roles associated with the user.
+        public let roles: [Role]?
         /// A string containing the time zone of the user.
         public let timezone: String?
         /// A string containing the title of the user. Possible values are left unspecified. The value can vary based on your specific use case.
@@ -1824,7 +1870,7 @@ extension IdentityStore {
         public let website: String?
 
         @inlinable
-        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
+        public init(addresses: [Address]? = nil, birthdate: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, displayName: String? = nil, emails: [Email]? = nil, extensions: [String: AWSDocument]? = nil, externalIds: [ExternalId]? = nil, identityStoreId: String, locale: String? = nil, name: Name? = nil, nickName: String? = nil, phoneNumbers: [PhoneNumber]? = nil, photos: [Photo]? = nil, preferredLanguage: String? = nil, profileUrl: String? = nil, roles: [Role]? = nil, timezone: String? = nil, title: String? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, userId: String, userName: String? = nil, userStatus: UserStatus? = nil, userType: String? = nil, website: String? = nil) {
             self.addresses = addresses
             self.birthdate = birthdate
             self.createdAt = createdAt
@@ -1841,6 +1887,7 @@ extension IdentityStore {
             self.photos = photos
             self.preferredLanguage = preferredLanguage
             self.profileUrl = profileUrl
+            self.roles = roles
             self.timezone = timezone
             self.title = title
             self.updatedAt = updatedAt
@@ -1869,6 +1916,7 @@ extension IdentityStore {
             case photos = "Photos"
             case preferredLanguage = "PreferredLanguage"
             case profileUrl = "ProfileUrl"
+            case roles = "Roles"
             case timezone = "Timezone"
             case title = "Title"
             case updatedAt = "UpdatedAt"

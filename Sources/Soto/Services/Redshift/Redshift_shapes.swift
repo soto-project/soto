@@ -267,6 +267,7 @@ extension Redshift {
     public enum UsageLimitFeatureType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case concurrencyScaling = "concurrency-scaling"
         case crossRegionDatasharing = "cross-region-datasharing"
+        case extraComputeForAutomaticOptimization = "extra-compute-for-automatic-optimization"
         case spectrum = "spectrum"
         public var description: String { return self.rawValue }
     }
@@ -991,6 +992,8 @@ extension Redshift {
         public let expectedNextSnapshotScheduleTime: Date?
         ///  The status of next expected snapshot for clusters having a valid snapshot schedule and backups enabled.  Possible values are the following:   OnTrack - The next snapshot is expected to be taken on time.    Pending - The next snapshot is pending to be taken.
         public let expectedNextSnapshotScheduleTimeStatus: String?
+        /// A boolean value that, if true, indicates that the cluster allocates additional compute resources to run automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: String?
         /// A value that reports whether the Amazon Redshift cluster has finished applying any hardware security module (HSM) settings changes specified in a modify cluster command. Values: active, applying
         public let hsmStatus: HsmStatus?
         /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services.
@@ -1055,7 +1058,7 @@ extension Redshift {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, catalogArn: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, catalogArn: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryDate: Date? = nil, customDomainName: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, extraComputeForAutomaticOptimization: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, lakehouseRegistrationStatus: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretArn: String? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, multiAZ: String? = nil, multiAZSecondary: SecondaryClusterInfo? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -1089,6 +1092,7 @@ extension Redshift {
             self.enhancedVpcRouting = enhancedVpcRouting
             self.expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime
             self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.hsmStatus = hsmStatus
             self.iamRoles = iamRoles
             self.ipAddressType = ipAddressType
@@ -1154,6 +1158,7 @@ extension Redshift {
             case enhancedVpcRouting = "EnhancedVpcRouting"
             case expectedNextSnapshotScheduleTime = "ExpectedNextSnapshotScheduleTime"
             case expectedNextSnapshotScheduleTimeStatus = "ExpectedNextSnapshotScheduleTimeStatus"
+            case extraComputeForAutomaticOptimization = "ExtraComputeForAutomaticOptimization"
             case hsmStatus = "HsmStatus"
             case iamRoles = "IamRoles"
             case ipAddressType = "IpAddressType"
@@ -1853,6 +1858,8 @@ extension Redshift {
         public let encrypted: Bool?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
+        /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: Bool?
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public let hsmClientCertificateIdentifier: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -1902,7 +1909,7 @@ extension Redshift {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, catalogName: String? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, loadSampleData: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, catalogName: String? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, extraComputeForAutomaticOptimization: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, loadSampleData: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, redshiftIdcApplicationArn: String? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -1921,6 +1928,7 @@ extension Redshift {
             self.elasticIp = elasticIp
             self.encrypted = encrypted
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.iamRoles = iamRoles
@@ -2004,6 +2012,7 @@ extension Redshift {
             case elasticIp = "ElasticIp"
             case encrypted = "Encrypted"
             case enhancedVpcRouting = "EnhancedVpcRouting"
+            case extraComputeForAutomaticOptimization = "ExtraComputeForAutomaticOptimization"
             case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
             case iamRoles = "IamRoles"
@@ -2870,7 +2879,7 @@ extension Redshift {
         public let clusterIdentifier: String?
         /// The Amazon Redshift feature that you want to limit.
         public let featureType: UsageLimitFeatureType?
-        /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned.
+        /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned. If FeatureType is extra-compute-for-automatic-optimization, then LimitType must be time.
         public let limitType: UsageLimitLimitType?
         /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly.
         public let period: UsageLimitPeriod?
@@ -6793,7 +6802,7 @@ extension Redshift {
         public let clusterIdentifier: String?
         /// A boolean indicating whether to enable the deferred maintenance window.
         public let deferMaintenance: Bool?
-        /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 45 days or less.
+        /// An integer indicating the duration of the maintenance window in days. If you specify a duration, you can't specify an end time. The duration must be 60 days or less.
         public let deferMaintenanceDuration: Int?
         /// A timestamp indicating end time for the deferred maintenance window. If you specify an end time, you can't specify a duration.
         public let deferMaintenanceEndTime: Date?
@@ -6872,6 +6881,8 @@ extension Redshift {
         public let encrypted: Bool?
         /// An option that specifies whether to create the cluster with enhanced VPC routing enabled. To create a cluster that uses enhanced VPC routing, the cluster must be in a VPC. For more information, see Enhanced VPC Routing in the Amazon Redshift Cluster Management Guide. If this option is true, enhanced VPC routing is enabled.  Default: false
         public let enhancedVpcRouting: Bool?
+        /// If true, allocates additional compute resources for running automatic optimization operations. Default: false
+        public let extraComputeForAutomaticOptimization: Bool?
         /// Specifies the name of the HSM client certificate the Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
         public let hsmClientCertificateIdentifier: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
@@ -6915,7 +6926,7 @@ extension Redshift {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String? = nil, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterType: String? = nil, clusterVersion: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, extraComputeForAutomaticOptimization: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, ipAddressType: String? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manageMasterPassword: Bool? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterPasswordSecretKmsKeyId: String? = nil, masterUserPassword: String? = nil, multiAZ: Bool? = nil, newClusterIdentifier: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
             self.availabilityZone = availabilityZone
@@ -6928,6 +6939,7 @@ extension Redshift {
             self.elasticIp = elasticIp
             self.encrypted = encrypted
             self.enhancedVpcRouting = enhancedVpcRouting
+            self.extraComputeForAutomaticOptimization = extraComputeForAutomaticOptimization
             self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
             self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
             self.ipAddressType = ipAddressType
@@ -6984,6 +6996,7 @@ extension Redshift {
             case elasticIp = "ElasticIp"
             case encrypted = "Encrypted"
             case enhancedVpcRouting = "EnhancedVpcRouting"
+            case extraComputeForAutomaticOptimization = "ExtraComputeForAutomaticOptimization"
             case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
             case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
             case ipAddressType = "IpAddressType"

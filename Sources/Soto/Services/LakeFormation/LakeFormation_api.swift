@@ -1201,6 +1201,44 @@ public struct LakeFormation: AWSService {
         return try await self.getTableObjects(input, logger: logger)
     }
 
+    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. The API operation returns an error in the following scenarios:   The data location is not registered with Lake Formation.    No Glue table is associated with the data location.   The caller doesn't have required permissions on the associated table. The caller must have SELECT or SUPER permissions on the associated table, and credential vending for full table access must be enabled in the data lake settings.  For more information, see Application integration for full table access.   The data location is in a different Amazon Web Services Region. Lake Formation doesn't support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API call.
+    @Sendable
+    @inlinable
+    public func getTemporaryDataLocationCredentials(_ input: GetTemporaryDataLocationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTemporaryDataLocationCredentialsResponse {
+        try await self.client.execute(
+            operation: "GetTemporaryDataLocationCredentials", 
+            path: "/GetTemporaryDataLocationCredentials", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. The API operation returns an error in the following scenarios:   The data location is not registered with Lake Formation.    No Glue table is associated with the data location.   The caller doesn't have required permissions on the associated table. The caller must have SELECT or SUPER permissions on the associated table, and credential vending for full table access must be enabled in the data lake settings.  For more information, see Application integration for full table access.   The data location is in a different Amazon Web Services Region. Lake Formation doesn't support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API call.
+    ///
+    /// Parameters:
+    ///   - auditContext: 
+    ///   - credentialsScope: The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:   READ - Provides read-only access to the data location.   READ_WRITE - Provides both read and write access to the data location.
+    ///   - dataLocations: The Amazon S3 data location that you want to access.
+    ///   - durationSeconds: The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTemporaryDataLocationCredentials(
+        auditContext: AuditContext? = nil,
+        credentialsScope: CredentialsScope? = nil,
+        dataLocations: [String]? = nil,
+        durationSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTemporaryDataLocationCredentialsResponse {
+        let input = GetTemporaryDataLocationCredentialsRequest(
+            auditContext: auditContext, 
+            credentialsScope: credentialsScope, 
+            dataLocations: dataLocations, 
+            durationSeconds: durationSeconds
+        )
+        return try await self.getTemporaryDataLocationCredentials(input, logger: logger)
+    }
+
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition.  Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
     @Sendable
     @inlinable
@@ -1768,6 +1806,7 @@ public struct LakeFormation: AWSService {
     /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     ///
     /// Parameters:
+    ///   - expectedResourceOwnerAccount: The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
     ///   - hybridAccessEnabled:  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource that you want to register.
     ///   - roleArn: The identifier for the role that registers the resource.
@@ -1777,6 +1816,7 @@ public struct LakeFormation: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func registerResource(
+        expectedResourceOwnerAccount: String? = nil,
         hybridAccessEnabled: Bool? = nil,
         resourceArn: String,
         roleArn: String? = nil,
@@ -1786,6 +1826,7 @@ public struct LakeFormation: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterResourceResponse {
         let input = RegisterResourceRequest(
+            expectedResourceOwnerAccount: expectedResourceOwnerAccount, 
             hybridAccessEnabled: hybridAccessEnabled, 
             resourceArn: resourceArn, 
             roleArn: roleArn, 
@@ -2175,6 +2216,7 @@ public struct LakeFormation: AWSService {
     /// Updates the data access role used for vending access to the given (registered) resource in Lake Formation.
     ///
     /// Parameters:
+    ///   - expectedResourceOwnerAccount: The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
     ///   - hybridAccessEnabled:  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
     ///   - resourceArn: The resource ARN.
     ///   - roleArn: The new role to use for the given resource registered in Lake Formation.
@@ -2182,6 +2224,7 @@ public struct LakeFormation: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateResource(
+        expectedResourceOwnerAccount: String? = nil,
         hybridAccessEnabled: Bool? = nil,
         resourceArn: String,
         roleArn: String,
@@ -2189,6 +2232,7 @@ public struct LakeFormation: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateResourceResponse {
         let input = UpdateResourceRequest(
+            expectedResourceOwnerAccount: expectedResourceOwnerAccount, 
             hybridAccessEnabled: hybridAccessEnabled, 
             resourceArn: resourceArn, 
             roleArn: roleArn, 

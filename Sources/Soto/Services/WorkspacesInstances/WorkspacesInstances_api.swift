@@ -186,18 +186,21 @@ public struct WorkspacesInstances: AWSService {
     /// Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
     ///
     /// Parameters:
+    ///   - billingConfiguration: Optional billing configuration for the WorkSpace Instance. Allows customers to specify their preferred billing mode when creating a new instance. Defaults to hourly billing if not specified.
     ///   - clientToken: Unique token to ensure idempotent instance creation, preventing duplicate workspace launches.
     ///   - managedInstance: Comprehensive configuration settings for the WorkSpaces Instance, including network, compute, and storage parameters.
     ///   - tags: Optional metadata tags for categorizing and managing WorkSpaces Instances.
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorkspaceInstance(
+        billingConfiguration: BillingConfiguration? = nil,
         clientToken: String? = CreateWorkspaceInstanceRequest.idempotencyToken(),
         managedInstance: ManagedInstanceRequest,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkspaceInstanceResponse {
         let input = CreateWorkspaceInstanceRequest(
+            billingConfiguration: billingConfiguration, 
             clientToken: clientToken, 
             managedInstance: managedInstance, 
             tags: tags
@@ -234,7 +237,7 @@ public struct WorkspacesInstances: AWSService {
         return try await self.deleteVolume(input, logger: logger)
     }
 
-    /// Deletes the specified WorkSpace
+    /// Deletes the specified WorkSpace  Usage of this API will result in deletion of the resource in question.
     @Sendable
     @inlinable
     public func deleteWorkspaceInstance(_ input: DeleteWorkspaceInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceInstanceResponse {
@@ -247,7 +250,7 @@ public struct WorkspacesInstances: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified WorkSpace
+    /// Deletes the specified WorkSpace  Usage of this API will result in deletion of the resource in question.
     ///
     /// Parameters:
     ///   - workspaceInstanceId: Unique identifier of the WorkSpaces Instance targeted for deletion.
@@ -346,16 +349,19 @@ public struct WorkspacesInstances: AWSService {
     /// Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
     ///
     /// Parameters:
+    ///   - instanceConfigurationFilter: Optional filter to narrow instance type results based on configuration requirements. Only returns instance types that support the specified combination of tenancy, platform type, and billing mode.
     ///   - maxResults: Maximum number of instance types to return in a single API call. Enables pagination of instance type results.
     ///   - nextToken: Pagination token for retrieving subsequent pages of instance type results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listInstanceTypes(
+        instanceConfigurationFilter: InstanceConfigurationFilter? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListInstanceTypesResponse {
         let input = ListInstanceTypesRequest(
+            instanceConfigurationFilter: instanceConfigurationFilter, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -557,14 +563,17 @@ extension WorkspacesInstances {
     /// Return PaginatorSequence for operation ``listInstanceTypes(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - instanceConfigurationFilter: Optional filter to narrow instance type results based on configuration requirements. Only returns instance types that support the specified combination of tenancy, platform type, and billing mode.
     ///   - maxResults: Maximum number of instance types to return in a single API call. Enables pagination of instance type results.
     ///   - logger: Logger used for logging
     @inlinable
     public func listInstanceTypesPaginator(
+        instanceConfigurationFilter: InstanceConfigurationFilter? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListInstanceTypesRequest, ListInstanceTypesResponse> {
         let input = ListInstanceTypesRequest(
+            instanceConfigurationFilter: instanceConfigurationFilter, 
             maxResults: maxResults
         )
         return self.listInstanceTypesPaginator(input, logger: logger)
@@ -646,6 +655,7 @@ extension WorkspacesInstances.ListInstanceTypesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> WorkspacesInstances.ListInstanceTypesRequest {
         return .init(
+            instanceConfigurationFilter: self.instanceConfigurationFilter,
             maxResults: self.maxResults,
             nextToken: token
         )

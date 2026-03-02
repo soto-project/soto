@@ -93,6 +93,38 @@ public struct SSOAdmin: AWSService {
 
     // MARK: API Calls
 
+    /// Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide.  The following actions are related to AddRegion:    RemoveRegion     DescribeRegion     ListRegions
+    @Sendable
+    @inlinable
+    public func addRegion(_ input: AddRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddRegionResponse {
+        try await self.client.execute(
+            operation: "AddRegion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds a Region to an IAM Identity Center instance. This operation initiates an asynchronous workflow to replicate the IAM Identity Center instance to the target Region. The Region status is set to ADDING at first and changes to ACTIVE when the workflow completes. To use this operation, your IAM Identity Center instance and the target Region must meet the requirements described in the IAM Identity Center User Guide.  The following actions are related to AddRegion:    RemoveRegion     DescribeRegion     ListRegions
+    ///
+    /// Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region.
+    ///   - regionName: The name of the Amazon Web Services Region to add to the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func addRegion(
+        instanceArn: String,
+        regionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AddRegionResponse {
+        let input = AddRegionRequest(
+            instanceArn: instanceArn, 
+            regionName: regionName
+        )
+        return try await self.addRegion(input, logger: logger)
+    }
+
     /// Attaches the specified customer managed policy to the specified PermissionSet.
     @Sendable
     @inlinable
@@ -1113,6 +1145,38 @@ public struct SSOAdmin: AWSService {
         return try await self.describePermissionSetProvisioningStatus(input, logger: logger)
     }
 
+    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion:     AddRegion     RemoveRegion     ListRegions
+    @Sendable
+    @inlinable
+    public func describeRegion(_ input: DescribeRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRegionResponse {
+        try await self.client.execute(
+            operation: "DescribeRegion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific Region enabled in an IAM Identity Center instance. Details include the Region name, current status (ACTIVE, ADDING, or REMOVING), the date when the Region was added, and whether it is the primary Region. The request must be made from one of the enabled Regions of the IAM Identity Center instance. The following actions are related to DescribeRegion:     AddRegion     RemoveRegion     ListRegions
+    ///
+    /// Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    ///   - regionName: The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRegion(
+        instanceArn: String,
+        regionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRegionResponse {
+        let input = DescribeRegionRequest(
+            instanceArn: instanceArn, 
+            regionName: regionName
+        )
+        return try await self.describeRegion(input, logger: logger)
+    }
+
     /// Retrieves details about a trusted token issuer configuration stored in an instance of IAM Identity Center. Details include the name of the trusted token issuer, the issuer URL, and the path of the source attribute and the destination attribute for a trusted token issuer configuration.
     @Sendable
     @inlinable
@@ -2102,6 +2166,41 @@ public struct SSOAdmin: AWSService {
         return try await self.listPermissionSetsProvisionedToAccount(input, logger: logger)
     }
 
+    /// Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status. The following actions are related to ListRegions:     AddRegion     RemoveRegion     DescribeRegion
+    @Sendable
+    @inlinable
+    public func listRegions(_ input: ListRegionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRegionsResponse {
+        try await self.client.execute(
+            operation: "ListRegions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all enabled Regions of an IAM Identity Center instance, including those that are being added or removed. This operation returns Regions with ACTIVE, ADDING, or REMOVING status. The following actions are related to ListRegions:     AddRegion     RemoveRegion     DescribeRegion
+    ///
+    /// Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    ///   - maxResults: The maximum number of results to return in a single call. Default is 100.
+    ///   - nextToken: The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listRegions(
+        instanceArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListRegionsResponse {
+        let input = ListRegionsRequest(
+            instanceArn: instanceArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listRegions(input, logger: logger)
+    }
+
     /// Lists the tags that are attached to a specified resource.
     @Sendable
     @inlinable
@@ -2449,6 +2548,38 @@ public struct SSOAdmin: AWSService {
         return try await self.putPermissionsBoundaryToPermissionSet(input, logger: logger)
     }
 
+    /// Removes an additional Region from an IAM Identity Center instance. This operation initiates an asynchronous workflow to clean up IAM Identity Center resources in the specified additional Region. The Region status is set to REMOVING and the Region record is deleted when the workflow completes. The request must be made from the primary Region. The target Region cannot be the primary Region, and no other add or remove Region workflows can be in progress. The following actions are related to RemoveRegion:     AddRegion     DescribeRegion     ListRegions
+    @Sendable
+    @inlinable
+    public func removeRegion(_ input: RemoveRegionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveRegionResponse {
+        try await self.client.execute(
+            operation: "RemoveRegion", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes an additional Region from an IAM Identity Center instance. This operation initiates an asynchronous workflow to clean up IAM Identity Center resources in the specified additional Region. The Region status is set to REMOVING and the Region record is deleted when the workflow completes. The request must be made from the primary Region. The target Region cannot be the primary Region, and no other add or remove Region workflows can be in progress. The following actions are related to RemoveRegion:     AddRegion     DescribeRegion     ListRegions
+    ///
+    /// Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    ///   - regionName: The name of the Amazon Web Services Region to remove from the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). The primary Region cannot be removed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func removeRegion(
+        instanceArn: String,
+        regionName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RemoveRegionResponse {
+        let input = RemoveRegionRequest(
+            instanceArn: instanceArn, 
+            regionName: regionName
+        )
+        return try await self.removeRegion(input, logger: logger)
+    }
+
     /// Associates a set of tags with a specified resource.
     @Sendable
     @inlinable
@@ -2576,7 +2707,7 @@ public struct SSOAdmin: AWSService {
     /// Update the details for the instance of IAM Identity Center that is owned by the Amazon Web Services account.
     ///
     /// Parameters:
-    ///   - encryptionConfiguration: Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+    ///   - encryptionConfiguration: Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
     ///   - instanceArn: The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     ///   - name: Updates the instance name.
     ///   - logger: Logger use during operation
@@ -3425,6 +3556,43 @@ extension SSOAdmin {
         return self.listPermissionSetsProvisionedToAccountPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listRegions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegionsPaginator(
+        _ input: ListRegionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListRegionsRequest, ListRegionsResponse> {
+        return .init(
+            input: input,
+            command: self.listRegions,
+            inputKey: \ListRegionsRequest.nextToken,
+            outputKey: \ListRegionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listRegions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - instanceArn: The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    ///   - maxResults: The maximum number of results to return in a single call. Default is 100.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listRegionsPaginator(
+        instanceArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListRegionsRequest, ListRegionsResponse> {
+        let input = ListRegionsRequest(
+            instanceArn: instanceArn, 
+            maxResults: maxResults
+        )
+        return self.listRegionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listTagsForResource(_:logger:)``.
     ///
     /// - Parameters:
@@ -3704,6 +3872,17 @@ extension SSOAdmin.ListPermissionSetsProvisionedToAccountRequest: AWSPaginateTok
 extension SSOAdmin.ListPermissionSetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SSOAdmin.ListPermissionSetsRequest {
+        return .init(
+            instanceArn: self.instanceArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension SSOAdmin.ListRegionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SSOAdmin.ListRegionsRequest {
         return .init(
             instanceArn: self.instanceArn,
             maxResults: self.maxResults,

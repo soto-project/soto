@@ -332,6 +332,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorOAuth2GrantType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authorizationCode = "AUTHORIZATION_CODE"
+        case clientCredentials = "CLIENT_CREDENTIALS"
+        case jwtBearer = "JWT_BEARER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case applicationJson = "APPLICATION_JSON"
+        case urlEncoded = "URL_ENCODED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CrawlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
@@ -496,6 +509,7 @@ extension Glue {
         case `struct` = "STRUCT"
         case array = "ARRAY"
         case bigint = "BIGINT"
+        case binary = "BINARY"
         case boolean = "BOOLEAN"
         case byte = "BYTE"
         case date = "DATE"
@@ -509,6 +523,7 @@ extension Glue {
         case smallint = "SMALLINT"
         case string = "STRING"
         case timestamp = "TIMESTAMP"
+        case union = "UNION"
         public var description: String { return self.rawValue }
     }
 
@@ -588,6 +603,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum HTTPMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case get = "GET"
+        case post = "POST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HudiTargetCompressionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gzip = "gzip"
         case lzo = "lzo"
@@ -655,6 +676,11 @@ extension Glue {
         case modifying = "MODIFYING"
         case needsAttention = "NEEDS_ATTENTION"
         case syncing = "SYNCING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IntegrationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rest = "REST"
         public var description: String { return self.rawValue }
     }
 
@@ -789,6 +815,21 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaterializedViewRefreshState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MaterializedViewRefreshType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case incremental = "INCREMENTAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetadataOperation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case create = "CREATE"
         public var description: String { return self.rawValue }
@@ -874,6 +915,14 @@ extension Glue {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PropertyLocation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case body = "BODY"
+        case header = "HEADER"
+        case path = "PATH"
+        case queryParam = "QUERY_PARAM"
         public var description: String { return self.rawValue }
     }
 
@@ -1879,6 +1928,29 @@ extension Glue {
             try self.validate(self.password, name: "password", parent: name, pattern: ".*")
             try self.validate(self.username, name: "username", parent: name, max: 512)
             try self.validate(self.username, name: "username", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case password = "Password"
+            case username = "Username"
+        }
+    }
+
+    public struct BasicAuthenticationProperties: AWSEncodableShape {
+        /// The password property name to use for Basic authentication credentials.
+        public let password: ConnectorProperty?
+        /// The username property name to use for Basic authentication credentials.
+        public let username: ConnectorProperty?
+
+        @inlinable
+        public init(password: ConnectorProperty? = nil, username: ConnectorProperty? = nil) {
+            self.password = password
+            self.username = username
+        }
+
+        public func validate(name: String) throws {
+            try self.password?.validate(name: "\(name).password")
+            try self.username?.validate(name: "\(name).username")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3908,6 +3980,54 @@ extension Glue {
         }
     }
 
+    public struct ClientCredentialsProperties: AWSEncodableShape {
+        /// The OAuth2 client identifier provided by the authorization server.
+        public let clientId: ConnectorProperty?
+        /// The OAuth2 client secret provided by the authorization server.
+        public let clientSecret: ConnectorProperty?
+        /// The content type to use for token requests, such as application/x-www-form-urlencoded or application/json.
+        public let contentType: ContentType?
+        /// The HTTP method to use when making token requests, typically POST.
+        public let requestMethod: HTTPMethod?
+        /// The OAuth2 scope that defines the level of access requested for the client credentials flow.
+        public let scope: ConnectorProperty?
+        /// The token endpoint URL where the client will request access tokens using client credentials.
+        public let tokenUrl: ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public let tokenUrlParameters: [ConnectorProperty]?
+
+        @inlinable
+        public init(clientId: ConnectorProperty? = nil, clientSecret: ConnectorProperty? = nil, contentType: ContentType? = nil, requestMethod: HTTPMethod? = nil, scope: ConnectorProperty? = nil, tokenUrl: ConnectorProperty? = nil, tokenUrlParameters: [ConnectorProperty]? = nil) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.contentType = contentType
+            self.requestMethod = requestMethod
+            self.scope = scope
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.clientId?.validate(name: "\(name).clientId")
+            try self.clientSecret?.validate(name: "\(name).clientSecret")
+            try self.scope?.validate(name: "\(name).scope")
+            try self.tokenUrl?.validate(name: "\(name).tokenUrl")
+            try self.tokenUrlParameters?.forEach {
+                try $0.validate(name: "\(name).tokenUrlParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case contentType = "ContentType"
+            case requestMethod = "RequestMethod"
+            case scope = "Scope"
+            case tokenUrl = "TokenUrl"
+            case tokenUrlParameters = "TokenUrlParameters"
+        }
+    }
+
     public struct CloudWatchEncryption: AWSEncodableShape & AWSDecodableShape {
         /// The encryption mode to use for CloudWatch data.
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
@@ -5180,14 +5300,39 @@ extension Glue {
         }
     }
 
+    public struct ConnectionPropertiesConfiguration: AWSEncodableShape {
+        /// Key-value pairs of additional request parameters that may be needed during connection creation, such as API versions or service-specific configuration options.
+        public let additionalRequestParameters: [ConnectorProperty]?
+        /// The base instance URL for the endpoint that this connection type will connect to.
+        public let url: ConnectorProperty?
+
+        @inlinable
+        public init(additionalRequestParameters: [ConnectorProperty]? = nil, url: ConnectorProperty? = nil) {
+            self.additionalRequestParameters = additionalRequestParameters
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalRequestParameters?.forEach {
+                try $0.validate(name: "\(name).additionalRequestParameters[]")
+            }
+            try self.url?.validate(name: "\(name).url")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalRequestParameters = "AdditionalRequestParameters"
+            case url = "Url"
+        }
+    }
+
     public struct ConnectionTypeBrief: AWSDecodableShape {
         /// The supported authentication types, data interface types (compute environments), and data operations of the connector.
         public let capabilities: Capabilities?
-        /// A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their  use cases.
+        /// A list of categories that this connection type belongs to. Categories help users filter and find appropriate connection types based on their use cases.
         public let categories: [String]?
         /// The name of the connection type.
         public let connectionType: ConnectionType?
-        /// A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or  implementations of the same general connection type.
+        /// A list of variants available for this connection type. Different variants may provide specialized configurations for specific use cases or implementations of the same general connection type.
         public let connectionTypeVariants: [ConnectionTypeVariant]?
         /// A description of the connection type.
         public let description: String?
@@ -5269,6 +5414,103 @@ extension Glue {
         }
     }
 
+    public struct ConnectorAuthenticationConfiguration: AWSEncodableShape {
+        /// A list of authentication types supported by this connection type, such as Basic, OAuth2, or Custom authentication methods.
+        public let authenticationTypes: [AuthenticationType]
+        public let basicAuthenticationProperties: BasicAuthenticationProperties?
+        public let customAuthenticationProperties: CustomAuthenticationProperties?
+        public let oAuth2Properties: ConnectorOAuth2Properties?
+
+        @inlinable
+        public init(authenticationTypes: [AuthenticationType], basicAuthenticationProperties: BasicAuthenticationProperties? = nil, customAuthenticationProperties: CustomAuthenticationProperties? = nil, oAuth2Properties: ConnectorOAuth2Properties? = nil) {
+            self.authenticationTypes = authenticationTypes
+            self.basicAuthenticationProperties = basicAuthenticationProperties
+            self.customAuthenticationProperties = customAuthenticationProperties
+            self.oAuth2Properties = oAuth2Properties
+        }
+
+        public func validate(name: String) throws {
+            try self.basicAuthenticationProperties?.validate(name: "\(name).basicAuthenticationProperties")
+            try self.customAuthenticationProperties?.validate(name: "\(name).customAuthenticationProperties")
+            try self.oAuth2Properties?.validate(name: "\(name).oAuth2Properties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationTypes = "AuthenticationTypes"
+            case basicAuthenticationProperties = "BasicAuthenticationProperties"
+            case customAuthenticationProperties = "CustomAuthenticationProperties"
+            case oAuth2Properties = "OAuth2Properties"
+        }
+    }
+
+    public struct ConnectorAuthorizationCodeProperties: AWSEncodableShape {
+        /// The authorization code received from the authorization server after user consent.
+        public let authorizationCode: ConnectorProperty?
+        /// The authorization endpoint URL where users will be redirected to grant authorization.
+        public let authorizationCodeUrl: ConnectorProperty?
+        /// The OAuth2 client identifier provided by the authorization server.
+        public let clientId: ConnectorProperty?
+        /// The OAuth2 client secret provided by the authorization server.
+        public let clientSecret: ConnectorProperty?
+        /// The content type to use for token exchange requests, such as application/x-www-form-urlencoded or application/json.
+        public let contentType: ContentType?
+        /// The OAuth2 prompt parameter that controls the authorization server's behavior during user authentication.
+        public let prompt: ConnectorProperty?
+        /// The redirect URI that must match the URI registered with the authorization server.
+        public let redirectUri: ConnectorProperty?
+        /// The HTTP method to use when making token exchange requests, typically POST.
+        public let requestMethod: HTTPMethod?
+        /// The OAuth2 scope that defines the level of access requested for the authorization code flow.
+        public let scope: ConnectorProperty?
+        /// The token endpoint URL where the authorization code will be exchanged for an access token.
+        public let tokenUrl: ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public let tokenUrlParameters: [ConnectorProperty]?
+
+        @inlinable
+        public init(authorizationCode: ConnectorProperty? = nil, authorizationCodeUrl: ConnectorProperty? = nil, clientId: ConnectorProperty? = nil, clientSecret: ConnectorProperty? = nil, contentType: ContentType? = nil, prompt: ConnectorProperty? = nil, redirectUri: ConnectorProperty? = nil, requestMethod: HTTPMethod? = nil, scope: ConnectorProperty? = nil, tokenUrl: ConnectorProperty? = nil, tokenUrlParameters: [ConnectorProperty]? = nil) {
+            self.authorizationCode = authorizationCode
+            self.authorizationCodeUrl = authorizationCodeUrl
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.contentType = contentType
+            self.prompt = prompt
+            self.redirectUri = redirectUri
+            self.requestMethod = requestMethod
+            self.scope = scope
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationCode?.validate(name: "\(name).authorizationCode")
+            try self.authorizationCodeUrl?.validate(name: "\(name).authorizationCodeUrl")
+            try self.clientId?.validate(name: "\(name).clientId")
+            try self.clientSecret?.validate(name: "\(name).clientSecret")
+            try self.prompt?.validate(name: "\(name).prompt")
+            try self.redirectUri?.validate(name: "\(name).redirectUri")
+            try self.scope?.validate(name: "\(name).scope")
+            try self.tokenUrl?.validate(name: "\(name).tokenUrl")
+            try self.tokenUrlParameters?.forEach {
+                try $0.validate(name: "\(name).tokenUrlParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCode = "AuthorizationCode"
+            case authorizationCodeUrl = "AuthorizationCodeUrl"
+            case clientId = "ClientId"
+            case clientSecret = "ClientSecret"
+            case contentType = "ContentType"
+            case prompt = "Prompt"
+            case redirectUri = "RedirectUri"
+            case requestMethod = "RequestMethod"
+            case scope = "Scope"
+            case tokenUrl = "TokenUrl"
+            case tokenUrlParameters = "TokenUrlParameters"
+        }
+    }
+
     public struct ConnectorDataSource: AWSEncodableShape & AWSDecodableShape {
         /// The connectionType, as provided to the underlying Glue library. This node type supports
         /// the following connection types:     opensearch     azuresql     azurecosmos     bigquery     saphana     teradata     vertica
@@ -5338,6 +5580,84 @@ extension Glue {
             case data = "Data"
             case inputs = "Inputs"
             case name = "Name"
+        }
+    }
+
+    public struct ConnectorOAuth2Properties: AWSEncodableShape {
+        /// Configuration properties specific to the OAuth2 Authorization Code grant type flow.
+        public let authorizationCodeProperties: ConnectorAuthorizationCodeProperties?
+        /// Configuration properties specific to the OAuth2 Client Credentials grant type flow.
+        public let clientCredentialsProperties: ClientCredentialsProperties?
+        /// Configuration properties specific to the OAuth2 JWT Bearer grant type flow.
+        public let jwtBearerProperties: JWTBearerProperties?
+        /// The OAuth2 grant type to use for authentication, such as CLIENT_CREDENTIALS, JWT_BEARER, or AUTHORIZATION_CODE.
+        public let oAuth2GrantType: ConnectorOAuth2GrantType
+
+        @inlinable
+        public init(authorizationCodeProperties: ConnectorAuthorizationCodeProperties? = nil, clientCredentialsProperties: ClientCredentialsProperties? = nil, jwtBearerProperties: JWTBearerProperties? = nil, oAuth2GrantType: ConnectorOAuth2GrantType) {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.clientCredentialsProperties = clientCredentialsProperties
+            self.jwtBearerProperties = jwtBearerProperties
+            self.oAuth2GrantType = oAuth2GrantType
+        }
+
+        public func validate(name: String) throws {
+            try self.authorizationCodeProperties?.validate(name: "\(name).authorizationCodeProperties")
+            try self.clientCredentialsProperties?.validate(name: "\(name).clientCredentialsProperties")
+            try self.jwtBearerProperties?.validate(name: "\(name).jwtBearerProperties")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizationCodeProperties = "AuthorizationCodeProperties"
+            case clientCredentialsProperties = "ClientCredentialsProperties"
+            case jwtBearerProperties = "JWTBearerProperties"
+            case oAuth2GrantType = "OAuth2GrantType"
+        }
+    }
+
+    public struct ConnectorProperty: AWSEncodableShape & AWSDecodableShape {
+        /// A list of AllowedValue objects representing the values allowed for the property.
+        public let allowedValues: [String]?
+        /// The default value for the property.
+        public let defaultValue: String?
+        /// A key name to use when sending this property in API requests, if different from the display name.
+        public let keyOverride: String?
+        /// The name of the property.
+        public let name: String
+        /// Specifies where this property should be included in REST requests, such as in headers, query parameters, or request body.
+        public let propertyLocation: PropertyLocation?
+        /// The data type of this property
+        public let propertyType: PropertyType
+        /// Indicates whether the property is required.
+        public let required: Bool
+
+        @inlinable
+        public init(allowedValues: [String]? = nil, defaultValue: String? = nil, keyOverride: String? = nil, name: String, propertyLocation: PropertyLocation? = nil, propertyType: PropertyType, required: Bool) {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+            self.keyOverride = keyOverride
+            self.name = name
+            self.propertyLocation = propertyLocation
+            self.propertyType = propertyType
+            self.required = required
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyOverride, name: "keyOverride", parent: name, max: 128)
+            try self.validate(self.keyOverride, name: "keyOverride", parent: name, min: 1)
+            try self.validate(self.keyOverride, name: "keyOverride", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedValues = "AllowedValues"
+            case defaultValue = "DefaultValue"
+            case keyOverride = "KeyOverride"
+            case name = "Name"
+            case propertyLocation = "PropertyLocation"
+            case propertyType = "PropertyType"
+            case required = "Required"
         }
     }
 
@@ -8002,6 +8322,49 @@ extension Glue {
         }
     }
 
+    public struct CursorConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name used to specify the maximum number of results to return per page.
+        public let limitParameter: ExtractedParameter?
+        /// The parameter name or JSON path that contains the cursor or token for retrieving the next page of results.
+        public let nextPage: ExtractedParameter
+
+        @inlinable
+        public init(limitParameter: ExtractedParameter? = nil, nextPage: ExtractedParameter) {
+            self.limitParameter = limitParameter
+            self.nextPage = nextPage
+        }
+
+        public func validate(name: String) throws {
+            try self.limitParameter?.validate(name: "\(name).limitParameter")
+            try self.nextPage.validate(name: "\(name).nextPage")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitParameter = "LimitParameter"
+            case nextPage = "NextPage"
+        }
+    }
+
+    public struct CustomAuthenticationProperties: AWSEncodableShape {
+        /// A map of custom authentication parameters that define the specific authentication mechanism and required properties.
+        public let authenticationParameters: [ConnectorProperty]
+
+        @inlinable
+        public init(authenticationParameters: [ConnectorProperty]) {
+            self.authenticationParameters = authenticationParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.authenticationParameters.forEach {
+                try $0.validate(name: "\(name).authenticationParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationParameters = "AuthenticationParameters"
+        }
+    }
+
     public struct CustomCode: AWSEncodableShape & AWSDecodableShape {
         /// The name defined for the custom code node class.
         public let className: String
@@ -9449,6 +9812,30 @@ extension Glue {
         public init() {}
     }
 
+    public struct DeleteConnectionTypeRequest: AWSEncodableShape {
+        /// The name of the connection type to delete. Must reference an existing registered connection type.
+        public let connectionType: String
+
+        @inlinable
+        public init(connectionType: String) {
+            self.connectionType = connectionType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionType, name: "connectionType", parent: name, max: 255)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, min: 1)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionType = "ConnectionType"
+        }
+    }
+
+    public struct DeleteConnectionTypeResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteCrawlerRequest: AWSEncodableShape {
         /// The name of the crawler to remove.
         public let name: String
@@ -10420,11 +10807,13 @@ extension Glue {
         public let physicalConnectionRequirements: [String: Property]?
         /// Connection properties specific to the Python compute environment.
         public let pythonConnectionProperties: [String: Property]?
+        /// HTTP request and response configuration, validation endpoint, and entity configurations for REST based data source.
+        public let restConfiguration: RestConfiguration?
         /// Connection properties specific to the Spark compute environment.
         public let sparkConnectionProperties: [String: Property]?
 
         @inlinable
-        public init(athenaConnectionProperties: [String: Property]? = nil, authenticationConfiguration: AuthConfiguration? = nil, capabilities: Capabilities? = nil, computeEnvironmentConfigurations: [String: ComputeEnvironmentConfiguration]? = nil, connectionOptions: [String: Property]? = nil, connectionProperties: [String: Property]? = nil, connectionType: String? = nil, description: String? = nil, physicalConnectionRequirements: [String: Property]? = nil, pythonConnectionProperties: [String: Property]? = nil, sparkConnectionProperties: [String: Property]? = nil) {
+        public init(athenaConnectionProperties: [String: Property]? = nil, authenticationConfiguration: AuthConfiguration? = nil, capabilities: Capabilities? = nil, computeEnvironmentConfigurations: [String: ComputeEnvironmentConfiguration]? = nil, connectionOptions: [String: Property]? = nil, connectionProperties: [String: Property]? = nil, connectionType: String? = nil, description: String? = nil, physicalConnectionRequirements: [String: Property]? = nil, pythonConnectionProperties: [String: Property]? = nil, restConfiguration: RestConfiguration? = nil, sparkConnectionProperties: [String: Property]? = nil) {
             self.athenaConnectionProperties = athenaConnectionProperties
             self.authenticationConfiguration = authenticationConfiguration
             self.capabilities = capabilities
@@ -10435,6 +10824,7 @@ extension Glue {
             self.description = description
             self.physicalConnectionRequirements = physicalConnectionRequirements
             self.pythonConnectionProperties = pythonConnectionProperties
+            self.restConfiguration = restConfiguration
             self.sparkConnectionProperties = sparkConnectionProperties
         }
 
@@ -10449,6 +10839,7 @@ extension Glue {
             case description = "Description"
             case physicalConnectionRequirements = "PhysicalConnectionRequirements"
             case pythonConnectionProperties = "PythonConnectionProperties"
+            case restConfiguration = "RestConfiguration"
             case sparkConnectionProperties = "SparkConnectionProperties"
         }
     }
@@ -11303,6 +11694,31 @@ extension Glue {
         }
     }
 
+    public struct EntityConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The schema definition for this entity, including field names, types, and other metadata that describes the structure of the data.
+        public let schema: [String: FieldDefinition]?
+        /// The source configuration that defines how to make requests to access this entity's data through the REST API.
+        public let sourceConfiguration: SourceConfiguration?
+
+        @inlinable
+        public init(schema: [String: FieldDefinition]? = nil, sourceConfiguration: SourceConfiguration? = nil) {
+            self.schema = schema
+            self.sourceConfiguration = sourceConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.schema?.forEach {
+                try validate($0.key, name: "schema.key", parent: name, min: 1)
+            }
+            try self.sourceConfiguration?.validate(name: "\(name).sourceConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "Schema"
+            case sourceConfiguration = "SourceConfiguration"
+        }
+    }
+
     public struct EntityNotFoundException: AWSErrorShape {
         /// Indicates whether or not the exception relates to a federated source.
         public let fromFederationSource: Bool?
@@ -11555,6 +11971,42 @@ extension Glue {
         }
     }
 
+    public struct ExtractedParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The default value to use if the parameter cannot be extracted from the response.
+        public let defaultValue: String?
+        /// The parameter key name that will be used in subsequent requests.
+        public let key: String?
+        /// Specifies where this extracted parameter should be placed in subsequent requests, such as in headers, query parameters, or request body.
+        public let propertyLocation: PropertyLocation?
+        /// The JSON path or extraction mapping that defines how to extract the parameter value from API responses.
+        public let value: ResponseExtractionMapping?
+
+        @inlinable
+        public init(defaultValue: String? = nil, key: String? = nil, propertyLocation: PropertyLocation? = nil, value: ResponseExtractionMapping? = nil) {
+            self.defaultValue = defaultValue
+            self.key = key
+            self.propertyLocation = propertyLocation
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 1024)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, pattern: "[^<>&'\"]")
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.value?.validate(name: "\(name).value")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case key = "Key"
+            case propertyLocation = "PropertyLocation"
+            case value = "Value"
+        }
+    }
+
     public struct FederatedCatalog: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to an external data source, for example a Redshift-federated catalog.
         public let connectionName: String?
@@ -11764,6 +12216,24 @@ extension Glue {
             case parentField = "ParentField"
             case supportedFilterOperators = "SupportedFilterOperators"
             case supportedValues = "SupportedValues"
+        }
+    }
+
+    public struct FieldDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The data type of the field.
+        public let fieldDataType: FieldDataType
+        /// The name of the field in the entity schema.
+        public let name: String
+
+        @inlinable
+        public init(fieldDataType: FieldDataType, name: String) {
+            self.fieldDataType = fieldDataType
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldDataType = "FieldDataType"
+            case name = "Name"
         }
     }
 
@@ -14294,6 +14764,45 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case mapping = "Mapping"
+        }
+    }
+
+    public struct GetMaterializedViewRefreshTaskRunRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+        public let catalogId: String
+        /// The identifier for the particular materialized view refresh task run.
+        public let materializedViewRefreshTaskRunId: String
+
+        @inlinable
+        public init(catalogId: String, materializedViewRefreshTaskRunId: String) {
+            self.catalogId = catalogId
+            self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.materializedViewRefreshTaskRunId, name: "materializedViewRefreshTaskRunId", parent: name, pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case materializedViewRefreshTaskRunId = "MaterializedViewRefreshTaskRunId"
+        }
+    }
+
+    public struct GetMaterializedViewRefreshTaskRunResponse: AWSDecodableShape {
+        /// A MaterializedViewRefreshTaskRun object representing the details of the task run.
+        public let materializedViewRefreshTaskRun: MaterializedViewRefreshTaskRun?
+
+        @inlinable
+        public init(materializedViewRefreshTaskRun: MaterializedViewRefreshTaskRun? = nil) {
+            self.materializedViewRefreshTaskRun = materializedViewRefreshTaskRun
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case materializedViewRefreshTaskRun = "MaterializedViewRefreshTaskRun"
         }
     }
 
@@ -17559,6 +18068,44 @@ extension Glue {
         }
     }
 
+    public struct JWTBearerProperties: AWSEncodableShape {
+        /// The content type to use for JWT bearer token requests, such as application/x-www-form-urlencoded or application/json.
+        public let contentType: ContentType?
+        /// The JWT token to be used in the bearer token grant flow for authentication.
+        public let jwtToken: ConnectorProperty?
+        /// The HTTP method to use when making JWT bearer token requests, typically POST.
+        public let requestMethod: HTTPMethod?
+        /// The token endpoint URL where the JWT bearer token will be exchanged for an access token.
+        public let tokenUrl: ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public let tokenUrlParameters: [ConnectorProperty]?
+
+        @inlinable
+        public init(contentType: ContentType? = nil, jwtToken: ConnectorProperty? = nil, requestMethod: HTTPMethod? = nil, tokenUrl: ConnectorProperty? = nil, tokenUrlParameters: [ConnectorProperty]? = nil) {
+            self.contentType = contentType
+            self.jwtToken = jwtToken
+            self.requestMethod = requestMethod
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+
+        public func validate(name: String) throws {
+            try self.jwtToken?.validate(name: "\(name).jwtToken")
+            try self.tokenUrl?.validate(name: "\(name).tokenUrl")
+            try self.tokenUrlParameters?.forEach {
+                try $0.validate(name: "\(name).tokenUrlParameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentType = "ContentType"
+            case jwtToken = "JwtToken"
+            case requestMethod = "RequestMethod"
+            case tokenUrl = "TokenUrl"
+            case tokenUrlParameters = "TokenUrlParameters"
+        }
+    }
+
     public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
@@ -19484,6 +20031,68 @@ extension Glue {
         }
     }
 
+    public struct ListMaterializedViewRefreshTaskRunsRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+        public let catalogId: String
+        /// The database where the table resides.
+        public let databaseName: String?
+        /// The maximum size of the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// The name of the table for which statistics is generated.
+        public let tableName: String?
+
+        @inlinable
+        public init(catalogId: String, databaseName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, tableName: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct ListMaterializedViewRefreshTaskRunsResponse: AWSDecodableShape {
+        /// The results of the ListMaterializedViewRefreshTaskRuns action.
+        public let materializedViewRefreshTaskRuns: [MaterializedViewRefreshTaskRun]?
+        /// A continuation token, if not all task run IDs have yet been returned.
+        public let nextToken: String?
+
+        @inlinable
+        public init(materializedViewRefreshTaskRuns: [MaterializedViewRefreshTaskRun]? = nil, nextToken: String? = nil) {
+            self.materializedViewRefreshTaskRuns = materializedViewRefreshTaskRuns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case materializedViewRefreshTaskRuns = "MaterializedViewRefreshTaskRuns"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListRegistriesInput: AWSEncodableShape {
         /// Maximum number of results required per page. If the value is not supplied, this will be defaulted to 25 per page.
         public let maxResults: Int?
@@ -20198,6 +20807,76 @@ extension Glue {
         }
     }
 
+    public struct MaterializedViewRefreshTaskRun: AWSDecodableShape {
+        /// The ID of the Data Catalog where the table resides. If none is supplied, the account ID is used by default.
+        public let catalogId: String?
+        /// The time that this task was created.
+        public let creationTime: Date?
+        /// The Amazon Web Services account ID.
+        public let customerId: String?
+        /// The database where the table resides.
+        public let databaseName: String?
+        /// The calculated DPU usage in seconds for all autoscaled workers.
+        public let dpuSeconds: Double?
+        /// The end time of the task.
+        public let endTime: Date?
+        /// The error message for the job.
+        public let errorMessage: String?
+        /// The last point in time when this task was modified.
+        public let lastUpdated: Date?
+        /// The identifier of the materialized view refresh task run.
+        public let materializedViewRefreshTaskRunId: String?
+        /// The number of bytes the refresh task run has scanned to refresh the materialized view.
+        public let processedBytes: Int64?
+        /// The type of the refresh task run. Either FULL or INCREMENTAL.
+        public let refreshType: MaterializedViewRefreshType?
+        /// The IAM role that the service assumes to generate statistics.
+        public let role: String?
+        /// The start time of the task.
+        public let startTime: Date?
+        /// The status of the task run.
+        public let status: MaterializedViewRefreshState?
+        /// The name of the table for which statistics is generated.
+        public let tableName: String?
+
+        @inlinable
+        public init(catalogId: String? = nil, creationTime: Date? = nil, customerId: String? = nil, databaseName: String? = nil, dpuSeconds: Double? = nil, endTime: Date? = nil, errorMessage: String? = nil, lastUpdated: Date? = nil, materializedViewRefreshTaskRunId: String? = nil, processedBytes: Int64? = nil, refreshType: MaterializedViewRefreshType? = nil, role: String? = nil, startTime: Date? = nil, status: MaterializedViewRefreshState? = nil, tableName: String? = nil) {
+            self.catalogId = catalogId
+            self.creationTime = creationTime
+            self.customerId = customerId
+            self.databaseName = databaseName
+            self.dpuSeconds = dpuSeconds
+            self.endTime = endTime
+            self.errorMessage = errorMessage
+            self.lastUpdated = lastUpdated
+            self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+            self.processedBytes = processedBytes
+            self.refreshType = refreshType
+            self.role = role
+            self.startTime = startTime
+            self.status = status
+            self.tableName = tableName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case creationTime = "CreationTime"
+            case customerId = "CustomerId"
+            case databaseName = "DatabaseName"
+            case dpuSeconds = "DPUSeconds"
+            case endTime = "EndTime"
+            case errorMessage = "ErrorMessage"
+            case lastUpdated = "LastUpdated"
+            case materializedViewRefreshTaskRunId = "MaterializedViewRefreshTaskRunId"
+            case processedBytes = "ProcessedBytes"
+            case refreshType = "RefreshType"
+            case role = "Role"
+            case startTime = "StartTime"
+            case status = "Status"
+            case tableName = "TableName"
+        }
+    }
+
     public struct Merge: AWSEncodableShape & AWSDecodableShape {
         /// The data inputs identified by their node names.
         public let inputs: [String]
@@ -20798,6 +21477,29 @@ extension Glue {
         }
     }
 
+    public struct OffsetConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name used to specify the maximum number of results to return per page.
+        public let limitParameter: ExtractedParameter
+        /// The parameter name used to specify the starting position or offset for retrieving results.
+        public let offsetParameter: ExtractedParameter
+
+        @inlinable
+        public init(limitParameter: ExtractedParameter, offsetParameter: ExtractedParameter) {
+            self.limitParameter = limitParameter
+            self.offsetParameter = offsetParameter
+        }
+
+        public func validate(name: String) throws {
+            try self.limitParameter.validate(name: "\(name).limitParameter")
+            try self.offsetParameter.validate(name: "\(name).offsetParameter")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitParameter = "LimitParameter"
+            case offsetParameter = "OffsetParameter"
+        }
+    }
+
     public struct OpenTableFormatInput: AWSEncodableShape {
         /// Specifies an IcebergInput structure that defines an Apache Iceberg metadata table.
         public let icebergInput: IcebergInput?
@@ -21074,6 +21776,29 @@ extension Glue {
             case redactText = "RedactText"
             case sampleFraction = "SampleFraction"
             case thresholdFraction = "ThresholdFraction"
+        }
+    }
+
+    public struct PaginationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for cursor-based pagination, where the API provides a cursor or token to retrieve the next page of results.
+        public let cursorConfiguration: CursorConfiguration?
+        /// Configuration for offset-based pagination, where the API uses numeric offsets and limits to control which results are returned.
+        public let offsetConfiguration: OffsetConfiguration?
+
+        @inlinable
+        public init(cursorConfiguration: CursorConfiguration? = nil, offsetConfiguration: OffsetConfiguration? = nil) {
+            self.cursorConfiguration = cursorConfiguration
+            self.offsetConfiguration = offsetConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.cursorConfiguration?.validate(name: "\(name).cursorConfiguration")
+            try self.offsetConfiguration?.validate(name: "\(name).offsetConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cursorConfiguration = "CursorConfiguration"
+            case offsetConfiguration = "OffsetConfiguration"
         }
     }
 
@@ -21471,20 +22196,26 @@ extension Glue {
         public let defaultValue: String?
         /// A description of the property.
         public let description: String
+        /// A key name to use when sending this property in API requests, if different from the display name.
+        public let keyOverride: String?
         /// The name of the property.
         public let name: String
+        /// Specifies where this property should be included in REST requests, such as in headers, query parameters, or request body.
+        public let propertyLocation: PropertyLocation?
         /// Describes the type of property.
         public let propertyTypes: [PropertyType]
         /// Indicates whether the property is required.
         public let required: Bool
 
         @inlinable
-        public init(allowedValues: [AllowedValue]? = nil, dataOperationScopes: [DataOperation]? = nil, defaultValue: String? = nil, description: String, name: String, propertyTypes: [PropertyType], required: Bool) {
+        public init(allowedValues: [AllowedValue]? = nil, dataOperationScopes: [DataOperation]? = nil, defaultValue: String? = nil, description: String, keyOverride: String? = nil, name: String, propertyLocation: PropertyLocation? = nil, propertyTypes: [PropertyType], required: Bool) {
             self.allowedValues = allowedValues
             self.dataOperationScopes = dataOperationScopes
             self.defaultValue = defaultValue
             self.description = description
+            self.keyOverride = keyOverride
             self.name = name
+            self.propertyLocation = propertyLocation
             self.propertyTypes = propertyTypes
             self.required = required
         }
@@ -21494,7 +22225,9 @@ extension Glue {
             case dataOperationScopes = "DataOperationScopes"
             case defaultValue = "DefaultValue"
             case description = "Description"
+            case keyOverride = "KeyOverride"
             case name = "Name"
+            case propertyLocation = "PropertyLocation"
             case propertyTypes = "PropertyTypes"
             case required = "Required"
         }
@@ -22093,6 +22826,74 @@ extension Glue {
         }
     }
 
+    public struct RegisterConnectionTypeRequest: AWSEncodableShape {
+        /// Defines the base URL and additional request parameters needed during connection creation for this connection type.
+        public let connectionProperties: ConnectionPropertiesConfiguration
+        /// The name of the connection type. Must be between 1 and 255 characters and must be prefixed with "REST-" to indicate it is a REST-based connector.
+        public let connectionType: String
+        /// Defines the supported authentication types and required properties for this connection type, including Basic, OAuth2, and Custom authentication methods.
+        public let connectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration
+        /// A description of the connection type. Can be up to 2048 characters and provides details about the purpose and functionality of the connection type.
+        public let description: String?
+        /// The integration type for the connection. Currently only "REST" protocol is supported.
+        public let integrationType: IntegrationType
+        /// Defines the HTTP request and response configuration, validation endpoint, and entity configurations for REST API interactions.
+        public let restConfiguration: RestConfiguration
+        /// The tags you assign to the connection type.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(connectionProperties: ConnectionPropertiesConfiguration, connectionType: String, connectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration, description: String? = nil, integrationType: IntegrationType, restConfiguration: RestConfiguration, tags: [String: String]? = nil) {
+            self.connectionProperties = connectionProperties
+            self.connectionType = connectionType
+            self.connectorAuthenticationConfiguration = connectorAuthenticationConfiguration
+            self.description = description
+            self.integrationType = integrationType
+            self.restConfiguration = restConfiguration
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.connectionProperties.validate(name: "\(name).connectionProperties")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, max: 255)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, min: 1)
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.connectorAuthenticationConfiguration.validate(name: "\(name).connectorAuthenticationConfiguration")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.restConfiguration.validate(name: "\(name).restConfiguration")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionProperties = "ConnectionProperties"
+            case connectionType = "ConnectionType"
+            case connectorAuthenticationConfiguration = "ConnectorAuthenticationConfiguration"
+            case description = "Description"
+            case integrationType = "IntegrationType"
+            case restConfiguration = "RestConfiguration"
+            case tags = "Tags"
+        }
+    }
+
+    public struct RegisterConnectionTypeResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the registered connection type. This unique identifier can be used to reference the connection type in other Glue operations.
+        public let connectionTypeArn: String?
+
+        @inlinable
+        public init(connectionTypeArn: String? = nil) {
+            self.connectionTypeArn = connectionTypeArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionTypeArn = "ConnectionTypeArn"
+        }
+    }
+
     public struct RegisterSchemaVersionInput: AWSEncodableShape {
         /// The schema definition using the DataFormat setting for the SchemaName.
         public let schemaDefinition: String
@@ -22400,6 +23201,93 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case resourceType = "ResourceType"
             case uri = "Uri"
+        }
+    }
+
+    public struct ResponseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The JSON path expression that identifies where error information is located within API responses when requests fail.
+        public let errorPath: String?
+        /// The JSON path expression that identifies where the actual result data is located within the API response.
+        public let resultPath: String
+
+        @inlinable
+        public init(errorPath: String? = nil, resultPath: String) {
+            self.errorPath = errorPath
+            self.resultPath = resultPath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.errorPath, name: "errorPath", parent: name, max: 512)
+            try self.validate(self.errorPath, name: "errorPath", parent: name, min: 1)
+            try self.validate(self.errorPath, name: "errorPath", parent: name, pattern: "^\\$(\\.[a-zA-Z0-9_.@\\[\\]\\(\\)-]+)*$")
+            try self.validate(self.resultPath, name: "resultPath", parent: name, max: 512)
+            try self.validate(self.resultPath, name: "resultPath", parent: name, min: 1)
+            try self.validate(self.resultPath, name: "resultPath", parent: name, pattern: "^\\$(\\.[a-zA-Z0-9_.@\\[\\]\\(\\)-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorPath = "ErrorPath"
+            case resultPath = "ResultPath"
+        }
+    }
+
+    public struct ResponseExtractionMapping: AWSEncodableShape & AWSDecodableShape {
+        /// A JSON path expression that specifies how to extract a value from the response body content.
+        public let contentPath: String?
+        /// The name of an HTTP response header from which to extract the value.
+        public let headerKey: String?
+
+        @inlinable
+        public init(contentPath: String? = nil, headerKey: String? = nil) {
+            self.contentPath = contentPath
+            self.headerKey = headerKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentPath, name: "contentPath", parent: name, max: 512)
+            try self.validate(self.contentPath, name: "contentPath", parent: name, min: 1)
+            try self.validate(self.contentPath, name: "contentPath", parent: name, pattern: "^\\$(\\.[a-zA-Z0-9_.@\\[\\]\\(\\)-]+)*$")
+            try self.validate(self.headerKey, name: "headerKey", parent: name, max: 128)
+            try self.validate(self.headerKey, name: "headerKey", parent: name, min: 1)
+            try self.validate(self.headerKey, name: "headerKey", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentPath = "ContentPath"
+            case headerKey = "HeaderKey"
+        }
+    }
+
+    public struct RestConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A map of entity configurations that define how to interact with different data entities available through the REST API, including their schemas and access patterns.
+        public let entityConfigurations: [String: EntityConfiguration]?
+        /// Global configuration settings that apply to all REST API requests for this connection type, including common request methods, paths, and parameters.
+        public let globalSourceConfiguration: SourceConfiguration?
+        /// Configuration for the endpoint used to validate connection credentials and test connectivity during connection creation.
+        public let validationEndpointConfiguration: SourceConfiguration?
+
+        @inlinable
+        public init(entityConfigurations: [String: EntityConfiguration]? = nil, globalSourceConfiguration: SourceConfiguration? = nil, validationEndpointConfiguration: SourceConfiguration? = nil) {
+            self.entityConfigurations = entityConfigurations
+            self.globalSourceConfiguration = globalSourceConfiguration
+            self.validationEndpointConfiguration = validationEndpointConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.entityConfigurations?.forEach {
+                try validate($0.key, name: "entityConfigurations.key", parent: name, max: 128)
+                try validate($0.key, name: "entityConfigurations.key", parent: name, min: 1)
+                try validate($0.key, name: "entityConfigurations.key", parent: name, pattern: "^[a-zA-Z0-9_ -]+$")
+                try $0.value.validate(name: "\(name).entityConfigurations[\"\($0.key)\"]")
+            }
+            try self.globalSourceConfiguration?.validate(name: "\(name).globalSourceConfiguration")
+            try self.validationEndpointConfiguration?.validate(name: "\(name).validationEndpointConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityConfigurations = "EntityConfigurations"
+            case globalSourceConfiguration = "GlobalSourceConfiguration"
+            case validationEndpointConfiguration = "ValidationEndpointConfiguration"
         }
     }
 
@@ -24734,6 +25622,47 @@ extension Glue {
         }
     }
 
+    public struct SourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration for handling paginated responses from the REST API, supporting both cursor-based and offset-based pagination strategies.
+        public let paginationConfiguration: PaginationConfiguration?
+        /// The HTTP method to use for requests to this endpoint, such as GET, POST.
+        public let requestMethod: HTTPMethod?
+        /// Configuration for request parameters that should be included in API calls, such as query parameters, headers, or body content.
+        public let requestParameters: [ConnectorProperty]?
+        /// The URL path for the REST endpoint, which may include parameter placeholders that will be replaced with actual values during requests.
+        public let requestPath: String?
+        /// Configuration that defines how to parse and extract data from API responses, including success and error handling.
+        public let responseConfiguration: ResponseConfiguration?
+
+        @inlinable
+        public init(paginationConfiguration: PaginationConfiguration? = nil, requestMethod: HTTPMethod? = nil, requestParameters: [ConnectorProperty]? = nil, requestPath: String? = nil, responseConfiguration: ResponseConfiguration? = nil) {
+            self.paginationConfiguration = paginationConfiguration
+            self.requestMethod = requestMethod
+            self.requestParameters = requestParameters
+            self.requestPath = requestPath
+            self.responseConfiguration = responseConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.paginationConfiguration?.validate(name: "\(name).paginationConfiguration")
+            try self.requestParameters?.forEach {
+                try $0.validate(name: "\(name).requestParameters[]")
+            }
+            try self.validate(self.requestPath, name: "requestPath", parent: name, max: 512)
+            try self.validate(self.requestPath, name: "requestPath", parent: name, min: 1)
+            try self.validate(self.requestPath, name: "requestPath", parent: name, pattern: "^/[a-zA-Z0-9._~:/?#\\[\\]@!$&'()*+,;={}-]*$")
+            try self.responseConfiguration?.validate(name: "\(name).responseConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case paginationConfiguration = "PaginationConfiguration"
+            case requestMethod = "RequestMethod"
+            case requestParameters = "RequestParameters"
+            case requestPath = "RequestPath"
+            case responseConfiguration = "ResponseConfiguration"
+        }
+    }
+
     public struct SourceControlDetails: AWSEncodableShape & AWSDecodableShape {
         /// The type of authentication, which can be an authentication token stored in Amazon Web Services Secrets Manager, or a personal access token.
         public let authStrategy: SourceControlAuthStrategy?
@@ -25708,6 +26637,58 @@ extension Glue {
         }
     }
 
+    public struct StartMaterializedViewRefreshTaskRunRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+        public let catalogId: String
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// Specifies whether this is a full refresh of the task run.
+        public let fullRefresh: Bool?
+        /// The name of the table to generate run the materialized view refresh task.
+        public let tableName: String
+
+        @inlinable
+        public init(catalogId: String, databaseName: String, fullRefresh: Bool? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.fullRefresh = fullRefresh
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case fullRefresh = "FullRefresh"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct StartMaterializedViewRefreshTaskRunResponse: AWSDecodableShape {
+        /// The identifier for the materialized view refresh task run.
+        public let materializedViewRefreshTaskRunId: String?
+
+        @inlinable
+        public init(materializedViewRefreshTaskRunId: String? = nil) {
+            self.materializedViewRefreshTaskRunId = materializedViewRefreshTaskRunId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case materializedViewRefreshTaskRunId = "MaterializedViewRefreshTaskRunId"
+        }
+    }
+
     public struct StartTriggerRequest: AWSEncodableShape {
         /// The name of the trigger to start.
         public let name: String
@@ -26125,6 +27106,44 @@ extension Glue {
     }
 
     public struct StopCrawlerScheduleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct StopMaterializedViewRefreshTaskRunRequest: AWSEncodableShape {
+        /// The ID of the Data Catalog where the table reside. If none is supplied, the account ID is used by default.
+        public let catalogId: String
+        /// The name of the database where the table resides.
+        public let databaseName: String
+        /// The name of the table to generate statistics.
+        public let tableName: String
+
+        @inlinable
+        public init(catalogId: String, databaseName: String, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct StopMaterializedViewRefreshTaskRunResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -29917,6 +30936,9 @@ public struct GlueErrorType: AWSErrorType {
         case invalidIntegrationStateFault = "InvalidIntegrationStateFault"
         case invalidStateException = "InvalidStateException"
         case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case materializedViewRefreshTaskNotRunningException = "MaterializedViewRefreshTaskNotRunningException"
+        case materializedViewRefreshTaskRunningException = "MaterializedViewRefreshTaskRunningException"
+        case materializedViewRefreshTaskStoppingException = "MaterializedViewRefreshTaskStoppingException"
         case mlTransformNotReadyException = "MLTransformNotReadyException"
         case noScheduleException = "NoScheduleException"
         case operationNotSupportedException = "OperationNotSupportedException"
@@ -30012,6 +31034,12 @@ public struct GlueErrorType: AWSErrorType {
     public static var invalidStateException: Self { .init(.invalidStateException) }
     /// The KMS key specified is not accessible.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
+    /// Exception thrown when stopping a task that is not in running state.
+    public static var materializedViewRefreshTaskNotRunningException: Self { .init(.materializedViewRefreshTaskNotRunningException) }
+    /// Exception thrown when a task is already in running state.
+    public static var materializedViewRefreshTaskRunningException: Self { .init(.materializedViewRefreshTaskRunningException) }
+    /// Exception thrown when a task is already in stopping state.
+    public static var materializedViewRefreshTaskStoppingException: Self { .init(.materializedViewRefreshTaskStoppingException) }
     /// The machine learning transform is not ready to run.
     public static var mlTransformNotReadyException: Self { .init(.mlTransformNotReadyException) }
     /// There is no applicable schedule.

@@ -881,22 +881,27 @@ extension ObservabilityAdmin {
     public struct DestinationLogsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration defining the backup region and an optional KMS key for the backup destination.
         public let backupConfiguration: LogsBackupConfiguration?
+        /// Configuration that specifies a naming pattern for destination log groups created during centralization. The pattern supports static text and dynamic variables that are replaced with source attributes when log groups are created.
+        public let logGroupNameConfiguration: LogGroupNameConfiguration?
         /// The encryption configuration for centralization destination log groups.
         public let logsEncryptionConfiguration: LogsEncryptionConfiguration?
 
         @inlinable
-        public init(backupConfiguration: LogsBackupConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil) {
+        public init(backupConfiguration: LogsBackupConfiguration? = nil, logGroupNameConfiguration: LogGroupNameConfiguration? = nil, logsEncryptionConfiguration: LogsEncryptionConfiguration? = nil) {
             self.backupConfiguration = backupConfiguration
+            self.logGroupNameConfiguration = logGroupNameConfiguration
             self.logsEncryptionConfiguration = logsEncryptionConfiguration
         }
 
         public func validate(name: String) throws {
             try self.backupConfiguration?.validate(name: "\(name).backupConfiguration")
+            try self.logGroupNameConfiguration?.validate(name: "\(name).logGroupNameConfiguration")
             try self.logsEncryptionConfiguration?.validate(name: "\(name).logsEncryptionConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupConfiguration = "BackupConfiguration"
+            case logGroupNameConfiguration = "LogGroupNameConfiguration"
             case logsEncryptionConfiguration = "LogsEncryptionConfiguration"
         }
     }
@@ -1797,6 +1802,26 @@ extension ObservabilityAdmin {
         }
     }
 
+    public struct LogGroupNameConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The pattern used to generate destination log group names during centralization. The pattern can contain static text and dynamic variables that are replaced with source attributes. If a variable cannot be resolved, it inherits the value from its parent variable in the hierarchy. The pattern must be between 1 and 512 characters. Supported variables:    ${source.logGroup} — The original log group name from the source account.    ${source.accountId} — The AWS account ID where the log originated.    ${source.region} — The AWS Region where the log originated.    ${source.org.id} — The AWS Organization ID of the source account.    ${source.org.ouId} — The organizational unit ID of the source account.    ${source.org.rootId} — The organization Root ID.    ${source.org.path} — The organizational path from account to root.
+        public let logGroupNamePattern: String
+
+        @inlinable
+        public init(logGroupNamePattern: String) {
+            self.logGroupNamePattern = logGroupNamePattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, max: 512)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, min: 1)
+            try self.validate(self.logGroupNamePattern, name: "logGroupNamePattern", parent: name, pattern: "^(?:[\\._\\-/#A-Za-z0-9]+|\\$\\{[A-Za-z]+(?:\\.[A-Za-z]+){1,2}\\})+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupNamePattern = "LogGroupNamePattern"
+        }
+    }
+
     public struct LoggingFilter: AWSEncodableShape & AWSDecodableShape {
         ///  The default action (KEEP or DROP) for log records that don't match any filter conditions.
         public let defaultBehavior: FilterBehavior?
@@ -2118,15 +2143,17 @@ extension ObservabilityAdmin {
         public let resourceType: ResourceType?
         ///  The configuration state for the resource, for example { Logs: NotApplicable; Metrics: Enabled; Traces: NotApplicable; }.
         public let telemetryConfigurationState: [TelemetryType: TelemetryState]?
+        public let telemetrySourceType: TelemetrySourceType?
 
         @inlinable
-        public init(accountIdentifier: String? = nil, lastUpdateTimeStamp: Int64? = nil, resourceIdentifier: String? = nil, resourceTags: [String: String]? = nil, resourceType: ResourceType? = nil, telemetryConfigurationState: [TelemetryType: TelemetryState]? = nil) {
+        public init(accountIdentifier: String? = nil, lastUpdateTimeStamp: Int64? = nil, resourceIdentifier: String? = nil, resourceTags: [String: String]? = nil, resourceType: ResourceType? = nil, telemetryConfigurationState: [TelemetryType: TelemetryState]? = nil, telemetrySourceType: TelemetrySourceType? = nil) {
             self.accountIdentifier = accountIdentifier
             self.lastUpdateTimeStamp = lastUpdateTimeStamp
             self.resourceIdentifier = resourceIdentifier
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.telemetryConfigurationState = telemetryConfigurationState
+            self.telemetrySourceType = telemetrySourceType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2136,6 +2163,7 @@ extension ObservabilityAdmin {
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case telemetryConfigurationState = "TelemetryConfigurationState"
+            case telemetrySourceType = "TelemetrySourceType"
         }
     }
 

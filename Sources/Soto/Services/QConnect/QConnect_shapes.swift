@@ -308,6 +308,7 @@ extension QConnect {
 
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case text = "TEXT"
+        case toolUseResult = "TOOL_USE_RESULT"
         public var description: String { return self.rawValue }
     }
 
@@ -505,6 +506,7 @@ extension QConnect {
     }
 
     public enum TargetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case message = "MESSAGE"
         case recommendation = "RECOMMENDATION"
         case result = "RESULT"
         public var description: String { return self.rawValue }
@@ -1835,6 +1837,43 @@ extension QConnect {
             case templateType = "templateType"
             case type = "type"
             case visibilityStatus = "visibilityStatus"
+        }
+    }
+
+    public struct AIPromptInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of tokens to generate in the response.
+        public let maxTokensToSample: Int?
+        /// The temperature setting for controlling randomness in the generated response.
+        public let temperature: Float?
+        /// The top-K sampling parameter for token selection.
+        public let topK: Int?
+        /// The top-P sampling parameter for nucleus sampling.
+        public let topP: Float?
+
+        @inlinable
+        public init(maxTokensToSample: Int? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
+            self.maxTokensToSample = maxTokensToSample
+            self.temperature = temperature
+            self.topK = topK
+            self.topP = topP
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxTokensToSample, name: "maxTokensToSample", parent: name, max: 4096)
+            try self.validate(self.maxTokensToSample, name: "maxTokensToSample", parent: name, min: 1)
+            try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
+            try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
+            try self.validate(self.topK, name: "topK", parent: name, max: 200)
+            try self.validate(self.topK, name: "topK", parent: name, min: 0)
+            try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
+            try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTokensToSample = "maxTokensToSample"
+            case temperature = "temperature"
+            case topK = "topK"
+            case topP = "topP"
         }
     }
 
@@ -11204,43 +11243,6 @@ extension QConnect {
         public init() {}
     }
 
-    public struct TextAIPromptInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of tokens to generate in the response.
-        public let maxTokensToSample: Int?
-        /// The temperature setting for controlling randomness in the generated response.
-        public let temperature: Float?
-        /// The top-K sampling parameter for token selection.
-        public let topK: Int?
-        /// The top-P sampling parameter for nucleus sampling.
-        public let topP: Float?
-
-        @inlinable
-        public init(maxTokensToSample: Int? = nil, temperature: Float? = nil, topK: Int? = nil, topP: Float? = nil) {
-            self.maxTokensToSample = maxTokensToSample
-            self.temperature = temperature
-            self.topK = topK
-            self.topP = topP
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.maxTokensToSample, name: "maxTokensToSample", parent: name, max: 4096)
-            try self.validate(self.maxTokensToSample, name: "maxTokensToSample", parent: name, min: 0)
-            try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
-            try self.validate(self.temperature, name: "temperature", parent: name, min: 0.0)
-            try self.validate(self.topK, name: "topK", parent: name, max: 200)
-            try self.validate(self.topK, name: "topK", parent: name, min: 0)
-            try self.validate(self.topP, name: "topP", parent: name, max: 1.0)
-            try self.validate(self.topP, name: "topP", parent: name, min: 0.0)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case maxTokensToSample = "maxTokensToSample"
-            case temperature = "temperature"
-            case topK = "topK"
-            case topP = "topP"
-        }
-    }
-
     public struct TextData: AWSDecodableShape {
         public let excerpt: DocumentText?
         public let title: DocumentText?
@@ -11364,6 +11366,8 @@ extension QConnect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 4096)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.outputFilters?.forEach {
                 try $0.validate(name: "\(name).outputFilters[]")
             }
@@ -11839,15 +11843,15 @@ extension QConnect {
         public let assistantId: String
         /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
         public let configuration: AIAgentConfigurationData
-        /// The updated list of orchestrator configurations for the assistant AI Agent.
-        public let orchestratorConfigurationList: [OrchestratorConfigurationEntry]?
+        /// The orchestrator use case for the AI Agent being added.
+        public let orchestratorUseCase: String?
 
         @inlinable
-        public init(aiAgentType: AIAgentType, assistantId: String, configuration: AIAgentConfigurationData, orchestratorConfigurationList: [OrchestratorConfigurationEntry]? = nil) {
+        public init(aiAgentType: AIAgentType, assistantId: String, configuration: AIAgentConfigurationData, orchestratorUseCase: String? = nil) {
             self.aiAgentType = aiAgentType
             self.assistantId = assistantId
             self.configuration = configuration
-            self.orchestratorConfigurationList = orchestratorConfigurationList
+            self.orchestratorUseCase = orchestratorUseCase
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -11856,21 +11860,20 @@ extension QConnect {
             try container.encode(self.aiAgentType, forKey: .aiAgentType)
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encode(self.configuration, forKey: .configuration)
-            try container.encodeIfPresent(self.orchestratorConfigurationList, forKey: .orchestratorConfigurationList)
+            try container.encodeIfPresent(self.orchestratorUseCase, forKey: .orchestratorUseCase)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.configuration.validate(name: "\(name).configuration")
-            try self.orchestratorConfigurationList?.forEach {
-                try $0.validate(name: "\(name).orchestratorConfigurationList[]")
-            }
+            try self.validate(self.orchestratorUseCase, name: "orchestratorUseCase", parent: name, max: 4096)
+            try self.validate(self.orchestratorUseCase, name: "orchestratorUseCase", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case aiAgentType = "aiAgentType"
             case configuration = "configuration"
-            case orchestratorConfigurationList = "orchestratorConfigurationList"
+            case orchestratorUseCase = "orchestratorUseCase"
         }
     }
 
@@ -12617,24 +12620,6 @@ extension QConnect {
             case status = "status"
             case statusReason = "statusReason"
             case templateId = "templateId"
-        }
-    }
-
-    public struct AIPromptInferenceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The inference configuration for text-based AI Prompts.
-        public let textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration?
-
-        @inlinable
-        public init(textAIPromptInferenceConfiguration: TextAIPromptInferenceConfiguration? = nil) {
-            self.textAIPromptInferenceConfiguration = textAIPromptInferenceConfiguration
-        }
-
-        public func validate(name: String) throws {
-            try self.textAIPromptInferenceConfiguration?.validate(name: "\(name).textAIPromptInferenceConfiguration")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case textAIPromptInferenceConfiguration = "textAIPromptInferenceConfiguration"
         }
     }
 

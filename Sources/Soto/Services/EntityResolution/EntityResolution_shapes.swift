@@ -703,6 +703,29 @@ extension EntityResolution {
         }
     }
 
+    public struct CustomerProfilesIntegrationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Customer Profiles domain where the matched output will be sent.
+        public let domainArn: String
+        /// The Amazon Resource Name (ARN) of the Customer Profiles object type that defines the structure for the matched customer data.
+        public let objectTypeArn: String
+
+        @inlinable
+        public init(domainArn: String, objectTypeArn: String) {
+            self.domainArn = domainArn
+            self.objectTypeArn = objectTypeArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainArn, name: "domainArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):profile:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(domains/[a-zA-Z_0-9-]{1,255})$")
+            try self.validate(self.objectTypeArn, name: "objectTypeArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):profile:[a-z]{2}-[a-z]{1,10}-[0-9]:[0-9]{12}:(domains/[a-zA-Z_0-9-]{1,255}/object-types/[a-zA-Z_0-9-]{1,255})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "domainArn"
+            case objectTypeArn = "objectTypeArn"
+        }
+    }
+
     public struct DeleteIdMappingWorkflowInput: AWSEncodableShape {
         /// The name of the workflow to be deleted.
         public let workflowName: String
@@ -2699,33 +2722,37 @@ extension EntityResolution {
     public struct OutputSource: AWSEncodableShape & AWSDecodableShape {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public let applyNormalization: Bool?
+        /// Specifies the Customer Profiles integration configuration for sending matched output directly to Customer Profiles. When configured, Entity Resolution automatically creates and updates customer profiles based on match clusters, eliminating the need for manual Amazon S3 integration setup.
+        public let customerProfilesIntegrationConfig: CustomerProfilesIntegrationConfig?
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public let kmsArn: String?
         /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
         public let output: [OutputAttribute]
         /// The S3 path to which Entity Resolution will write the output table.
-        public let outputS3Path: String
+        public let outputS3Path: String?
 
         @inlinable
-        public init(applyNormalization: Bool? = nil, kmsArn: String? = nil, output: [OutputAttribute], outputS3Path: String) {
+        public init(applyNormalization: Bool? = nil, customerProfilesIntegrationConfig: CustomerProfilesIntegrationConfig? = nil, kmsArn: String? = nil, output: [OutputAttribute], outputS3Path: String? = nil) {
             self.applyNormalization = applyNormalization
+            self.customerProfilesIntegrationConfig = customerProfilesIntegrationConfig
             self.kmsArn = kmsArn
             self.output = output
             self.outputS3Path = outputS3Path
         }
 
         public func validate(name: String) throws {
+            try self.customerProfilesIntegrationConfig?.validate(name: "\(name).customerProfilesIntegrationConfig")
             try self.validate(self.kmsArn, name: "kmsArn", parent: name, pattern: "^arn:aws:kms:.*:[0-9]+:.*$")
             try self.output.forEach {
                 try $0.validate(name: "\(name).output[]")
             }
             try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, max: 1024)
-            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, min: 1)
-            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
+            try self.validate(self.outputS3Path, name: "outputS3Path", parent: name, pattern: "^$|^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case applyNormalization = "applyNormalization"
+            case customerProfilesIntegrationConfig = "customerProfilesIntegrationConfig"
             case kmsArn = "KMSArn"
             case output = "output"
             case outputS3Path = "outputS3Path"

@@ -287,6 +287,41 @@ public struct ServiceQuotas: AWSService {
         return try await self.getAutoManagementConfiguration(input, logger: logger)
     }
 
+    /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns  paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization  percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport  operation. The report generation process is asynchronous and may take several seconds to  complete. Poll this operation periodically to check the status and retrieve results when  the report is ready. Each report contains up to 1,000 quota records per page. Use the NextToken  parameter to retrieve additional pages of results. Reports are automatically deleted after  15 minutes.
+    @Sendable
+    @inlinable
+    public func getQuotaUtilizationReport(_ input: GetQuotaUtilizationReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQuotaUtilizationReportResponse {
+        try await self.client.execute(
+            operation: "GetQuotaUtilizationReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the quota utilization report for your Amazon Web Services account. This operation returns  paginated results showing your quota usage across all Amazon Web Services services, sorted by utilization  percentage in descending order (highest utilization first). You must first initiate a report using the StartQuotaUtilizationReport  operation. The report generation process is asynchronous and may take several seconds to  complete. Poll this operation periodically to check the status and retrieve results when  the report is ready. Each report contains up to 1,000 quota records per page. Use the NextToken  parameter to retrieve additional pages of results. Reports are automatically deleted after  15 minutes.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return per page. The default value is 1,000 and the  maximum allowed value is 1,000.
+    ///   - nextToken: A token that indicates the next page of results to retrieve. This token is returned in  the response when there are more results available. Omit this parameter for the first request.
+    ///   - reportId: The unique identifier for the quota utilization report. This identifier is returned by  the StartQuotaUtilizationReport operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQuotaUtilizationReport(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        reportId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQuotaUtilizationReportResponse {
+        let input = GetQuotaUtilizationReportRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            reportId: reportId
+        )
+        return try await self.getQuotaUtilizationReport(input, logger: logger)
+    }
+
     /// Retrieves information about the specified quota increase request.
     @Sendable
     @inlinable
@@ -761,6 +796,32 @@ public struct ServiceQuotas: AWSService {
             optInType: optInType
         )
         return try await self.startAutoManagement(input, logger: logger)
+    }
+
+    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This  asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns  a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the  number of quotas in your account. Use the GetQuotaUtilizationReport operation  to check the status and retrieve the results when the report is ready.
+    @Sendable
+    @inlinable
+    public func startQuotaUtilizationReport(_ input: StartQuotaUtilizationReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartQuotaUtilizationReportResponse {
+        try await self.client.execute(
+            operation: "StartQuotaUtilizationReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Initiates the generation of a quota utilization report for your Amazon Web Services account. This  asynchronous operation analyzes your quota usage across all Amazon Web Services services and returns  a unique report identifier that you can use to retrieve the results. The report generation process may take several seconds to complete, depending on the  number of quotas in your account. Use the GetQuotaUtilizationReport operation  to check the status and retrieve the results when the report is ready.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startQuotaUtilizationReport(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartQuotaUtilizationReportResponse {
+        let input = StartQuotaUtilizationReportRequest(
+        )
+        return try await self.startQuotaUtilizationReport(input, logger: logger)
     }
 
     /// Stops Service Quotas Automatic Management for an Amazon Web Services account and removes all associated configurations. Automatic Management monitors your Service Quotas utilization and notifies you before you run out of your allocated quotas.

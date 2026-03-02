@@ -46,6 +46,12 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum CredentialsScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case read = "READ"
+        case readwrite = "READWRITE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataLakeResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case catalog = "CATALOG"
         case dataLocation = "DATA_LOCATION"
@@ -154,6 +160,13 @@ extension LakeFormation {
     public enum TransactionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case readAndWrite = "READ_AND_WRITE"
         case readOnly = "READ_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VerificationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notVerified = "NOT_VERIFIED"
+        case verificationFailed = "VERIFICATION_FAILED"
+        case verified = "VERIFIED"
         public var description: String { return self.rawValue }
     }
 
@@ -940,7 +953,7 @@ extension LakeFormation {
         public let dataLakeAdmins: [DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public let externalDataFilteringAllowList: [DataLakePrincipal]?
-        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, and 4.
+        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, 4 and 5.
         public let parameters: [String: String]?
         /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
         public let readOnlyAdmins: [DataLakePrincipal]?
@@ -2037,6 +2050,58 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case objects = "Objects"
+        }
+    }
+
+    public struct GetTemporaryDataLocationCredentialsRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
+        /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:   READ - Provides read-only access to the data location.   READ_WRITE - Provides both read and write access to the data location.
+        public let credentialsScope: CredentialsScope?
+        /// The Amazon S3 data location that you want to access.
+        public let dataLocations: [String]?
+        /// The time period, between 900 and 43,200 seconds, for the timeout of the temporary credentials.
+        public let durationSeconds: Int?
+
+        @inlinable
+        public init(auditContext: AuditContext? = nil, credentialsScope: CredentialsScope? = nil, dataLocations: [String]? = nil, durationSeconds: Int? = nil) {
+            self.auditContext = auditContext
+            self.credentialsScope = credentialsScope
+            self.dataLocations = dataLocations
+            self.durationSeconds = durationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case credentialsScope = "CredentialsScope"
+            case dataLocations = "DataLocations"
+            case durationSeconds = "DurationSeconds"
+        }
+    }
+
+    public struct GetTemporaryDataLocationCredentialsResponse: AWSDecodableShape {
+        /// Refers to the Amazon S3 locations that can be  accessed through the GetTemporaryCredentialsForLocation API operation.
+        public let accessibleDataLocations: [String]?
+        public let credentials: TemporaryCredentials?
+        /// The credential scope is determined by the caller's Lake Formation permission on the associated table. Credential scope can be either:   READ - Provides read-only access to the data location.   READ_WRITE - Provides both read and write access to the data location.
+        public let credentialsScope: CredentialsScope?
+
+        @inlinable
+        public init(accessibleDataLocations: [String]? = nil, credentials: TemporaryCredentials? = nil, credentialsScope: CredentialsScope? = nil) {
+            self.accessibleDataLocations = accessibleDataLocations
+            self.credentials = credentials
+            self.credentialsScope = credentialsScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessibleDataLocations = "AccessibleDataLocations"
+            case credentials = "Credentials"
+            case credentialsScope = "CredentialsScope"
         }
     }
 
@@ -3255,6 +3320,8 @@ extension LakeFormation {
     }
 
     public struct RegisterResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+        public let expectedResourceOwnerAccount: String?
         ///  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public let hybridAccessEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
@@ -3269,7 +3336,8 @@ extension LakeFormation {
         public let withPrivilegedAccess: Bool?
 
         @inlinable
-        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
+        public init(expectedResourceOwnerAccount: String? = nil, hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
+            self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
             self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
             self.roleArn = roleArn
@@ -3279,10 +3347,12 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.expectedResourceOwnerAccount, name: "expectedResourceOwnerAccount", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedResourceOwnerAccount = "ExpectedResourceOwnerAccount"
             case hybridAccessEnabled = "HybridAccessEnabled"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
@@ -3403,6 +3473,8 @@ extension LakeFormation {
     }
 
     public struct ResourceInfo: AWSDecodableShape {
+        /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+        public let expectedResourceOwnerAccount: String?
         ///  Indicates whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public let hybridAccessEnabled: Bool?
         /// The date and time the resource was last modified.
@@ -3411,26 +3483,32 @@ extension LakeFormation {
         public let resourceArn: String?
         /// The IAM role that registered a resource.
         public let roleArn: String?
+        /// Indicates whether the registered role has sufficient permissions to access registered Amazon S3 location. Verification Status can be one of the following:    VERIFIED - Registered role has sufficient permissions to access registered Amazon S3 location.   NOT_VERIFIED - Registered role does not have sufficient permissions to access registered Amazon S3 location.   VERIFICATION_FAILED - Unable to verify if the registered role can access the registered Amazon S3 location.
+        public let verificationStatus: VerificationStatus?
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
         /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
         public let withPrivilegedAccess: Bool?
 
         @inlinable
-        public init(hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
+        public init(expectedResourceOwnerAccount: String? = nil, hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, verificationStatus: VerificationStatus? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
+            self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
+            self.verificationStatus = verificationStatus
             self.withFederation = withFederation
             self.withPrivilegedAccess = withPrivilegedAccess
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedResourceOwnerAccount = "ExpectedResourceOwnerAccount"
             case hybridAccessEnabled = "HybridAccessEnabled"
             case lastModified = "LastModified"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
+            case verificationStatus = "VerificationStatus"
             case withFederation = "WithFederation"
             case withPrivilegedAccess = "WithPrivilegedAccess"
         }
@@ -3866,6 +3944,32 @@ extension LakeFormation {
         }
     }
 
+    public struct TemporaryCredentials: AWSDecodableShape {
+        /// The access key ID for the temporary credentials.
+        public let accessKeyId: String?
+        /// The date and time when the temporary credentials expire.
+        public let expiration: Date?
+        /// The secret key for the temporary credentials.
+        public let secretAccessKey: String?
+        /// The session token for the temporary credentials.
+        public let sessionToken: String?
+
+        @inlinable
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expiration = "Expiration"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
+    }
+
     public struct TransactionDescription: AWSDecodableShape {
         /// The time when the transaction committed or aborted, if it is not currently active.
         public let transactionEndTime: Date?
@@ -4054,6 +4158,8 @@ extension LakeFormation {
     }
 
     public struct UpdateResourceRequest: AWSEncodableShape {
+        /// The Amazon Web Services account that owns the Glue tables associated with specific Amazon S3 locations.
+        public let expectedResourceOwnerAccount: String?
         ///  Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
         public let hybridAccessEnabled: Bool?
         /// The resource ARN.
@@ -4064,7 +4170,8 @@ extension LakeFormation {
         public let withFederation: Bool?
 
         @inlinable
-        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
+        public init(expectedResourceOwnerAccount: String? = nil, hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String, withFederation: Bool? = nil) {
+            self.expectedResourceOwnerAccount = expectedResourceOwnerAccount
             self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
             self.roleArn = roleArn
@@ -4072,10 +4179,12 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.expectedResourceOwnerAccount, name: "expectedResourceOwnerAccount", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedResourceOwnerAccount = "ExpectedResourceOwnerAccount"
             case hybridAccessEnabled = "HybridAccessEnabled"
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
@@ -4302,6 +4411,7 @@ public struct LakeFormationErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case alreadyExistsException = "AlreadyExistsException"
         case concurrentModificationException = "ConcurrentModificationException"
+        case conflictException = "ConflictException"
         case entityNotFoundException = "EntityNotFoundException"
         case expiredException = "ExpiredException"
         case glueEncryptionException = "GlueEncryptionException"
@@ -4343,6 +4453,8 @@ public struct LakeFormationErrorType: AWSErrorType {
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// Two processes are trying to modify a resource simultaneously.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// Multiple resources exist with the same Amazon S3 location
+    public static var conflictException: Self { .init(.conflictException) }
     /// A specified entity does not exist.
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
     /// Contains details about an error where the query request expired.

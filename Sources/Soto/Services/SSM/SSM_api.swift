@@ -293,6 +293,7 @@ public struct SSM: AWSService {
     /// Parameters:
     ///   - alarmConfiguration: 
     ///   - applyOnlyAtCronInterval: By default, when you create a new association, the system runs it immediately after it is created and then according to the schedule you specified and when target changes are detected. Specify true for ApplyOnlyAtCronIntervalif you want the association to run only according to the schedule you specified. For more information, see Understanding when associations are applied to resources and >About target updates with Automation runbooks in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions.
+    ///   - associationDispatchAssumeRole: A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
     ///   - associationName: Specify a descriptive name for the association.
     ///   - automationTargetParameterName: Choose the parameter that will define how your automation will branch out. This target is required for associations that use an Automation runbook and target resources by using rate controls. Automation is a tool in Amazon Web Services Systems Manager.
     ///   - calendarNames: The names of Amazon Resource Names (ARNs) of the Change Calendar type documents you want to gate your associations under. The associations only run when that change calendar is open. For more information, see Amazon Web Services Systems Manager Change Calendar in the Amazon Web Services Systems Manager User Guide.
@@ -317,6 +318,7 @@ public struct SSM: AWSService {
     public func createAssociation(
         alarmConfiguration: AlarmConfiguration? = nil,
         applyOnlyAtCronInterval: Bool? = nil,
+        associationDispatchAssumeRole: String? = nil,
         associationName: String? = nil,
         automationTargetParameterName: String? = nil,
         calendarNames: [String]? = nil,
@@ -341,6 +343,7 @@ public struct SSM: AWSService {
         let input = CreateAssociationRequest(
             alarmConfiguration: alarmConfiguration, 
             applyOnlyAtCronInterval: applyOnlyAtCronInterval, 
+            associationDispatchAssumeRole: associationDispatchAssumeRole, 
             associationName: associationName, 
             automationTargetParameterName: automationTargetParameterName, 
             calendarNames: calendarNames, 
@@ -380,14 +383,17 @@ public struct SSM: AWSService {
     /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an associated document, the system returns the AssociationAlreadyExists exception.
     ///
     /// Parameters:
+    ///   - associationDispatchAssumeRole: A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
     ///   - entries: One or more associations.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAssociationBatch(
+        associationDispatchAssumeRole: String? = nil,
         entries: [CreateAssociationBatchRequestEntry],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAssociationBatchResult {
         let input = CreateAssociationBatchRequest(
+            associationDispatchAssumeRole: associationDispatchAssumeRole, 
             entries: entries
         )
         return try await self.createAssociationBatch(input, logger: logger)
@@ -534,7 +540,7 @@ public struct SSM: AWSService {
     ///   - description: User-defined text that contains information about the OpsItem, in Markdown format.   Provide enough information so that users viewing this OpsItem for the first time understand the issue.
     ///   - notifications: The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
     ///   - operationalData: Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB.  Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm.  You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the DescribeOpsItems API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-    ///   - opsItemType: The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.   Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///   - opsItemType: The type of OpsItem to create. Systems Manager supports the following types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created by OpsCenter.     /aws/insight  This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.     /aws/changerequest  This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.   Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     ///   - plannedEndTime: The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     ///   - plannedStartTime: The time specified in a change request for a runbook workflow to start. Currently supported only for the OpsItem type /aws/changerequest.
     ///   - priority: The importance of this OpsItem in relation to other OpsItems in the system.
@@ -3669,7 +3675,7 @@ public struct SSM: AWSService {
         return try await self.listComplianceSummaries(input, logger: logger)
     }
 
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Information about approval reviews for a version of a change template in Change Manager.
     @Sendable
     @inlinable
@@ -3683,7 +3689,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Information about approval reviews for a version of a change template in Change Manager.
     ///
     /// Parameters:
@@ -4854,7 +4860,7 @@ public struct SSM: AWSService {
         return try await self.startAutomationExecution(input, logger: logger)
     }
 
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     @Sendable
     @inlinable
@@ -4868,7 +4874,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Creates a change request for Change Manager. The Automation runbooks specified in the change request run only after all required approvals for the change request have been received.
     ///
     /// Parameters:
@@ -5102,6 +5108,7 @@ public struct SSM: AWSService {
     /// Parameters:
     ///   - alarmConfiguration: 
     ///   - applyOnlyAtCronInterval: By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify true for ApplyOnlyAtCronInterval if you want the association to run only according to the schedule you specified. If you chose this option when you created an association and later you edit that association or you make changes to the Automation runbook or SSM document on which that association is based, State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously set ApplyOnlyAtCronInterval to true. If this option wasn't selected, State Manager immediately runs the association. For more information, see Understanding when associations are applied to resources and About target updates with Automation runbooks in the Amazon Web Services Systems Manager User Guide. This parameter isn't supported for rate expressions. You can reset this parameter. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+    ///   - associationDispatchAssumeRole: A role used by association to take actions on your behalf. State Manager will assume this role and call required APIs when dispatching configurations to nodes. If not specified,  service-linked role for Systems Manager will be used by default.   It is recommended that you define a custom IAM role so that you have full control of the permissions that State Manager has when taking actions on your behalf. Service-linked role support in State Manager is being phased out. Associations relying on service-linked role may require updates in the future to continue functioning properly.
     ///   - associationId: The ID of the association you want to update.
     ///   - associationName: The name of the association that you want to update.
     ///   - associationVersion: This parameter is provided for concurrency control purposes. You must specify the latest association version in the service. If you want to ensure that this request succeeds, either specify $LATEST, or omit this parameter.
@@ -5126,6 +5133,7 @@ public struct SSM: AWSService {
     public func updateAssociation(
         alarmConfiguration: AlarmConfiguration? = nil,
         applyOnlyAtCronInterval: Bool? = nil,
+        associationDispatchAssumeRole: String? = nil,
         associationId: String,
         associationName: String? = nil,
         associationVersion: String? = nil,
@@ -5150,6 +5158,7 @@ public struct SSM: AWSService {
         let input = UpdateAssociationRequest(
             alarmConfiguration: alarmConfiguration, 
             applyOnlyAtCronInterval: applyOnlyAtCronInterval, 
+            associationDispatchAssumeRole: associationDispatchAssumeRole, 
             associationId: associationId, 
             associationName: associationName, 
             associationVersion: associationVersion, 
@@ -5290,7 +5299,7 @@ public struct SSM: AWSService {
         return try await self.updateDocumentDefaultVersion(input, logger: logger)
     }
 
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Updates information related to approval reviews for a specific version of a change template in Change Manager.
     @Sendable
     @inlinable
@@ -5304,7 +5313,7 @@ public struct SSM: AWSService {
             logger: logger
         )
     }
-    ///  Amazon Web Services Systems Manager Change Manager will no longer be open to new  customers starting November 7, 2025. If you would like to use Change Manager, sign up prior to that date. Existing customers can continue to use the service as normal. For more information, see
+    ///  Amazon Web Services Systems Manager Change Manager is no longer open to new customers. Existing customers can continue to use the service as normal. For more information, see
     /// Amazon Web Services Systems Manager Change Manager availability change.  Updates information related to approval reviews for a specific version of a change template in Change Manager.
     ///
     /// Parameters:

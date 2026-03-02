@@ -2905,6 +2905,8 @@ extension Neptunedata {
     public struct StartLoaderJobInput: AWSEncodableShape {
         /// This is an optional parameter that can make a queued load request contingent on the successful completion of one or more previous jobs in the queue. Neptune can queue up as many as 64 load requests at a time, if their queueRequest parameters are set to "TRUE". The dependencies parameter lets you make execution of such a queued request dependent on the successful completion of one or more specified previous requests in the queue. For example, if load Job-A and Job-B are independent of each other, but load Job-C needs Job-A and Job-B to be finished before it begins, proceed as follows:   Submit load-job-A and load-job-B one after another in any order, and save their load-ids.   Submit load-job-C with the load-ids of the two jobs in its dependencies field:   Because of the dependencies parameter, the bulk loader will not start Job-C until Job-A and Job-B have completed successfully. If either one of them fails, Job-C will not be executed, and its status will be set to LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED. You can set up multiple levels of dependency in this way, so that the failure of one job will cause all requests that are directly or indirectly dependent on it to be cancelled.
         public let dependencies: [String]?
+        ///   edgeOnlyLoad    –   A flag that controls file processing order during bulk loading.  Allowed values: "TRUE", "FALSE".  Default value: "FALSE". When this parameter is set to "FALSE", the loader automatically loads vertex files first, then edge files afterwards. It does this by first scanning all files to determine their contents (vertices or edges). When this parameter is set to "TRUE", the loader skips the initial scanning phase and immediately loads all files in the order they appear.
+        public let edgeOnlyLoad: Bool?
         ///   failOnError    –   A flag to toggle a complete stop on an error.  Allowed values: "TRUE", "FALSE".  Default value: "TRUE". When this parameter is set to "FALSE", the loader tries to load all the data in the location specified, skipping any entries with errors. When this parameter is set to "TRUE", the loader stops as soon as it encounters an error. Data loaded up to that point persists.
         public let failOnError: Bool?
         /// The format of the data. For more information about data formats for the Neptune Loader command, see Load Data Formats.  Allowed values      csv  for the Gremlin CSV data format.     opencypher  for the openCypher CSV data format.     ntriples  for the N-Triples RDF data format.     nquads  for the N-Quads RDF data format.     rdfxml  for the RDF\XML RDF data format.     turtle  for the Turtle RDF data format.
@@ -2929,8 +2931,9 @@ extension Neptunedata {
         public let userProvidedEdgeIds: Bool?
 
         @inlinable
-        public init(dependencies: [String]? = nil, failOnError: Bool? = nil, format: Format, iamRoleArn: String, mode: Mode? = nil, parallelism: Parallelism? = nil, parserConfiguration: [String: String]? = nil, queueRequest: Bool? = nil, s3BucketRegion: S3BucketRegion, source: String, updateSingleCardinalityProperties: Bool? = nil, userProvidedEdgeIds: Bool? = nil) {
+        public init(dependencies: [String]? = nil, edgeOnlyLoad: Bool? = nil, failOnError: Bool? = nil, format: Format, iamRoleArn: String, mode: Mode? = nil, parallelism: Parallelism? = nil, parserConfiguration: [String: String]? = nil, queueRequest: Bool? = nil, s3BucketRegion: S3BucketRegion, source: String, updateSingleCardinalityProperties: Bool? = nil, userProvidedEdgeIds: Bool? = nil) {
             self.dependencies = dependencies
+            self.edgeOnlyLoad = edgeOnlyLoad
             self.failOnError = failOnError
             self.format = format
             self.iamRoleArn = iamRoleArn
@@ -2946,6 +2949,7 @@ extension Neptunedata {
 
         private enum CodingKeys: String, CodingKey {
             case dependencies = "dependencies"
+            case edgeOnlyLoad = "edgeOnlyLoad"
             case failOnError = "failOnError"
             case format = "format"
             case iamRoleArn = "iamRoleArn"

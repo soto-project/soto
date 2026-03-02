@@ -45,6 +45,7 @@ extension MediaConvert {
         case codingMode11 = "CODING_MODE_1_1"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode51 = "CODING_MODE_5_1"
+        case codingModeAuto = "CODING_MODE_AUTO"
         public var description: String { return self.rawValue }
     }
 
@@ -97,6 +98,7 @@ extension MediaConvert {
         case codingMode11 = "CODING_MODE_1_1"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode32Lfe = "CODING_MODE_3_2_LFE"
+        case codingModeAuto = "CODING_MODE_AUTO"
         public var description: String { return self.rawValue }
     }
 
@@ -556,6 +558,7 @@ extension MediaConvert {
         case srt = "SRT"
         case stl = "STL"
         case teletext = "TELETEXT"
+        case tt3Gpp = "TT_3GPP"
         case ttml = "TTML"
         case webvtt = "WEBVTT"
         public var description: String { return self.rawValue }
@@ -998,6 +1001,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DolbyVisionCompatibility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case duplicateStream = "DUPLICATE_STREAM"
+        case supplementalCodecs = "SUPPLEMENTAL_CODECS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DolbyVisionLevel6Mode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case passthrough = "PASSTHROUGH"
         case recalculate = "RECALCULATE"
@@ -1211,6 +1220,7 @@ extension MediaConvert {
         case codingMode10 = "CODING_MODE_1_0"
         case codingMode20 = "CODING_MODE_2_0"
         case codingMode32 = "CODING_MODE_3_2"
+        case codingModeAuto = "CODING_MODE_AUTO"
         public var description: String { return self.rawValue }
     }
 
@@ -1340,6 +1350,7 @@ extension MediaConvert {
         case mp4 = "mp4"
         case mxf = "mxf"
         case quicktime = "quicktime"
+        case wave = "wave"
         case webm = "webm"
         public var description: String { return self.rawValue }
     }
@@ -1677,6 +1688,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265MvOverPictureBoundaries: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265MvTemporalPredictor: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265ParControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case initializeFromSource = "INITIALIZE_FROM_SOURCE"
         case specified = "SPECIFIED"
@@ -1748,9 +1771,21 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265TilePadding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case padded = "PADDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265Tiles: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum H265TreeBlockSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case treeSize32X32 = "TREE_SIZE_32X32"
         public var description: String { return self.rawValue }
     }
 
@@ -2703,6 +2738,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum MxfUncompressedAudioWrapping: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes3 = "AES3"
+        case auto = "AUTO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MxfXavcDurationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowAnyDuration = "ALLOW_ANY_DURATION"
         case dropFramesForCompliance = "DROP_FRAMES_FOR_COMPLIANCE"
@@ -3510,7 +3551,7 @@ extension MediaConvert {
         public let bitrate: Int?
         /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates. For improved audio quality at lower bitrates, adaptive audio bitrate switching, and loudness control: Choose XHE.
         public let codecProfile: AacCodecProfile?
-        /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
+        /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE. To follow the number of channels from your input audio, choose CODING_MODE_AUTO, and the service will automatically choose from one of the coding modes above.
         public let codingMode: AacCodingMode?
         /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
         public let loudnessMeasurementMode: AacLoudnessMeasurementMode?
@@ -3666,7 +3707,7 @@ extension MediaConvert {
     public struct AiffSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
-        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 64.  Choose 0 to follow the number of channels from your input audio. Otherwise,  manually choose from 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
         /// Sample rate in Hz.
         public let sampleRate: Int?
@@ -3682,7 +3723,7 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, max: 24)
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
@@ -4023,7 +4064,7 @@ extension MediaConvert {
         public let audioDurationCorrection: AudioDurationCorrection?
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
-        /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
+        /// Specify a fallback audio selector for this input. Use to ensure outputs have audio even when the audio selector you specify in your output is missing from the source. DEFAULT (Checked in the MediaConvert console): If your output settings specify an audio selector that does not exist in this input, MediaConvert uses this audio selector instead. This is useful when you have multiple inputs with a different number of audio tracks. NOT_DEFAULT (Unchecked in the MediaConvert console): MediaConvert will not fallback from any missing audio selector. Any output specifying a missing audio selector will be silent.
         public let defaultSelection: AudioDefaultSelection?
         /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public let externalAudioFileInput: String?
@@ -4041,7 +4082,7 @@ extension MediaConvert {
         public let programSelection: Int?
         /// Use these settings to reorder the audio channels of one input to match those of another input. This allows you to combine the two files into a single output, one after the other.
         public let remixSettings: RemixSettings?
-        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter       code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
+        /// Specify how MediaConvert selects audio content within your input. The default is Track. PID: Select audio by specifying the Packet Identifier (PID) values for MPEG Transport Stream inputs. Use this when you know the exact PID values of your audio streams. Track: Default. Select audio by track number. This is the most common option and works with most input container formats. If more types of audio data get recognized in the future, these numberings may shift, but the numberings used for Stream mode will not. Language code: Select audio by language using an ISO 639-2 or ISO 639-3 three-letter code in all capital letters. Use this when your source has embedded language metadata and you want to select tracks based on their language. HLS rendition group: Select audio from an HLS rendition group. Use this when your input is an HLS package with multiple audio renditions and you want to select specific rendition groups. All PCM: Select all uncompressed PCM audio tracks from your input automatically. This is useful when you want to include all PCM audio tracks without specifying individual track numbers. Stream: Select audio by stream number. Stream numbers include all tracks in the source file, regardless of type, and correspond to either the order of tracks in the file, or if applicable, the stream number metadata of the track. Although all tracks count toward these stream numbers, in this audio selector context, only the stream number of a track containing audio data may be used. If your source file contains a track which is not recognized by the service, then the corresponding stream number will still be reserved for future use. If more types of audio data get recognized in the future, these numberings will not shift.
         public let selectorType: AudioSelectorType?
         /// Identify a track from the input audio to include in this selector by entering the stream index number. These numberings count all tracks in the input file, but only a track containing audio data may be used here. To include several tracks in a single audio selector, specify multiple tracks as follows. Using the console, enter a comma-separated list. For example, type "1,2,3" to include tracks 1 through 3.
         public let streams: [Int]?
@@ -5409,7 +5450,7 @@ extension MediaConvert {
     public struct Container: AWSDecodableShape {
         /// The total duration of your media file, in seconds.
         public let duration: Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM or MXF. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF or Wave. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public let format: Format?
         /// Details about each track (video, audio, or data) in the media file.
         public let tracks: [Track]?
@@ -6169,6 +6210,8 @@ extension MediaConvert {
     }
 
     public struct DolbyVision: AWSEncodableShape & AWSDecodableShape {
+        /// When you set Compatibility mapping to Duplicate Stream, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause a duplicate stream to be signaled in the manifest as a duplicate stream. When you set Compatibility mapping to Supplemntal Codecs, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause the associate stream in the manifest to include a SUPPLEMENTAL_CODECS property.
+        public let compatibility: DolbyVisionCompatibility?
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
         public let l6Metadata: DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
@@ -6179,7 +6222,8 @@ extension MediaConvert {
         public let profile: DolbyVisionProfile?
 
         @inlinable
-        public init(l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, mapping: DolbyVisionMapping? = nil, profile: DolbyVisionProfile? = nil) {
+        public init(compatibility: DolbyVisionCompatibility? = nil, l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, mapping: DolbyVisionMapping? = nil, profile: DolbyVisionProfile? = nil) {
+            self.compatibility = compatibility
             self.l6Metadata = l6Metadata
             self.l6Mode = l6Mode
             self.mapping = mapping
@@ -6191,6 +6235,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case compatibility = "compatibility"
             case l6Metadata = "l6Metadata"
             case l6Mode = "l6Mode"
             case mapping = "mapping"
@@ -6994,7 +7039,7 @@ extension MediaConvert {
     public struct FlacSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 8.  Choose 0 to follow the number of channels from your input audio. Otherwise, manually choose from 1, 2, 4, 6, and 8.
         public let channels: Int?
         /// Sample rate in Hz.
         public let sampleRate: Int?
@@ -7010,7 +7055,7 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, max: 24)
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 8)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
         }
@@ -7656,6 +7701,10 @@ extension MediaConvert {
         public let maxBitrate: Int?
         /// Specify the minimum number of frames allowed between two IDR-frames in your output. This includes frames created at the start of a GOP or a scene change. Use Min I-Interval to improve video compression by varying GOP size when two IDR-frames would be created near each other. For example, if a regular cadence-driven IDR-frame would fall within 5 frames of a scene-change IDR-frame, and you set Min I-interval to 5, then the encoder would only write an IDR-frame for the scene-change. In this way, one GOP is shortened or extended. If a cadence-driven IDR-frame would be further than 5 frames from a scene-change IDR-frame, then the encoder leaves all IDR-frames in place. To use an automatically determined interval: We recommend that you keep this value blank. This allows for MediaConvert to use an optimal setting according to the characteristics of your input video, and results in better video compression. To manually specify an interval: Enter a value from 1 to 30. Use when your downstream systems have specific GOP size requirements. To disable GOP size variance: Enter 0. MediaConvert will only create IDR-frames at the start of your output's cadence-driven GOP. Use when your downstream systems require a regular GOP size.
         public let minIInterval: Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public let mvOverPictureBoundaries: H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public let mvTemporalPredictor: H265MvTemporalPredictor?
         /// Specify the number of B-frames between reference frames in this output. For the best video quality: Leave blank. MediaConvert automatically determines the number of B-frames to use based on the characteristics of your input video. To manually specify the number of B-frames between reference frames: Enter an integer from 0 to 7.
         public let numberBFramesBetweenReferenceFrames: Int?
         /// Number of reference frames to use. The encoder may use more than requested if using B-frames and/or interlaced encoding.
@@ -7692,15 +7741,23 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization?
         /// Enables temporal layer identifiers in the encoded bitstream. Up to 3 layers are supported depending on GOP structure: I- and P-frames form one layer, reference B-frames can form a second layer and non-reference b-frames can form a third layer. Decoders can optionally decode only the lower temporal layers to generate a lower frame rate output. For example, given a bitstream with temporal IDs and with b-frames = 1 (i.e. IbPbPb display order), a decoder could decode all the frames for full frame rate output or only the I and P frames (lowest temporal layer) for a half frame rate output.
         public let temporalIds: H265TemporalIds?
+        /// Set this field to set up the picture as a tile. You must also set TileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 or less. If the tile width and height are specified, MediaConvert will override the video codec slices field with a value that MediaConvert calculates.
+        public let tileHeight: Int?
+        /// Set to "padded" to force MediaConvert to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public let tilePadding: H265TilePadding?
         /// Enable use of tiles, allowing horizontal as well as vertical subdivision of the encoded pictures.
         public let tiles: H265Tiles?
+        /// Set this field to set up the picture as a tile. See TileHeight for more information.
+        public let tileWidth: Int?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public let treeBlockSize: H265TreeBlockSize?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H265UnregisteredSeiTimecode?
         /// If the location of parameter set NAL units doesn't matter in your workflow, ignore this setting. Use this setting only with CMAF or DASH outputs, or with standalone file outputs in an MPEG-4 container (MP4 outputs). Choose HVC1 to mark your output as HVC1. This makes your output compliant with the following specification: ISO IECJTC1 SC29 N13798 Text ISO/IEC FDIS 14496-15 3rd Edition. For these outputs, the service stores parameter set NAL units in the sample headers but not in the samples directly. For MP4 outputs, when you choose HVC1, your output video might not work properly with some downstream systems and video players. The service defaults to marking your output as HEV1. For these outputs, the service writes parameter set NAL units directly into the samples.
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, mvOverPictureBoundaries: H265MvOverPictureBoundaries? = nil, mvTemporalPredictor: H265MvTemporalPredictor? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, perFrameMetrics: [FrameMetricType]? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tileHeight: Int? = nil, tilePadding: H265TilePadding? = nil, tiles: H265Tiles? = nil, tileWidth: Int? = nil, treeBlockSize: H265TreeBlockSize? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
@@ -7725,6 +7782,8 @@ extension MediaConvert {
             self.interlaceMode = interlaceMode
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.numberBFramesBetweenReferenceFrames = numberBFramesBetweenReferenceFrames
             self.numberReferenceFrames = numberReferenceFrames
             self.parControl = parControl
@@ -7743,7 +7802,11 @@ extension MediaConvert {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.temporalIds = temporalIds
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
             self.tiles = tiles
+            self.tileWidth = tileWidth
+            self.treeBlockSize = treeBlockSize
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
             self.writeMp4PackagingType = writeMp4PackagingType
         }
@@ -7778,6 +7841,10 @@ extension MediaConvert {
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
             try self.validate(self.slices, name: "slices", parent: name, min: 1)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, max: 2160)
+            try self.validate(self.tileHeight, name: "tileHeight", parent: name, min: 64)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, max: 3840)
+            try self.validate(self.tileWidth, name: "tileWidth", parent: name, min: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7805,6 +7872,8 @@ extension MediaConvert {
             case interlaceMode = "interlaceMode"
             case maxBitrate = "maxBitrate"
             case minIInterval = "minIInterval"
+            case mvOverPictureBoundaries = "mvOverPictureBoundaries"
+            case mvTemporalPredictor = "mvTemporalPredictor"
             case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
             case numberReferenceFrames = "numberReferenceFrames"
             case parControl = "parControl"
@@ -7823,7 +7892,11 @@ extension MediaConvert {
             case telecine = "telecine"
             case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
             case temporalIds = "temporalIds"
+            case tileHeight = "tileHeight"
+            case tilePadding = "tilePadding"
             case tiles = "tiles"
+            case tileWidth = "tileWidth"
+            case treeBlockSize = "treeBlockSize"
             case unregisteredSeiTimecode = "unregisteredSeiTimecode"
             case writeMp4PackagingType = "writeMp4PackagingType"
         }
@@ -8806,6 +8879,8 @@ extension MediaConvert {
         public let framerateNumerator: Int?
         /// Specify the height, in pixels, for your video generator input. This is useful for positioning when you include one or more video overlays for this input. To use the default resolution 540x360: Leave both width and height blank. To specify a height: Enter an even integer from 32 to 8192. When you do, you must also specify a value for width.
         public let height: Int?
+        /// Specify the HTTP, HTTPS, or Amazon S3 location of the image that you want to overlay on the video. Use a PNG or TGA file.
+        public let imageInput: String?
         /// Specify the audio sample rate, in Hz, for the silent audio in your video generator input.
         /// Enter an integer from 32000 to 48000.
         public let sampleRate: Int?
@@ -8813,12 +8888,13 @@ extension MediaConvert {
         public let width: Int?
 
         @inlinable
-        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, height: Int? = nil, sampleRate: Int? = nil, width: Int? = nil) {
+        public init(channels: Int? = nil, duration: Int? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, height: Int? = nil, imageInput: String? = nil, sampleRate: Int? = nil, width: Int? = nil) {
             self.channels = channels
             self.duration = duration
             self.framerateDenominator = framerateDenominator
             self.framerateNumerator = framerateNumerator
             self.height = height
+            self.imageInput = imageInput
             self.sampleRate = sampleRate
             self.width = width
         }
@@ -8834,6 +8910,8 @@ extension MediaConvert {
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
             try self.validate(self.height, name: "height", parent: name, max: 8192)
             try self.validate(self.height, name: "height", parent: name, min: 32)
+            try self.validate(self.imageInput, name: "imageInput", parent: name, min: 14)
+            try self.validate(self.imageInput, name: "imageInput", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA))|(https?://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 32000)
             try self.validate(self.width, name: "width", parent: name, max: 8192)
@@ -8846,6 +8924,7 @@ extension MediaConvert {
             case framerateDenominator = "framerateDenominator"
             case framerateNumerator = "framerateNumerator"
             case height = "height"
+            case imageInput = "imageInput"
             case sampleRate = "sampleRate"
             case width = "width"
         }
@@ -10356,7 +10435,7 @@ extension MediaConvert {
         public let audioDescriptionMix: Mp2AudioDescriptionMix?
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
-        /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
+        /// Set Channels to specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 0, 1, and 2.
         public let channels: Int?
         /// Sample rate in Hz.
         public let sampleRate: Int?
@@ -10373,7 +10452,7 @@ extension MediaConvert {
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 384000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 32000)
         }
@@ -10389,7 +10468,7 @@ extension MediaConvert {
     public struct Mp3Settings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2.
         public let channels: Int?
         /// Specify whether the service encodes this MP3 audio output with a constant bitrate (CBR) or a variable bitrate (VBR).
         public let rateControlMode: Mp3RateControlMode?
@@ -10411,7 +10490,7 @@ extension MediaConvert {
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 320000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 16000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
             try self.validate(self.vbrQuality, name: "vbrQuality", parent: name, max: 9)
@@ -10838,13 +10917,16 @@ extension MediaConvert {
         public let afdSignaling: MxfAfdSignaling?
         /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
         public let profile: MxfProfile?
+        /// Choose the audio frame wrapping mode for PCM tracks in MXF outputs. AUTO (default): Uses codec-appropriate defaults - BWF for H.264/AVC, AES3 for MPEG2/XDCAM. AES3: Use AES3 frame wrapping with SMPTE-compliant descriptors. This setting only takes effect when the MXF profile is OP1a.
+        public let uncompressedAudioWrapping: MxfUncompressedAudioWrapping?
         /// Specify the XAVC profile settings for MXF outputs when you set your MXF profile to XAVC.
         public let xavcProfileSettings: MxfXavcProfileSettings?
 
         @inlinable
-        public init(afdSignaling: MxfAfdSignaling? = nil, profile: MxfProfile? = nil, xavcProfileSettings: MxfXavcProfileSettings? = nil) {
+        public init(afdSignaling: MxfAfdSignaling? = nil, profile: MxfProfile? = nil, uncompressedAudioWrapping: MxfUncompressedAudioWrapping? = nil, xavcProfileSettings: MxfXavcProfileSettings? = nil) {
             self.afdSignaling = afdSignaling
             self.profile = profile
+            self.uncompressedAudioWrapping = uncompressedAudioWrapping
             self.xavcProfileSettings = xavcProfileSettings
         }
 
@@ -10855,6 +10937,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case afdSignaling = "afdSignaling"
             case profile = "profile"
+            case uncompressedAudioWrapping = "uncompressedAudioWrapping"
             case xavcProfileSettings = "xavcProfileSettings"
         }
     }
@@ -11133,7 +11216,7 @@ extension MediaConvert {
     public struct OpusSettings: AWSEncodableShape & AWSDecodableShape {
         /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
         public let bitrate: Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2.
         public let channels: Int?
         /// Optional. Sample rate in Hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
         public let sampleRate: Int?
@@ -11149,7 +11232,7 @@ extension MediaConvert {
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 192000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 16000)
         }
@@ -13152,6 +13235,8 @@ extension MediaConvert {
     }
 
     public struct VideoOverlayInput: AWSEncodableShape & AWSDecodableShape {
+        /// Use Audio selectors to specify audio to use during your Video overlay. You can use multiple Audio selectors per Video overlay. When you include an Audio selector within a Video overlay, MediaConvert mutes any Audio selectors with the same name from the underlying input. For example, if your underlying input has Audio selector 1 and Audio selector 2, and your Video overlay only has Audio selector 1, then MediaConvert replaces all audio for Audio selector 1 during the Video overlay. To replace all audio for all Audio selectors from the underlying input by using a single Audio selector in your overlay, set DefaultSelection to DEFAULT (Check \"Use as default\" in the MediaConvert console).
+        public let audioSelectors: [String: AudioSelector]?
         /// Specify the input file S3, HTTP, or HTTPS URL for your video overlay.
         /// To specify one or more Transitions for your base input video instead: Leave blank.
         public let fileInput: String?
@@ -13163,7 +13248,8 @@ extension MediaConvert {
         public let timecodeStart: String?
 
         @inlinable
-        public init(fileInput: String? = nil, inputClippings: [VideoOverlayInputClipping]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil) {
+        public init(audioSelectors: [String: AudioSelector]? = nil, fileInput: String? = nil, inputClippings: [VideoOverlayInputClipping]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil) {
+            self.audioSelectors = audioSelectors
             self.fileInput = fileInput
             self.inputClippings = inputClippings
             self.timecodeSource = timecodeSource
@@ -13171,6 +13257,9 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
+            try self.audioSelectors?.forEach {
+                try $0.value.validate(name: "\(name).audioSelectors[\"\($0.key)\"]")
+            }
             try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^s3://([^\\/]+\\/+)+((([^\\/]*)))|^https?://[^\\/].*[^&]$")
             try self.inputClippings?.forEach {
                 try $0.validate(name: "\(name).inputClippings[]")
@@ -13181,6 +13270,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioSelectors = "audioSelectors"
             case fileInput = "fileInput"
             case inputClippings = "inputClippings"
             case timecodeSource = "timecodeSource"
@@ -13409,7 +13499,7 @@ extension MediaConvert {
         public let sampleRange: InputSampleRange?
         /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
         public let selectorType: VideoSelectorType?
-        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1.For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input.For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
+        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1. For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input. For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
         public let streams: [Int]?
 
         @inlinable
@@ -13461,7 +13551,7 @@ extension MediaConvert {
     }
 
     public struct VorbisSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Optional. Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2. The default value is 2.
+        /// Optional. Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2. The default value is 2.
         public let channels: Int?
         /// Optional. Specify the audio sample rate in Hz. Valid values are 22050, 32000, 44100, and 48000. The default value is 48000.
         public let sampleRate: Int?
@@ -13477,7 +13567,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 22050)
             try self.validate(self.vbrQuality, name: "vbrQuality", parent: name, max: 10)
@@ -13670,7 +13760,7 @@ extension MediaConvert {
     public struct WavSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
-        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 64.  Choose 0 to follow the number of channels from your input audio. Otherwise,  manually choose from 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
         /// Specify the file format for your wave audio output. To use a RIFF wave format: Keep the default value, RIFF. If your output audio is likely to exceed 4GB in file size, or if you otherwise need the extended support of the RF64 format: Choose RF64. If your player only supports the extensible wave format: Choose Extensible.
         public let format: WavFormat?
@@ -13689,7 +13779,7 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, max: 24)
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
-            try self.validate(self.channels, name: "channels", parent: name, min: 1)
+            try self.validate(self.channels, name: "channels", parent: name, min: 0)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }

@@ -108,7 +108,7 @@ public struct Grafana: AWSService {
     /// Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE for the licenseType, and pass in a valid Grafana Labs token for the grafanaToken. Upgrading to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
     ///
     /// Parameters:
-    ///   - grafanaToken: A token from Grafana Labs that ties your Amazon Web Services account with a Grafana  Labs account. For more information, see Link your account with Grafana Labs.
+    ///   - grafanaToken: A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see Link your account with Grafana Labs.
     ///   - licenseType: The type of license to associate with the workspace.  Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
     ///   - workspaceId: The ID of the workspace to associate the license with.
     ///   - logger: Logger use during operation
@@ -147,19 +147,20 @@ public struct Grafana: AWSService {
     ///   - authenticationProviders: Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see User authentication in Amazon Managed Grafana.
     ///   - clientToken: A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     ///   - configuration: The configuration string for the workspace that you create. For more information about the format and configuration options available, see Working in your Grafana workspace.
-    ///   - grafanaVersion: Specifies the version of Grafana to support in the new workspace. If not specified,  defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
+    ///   - grafanaVersion: Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
+    ///   - kmsKeyId: The ID or ARN of the Key Management Service key to use for encrypting workspace data.
     ///   - networkAccessControl: Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     ///   - organizationRoleName: The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
-    ///   - permissionType: When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification  channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED.  Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudFormation.   For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
+    ///   - permissionType: When creating a workspace through the Amazon Web Services API, CLI or Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. You must also specify a workspaceRoleArn for a role that you will manage for the workspace to use when accessing those datasources and notification channels. The ability for Amazon Managed Grafana to create and update IAM roles on behalf of the user is supported only in the Amazon Managed Grafana console, where this value may be set to SERVICE_MANAGED.  Use only the CUSTOMER_MANAGED permission type when creating a workspace with the API, CLI or Amazon Web Services CloudFormation.   For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
     ///   - stackSetName: The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
     ///   - tags: The list of tags associated with the workspace.
-    ///   - vpcConfiguration: The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.  Connecting to a private VPC is not yet available in the Asia Pacific (Seoul)  Region (ap-northeast-2).
+    ///   - vpcConfiguration: The configuration settings for an Amazon VPC that contains data sources for your Grafana workspace to connect to.  Connecting to a private VPC is not yet available in the Asia Pacific (Seoul) Region (ap-northeast-2).
     ///   - workspaceDataSources: This parameter is for internal use only, and should not be used.
     ///   - workspaceDescription: A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$
     ///   - workspaceName: The name for the workspace. It does not have to be unique.
     ///   - workspaceNotificationDestinations: Specify the Amazon Web Services notification channels that you plan to use in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to use these channels.
     ///   - workspaceOrganizationalUnits: Specifies the organizational units that this workspace is allowed to use data sources from, if this workspace is in an account that is part of an organization.
-    ///   - workspaceRoleArn: Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data  sources and notification channels. You are responsible for managing the permissions  for this role as new data sources or notification channels are added.
+    ///   - workspaceRoleArn: Specified the IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from, including both data sources and notification channels. You are responsible for managing the permissions for this role as new data sources or notification channels are added.
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorkspace(
@@ -168,6 +169,7 @@ public struct Grafana: AWSService {
         clientToken: String? = CreateWorkspaceRequest.idempotencyToken(),
         configuration: String? = nil,
         grafanaVersion: String? = nil,
+        kmsKeyId: String? = nil,
         networkAccessControl: NetworkAccessConfiguration? = nil,
         organizationRoleName: String? = nil,
         permissionType: PermissionType,
@@ -188,6 +190,7 @@ public struct Grafana: AWSService {
             clientToken: clientToken, 
             configuration: configuration, 
             grafanaVersion: grafanaVersion, 
+            kmsKeyId: kmsKeyId, 
             networkAccessControl: networkAccessControl, 
             organizationRoleName: organizationRoleName, 
             permissionType: permissionType, 
@@ -204,7 +207,7 @@ public struct Grafana: AWSService {
         return try await self.createWorkspace(input, logger: logger)
     }
 
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     @Sendable
     @inlinable
     public func createWorkspaceApiKey(_ input: CreateWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceApiKeyResponse {
@@ -217,11 +220,11 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
+    /// Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
     /// Parameters:
     ///   - keyName: Specifies the name of the key. Keynames must be unique to the workspace.
-    ///   - keyRole: Specifies the permission level of the key. Valid values: ADMIN|EDITOR|VIEWER
+    ///   - keyRole: Specifies the permission level of the key.  Valid values: ADMIN|EDITOR|VIEWER
     ///   - secondsToLive: Specifies the time in seconds until the key expires. Keys can be valid for up to 30 days.
     ///   - workspaceId: The ID of the workspace to create an API key.
     ///   - logger: Logger use during operation
@@ -242,7 +245,7 @@ public struct Grafana: AWSService {
         return try await self.createWorkspaceApiKey(input, logger: logger)
     }
 
-    /// Creates a service account for the workspace. A service account can be used to call  Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use  CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.  For more information about service accounts, see Service accounts in  the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP  APIs in the Amazon Managed Grafana User Guide.
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.  For more information about service accounts, see Service accounts in the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the Amazon Managed Grafana User Guide.
     @Sendable
     @inlinable
     public func createWorkspaceServiceAccount(_ input: CreateWorkspaceServiceAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceServiceAccountResponse {
@@ -255,7 +258,7 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Creates a service account for the workspace. A service account can be used to call  Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use  CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.  For more information about service accounts, see Service accounts in  the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP  APIs in the Amazon Managed Grafana User Guide.
+    /// Creates a service account for the workspace. A service account can be used to call Grafana HTTP APIs, and run automated workloads. After creating the service account with the correct GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token that can be used to authenticate and authorize Grafana HTTP API calls. You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.  For more information about service accounts, see Service accounts in the Amazon Managed Grafana User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the Amazon Managed Grafana User Guide.
     ///
     /// Parameters:
     ///   - grafanaRole: The permission level to use for this service account.  For more information about the roles and the permissions each has, see User roles in the Amazon Managed Grafana User Guide.
@@ -277,7 +280,7 @@ public struct Grafana: AWSService {
         return try await self.createWorkspaceServiceAccount(input, logger: logger)
     }
 
-    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service  account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.  When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a  new key. This will disable the initial key.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.  When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a new key. This will disable the initial key.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     @Sendable
     @inlinable
     public func createWorkspaceServiceAccountToken(_ input: CreateWorkspaceServiceAccountTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWorkspaceServiceAccountTokenResponse {
@@ -290,11 +293,11 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service  account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.  When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a  new key. This will disable the initial key.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Creates a token that can be used to authenticate and authorize Grafana HTTP API operations for the given workspace service account. The service account acts as a user for the API operations, and defines the permissions that are used by the API.  When you create the service account token, you will receive a key that is used when calling Grafana APIs. Do not lose this key, as it will not be retrievable again. If you do lose the key, you can delete the token and recreate it to receive a new key. This will disable the initial key.  Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
     /// Parameters:
     ///   - name: A name for the token to create.
-    ///   - secondsToLive: Sets how long the token will be valid, in seconds. You can set the time up to 30  days in the future.
+    ///   - secondsToLive: Sets how long the token will be valid, in seconds. You can set the time up to 30 days in the future.
     ///   - serviceAccountId: The ID of the service account for which to create a token.
     ///   - workspaceId: The ID of the workspace the service account resides within.
     ///   - logger: Logger use during operation
@@ -344,7 +347,7 @@ public struct Grafana: AWSService {
         return try await self.deleteWorkspace(input, logger: logger)
     }
 
-    /// Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
+    /// Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     @Sendable
     @inlinable
     public func deleteWorkspaceApiKey(_ input: DeleteWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceApiKeyResponse {
@@ -357,7 +360,7 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version 9 or above, use workspace service  accounts instead of API keys. API keys will be removed in a future release.
+    /// Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
     ///
     /// Parameters:
     ///   - keyName: The name of the API key to delete.
@@ -376,7 +379,7 @@ public struct Grafana: AWSService {
         return try await self.deleteWorkspaceApiKey(input, logger: logger)
     }
 
-    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are  deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     @Sendable
     @inlinable
     public func deleteWorkspaceServiceAccount(_ input: DeleteWorkspaceServiceAccountRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceServiceAccountResponse {
@@ -389,7 +392,7 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are  deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Deletes a workspace service account from the workspace. This will delete any tokens created for the service account, as well. If the tokens are currently in use, the will fail to authenticate / authorize after they are deleted. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
     /// Parameters:
     ///   - serviceAccountId: The ID of the service account to delete.
@@ -408,7 +411,7 @@ public struct Grafana: AWSService {
         return try await self.deleteWorkspaceServiceAccount(input, logger: logger)
     }
 
-    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently  using the key, it will no longer be authenticated or authorized to perform actions with  the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     @Sendable
     @inlinable
     public func deleteWorkspaceServiceAccountToken(_ input: DeleteWorkspaceServiceAccountTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWorkspaceServiceAccountTokenResponse {
@@ -421,7 +424,7 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently  using the key, it will no longer be authenticated or authorized to perform actions with  the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
+    /// Deletes a token for the workspace service account. This will disable the key associated with the token. If any automation is currently using the key, it will no longer be authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts are only available for workspaces that are compatible with Grafana version 9 and above.
     ///
     /// Parameters:
     ///   - serviceAccountId: The ID of the service account from which to delete the token.
@@ -635,7 +638,7 @@ public struct Grafana: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    /// Lists available versions of Grafana. These are available when calling CreateWorkspace. Optionally, include a workspace to list the versions to which it can be upgraded.
     @Sendable
     @inlinable
     public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
@@ -648,12 +651,12 @@ public struct Grafana: AWSService {
             logger: logger
         )
     }
-    /// Lists available versions of Grafana. These are available when calling  CreateWorkspace. Optionally, include a workspace to list the versions  to which it can be upgraded.
+    /// Lists available versions of Grafana. These are available when calling CreateWorkspace. Optionally, include a workspace to list the versions to which it can be upgraded.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to include in the response.
     ///   - nextToken: The token to use when requesting the next set of results. You receive this token from a previous ListVersions operation.
-    ///   - workspaceId: The ID of the workspace to list the available upgrade versions. If not included,  lists all versions of Grafana that are supported for  CreateWorkspace.
+    ///   - workspaceId: The ID of the workspace to list the available upgrade versions. If not included, lists all versions of Grafana that are supported for CreateWorkspace.
     ///   - logger: Logger use during operation
     @inlinable
     public func listVersions(
@@ -889,8 +892,8 @@ public struct Grafana: AWSService {
     /// Parameters:
     ///   - accountAccessType: Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     ///   - networkAccessControl: The configuration settings for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
-    ///   - organizationRoleName: The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the  permissionType set to CUSTOMER_MANAGED.
-    ///   - permissionType: Use this parameter if you want to change a workspace from SERVICE_MANAGED to CUSTOMER_MANAGED. This allows you to manage the permissions that the  workspace uses to access datasources and notification channels. If the workspace is in a member Amazon Web Services account of an organization, and that account is not a delegated administrator account, and you want the workspace to access data sources in  other Amazon Web Services accounts in the organization, you must choose  CUSTOMER_MANAGED. If you specify this as CUSTOMER_MANAGED, you must also specify a  workspaceRoleArn that the workspace will use for accessing Amazon Web Services resources. For more information on the role and permissions needed, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources  and notification channels   Do not use this to convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED. Do not include this  parameter if you want to leave the workspace as SERVICE_MANAGED. You can convert a CUSTOMER_MANAGED workspace to  SERVICE_MANAGED using the Amazon Managed Grafana console. For more  information, see Managing permissions for data sources and notification channels.
+    ///   - organizationRoleName: The name of an IAM role that already exists to use to access resources through Organizations. This can only be used with a workspace that has the permissionType set to CUSTOMER_MANAGED.
+    ///   - permissionType: Use this parameter if you want to change a workspace from SERVICE_MANAGED to CUSTOMER_MANAGED. This allows you to manage the permissions that the workspace uses to access datasources and notification channels. If the workspace is in a member Amazon Web Services account of an organization, and that account is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. If you specify this as CUSTOMER_MANAGED, you must also specify a workspaceRoleArn that the workspace will use for accessing Amazon Web Services resources. For more information on the role and permissions needed, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels   Do not use this to convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED. Do not include this parameter if you want to leave the workspace as SERVICE_MANAGED. You can convert a CUSTOMER_MANAGED workspace to SERVICE_MANAGED using the Amazon Managed Grafana console. For more information, see Managing permissions for data sources and notification channels.
     ///   - removeNetworkAccessConfiguration: Whether to remove the network access configuration from the workspace. Setting this to true and providing a networkAccessControl to set will return an error. If you remove this configuration by setting this to true, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     ///   - removeVpcConfiguration: Whether to remove the VPC configuration from the workspace. Setting this to true and providing a vpcConfiguration to set will return an error.
     ///   - stackSetName: The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
@@ -994,7 +997,7 @@ public struct Grafana: AWSService {
     ///
     /// Parameters:
     ///   - configuration: The new configuration string for the workspace. For more information about the format and configuration options available, see Working in your Grafana workspace.
-    ///   - grafanaVersion: Specifies the version of Grafana to support in the workspace. If not specified,  keeps the current version of the workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see  the ListVersions operation.
+    ///   - grafanaVersion: Specifies the version of Grafana to support in the workspace. If not specified, keeps the current version of the workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the ListVersions operation.
     ///   - workspaceId: The ID of the workspace to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1094,7 +1097,7 @@ extension Grafana {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of results to include in the response.
-    ///   - workspaceId: The ID of the workspace to list the available upgrade versions. If not included,  lists all versions of Grafana that are supported for  CreateWorkspace.
+    ///   - workspaceId: The ID of the workspace to list the available upgrade versions. If not included, lists all versions of Grafana that are supported for CreateWorkspace.
     ///   - logger: Logger used for logging
     @inlinable
     public func listVersionsPaginator(
